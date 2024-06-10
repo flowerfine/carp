@@ -22,12 +22,12 @@ on:
 
 jobs:
   web-ide:
-    if: github.repository == 'kalencaya/carp'
+    if: github.repository == 'flowerfine/carp'
     runs-on: ubuntu-latest
     steps:
       - name: Web-IDE Pull Request Check
         uses: redhat-actions/try-in-web-ide@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          web_ide_instance: https://github.dev/kalencaya/carp/pull/${{ github.event.number }}
+          web_ide_instance: https://github.dev/flowerfine/carp/pull/${{ github.event.number }}
           comment_badge: https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white

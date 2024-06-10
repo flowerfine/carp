@@ -1,5 +1,27 @@
 # Carp
 
+* 功能模块
+  * 权限管理
+    * RBAC（用户，角色，权限），部门，岗位
+    * 认证、授权
+    * 多租户
+    * 在线用户
+  * 系统管理
+    * 系统日志，操作日志
+    * 字段管理
+    * 监控告警（告警组，联系人，告警记录）
+  * 消息中心
+    * 站内信管理
+    * 短信管理
+    * 邮件管理
+* 通用功能
+  * 存储功能。hdfs、minio、oss
+  * websocket，sse
+  * 队列。延迟队列
+  * dag
+* 插件
+  * 动态插件
+
 
 ## Code of Conduct
 
@@ -7,16 +29,16 @@ This project adheres to the Contributor Covenant [code of conduct](https://www.c
 
 ## Contributing
 
-For contributions, please refer [CONTRIBUTING](https://github.com/kalencaya/carp)
+For contributions, please refer [CONTRIBUTING](https://github.com/flowerfine/carp)
 
 Thanks for all people who already contributed to Carp!
 
-<a href="https://github.com/kalencaya/carp/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=kalencaya/carp" /></a>
+<a href="https://github.com/flowerfine/carp/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=flowerfine/carp" /></a>
 
 ## Contact
 
-* Bugs and Features: [Issues](https://github.com/kalencaya/carp/issues)
+* Bugs and Features: [Issues](https://github.com/flowerfine/carp/issues)
 
 ## License
 

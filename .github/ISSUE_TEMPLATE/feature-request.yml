@@ -28,11 +28,11 @@ body:
     attributes:
       label: Already searched before asking?
       description: >
-        Please make sure to search in the [feature](https://github.com/kalencaya/carp/issues?q=is%3Aissue+label%3A%22Feature%22) first
+        Please make sure to search in the [feature](https://github.com/flowerfine/carp/issues?q=is%3Aissue+label%3A%22Feature%22) first
         to see whether the same feature was requested already.
       options:
         - label: >
-            I had searched in the [feature](https://github.com/kalencaya/carp/issues?q=is%3Aissue+label%3A%22Feature%22) and found no
+            I had searched in the [feature](https://github.com/flowerfine/carp/issues?q=is%3Aissue+label%3A%22Feature%22) and found no
             similar feature requirement.
           required: true
 

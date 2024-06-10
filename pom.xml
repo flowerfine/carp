@@ -35,9 +35,9 @@
     </licenses>
 
     <scm>
-        <connection>git@github.com:kalencaya/carp.git</connection>
-        <developerConnection>scm:git:git@github.com:kalencaya/carp.git</developerConnection>
-        <url>https://github.com/kalencaya/carp</url>
+        <connection>git@github.com:flowerfine/carp.git</connection>
+        <developerConnection>scm:git:git@github.com:flowerfine/carp.git</developerConnection>
+        <url>https://github.com/flowerfine/carp</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -50,7 +50,7 @@
 
     <issueManagement>
         <system>Github Issue</system>
-        <url>https://github.com/kalencaya/carp/issues</url>
+        <url>https://github.com/flowerfine/carp/issues</url>
     </issueManagement>
 
     <distributionManagement>
@@ -66,12 +66,11 @@
         </repository>
     </distributionManagement>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+    <modules>
+        <module>carp-framework</module>
+        <module>carp-support</module>
+        <module>carp-plugins</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

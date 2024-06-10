@@ -8,7 +8,7 @@ Feel free to ping committers for the review!
 
 ## Contribution Checklist
 
-  - Make sure that the pull request corresponds to a [GITHUB issue](https://github.com/kalencaya/carp/issues).
+  - Make sure that the pull request corresponds to a [GITHUB issue](https://github.com/flowerfine/carp/issues).
 
   - Name the pull request in the form "[Feature] Title of the pull request", where *Feature* can be replaced by `Hotfix`, `Bug`, etc.
 
