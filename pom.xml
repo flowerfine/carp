@@ -68,8 +68,9 @@
 
     <modules>
         <module>carp-framework</module>
-        <module>carp-support</module>
         <module>carp-plugins</module>
+        <module>carp-server</module>
+        <module>carp-support</module>
     </modules>
 
     <properties>
@@ -113,6 +114,7 @@
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
         <semver.version>0.9.0</semver.version>
         <auto-service.version>1.0.1</auto-service.version>
+        <logbook.version>3.9.0</logbook.version>
     </properties>
 
     <dependencyManagement>
@@ -130,6 +132,34 @@
                 <version>${knife4j.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.zalando</groupId>
+                <artifactId>logbook-bom</artifactId>
+                <version>${logbook.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-exception</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-mybatis</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>

@@ -24,16 +24,18 @@
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-server</artifactId>
 
-    <modules>
-        <module>carp-framework-web</module>
-        <module>carp-framework-mybatis</module>
-        <module>carp-framework-exception</module>
-        <module>carp-framework-common</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-mybatis</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
