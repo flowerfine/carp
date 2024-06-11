@@ -28,7 +28,7 @@ public class AsyncWebLogInterceptor implements AsyncHandlerInterceptor {
     private void logQuery(HttpServletRequest request) {
         if (!RequestParamUtil.ignorePath(request.getRequestURI()) && log.isInfoEnabled()) {
             String params = RequestParamUtil.formatRequestParams(request);
-            log.info("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params);
+            log.info("{} {} {}", request.getMethod(), request.getRequestURI(), params);
         }
     }
 }

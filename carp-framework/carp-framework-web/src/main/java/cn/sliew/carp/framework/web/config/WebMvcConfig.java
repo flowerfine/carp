@@ -20,6 +20,7 @@ package cn.sliew.carp.framework.web.config;
 
 import cn.sliew.carp.framework.web.converter.JacksonEnumConverter;
 import cn.sliew.carp.framework.web.interceptor.AsyncWebLogInterceptor;
+import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;

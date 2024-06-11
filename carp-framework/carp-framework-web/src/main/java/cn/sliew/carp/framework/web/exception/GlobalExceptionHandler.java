@@ -18,138 +18,63 @@
 
 package cn.sliew.carp.framework.web.exception;
 
-import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
 import cn.sliew.carp.framework.common.model.ResponseVO;
 import cn.sliew.carp.framework.exception.SliewException;
-import cn.sliew.carp.framework.web.util.RequestParamUtil;
+import cn.sliew.carp.framework.web.exception.convertor.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionFailedException;
-import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.method.HandlerMethod;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
-     * springmvc request param convert to request mapping param exception
+     * All exception handling converters
      */
-    @ResponseBody
-    @ExceptionHandler(ConversionFailedException.class)
-    public ResponseEntity<ResponseVO> conversionFailed(ConversionFailedException e,
-                                                       HandlerMethod method,
-                                                       HttpServletRequest request,
-                                                       HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("{} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
-        final TypeDescriptor sourceType = e.getSourceType();
-        final TypeDescriptor targetType = e.getTargetType();
-        final Object value = e.getValue();
-        ResponseVO errorInfo = ResponseVO.error(String.format("springmvc convert %s from %s to %s error",
-                value, sourceType.getName(), targetType.getName()));
-        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    public static final Map<Class<?>, ExceptionConvertor> REGISTRY = new HashMap<>();
+
+    static {
+        REGISTRY.put(Throwable.class, new ThrowableConvertor());
+        REGISTRY.put(Exception.class, new CommonExceptionConvertor());
+        REGISTRY.put(SliewException.class, new SliewExceptionConvertor());
+
+        REGISTRY.put(ConversionFailedException.class, new ConversionFailedExceptionConvertor());
+        REGISTRY.put(BindException.class, new BindExceptionConvertor());
+        REGISTRY.put(MailException.class, new MailExceptionConvertor());
     }
 
     @ResponseBody
-    @ExceptionHandler(BindException.class)
-    public ResponseEntity<ResponseVO> bindException(BindException e,
-                                                    HandlerMethod method,
-                                                    HttpServletRequest request,
-                                                    HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
-        StringBuilder sb = new StringBuilder();
-        for (FieldError fieldError : e.getFieldErrors()) {
-            String message = String.format("server reject [%s] value [%s] with rules: %s;",
-                    fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
-            sb.append(message);
-        }
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
-        ResponseVO errorInfo = ResponseVO.error(sb.toString());
-        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @ExceptionHandler(SliewException.class)
-    public ResponseEntity<ResponseVO> custom(SliewException e,
-                                             HandlerMethod method,
-                                             HttpServletRequest request,
-                                             HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
-        ResponseVO errorInfo;
-        if (StringUtils.hasText(e.getCode())) {
-            errorInfo = ResponseVO.error(e.getCode(), e.getMessage());
-        } else {
-            errorInfo = ResponseVO.error(e.getMessage());
-        }
-        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseVO> exception(Exception e,
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<ResponseVO> exception(Throwable exception,
                                                 HttpServletRequest request,
                                                 HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
-        ResponseVO errorInfo = ResponseVO.error(I18nUtil.get(ResponseCodeEnum.ERROR.getValue()));
+        ResponseVO errorInfo = convert(exception, request, response);
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
 
-    @ResponseBody
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ResponseVO> accessDenied(AccessDeniedException e,
-                                                   HandlerMethod method,
-                                                   HttpServletRequest request,
-                                                   HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
-        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getCode(),
-                I18nUtil.get(ResponseCodeEnum.ERROR_NO_PRIVILEGE.getValue()));
-        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    public ResponseVO convert(Throwable exception,HttpServletRequest request, HttpServletResponse response) {
+        ExceptionConvertor exceptionConvertor = REGISTRY.get(exception.getClass());
+        if (exceptionConvertor == null) {
+            if (exception instanceof SliewException) {
+                exceptionConvertor = REGISTRY.get(SliewException.class);
+            } else if (exception instanceof Exception) {
+                exceptionConvertor = REGISTRY.get(Exception.class);
+            } else {
+                exceptionConvertor = REGISTRY.get(Throwable.class);
+            }
+        }
+        return exceptionConvertor.convert(exception, request, response);
     }
-
-    /**
-     * primary key duplicate
-     */
-    @ResponseBody
-    @ExceptionHandler(DuplicateKeyException.class)
-    public ResponseEntity<ResponseVO> duplicateKey(DuplicateKeyException e,
-                                                   HandlerMethod method,
-                                                   HttpServletRequest request,
-                                                   HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
-        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getCode(),
-                I18nUtil.get(ResponseCodeEnum.ERROR_DUPLICATE_DATA.getValue()));
-        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
-    }
-
-    @ResponseBody
-    @ExceptionHandler(MailException.class)
-    public ResponseEntity<ResponseVO> mail(MailException e,
-                                           HandlerMethod method,
-                                           HttpServletRequest request,
-                                           HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("[{}] {} {} {}", SecurityUtil.getCurrentUserName(), request.getMethod(), request.getRequestURI(), params, e);
-        ResponseVO errorInfo = ResponseVO.error(ResponseCodeEnum.ERROR_EMAIL.getCode(),
-                I18nUtil.get(ResponseCodeEnum.ERROR_EMAIL.getValue()));
-        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
-    }
-
 }
