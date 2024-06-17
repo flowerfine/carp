@@ -1,0 +1,43 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+spring:
+  datasource:
+    master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/carp?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:123456}
+    log:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/carp?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: ${MYSQL_USERNAME:root}
+      password: 123456
+  quartz:
+    properties:
+      org.quartz:
+        dataSource:
+          quartzDS:
+            driver: com.mysql.cj.jdbc.Driver
+            URL: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/quartz?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+            user: ${MYSQL_USERNAME:root}
+            password: ${MYSQL_PASSWORD:123456}
+  data.redis:
+    database: 0
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:123456}
