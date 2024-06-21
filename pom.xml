@@ -66,6 +66,14 @@
         </repository>
     </distributionManagement>
 
+    <repositories>
+        <repository>
+            <id>maven-central</id>
+            <name>maven-central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
     <modules>
         <module>carp-framework</module>
         <module>carp-plugins</module>
@@ -223,7 +231,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.sliew</groupId>
-                <artifactId>milky-dsl</artifactId>
+                <artifactId>milky-registry</artifactId>
                 <version>${milky.version}</version>
             </dependency>
             <dependency>

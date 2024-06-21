@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.carp.framework.mybatis.mapper.master.security.SecRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="SecRoleMap" type="cn.sliew.carp.framework.mybatis.entity.master.security.SecRole">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="order" property="order"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <resultMap id="RoleWithPrivilegeMap" type="cn.sliew.carp.framework.mybatis.entity.master.security.SecRole">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="editor" property="editor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="order" property="order"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, creator, create_time, editor, update_time,
+        type, `code`, `name`, `order`, `status`, remark
+    </sql>
+
+    <select id="selectRoleByDept" resultMap="SecRoleMap">
+        select
+        r.id,
+        r.type,
+        r.`code`,
+        r.`name`,
+        r.`order`,
+        r.`status`,
+        r.remark,
+        r.creator,
+        r.create_time,
+        r.editor,
+        r.update_time
+        from sec_role r
+        <where>
+            <choose>
+                <when test="grant !=null and grant != '' ">
+                    and exists (select 1 from sec_dept_role dr where r.id = dr.role_id and dr.dept_id =
+                    #{deptId,jdbcType=BIGINT} )
+                </when>
+                <otherwise>
+                    and not exists (select 1 from sec_dept_role dr where r.id = dr.role_id and dr.dept_id =
+                    #{deptId,jdbcType=BIGINT})
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+</mapper>

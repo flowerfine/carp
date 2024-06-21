@@ -18,14 +18,14 @@
 
 package cn.sliew.carp.framework.common.model;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.sliew.milky.common.util.StringUtils;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -49,12 +49,12 @@ public class PaginationParam implements Serializable {
     private List<SortArg> sorter;
 
     public List<OrderItem> buildSortItems() {
-        if (CollectionUtils.isEmpty(sorter)) {
+        if (CollectionUtil.isEmpty(sorter)) {
             return Collections.emptyList();
         }
 
         return sorter.stream()
-                .filter(arg -> StringUtils.hasText(arg.getField()))
+                .filter(arg -> StringUtils.isNotBlank(arg.getField()))
                 .map(arg -> {
                     if ("desc".equalsIgnoreCase(arg.getDirection())) {
                         return OrderItem.desc(StrUtil.toUnderlineCase(arg.getField()));
