@@ -74,12 +74,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         try {
             registry.addInterceptor(new AsyncWebLogInterceptor());
-            Field registrationsField = FieldUtils.getField(InterceptorRegistry.class, "registrations");
-            ReflectionUtils.makeAccessible(registrationsField);
-            List<InterceptorRegistration> registrations = (List<InterceptorRegistration>) ReflectionUtils.getField(registrationsField, registry);
-            if (registrations != null) {
-                for (InterceptorRegistration interceptorRegistration : registrations) {
-                    interceptorRegistration.excludePathPatterns(RequestParamUtil.IGNORE_PATH);
+            List<Field> allFieldsList = FieldUtils.getAllFieldsList(InterceptorRegistry.class);
+            for (Field field : allFieldsList) {
+                if (field.getName().equals("registrations")) {
+                    ReflectionUtils.makeAccessible(field);
+                    List<InterceptorRegistration> registrations = (List<InterceptorRegistration>) ReflectionUtils.getField(field, registry);
+                    if (registrations != null) {
+                        for (InterceptorRegistration interceptorRegistration : registrations) {
+                            interceptorRegistration.excludePathPatterns(RequestParamUtil.getIgnorePaths());
+                        }
+                    }
+                    break;
                 }
             }
         } catch (Exception e) {

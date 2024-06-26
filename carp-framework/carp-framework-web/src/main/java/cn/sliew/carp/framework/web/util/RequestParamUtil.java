@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.WebUtils;
@@ -30,26 +31,20 @@ import org.springframework.web.util.WebUtils;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class RequestParamUtil {
 
-    @Value("${server.servlet.context-path}")
     private static String contextPath;
 
-    private static final String IGNORE_CONTENT_TYPE = "multipart/form-data";
+    public RequestParamUtil(@Value("${server.servlet.context-path}") String contextPath) {
+        RequestParamUtil.contextPath = contextPath;
+        RequestParamUtil.IGNORE_PATH = getIgnorePaths();
+    }
 
-    public static final List<String> IGNORE_PATH = Arrays.asList(
-            "/" + contextPath + "/doc.html",
-            "/" + contextPath + "/swagger-resources",
-            "/" + contextPath + "/webjars/**",
-            "/" + contextPath + "/v3/api-docs",
-            "/" + contextPath + "/favicon.ico",
-            "/" + contextPath + "/ui/**/**");
+    private static final String IGNORE_CONTENT_TYPE = "multipart/form-data";
+    private static List<String> IGNORE_PATH = Collections.emptyList();
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 
     public static String formatRequestParams(HttpServletRequest request) {
@@ -138,5 +133,18 @@ public class RequestParamUtil {
 
     public static boolean ignoreContentType(String contentType) {
         return StringUtils.hasText(contentType) && contentType.startsWith(IGNORE_CONTENT_TYPE);
+    }
+
+    public static List<String> getIgnorePaths() {
+        if (CollectionUtils.isEmpty(IGNORE_PATH) && StringUtils.hasText(contextPath)) {
+            IGNORE_PATH = Arrays.asList(
+                    "/" + contextPath + "/doc.html",
+                    "/" + contextPath + "/swagger-resources",
+                    "/" + contextPath + "/webjars/**",
+                    "/" + contextPath + "/v3/api-docs",
+                    "/" + contextPath + "/favicon.ico",
+                    "/" + contextPath + "/ui/**/**");
+        }
+        return IGNORE_PATH;
     }
 }
