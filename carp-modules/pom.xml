@@ -25,17 +25,10 @@
         <artifactId>carp</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>carp-server</artifactId>
+    <artifactId>carp-modules</artifactId>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-framework-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-security-core</artifactId>
-        </dependency>
-    </dependencies>
-
+    <modules>
+        <module>carp-module-security</module>
+    </modules>
 </project>

@@ -16,15 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp;
+package cn.sliew.carp.module.security.core.controller;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import cn.sliew.carp.module.security.core.service.SecUserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
-public class Application {
+@RestController
+@RequestMapping("/api/carp/security/user")
+@Tag(name = "权限模块-用户管理")
+public class SecUserController {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+    @Autowired
+    private SecUserService secUserService;
+
 }

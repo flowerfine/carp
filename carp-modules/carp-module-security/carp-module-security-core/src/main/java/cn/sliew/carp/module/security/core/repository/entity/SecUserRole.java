@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp;
+package cn.sliew.carp.module.security.core.repository.entity;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
-@SpringBootApplication
-public class Application {
+@Data
+@TableName("sec_user_role")
+public class SecUserRole extends BaseAuditDO {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+    private static final long serialVersionUID = 8752486397778737688L;
+
+    private Long userId;
+
+    private Long roleId;
 }

@@ -21,19 +21,11 @@ package cn.sliew.carp.framework.mybatis;
 public enum DataSourceConstants {
     ;
 
-    public static final String MASTER_ENTITY_PACKAGE = "cn.sliew.carp.dao.entity.master";
-    public static final String MASTER_MAPPER_PACKAGE = "cn.sliew.carp.dao.mapper.master";
-    public static final String MASTER_MAPPER_XML_PATH = "classpath*:cn.sliew.carp.dao.mapper/master/**/*.xml";
+    public static final String MASTER_ENTITY_PACKAGE = "cn.sliew.carp.module.security.core.repository.entity";
+    public static final String MASTER_MAPPER_PACKAGE = "cn.sliew.carp.module.security.core.repository.mapper";
+    public static final String MASTER_MAPPER_XML_PATH = "classpath*:cn/sliew/carp/**/repository/master/**/*.xml";
 
     public static final String MASTER_SQL_SESSION_FACTORY = "carpMasterSqlSessionFactory";
     public static final String MASTER_DATA_SOURCE_FACTORY = "carpMasterDataSource";
     public static final String MASTER_TRANSACTION_MANAGER_FACTORY = "carpMasterTransactionManager";
-
-    public static final String LOG_ENTITY_PACKAGE = "cn.sliew.carp.dao.entity.log";
-    public static final String LOG_MAPPER_PACKAGE = "cn.sliew.carp.dao.mapper.log";
-    public static final String LOG_MAPPER_XML_PATH = "classpath*:cn.sliew.carp.dao.mapper/log/**/*.xml";
-
-    public static final String LOG_SQL_SESSION_FACTORY = "carpLogSqlSessionFactory";
-    public static final String LOG_DATA_SOURCE_FACTORY = "carpLogDataSource";
-    public static final String LOG_TRANSACTION_MANAGER_FACTORY = "carpLogTransactionManager";
 }

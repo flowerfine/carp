@@ -16,15 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp;
+package cn.sliew.carp.module.security.core.repository.mapper;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-@SpringBootApplication
-public class Application {
+import java.util.List;
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+@Repository
+public interface SecResourceWebMapper extends BaseMapper<SecResourceWeb> {
+
+    List<SecResourceWeb> listByPidAndUserId(@Param("pid") Long pid, @Param("userId") Long userId, @Param("name") String name, @Param("layout") Boolean layout);
 }

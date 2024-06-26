@@ -16,15 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp;
+package cn.sliew.carp.module.security.core.repository.entity;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import lombok.Data;
 
-@SpringBootApplication
-public class Application {
+@Data
+public class SecResourceWebVO extends SecResourceWeb {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+    private Long roleId;
 }

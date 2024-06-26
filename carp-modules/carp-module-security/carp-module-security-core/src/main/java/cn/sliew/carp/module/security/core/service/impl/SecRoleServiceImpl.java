@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp;
+package cn.sliew.carp.module.security.core.service.impl;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import cn.sliew.carp.module.security.core.repository.entity.SecRole;
+import cn.sliew.carp.module.security.core.repository.mapper.SecRoleMapper;
+import cn.sliew.carp.module.security.core.service.SecRoleService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-@SpringBootApplication
-public class Application {
+@Service
+public class SecRoleServiceImpl extends ServiceImpl<SecRoleMapper, SecRole> implements SecRoleService {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
 }

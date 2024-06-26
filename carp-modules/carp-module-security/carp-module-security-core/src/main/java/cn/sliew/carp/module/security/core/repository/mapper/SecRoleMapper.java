@@ -16,15 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp;
+package cn.sliew.carp.module.security.core.repository.mapper;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import cn.sliew.carp.module.security.core.repository.entity.SecRole;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@SpringBootApplication
-public class Application {
+@Repository
+public interface SecRoleMapper extends BaseMapper<SecRole> {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
 }

@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp;
+package cn.sliew.carp.module.security.core.service.impl;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
+import cn.sliew.carp.module.security.core.repository.mapper.SecResourceWebMapper;
+import cn.sliew.carp.module.security.core.service.SecResourceWebService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-@SpringBootApplication
-public class Application {
+@Service
+public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper, SecResourceWeb> implements SecResourceWebService {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
 }

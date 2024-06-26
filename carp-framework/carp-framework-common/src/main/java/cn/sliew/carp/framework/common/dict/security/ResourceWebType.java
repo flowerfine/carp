@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.common.dict;
+package cn.sliew.carp.framework.common.dict.security;
 
+import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -25,43 +26,37 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum DictType implements DictDefinition {
+public enum ResourceWebType implements DictInstance {
 
-    YES_OR_NO("yes_or_no", "是否"),
-    IS_DELETED("is_delete", "是否删除"),
-
-    USER_TYPE("user_type", "用户类型"),
-    USER_STATUS("user_status", "用户状态"),
-    ROLE_TYPE("role_type", "角色类型"),
-    ROLE_STATUS("role_status", "角色状态"),
-    RESOURCE_WEB_TYPE("resource_web_type", "资源-web-类型"),
-    RESOURCE_DATA_TYPE("resource_data_type", "资源-数据-类型"),
-    RESOURCE_STATUS("resource_status", "资源状态"),
+    NAV("0", "导航"),
+    MENU("1", "菜单"),
+    PAGE("2", "页面"),
+    BUTTON("3", "按钮"),
     ;
 
     @JsonCreator
-    public static DictType of(String code) {
+    public static ResourceWebType of(String value) {
         return Arrays.stream(values())
-                .filter(type -> type.getCode().equals(code))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(DictType.class, code));
+                .filter(instance -> instance.getValue().equals(value))
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(ResourceWebType.class, value));
     }
 
     @EnumValue
-    private String code;
-    private String name;
+    private String value;
+    private String label;
 
-    DictType(String code, String name) {
-        this.code = code;
-        this.name = name;
+    ResourceWebType(String value, String label) {
+        this.value = value;
+        this.label = label;
     }
 
     @Override
-    public String getCode() {
-        return code;
+    public String getValue() {
+        return value;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 }

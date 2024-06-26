@@ -18,12 +18,15 @@
 
 package cn.sliew.carp.framework.common.dict;
 
-import cn.sliew.milky.registry.AbstractRegistry;
+import java.util.Collection;
 
-public class DictRegistry extends AbstractRegistry<DictInstance, DictDefinition> {
+public interface DictRegistry {
 
-    @Override
-    public DictDefinition getDefaultConfig() {
-        return DictType.YES_OR_NO;
-    }
+    Collection<DictDefinition> getAllDefinitions();
+
+    Collection<DictInstance> getDictInstance(DictDefinition definition);
+
+    boolean exists(DictDefinition definition, String instanceName);
+
+    DictInstance getDictInstance(DictDefinition definition, String instanceName);
 }
