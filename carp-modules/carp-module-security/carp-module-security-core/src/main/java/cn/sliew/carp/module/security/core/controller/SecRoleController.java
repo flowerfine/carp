@@ -42,7 +42,7 @@ public class SecRoleController {
     @GetMapping
     @ApiOperationSupport(order = 1)
     @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-    @Operation(summary = "分页查询角色", description = "分页查询角色")
+    @Operation(summary = "分页查询", description = "分页查询")
     public ResponseEntity list() {
         return ResponseEntity.ok().build();
     }

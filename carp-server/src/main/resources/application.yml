@@ -93,9 +93,6 @@ springdoc:
   api-docs:
     enabled: true
     path: /v3/api-docs
-  group-configs:
-    - group: 'default'
-      paths-to-match: '/**'
   default-flat-param-object: true
 knife4j:
   enable: true
