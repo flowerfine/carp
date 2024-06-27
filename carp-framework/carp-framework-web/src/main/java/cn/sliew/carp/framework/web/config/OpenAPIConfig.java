@@ -18,14 +18,18 @@
 
 package cn.sliew.carp.framework.web.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.RandomUtils;
 import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 
 import java.util.Map;
 
@@ -51,7 +55,9 @@ public class OpenAPIConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(apiInfo());
+                .info(apiInfo())
+                .addSecurityItem(securityRequirement())
+                .components(components());
     }
 
     private Info apiInfo() {
@@ -62,6 +68,7 @@ public class OpenAPIConfig {
                 .termsOfService("https://github.com/flowerfine/carp")
                 .license(new License().name("Apache 2.0").url("https://github.com/flowerfine/carp/blob/dev/LICENSE"))
                 .contact(contact());
+
     }
 
     private Contact contact() {
@@ -70,5 +77,22 @@ public class OpenAPIConfig {
         kalencaya.setUrl("https://github.com/kalencaya");
         kalencaya.setEmail("1942460489@qq.com");
         return kalencaya;
+    }
+
+    private SecurityRequirement securityRequirement() {
+        return new SecurityRequirement()
+                .addList(HttpHeaders.AUTHORIZATION);
+    }
+
+    private Components components() {
+        return new Components()
+                .addSecuritySchemes(HttpHeaders.AUTHORIZATION, securityScheme());
+    }
+
+    private SecurityScheme securityScheme() {
+        return new SecurityScheme()
+                .name(HttpHeaders.AUTHORIZATION)
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer");
     }
 }
