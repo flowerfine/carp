@@ -16,9 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.framework.common.convert;
 
-public interface SecAuthenticationService {
+import java.util.List;
 
+public interface BaseConvert<ENTITY, DTO> {
+
+    ENTITY toDo(DTO dto);
+
+    DTO toDto(ENTITY entity);
+
+    List<ENTITY> toDo(List<DTO> dtoList);
+
+    List<DTO> toDto(List<ENTITY> entityList);
 
 }

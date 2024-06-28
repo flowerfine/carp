@@ -18,9 +18,25 @@
 
 package cn.sliew.carp.module.security.core.service;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
+import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
+import cn.sliew.carp.module.security.core.service.param.SecResourceWebAddParam;
+import cn.sliew.carp.module.security.core.service.param.SecResourceWebListParam;
+import cn.sliew.carp.module.security.core.service.param.SecResourceWebUpdateParam;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 public interface SecResourceWebService extends IService<SecResourceWeb> {
 
+    PageResult<SecResourceWebDTO> list(SecResourceWebListParam param);
+
+    List<SecResourceWebDTO> listAll(SecResourceWebListParam param);
+
+    SecResourceWebDTO get(Long id);
+
+    boolean add(SecResourceWebAddParam param);
+
+    boolean update(SecResourceWebUpdateParam param);
 }

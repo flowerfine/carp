@@ -16,9 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.framework.web.response;
 
-public interface SecAuthenticationService {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ApiResponseWrapper {
 
+    /**
+     * 成功提示信息
+     */
+    String success() default "请求成功";
+
+    /**
+     * 失败提示信息
+     */
+    String failure() default "";
 }

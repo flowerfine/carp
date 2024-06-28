@@ -16,9 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.security.core.service.param;
 
-public interface SecAuthenticationService {
+import cn.sliew.carp.framework.common.dict.security.ResourceStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
+public class SecResourceWebAddParam {
 
+    @Schema(description = "上级资源id")
+    private Long pid;
+
+    @Schema(description = "资源值")
+    private String value;
+
+    @Schema(description = "资源名称")
+    private String label;
+
+    @Schema(description = "路由路径")
+    private String path;
+
+    @Schema(description = "order")
+    private Integer order;
+
+    @Schema(description = "资源状态")
+    private ResourceStatus status;
+
+    @Schema(description = "备注")
+    private String remark;
 }

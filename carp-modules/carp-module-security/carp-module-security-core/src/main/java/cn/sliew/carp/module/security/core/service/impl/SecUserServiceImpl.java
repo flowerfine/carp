@@ -18,13 +18,79 @@
 
 package cn.sliew.carp.module.security.core.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.framework.common.dict.security.UserType;
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
 import cn.sliew.carp.module.security.core.repository.mapper.SecUserMapper;
 import cn.sliew.carp.module.security.core.service.SecUserService;
+import cn.sliew.carp.module.security.core.service.convert.SecUserConvert;
+import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
+import cn.sliew.carp.module.security.core.service.param.SecUserAddParam;
+import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
+import cn.sliew.carp.module.security.core.service.param.SecUserUpdateParam;
+import cn.sliew.carp.module.security.core.util.PasswordUtil;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> implements SecUserService {
 
+    @Override
+    public PageResult<SecUserDTO> list(SecUserListParam param) {
+        Page<SecUser> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryChainWrapper<SecUser> queryChainWrapper = lambdaQuery()
+                .like(StringUtils.hasText(param.getUserName()), SecUser::getUserName, param.getUserName())
+                .like(StringUtils.hasText(param.getNickName()), SecUser::getNickName, param.getNickName())
+                .eq(StringUtils.hasText(param.getEmail()), SecUser::getEmail, param.getEmail())
+                .eq(StringUtils.hasText(param.getPhone()), SecUser::getPhone, param.getPhone())
+                .eq(param.getType() != null, SecUser::getType, param.getType())
+                .eq(param.getStatus() != null, SecUser::getStatus, param.getStatus())
+                .orderByAsc(SecUser::getOrder, SecUser::getId);
+        Page<SecUser> secUserPage = page(page, queryChainWrapper);
+        PageResult<SecUserDTO> pageResult = new PageResult<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
+        pageResult.setRecords(SecUserConvert.INSTANCE.toDto(secUserPage.getRecords()));
+        return pageResult;
+    }
+
+    @Override
+    public List<SecUserDTO> listAll(SecUserListParam param) {
+        LambdaQueryChainWrapper<SecUser> queryChainWrapper = lambdaQuery()
+                .like(StringUtils.hasText(param.getUserName()), SecUser::getUserName, param.getUserName())
+                .like(StringUtils.hasText(param.getNickName()), SecUser::getNickName, param.getNickName())
+                .eq(StringUtils.hasText(param.getEmail()), SecUser::getEmail, param.getEmail())
+                .eq(StringUtils.hasText(param.getPhone()), SecUser::getPhone, param.getPhone())
+                .eq(param.getType() != null, SecUser::getType, param.getType())
+                .eq(param.getStatus() != null, SecUser::getStatus, param.getStatus())
+                .orderByAsc(SecUser::getOrder, SecUser::getId);
+        List<SecUser> entities = list(queryChainWrapper);
+        return SecUserConvert.INSTANCE.toDto(entities);
+    }
+
+    @Override
+    public SecUserDTO get(Long id) {
+        SecUser entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("user not exists for id: " + id));
+        return SecUserConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public boolean add(SecUserAddParam param) {
+        SecUser entity = BeanUtil.copyProperties(param, SecUser.class);
+        entity.setType(UserType.CUSTOM);
+        entity.setSalt(RandomStringUtils.randomAlphanumeric(32));
+        entity.setPassword(PasswordUtil.digestPassword(param.getPassword(), entity.getSalt()));
+        return save(entity);
+    }
+
+    @Override
+    public boolean update(SecUserUpdateParam param) {
+        SecUser entity = BeanUtil.copyProperties(param, SecUser.class);
+        return saveOrUpdate(entity);
+    }
 }

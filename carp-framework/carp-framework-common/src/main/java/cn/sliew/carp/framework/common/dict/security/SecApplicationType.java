@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.common.dict;
+package cn.sliew.carp.framework.common.dict.security;
 
+import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -25,45 +26,35 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum DictType implements DictDefinition {
+public enum SecApplicationType implements DictInstance {
 
-    YES_OR_NO("yes_or_no", "是否"),
-    IS_DELETED("is_delete", "是否删除"),
-
-    SEC_APPLICATION_TYPE("sec_application_type", "应用类型"),
-    SEC_APPLICATION_STATUS("sec_application_status", "应用状态"),
-    USER_TYPE("user_type", "用户类型"),
-    USER_STATUS("user_status", "用户状态"),
-    ROLE_TYPE("role_type", "角色类型"),
-    ROLE_STATUS("role_status", "角色状态"),
-    RESOURCE_WEB_TYPE("resource_web_type", "资源-web-类型"),
-    RESOURCE_DATA_TYPE("resource_data_type", "资源-数据-类型"),
-    RESOURCE_STATUS("resource_status", "资源状态"),
+    SYSTEM("1", "系统"),
+    CUSTOM("2", "用户自定义"),
     ;
 
     @JsonCreator
-    public static DictType of(String code) {
+    public static SecApplicationType of(String value) {
         return Arrays.stream(values())
-                .filter(type -> type.getCode().equals(code))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(DictType.class, code));
+                .filter(instance -> instance.getValue().equals(value))
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SecApplicationType.class, value));
     }
 
     @EnumValue
-    private String code;
-    private String name;
+    private String value;
+    private String label;
 
-    DictType(String code, String name) {
-        this.code = code;
-        this.name = name;
+    SecApplicationType(String value, String label) {
+        this.value = value;
+        this.label = label;
     }
 
     @Override
-    public String getCode() {
-        return code;
+    public String getValue() {
+        return value;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 }

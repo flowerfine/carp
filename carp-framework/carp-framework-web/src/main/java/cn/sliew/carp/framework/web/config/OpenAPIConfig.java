@@ -25,32 +25,12 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.apache.commons.lang3.RandomUtils;
-import org.springdoc.core.customizers.GlobalOpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 
-import java.util.Map;
-
 @Configuration
 public class OpenAPIConfig {
-
-    /**
-     * 根据@Tag 上的排序，写入x-order
-     */
-    @Bean
-    public GlobalOpenApiCustomizer orderGlobalOpenApiCustomizer() {
-        return openApi -> {
-            if (openApi.getTags() != null) {
-                openApi.getTags().forEach(tag -> tag.setExtensions(Map.of("x-order", RandomUtils.nextInt(0, 100))));
-            }
-            if (openApi.getPaths() != null) {
-                openApi.addExtension("x-test123", "333");
-                openApi.getPaths().addExtension("x-abb", RandomUtils.nextInt(1, 100));
-            }
-        };
-    }
 
     @Bean
     public OpenAPI customOpenAPI() {

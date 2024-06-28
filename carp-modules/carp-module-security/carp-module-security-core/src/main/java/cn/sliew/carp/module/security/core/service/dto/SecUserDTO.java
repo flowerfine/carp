@@ -16,52 +16,49 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.repository.entity;
+package cn.sliew.carp.module.security.core.service.dto;
 
 import cn.sliew.carp.framework.common.dict.security.UserStatus;
 import cn.sliew.carp.framework.common.dict.security.UserType;
-import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@TableName("sec_user")
-public class SecUser extends BaseAuditDO {
+@EqualsAndHashCode(callSuper = true)
+@Schema(name = "用户信息", description = "用户信息")
+public class SecUserDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 2955806429097700570L;
-
-    @TableField("type")
+    @Schema(description = "类型")
     private UserType type;
 
-    @TableField("user_name")
+    @Schema(description = "用户名")
     private String userName;
 
-    @TableField("nick_name")
+    @Schema(description = "昵称")
     private String nickName;
 
-    @TableField("avatar")
+    @Schema(description = "头像")
     private String avatar;
 
-    @TableField("email")
+    @Schema(description = "邮箱")
     private String email;
 
-    @TableField("phone")
+    @Schema(description = "手机")
     private String phone;
 
-    @TableField("`password`")
+    @JsonIgnore
+    @Schema(description = "密码")
     private String password;
 
-    @TableField("`salt`")
-    private String salt;
-
-    @TableField("`order`")
+    @Schema(description = "排序")
     private Integer order;
 
-    @TableField("`status`")
+    @Schema(description = "status")
     private UserStatus status;
 
-    @TableField("remark")
+    @Schema(description = "备注")
     private String remark;
-
 }

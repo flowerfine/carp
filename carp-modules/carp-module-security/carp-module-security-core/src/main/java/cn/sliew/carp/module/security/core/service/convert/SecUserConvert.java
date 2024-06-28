@@ -16,9 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.security.core.service.convert;
 
-public interface SecAuthenticationService {
+import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.module.security.core.repository.entity.SecUser;
+import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
+@Mapper
+public interface SecUserConvert extends BaseConvert<SecUser, SecUserDTO> {
+    SecUserConvert INSTANCE = Mappers.getMapper(SecUserConvert.class);
 
 }

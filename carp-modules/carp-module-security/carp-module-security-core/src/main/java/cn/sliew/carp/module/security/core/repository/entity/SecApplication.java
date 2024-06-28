@@ -18,50 +18,50 @@
 
 package cn.sliew.carp.module.security.core.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.security.UserStatus;
-import cn.sliew.carp.framework.common.dict.security.UserType;
+import cn.sliew.carp.framework.common.dict.security.SecApplicationStatus;
+import cn.sliew.carp.framework.common.dict.security.SecApplicationType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@TableName("sec_user")
-public class SecUser extends BaseAuditDO {
+@TableName("sec_application")
+@Schema(name = "SecApplication", description = "security application")
+public class SecApplication extends BaseAuditDO {
 
-    private static final long serialVersionUID = 2955806429097700570L;
+    private static final long serialVersionUID = 1L;
 
-    @TableField("type")
-    private UserType type;
+    @Schema(description = "用户类型。系统，用户自定义")
+    @TableField("`type`")
+    private SecApplicationType type;
 
-    @TableField("user_name")
-    private String userName;
+    @Schema(description = "应用标识")
+    @TableField("`code`")
+    private String code;
 
-    @TableField("nick_name")
-    private String nickName;
+    @Schema(description = "应用名称")
+    @TableField("`name`")
+    private String name;
 
-    @TableField("avatar")
-    private String avatar;
+    @Schema(description = "应用logo")
+    @TableField("logo")
+    private String logo;
 
-    @TableField("email")
-    private String email;
+    @Schema(description = "应用 url")
+    @TableField("url")
+    private String url;
 
-    @TableField("phone")
-    private String phone;
-
-    @TableField("`password`")
-    private String password;
-
-    @TableField("`salt`")
-    private String salt;
-
+    @Schema(description = "排序")
     @TableField("`order`")
     private Integer order;
 
+    @Schema(description = "用户状态。启用，禁用")
     @TableField("`status`")
-    private UserStatus status;
+    private SecApplicationStatus status;
 
+    @Schema(description = "备注")
     @TableField("remark")
     private String remark;
-
 }

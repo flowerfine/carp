@@ -36,13 +36,13 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "分页参数")
-public class PaginationParam implements Serializable {
+public class PageParam implements Serializable {
     private static final long serialVersionUID = -860020632404225667L;
 
-    @Schema(description = "页码", example = "1")
+    @Schema(description = "当前页数", example = "1")
     private Long current = 1L;
 
-    @Schema(description = "页面大小", example = "10")
+    @Schema(description = "每页条数", example = "10")
     private Long pageSize = 10L;
 
     @Schema(description = "排序", example = "[{direction: \"ASC\"" + "field: \"fieldName\"}]")

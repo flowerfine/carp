@@ -16,42 +16,46 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.repository.entity;
+package cn.sliew.carp.module.security.core.service.dto;
 
 import cn.sliew.carp.framework.common.dict.security.ResourceStatus;
 import cn.sliew.carp.framework.common.dict.security.ResourceWebType;
-import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-@TableName("sec_resource_web")
-public class SecResourceWeb extends BaseAuditDO {
+@Schema(name = "SecResourceWeb对象", description = "资源-web")
+public class SecResourceWebDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`type`")
+    @Schema(description = "资源类型。导航，菜单，页面，按钮")
     private ResourceWebType type;
 
-    @TableField("pid")
+    @Schema(description = "上级资源id")
     private Long pid;
 
-    @TableField("`value`")
+    @Schema(description = "资源值")
     private String value;
 
-    @TableField("`label`")
+    @Schema(description = "资源名称")
     private String label;
 
-    @TableField("`path`")
+    @Schema(description = "路由路径")
     private String path;
 
-    @TableField("`order`")
-    private String order;
+    @Schema(description = "order")
+    private Integer order;
 
-    @TableField("`status`")
+    @Schema(description = "资源状态")
     private ResourceStatus status;
 
-    @TableField("remark")
+    @Schema(description = "备注")
     private String remark;
+
+    @Schema(description = "下级资源")
+    private List<SecResourceWebDTO> children;
 }

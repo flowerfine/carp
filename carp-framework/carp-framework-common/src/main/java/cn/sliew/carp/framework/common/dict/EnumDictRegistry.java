@@ -36,6 +36,8 @@ public enum EnumDictRegistry implements DictRegistry {
         register(DictType.YES_OR_NO, YesOrNo.values());
         register(DictType.IS_DELETED, IsDeleted.values());
 
+        register(DictType.SEC_APPLICATION_TYPE, SecApplicationType.values());
+        register(DictType.SEC_APPLICATION_STATUS, SecApplicationStatus.values());
         register(DictType.USER_TYPE, UserType.values());
         register(DictType.USER_STATUS, UserStatus.values());
         register(DictType.ROLE_TYPE, RoleType.values());

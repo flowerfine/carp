@@ -16,42 +16,38 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.repository.entity;
+package cn.sliew.carp.framework.common.model;
 
-import cn.sliew.carp.framework.common.dict.security.ResourceStatus;
-import cn.sliew.carp.framework.common.dict.security.ResourceWebType;
-import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Data
-@TableName("sec_resource_web")
-public class SecResourceWeb extends BaseAuditDO {
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(description = "分页结果")
+public class PageResult<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @TableField("`type`")
-    private ResourceWebType type;
+    @Schema(description = "当前页数", example = "1")
+    private Long current = 1L;
 
-    @TableField("pid")
-    private Long pid;
+    @Schema(description = "每页条数", example = "10")
+    private Long pageSize = 10L;
 
-    @TableField("`value`")
-    private String value;
+    @Schema(description = "数据总数", example = "10")
+    private Long total;
 
-    @TableField("`label`")
-    private String label;
+    @Schema(description = "数据")
+    private List<T> records;
 
-    @TableField("`path`")
-    private String path;
-
-    @TableField("`order`")
-    private String order;
-
-    @TableField("`status`")
-    private ResourceStatus status;
-
-    @TableField("remark")
-    private String remark;
+    public PageResult(Long current, Long pageSize, Long total) {
+        this.current = current;
+        this.pageSize = pageSize;
+        this.total = total;
+    }
 }

@@ -16,9 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.security.core.service.param;
 
-public interface SecAuthenticationService {
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
+public class SecResourceWebUpdateParam extends SecResourceWebAddParam {
 
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 }

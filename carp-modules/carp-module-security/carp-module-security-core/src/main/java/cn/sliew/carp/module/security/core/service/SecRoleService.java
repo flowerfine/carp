@@ -18,9 +18,25 @@
 
 package cn.sliew.carp.module.security.core.service;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.repository.entity.SecRole;
+import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
+import cn.sliew.carp.module.security.core.service.param.SecRoleAddParam;
+import cn.sliew.carp.module.security.core.service.param.SecRoleListParam;
+import cn.sliew.carp.module.security.core.service.param.SecRoleUpdateParam;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 public interface SecRoleService extends IService<SecRole> {
 
+    PageResult<SecRoleDTO> list(SecRoleListParam param);
+
+    List<SecRoleDTO> listAll(SecRoleListParam param);
+
+    SecRoleDTO get(Long id);
+
+    boolean add(SecRoleAddParam param);
+
+    boolean update(SecRoleUpdateParam param);
 }

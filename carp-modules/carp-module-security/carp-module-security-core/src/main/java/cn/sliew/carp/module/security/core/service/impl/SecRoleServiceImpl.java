@@ -18,13 +18,69 @@
 
 package cn.sliew.carp.module.security.core.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.framework.common.dict.security.RoleType;
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.repository.entity.SecRole;
 import cn.sliew.carp.module.security.core.repository.mapper.SecRoleMapper;
 import cn.sliew.carp.module.security.core.service.SecRoleService;
+import cn.sliew.carp.module.security.core.service.convert.SecRoleConvert;
+import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
+import cn.sliew.carp.module.security.core.service.param.SecRoleAddParam;
+import cn.sliew.carp.module.security.core.service.param.SecRoleListParam;
+import cn.sliew.carp.module.security.core.service.param.SecRoleUpdateParam;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Service
 public class SecRoleServiceImpl extends ServiceImpl<SecRoleMapper, SecRole> implements SecRoleService {
 
+    @Override
+    public PageResult<SecRoleDTO> list(SecRoleListParam param) {
+        Page<SecRole> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryChainWrapper<SecRole> queryChainWrapper = lambdaQuery()
+                .like(StringUtils.hasText(param.getName()), SecRole::getName, param.getName())
+                .eq(param.getType() != null, SecRole::getType, param.getType())
+                .eq(param.getStatus() != null, SecRole::getStatus, param.getStatus())
+                .orderByAsc(SecRole::getOrder, SecRole::getId);
+        Page<SecRole> secRolePage = page(page, queryChainWrapper);
+        PageResult<SecRoleDTO> pageResult = new PageResult<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
+        pageResult.setRecords(SecRoleConvert.INSTANCE.toDto(secRolePage.getRecords()));
+        return pageResult;
+    }
+
+    @Override
+    public List<SecRoleDTO> listAll(SecRoleListParam param) {
+        LambdaQueryChainWrapper<SecRole> queryChainWrapper = lambdaQuery()
+                .like(StringUtils.hasText(param.getName()), SecRole::getName, param.getName())
+                .eq(param.getType() != null, SecRole::getType, param.getType())
+                .eq(param.getStatus() != null, SecRole::getStatus, param.getStatus())
+                .orderByAsc(SecRole::getOrder, SecRole::getId);
+        List<SecRole> entities = list(queryChainWrapper);
+        return SecRoleConvert.INSTANCE.toDto(entities);
+    }
+
+    @Override
+    public SecRoleDTO get(Long id) {
+        SecRole entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("role not exists for id: " + id));
+        return SecRoleConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public boolean add(SecRoleAddParam param) {
+        SecRole entity = BeanUtil.copyProperties(param, SecRole.class);
+        entity.setType(RoleType.CUSTOM);
+        return save(entity);
+    }
+
+    @Override
+    public boolean update(SecRoleUpdateParam param) {
+        SecRole entity = BeanUtil.copyProperties(param, SecRole.class);
+        return saveOrUpdate(entity);
+    }
 }

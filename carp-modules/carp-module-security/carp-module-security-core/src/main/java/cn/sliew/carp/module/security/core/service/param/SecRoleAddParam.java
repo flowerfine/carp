@@ -16,9 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.security.core.service.param;
 
-public interface SecAuthenticationService {
+import cn.sliew.carp.framework.common.dict.security.RoleStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
+@Data
+public class SecRoleAddParam {
 
+    @NotBlank
+    @Schema(description = "角色编码")
+    private String code;
+
+    @NotBlank
+    @Schema(description = "角色名称")
+    private String name;
+
+    @Schema(description = "order")
+    private Integer order;
+
+    @Schema(description = "角色状态")
+    private RoleStatus status;
+
+    @Schema(description = "角色备注")
+    private String remark;
 }

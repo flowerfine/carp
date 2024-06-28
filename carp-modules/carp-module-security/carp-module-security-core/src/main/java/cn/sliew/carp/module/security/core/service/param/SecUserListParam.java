@@ -16,52 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.repository.entity;
+package cn.sliew.carp.module.security.core.service.param;
 
 import cn.sliew.carp.framework.common.dict.security.UserStatus;
 import cn.sliew.carp.framework.common.dict.security.UserType;
-import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@TableName("sec_user")
-public class SecUser extends BaseAuditDO {
+@EqualsAndHashCode(callSuper = true)
+public class SecUserListParam extends PageParam {
 
-    private static final long serialVersionUID = 2955806429097700570L;
-
-    @TableField("type")
-    private UserType type;
-
-    @TableField("user_name")
+    @Schema(description = "用户名")
     private String userName;
 
-    @TableField("nick_name")
+    @Schema(description = "昵称")
     private String nickName;
 
-    @TableField("avatar")
-    private String avatar;
-
-    @TableField("email")
+    @Schema(description = "邮箱")
     private String email;
 
-    @TableField("phone")
+    @Schema(description = "邮箱")
     private String phone;
 
-    @TableField("`password`")
-    private String password;
+    @Schema(description = "用户类型")
+    private UserType type;
 
-    @TableField("`salt`")
-    private String salt;
-
-    @TableField("`order`")
-    private Integer order;
-
-    @TableField("`status`")
+    @Schema(description = "用户状态")
     private UserStatus status;
-
-    @TableField("remark")
-    private String remark;
-
 }

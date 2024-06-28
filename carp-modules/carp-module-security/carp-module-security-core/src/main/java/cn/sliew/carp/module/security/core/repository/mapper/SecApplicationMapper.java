@@ -16,9 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.security.core.repository.mapper;
 
-public interface SecAuthenticationService {
+import cn.sliew.carp.module.security.core.repository.entity.SecApplication;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
+@Repository
+public interface SecApplicationMapper extends BaseMapper<SecApplication> {
 
 }

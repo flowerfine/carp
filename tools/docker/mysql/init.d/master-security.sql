@@ -1,17 +1,38 @@
 create database if not exists carp default character set utf8mb4 collate utf8mb4_unicode_ci;
 use carp;
 
+drop table if exists sec_application;
+create table sec_application
+(
+    `id`          bigint       not null auto_increment comment '自增主键',
+    `type`        varchar(4)   not null comment '用户类型。系统，用户自定义',
+    `code`        varchar(32)  not null comment '应用标识',
+    `name`        varchar(64)  not null comment '应用名称',
+    `logo`        varchar(255) not null comment '应用logo',
+    `url`         varchar(255) not null comment '应用 url',
+    `order`       int          not null default 0 comment '排序',
+    `status`      varchar(4)   not null comment '应用状态。启用，禁用',
+    `remark`      varchar(255) comment '备注',
+    `creator`     varchar(32) comment '创建人',
+    `create_time` datetime     not null default current_timestamp comment '创建时间',
+    `editor`      varchar(32) comment '修改人',
+    `update_time` datetime     not null default current_timestamp on update current_timestamp comment '更新时间',
+    primary key (id),
+    unique key (code)
+) engine = innodb comment = 'security application';
+
 drop table if exists sec_user;
 create table sec_user
 (
     `id`          bigint      not null auto_increment comment '自增主键',
-    `type`        varchar(4)  not null comment '用户类型。系统角色，用户定义',
+    `type`        varchar(4)  not null comment '用户类型。系统，用户自定义',
     `user_name`   varchar(32) not null comment '用户名',
     `nick_name`   varchar(50) comment '昵称',
     `avatar`      varchar(255) comment '头像',
     `email`       varchar(128) comment '邮箱',
     `phone`       varchar(16) comment '手机',
     `password`    varchar(64) not null comment '密码',
+    `salt`        varchar(64) not null comment '密码盐值',
     `order`       int         not null default 0 comment '排序',
     `status`      varchar(4)  not null comment '用户状态。启用，禁用',
     `remark`      varchar(255) comment '备注',
@@ -25,9 +46,9 @@ create table sec_user
 ) engine = innodb comment = 'security user';
 
 insert into sec_user (id, type, user_name, nick_name, avatar, email, phone, password,
-                      `order`, `status`, remark, creator, editor)
+                      `salt`, `order`, `status`, remark, creator, editor)
 values (1, '0', 'sys_admin', '超级管理员', null, 'test@admin.com', null,
-        '$2a$10$QX2DBrOBGLuhEmboliW66ulvQ5Hiy9GCdhsqqs1HgJVgslYhZEC6q',
+        'dfed150b0806844c2533c9c0ed70df51', 'ce5gT8lVxGdFN8RnSNAcjFUz8dMrRd7B',
         0, '0', null, 'sys', 'sys');
 
 /* 角色表 */
@@ -35,7 +56,7 @@ drop table if exists sec_role;
 create table sec_role
 (
     `id`          bigint      not null auto_increment comment '自增主键',
-    `type`        varchar(4)  not null comment '角色类型。系统角色，用户定义',
+    `type`        varchar(4)  not null comment '角色类型。系统，用户自定义',
     `code`        varchar(32) not null comment '角色编码',
     `name`        varchar(64) not null comment '角色名称',
     `order`       int         not null default 0 comment '排序',
@@ -66,6 +87,8 @@ create table sec_resource_web
     `value`       varchar(128) comment '资源code',
     `label`       varchar(128) comment '资源名称',
     `path`        varchar(128) comment '路由路径',
+    `order`       int          not null default 0 comment '排序',
+    `status`      varchar(4)   not null comment '角色状态',
     `remark`      varchar(256) comment '备注',
     `creator`     varchar(32) comment '创建人',
     `create_time` datetime     not null default current_timestamp comment '创建时间',
