@@ -18,18 +18,19 @@
 
 package cn.sliew.carp.module.security.core.controller;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.service.SecRoleService;
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
+import cn.sliew.carp.module.security.core.service.param.SecRoleAddParam;
+import cn.sliew.carp.module.security.core.service.param.SecRoleListParam;
+import cn.sliew.carp.module.security.core.service.param.SecRoleUpdateParam;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/carp/security/role")
@@ -39,18 +40,45 @@ public class SecRoleController {
     @Autowired
     private SecRoleService secRoleService;
 
-    @GetMapping
-    @ApiOperationSupport(order = 1)
-    @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
+    @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
-    public ResponseEntity list() {
-        return ResponseEntity.ok().build();
+    public PageResult<SecRoleDTO> list(@Valid SecRoleListParam param) {
+        return secRoleService.list(param);
+    }
+
+    @GetMapping
+    @Operation(summary = "查询所有", description = "查询所有")
+    public List<SecRoleDTO> listAll(@Valid SecRoleListParam param) {
+        return secRoleService.listAll(param);
+    }
+
+    @GetMapping("{id}")
+    @Operation(summary = "查询详情", description = "查询详情")
+    public SecRoleDTO get(@PathVariable("id") Long id) {
+        return secRoleService.get(id);
+    }
+
+    @PutMapping
+    @Operation(summary = "新增", description = "新增")
+    public Boolean add(@Valid SecRoleAddParam param) {
+        return secRoleService.add(param);
     }
 
     @PostMapping
-    @ApiOperationSupport(order = 2)
-    @Operation(summary = "新增", description = "新增")
-    public ResponseEntity add() {
-        return ResponseEntity.ok().build();
+    @Operation(summary = "更新", description = "更新")
+    public Boolean update(@Valid SecRoleUpdateParam param) {
+        return secRoleService.update(param);
+    }
+
+    @DeleteMapping("{id}")
+    @Operation(summary = "删除", description = "删除")
+    public Boolean delete(@PathVariable("id") Long id) {
+        return secRoleService.removeById(id);
+    }
+
+    @DeleteMapping("batch")
+    @Operation(summary = "批量删除", description = "批量删除")
+    public Boolean deleteBatch(@RequestBody List<Long> ids) {
+        return secRoleService.removeByIds(ids);
     }
 }
