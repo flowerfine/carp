@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.plugin.service.impl;
 
 import cn.sliew.carp.module.plugin.service.PluginService;
+import cn.sliew.carp.plugin.test.api.Greeting;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.PluginDescriptor;
 import org.pf4j.PluginManager;
@@ -58,9 +59,9 @@ public class PluginServiceImpl implements PluginService {
 
     @Override
     public void testExtension() {
-        List<?> extensions = pluginManager.getExtensions((String) null);
-        for (Object extension : extensions) {
-            log.info("   {}", extension);
+        List<Greeting> extensions = getExtensions(Greeting.class);
+        for (Greeting greeting : extensions) {
+            log.info("   {}", greeting.getGreeting());
         }
     }
 }
