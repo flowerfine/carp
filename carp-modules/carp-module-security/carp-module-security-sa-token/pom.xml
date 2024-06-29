@@ -28,6 +28,10 @@
     </parent>
     <artifactId>carp-module-security-sa-token</artifactId>
 
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>cn.dev33</groupId>

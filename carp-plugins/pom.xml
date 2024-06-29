@@ -29,4 +29,8 @@
     <artifactId>carp-plugins</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>carp-plugin-test</module>
+    </modules>
+
 </project>

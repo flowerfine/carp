@@ -29,6 +29,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>carp-module-plugin</module>
         <module>carp-module-security</module>
     </modules>
 </project>

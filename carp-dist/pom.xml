@@ -25,25 +25,46 @@
         <artifactId>carp</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>carp-server</artifactId>
-
-    <properties>
-        <maven.deploy.skip>false</maven.deploy.skip>
-    </properties>
+    <artifactId>carp-dist</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-framework-web</artifactId>
+            <artifactId>carp-plugin-test-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-security-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-plugin</artifactId>
+            <artifactId>carp-server</artifactId>
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>dist</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>bin</id>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <finalName>${project.parent.build.finalName}-${project.parent.version}</finalName>
+                                    <descriptors>
+                                        <descriptor>src/assembly/carp-dist.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

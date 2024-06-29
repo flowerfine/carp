@@ -22,14 +22,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-module-security</artifactId>
+        <artifactId>carp-plugins</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-security-spring</artifactId>
+    <artifactId>carp-plugin-test</artifactId>
+    <packaging>pom</packaging>
 
-    <properties>
-        <maven.deploy.skip>false</maven.deploy.skip>
-    </properties>
-
+    <modules>
+        <module>carp-plugin-test-api</module>
+        <module>carp-plugin-test-1</module>
+        <module>carp-plugin-test-2</module>
+    </modules>
 </project>

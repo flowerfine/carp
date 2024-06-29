@@ -32,5 +32,6 @@
     <modules>
         <module>carp-module-security-core</module>
         <module>carp-module-security-spring</module>
+        <module>carp-module-security-sa-token</module>
     </modules>
 </project>
