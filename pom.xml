@@ -119,7 +119,7 @@
         <sa-token.version>1.38.0</sa-token.version>
         <knife4j.version>4.4.0</knife4j.version>
         <hadoop.version>3.3.4</hadoop.version>
-        <pekko.version>1.0.3-M1</pekko.version>
+        <pekko.version>1.1.0-M1</pekko.version>
         <minio.version>8.3.8</minio.version>
         <redisson.version>3.27.2</redisson.version>
         <cola.version>4.3.2</cola.version>
@@ -130,6 +130,7 @@
         <logbook.version>3.9.0</logbook.version>
         <pf4j.version>3.12.0</pf4j.version>
         <pf4j-spring.version>0.9.0</pf4j-spring.version>
+        <kubernetes-client.version>6.9.2</kubernetes-client.version>
     </properties>
 
     <dependencyManagement>
@@ -444,6 +445,12 @@
                 <groupId>org.pf4j</groupId>
                 <artifactId>pf4j-spring</artifactId>
                 <version>${pf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>kubernetes-client</artifactId>
+                <version>${kubernetes-client.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
