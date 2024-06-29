@@ -22,11 +22,6 @@ import org.pf4j.*;
 
 public class CustomPluginManager extends DefaultPluginManager {
 
-    public CustomPluginManager() {
-        super();
-        this.runtimeMode = RuntimeMode.DEVELOPMENT;
-    }
-
     @Override
     protected PluginRepository createPluginRepository() {
         return new CompoundPluginRepository()

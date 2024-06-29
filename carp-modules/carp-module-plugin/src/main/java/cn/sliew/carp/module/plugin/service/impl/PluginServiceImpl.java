@@ -59,9 +59,11 @@ public class PluginServiceImpl implements PluginService {
 
     @Override
     public void testExtension() {
-        List<Greeting> extensions = getExtensions(Greeting.class);
-        for (Greeting greeting : extensions) {
-            log.info("   {}", greeting.getGreeting());
+        for (PluginDescriptor descriptor : listAll()) {
+            List<Greeting> extensions = getExtensions(Greeting.class, descriptor.getPluginId());
+            for (Greeting greeting : extensions) {
+                log.info("   {}", greeting.getGreeting());
+            }
         }
     }
 }
