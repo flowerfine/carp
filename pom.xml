@@ -539,6 +539,12 @@
                             <artifactId>auto-service</artifactId>
                             <version>${auto-service.version}</version>
                         </path>
+                        <!-- !!! VERY IMPORTANT -->
+                        <path>
+                            <groupId>org.pf4j</groupId>
+                            <artifactId>pf4j</artifactId>
+                            <version>${pf4j.version}</version>
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>

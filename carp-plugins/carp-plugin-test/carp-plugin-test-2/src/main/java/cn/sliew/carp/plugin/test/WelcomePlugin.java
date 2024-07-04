@@ -21,8 +21,13 @@ package cn.sliew.carp.plugin.test;
 import cn.sliew.carp.plugin.test.api.DemoPlugin;
 import cn.sliew.carp.plugin.test.api.Greeting;
 import org.pf4j.Extension;
+import org.pf4j.PluginWrapper;
 
 public class WelcomePlugin extends DemoPlugin {
+
+    public WelcomePlugin(PluginWrapper wrapper) {
+        super(wrapper);
+    }
 
     @Override
     public void start() {

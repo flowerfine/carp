@@ -19,7 +19,11 @@
 package cn.sliew.carp.plugin.test.api;
 
 import org.pf4j.Plugin;
+import org.pf4j.PluginWrapper;
 
 public abstract class DemoPlugin extends Plugin {
 
+    public DemoPlugin(PluginWrapper wrapper) {
+        super(wrapper);
+    }
 }
