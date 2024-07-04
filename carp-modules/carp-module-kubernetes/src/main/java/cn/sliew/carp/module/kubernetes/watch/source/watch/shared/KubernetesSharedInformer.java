@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source.watch.shared;
 
-import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
+import cn.sliew.carp.module.kubernetes.watch.source.watch.WatchCallbackHandler;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
 import io.fabric8.kubernetes.client.dsl.Informable;

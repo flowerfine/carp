@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source.event;
 
-import cn.sliew.scaleph.kubernetes.watch.event.source.EventSource;
+import cn.sliew.carp.module.kubernetes.watch.source.event.source.EventSource;
 import io.fabric8.kubernetes.api.model.GroupVersionKind;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.KubernetesClient;

@@ -18,13 +18,13 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source.watch;
 
-import cn.sliew.scaleph.common.exception.ScalephException;
+import cn.sliew.carp.framework.exception.SliewException;
 
 /**
  * Kubernetes too old resource version exception.
  */
 @Deprecated
-public class KubernetesTooOldResourceVersionException extends ScalephException {
+public class KubernetesTooOldResourceVersionException extends SliewException {
 
     private static final long serialVersionUID = 1L;
 

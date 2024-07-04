@@ -18,14 +18,14 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source.event.source.poll;
 
-import cn.sliew.scaleph.kubernetes.watch.event.Event;
-import cn.sliew.scaleph.kubernetes.watch.event.ResourceID;
-import cn.sliew.scaleph.kubernetes.watch.event.source.AbstractResourceEventSource;
-import cn.sliew.scaleph.kubernetes.watch.event.source.ResourceEventAware;
+import cn.sliew.carp.module.kubernetes.watch.source.event.Event;
+import cn.sliew.carp.module.kubernetes.watch.source.event.ResourceID;
+import cn.sliew.carp.module.kubernetes.watch.source.event.source.AbstractResourceEventSource;
+import cn.sliew.carp.module.kubernetes.watch.source.event.source.ResourceEventAware;
+import cn.sliew.milky.common.timewheel.HashedWheelTimer;
+import cn.sliew.milky.common.timewheel.Timeout;
+import cn.sliew.milky.common.timewheel.TimerTask;
 import io.fabric8.kubernetes.api.model.HasMetadata;
-import io.netty.util.HashedWheelTimer;
-import io.netty.util.Timeout;
-import io.netty.util.TimerTask;
 
 import java.time.Duration;
 import java.util.Map;

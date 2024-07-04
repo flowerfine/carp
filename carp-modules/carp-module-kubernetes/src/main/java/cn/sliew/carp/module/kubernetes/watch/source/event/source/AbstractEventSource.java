@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source.event.source;
 
+import cn.sliew.carp.module.kubernetes.watch.source.event.EventHandler;
 import cn.sliew.milky.common.lifecycle.AbstractLifeCycle;
-import cn.sliew.scaleph.kubernetes.watch.event.EventHandler;
 import lombok.Getter;
 import lombok.Setter;
 

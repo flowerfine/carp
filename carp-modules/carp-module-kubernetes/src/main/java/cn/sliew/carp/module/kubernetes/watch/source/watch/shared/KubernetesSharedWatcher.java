@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source.watch.shared;
 
-import cn.sliew.scaleph.kubernetes.watch.watch.WatchCallbackHandler;
+import cn.sliew.carp.module.kubernetes.watch.source.watch.WatchCallbackHandler;
 
 import java.util.concurrent.Executor;
 

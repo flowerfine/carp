@@ -27,7 +27,6 @@ import org.apache.pekko.stream.stage.GraphStageLogic;
 import org.apache.pekko.stream.stage.TimerGraphStageLogic;
 
 import java.io.IOException;
-import java.nio.file.WatchEvent;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
@@ -55,6 +54,7 @@ public class KubernetesResourceSource<T> extends GraphStage<SourceShape<T>> {
 
     private class KubernetesTimerGraphStageLogic extends TimerGraphStageLogic {
         private final Queue<T> buffer = new ArrayDeque<>();
+
         public KubernetesTimerGraphStageLogic(SourceShape<T> shape) {
             super(shape);
 
