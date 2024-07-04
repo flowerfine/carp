@@ -22,8 +22,8 @@ RELEASE：从 master checkout 一个发版分支，从发版分支创建 tag，�
 
 在 github 的 `Settings` -> `Secrets and variables` -> `Actions` -> `Repository secrets` 添加 maven 发布密钥：
 
-* SONATYPE_USER。查看 [sonatype](https://issues.sonatype.org/secure/Signup!default.jspa) 登陆用户名
-* SONATYPE_PASSWORD。查看 [sonatype](https://issues.sonatype.org/secure/Signup!default.jspa) 登陆密码
+* SONATYPE_USER。查看[sonatype](https://s01.oss.sonatype.org/#welcome) 登陆用户名，参考：[sonatype](https://issues.sonatype.org/secure/Signup!default.jspa)
+* SONATYPE_PASSWORD。查看[sonatype](https://s01.oss.sonatype.org/#welcome) 登陆密码，参考：[sonatype](https://issues.sonatype.org/secure/Signup!default.jspa)
 * GPG_PASSWORD。gpg 密码。创建 gpg 时需设置用户名、密码和邮箱。
 * GPG_SECRET。使用 `gpg --list-secret-keys` 查看 gpg 私钥，在用 `gpg -a --export-secret-keys KEY_ID` 导出密钥，添加至 github。
 
@@ -31,6 +31,7 @@ RELEASE：从 master checkout 一个发版分支，从发版分支创建 tag，�
 
 * [maven发布jar 到中央仓库](https://juejin.cn/post/7089402732649381896)
 * [发布Jar包到Maven中央仓库](https://github.com/xuxueli/xuxueli.github.io/blob/master/blog/notebook/9-%E5%85%B6%E4%BB%96/%E5%8F%91%E5%B8%83Jar%E5%8C%85%E5%88%B0Maven%E4%B8%AD%E5%A4%AE%E4%BB%93%E5%BA%93.md)
+* [Deploy to Maven Central with Github Actions: Step-by-step guide](https://www.bitshifted.co/blog/deploy-maven-central-github-actions-step-by-step-guide/)。使用 user token
 
 ```shell
 # 查看公钥
