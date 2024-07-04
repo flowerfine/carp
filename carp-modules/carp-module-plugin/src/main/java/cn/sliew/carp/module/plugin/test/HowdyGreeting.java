@@ -21,6 +21,9 @@ package cn.sliew.carp.module.plugin.test;
 import cn.sliew.carp.plugin.test.api.Greeting;
 import com.google.auto.service.AutoService;
 
+/**
+ * 不起效的，因为 {@link org.pf4j.DefaultExtensionFinder} 没有启用 ServiceLoader 相关的功能
+ */
 @AutoService(Greeting.class)
 public class HowdyGreeting implements Greeting {
 
