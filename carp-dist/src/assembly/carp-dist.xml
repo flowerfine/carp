@@ -75,7 +75,8 @@
             <directory>../carp-plugins/carp-plugin-test/carp-plugin-test-1/target
             </directory>
             <includes>
-                <include>*.jar</include>
+                <!-- !!! VERY IMPORTANT -->
+                <include>*-all.jar</include>
                 <include>dependencies/*.jar</include>
             </includes>
             <outputDirectory>plugins</outputDirectory>
@@ -84,7 +85,8 @@
         <fileSet>
             <directory>../carp-plugins/carp-plugin-test/carp-plugin-test-2/target</directory>
             <includes>
-                <include>*.jar</include>
+                <!-- !!! VERY IMPORTANT -->
+                <include>*-all.jar</include>
                 <include>dependencies/*.jar</include>
             </includes>
             <outputDirectory>plugins</outputDirectory>
