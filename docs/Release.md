@@ -25,7 +25,7 @@ RELEASE：从 master checkout 一个发版分支，从发版分支创建 tag，�
 * SONATYPE_USER。查看 [sonatype](https://issues.sonatype.org/secure/Signup!default.jspa) 登陆用户名
 * SONATYPE_PASSWORD。查看 [sonatype](https://issues.sonatype.org/secure/Signup!default.jspa) 登陆密码
 * GPG_PASSWORD。gpg 密码。创建 gpg 时需设置用户名、密码和邮箱。
-* GPG_SECRET。使用 `gpg --list-secret-keys` 查看 gpg 私钥。
+* GPG_SECRET。使用 `gpg --list-secret-keys` 查看 gpg 私钥，在用 `gpg -a --export-secret-keys KEY_ID` 导出密钥，添加至 github。
 
 参考：
 
