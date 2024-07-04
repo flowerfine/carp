@@ -19,7 +19,9 @@
 package cn.sliew.carp.module.plugin.test;
 
 import cn.sliew.carp.plugin.test.api.Greeting;
+import com.google.auto.service.AutoService;
 
+@AutoService(Greeting.class)
 public class HowdyGreeting implements Greeting {
 
     @Override
