@@ -38,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> implements SecUserService {
@@ -77,6 +78,14 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
     public SecUserDTO get(Long id) {
         SecUser entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("user not exists for id: " + id));
         return SecUserConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public Optional<SecUserDTO> getByUserName(String userName) {
+        LambdaQueryChainWrapper<SecUser> queryChainWrapper = lambdaQuery()
+                .eq(SecUser::getUserName, userName);
+        Optional<SecUser> optional = getOneOpt(queryChainWrapper);
+        return optional.map(user -> SecUserConvert.INSTANCE.toDto(user));
     }
 
     @Override
