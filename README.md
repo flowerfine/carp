@@ -21,6 +21,7 @@
   * dag
 * 插件
   * 动态插件
+* 监控告警。集成 prometheus 技术栈，接收 alertmanager 推送，在分发出去
 
 
 ## Code of Conduct
