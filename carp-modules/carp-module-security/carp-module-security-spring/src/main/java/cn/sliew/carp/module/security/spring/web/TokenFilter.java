@@ -19,22 +19,20 @@
 package cn.sliew.carp.module.security.spring.web;
 
 import cn.hutool.core.util.StrUtil;
+import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
 import cn.sliew.carp.module.security.spring.vo.OnlineUserVO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -48,7 +46,7 @@ import java.util.List;
 public class TokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedissonClient redisUtil;
     @Autowired
     private OnlineUserService onlineUserService;
 
@@ -58,13 +56,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
         OnlineUserVO onlineUser = onlineUserService.getOnlineUser(token);
         if (onlineUser != null) {
-            long time =
-                    onlineUser.getRemember() ? properties.getLongTokenValidityInSeconds() / 1000 :
-                            properties.getTokenValidityInSeconds() / 1000;
-            Authentication authentication = getAuthentication(onlineUser);
-            redisUtil.set(Constants.ONLINE_USER_KEY + onlineUser.getUserName(), onlineUser.getToken(), time);
-            redisUtil.set(Constants.ONLINE_TOKEN_KEY + onlineUser.getToken(), onlineUser, time);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+
         }
         chain.doFilter(request, response);
     }
@@ -73,17 +65,14 @@ public class TokenFilter extends OncePerRequestFilter {
      * 获取请求header中的token数据
      */
     private String resolveToken(HttpServletRequest request) {
-        String headerToken = request.getHeader(Constants.TOKEN_KEY);
-        String paramToken = request.getParameter(Constants.TOKEN_KEY);
+        String headerToken = request.getHeader(SecurityConstants.TOKEN_KEY);
+        String paramToken = request.getParameter(SecurityConstants.TOKEN_KEY);
         return StrUtil.isEmpty(headerToken) ? paramToken : headerToken;
     }
 
     /**
      * 获取redis中登录用户的权限信息
      * 后台修改角色权限时会同步更新redis中用户的权限信息为null，这里如果权限为null时则到数据库中再次加载用户的最新权限数据
-     *
-     * @param onlineUser 在线用户
-     * @return Authentication
      */
     private Authentication getAuthentication(OnlineUserVO onlineUser) {
         if (onlineUser == null) {
