@@ -21,7 +21,13 @@
   * dag
 * 插件
   * 动态插件
-* 监控告警。集成 prometheus 技术栈，接收 alertmanager 推送，在分发出去
+* 监控告警。集成 prometheus 技术栈，集成 alert-manager 和 grafana
+  * [ozhera](https://github.com/XiaoMi/ozhera)
+  * [应用实时监控服务ARMS](https://help.aliyun.com/zh/arms/)。阿里云产品
+
+* kubernetes 管理
+  * [KubePi](https://github.com/1Panel-dev/KubePi)
+
 
 
 ## Code of Conduct
