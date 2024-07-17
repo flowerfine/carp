@@ -16,26 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.spring.constant;
+package cn.sliew.carp.module.security.core.service.dto;
 
-public enum SecurityConstants {
-    ;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-    public static final String REDIS_ONLINE_TOKEN_KEY = "online-token:";
+@Data
+@Schema(name = "验证码", description = "验证码")
+public class SecCaptchaDTO {
 
-    public static final String TOKEN_KEY = "u_token";
+    @Schema(description = "验证码生成时的 uuid")
+    private String uuid;
 
-    public static final String ROLE_AUTHORITY_PREFIX = "ROLE_";
-
-    public static final Integer COOKIE_MAX_AGE = 24 * 60 * 60 * 3;
-    // 立即删除
-    public final static Integer COOKIE_MAX_AGE_CLEAR_IMMEDIATELY_REMOVE = 0;
-    public static final String COOKIE_PATH = "/";
-
-    /**
-     * 浏览器关闭时自动删除
-     */
-    public final static int COOKILE_CLEAR_BROWSER_IS_CLOSED = -1;
-
-
+    @Schema(description = "base64 编译后的验证码图片")
+    private String img;
 }

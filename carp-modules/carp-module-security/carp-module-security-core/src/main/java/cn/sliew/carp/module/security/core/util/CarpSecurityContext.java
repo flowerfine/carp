@@ -16,26 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.spring.constant;
+package cn.sliew.carp.module.security.core.util;
 
-public enum SecurityConstants {
+import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
+
+public enum CarpSecurityContext {
     ;
 
-    public static final String REDIS_ONLINE_TOKEN_KEY = "online-token:";
+    private static final ThreadLocal<OnlineUserVO> THREAD_LOCAL = new ThreadLocal<>();
 
-    public static final String TOKEN_KEY = "u_token";
+    public static void clear() {
+        THREAD_LOCAL.remove();
+    }
 
-    public static final String ROLE_AUTHORITY_PREFIX = "ROLE_";
+    public static void set(OnlineUserVO onlineUserVO) {
+        THREAD_LOCAL.set(onlineUserVO);
+    }
 
-    public static final Integer COOKIE_MAX_AGE = 24 * 60 * 60 * 3;
-    // 立即删除
-    public final static Integer COOKIE_MAX_AGE_CLEAR_IMMEDIATELY_REMOVE = 0;
-    public static final String COOKIE_PATH = "/";
-
-    /**
-     * 浏览器关闭时自动删除
-     */
-    public final static int COOKILE_CLEAR_BROWSER_IS_CLOSED = -1;
-
-
+    public static OnlineUserVO get() {
+        return THREAD_LOCAL.get();
+    }
 }

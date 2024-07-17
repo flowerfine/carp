@@ -18,99 +18,69 @@
 
 package cn.sliew.carp.module.security.spring.web;
 
-import cn.hutool.core.util.StrUtil;
+import cn.sliew.carp.framework.redis.RedisUtil;
+import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
+import cn.sliew.carp.module.security.core.service.SecUserService;
+import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
+import cn.sliew.carp.module.security.core.util.CarpSecurityContext;
+import cn.sliew.carp.module.security.spring.authentication.CarpUserDetail;
 import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
-import cn.sliew.carp.module.security.spring.vo.OnlineUserVO;
+import cn.sliew.carp.module.security.spring.util.SecurityUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
-/**
- * token 过滤器
- */
 @Component
 public class TokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private RedissonClient redisUtil;
+    private RedisUtil redisUtil;
     @Autowired
-    private OnlineUserService onlineUserService;
+    private SecUserService secUserService;
+    @Autowired
+    private SecAuthenticationService secAuthenticationService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        String token = resolveToken(request);
+        String token = SecurityUtil.resolveToken(request);
 
-        OnlineUserVO onlineUser = onlineUserService.getOnlineUser(token);
-        if (onlineUser != null) {
-
+        Long userId = (Long) redisUtil.get(SecurityConstants.REDIS_ONLINE_TOKEN_KEY + token);
+        if (userId != null) {
+            OnlineUserVO onlineUser = secAuthenticationService.getOnlineUser(userId);
+            onlineUser.setToken(token);
+            if (onlineUser != null) {
+                // 打通 spring security 的 authen 机制
+                Authentication authentication = getAuthentication(onlineUser);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // 打通 carp 自己的
+                CarpSecurityContext.set(onlineUser);
+            }
         }
         chain.doFilter(request, response);
+        CarpSecurityContext.clear();
     }
 
-    /**
-     * 获取请求header中的token数据
-     */
-    private String resolveToken(HttpServletRequest request) {
-        String headerToken = request.getHeader(SecurityConstants.TOKEN_KEY);
-        String paramToken = request.getParameter(SecurityConstants.TOKEN_KEY);
-        return StrUtil.isEmpty(headerToken) ? paramToken : headerToken;
-    }
-
-    /**
-     * 获取redis中登录用户的权限信息
-     * 后台修改角色权限时会同步更新redis中用户的权限信息为null，这里如果权限为null时则到数据库中再次加载用户的最新权限数据
-     */
     private Authentication getAuthentication(OnlineUserVO onlineUser) {
         if (onlineUser == null) {
             return null;
         }
-        if (onlineUser.getPrivileges() == null) {
-            //从数据库中再次加载用户权限 放入缓存
-            OnlineUserVO user = onlineUserService.getAllPrivilegeByToken(onlineUser.getToken());
-            List<String> roleList = new ArrayList<>();
-            List<String> privilegeList = new ArrayList<>();
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            for (String p : user.getPrivileges()) {
-                authorities.add(new SimpleGrantedAuthority(p));
-                privilegeList.add(p.toLowerCase());
-            }
-            for (String r : user.getRoles()) {
-                authorities.add(new SimpleGrantedAuthority(r));
-                roleList.add(r.toLowerCase());
-            }
-            onlineUser.setRoles(roleList);
-            onlineUser.setPrivileges(privilegeList);
-            // fixme User != UserDetailInfo
-            User principal = new User(onlineUser.getUserName(), "", authorities);
-            return new UsernamePasswordAuthenticationToken(principal, onlineUser.getToken(),
-                    authorities);
-        } else {
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            List<String> privileges = onlineUser.getPrivileges();
-            List<String> roles = onlineUser.getRoles();
-            for (String privilege : privileges) {
-                authorities.add(new SimpleGrantedAuthority(privilege));
-            }
-            for (String role : roles) {
-                authorities.add(new SimpleGrantedAuthority(role));
-            }
-            User principal = new User(onlineUser.getUserName(), "", authorities);
-            return new UsernamePasswordAuthenticationToken(principal, onlineUser.getToken(),
-                    authorities);
-        }
+        CarpUserDetail principal = new CarpUserDetail();
+        principal.setUser(secUserService.get(onlineUser.getUserId()));
+        principal.setRoles(onlineUser.getRoles());
+        principal.setResourceWebs(onlineUser.getResourceWebs());
+        // todo 增加 authority 转换
+        principal.setAuthorities(Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(principal, onlineUser.getToken(),
+                principal.getAuthorities());
     }
 }

@@ -18,7 +18,16 @@
 
 package cn.sliew.carp.module.security.core.service;
 
+import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
+import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 public interface SecAuthenticationService {
 
+    OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response);
 
+    boolean logout(HttpServletRequest request, HttpServletResponse response);
+
+    OnlineUserVO getOnlineUser(Long userId);
 }

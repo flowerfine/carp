@@ -16,22 +16,28 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.spring.web;
+package cn.sliew.carp.module.security.core.service.param.authenticate;
 
-import org.springframework.stereotype.Component;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 
-import java.util.UUID;
+@Data
+public class LoginParam {
 
-/**
- * 使用jwt或者uuid等规则生成用户的token
- */
-@Component
-public class TokenProvider {
+    @NotBlank
+    private String uuid;
 
-    /**
-     * 使用uuid作为token
-     */
-    public String createToken() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
+    @NotBlank
+    private String authCode;
+
+    @NotBlank
+    @Pattern(regexp = "\\w+$")
+    @Schema(description = "用户名")
+    private String userName;
+
+    @NotBlank
+    @Schema(description = "密码")
+    private String password;
 }
