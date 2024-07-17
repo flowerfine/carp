@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-security-core</artifactId>
+            <artifactId>carp-module-security-spring</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
