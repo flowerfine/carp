@@ -62,13 +62,13 @@ public class SecResourceWebController {
     @PutMapping
     @ApiOperationSupport(order = 4)
     @Operation(summary = "新增", description = "新增")
-    public Boolean add(@Valid SecResourceWebAddParam param) {
+    public Boolean add(@Valid @RequestBody SecResourceWebAddParam param) {
         return secResourceWebService.add(param);
     }
 
     @PostMapping
     @Operation(summary = "更新", description = "更新")
-    public Boolean update(@Valid SecResourceWebUpdateParam param) {
+    public Boolean update(@Valid @RequestBody SecResourceWebUpdateParam param) {
         return secResourceWebService.update(param);
     }
 

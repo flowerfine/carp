@@ -60,13 +60,13 @@ public class SecUserController {
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
-    public Boolean add(@Valid SecUserAddParam param) {
+    public Boolean add(@Valid @RequestBody SecUserAddParam param) {
         return secUserService.add(param);
     }
 
     @PostMapping
     @Operation(summary = "更新", description = "更新")
-    public Boolean update(@Valid SecUserUpdateParam param) {
+    public Boolean update(@Valid @RequestBody SecUserUpdateParam param) {
         return secUserService.update(param);
     }
 

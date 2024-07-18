@@ -25,11 +25,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MongoOpenAPIConfig {
 
-//    @Bean
-//    public GroupedOpenApi carpSecurityModuleOpenApi() {
-//        return GroupedOpenApi.builder().group("Mongo模块")
-//                .pathsToMatch("/api/carp/example/mongo/**")
-//                .packagesToScan("cn.sliew.carp.example.mongo").build();
-//    }
+    @Bean
+    public GroupedOpenApi carpSecurityModuleOpenApi() {
+        return GroupedOpenApi.builder().group("Mongo模块")
+                .pathsToMatch("/api/carp/example/mongo/**")
+                .packagesToScan("cn.sliew.carp.example.mongo").build();
+    }
 
 }

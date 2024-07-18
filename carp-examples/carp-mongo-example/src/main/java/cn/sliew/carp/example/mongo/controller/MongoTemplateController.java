@@ -24,9 +24,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.core.query.Update.update;
 
 @RestController
 @RequestMapping("/api/carp/example/mongo/template")
@@ -38,8 +40,22 @@ public class MongoTemplateController {
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
-    public Boolean add(@Valid Person param) {
+    public Boolean add(@Valid @RequestBody Person param) {
         mongoOperations.insert(param);
+        return true;
+    }
+
+    @PostMapping
+    @Operation(summary = "更新", description = "更新")
+    public Boolean updatePersion(@Valid @RequestBody Person param) {
+        mongoOperations.updateFirst(query(where("id").is(param.getId())), update("age", param.getAge()), Person.class);
+        return true;
+    }
+
+    @DeleteMapping("{id}")
+    @Operation(summary = "删除", description = "删除")
+    public Boolean delete(@PathVariable("id") String id) {
+        mongoOperations.remove(query(where("id").is(id)), Person.class);
         return true;
     }
 }

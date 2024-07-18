@@ -60,13 +60,13 @@ public class SecRoleController {
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
-    public Boolean add(@Valid SecRoleAddParam param) {
+    public Boolean add(@Valid @RequestBody SecRoleAddParam param) {
         return secRoleService.add(param);
     }
 
     @PostMapping
     @Operation(summary = "更新", description = "更新")
-    public Boolean update(@Valid SecRoleUpdateParam param) {
+    public Boolean update(@Valid @RequestBody SecRoleUpdateParam param) {
         return secRoleService.update(param);
     }
 
