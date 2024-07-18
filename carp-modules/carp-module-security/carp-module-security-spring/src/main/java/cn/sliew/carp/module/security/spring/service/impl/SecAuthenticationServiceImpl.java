@@ -64,9 +64,9 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
 
     @Override
     public OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response) {
-//        if (secCaptchaService.verityCaptcha(param.getUuid(), param.getAuthCode()) == false) {
-//            throw new SliewException(ResponseCodeEnum.ERROR_CUSTOM.getCode(), I18nUtil.get("response.error.authCode"));
-//        }
+        if (secCaptchaService.verityCaptcha(param.getUuid(), param.getAuthCode()) == false) {
+            throw new SliewException(ResponseCodeEnum.ERROR_CUSTOM.getCode(), I18nUtil.get("response.error.authCode"));
+        }
         try {
             authenticateForm(param);
 

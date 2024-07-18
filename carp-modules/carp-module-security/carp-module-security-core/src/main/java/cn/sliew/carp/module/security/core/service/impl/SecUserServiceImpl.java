@@ -32,7 +32,6 @@ import cn.sliew.carp.module.security.core.service.param.SecUserUpdateParam;
 import cn.sliew.carp.module.security.core.util.PasswordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -48,7 +47,7 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
     @Override
     public PageResult<SecUserDTO> list(SecUserListParam param) {
         Page<SecUser> page = new Page<>(param.getCurrent(), param.getPageSize());
-        LambdaQueryChainWrapper<SecUser> queryChainWrapper = lambdaQuery()
+        LambdaQueryWrapper<SecUser> queryChainWrapper = Wrappers.lambdaQuery(SecUser.class)
                 .like(StringUtils.hasText(param.getUserName()), SecUser::getUserName, param.getUserName())
                 .like(StringUtils.hasText(param.getNickName()), SecUser::getNickName, param.getNickName())
                 .eq(StringUtils.hasText(param.getEmail()), SecUser::getEmail, param.getEmail())
@@ -64,7 +63,7 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
 
     @Override
     public List<SecUserDTO> listAll(SecUserListParam param) {
-        LambdaQueryChainWrapper<SecUser> queryChainWrapper = lambdaQuery()
+        LambdaQueryWrapper<SecUser> queryChainWrapper = Wrappers.lambdaQuery(SecUser.class)
                 .like(StringUtils.hasText(param.getUserName()), SecUser::getUserName, param.getUserName())
                 .like(StringUtils.hasText(param.getNickName()), SecUser::getNickName, param.getNickName())
                 .eq(StringUtils.hasText(param.getEmail()), SecUser::getEmail, param.getEmail())

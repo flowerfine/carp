@@ -25,6 +25,7 @@ import cn.sliew.carp.module.security.core.service.param.SecUserAddParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserUpdateParam;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class SecUserController {
     @Autowired
     private SecUserService secUserService;
 
+    @SecurityRequirement(name = "u_token")
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
     public PageResult<SecUserDTO> list(@Valid SecUserListParam param) {
