@@ -30,7 +30,8 @@ import cn.sliew.carp.module.security.core.service.param.SecUserAddParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserUpdateParam;
 import cn.sliew.carp.module.security.core.util.PasswordUtil;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -38,6 +39,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> implements SecUserService {
@@ -45,7 +47,7 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
     @Override
     public PageResult<SecUserDTO> list(SecUserListParam param) {
         Page<SecUser> page = new Page<>(param.getCurrent(), param.getPageSize());
-        LambdaQueryChainWrapper<SecUser> queryChainWrapper = lambdaQuery()
+        LambdaQueryWrapper<SecUser> queryChainWrapper = Wrappers.lambdaQuery(SecUser.class)
                 .like(StringUtils.hasText(param.getUserName()), SecUser::getUserName, param.getUserName())
                 .like(StringUtils.hasText(param.getNickName()), SecUser::getNickName, param.getNickName())
                 .eq(StringUtils.hasText(param.getEmail()), SecUser::getEmail, param.getEmail())
@@ -61,7 +63,7 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
 
     @Override
     public List<SecUserDTO> listAll(SecUserListParam param) {
-        LambdaQueryChainWrapper<SecUser> queryChainWrapper = lambdaQuery()
+        LambdaQueryWrapper<SecUser> queryChainWrapper = Wrappers.lambdaQuery(SecUser.class)
                 .like(StringUtils.hasText(param.getUserName()), SecUser::getUserName, param.getUserName())
                 .like(StringUtils.hasText(param.getNickName()), SecUser::getNickName, param.getNickName())
                 .eq(StringUtils.hasText(param.getEmail()), SecUser::getEmail, param.getEmail())
@@ -77,6 +79,16 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
     public SecUserDTO get(Long id) {
         SecUser entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("user not exists for id: " + id));
         return SecUserConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public Optional<SecUserDTO> getByUserName(String userName) {
+        // fixme LambdaQueryChainWrapper 不支持 getOne
+        LambdaQueryWrapper<SecUser> queryChainWrapper = Wrappers.lambdaQuery(SecUser.class)
+                .eq(SecUser::getUserName, userName);
+
+        Optional<SecUser> optional = getOneOpt(queryChainWrapper);
+        return optional.map(user -> SecUserConvert.INSTANCE.toDto(user));
     }
 
     @Override

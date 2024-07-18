@@ -53,6 +53,10 @@ public class SecUserDTO extends BaseDTO {
     @Schema(description = "密码")
     private String password;
 
+    @JsonIgnore
+    @Schema(description = "密码 salt 值")
+    private String salt;
+
     @Schema(description = "排序")
     private Integer order;
 

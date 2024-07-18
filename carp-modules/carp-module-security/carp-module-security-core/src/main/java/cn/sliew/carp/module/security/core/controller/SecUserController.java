@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.security.core.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.core.service.param.SecUserAddParam;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@ApiResponseWrapper
 @RequestMapping("/api/carp/security/user")
 @Tag(name = "权限模块-用户管理")
 public class SecUserController {
@@ -60,13 +62,13 @@ public class SecUserController {
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
-    public Boolean add(@Valid SecUserAddParam param) {
+    public Boolean add(@Valid @RequestBody SecUserAddParam param) {
         return secUserService.add(param);
     }
 
     @PostMapping
     @Operation(summary = "更新", description = "更新")
-    public Boolean update(@Valid SecUserUpdateParam param) {
+    public Boolean update(@Valid @RequestBody SecUserUpdateParam param) {
         return secUserService.update(param);
     }
 

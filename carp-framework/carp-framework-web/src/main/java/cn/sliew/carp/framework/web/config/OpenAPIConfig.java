@@ -27,7 +27,6 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
 
 @Configuration
 public class OpenAPIConfig {
@@ -61,18 +60,17 @@ public class OpenAPIConfig {
 
     private SecurityRequirement securityRequirement() {
         return new SecurityRequirement()
-                .addList(HttpHeaders.AUTHORIZATION);
+                .addList("u_token");
     }
 
     private Components components() {
         return new Components()
-                .addSecuritySchemes(HttpHeaders.AUTHORIZATION, securityScheme());
+                .addSecuritySchemes("u_token", securityScheme());
     }
 
     private SecurityScheme securityScheme() {
         return new SecurityScheme()
-                .name(HttpHeaders.AUTHORIZATION)
-                .type(SecurityScheme.Type.HTTP)
-                .scheme("bearer");
+                .name("u_token")
+                .type(SecurityScheme.Type.HTTP);
     }
 }

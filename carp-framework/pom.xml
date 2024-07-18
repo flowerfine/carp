@@ -33,6 +33,9 @@
         <module>carp-framework-web</module>
         <module>carp-framework-mybatis</module>
         <module>carp-framework-exception</module>
+        <module>carp-framework-metrics</module>
+        <module>carp-framework-mongo</module>
+        <module>carp-framework-redis</module>
         <module>carp-framework-common</module>
     </modules>
 

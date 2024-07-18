@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SecUserService extends IService<SecUser> {
 
@@ -36,6 +37,8 @@ public interface SecUserService extends IService<SecUser> {
     List<SecUserDTO> listAll(SecUserListParam param);
 
     SecUserDTO get(Long id);
+
+    Optional<SecUserDTO> getByUserName(String userName);
 
     boolean add(SecUserAddParam param);
 

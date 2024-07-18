@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.security.core.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.security.core.service.SecResourceWebService;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
 import cn.sliew.carp.module.security.core.service.param.SecResourceWebAddParam;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@ApiResponseWrapper
 @RequestMapping("/api/carp/security/resource/web")
 @Tag(name = "权限模块-资源-WEB管理")
 public class SecResourceWebController {
@@ -62,13 +64,13 @@ public class SecResourceWebController {
     @PutMapping
     @ApiOperationSupport(order = 4)
     @Operation(summary = "新增", description = "新增")
-    public Boolean add(@Valid SecResourceWebAddParam param) {
+    public Boolean add(@Valid @RequestBody SecResourceWebAddParam param) {
         return secResourceWebService.add(param);
     }
 
     @PostMapping
     @Operation(summary = "更新", description = "更新")
-    public Boolean update(@Valid SecResourceWebUpdateParam param) {
+    public Boolean update(@Valid @RequestBody SecResourceWebUpdateParam param) {
         return secResourceWebService.update(param);
     }
 

@@ -35,6 +35,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-framework-mybatis</artifactId>
         </dependency>
         <dependency>

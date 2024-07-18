@@ -29,7 +29,8 @@ import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.param.SecRoleAddParam;
 import cn.sliew.carp.module.security.core.service.param.SecRoleListParam;
 import cn.sliew.carp.module.security.core.service.param.SecRoleUpdateParam;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class SecRoleServiceImpl extends ServiceImpl<SecRoleMapper, SecRole> impl
     @Override
     public PageResult<SecRoleDTO> list(SecRoleListParam param) {
         Page<SecRole> page = new Page<>(param.getCurrent(), param.getPageSize());
-        LambdaQueryChainWrapper<SecRole> queryChainWrapper = lambdaQuery()
+        LambdaQueryWrapper<SecRole> queryChainWrapper = Wrappers.lambdaQuery(SecRole.class)
                 .like(StringUtils.hasText(param.getName()), SecRole::getName, param.getName())
                 .eq(param.getType() != null, SecRole::getType, param.getType())
                 .eq(param.getStatus() != null, SecRole::getStatus, param.getStatus())
@@ -56,7 +57,7 @@ public class SecRoleServiceImpl extends ServiceImpl<SecRoleMapper, SecRole> impl
 
     @Override
     public List<SecRoleDTO> listAll(SecRoleListParam param) {
-        LambdaQueryChainWrapper<SecRole> queryChainWrapper = lambdaQuery()
+        LambdaQueryWrapper<SecRole> queryChainWrapper = Wrappers.lambdaQuery(SecRole.class)
                 .like(StringUtils.hasText(param.getName()), SecRole::getName, param.getName())
                 .eq(param.getType() != null, SecRole::getType, param.getType())
                 .eq(param.getStatus() != null, SecRole::getStatus, param.getStatus())
