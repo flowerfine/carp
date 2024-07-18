@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.security.spring.web;
 
-import cn.sliew.carp.framework.redis.RedisUtil;
+import cn.sliew.carp.framework.redis.RedissonUtil;
 import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
 import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
@@ -41,10 +41,10 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Component
-public class TokenFilter extends OncePerRequestFilter {
+public class CarpTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedissonUtil redisUtil;
     @Autowired
     private SecUserService secUserService;
     @Autowired

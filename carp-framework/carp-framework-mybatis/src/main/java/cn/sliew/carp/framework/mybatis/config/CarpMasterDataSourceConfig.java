@@ -49,7 +49,7 @@ public class CarpMasterDataSourceConfig {
 
     @Primary
     @Bean(DataSourceConstants.MASTER_DATA_SOURCE_FACTORY)
-    @ConfigurationProperties(prefix = "spring.datasource.carp.master")
+    @ConfigurationProperties(prefix = "spring.datasource.carp")
     public DataSource carpMasterDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class)
                 .build();

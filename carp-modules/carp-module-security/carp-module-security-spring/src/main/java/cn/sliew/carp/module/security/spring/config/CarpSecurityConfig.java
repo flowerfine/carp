@@ -54,10 +54,10 @@ import java.util.Set;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfig {
+public class CarpSecurityConfig {
 
     @Autowired
-    private TokenConfigurer tokenConfigurer;
+    private CarpTokenConfigurer carpTokenConfigurer;
     @Autowired
     private CarpAuthenticationEntryPoint carpAuthenticationEntryPoint;
     @Autowired
@@ -74,7 +74,7 @@ public class SecurityConfig {
         // fixme 如果要实现前后端分离，使用 json 获取登陆信息，需要自定义拦截器
         http.formLogin(this::formLogin);
         // u_token 认证
-        http.apply(tokenConfigurer);
+        http.apply(carpTokenConfigurer);
         // 请求权限配置
         http.authorizeHttpRequests(this::authorizeRequests);
         // session

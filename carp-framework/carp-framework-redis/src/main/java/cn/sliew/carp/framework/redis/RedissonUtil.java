@@ -16,32 +16,33 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.spring.config;
+package cn.sliew.carp.framework.redis;
 
-import cn.sliew.carp.module.security.spring.web.TokenFilter;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.SecurityConfigurer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
-/**
- * 配置token过滤器在用户密码过滤器之前
- */
+import java.time.Duration;
+
 @Component
-public class TokenConfigurer implements SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity> {
+public class RedissonUtil {
 
     @Autowired
-    private TokenFilter tokenFilter;
+    private RedissonClient client;
 
-    @Override
-    public void init(HttpSecurity builder) throws Exception {
-
+    public void set(String key, Object value, Duration expiration) {
+        RBucket bucket = client.getBucket(key);
+        bucket.set(value, expiration);
     }
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+    public Object get(String key) {
+        RBucket bucket = client.getBucket(key);
+        return bucket.get();
+    }
+
+    public Object remove(String key) {
+        RBucket bucket = client.getBucket(key);
+        return bucket.getAndDelete();
     }
 }

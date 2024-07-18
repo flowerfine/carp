@@ -16,33 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.redis;
+package cn.sliew.carp.module.security.spring.config;
 
-import org.redisson.api.RBucket;
-import org.redisson.api.RedissonClient;
+import cn.sliew.carp.module.security.spring.web.CarpTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.SecurityConfigurer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-
+/**
+ * 配置token过滤器在用户密码过滤器之前
+ */
 @Component
-public class RedisUtil {
+public class CarpTokenConfigurer implements SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity> {
 
     @Autowired
-    private RedissonClient client;
+    private CarpTokenFilter carpTokenFilter;
 
-    public void set(String key, Object value, Duration expiration) {
-        RBucket bucket = client.getBucket(key);
-        bucket.set(value, expiration);
+    @Override
+    public void init(HttpSecurity builder) throws Exception {
+
     }
 
-    public Object get(String key) {
-        RBucket bucket = client.getBucket(key);
-        return bucket.get();
-    }
-
-    public Object remove(String key) {
-        RBucket bucket = client.getBucket(key);
-        return bucket.getAndDelete();
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(carpTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

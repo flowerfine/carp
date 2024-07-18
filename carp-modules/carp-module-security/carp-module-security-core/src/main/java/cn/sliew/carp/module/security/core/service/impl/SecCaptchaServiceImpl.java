@@ -22,7 +22,7 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.util.RandomUtil;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
-import cn.sliew.carp.framework.redis.RedisUtil;
+import cn.sliew.carp.framework.redis.RedissonUtil;
 import cn.sliew.carp.module.security.core.service.SecCaptchaService;
 import cn.sliew.carp.module.security.core.service.dto.SecCaptchaDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class SecCaptchaServiceImpl implements SecCaptchaService {
     public static final String AUTH_CAPTCHA_KEY = "auth-captcha-key:";
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedissonUtil redisUtil;
 
     @Override
     public SecCaptchaDTO getCaptcha() {

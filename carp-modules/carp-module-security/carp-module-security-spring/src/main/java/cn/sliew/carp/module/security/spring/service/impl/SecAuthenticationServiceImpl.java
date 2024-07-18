@@ -21,7 +21,7 @@ package cn.sliew.carp.module.security.spring.service.impl;
 import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.exception.SliewException;
-import cn.sliew.carp.framework.redis.RedisUtil;
+import cn.sliew.carp.framework.redis.RedissonUtil;
 import cn.sliew.carp.framework.web.util.I18nUtil;
 import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
 import cn.sliew.carp.module.security.core.service.SecCaptchaService;
@@ -54,7 +54,7 @@ import java.util.Optional;
 public class SecAuthenticationServiceImpl implements SecAuthenticationService {
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedissonUtil redisUtil;
     @Autowired
     private SecUserService secUserService;
     @Autowired

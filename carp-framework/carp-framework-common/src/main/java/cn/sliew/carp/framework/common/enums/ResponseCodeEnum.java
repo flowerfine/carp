@@ -20,18 +20,14 @@ package cn.sliew.carp.framework.common.enums;
 
 import lombok.Getter;
 
-/**
- * @author gleiyu
- */
 @Getter
 public enum ResponseCodeEnum {
-    /**
-     * 操作结果枚举类
-     * 530 自定义异常
-     */
+
     SUCCESS("204", "response.success"),
+
     ERROR_NO_PRIVILEGE("403", "response.error.no.privilege"),
     ERROR_UNAUTHORIZED("401", "response.error.unauthorized"),
+
     ERROR("500", "response.error"),
     ERROR_CUSTOM("530", ""),
     ERROR_EMAIL("531", "response.error.email"),
