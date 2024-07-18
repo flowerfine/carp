@@ -24,8 +24,6 @@ import cn.sliew.carp.framework.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Schema(name = "SecResourceWeb对象", description = "资源-web")
 public class SecResourceWebDTO extends BaseDTO {
@@ -55,7 +53,4 @@ public class SecResourceWebDTO extends BaseDTO {
 
     @Schema(description = "备注")
     private String remark;
-
-    @Schema(description = "下级资源")
-    private List<SecResourceWebDTO> children;
 }

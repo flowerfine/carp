@@ -21,7 +21,6 @@ package cn.sliew.carp.module.security.core.service.dto;
 import cn.sliew.carp.framework.common.dict.security.UserStatus;
 import cn.sliew.carp.framework.common.dict.security.UserType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -54,6 +53,7 @@ public class SecUserDTO extends BaseDTO {
     @Schema(description = "密码")
     private String password;
 
+    @JsonIgnore
     @Schema(description = "密码 salt 值")
     private String salt;
 
