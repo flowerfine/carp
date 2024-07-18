@@ -22,21 +22,25 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-examples</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-mongo-example</artifactId>
 
-    <modules>
-        <module>carp-framework-web</module>
-        <module>carp-framework-mybatis</module>
-        <module>carp-framework-exception</module>
-        <module>carp-framework-metrics</module>
-        <module>carp-framework-mongo</module>
-        <module>carp-framework-redis</module>
-        <module>carp-framework-common</module>
-    </modules>
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-mongo</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

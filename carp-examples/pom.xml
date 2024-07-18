@@ -24,19 +24,16 @@
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework</artifactId>
+    <artifactId>carp-examples</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>carp-framework-web</module>
-        <module>carp-framework-mybatis</module>
-        <module>carp-framework-exception</module>
-        <module>carp-framework-metrics</module>
-        <module>carp-framework-mongo</module>
-        <module>carp-framework-redis</module>
-        <module>carp-framework-common</module>
+        <module>carp-mongo-example</module>
     </modules>
+
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
 </project>
