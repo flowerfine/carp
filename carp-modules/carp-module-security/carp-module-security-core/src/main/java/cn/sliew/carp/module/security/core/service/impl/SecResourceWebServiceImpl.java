@@ -28,7 +28,8 @@ import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
 import cn.sliew.carp.module.security.core.service.param.SecResourceWebAddParam;
 import cn.sliew.carp.module.security.core.service.param.SecResourceWebListParam;
 import cn.sliew.carp.module.security.core.service.param.SecResourceWebUpdateParam;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,7 @@ public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper,
     @Override
     public PageResult<SecResourceWebDTO> list(SecResourceWebListParam param) {
         Page<SecResourceWeb> page = new Page<>(param.getCurrent(), param.getPageSize());
-        LambdaQueryChainWrapper<SecResourceWeb> queryChainWrapper = lambdaQuery()
+        LambdaQueryWrapper<SecResourceWeb> queryChainWrapper = Wrappers.lambdaQuery(SecResourceWeb.class)
                 .eq(param.getPid() != null, SecResourceWeb::getPid, param.getPid())
                 .like(param.getLabel() != null, SecResourceWeb::getLabel, param.getLabel())
                 .orderByAsc(SecResourceWeb::getOrder, SecResourceWeb::getId);
@@ -53,7 +54,7 @@ public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper,
 
     @Override
     public List<SecResourceWebDTO> listAll(SecResourceWebListParam param) {
-        LambdaQueryChainWrapper<SecResourceWeb> queryChainWrapper = lambdaQuery()
+        LambdaQueryWrapper<SecResourceWeb> queryChainWrapper = Wrappers.lambdaQuery(SecResourceWeb.class)
                 .eq(param.getPid() != null, SecResourceWeb::getPid, param.getPid())
                 .like(param.getLabel() != null, SecResourceWeb::getLabel, param.getLabel())
                 .orderByAsc(SecResourceWeb::getOrder, SecResourceWeb::getId);
