@@ -25,6 +25,7 @@ import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.redis.RedisUtil;
 import cn.sliew.carp.module.security.core.service.SecCaptchaService;
 import cn.sliew.carp.module.security.core.service.dto.SecCaptchaDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -32,6 +33,7 @@ import org.springframework.util.StringUtils;
 import java.awt.*;
 import java.time.Duration;
 
+@Slf4j
 @Service
 public class SecCaptchaServiceImpl implements SecCaptchaService {
 
@@ -51,6 +53,7 @@ public class SecCaptchaServiceImpl implements SecCaptchaService {
         String uuid = AUTH_CAPTCHA_KEY + UUIDUtil.randomUUId();
         // 过期时间 10min
         redisUtil.set(uuid, lineCaptcha.getCode(), Duration.ofMinutes(10L));
+        log.info("验证码测试, uuid: {}, code: {}", uuid, lineCaptcha.getCode());
         SecCaptchaDTO dto = new SecCaptchaDTO();
         dto.setUuid(uuid);
         dto.setImg(lineCaptcha.getImageBase64Data());
@@ -60,6 +63,8 @@ public class SecCaptchaServiceImpl implements SecCaptchaService {
     @Override
     public boolean verityCaptcha(String uuid, String authCode) {
         String redisAuthCode = (String) redisUtil.remove(uuid);
-        return StringUtils.hasText(authCode) && redisAuthCode.equalsIgnoreCase(authCode);
+        return StringUtils.hasText(authCode)
+                && StringUtils.hasText(redisAuthCode)
+                && redisAuthCode.equalsIgnoreCase(authCode);
     }
 }

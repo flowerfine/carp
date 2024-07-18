@@ -29,7 +29,7 @@ import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
-import cn.sliew.carp.module.security.core.util.CarpSecurityContext;
+import cn.sliew.carp.module.security.spring.authentication.CarpPasswordEncoder;
 import cn.sliew.carp.module.security.spring.authentication.CarpUserDetail;
 import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
 import cn.sliew.carp.module.security.spring.util.CookieUtil;
@@ -43,10 +43,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class SecAuthenticationServiceImpl implements SecAuthenticationService {
@@ -62,9 +64,9 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
 
     @Override
     public OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response) {
-        if (secCaptchaService.verityCaptcha(param.getUuid(), param.getAuthCode()) == false) {
-            throw new SliewException(ResponseCodeEnum.ERROR_CUSTOM.getCode(), I18nUtil.get("response.error.authCode"));
-        }
+//        if (secCaptchaService.verityCaptcha(param.getUuid(), param.getAuthCode()) == false) {
+//            throw new SliewException(ResponseCodeEnum.ERROR_CUSTOM.getCode(), I18nUtil.get("response.error.authCode"));
+//        }
         try {
             authenticateForm(param);
 
@@ -90,8 +92,16 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
     }
 
     private void authenticateForm(LoginParam param) {
+        Optional<SecUserDTO> optional = secUserService.getByUserName(param.getUserName());
+        if (optional.isEmpty()) {
+            throw new UsernameNotFoundException(I18nUtil.get("response.error.login.password"));
+        }
+        // 传递密码和 salt 值
+        SecUserDTO secUserDTO = optional.get();
+        String rawPassword = param.getPassword() + CarpPasswordEncoder.SPLIT + secUserDTO.getSalt();
+
         //检查用户名密码
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(param.getUserName(), param.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(param.getUserName(), rawPassword);
         //spring security框架调用userDetailsService获取用户信息并验证，验证通过后返回一个Authentication对象，存储到线程的SecurityContext中
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);

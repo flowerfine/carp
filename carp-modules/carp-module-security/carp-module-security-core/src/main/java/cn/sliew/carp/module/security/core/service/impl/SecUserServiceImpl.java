@@ -30,6 +30,8 @@ import cn.sliew.carp.module.security.core.service.param.SecUserAddParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserUpdateParam;
 import cn.sliew.carp.module.security.core.util.PasswordUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -82,8 +84,10 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
 
     @Override
     public Optional<SecUserDTO> getByUserName(String userName) {
-        LambdaQueryChainWrapper<SecUser> queryChainWrapper = lambdaQuery()
+        // fixme LambdaQueryChainWrapper 不支持 getOne
+        LambdaQueryWrapper<SecUser> queryChainWrapper = Wrappers.lambdaQuery(SecUser.class)
                 .eq(SecUser::getUserName, userName);
+
         Optional<SecUser> optional = getOneOpt(queryChainWrapper);
         return optional.map(user -> SecUserConvert.INSTANCE.toDto(user));
     }

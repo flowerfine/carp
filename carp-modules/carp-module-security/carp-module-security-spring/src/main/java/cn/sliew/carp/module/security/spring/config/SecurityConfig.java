@@ -23,6 +23,7 @@ import cn.sliew.carp.framework.web.util.SpringContextUtil;
 import cn.sliew.carp.module.security.core.annotations.AnonymousAccess;
 import cn.sliew.carp.module.security.spring.authentication.CarpAccessDeniedHandler;
 import cn.sliew.carp.module.security.spring.authentication.CarpAuthenticationEntryPoint;
+import cn.sliew.carp.module.security.spring.authentication.CarpPasswordEncoder;
 import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -35,6 +36,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.cors.CorsConfiguration;
@@ -44,7 +46,10 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
@@ -132,6 +137,12 @@ public class SecurityConfig {
         exceptionHandling
                 .authenticationEntryPoint(carpAuthenticationEntryPoint)
                 .accessDeniedHandler(carpAccessDeniedHandler);
+    }
+
+    // 为了解耦密码存储和 spring security
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new CarpPasswordEncoder();
     }
 
     /**
