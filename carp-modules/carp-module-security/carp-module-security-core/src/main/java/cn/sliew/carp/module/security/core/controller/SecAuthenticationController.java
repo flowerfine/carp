@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.security.core.controller;
 
+import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.security.core.annotations.AnonymousAccess;
 import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
 import cn.sliew.carp.module.security.core.service.SecCaptchaService;
@@ -33,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@ApiResponseWrapper
 @RequestMapping("/api/carp/security/authentication")
 @Tag(name = "权限模块-认证管理")
 public class SecAuthenticationController {

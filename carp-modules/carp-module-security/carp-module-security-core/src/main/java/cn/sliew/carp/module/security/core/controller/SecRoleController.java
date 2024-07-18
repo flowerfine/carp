@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.security.core.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.security.core.service.SecRoleService;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.param.SecRoleAddParam;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@ApiResponseWrapper
 @RequestMapping("/api/carp/security/role")
 @Tag(name = "权限模块-角色管理")
 public class SecRoleController {
