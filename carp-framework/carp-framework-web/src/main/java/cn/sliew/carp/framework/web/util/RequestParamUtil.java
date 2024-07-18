@@ -45,9 +45,9 @@ public class RequestParamUtil {
     }
 
     private static final String IGNORE_CONTENT_TYPE = "multipart/form-data";
-    private static List<String> DEFAULT_IGNORE_PATH = Collections.emptyList();
-    private static List<String> IGNORE_PATH = Arrays.asList(
-            "/doc.html", "/swagger-resources", "/webjars/**", "/v3/api-docs", "/favicon.ico", "/ui/**/**");
+    private static List<String> DEFAULT_IGNORE_PATH = Arrays.asList(
+            "/doc.html", "/swagger-resources", "/webjars/**", "/v3/api-docs/**", "/favicon.ico", "/ui/**/**");
+    private static List<String> IGNORE_PATH = Collections.emptyList();
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 
     public static String formatRequestParams(HttpServletRequest request) {

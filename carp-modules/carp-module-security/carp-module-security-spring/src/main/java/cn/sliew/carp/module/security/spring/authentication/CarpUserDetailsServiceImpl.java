@@ -46,7 +46,7 @@ public class CarpUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private SecUserService secUserService;
-    @Autowired
+//    @Autowired
     private SecAuthorizationService secAuthorizationService;
 
     @Override
@@ -72,9 +72,10 @@ public class CarpUserDetailsServiceImpl implements UserDetailsService {
     }
 
     private List<SecRoleDTO> listAllRoles(Long userId) {
-        SecRoleListByUserParam param = new SecRoleListByUserParam();
-        param.setUserId(userId);
-        return secAuthorizationService.listAuthorizedRolesByUserId(param);
+//        SecRoleListByUserParam param = new SecRoleListByUserParam();
+//        param.setUserId(userId);
+//        return secAuthorizationService.listAuthorizedRolesByUserId(param);
+        return Collections.emptyList();
     }
 
     private List<GrantedAuthority> roles2GrantedAuthority(List<SecRoleDTO> roles) {
