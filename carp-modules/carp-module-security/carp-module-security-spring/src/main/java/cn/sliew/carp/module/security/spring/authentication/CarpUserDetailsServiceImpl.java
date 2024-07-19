@@ -19,11 +19,12 @@
 package cn.sliew.carp.module.security.spring.authentication;
 
 import cn.sliew.carp.framework.web.util.I18nUtil;
-import cn.sliew.carp.module.security.core.service.SecAuthorizationService;
+import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
 import cn.sliew.carp.module.security.core.service.SecUserService;
+import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
+import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
-import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleListByUserParam;
 import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -46,8 +48,8 @@ public class CarpUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private SecUserService secUserService;
-//    @Autowired
-    private SecAuthorizationService secAuthorizationService;
+    @Autowired
+    private SecAuthenticationService secAuthenticationService;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -61,21 +63,19 @@ public class CarpUserDetailsServiceImpl implements UserDetailsService {
         }
     }
 
-    private CarpUserDetail fillUserDetails(SecUserDTO secUserDTO) {
+    public CarpUserDetail fillUserDetails(SecUserDTO secUserDTO) {
         CarpUserDetail user = new CarpUserDetail();
+
         user.setUser(secUserDTO);
-        user.setRoles(listAllRoles(secUserDTO.getId()));
-        // todo 增加 resource-web
+        OnlineUserVO onlineUser = secAuthenticationService.getOnlineUser(secUserDTO);
 
-        user.setAuthorities(roles2GrantedAuthority(user.getRoles()));
+        user.setRoles(onlineUser.getRoles());
+        user.setResourceWebs(onlineUser.getResourceWebs());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.addAll(roles2GrantedAuthority(user.getRoles()));
+        authorities.addAll(resourceWebs2GrantedAuthority(user.getResourceWebs()));
+        user.setAuthorities(authorities);
         return user;
-    }
-
-    private List<SecRoleDTO> listAllRoles(Long userId) {
-//        SecRoleListByUserParam param = new SecRoleListByUserParam();
-//        param.setUserId(userId);
-//        return secAuthorizationService.listAuthorizedRolesByUserId(param);
-        return Collections.emptyList();
     }
 
     private List<GrantedAuthority> roles2GrantedAuthority(List<SecRoleDTO> roles) {
@@ -86,5 +86,15 @@ public class CarpUserDetailsServiceImpl implements UserDetailsService {
                 .map(role -> SecurityConstants.ROLE_AUTHORITY_PREFIX + role.getCode().toUpperCase())
                 .toArray(length -> new String[length]);
         return AuthorityUtils.createAuthorityList(roleAuthrities);
+    }
+
+    private List<GrantedAuthority> resourceWebs2GrantedAuthority(List<SecResourceWebDTO> resourceWebList) {
+        if (CollectionUtils.isEmpty(resourceWebList)) {
+            return Collections.emptyList();
+        }
+        String[] resourceWebAuthrities = resourceWebList.stream()
+                .map(SecResourceWebDTO::getValue)
+                .toArray(length -> new String[length]);
+        return AuthorityUtils.createAuthorityList(resourceWebAuthrities);
     }
 }

@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.security.core.repository.mapper;
 
 import cn.sliew.carp.framework.common.dict.security.RoleStatus;
+import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebRole;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebVO;
 import cn.sliew.carp.module.security.core.repository.entity.SecRole;
@@ -52,4 +53,9 @@ public interface SecResourceWebRoleMapper extends BaseMapper<SecResourceWebRole>
      * 查询所有 资源-web，包含角色关联信息
      */
     List<SecResourceWebVO> selectAllResourceWebWithAuthorizeStatus(@Param("roleId") Long roleId, @Param("pid") Long pid);
+
+    /**
+     * 查询角色关联的 资源-web
+     */
+    List<SecResourceWeb> selectRelatedWebResourceByRole(@Param("roleId") Long roleId);
 }

@@ -16,24 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.util;
-
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
+package cn.sliew.carp.framework.common.security;
 
 public enum CarpSecurityContext {
     ;
 
-    private static final ThreadLocal<OnlineUserVO> THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<OnlineUserInfo> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void clear() {
         THREAD_LOCAL.remove();
     }
 
-    public static void set(OnlineUserVO onlineUserVO) {
-        THREAD_LOCAL.set(onlineUserVO);
+    public static void set(OnlineUserInfo userInfo) {
+        THREAD_LOCAL.set(userInfo);
     }
 
-    public static OnlineUserVO get() {
+    public static OnlineUserInfo get() {
         return THREAD_LOCAL.get();
     }
 }

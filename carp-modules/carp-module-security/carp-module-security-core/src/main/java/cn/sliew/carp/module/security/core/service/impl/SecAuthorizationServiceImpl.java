@@ -21,6 +21,8 @@ package cn.sliew.carp.module.security.core.service.impl;
 import cn.sliew.carp.module.security.core.service.SecAuthorizationService;
 import cn.sliew.carp.module.security.core.service.SecResourceWebRoleService;
 import cn.sliew.carp.module.security.core.service.SecUserRoleService;
+import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
+import cn.sliew.carp.module.security.core.service.dto.SecResourceWebWithAuthorizeDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.core.service.param.authorize.*;
@@ -59,8 +61,13 @@ public class SecAuthorizationServiceImpl implements SecAuthorizationService {
     }
 
     @Override
-    public List listResourceWebsByRoleId(SecResourceWebListByRoleParam param) {
+    public List<SecResourceWebWithAuthorizeDTO> listResourceWebsByRoleId(SecResourceWebListByRoleParam param) {
         return secResourceWebRoleService.listResourceWebsByRoleId(param);
+    }
+
+    @Override
+    public List<SecResourceWebDTO> listAuthorizedResourceWebsByRoleId(SecResourceWebListByRoleParam param) {
+        return secResourceWebRoleService.listAuthorizedResourceWebsByRoleId(param);
     }
 
     @Override
