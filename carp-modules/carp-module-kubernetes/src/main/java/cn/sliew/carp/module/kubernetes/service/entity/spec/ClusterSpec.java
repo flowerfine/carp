@@ -16,19 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.kubernetes.service.entity.spec;
 
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
-import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
-import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
 
-public interface SecAuthenticationService {
+@Data
+public class ClusterSpec {
 
-    OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response);
-
-    boolean logout(HttpServletRequest request, HttpServletResponse response);
-
-    OnlineUserVO getOnlineUser(SecUserDTO secUserDTO);
+    private String authMode;
+    private String configContent;
 }

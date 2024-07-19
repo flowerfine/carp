@@ -16,19 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.kubernetes.controller;
 
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
-import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
-import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
+import cn.sliew.carp.module.kubernetes.service.K8sClusterService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-public interface SecAuthenticationService {
+@RestController
+@ApiResponseWrapper
+@RequestMapping("/api/carp/kubernetes/cluster")
+@Tag(name = "Kubernetes模块-集群管理")
+public class K8sClusterController {
 
-    OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response);
+    @Autowired
+    private K8sClusterService k8sClusterService;
 
-    boolean logout(HttpServletRequest request, HttpServletResponse response);
 
-    OnlineUserVO getOnlineUser(SecUserDTO secUserDTO);
 }

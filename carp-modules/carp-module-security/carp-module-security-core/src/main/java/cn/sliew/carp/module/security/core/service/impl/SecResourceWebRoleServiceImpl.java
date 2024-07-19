@@ -18,13 +18,16 @@
 
 package cn.sliew.carp.module.security.core.service.impl;
 
+import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebRole;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebVO;
 import cn.sliew.carp.module.security.core.repository.entity.SecRole;
 import cn.sliew.carp.module.security.core.repository.mapper.SecResourceWebRoleMapper;
 import cn.sliew.carp.module.security.core.service.SecResourceWebRoleService;
+import cn.sliew.carp.module.security.core.service.convert.SecResourceWebConvert;
 import cn.sliew.carp.module.security.core.service.convert.SecResourceWebWithAuthorizeConvert;
 import cn.sliew.carp.module.security.core.service.convert.SecRoleConvert;
+import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebWithAuthorizeDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.param.authorize.SecResourceWebBatchAuthorizeForRoleParam;
@@ -89,6 +92,12 @@ public class SecResourceWebRoleServiceImpl extends ServiceImpl<SecResourceWebRol
         List<SecResourceWebWithAuthorizeDTO> result = SecResourceWebWithAuthorizeConvert.INSTANCE.toDto(secResourceWebVOS);
         result.forEach(dto -> recurse(param.getRoleId(), dto));
         return result;
+    }
+
+    @Override
+    public List<SecResourceWebDTO> listAuthorizedResourceWebsByRoleId(SecResourceWebListByRoleParam param) {
+        List<SecResourceWeb> secResourceWebS = baseMapper.selectRelatedWebResourceByRole(param.getRoleId());
+        return SecResourceWebConvert.INSTANCE.toDto(secResourceWebS);
     }
 
     private void recurse(Long roleId, SecResourceWebWithAuthorizeDTO resourceWebDTO) {

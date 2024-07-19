@@ -18,12 +18,13 @@
 
 package cn.sliew.carp.module.security.spring.web;
 
+import cn.sliew.carp.framework.common.security.CarpSecurityContext;
+import cn.sliew.carp.framework.common.security.OnlineUserInfo;
 import cn.sliew.carp.framework.redis.RedissonUtil;
-import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
 import cn.sliew.carp.module.security.core.service.SecUserService;
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
-import cn.sliew.carp.module.security.core.util.CarpSecurityContext;
+import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.spring.authentication.CarpUserDetail;
+import cn.sliew.carp.module.security.spring.authentication.CarpUserDetailsServiceImpl;
 import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
 import cn.sliew.carp.module.security.spring.util.SecurityUtil;
 import jakarta.servlet.FilterChain;
@@ -38,7 +39,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Component
 public class CarpTokenFilter extends OncePerRequestFilter {
@@ -48,7 +48,7 @@ public class CarpTokenFilter extends OncePerRequestFilter {
     @Autowired
     private SecUserService secUserService;
     @Autowired
-    private SecAuthenticationService secAuthenticationService;
+    private CarpUserDetailsServiceImpl carpUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -56,31 +56,21 @@ public class CarpTokenFilter extends OncePerRequestFilter {
 
         Long userId = (Long) redisUtil.get(SecurityConstants.REDIS_ONLINE_TOKEN_KEY + token);
         if (userId != null) {
-            OnlineUserVO onlineUser = secAuthenticationService.getOnlineUser(userId);
-            onlineUser.setToken(token);
-            if (onlineUser != null) {
-                // 打通 spring security 的 authen 机制
-                Authentication authentication = getAuthentication(onlineUser);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                // 打通 carp 自己的
-                CarpSecurityContext.set(onlineUser);
-            }
+            SecUserDTO secUserDTO = secUserService.get(userId);
+            CarpUserDetail carpUserDetail = carpUserDetailsService.fillUserDetails(secUserDTO);
+            // 打通 spring security 的 authenticate 机制
+            Authentication authentication = new UsernamePasswordAuthenticationToken(carpUserDetail, token, carpUserDetail.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // 打通 carp 自己的
+            OnlineUserInfo userInfo = new OnlineUserInfo();
+            userInfo.setUserId(userId);
+            userInfo.setType(secUserDTO.getType());
+            userInfo.setUserName(secUserDTO.getUserName());
+            userInfo.setNickName(secUserDTO.getNickName());
+            userInfo.setStatus(secUserDTO.getStatus());
+            CarpSecurityContext.set(userInfo);
         }
         chain.doFilter(request, response);
         CarpSecurityContext.clear();
-    }
-
-    private Authentication getAuthentication(OnlineUserVO onlineUser) {
-        if (onlineUser == null) {
-            return null;
-        }
-        CarpUserDetail principal = new CarpUserDetail();
-        principal.setUser(secUserService.get(onlineUser.getUserId()));
-        principal.setRoles(onlineUser.getRoles());
-        principal.setResourceWebs(onlineUser.getResourceWebs());
-        // todo 增加 authority 转换
-        principal.setAuthorities(Collections.emptyList());
-        return new UsernamePasswordAuthenticationToken(principal, onlineUser.getToken(),
-                principal.getAuthorities());
     }
 }

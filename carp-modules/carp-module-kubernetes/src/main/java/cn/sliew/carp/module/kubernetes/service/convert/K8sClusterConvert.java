@@ -16,19 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.kubernetes.service.convert;
 
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
-import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
-import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.module.kubernetes.repository.entity.K8sCluster;
+import cn.sliew.carp.module.kubernetes.service.entity.Cluster;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-public interface SecAuthenticationService {
+@Mapper
+public interface K8sClusterConvert extends BaseConvert<K8sCluster, Cluster> {
+    K8sClusterConvert INSTANCE = Mappers.getMapper(K8sClusterConvert.class);
 
-    OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response);
+    @Override
+    K8sCluster toDo(Cluster cluster);
 
-    boolean logout(HttpServletRequest request, HttpServletResponse response);
-
-    OnlineUserVO getOnlineUser(SecUserDTO secUserDTO);
+    @Override
+    Cluster toDto(K8sCluster k8sCluster);
 }

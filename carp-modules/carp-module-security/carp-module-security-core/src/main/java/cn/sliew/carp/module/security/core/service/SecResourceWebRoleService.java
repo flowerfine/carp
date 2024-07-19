@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.security.core.service;
 
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebRole;
+import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebWithAuthorizeDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.param.authorize.SecResourceWebBatchAuthorizeForRoleParam;
@@ -64,6 +65,11 @@ public interface SecResourceWebRoleService extends IService<SecResourceWebRole> 
      * 查询所有 资源-web 和指定角色绑定状态
      */
     List<SecResourceWebWithAuthorizeDTO> listResourceWebsByRoleId(SecResourceWebListByRoleParam param);
+
+    /**
+     * 查询角色绑定 资源-web 列表
+     */
+    List<SecResourceWebDTO> listAuthorizedResourceWebsByRoleId(SecResourceWebListByRoleParam param);
 
     /**
      * 批量为角色绑定 资源-web

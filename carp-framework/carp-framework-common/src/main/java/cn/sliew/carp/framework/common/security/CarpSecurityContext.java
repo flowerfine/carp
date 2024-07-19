@@ -16,19 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.framework.common.security;
 
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
-import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
-import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+public enum CarpSecurityContext {
+    ;
 
-public interface SecAuthenticationService {
+    private static final ThreadLocal<OnlineUserInfo> THREAD_LOCAL = new ThreadLocal<>();
 
-    OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response);
+    public static void clear() {
+        THREAD_LOCAL.remove();
+    }
 
-    boolean logout(HttpServletRequest request, HttpServletResponse response);
+    public static void set(OnlineUserInfo userInfo) {
+        THREAD_LOCAL.set(userInfo);
+    }
 
-    OnlineUserVO getOnlineUser(SecUserDTO secUserDTO);
+    public static OnlineUserInfo get() {
+        return THREAD_LOCAL.get();
+    }
 }

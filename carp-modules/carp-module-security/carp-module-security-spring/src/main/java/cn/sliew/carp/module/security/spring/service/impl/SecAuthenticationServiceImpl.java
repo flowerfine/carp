@@ -24,11 +24,16 @@ import cn.sliew.carp.framework.exception.SliewException;
 import cn.sliew.carp.framework.redis.RedissonUtil;
 import cn.sliew.carp.framework.web.util.I18nUtil;
 import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
+import cn.sliew.carp.module.security.core.service.SecAuthorizationService;
 import cn.sliew.carp.module.security.core.service.SecCaptchaService;
 import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
+import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
+import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
+import cn.sliew.carp.module.security.core.service.param.authorize.SecResourceWebListByRoleParam;
+import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleListByUserParam;
 import cn.sliew.carp.module.security.spring.authentication.CarpPasswordEncoder;
 import cn.sliew.carp.module.security.spring.authentication.CarpUserDetail;
 import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
@@ -47,8 +52,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SecAuthenticationServiceImpl implements SecAuthenticationService {
@@ -57,6 +64,8 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
     private RedissonUtil redisUtil;
     @Autowired
     private SecUserService secUserService;
+    @Autowired
+    private SecAuthorizationService secAuthorizationService;
     @Autowired
     private SecCaptchaService secCaptchaService;
     @Autowired
@@ -116,8 +125,7 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
     }
 
     @Override
-    public OnlineUserVO getOnlineUser(Long userId) {
-        SecUserDTO secUserDTO = secUserService.get(userId);
+    public OnlineUserVO getOnlineUser(SecUserDTO secUserDTO) {
         OnlineUserVO onlineUserVO = new OnlineUserVO();
         onlineUserVO.setUserId(secUserDTO.getId());
         onlineUserVO.setUserName(secUserDTO.getUserName());
@@ -126,9 +134,17 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
         onlineUserVO.setStatus(secUserDTO.getStatus().getValue());
 
         // 查询 roles
+        SecRoleListByUserParam userParam = new SecRoleListByUserParam();
+        userParam.setUserId(secUserDTO.getId());
+        onlineUserVO.setRoles(secAuthorizationService.listAuthorizedRolesByUserId(userParam));
         // 查询权限
-        onlineUserVO.setRoles(Collections.emptyList());
-        onlineUserVO.setResourceWebs(Collections.emptyList());
+        Set<SecResourceWebDTO> resourceWebs = new HashSet<>();
+        for (SecRoleDTO secRoleDTO : onlineUserVO.getRoles()) {
+            SecResourceWebListByRoleParam roleParam = new SecResourceWebListByRoleParam();
+            roleParam.setRoleId(secRoleDTO.getId());
+            resourceWebs.addAll(secAuthorizationService.listAuthorizedResourceWebsByRoleId(roleParam));
+        }
+        onlineUserVO.setResourceWebs(new ArrayList<>(resourceWebs));
         return onlineUserVO;
     }
 }

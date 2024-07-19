@@ -16,24 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.util;
+package cn.sliew.carp.module.kubernetes.repository.mapper;
 
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
+import cn.sliew.carp.module.kubernetes.repository.entity.K8sCluster;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-public enum CarpSecurityContext {
-    ;
+@Repository
+public interface K8sClusterMapper extends BaseMapper<K8sCluster> {
 
-    private static final ThreadLocal<OnlineUserVO> THREAD_LOCAL = new ThreadLocal<>();
-
-    public static void clear() {
-        THREAD_LOCAL.remove();
-    }
-
-    public static void set(OnlineUserVO onlineUserVO) {
-        THREAD_LOCAL.set(onlineUserVO);
-    }
-
-    public static OnlineUserVO get() {
-        return THREAD_LOCAL.get();
-    }
 }

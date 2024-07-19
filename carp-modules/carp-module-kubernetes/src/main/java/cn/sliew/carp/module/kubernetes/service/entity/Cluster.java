@@ -16,19 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.kubernetes.service.entity;
 
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
-import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
-import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import cn.sliew.carp.module.kubernetes.service.entity.spec.ClusterSpec;
+import cn.sliew.carp.module.kubernetes.service.entity.status.ClusterStatus;
+import io.fabric8.kubernetes.client.CustomResource;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Kind;
+import io.fabric8.kubernetes.model.annotation.Version;
 
-public interface SecAuthenticationService {
+@Kind("Cluster")
+@Version("v1")
+@Group("cn.sliew.carp.kubernetes")
+public class Cluster extends CustomResource<ClusterSpec, ClusterStatus> {
 
-    OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response);
-
-    boolean logout(HttpServletRequest request, HttpServletResponse response);
-
-    OnlineUserVO getOnlineUser(SecUserDTO secUserDTO);
 }

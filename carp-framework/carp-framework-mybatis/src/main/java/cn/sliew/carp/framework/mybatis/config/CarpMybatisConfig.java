@@ -18,6 +18,8 @@
 
 package cn.sliew.carp.framework.mybatis.config;
 
+import cn.sliew.carp.framework.common.security.CarpSecurityContext;
+import cn.sliew.carp.framework.common.security.OnlineUserInfo;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -62,6 +64,10 @@ public class CarpMybatisConfig {
         }
 
         private String getUserNameOrDefault() {
+            OnlineUserInfo userInfo = CarpSecurityContext.get();
+            if (userInfo != null) {
+                return userInfo.getNickName();
+            }
             return "sys";
         }
 

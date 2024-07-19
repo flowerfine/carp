@@ -16,19 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.kubernetes.service;
 
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
-import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
-import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.kubernetes.repository.entity.K8sCluster;
+import cn.sliew.carp.module.kubernetes.service.entity.Cluster;
+import cn.sliew.carp.module.kubernetes.service.param.K8sClusterAddParam;
+import cn.sliew.carp.module.kubernetes.service.param.K8sClusterPageParam;
+import com.baomidou.mybatisplus.extension.service.IService;
 
-public interface SecAuthenticationService {
+import java.util.List;
 
-    OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response);
+public interface K8sClusterService extends IService<K8sCluster> {
 
-    boolean logout(HttpServletRequest request, HttpServletResponse response);
+    PageResult<Cluster> list(K8sClusterPageParam param);
 
-    OnlineUserVO getOnlineUser(SecUserDTO secUserDTO);
+    List<Cluster> listAll();
+
+    Cluster get(Long id);
+
+    boolean add(K8sClusterAddParam param);
+
 }

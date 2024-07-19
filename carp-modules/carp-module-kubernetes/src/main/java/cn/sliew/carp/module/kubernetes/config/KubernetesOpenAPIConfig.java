@@ -16,19 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.service;
+package cn.sliew.carp.module.kubernetes.config;
 
-import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
-import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
-import cn.sliew.carp.module.security.core.service.param.authenticate.LoginParam;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-public interface SecAuthenticationService {
+@Configuration
+public class KubernetesOpenAPIConfig {
 
-    OnlineUserVO login(LoginParam param, HttpServletRequest request, HttpServletResponse response);
-
-    boolean logout(HttpServletRequest request, HttpServletResponse response);
-
-    OnlineUserVO getOnlineUser(SecUserDTO secUserDTO);
+    @Bean
+    public GroupedOpenApi carpSecurityModuleOpenApi() {
+        return GroupedOpenApi.builder().group("Kubernetes模块")
+                .pathsToMatch("/api/carp/kubernetes/**")
+                .packagesToScan("cn.sliew.carp.module.kubernetes").build();
+    }
 }
