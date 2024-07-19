@@ -16,6 +16,12 @@ RELEASE：从 master checkout 一个发版分支，从发版分支创建 tag，�
 
 版本号调整：
 
+```shell
+mvn versions:set -DnewVersion=0.0.1-SNAPSHOT 
+
+git tag -a v0.0.1 -m "0.0.1 release"
+```
+
 发版时自动将版本切换为正式版本，然后发版
 
 

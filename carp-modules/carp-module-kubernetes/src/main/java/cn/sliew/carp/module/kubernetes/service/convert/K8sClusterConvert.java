@@ -24,7 +24,7 @@ import cn.sliew.carp.module.kubernetes.service.entity.Cluster;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+//@Mapper
 public interface K8sClusterConvert extends BaseConvert<K8sCluster, Cluster> {
     K8sClusterConvert INSTANCE = Mappers.getMapper(K8sClusterConvert.class);
 
