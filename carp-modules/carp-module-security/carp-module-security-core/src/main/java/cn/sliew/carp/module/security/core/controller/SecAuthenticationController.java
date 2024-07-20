@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.controller;
 
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.security.core.annotations.AnonymousAccess;
 import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
 import cn.sliew.carp.module.security.core.service.SecCaptchaService;
 import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;

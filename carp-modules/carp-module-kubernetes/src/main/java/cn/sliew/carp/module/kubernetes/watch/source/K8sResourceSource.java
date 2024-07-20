@@ -30,12 +30,13 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public class KubernetesResourceSource<T> extends GraphStage<SourceShape<T>> {
+public class K8sResourceSource<T> extends GraphStage<SourceShape<T>> {
 
     private static final Attributes DEFAULT_ATTRIBUTES = Attributes.name("KubernetesResourceSource");
 
     public final Outlet<T> out = Outlet.create("KubernetesResourceSource.out");
     private final SourceShape<T> shape = SourceShape.of(out);
+
 
     @Override
     public SourceShape<T> shape() {

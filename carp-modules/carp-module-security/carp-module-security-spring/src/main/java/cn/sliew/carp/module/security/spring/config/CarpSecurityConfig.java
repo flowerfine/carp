@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.module.security.spring.config;
 
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import cn.sliew.carp.framework.web.util.SpringContextUtil;
-import cn.sliew.carp.module.security.core.annotations.AnonymousAccess;
 import cn.sliew.carp.module.security.spring.authentication.CarpAccessDeniedHandler;
 import cn.sliew.carp.module.security.spring.authentication.CarpAuthenticationEntryPoint;
 import cn.sliew.carp.module.security.spring.authentication.CarpPasswordEncoder;
