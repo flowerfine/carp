@@ -22,6 +22,7 @@ import cn.sliew.carp.module.kubernetes.service.entity.VersionGroupKind;
 import cn.sliew.milky.common.util.JacksonUtil;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResourceList;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.client.dsl.NonNamespaceOperation;
@@ -102,17 +103,22 @@ public class K8sResourceSource extends GraphStage<SourceShape<GenericKubernetesR
 
         @Override
         public void preStart() throws Exception {
+            // 启动 informer 监听
             MixedOperation<GenericKubernetesResource, GenericKubernetesResourceList, Resource<GenericKubernetesResource>> operation = kubernetesClient.genericKubernetesResources(gvk.getApiVersion(), gvk.getKind());
             if (StringUtils.hasText(gvk.getNamespace())) {
                 NonNamespaceOperation<GenericKubernetesResource, GenericKubernetesResourceList, Resource<GenericKubernetesResource>> namespaceOperation = operation.inNamespace(gvk.getNamespace());
                 if (StringUtils.hasText(gvk.getName())) {
-                    namespaceOperation.withName(gvk.getName()).runnableInformer(0L).addEventHandler(this).exceptionHandler(this);
+                    namespaceOperation.withName(gvk.getName()).inform().addEventHandler(this).start();
+                } else {
+                    // fixme 未设置 exceptionhandler
+                    namespaceOperation.inform().addEventHandler(this).start();
                 }
             } else {
-                operation.inAnyNamespace().runnableInformer(0L).addEventHandler(this).exceptionHandler(this);
+                operation.inAnyNamespace().inform().addEventHandler(this).start();
             }
 
-//            scheduleWithFixedDelay("poll", Duration.ZERO, Duration.ofSeconds(3L));
+            // 启动定时监听
+//            scheduleWithFixedDelay("poll", Duration.ofSeconds(3L), Duration.ofSeconds(3L));
         }
 
         @Override
@@ -121,9 +127,11 @@ public class K8sResourceSource extends GraphStage<SourceShape<GenericKubernetesR
         }
 
         private void pushHead() {
-            GenericKubernetesResource head = buffer.poll();
-            if (head != null) {
-                push(out, head);
+            if (isAvailable(out)) {
+                GenericKubernetesResource head = buffer.poll();
+                if (head != null) {
+                    push(out, head);
+                }
             }
         }
 
@@ -179,10 +187,15 @@ public class K8sResourceSource extends GraphStage<SourceShape<GenericKubernetesR
         }
 
         private void onEvent(GenericKubernetesResource obj) {
-            System.out.println("推送");
+            ObjectMeta metadata = obj.getMetadata();
+            log().info("推送: {}: {}", metadata.getNamespace(), metadata.getName());
             buffer.add(obj);
             if (buffer.size() > maxBufferSize) {
                 failStage(new RuntimeException("Max event buffer size " + maxBufferSize + " reached for gvk: " + JacksonUtil.toJsonString(gvk)));
+            }
+            // fixme 不会推送
+            if (!buffer.isEmpty()) {
+                pushHead();
             }
         }
     }
