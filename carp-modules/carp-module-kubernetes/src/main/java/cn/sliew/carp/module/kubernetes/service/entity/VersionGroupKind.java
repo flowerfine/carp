@@ -16,18 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.kubernetes.watch.source;
+package cn.sliew.carp.module.kubernetes.service.entity;
 
-import cn.sliew.carp.module.kubernetes.service.entity.VersionGroupKind;
-import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import org.apache.pekko.NotUsed;
-import org.apache.pekko.stream.javadsl.Source;
+import io.fabric8.kubernetes.api.model.GroupVersionKind;
+import io.fabric8.kubernetes.api.model.HasMetadata;
+import lombok.Data;
 
-public enum K8sSources {
-    ;
+/**
+ * @see GroupVersionKind
+ */
+@Data
+public class VersionGroupKind {
 
-    public static Source<GenericKubernetesResource, NotUsed> source(VersionGroupKind gvk, KubernetesClient kubernetesClient) {
-        return Source.fromGraph(new K8sResourceSource(gvk, kubernetesClient));
+    private String namespace;
+    private String apiVersion;
+    private String kind;
+    private String name;
+
+    public static VersionGroupKind gvkFor(Class<? extends HasMetadata> resourceClass) {
+        VersionGroupKind versionGroupKind = new VersionGroupKind();
+        versionGroupKind.setApiVersion(HasMetadata.getGroup(resourceClass) + "/" + HasMetadata.getVersion(resourceClass));
+        versionGroupKind.setKind(HasMetadata.getKind(resourceClass));
+        return versionGroupKind;
     }
 }

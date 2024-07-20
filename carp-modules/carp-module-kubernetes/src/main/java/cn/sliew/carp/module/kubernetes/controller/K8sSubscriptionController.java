@@ -20,7 +20,14 @@ package cn.sliew.carp.module.kubernetes.controller;
 
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
+import cn.sliew.carp.module.kubernetes.service.entity.VersionGroupKind;
 import cn.sliew.carp.module.kubernetes.watch.source.K8sSources;
+import io.fabric8.kubernetes.api.model.Namespace;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
+import io.fabric8.kubernetes.api.model.Pod;
+import io.fabric8.kubernetes.api.model.apps.Deployment;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.pekko.Done;
@@ -45,7 +52,18 @@ public class K8sSubscriptionController {
     @GetMapping("start")
     @Operation(summary = "启动", description = "启动")
     public boolean start() {
-        CompletionStage<Done> completionStage = K8sSources.source().runForeach(object -> System.out.println(object), actorSystem);
+        VersionGroupKind gvk = VersionGroupKind.gvkFor(Deployment.class);
+        gvk.setNamespace("default");
+//        gvk.setName("flink-kubernetes-operator");
+        KubernetesClient kubernetesClient = new KubernetesClientBuilder().build();
+        CompletionStage<Done> completionStage = K8sSources.source(gvk, kubernetesClient).runForeach(object -> {
+            ObjectMeta metadata = object.getMetadata();
+            System.out.println(metadata.getNamespace() + ": " + metadata.getName());
+        }, actorSystem);
+
+        completionStage.toCompletableFuture().whenComplete((down, throwable) -> {
+           throwable.printStackTrace();
+        });
         return true;
     }
 
