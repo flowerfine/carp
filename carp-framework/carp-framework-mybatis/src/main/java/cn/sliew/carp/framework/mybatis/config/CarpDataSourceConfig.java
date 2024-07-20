@@ -41,35 +41,39 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = DataSourceConstants.MASTER_MAPPER_PACKAGE, sqlSessionFactoryRef = DataSourceConstants.MASTER_SQL_SESSION_FACTORY)
-public class CarpMasterDataSourceConfig {
+@MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
+        basePackages = {
+                DataSourceConstants.MAPPER_MODULE_SECURITY_PACKAGE,
+                DataSourceConstants.MAPPER_MODULE_KUBERNETES_PACKAGE
+        })
+public class CarpDataSourceConfig {
 
     @Autowired
     private MybatisPlusInterceptor mybatisPlusInterceptor;
 
     @Primary
-    @Bean(DataSourceConstants.MASTER_DATA_SOURCE_FACTORY)
+    @Bean(DataSourceConstants.DATA_SOURCE_FACTORY)
     @ConfigurationProperties(prefix = "spring.datasource.carp")
-    public DataSource carpMasterDataSource() {
+    public DataSource carpDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class)
                 .build();
     }
 
     @Primary
-    @Bean(DataSourceConstants.MASTER_TRANSACTION_MANAGER_FACTORY)
-    public DataSourceTransactionManager carpMasterTransactionManager() {
-        return new DataSourceTransactionManager(carpMasterDataSource());
+    @Bean(DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
+    public DataSourceTransactionManager carpTransactionManager() {
+        return new DataSourceTransactionManager(carpDataSource());
     }
 
     @Primary
-    @Bean(DataSourceConstants.MASTER_SQL_SESSION_FACTORY)
-    public SqlSessionFactory carpMasterSqlSessionFactory() throws Exception {
+    @Bean(DataSourceConstants.SQL_SESSION_FACTORY)
+    public SqlSessionFactory carpSqlSessionFactory() throws Exception {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
         GlobalConfig globalConfig = GlobalConfigUtils.defaults();
         globalConfig.setMetaObjectHandler(new CarpMybatisConfig.CarpMetaHandler());
 
         MybatisPlusProperties props = new MybatisPlusProperties();
-        props.setMapperLocations(new String[]{DataSourceConstants.MASTER_MAPPER_XML_PATH});
+        props.setMapperLocations(new String[]{DataSourceConstants.MAPPER_XML_PATH});
         factoryBean.setMapperLocations(props.resolveMapperLocations());
 
         MybatisConfiguration configuration = new MybatisConfiguration();
@@ -78,8 +82,7 @@ public class CarpMasterDataSourceConfig {
         configuration.setLogImpl(Slf4jImpl.class);
         factoryBean.setConfiguration(configuration);
         factoryBean.setGlobalConfig(globalConfig);
-        factoryBean.setDataSource(carpMasterDataSource());
-        factoryBean.setTypeAliasesPackage(DataSourceConstants.MASTER_ENTITY_PACKAGE);
+        factoryBean.setDataSource(carpDataSource());
         factoryBean.setPlugins(mybatisPlusInterceptor);
         return factoryBean.getObject();
     }

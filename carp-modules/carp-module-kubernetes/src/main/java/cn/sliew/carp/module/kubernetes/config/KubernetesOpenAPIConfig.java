@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Configuration;
 public class KubernetesOpenAPIConfig {
 
     @Bean
-    public GroupedOpenApi carpSecurityModuleOpenApi() {
+    public GroupedOpenApi carpKubernetesModuleOpenApi() {
         return GroupedOpenApi.builder().group("Kubernetes模块")
                 .pathsToMatch("/api/carp/kubernetes/**")
                 .packagesToScan("cn.sliew.carp.module.kubernetes").build();

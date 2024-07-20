@@ -21,11 +21,11 @@ package cn.sliew.carp.framework.mybatis;
 public enum DataSourceConstants {
     ;
 
-    public static final String MASTER_ENTITY_PACKAGE = "cn.sliew.carp.module.security.core.repository.entity";
-    public static final String MASTER_MAPPER_PACKAGE = "cn.sliew.carp.module.security.core.repository.mapper";
-    public static final String MASTER_MAPPER_XML_PATH = "classpath*:cn/sliew/carp/**/repository/master/**/*.xml";
+    public static final String MAPPER_MODULE_SECURITY_PACKAGE = "cn.sliew.carp.module.security.core.repository.mapper";
+    public static final String MAPPER_MODULE_KUBERNETES_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
+    public static final String MAPPER_XML_PATH = "classpath*:cn/sliew/carp/**/repository/**/*.xml";
 
-    public static final String MASTER_SQL_SESSION_FACTORY = "carpMasterSqlSessionFactory";
-    public static final String MASTER_DATA_SOURCE_FACTORY = "carpMasterDataSource";
-    public static final String MASTER_TRANSACTION_MANAGER_FACTORY = "carpMasterTransactionManager";
+    public static final String SQL_SESSION_FACTORY = "carpSqlSessionFactory";
+    public static final String DATA_SOURCE_FACTORY = "carpDataSource";
+    public static final String TRANSACTION_MANAGER_FACTORY = "carpTransactionManager";
 }
