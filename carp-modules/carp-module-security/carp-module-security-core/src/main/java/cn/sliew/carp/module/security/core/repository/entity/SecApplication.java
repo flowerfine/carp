@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@TableName("sec_application")
+@TableName("carp_sec_application")
 @Schema(name = "SecApplication", description = "security application")
 public class SecApplication extends BaseAuditDO {
 

@@ -28,7 +28,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@TableName("k8s_cluster")
+@TableName("carp_k8s_cluster")
 @Schema(name = "K8sCluster", description = "k8s 集群")
 public class K8sCluster extends BaseAuditDO {
 

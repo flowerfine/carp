@@ -26,7 +26,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName(value = "sec_role", resultMap = "SecRoleMap")
+@TableName("carp_sec_role")
 public class SecRole extends BaseAuditDO {
 
     private static final long serialVersionUID = 2621684597930016649L;
