@@ -19,6 +19,8 @@
 package cn.sliew.carp.module.security.spring.service.impl;
 
 import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
+import cn.sliew.carp.framework.common.security.CarpSecurityContext;
+import cn.sliew.carp.framework.common.security.OnlineUserInfo;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.exception.SliewException;
 import cn.sliew.carp.framework.redis.RedissonUtil;
@@ -122,6 +124,13 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
         String token = SecurityUtil.resolveToken(request);
         redisUtil.remove(SecurityConstants.REDIS_ONLINE_TOKEN_KEY + token);
         return true;
+    }
+
+    @Override
+    public OnlineUserVO getOnlineUser() {
+        OnlineUserInfo userInfo = CarpSecurityContext.get();
+        SecUserDTO secUserDTO = secUserService.get(userInfo.getUserId());
+        return getOnlineUser(secUserDTO);
     }
 
     @Override

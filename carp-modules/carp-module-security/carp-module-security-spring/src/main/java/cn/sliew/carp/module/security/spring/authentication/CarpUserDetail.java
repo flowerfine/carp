@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.security.spring.authentication;
 
+import cn.sliew.carp.framework.common.dict.security.UserStatus;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
@@ -53,6 +54,26 @@ public class CarpUserDetail implements UserDetails, CredentialsContainer {
     @Override
     public String getUsername() {
         return user.getUserName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return isEnabled();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isEnabled();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return isEnabled();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return user.getStatus() == UserStatus.ENABLED;
     }
 
     @Override

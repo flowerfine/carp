@@ -30,5 +30,7 @@ public interface SecAuthenticationService {
 
     boolean logout(HttpServletRequest request, HttpServletResponse response);
 
+    OnlineUserVO getOnlineUser();
+
     OnlineUserVO getOnlineUser(SecUserDTO secUserDTO);
 }

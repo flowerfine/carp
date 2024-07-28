@@ -26,6 +26,7 @@ public enum SecurityConstants {
     public static final String TOKEN_KEY = "u_token";
 
     public static final String ROLE_AUTHORITY_PREFIX = "ROLE_";
+    public static final String ROLE_SYS_SUPER_ADMIN = "ROLE_SYS_SUPER_ADMIN";
 
     public static final Integer COOKIE_MAX_AGE = 24 * 60 * 60 * 3;
     // 立即删除

@@ -36,6 +36,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -53,22 +54,23 @@ public class CarpTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = SecurityUtil.resolveToken(request);
-
-        Long userId = (Long) redisUtil.get(SecurityConstants.REDIS_ONLINE_TOKEN_KEY + token);
-        if (userId != null) {
-            SecUserDTO secUserDTO = secUserService.get(userId);
-            CarpUserDetail carpUserDetail = carpUserDetailsService.fillUserDetails(secUserDTO);
-            // 打通 spring security 的 authenticate 机制
-            Authentication authentication = new UsernamePasswordAuthenticationToken(carpUserDetail, token, carpUserDetail.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            // 打通 carp 自己的
-            OnlineUserInfo userInfo = new OnlineUserInfo();
-            userInfo.setUserId(userId);
-            userInfo.setType(secUserDTO.getType());
-            userInfo.setUserName(secUserDTO.getUserName());
-            userInfo.setNickName(secUserDTO.getNickName());
-            userInfo.setStatus(secUserDTO.getStatus());
-            CarpSecurityContext.set(userInfo);
+        if (StringUtils.hasText(token)) {
+            Long userId = (Long) redisUtil.get(SecurityConstants.REDIS_ONLINE_TOKEN_KEY + token);
+            if (userId != null) {
+                SecUserDTO secUserDTO = secUserService.get(userId);
+                CarpUserDetail carpUserDetail = carpUserDetailsService.fillUserDetails(secUserDTO);
+                // 打通 spring security 的 authenticate 机制
+                Authentication authentication = new UsernamePasswordAuthenticationToken(carpUserDetail, token, carpUserDetail.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // 打通 carp 自己的
+                OnlineUserInfo userInfo = new OnlineUserInfo();
+                userInfo.setUserId(userId);
+                userInfo.setType(secUserDTO.getType());
+                userInfo.setUserName(secUserDTO.getUserName());
+                userInfo.setNickName(secUserDTO.getNickName());
+                userInfo.setStatus(secUserDTO.getStatus());
+                CarpSecurityContext.set(userInfo);
+            }
         }
         chain.doFilter(request, response);
         CarpSecurityContext.clear();

@@ -64,4 +64,10 @@ public class SecAuthenticationController {
         return secAuthenticationService.logout(request, response);
     }
 
+    @GetMapping("onlineUser")
+    @Operation(summary = "当前用户", description = "当前用户")
+    public OnlineUserVO getOnlineUser() {
+        return secAuthenticationService.getOnlineUser();
+    }
+
 }
