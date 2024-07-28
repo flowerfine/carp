@@ -25,6 +25,7 @@
     <packaging>pom</packaging>
     <name>carp</name>
     <description>Carp Framwork</description>
+    <url>https://github.com/flowerfine/carp</url>
 
     <licenses>
         <license>
