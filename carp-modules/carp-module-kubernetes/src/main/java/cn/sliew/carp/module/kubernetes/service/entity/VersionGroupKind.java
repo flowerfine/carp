@@ -16,36 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.repository.entity;
+package cn.sliew.carp.module.kubernetes.service.entity;
 
-import cn.sliew.carp.framework.common.dict.security.RoleStatus;
-import cn.sliew.carp.framework.common.dict.security.RoleType;
-import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import io.fabric8.kubernetes.api.model.GroupVersionKind;
+import io.fabric8.kubernetes.api.model.HasMetadata;
 import lombok.Data;
 
+/**
+ * @see GroupVersionKind
+ */
 @Data
-@TableName("carp_sec_role")
-public class SecRole extends BaseAuditDO {
+public class VersionGroupKind {
 
-    private static final long serialVersionUID = 2621684597930016649L;
-
-    @TableField("type")
-    private RoleType type;
-
-    @TableField("`code`")
-    private String code;
-
-    @TableField("`name`")
+    private String namespace;
+    private String apiVersion;
+    private String kind;
     private String name;
 
-    @TableField("`order`")
-    private Integer order;
-
-    @TableField("`status`")
-    private RoleStatus status;
-
-    @TableField("remark")
-    private String remark;
+    public static VersionGroupKind gvkFor(Class<? extends HasMetadata> resourceClass) {
+        VersionGroupKind versionGroupKind = new VersionGroupKind();
+        versionGroupKind.setApiVersion(HasMetadata.getGroup(resourceClass) + "/" + HasMetadata.getVersion(resourceClass));
+        versionGroupKind.setKind(HasMetadata.getKind(resourceClass));
+        return versionGroupKind;
+    }
 }

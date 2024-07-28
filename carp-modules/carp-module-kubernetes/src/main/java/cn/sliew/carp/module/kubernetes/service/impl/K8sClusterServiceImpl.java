@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.kubernetes.service.impl;
 
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.module.kubernetes.repository.entity.K8sCluster;
 import cn.sliew.carp.module.kubernetes.repository.mapper.K8sClusterMapper;
 import cn.sliew.carp.module.kubernetes.service.K8sClusterService;
@@ -26,6 +27,7 @@ import cn.sliew.carp.module.kubernetes.service.convert.K8sClusterConvert;
 import cn.sliew.carp.module.kubernetes.service.entity.Cluster;
 import cn.sliew.carp.module.kubernetes.service.param.K8sClusterAddParam;
 import cn.sliew.carp.module.kubernetes.service.param.K8sClusterPageParam;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -52,16 +54,25 @@ public class K8sClusterServiceImpl extends ServiceImpl<K8sClusterMapper, K8sClus
 
     @Override
     public List<Cluster> listAll() {
-        return null;
+        LambdaQueryWrapper<K8sCluster> queryChainWrapper = Wrappers.lambdaQuery(K8sCluster.class)
+                .orderByAsc(K8sCluster::getId);
+        List<K8sCluster> list = list(queryChainWrapper);
+        return K8sClusterConvert.INSTANCE.toDto(list);
     }
 
     @Override
     public Cluster get(Long id) {
-        return null;
+        K8sCluster entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("k8s cluster not exists for id: " + id));
+        return K8sClusterConvert.INSTANCE.toDto(entity);
     }
 
     @Override
     public boolean add(K8sClusterAddParam param) {
-        return false;
+        K8sCluster entity = new K8sCluster();
+        entity.setUuid(UUIDUtil.randomUUId());
+        entity.setName(param.getName());
+        entity.setSpec(JacksonUtil.toJsonString(param.getSpec()));
+        entity.setRemark(param.getRemark());
+        return save(entity);
     }
 }

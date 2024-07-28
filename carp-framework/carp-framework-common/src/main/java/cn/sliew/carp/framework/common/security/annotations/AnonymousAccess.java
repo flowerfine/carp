@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.annotations;
+package cn.sliew.carp.framework.common.security.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -40,8 +40,8 @@
         SELECT
         t1.*
         FROM
-        sec_role t1
-        JOIN sec_resource_web_role t2 ON t1.id = t2.role_id
+        carp_sec_role t1
+        JOIN carp_sec_resource_web_role t2 ON t1.id = t2.role_id
         WHERE
         t2.resource_web_id = #{resourceWebId}
         <if test="status != null">
@@ -59,7 +59,7 @@
         SELECT
         t1.*
         FROM
-        sec_role t1
+        carp_sec_role t1
         <where>
             <if test="status != null">
                 AND t1.`status` = #{status}
@@ -78,8 +78,8 @@
             resultMap="cn.sliew.carp.module.security.core.repository.mapper.SecResourceWebMapper.SecResourceWebVOMap">
         SELECT t1.*,
                t2.role_id
-        FROM sec_resource_web t1
-                 LEFT JOIN sec_resource_web_role t2 ON t1.id = t2.resource_web_id
+        FROM carp_sec_resource_web t1
+                 LEFT JOIN carp_sec_resource_web_role t2 ON t1.id = t2.resource_web_id
             AND t2.role_id = #{roleId}
         WHERE
             t1.pid = #{pid}
@@ -88,8 +88,8 @@
     <select id="selectRelatedWebResourceByRole" resultMap="cn.sliew.carp.module.security.core.repository.mapper.SecResourceWebMapper.BaseResultMap">
         SELECT t1.*
         FROM
-        sec_resource_web t1
-        JOIN sec_resource_web_role t2 ON t1.id = t2.resource_web_id
+            carp_sec_resource_web t1
+        JOIN carp_sec_resource_web_role t2 ON t1.id = t2.resource_web_id
         WHERE
         t2.role_id = #{roleId}
         ORDER BY

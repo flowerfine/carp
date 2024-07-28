@@ -24,7 +24,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("sec_resource_web_role")
+@TableName("carp_sec_resource_web_role")
 public class SecResourceWebRole extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;

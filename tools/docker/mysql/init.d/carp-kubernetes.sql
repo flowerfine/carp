@@ -1,8 +1,8 @@
 create database if not exists carp default character set utf8mb4 collate utf8mb4_unicode_ci;
 use carp;
 
-drop table if exists k8s_cluster;
-create table k8s_cluster
+drop table if exists carp_k8s_cluster;
+create table carp_k8s_cluster
 (
     `id`          bigint      not null auto_increment comment '自增主键',
     `uuid`        varchar(64) not null comment 'uuid',

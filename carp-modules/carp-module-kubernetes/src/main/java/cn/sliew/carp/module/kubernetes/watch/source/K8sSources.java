@@ -16,19 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.security.core.repository.entity;
+package cn.sliew.carp.module.kubernetes.watch.source;
 
-import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import cn.sliew.carp.module.kubernetes.service.entity.VersionGroupKind;
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import org.apache.pekko.NotUsed;
+import org.apache.pekko.stream.javadsl.Source;
 
-@Data
-@TableName("carp_sec_user_role")
-public class SecUserRole extends BaseAuditDO {
+public enum K8sSources {
+    ;
 
-    private static final long serialVersionUID = 8752486397778737688L;
-
-    private Long userId;
-
-    private Long roleId;
+    public static Source<GenericKubernetesResource, NotUsed> source(VersionGroupKind gvk, KubernetesClient kubernetesClient) {
+        return Source.fromGraph(new K8sResourceSource(gvk, kubernetesClient));
+    }
 }

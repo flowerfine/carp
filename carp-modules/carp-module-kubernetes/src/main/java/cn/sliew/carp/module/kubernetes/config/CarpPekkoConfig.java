@@ -18,17 +18,26 @@
 
 package cn.sliew.carp.module.kubernetes.config;
 
-import org.springdoc.core.models.GroupedOpenApi;
+import org.apache.pekko.actor.typed.ActorSystem;
+import org.apache.pekko.actor.typed.SpawnProtocol;
+import org.apache.pekko.actor.typed.javadsl.Behaviors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class KubernetesOpenAPIConfig {
+public class CarpPekkoConfig {
 
-    @Bean
-    public GroupedOpenApi carpKubernetesModuleOpenApi() {
-        return GroupedOpenApi.builder().group("Kubernetes模块")
-                .pathsToMatch("/api/carp/kubernetes/**")
-                .packagesToScan("cn.sliew.carp.module.kubernetes").build();
+    @Bean(destroyMethod = "terminate")
+    public ActorSystem<SpawnProtocol.Command> actorSystem() {
+        ActorSystem<SpawnProtocol.Command> actorSystem = ActorSystem.create(Behaviors.setup(ctx -> SpawnProtocol.create()), "carp");
+        actorSystem.whenTerminated().onComplete(done -> {
+            if (done.isSuccess()) {
+                actorSystem.log().info("ActorSystem terminate success!");
+            } else {
+                actorSystem.log().error("ActorSystem terminate failure!", done.failed().get());
+            }
+            return done.get();
+        }, actorSystem.executionContext());
+        return actorSystem;
     }
 }

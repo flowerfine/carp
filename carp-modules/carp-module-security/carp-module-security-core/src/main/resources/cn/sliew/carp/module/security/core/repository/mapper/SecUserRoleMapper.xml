@@ -34,8 +34,8 @@
         SELECT
             t1.*
         FROM
-            sec_user t1
-                JOIN sec_user_role t2 ON t1.id = t2.user_id
+        carp_sec_user t1
+                JOIN carp_sec_user_role t2 ON t1.id = t2.user_id
         WHERE
             t2.role_id = #{roleId}
         <if test="status != null">
@@ -52,7 +52,7 @@
         SELECT
         t1.*
         FROM
-        sec_user t1
+        carp_sec_user t1
         <where>
             <if test="status != null">
                 AND t1.`status` = #{status}
@@ -60,7 +60,7 @@
             <if test="userName != null and userName != ''">
                 AND t1.`userName` like concat('%',#{userName},'%')
             </if>
-            AND NOT EXISTS ( SELECT * FROM sec_user_role t2 WHERE t1.id = t2.user_id AND t2.role_id = #{roleId} )
+            AND NOT EXISTS ( SELECT * FROM carp_sec_user_role t2 WHERE t1.id = t2.user_id AND t2.role_id = #{roleId} )
         </where>
         ORDER BY
         t1.id
@@ -70,8 +70,8 @@
         SELECT
             t1.*
         FROM
-            sec_role t1
-                JOIN sec_user_role t2 ON t1.id = t2.role_id
+        carp_sec_role t1
+                JOIN carp_sec_user_role t2 ON t1.id = t2.role_id
         WHERE
             t2.user_id = #{userId}
         <if test="status != null">
@@ -88,7 +88,7 @@
         SELECT
         t1.*
         FROM
-        sec_role t1
+        carp_sec_role t1
         <where>
             <if test="status != null">
                 AND t1.`status` = #{status}
@@ -96,7 +96,7 @@
             <if test="name != null and name != ''">
                 AND t1.`name` like concat('%',#{name},'%')
             </if>
-            AND NOT EXISTS ( SELECT * FROM sec_user_role t2 WHERE t1.id = t2.role_id AND t2.user_id = #{userId} )
+            AND NOT EXISTS ( SELECT * FROM carp_sec_user_role t2 WHERE t1.id = t2.role_id AND t2.user_id = #{userId} )
         </where>
         ORDER BY
         t1.id

@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.controller;
 
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.security.core.annotations.AnonymousAccess;
 import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
 import cn.sliew.carp.module.security.core.service.SecCaptchaService;
 import cn.sliew.carp.module.security.core.service.dto.OnlineUserVO;
@@ -62,6 +62,12 @@ public class SecAuthenticationController {
     @Operation(summary = "登出", description = "登出")
     public Boolean logout(HttpServletRequest request, HttpServletResponse response) {
         return secAuthenticationService.logout(request, response);
+    }
+
+    @GetMapping("onlineUser")
+    @Operation(summary = "当前用户", description = "当前用户")
+    public OnlineUserVO getOnlineUser() {
+        return secAuthenticationService.getOnlineUser();
     }
 
 }

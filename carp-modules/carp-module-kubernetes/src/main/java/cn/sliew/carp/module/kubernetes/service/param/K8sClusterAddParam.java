@@ -24,9 +24,8 @@ import lombok.Data;
 @Data
 public class K8sClusterAddParam {
 
-    private String apiVersion;
-    private String kind;
     private String name;
+    private String remark;
 
     private ClusterSpec spec;
 }
