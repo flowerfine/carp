@@ -37,7 +37,7 @@ public class PageResult<T> implements Serializable {
     private Long current = 1L;
 
     @Schema(description = "每页条数", example = "10")
-    private Long pageSize = 10L;
+    private Long size = 10L;
 
     @Schema(description = "数据总数", example = "10")
     private Long total;
@@ -45,9 +45,9 @@ public class PageResult<T> implements Serializable {
     @Schema(description = "数据")
     private List<T> records;
 
-    public PageResult(Long current, Long pageSize, Long total) {
+    public PageResult(Long current, Long size, Long total) {
         this.current = current;
-        this.pageSize = pageSize;
+        this.size = size;
         this.total = total;
     }
 }
