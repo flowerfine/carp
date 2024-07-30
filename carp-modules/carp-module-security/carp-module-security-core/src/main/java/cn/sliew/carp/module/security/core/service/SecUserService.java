@@ -27,6 +27,7 @@ import cn.sliew.carp.module.security.core.service.param.SecUserUpdateParam;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,4 +44,8 @@ public interface SecUserService extends IService<SecUser> {
     boolean add(SecUserAddParam param);
 
     boolean update(SecUserUpdateParam param);
+
+    boolean delete(Long id);
+
+    boolean deleteBatch(Collection<Long> ids);
 }

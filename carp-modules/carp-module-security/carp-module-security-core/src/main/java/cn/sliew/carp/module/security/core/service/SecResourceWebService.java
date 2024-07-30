@@ -26,6 +26,7 @@ import cn.sliew.carp.module.security.core.service.param.SecResourceWebListParam;
 import cn.sliew.carp.module.security.core.service.param.SecResourceWebUpdateParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface SecResourceWebService extends IService<SecResourceWeb> {
@@ -39,4 +40,8 @@ public interface SecResourceWebService extends IService<SecResourceWeb> {
     boolean add(SecResourceWebAddParam param);
 
     boolean update(SecResourceWebUpdateParam param);
+
+    boolean delete(Long id);
+
+    boolean deleteBatch(Collection<Long> ids);
 }

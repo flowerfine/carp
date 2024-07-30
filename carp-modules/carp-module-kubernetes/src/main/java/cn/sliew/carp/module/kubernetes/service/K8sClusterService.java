@@ -25,6 +25,7 @@ import cn.sliew.carp.module.kubernetes.service.param.K8sClusterAddParam;
 import cn.sliew.carp.module.kubernetes.service.param.K8sClusterPageParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface K8sClusterService extends IService<K8sCluster> {
@@ -36,5 +37,9 @@ public interface K8sClusterService extends IService<K8sCluster> {
     Cluster get(Long id);
 
     boolean add(K8sClusterAddParam param);
+
+    boolean delete(Long id);
+
+    boolean deleteBatch(Collection<Long> ids);
 
 }

@@ -77,13 +77,13 @@ public class SecResourceWebController {
     @DeleteMapping("{id}")
     @Operation(summary = "删除", description = "删除")
     public Boolean delete(@PathVariable("id") Long id) {
-        return secResourceWebService.removeById(id);
+        return secResourceWebService.delete(id);
     }
 
     @DeleteMapping("batch")
     @Operation(summary = "批量删除", description = "批量删除")
     public Boolean deleteBatch(@RequestBody List<Long> ids) {
-        return secResourceWebService.removeByIds(ids);
+        return secResourceWebService.deleteBatch(ids);
     }
 
 }

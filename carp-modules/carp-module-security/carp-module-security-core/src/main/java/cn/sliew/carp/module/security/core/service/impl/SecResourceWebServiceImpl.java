@@ -20,6 +20,7 @@ package cn.sliew.carp.module.security.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
 import cn.sliew.carp.module.security.core.repository.mapper.SecResourceWebMapper;
 import cn.sliew.carp.module.security.core.service.SecResourceWebService;
@@ -33,7 +34,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -78,5 +81,16 @@ public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper,
     public boolean update(SecResourceWebUpdateParam param) {
         SecResourceWeb entity = BeanUtil.copyProperties(param, SecResourceWeb.class);
         return saveOrUpdate(entity);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return removeById(id);
+    }
+
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public boolean deleteBatch(Collection<Long> ids) {
+        return removeByIds(ids);
     }
 }

@@ -21,6 +21,7 @@ package cn.sliew.carp.module.security.core.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.sliew.carp.framework.common.dict.security.UserType;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
 import cn.sliew.carp.module.security.core.repository.mapper.SecUserMapper;
 import cn.sliew.carp.module.security.core.service.SecUserService;
@@ -36,8 +37,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,5 +107,16 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
     public boolean update(SecUserUpdateParam param) {
         SecUser entity = BeanUtil.copyProperties(param, SecUser.class);
         return saveOrUpdate(entity);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return removeById(id);
+    }
+
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public boolean deleteBatch(Collection<Long> ids) {
+        return removeByIds(ids);
     }
 }

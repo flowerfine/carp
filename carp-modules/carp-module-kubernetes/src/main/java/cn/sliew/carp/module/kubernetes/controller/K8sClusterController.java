@@ -68,12 +68,12 @@ public class K8sClusterController {
     @DeleteMapping("{id}")
     @Operation(summary = "删除", description = "删除")
     public Boolean delete(@PathVariable("id") Long id) {
-        return k8sClusterService.removeById(id);
+        return k8sClusterService.delete(id);
     }
 
     @DeleteMapping("batch")
     @Operation(summary = "批量删除", description = "批量删除")
     public Boolean deleteBatch(@RequestBody List<Long> ids) {
-        return k8sClusterService.removeByIds(ids);
+        return k8sClusterService.deleteBatch(ids);
     }
 }

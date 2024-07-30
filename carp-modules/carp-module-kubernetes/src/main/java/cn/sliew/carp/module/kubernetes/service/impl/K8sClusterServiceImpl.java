@@ -20,6 +20,7 @@ package cn.sliew.carp.module.kubernetes.service.impl;
 
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
+import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.kubernetes.repository.entity.K8sCluster;
 import cn.sliew.carp.module.kubernetes.repository.mapper.K8sClusterMapper;
 import cn.sliew.carp.module.kubernetes.service.K8sClusterService;
@@ -33,8 +34,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -74,5 +77,16 @@ public class K8sClusterServiceImpl extends ServiceImpl<K8sClusterMapper, K8sClus
         entity.setSpec(JacksonUtil.toJsonString(param.getSpec()));
         entity.setRemark(param.getRemark());
         return save(entity);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        return removeById(id);
+    }
+
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
+    @Override
+    public boolean deleteBatch(Collection<Long> ids) {
+        return removeByIds(ids);
     }
 }
