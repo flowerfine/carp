@@ -26,6 +26,7 @@ import cn.sliew.carp.module.security.core.service.param.SecRoleListParam;
 import cn.sliew.carp.module.security.core.service.param.SecRoleUpdateParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface SecRoleService extends IService<SecRole> {
@@ -39,4 +40,8 @@ public interface SecRoleService extends IService<SecRole> {
     boolean add(SecRoleAddParam param);
 
     boolean update(SecRoleUpdateParam param);
+
+    boolean delete(Long id);
+
+    boolean deleteBatch(Collection<Long> ids);
 }

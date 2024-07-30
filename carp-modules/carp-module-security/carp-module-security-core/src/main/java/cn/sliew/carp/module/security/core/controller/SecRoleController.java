@@ -75,12 +75,12 @@ public class SecRoleController {
     @DeleteMapping("{id}")
     @Operation(summary = "删除", description = "删除")
     public Boolean delete(@PathVariable("id") Long id) {
-        return secRoleService.removeById(id);
+        return secRoleService.delete(id);
     }
 
     @DeleteMapping("batch")
     @Operation(summary = "批量删除", description = "批量删除")
     public Boolean deleteBatch(@RequestBody List<Long> ids) {
-        return secRoleService.removeByIds(ids);
+        return secRoleService.deleteBatch(ids);
     }
 }
