@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.2</version>
     </parent>
     <artifactId>carp-examples</artifactId>
     <packaging>pom</packaging>
