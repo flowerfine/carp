@@ -38,6 +38,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-application-vela</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-security-spring</artifactId>
         </dependency>
         <dependency>
