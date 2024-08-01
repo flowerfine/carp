@@ -29,6 +29,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>carp-module-application</module>
         <module>carp-module-kubernetes</module>
         <module>carp-module-plugin</module>
         <module>carp-module-security</module>
