@@ -48,7 +48,6 @@ public interface PluginApi {
     @PostMapping(value = "/api/v1/manage/plugins/{pluginId}/setting")
     ResponseEntity<V1ManagedPluginDTO> pluginSetting(@PathVariable("pluginId") String pluginId);
 
-
     @GetMapping(value = "/api/v1/plugins")
     ResponseEntity<V1ListPluginResponse> listEnabledPlugins();
 

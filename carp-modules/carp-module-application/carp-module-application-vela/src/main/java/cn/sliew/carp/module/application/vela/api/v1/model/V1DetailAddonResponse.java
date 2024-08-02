@@ -1,6 +1,11 @@
 package cn.sliew.carp.module.application.vela.api.v1.model;
 
 import java.util.Objects;
+
+import cn.sliew.carp.module.application.vela.api.v1.model.addon.AddonDependency;
+import cn.sliew.carp.module.application.vela.api.v1.model.addon.AddonDeployTo;
+import cn.sliew.carp.module.application.vela.api.v1.model.addon.AddonSystemRequirements;
+import cn.sliew.carp.module.application.vela.api.v1.model.common.SchemaUIParameter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

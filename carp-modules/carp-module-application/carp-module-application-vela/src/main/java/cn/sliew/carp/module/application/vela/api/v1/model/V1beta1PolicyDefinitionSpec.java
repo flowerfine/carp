@@ -1,6 +1,9 @@
 package cn.sliew.carp.module.application.vela.api.v1.model;
 
 import java.util.Objects;
+
+import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonDefinitionReference;
+import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonSchematic;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
