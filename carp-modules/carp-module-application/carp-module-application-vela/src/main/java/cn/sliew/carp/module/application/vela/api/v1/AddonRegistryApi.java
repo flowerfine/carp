@@ -19,8 +19,8 @@
 package cn.sliew.carp.module.application.vela.api.v1;
 
 import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1AddonRegistry;
-import cn.sliew.carp.module.application.vela.api.v1.model.V1CreateAddonRegistryRequest;
-import cn.sliew.carp.module.application.vela.api.v1.model.V1ListAddonRegistryResponse;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1CreateAddonRegistryRequest;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ListAddonRegistryResponse;
 import cn.sliew.carp.module.application.vela.api.v1.model.V1UpdateAddonRegistryRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

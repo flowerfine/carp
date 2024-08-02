@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.application.vela.api.v1;
 
 import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ApplicationDeployResponse;
-import cn.sliew.carp.module.application.vela.api.v1.model.V1HandleApplicationTriggerWebhookRequest;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1HandleApplicationTriggerWebhookRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
