@@ -3,6 +3,7 @@ package cn.sliew.carp.module.application.vela.api.v1.model;
 import java.util.Objects;
 
 import cn.sliew.carp.module.application.vela.api.v1.model.common.ModelProviderInfo;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ClusterResourceInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.application.vela.api.v1;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.V1ChartVersionListResponse;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ChartVersionListResponse;
 import cn.sliew.carp.module.application.vela.api.v1.model.V1ImageInfo;
 import cn.sliew.carp.module.application.vela.api.v1.model.V1ListImageRegistryResponse;
 import cn.sliew.carp.module.application.vela.api.v1.model.V1Properties;

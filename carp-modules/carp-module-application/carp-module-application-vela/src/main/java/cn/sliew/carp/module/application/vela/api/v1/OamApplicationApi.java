@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.application.vela.api.v1;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.V1ApplicationRequest;
-import cn.sliew.carp.module.application.vela.api.v1.model.V1ApplicationResponse;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ApplicationRequest;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ApplicationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
