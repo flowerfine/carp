@@ -22,22 +22,39 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-framework</artifactId>
         <version>0.0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-framework-pekko</artifactId>
 
-    <modules>
-        <module>carp-framework-web</module>
-        <module>carp-framework-mybatis</module>
-        <module>carp-framework-exception</module>
-        <module>carp-framework-metrics</module>
-        <module>carp-framework-mongo</module>
-        <module>carp-framework-pekko</module>
-        <module>carp-framework-redis</module>
-        <module>carp-framework-common</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.pekko</groupId>
+            <artifactId>pekko-actor-typed_${scala.binary.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pekko</groupId>
+            <artifactId>pekko-cluster-typed_${scala.binary.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pekko</groupId>
+            <artifactId>pekko-stream_${scala.binary.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pekko</groupId>
+            <artifactId>pekko-serialization-jackson_${scala.binary.version}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pekko</groupId>
+            <artifactId>pekko-persistence-typed_${scala.binary.version}</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.kubernetes.config;
+package cn.sliew.carp.framework.pekko.config;
 
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;

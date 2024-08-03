@@ -41,27 +41,14 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-framework-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-pekko</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.pekko</groupId>
-            <artifactId>pekko-actor-typed_${scala.binary.version}</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.pekko</groupId>
-            <artifactId>pekko-cluster-typed_${scala.binary.version}</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.pekko</groupId>
-            <artifactId>pekko-stream_${scala.binary.version}</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.pekko</groupId>
-            <artifactId>pekko-serialization-jackson_${scala.binary.version}</artifactId>
         </dependency>
     </dependencies>
 </project>

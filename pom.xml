@@ -197,6 +197,11 @@
                 <artifactId>carp-framework-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-pekko</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
@@ -426,6 +431,11 @@
             <dependency>
                 <groupId>org.apache.pekko</groupId>
                 <artifactId>pekko-serialization-jackson_${scala.binary.version}</artifactId>
+                <version>${pekko.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.pekko</groupId>
+                <artifactId>pekko-persistence-typed_${scala.binary.version}</artifactId>
                 <version>${pekko.version}</version>
             </dependency>
 

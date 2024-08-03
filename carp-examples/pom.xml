@@ -30,6 +30,7 @@
 
     <modules>
         <module>carp-mongo-example</module>
+        <module>carp-pekko-example</module>
     </modules>
 
     <properties>
