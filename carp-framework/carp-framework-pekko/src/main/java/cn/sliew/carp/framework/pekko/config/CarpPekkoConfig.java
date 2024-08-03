@@ -18,11 +18,15 @@
 
 package cn.sliew.carp.framework.pekko.config;
 
+import org.apache.pekko.Done;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;
 import org.apache.pekko.actor.typed.javadsl.Behaviors;
+import org.apache.pekko.persistence.jdbc.testkit.javadsl.SchemaUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.CompletionStage;
 
 @Configuration
 public class CarpPekkoConfig {
@@ -38,6 +42,17 @@ public class CarpPekkoConfig {
             }
             return done.get();
         }, actorSystem.executionContext());
+
+        // https://github.com/apache/pekko-persistence-jdbc/blob/main/core/src/main/resources/schema/mysql/mysql-create-schema.sql
+        CompletionStage<Done> createPersistenceSchemaFuture = SchemaUtils.createIfNotExists(actorSystem);
+        createPersistenceSchemaFuture.whenComplete((unused, throwable) -> {
+           if (throwable != null) {
+               actorSystem.log().error("try create pekko persistence jdbc schema if not exists exception!", throwable);
+           } else {
+               actorSystem.log().info("try create pekko persistence jdbc schema if not exists finish");
+           }
+        });
+
         return actorSystem;
     }
 }

@@ -113,6 +113,7 @@
         <mybatis.plus.version>3.5.6</mybatis.plus.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <mysql.version>8.3.0</mysql.version>
+        <h2.version>2.3.230</h2.version>
 
         <sa-token.version>1.38.0</sa-token.version>
         <knife4j.version>4.4.0</knife4j.version>
@@ -350,6 +351,12 @@
                 <scope>runtime</scope>
                 <version>${mysql.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>cn.dev33</groupId>
@@ -436,6 +443,11 @@
             <dependency>
                 <groupId>org.apache.pekko</groupId>
                 <artifactId>pekko-persistence-typed_${scala.binary.version}</artifactId>
+                <version>${pekko.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.pekko</groupId>
+                <artifactId>pekko-persistence-jdbc_${scala.binary.version}</artifactId>
                 <version>${pekko.version}</version>
             </dependency>
 

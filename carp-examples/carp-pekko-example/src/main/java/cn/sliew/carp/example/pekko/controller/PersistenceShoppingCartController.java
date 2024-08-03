@@ -41,9 +41,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 @RestController
-@RequestMapping("/api/carp/example/pekko/persistence")
-@Tag(name = "测试模块-Pekko-Persistence")
-public class PersistenceController {
+@RequestMapping("/api/carp/example/pekko/persistence/shoppingCarts")
+@Tag(name = "测试模块-Pekko-Persistence-购物车", description = "创建购物车，添加、移除商品，修改商品数量，查看商品")
+public class PersistenceShoppingCartController {
 
     @Autowired
     private ActorSystem system;
