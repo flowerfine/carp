@@ -16,21 +16,29 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.pekko.config;
+package cn.sliew.carp.example.pekko.config;
 
 import org.apache.pekko.Done;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;
 import org.apache.pekko.actor.typed.javadsl.Behaviors;
 import org.apache.pekko.persistence.jdbc.testkit.javadsl.SchemaUtils;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletionStage;
 
-@Configuration
-public class CarpPekkoConfig {
+@Component
+public class CarpPekkoClusterConfig implements ApplicationRunner {
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+
+    }
 
     @Primary
     @Bean(destroyMethod = "terminate")
