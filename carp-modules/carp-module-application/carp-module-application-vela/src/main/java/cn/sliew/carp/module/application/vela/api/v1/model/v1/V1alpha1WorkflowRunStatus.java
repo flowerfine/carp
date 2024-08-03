@@ -18,7 +18,6 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.v1;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.V1ObjectReference;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.ConditionCondition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

@@ -18,8 +18,6 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.v1;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.V1ProjectBase;
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ApplicationResourceInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

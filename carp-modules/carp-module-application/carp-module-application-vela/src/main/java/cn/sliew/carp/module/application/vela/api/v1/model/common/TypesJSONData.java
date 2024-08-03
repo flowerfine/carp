@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.common;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.V1PolicyRule;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1PolicyRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

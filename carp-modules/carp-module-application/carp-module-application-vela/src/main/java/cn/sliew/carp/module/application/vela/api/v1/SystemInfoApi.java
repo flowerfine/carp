@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.application.vela.api.v1;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.V1SystemInfoRequest;
-import cn.sliew.carp.module.application.vela.api.v1.model.V1SystemInfoResponse;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1SystemInfoRequest;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1SystemInfoResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;

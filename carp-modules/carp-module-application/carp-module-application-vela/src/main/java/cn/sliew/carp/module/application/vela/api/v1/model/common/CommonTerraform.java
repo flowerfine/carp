@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.common;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.V1SecretReference;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1SecretReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

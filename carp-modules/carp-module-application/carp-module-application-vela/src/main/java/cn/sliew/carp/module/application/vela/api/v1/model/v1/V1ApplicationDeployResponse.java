@@ -18,8 +18,6 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.v1;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.V1NameAlias;
-import cn.sliew.carp.module.application.vela.api.v1.model.V1WorkflowRecordBase;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.ModelCodeInfo;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.ModelImageInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
