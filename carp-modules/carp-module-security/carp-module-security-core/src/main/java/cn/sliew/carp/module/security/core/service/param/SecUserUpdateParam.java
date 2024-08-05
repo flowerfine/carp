@@ -18,14 +18,43 @@
 
 package cn.sliew.carp.module.security.core.service.param;
 
+import cn.sliew.carp.framework.common.dict.security.UserStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class SecUserUpdateParam extends SecUserAddParam {
+public class SecUserUpdateParam {
 
     @NotNull
     @Schema(description = "id")
     private Long id;
+
+    @Pattern(regexp = "\\w+$")
+    @Schema(description = "用户名")
+    private String userName;
+
+    @Schema(description = "昵称")
+    private String nickName;
+
+    @Schema(description = "头像")
+    private String avatar;
+
+    @Email
+    @Schema(description = "邮箱")
+    private String email;
+
+    @Schema(description = "手机")
+    private String phone;
+
+    @Schema(description = "排序")
+    private Integer order;
+
+    @Schema(description = "status")
+    private UserStatus status;
+
+    @Schema(description = "备注")
+    private String remark;
 }

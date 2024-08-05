@@ -46,14 +46,14 @@ public class CarpPekkoConfig {
         }, actorSystem.executionContext());
 
         // https://github.com/apache/pekko-persistence-jdbc/blob/main/core/src/main/resources/schema/mysql/mysql-create-schema.sql
-        CompletionStage<Done> createPersistenceSchemaFuture = SchemaUtils.createIfNotExists(actorSystem);
-        createPersistenceSchemaFuture.whenComplete((unused, throwable) -> {
-           if (throwable != null) {
-               actorSystem.log().error("try create pekko persistence jdbc schema if not exists exception!", throwable);
-           } else {
-               actorSystem.log().info("try create pekko persistence jdbc schema if not exists finish");
-           }
-        });
+//        CompletionStage<Done> createPersistenceSchemaFuture = SchemaUtils.createIfNotExists(actorSystem);
+//        createPersistenceSchemaFuture.whenComplete((unused, throwable) -> {
+//           if (throwable != null) {
+//               actorSystem.log().error("try create pekko persistence jdbc schema if not exists exception!", throwable);
+//           } else {
+//               actorSystem.log().info("try create pekko persistence jdbc schema if not exists finish");
+//           }
+//        });
 
         return actorSystem;
     }

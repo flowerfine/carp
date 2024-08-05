@@ -52,6 +52,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-kubernetes</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-system</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
