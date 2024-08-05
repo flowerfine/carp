@@ -32,7 +32,7 @@ public interface ShoppingCartCommand extends CborSerializable {
     /**
      * A command to add an item to the cart.
      * <p>
-     * It can reply with `StatusReply<Summary>`, which is sent back to the caller when
+     * It can reply with `StatusReply`, which is sent back to the caller when
      * all the events emitted by this command are successfully persisted.
      */
     class AddItem implements ShoppingCartCommand {
