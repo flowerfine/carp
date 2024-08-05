@@ -16,17 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.common.dict;
+package cn.sliew.carp.module.system.service;
 
-public interface DictDefinition {
+import cn.sliew.carp.framework.common.dict.DictInstance;
+import cn.sliew.carp.module.system.service.dto.SysDictDTO;
+import cn.sliew.carp.module.system.service.param.SysDictParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-    String getType();
+import java.util.Collection;
 
-    String getCode();
+public interface SysDictService {
 
-    String getName();
+    Collection<DictInstance> selectByType(String code);
 
-    default String getRemark() {
-        return null;
-    }
+    Page<DictInstance> listByPage(SysDictParam param);
+
+    Collection<DictInstance> selectAll();
 }

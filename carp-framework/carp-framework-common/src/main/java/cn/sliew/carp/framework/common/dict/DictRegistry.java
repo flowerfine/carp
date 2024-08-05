@@ -19,14 +19,19 @@
 package cn.sliew.carp.framework.common.dict;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface DictRegistry {
 
     Collection<DictDefinition> getAllDefinitions();
 
+    Optional<DictDefinition> getDictDefinition(String code);
+
+    Collection<DictInstance> getAllInstances();
+
     Collection<DictInstance> getDictInstance(DictDefinition definition);
 
     boolean exists(DictDefinition definition, String instanceName);
 
-    DictInstance getDictInstance(DictDefinition definition, String instanceName);
+    Optional<DictInstance> getDictInstance(DictDefinition definition, String instanceName);
 }

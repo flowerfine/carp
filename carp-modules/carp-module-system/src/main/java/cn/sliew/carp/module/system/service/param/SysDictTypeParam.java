@@ -16,17 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.common.dict;
+package cn.sliew.carp.module.system.service.param;
 
-public interface DictDefinition {
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-    String getType();
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SysDictTypeParam extends PageParam {
 
-    String getCode();
+    @Schema(description = "字典类型编码")
+    private String code;
 
-    String getName();
-
-    default String getRemark() {
-        return null;
-    }
+    @Schema(description = "字典类型名称")
+    private String name;
 }

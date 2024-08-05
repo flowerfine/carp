@@ -19,13 +19,13 @@
 package cn.sliew.carp.framework.common.dict;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.sliew.carp.framework.common.dict.common.IsDeleted;
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
-import cn.sliew.carp.framework.common.dict.security.*;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import org.apache.commons.lang3.EnumUtils;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public enum EnumDictRegistry implements DictRegistry {
     INSTANCE;
@@ -33,21 +33,14 @@ public enum EnumDictRegistry implements DictRegistry {
     private static final Table<DictDefinition, String, DictInstance> DICT_TABLE = HashBasedTable.create();
 
     static {
-        register(DictType.YES_OR_NO, YesOrNo.values());
-        register(DictType.IS_DELETED, IsDeleted.values());
-
-        register(DictType.SEC_APPLICATION_TYPE, SecApplicationType.values());
-        register(DictType.SEC_APPLICATION_STATUS, SecApplicationStatus.values());
-        register(DictType.USER_TYPE, UserType.values());
-        register(DictType.USER_STATUS, UserStatus.values());
-        register(DictType.ROLE_TYPE, RoleType.values());
-        register(DictType.ROLE_STATUS, RoleStatus.values());
-        register(DictType.RESOURCE_WEB_TYPE, ResourceWebType.values());
-        register(DictType.RESOURCE_DATA_TYPE, ResourceDataType.values());
-        register(DictType.RESOURCE_STATUS, ResourceStatus.values());
+        List<DictType> enumList = EnumUtils.getEnumList(DictType.class);
+        for (DictType dictType : enumList) {
+            List values = EnumUtils.getEnumList(dictType.getInstanceClass());
+            register(dictType, values);
+        }
     }
 
-    public static void register(DictDefinition definition, DictInstance... instances) {
+    public static void register(DictDefinition definition, List<DictInstance> instances) {
         if (ArrayUtil.isNotEmpty(instances)) {
             for (DictInstance instance : instances) {
                 DICT_TABLE.put(definition, instance.getValue(), instance);
@@ -61,6 +54,18 @@ public enum EnumDictRegistry implements DictRegistry {
     }
 
     @Override
+    public Optional<DictDefinition> getDictDefinition(String code) {
+        return getAllDefinitions().stream()
+                .filter(dictDefinition -> dictDefinition.getCode().equals(code))
+                .findFirst();
+    }
+
+    @Override
+    public Collection<DictInstance> getAllInstances() {
+        return DICT_TABLE.values();
+    }
+
+    @Override
     public Collection<DictInstance> getDictInstance(DictDefinition definition) {
         return DICT_TABLE.row(definition).values();
     }
@@ -71,7 +76,7 @@ public enum EnumDictRegistry implements DictRegistry {
     }
 
     @Override
-    public DictInstance getDictInstance(DictDefinition definition, String instanceName) {
-        return DICT_TABLE.get(definition, instanceName);
+    public Optional<DictInstance> getDictInstance(DictDefinition definition, String instanceName) {
+        return Optional.ofNullable(DICT_TABLE.get(definition, instanceName));
     }
 }

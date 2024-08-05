@@ -18,27 +18,31 @@
 
 package cn.sliew.carp.framework.common.dict;
 
+import cn.sliew.carp.framework.common.dict.common.IsDeleted;
+import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.security.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum DictType implements DictDefinition {
 
-    YES_OR_NO("yes_or_no", "是否"),
-    IS_DELETED("is_delete", "是否删除"),
+    YES_OR_NO("yes_or_no", "是否", YesOrNo.class),
+    IS_DELETED("is_delete", "是否删除", IsDeleted.class),
 
-    SEC_APPLICATION_TYPE("sec_application_type", "应用类型"),
-    SEC_APPLICATION_STATUS("sec_application_status", "应用状态"),
-    USER_TYPE("user_type", "用户类型"),
-    USER_STATUS("user_status", "用户状态"),
-    ROLE_TYPE("role_type", "角色类型"),
-    ROLE_STATUS("role_status", "角色状态"),
-    RESOURCE_WEB_TYPE("resource_web_type", "资源-web-类型"),
-    RESOURCE_DATA_TYPE("resource_data_type", "资源-数据-类型"),
-    RESOURCE_STATUS("resource_status", "资源状态"),
+    SEC_APPLICATION_TYPE("sec_application_type", "应用类型", SecApplicationType.class),
+    SEC_APPLICATION_STATUS("sec_application_status", "应用状态", SecApplicationStatus.class),
+    USER_TYPE("user_type", "用户类型", UserType.class),
+    USER_STATUS("user_status", "用户状态", UserStatus.class),
+    ROLE_TYPE("role_type", "角色类型", RoleType.class),
+    ROLE_STATUS("role_status", "角色状态", RoleStatus.class),
+    RESOURCE_WEB_TYPE("resource_web_type", "资源-web-类型", ResourceWebType.class),
+    RESOURCE_DATA_TYPE("resource_data_type", "资源-数据-类型", ResourceDataType.class),
+    RESOURCE_STATUS("resource_status", "资源状态", ResourceStatus.class),
     ;
 
     @JsonCreator
@@ -51,10 +55,17 @@ public enum DictType implements DictDefinition {
     @EnumValue
     private String code;
     private String name;
+    private Class instanceClass;
 
-    DictType(String code, String name) {
+    DictType(String code, String name, Class instanceClass) {
         this.code = code;
         this.name = name;
+        this.instanceClass = instanceClass;
+    }
+
+    @Override
+    public String getType() {
+        return "Enum";
     }
 
     @Override
@@ -65,5 +76,10 @@ public enum DictType implements DictDefinition {
     @Override
     public String getName() {
         return name;
+    }
+
+    @JsonIgnore
+    public Class getInstanceClass() {
+        return instanceClass;
     }
 }
