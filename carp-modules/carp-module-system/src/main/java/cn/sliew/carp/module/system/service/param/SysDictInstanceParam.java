@@ -16,20 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.system.service;
+package cn.sliew.carp.module.system.service.param;
 
-import cn.sliew.carp.framework.common.dict.DictInstance;
-import cn.sliew.carp.module.system.service.dto.SysDictDTO;
-import cn.sliew.carp.module.system.service.param.SysDictParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.Collection;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class SysDictInstanceParam extends PageParam {
 
-public interface SysDictService {
+    @Schema(description = "字典类型编码")
+    private String dictDefinitionCode;
 
-    Collection<DictInstance> selectByType(String code);
+    @Schema(description = "字典编码")
+    private String value;
 
-    Page<DictInstance> listByPage(SysDictParam param);
-
-    Collection<DictInstance> selectAll();
+    @Schema(description = "字典值")
+    private String label;
 }

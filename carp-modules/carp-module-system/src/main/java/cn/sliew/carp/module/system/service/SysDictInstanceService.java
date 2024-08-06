@@ -18,16 +18,17 @@
 
 package cn.sliew.carp.module.system.service;
 
-import cn.sliew.carp.framework.common.dict.DictDefinition;
-import cn.sliew.carp.module.system.service.param.SysDictTypeParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.carp.framework.common.dict.DictInstance;
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.system.service.param.SysDictInstanceParam;
 
 import java.util.Collection;
 
-public interface SysDictTypeService {
+public interface SysDictInstanceService {
 
-    Page<DictDefinition> listByPage(SysDictTypeParam sysDictTypeParam);
+    Collection<DictInstance> selectByDefinition(String code);
 
-    Collection<DictDefinition> selectAll();
+    PageResult<DictInstance> listByPage(SysDictInstanceParam param);
 
+    Collection<DictInstance> selectAll();
 }

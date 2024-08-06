@@ -25,14 +25,11 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysDictParam extends PageParam {
+public class SysDictDefinitionParam extends PageParam {
 
     @Schema(description = "字典类型编码")
-    private String dictType;
+    private String code;
 
-    @Schema(description = "字典编码")
-    private String value;
-
-    @Schema(description = "字典值")
-    private String label;
+    @Schema(description = "字典类型名称")
+    private String name;
 }

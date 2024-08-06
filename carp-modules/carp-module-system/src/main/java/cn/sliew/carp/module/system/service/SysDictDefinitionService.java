@@ -16,20 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.system.service.param;
+package cn.sliew.carp.module.system.service;
 
-import cn.sliew.carp.framework.common.model.PageParam;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.carp.framework.common.dict.DictDefinition;
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.system.service.param.SysDictDefinitionParam;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class SysDictTypeParam extends PageParam {
+import java.util.Collection;
+import java.util.Optional;
 
-    @Schema(description = "字典类型编码")
-    private String code;
+public interface SysDictDefinitionService {
 
-    @Schema(description = "字典类型名称")
-    private String name;
+    PageResult<DictDefinition> listByPage(SysDictDefinitionParam param);
+
+    Optional<DictDefinition> getByCode(String code);
+
+    Collection<DictDefinition> selectAll();
+
 }

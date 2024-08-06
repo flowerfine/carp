@@ -21,10 +21,10 @@ package cn.sliew.carp.module.system.service.impl;
 import cn.sliew.carp.framework.common.dict.DictDefinition;
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import cn.sliew.carp.framework.common.dict.EnumDictRegistry;
-import cn.sliew.carp.module.system.service.SysDictService;
-import cn.sliew.carp.module.system.service.SysDictTypeService;
-import cn.sliew.carp.module.system.service.param.SysDictParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.system.service.SysDictDefinitionService;
+import cn.sliew.carp.module.system.service.SysDictInstanceService;
+import cn.sliew.carp.module.system.service.param.SysDictInstanceParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -36,14 +36,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class SysDictServiceImpl implements SysDictService {
+public class SysDictInstanceServiceImpl implements SysDictInstanceService {
 
     @Autowired
-    private SysDictTypeService sysDictTypeService;
+    private SysDictDefinitionService sysDictDefinitionService;
 
     @Override
-    public Collection<DictInstance> selectByType(String code) {
-        Optional<DictDefinition> optional = EnumDictRegistry.INSTANCE.getDictDefinition(code);
+    public Collection<DictInstance> selectByDefinition(String code) {
+        Optional<DictDefinition> optional = sysDictDefinitionService.getByCode(code);
         if (optional.isPresent()) {
             return EnumDictRegistry.INSTANCE.getDictInstance(optional.get());
         }
@@ -51,10 +51,10 @@ public class SysDictServiceImpl implements SysDictService {
     }
 
     @Override
-    public Page<DictInstance> listByPage(SysDictParam param) {
+    public PageResult<DictInstance> listByPage(SysDictInstanceParam param) {
         Collection<DictInstance> dictInstances;
-        if (param.getDictType() != null) {
-            dictInstances = selectByType(param.getDictType());
+        if (param.getDictDefinitionCode() != null) {
+            dictInstances = selectByDefinition(param.getDictDefinitionCode());
         } else {
             dictInstances = selectAll();
         }
@@ -70,7 +70,7 @@ public class SysDictServiceImpl implements SysDictService {
             return true;
         }).collect(Collectors.toList());
 
-        Page<DictInstance> result = new Page<>(param.getCurrent(), param.getPageSize(), filteredDictInstances.size());
+        PageResult<DictInstance> result = new PageResult<>(param.getCurrent(), param.getPageSize(), Long.valueOf(filteredDictInstances.size()));
         Long from = (param.getCurrent() - 1) * param.getPageSize();
         Long to = from + param.getPageSize();
         if (from >= filteredDictInstances.size()) {
