@@ -64,8 +64,8 @@ public enum DictType implements DictDefinition {
     }
 
     @Override
-    public String getType() {
-        return "Enum";
+    public String getProvider() {
+        return "Carp";
     }
 
     @Override

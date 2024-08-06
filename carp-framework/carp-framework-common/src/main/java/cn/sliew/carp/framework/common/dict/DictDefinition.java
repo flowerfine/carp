@@ -20,7 +20,7 @@ package cn.sliew.carp.framework.common.dict;
 
 public interface DictDefinition {
 
-    String getType();
+    String getProvider();
 
     String getCode();
 
