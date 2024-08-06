@@ -35,6 +35,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +54,16 @@ public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper,
         Page<SecResourceWeb> secResourceWebPage = page(page, queryChainWrapper);
         PageResult<SecResourceWebDTO> pageResult = new PageResult<>(secResourceWebPage.getCurrent(), secResourceWebPage.getSize(), secResourceWebPage.getTotal());
         pageResult.setRecords(SecResourceWebConvert.INSTANCE.toDto(secResourceWebPage.getRecords()));
+        pageResult.getRecords().forEach(dto -> recurse(dto, param.getLabel()));
         return pageResult;
+    }
+
+    private void recurse(SecResourceWebDTO resourceWebDTO, String label) {
+        List<SecResourceWebDTO> children = listByPid(resourceWebDTO.getId(), label);
+        if (CollectionUtils.isEmpty(children) == false) {
+            resourceWebDTO.setChildren(children);
+            children.forEach(child -> recurse(child, label));
+        }
     }
 
     @Override
@@ -63,6 +74,15 @@ public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper,
                 .orderByAsc(SecResourceWeb::getOrder, SecResourceWeb::getId);
         List<SecResourceWeb> entities = list(queryChainWrapper);
         return SecResourceWebConvert.INSTANCE.toDto(entities);
+    }
+
+    @Override
+    public List<SecResourceWebDTO> listByPid(Long pid, String label) {
+        LambdaQueryWrapper<SecResourceWeb> queryWrapper = Wrappers.lambdaQuery(SecResourceWeb.class)
+                .eq(SecResourceWeb::getPid, pid)
+                .like(StringUtils.hasText(label), SecResourceWeb::getLabel, label);
+        List<SecResourceWeb> list = list(queryWrapper);
+        return SecResourceWebConvert.INSTANCE.toDto(list);
     }
 
     @Override

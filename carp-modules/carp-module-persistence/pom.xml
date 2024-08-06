@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-persistence</artifactId>
+    <packaging>pom</packaging>
 
     <modules>
         <module>carp-module-persistence-api</module>

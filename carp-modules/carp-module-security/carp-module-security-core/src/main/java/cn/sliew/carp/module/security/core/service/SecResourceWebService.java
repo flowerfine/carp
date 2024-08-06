@@ -35,6 +35,8 @@ public interface SecResourceWebService extends IService<SecResourceWeb> {
 
     List<SecResourceWebDTO> listAll(SecResourceWebListParam param);
 
+    List<SecResourceWebDTO> listByPid(Long pid, String label);
+
     SecResourceWebDTO get(Long id);
 
     boolean add(SecResourceWebAddParam param);
