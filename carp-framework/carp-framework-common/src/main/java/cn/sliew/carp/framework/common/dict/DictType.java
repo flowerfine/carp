@@ -34,15 +34,15 @@ public enum DictType implements DictDefinition {
     YES_OR_NO("yes_or_no", "是否", YesOrNo.class),
     IS_DELETED("is_delete", "是否删除", IsDeleted.class),
 
-    SEC_APPLICATION_TYPE("sec_application_type", "应用类型", SecApplicationType.class),
-    SEC_APPLICATION_STATUS("sec_application_status", "应用状态", SecApplicationStatus.class),
-    USER_TYPE("user_type", "用户类型", UserType.class),
-    USER_STATUS("user_status", "用户状态", UserStatus.class),
-    ROLE_TYPE("role_type", "角色类型", RoleType.class),
-    ROLE_STATUS("role_status", "角色状态", RoleStatus.class),
-    RESOURCE_WEB_TYPE("resource_web_type", "资源-web-类型", ResourceWebType.class),
-    RESOURCE_DATA_TYPE("resource_data_type", "资源-数据-类型", ResourceDataType.class),
-    RESOURCE_STATUS("resource_status", "资源状态", ResourceStatus.class),
+    SEC_APPLICATION_TYPE("sec_application_type", "安全-应用类型", SecApplicationType.class),
+    SEC_APPLICATION_STATUS("sec_application_status", "安全-应用状态", SecApplicationStatus.class),
+    USER_TYPE("sec_user_type", "安全-用户类型", SecUserType.class),
+    USER_STATUS("sec_user_status", "安全-用户状态", SecUserStatus.class),
+    ROLE_TYPE("sec_role_type", "安全-角色类型", SecRoleType.class),
+    ROLE_STATUS("sec_role_status", "安全-角色状态", SecRoleStatus.class),
+    RESOURCE_WEB_TYPE("sec_resource_web_type", "安全-资源-web-类型", SecResourceWebType.class),
+    RESOURCE_DATA_TYPE("sec_resource_data_type", "安全-资源-数据-类型", SecResourceDataType.class),
+    RESOURCE_STATUS("sec_resource_status", "安全-资源状态", SecResourceStatus.class),
     ;
 
     @JsonCreator

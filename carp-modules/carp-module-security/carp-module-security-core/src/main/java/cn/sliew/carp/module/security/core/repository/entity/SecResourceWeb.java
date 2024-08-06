@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.security.ResourceStatus;
-import cn.sliew.carp.framework.common.dict.security.ResourceWebType;
+import cn.sliew.carp.framework.common.dict.security.SecResourceStatus;
+import cn.sliew.carp.framework.common.dict.security.SecResourceWebType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -32,7 +32,7 @@ public class SecResourceWeb extends BaseAuditDO {
     private static final long serialVersionUID = 1L;
 
     @TableField("`type`")
-    private ResourceWebType type;
+    private SecResourceWebType type;
 
     @TableField("pid")
     private Long pid;
@@ -50,7 +50,7 @@ public class SecResourceWeb extends BaseAuditDO {
     private String order;
 
     @TableField("`status`")
-    private ResourceStatus status;
+    private SecResourceStatus status;
 
     @TableField("remark")
     private String remark;

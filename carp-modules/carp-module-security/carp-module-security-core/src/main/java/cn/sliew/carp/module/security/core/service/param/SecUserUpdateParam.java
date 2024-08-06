@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service.param;
 
-import cn.sliew.carp.framework.common.dict.security.UserStatus;
+import cn.sliew.carp.framework.common.dict.security.SecUserStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -53,7 +53,7 @@ public class SecUserUpdateParam {
     private Integer order;
 
     @Schema(description = "status")
-    private UserStatus status;
+    private SecUserStatus status;
 
     @Schema(description = "备注")
     private String remark;

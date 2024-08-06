@@ -26,24 +26,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum UserType implements DictInstance {
+public enum SecRoleStatus implements DictInstance {
 
-    SYSTEM("0", "系统"),
-    CUSTOM("1", "自定义"),
+    DISABLED("0", "禁用"),
+    ENABLED("1", "正常"),
     ;
 
     @JsonCreator
-    public static UserType of(String value) {
+    public static SecRoleStatus of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(UserType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SecRoleStatus.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    UserType(String value, String label) {
+    SecRoleStatus(String value, String label) {
         this.value = value;
         this.label = label;
     }

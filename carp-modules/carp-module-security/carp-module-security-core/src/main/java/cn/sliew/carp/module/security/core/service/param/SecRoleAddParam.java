@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service.param;
 
-import cn.sliew.carp.framework.common.dict.security.RoleStatus;
+import cn.sliew.carp.framework.common.dict.security.SecRoleStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -38,7 +38,7 @@ public class SecRoleAddParam {
     private Integer order;
 
     @Schema(description = "角色状态")
-    private RoleStatus status;
+    private SecRoleStatus status;
 
     @Schema(description = "角色备注")
     private String remark;

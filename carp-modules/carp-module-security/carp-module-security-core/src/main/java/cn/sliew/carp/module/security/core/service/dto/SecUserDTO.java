@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.service.dto;
 
-import cn.sliew.carp.framework.common.dict.security.UserStatus;
-import cn.sliew.carp.framework.common.dict.security.UserType;
+import cn.sliew.carp.framework.common.dict.security.SecUserStatus;
+import cn.sliew.carp.framework.common.dict.security.SecUserType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,7 +32,7 @@ import lombok.EqualsAndHashCode;
 public class SecUserDTO extends BaseDTO {
 
     @Schema(description = "类型")
-    private UserType type;
+    private SecUserType type;
 
     @Schema(description = "用户名")
     private String userName;
@@ -61,7 +61,7 @@ public class SecUserDTO extends BaseDTO {
     private Integer order;
 
     @Schema(description = "status")
-    private UserStatus status;
+    private SecUserStatus status;
 
     @Schema(description = "备注")
     private String remark;

@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.security.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.sliew.carp.framework.common.dict.security.UserType;
+import cn.sliew.carp.framework.common.dict.security.SecUserType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
@@ -97,7 +97,7 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
     @Override
     public boolean add(SecUserAddParam param) {
         SecUser entity = BeanUtil.copyProperties(param, SecUser.class);
-        entity.setType(UserType.CUSTOM);
+        entity.setType(SecUserType.CUSTOM);
         entity.setSalt(RandomStringUtils.randomAlphanumeric(32));
         entity.setPassword(PasswordUtil.digestPassword(param.getPassword(), entity.getSalt()));
         return save(entity);

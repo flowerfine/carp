@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.repository.mapper;
 
-import cn.sliew.carp.framework.common.dict.security.RoleStatus;
-import cn.sliew.carp.framework.common.dict.security.UserStatus;
+import cn.sliew.carp.framework.common.dict.security.SecRoleStatus;
+import cn.sliew.carp.framework.common.dict.security.SecUserStatus;
 import cn.sliew.carp.module.security.core.repository.entity.SecRole;
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
 import cn.sliew.carp.module.security.core.repository.entity.SecUserRole;
@@ -38,7 +38,7 @@ public interface SecUserRoleMapper extends BaseMapper<SecUserRole> {
      */
     Page<SecUser> selectRelatedUsersByRole(Page page,
                                            @Param("roleId") Long roleId,
-                                           @Param("status") UserStatus status,
+                                           @Param("status") SecUserStatus status,
                                            @Param("userName") String userName);
 
     /**
@@ -46,20 +46,20 @@ public interface SecUserRoleMapper extends BaseMapper<SecUserRole> {
      */
     Page<SecUser> selectUnrelatedUsersByRole(Page page,
                                              @Param("roleId") Long roleId,
-                                             @Param("status") UserStatus status,
+                                             @Param("status") SecUserStatus status,
                                              @Param("userName") String userName);
 
     /**
      * 查询用户关联的角色
      */
     List<SecRole> selectRelatedRolesByUser(@Param("userId") Long userId,
-                                           @Param("status") RoleStatus status,
+                                           @Param("status") SecRoleStatus status,
                                            @Param("name") String name);
 
     /**
      * 查询用户未关联的角色
      */
     List<SecRole> selectUnrelatedRolesByUser(@Param("userId") Long userId,
-                                             @Param("status") RoleStatus status,
+                                             @Param("status") SecRoleStatus status,
                                              @Param("name") String name);
 }

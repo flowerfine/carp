@@ -18,9 +18,8 @@
 
 package cn.sliew.carp.module.security.core.service.param;
 
-import cn.sliew.carp.framework.common.dict.security.ResourceStatus;
+import cn.sliew.carp.framework.common.dict.security.SecResourceStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -42,7 +41,7 @@ public class SecResourceWebAddParam {
     private Integer order;
 
     @Schema(description = "资源状态")
-    private ResourceStatus status;
+    private SecResourceStatus status;
 
     @Schema(description = "备注")
     private String remark;

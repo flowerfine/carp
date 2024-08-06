@@ -26,24 +26,26 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum RoleType implements DictInstance {
+public enum SecResourceWebType implements DictInstance {
 
-    SYSTEM("01", "系统角色"),
-    CUSTOM("02", "用户定义"),
+    NAV("0", "导航"),
+    MENU("1", "菜单"),
+    PAGE("2", "页面"),
+    BUTTON("3", "按钮"),
     ;
 
     @JsonCreator
-    public static RoleType of(String value) {
+    public static SecResourceWebType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(RoleType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(SecResourceWebType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    RoleType(String value, String label) {
+    SecResourceWebType(String value, String label) {
         this.value = value;
         this.label = label;
     }
