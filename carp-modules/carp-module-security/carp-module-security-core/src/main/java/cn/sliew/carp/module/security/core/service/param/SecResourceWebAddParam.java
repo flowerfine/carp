@@ -19,27 +19,39 @@
 package cn.sliew.carp.module.security.core.service.param;
 
 import cn.sliew.carp.framework.common.dict.security.SecResourceStatus;
+import cn.sliew.carp.framework.common.dict.security.SecResourceWebType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class SecResourceWebAddParam {
 
+    @NotNull
+    @Schema(description = "资源类型")
+    private SecResourceWebType type;
+
+    @NotNull
     @Schema(description = "上级资源id")
     private Long pid;
 
+    @NotBlank
     @Schema(description = "资源值")
     private String value;
 
+    @NotBlank
     @Schema(description = "资源名称")
     private String label;
 
+    @NotBlank
     @Schema(description = "路由路径")
     private String path;
 
     @Schema(description = "order")
     private Integer order;
 
+    @NotNull
     @Schema(description = "资源状态")
     private SecResourceStatus status;
 

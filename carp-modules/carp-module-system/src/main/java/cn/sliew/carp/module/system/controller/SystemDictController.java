@@ -68,7 +68,7 @@ public class SystemDictController {
 
     @GetMapping("/definition/instance")
     @Operation(summary = "查询数据字典", description = "根据字典类型code查询数据字典")
-    public Collection<DictInstance> listDictByType(@RequestParam("dictDefinitionCode") String code) {
+    public Collection<DictInstance> listDictByDefinition(@RequestParam("dictDefinitionCode") String code) {
         return sysDictInstanceService.selectByDefinition(code);
     }
 
