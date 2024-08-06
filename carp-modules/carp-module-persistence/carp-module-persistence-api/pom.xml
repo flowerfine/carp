@@ -22,14 +22,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-modules</artifactId>
+        <artifactId>carp-module-persistence</artifactId>
         <version>0.0.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-persistence</artifactId>
-
-    <modules>
-        <module>carp-module-persistence-api</module>
-    </modules>
+    <artifactId>carp-module-persistence-api</artifactId>
 
 </project>
