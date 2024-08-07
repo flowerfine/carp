@@ -16,35 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1;
+package cn.sliew.carp.module.application.vela.api.v1.security;
 
+import cn.sliew.carp.module.application.vela.api.v1.model.security.V1PermissionBase;
 import cn.sliew.carp.module.application.vela.api.v1.model.v1.*;
+import cn.sliew.carp.module.application.vela.config.VelaFeignConfig;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
+@FeignClient(value = "VelaRbacApi", url = "EMPTY", configuration = VelaFeignConfig.class)
 public interface RbacApi {
 
     @GetMapping(value = "/api/v1/roles")
-    ResponseEntity<V1ListRolesResponse> listPlatformRoles();
+    ResponseEntity<V1ListRolesResponse> listPlatformRoles(URI uri);
 
     @PostMapping(value = "/api/v1/roles")
-    ResponseEntity<V1RoleBase> createPlatformRole(@RequestBody V1CreateRoleRequest body);
+    ResponseEntity<V1RoleBase> createPlatformRole(URI uri, @RequestBody V1CreateRoleRequest body);
 
     @PutMapping(value = "/api/v1/roles/{roleName}")
-    ResponseEntity<V1RoleBase> updatePlatformRole(@PathVariable("roleName") String roleName, @RequestBody V1UpdateRoleRequest body);
+    ResponseEntity<V1RoleBase> updatePlatformRole(URI uri, @PathVariable("roleName") String roleName, @RequestBody V1UpdateRoleRequest body);
 
     @DeleteMapping(value = "/api/v1/roles/{roleName}")
-    ResponseEntity<V1EmptyResponse> deletePlatformRole(@PathVariable("roleName") String roleName);
+    ResponseEntity<V1EmptyResponse> deletePlatformRole(URI uri, @PathVariable("roleName") String roleName);
 
     @GetMapping(value = "/api/v1/permissions")
-    ResponseEntity<List<V1PermissionBase>> listPlatformPermissions();
+    ResponseEntity<List<V1PermissionBase>> listPlatformPermissions(URI uri);
 
     @PostMapping(value = "/api/v1/permissions")
-    ResponseEntity<V1PermissionBase> createPlatformPermission(@RequestBody V1CreatePermissionRequest body);
+    ResponseEntity<V1PermissionBase> createPlatformPermission(URI uri, @RequestBody V1CreatePermissionRequest body);
 
     @DeleteMapping(value = "/api/v1/permissions/{permissionName}")
-    ResponseEntity<V1EmptyResponse> deletePlatformPermission(@PathVariable("permissionName") String permissionName);
+    ResponseEntity<V1EmptyResponse> deletePlatformPermission(URI uri, @PathVariable("permissionName") String permissionName);
 
 }

@@ -16,35 +16,37 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1;
+package cn.sliew.carp.module.application.vela.api.v1.security;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.*;
+import cn.sliew.carp.module.application.vela.api.v1.model.security.*;
+import cn.sliew.carp.module.application.vela.config.VelaFeignConfig;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
+@FeignClient(value = "VelaAuthenticationApi", url = "EMPTY", configuration = VelaFeignConfig.class)
 public interface AuthenticationApi {
 
     @GetMapping(value = "/api/v1/auth/login_type")
-    ResponseEntity<V1GetLoginTypeResponse> getLoginType();
+    ResponseEntity<V1GetLoginTypeResponse> getLoginType(URI uri);
 
     @GetMapping(value = "/api/v1/auth/user_info")
-    ResponseEntity<V1LoginUserInfoResponse> getLoginUserInfo();
+    ResponseEntity<V1LoginUserInfoResponse> getLoginUserInfo(URI uri);
 
     @GetMapping(value = "/api/v1/auth/refresh_token")
-    ResponseEntity<V1RefreshTokenResponse> refreshToken();
+    ResponseEntity<V1RefreshTokenResponse> refreshToken(URI uri, @RequestHeader("RefreshToken") String refreshToken);
 
     @PostMapping(value = "/api/v1/auth/login")
-    ResponseEntity<V1LoginResponse> login(@RequestBody V1LoginRequest body);
+    ResponseEntity<V1LoginResponse> login(URI uri, @RequestBody V1LoginRequest body);
 
     @GetMapping(value = "/api/v1/auth/admin_configured")
-    ResponseEntity<V1AdminConfiguredResponse> adminConfigured();
+    ResponseEntity<V1AdminConfiguredResponse> adminConfigured(URI uri);
 
     @PutMapping(value = "/api/v1/auth/init_admin")
-    ResponseEntity<V1InitAdminResponse> configureAdmin(@RequestBody V1InitAdminRequest body);
+    ResponseEntity<V1InitAdminResponse> configureAdmin(URI uri, @RequestBody V1InitAdminRequest body);
 
     @GetMapping(value = "/api/v1/auth/dex_config")
-    ResponseEntity<V1DexConfigResponse> getDexConfig();
+    ResponseEntity<V1DexConfigResponse> getDexConfig(URI uri);
 }

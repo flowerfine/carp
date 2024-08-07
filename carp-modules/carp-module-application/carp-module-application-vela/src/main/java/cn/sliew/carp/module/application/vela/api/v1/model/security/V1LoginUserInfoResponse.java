@@ -16,37 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.security;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1UserProjectBase;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
-public class V1PermissionBase {
-    @JsonProperty("actions")
-    private List<String> actions = new ArrayList<String>();
+public class V1LoginUserInfoResponse extends V1UserBase {
 
-    @JsonProperty("alias")
-    private String alias = null;
-
-    @JsonProperty("createTime")
-    private Date createTime = null;
-
-    @JsonProperty("effect")
-    private String effect = null;
-
-    @JsonProperty("name")
-    private String name = null;
-
-    @JsonProperty("resources")
-    private List<String> resources = new ArrayList<String>();
-
-    @JsonProperty("updateTime")
-    private Date updateTime = null;
-
+    private List<V1PermissionBase> platformPermissions;
+    private Map<String, List<V1PermissionBase>> projectPermissions;
+    private List<V1UserProjectBase> projects;
 }
 

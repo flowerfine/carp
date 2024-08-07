@@ -16,18 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.security;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class V1RefreshTokenResponse {
-    @JsonProperty("accessToken")
-    private String accessToken = null;
+public class V1GetLoginTypeResponse {
 
-    @JsonProperty("refreshToken")
-    private String refreshToken = null;
-
+    private String loginType;
 }
 

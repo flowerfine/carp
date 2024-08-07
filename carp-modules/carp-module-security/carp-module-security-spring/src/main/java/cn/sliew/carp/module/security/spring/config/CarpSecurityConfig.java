@@ -109,8 +109,12 @@ public class CarpSecurityConfig {
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethodMap.entrySet()) {
             RequestMappingInfo requestMappingInfo = entry.getKey();
             HandlerMethod handlerMethod = entry.getValue();
-            AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
-            if (!ObjectUtils.isEmpty(anonymousAccess)) {
+            if (handlerMethod.getBeanType().isAnnotationPresent(AnonymousAccess.class)
+                    || handlerMethod.hasMethodAnnotation(AnonymousAccess.class)) {
+                AnonymousAccess anonymousAccess = handlerMethod.getBeanType().getAnnotation(AnonymousAccess.class);
+                if (anonymousAccess == null) {
+                    anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
+                }
                 anonymousUrls.addAll(requestMappingInfo.getPatternValues());
             }
         }

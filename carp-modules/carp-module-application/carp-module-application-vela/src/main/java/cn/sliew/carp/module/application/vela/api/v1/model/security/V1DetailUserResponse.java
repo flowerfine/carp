@@ -16,22 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.security;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1DetailUserResponse;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1NameAlias;
+import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1UserProjectBase;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class V1ListUserResponse {
-    @JsonProperty("total")
-    private Long total = null;
+public class V1DetailUserResponse extends V1UserBase {
 
-    @JsonProperty("users")
-    private List<V1DetailUserResponse> users = new ArrayList<V1DetailUserResponse>();
-
+    private List<V1UserProjectBase> projects;
+    private List<V1NameAlias> roles;
 }
-

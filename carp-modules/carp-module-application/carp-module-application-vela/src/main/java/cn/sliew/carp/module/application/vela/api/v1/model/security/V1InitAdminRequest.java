@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.security;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class V1GetLoginTypeResponse {
-    @JsonProperty("loginType")
-    private String loginType = null;
+public class V1InitAdminRequest {
 
+    private String name;
+    private String password;
+    private String email;
 }
 

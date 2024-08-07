@@ -16,25 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.auth;
+package cn.sliew.carp.module.application.vela.api.v1.model.security;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
-public class AuthLoginResult {
+public class V1LoginResponse {
 
-    private String accessToken;
-    private String refreshToken;
-    private User user;
+    private String accessToken ;
+    private String refreshToken ;
+    private V1UserBase user;
 
-    @Data
-    public static class User {
-        private String name;
-        private String email;
-        private Boolean disabled;
-        private LocalDateTime createTime;
-        private LocalDateTime lastLoginTime;
-    }
 }
+

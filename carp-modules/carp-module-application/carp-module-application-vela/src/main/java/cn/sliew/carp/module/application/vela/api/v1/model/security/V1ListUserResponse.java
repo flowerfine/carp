@@ -16,13 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.auth;
+package cn.sliew.carp.module.application.vela.api.v1.model.security;
 
 import lombok.Data;
 
-@Data
-public class AuthLoginParam {
+import java.util.List;
 
-    private String username;
-    private String password;
+@Data
+public class V1ListUserResponse {
+
+    private Long total;
+    private List<V1DetailUserResponse> users;
 }
+

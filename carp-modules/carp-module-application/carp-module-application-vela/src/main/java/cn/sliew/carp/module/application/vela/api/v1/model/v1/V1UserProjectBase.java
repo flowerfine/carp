@@ -18,33 +18,19 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.v1;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1NameAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 public class V1UserProjectBase {
-    @JsonProperty("alias")
-    private String alias = null;
 
-    @JsonProperty("description")
-    private String description = null;
-
-    @JsonProperty("joinTime")
-    private Date joinTime = null;
-
-    @JsonProperty("name")
-    private String name = null;
-
-    @JsonProperty("owner")
-    private V1NameAlias owner = null;
-
-    @JsonProperty("roles")
-    private List<V1NameAlias> roles = new ArrayList<V1NameAlias>();
-
+    private String name;
+    private String alias;
+    private String description;
+    private V1NameAlias owner;
+    private List<V1NameAlias> roles;
+    private LocalDateTime joinTime;
 }
 

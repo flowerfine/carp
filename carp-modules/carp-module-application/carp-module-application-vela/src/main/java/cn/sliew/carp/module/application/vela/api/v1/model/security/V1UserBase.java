@@ -16,15 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.security;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-@Data
-public class V1InitAdminResponse {
-    @JsonProperty("success")
-    private Boolean success = null;
+import java.time.LocalDateTime;
 
+@Data
+public class V1UserBase {
+
+    private String name;
+    private String alias;
+    private String email;
+    private Boolean disabled;
+    private LocalDateTime lastLoginTime;
+    private LocalDateTime createTime;
 }
 

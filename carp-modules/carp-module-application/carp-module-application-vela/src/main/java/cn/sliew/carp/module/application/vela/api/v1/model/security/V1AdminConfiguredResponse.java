@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.auth;
+package cn.sliew.carp.module.application.vela.api.v1.model.security;
 
 import lombok.Data;
 
 @Data
-public class AuthRefreshTokenResult {
+public class V1AdminConfiguredResponse {
 
-    private String accessToken;
-    private String refreshToken;
+    private Boolean configured;
 }
+

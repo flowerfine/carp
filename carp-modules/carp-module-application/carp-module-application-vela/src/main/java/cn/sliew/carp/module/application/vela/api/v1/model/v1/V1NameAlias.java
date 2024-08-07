@@ -18,16 +18,12 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.v1;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class V1NameAlias {
-    @JsonProperty("alias")
-    private String alias = null;
 
-    @JsonProperty("name")
-    private String name = null;
-
+    private String name;
+    private String alias;
 }
 
