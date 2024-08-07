@@ -16,18 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.oam.model.application;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Properties;
 
 @Data
-public class V1ListApplicationResponse {
-    @JsonProperty("applications")
-    private List<V1ApplicationBase> applications = new ArrayList<V1ApplicationBase>();
+public class ApplicationComponentTrait {
 
+    private String type;
+    private Properties properties;
 }
-

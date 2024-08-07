@@ -28,4 +28,10 @@
     </parent>
     <artifactId>carp-module-application-oam</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
+        </dependency>
+    </dependencies>
 </project>

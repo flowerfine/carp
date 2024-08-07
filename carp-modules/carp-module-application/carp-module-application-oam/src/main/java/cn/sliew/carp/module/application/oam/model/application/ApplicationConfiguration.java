@@ -16,18 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.oam.model.application;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import cn.sliew.carp.module.application.oam.model.common.AbstractSchema;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
-public class V1ListApplicationResponse {
-    @JsonProperty("applications")
-    private List<V1ApplicationBase> applications = new ArrayList<V1ApplicationBase>();
+@Group("core.oam.dev")
+@Version("v1beta1")
+public class ApplicationConfiguration extends AbstractSchema {
 
 }
-

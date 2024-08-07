@@ -16,18 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.oam.model.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 @Data
-public class V1ListApplicationResponse {
-    @JsonProperty("applications")
-    private List<V1ApplicationBase> applications = new ArrayList<V1ApplicationBase>();
+public class MetaData {
 
+    private String name;
+    private Map<String, String> labels;
+    /**
+     * version 和 description 预定义且推荐使用
+     * definition.oam.dev/description: description
+     * definition.oam.dev/version: version
+     */
+    private Map<String, String> annotations;
 }
-
