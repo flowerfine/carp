@@ -23,23 +23,27 @@ import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1DetailDefinitionR
 import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ListDefinitionResponse;
 import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1UpdateDefinitionStatusRequest;
 import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1UpdateUISchemaRequest;
+import cn.sliew.carp.module.application.vela.config.VelaFeignConfig;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
+@FeignClient(value = "VelaDefinitionApi", url = "EMPTY", configuration = VelaFeignConfig.class)
 public interface DefinitionApi {
 
     @GetMapping(value = "/api/v1/definitions")
-    ResponseEntity<V1ListDefinitionResponse> listDefinitions(@RequestParam("type") String type, @RequestParam("queryAll") Boolean queryAll, @RequestParam("appliedWorkload") String appliedWorkload, @RequestParam("ownerAddon") String ownerAddon, @RequestParam("scope") String scope);
+    ResponseEntity<V1ListDefinitionResponse> listDefinitions(URI uri, @RequestParam("type") String type, @RequestParam("queryAll") Boolean queryAll, @RequestParam("appliedWorkload") String appliedWorkload, @RequestParam("ownerAddon") String ownerAddon, @RequestParam("scope") String scope);
 
     @GetMapping(value = "/api/v1/definitions/{definitionName}")
-    ResponseEntity<V1DetailDefinitionResponse> detailDefinition(@PathVariable("definitionName") String definitionName, @RequestParam("type") String type);
+    ResponseEntity<V1DetailDefinitionResponse> detailDefinition(URI uri, @PathVariable("definitionName") String definitionName, @RequestParam("type") String type);
 
     @PutMapping(value = "/api/v1/definitions/{definitionName}/status")
-    ResponseEntity<List<SchemaUIParameter>> updateDefinitionStatus(@PathVariable("definitionName") String definitionName, @RequestBody V1UpdateDefinitionStatusRequest body);
+    ResponseEntity<List<SchemaUIParameter>> updateDefinitionStatus(URI uri, @PathVariable("definitionName") String definitionName, @RequestBody V1UpdateDefinitionStatusRequest body);
 
     @PutMapping(value = "/api/v1/definitions/{definitionName}/uischema")
-    ResponseEntity<List<SchemaUIParameter>> updateUISchema(@PathVariable("definitionName") String definitionName, @RequestBody V1UpdateUISchemaRequest body);
+    ResponseEntity<List<SchemaUIParameter>> updateUISchema(URI uri, @PathVariable("definitionName") String definitionName, @RequestBody V1UpdateUISchemaRequest body);
 
 }

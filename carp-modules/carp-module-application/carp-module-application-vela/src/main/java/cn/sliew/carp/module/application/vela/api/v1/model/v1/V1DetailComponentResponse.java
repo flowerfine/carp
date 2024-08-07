@@ -21,9 +21,7 @@ package cn.sliew.carp.module.application.vela.api.v1.model.v1;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonWorkloadTypeDescriptor;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.ModelApplicationTrait;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.ModelJSONStruct;
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1alpha1InputItem;
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1alpha1OutputItem;
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1beta1ComponentDefinitionSpec;
+import cn.sliew.carp.module.application.vela.api.v1.model.definition.V1beta1ComponentDefinitionSpec;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

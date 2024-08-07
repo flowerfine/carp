@@ -18,16 +18,12 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class CommonDefinitionReference {
-    @JsonProperty("name")
-    private String name = null;
 
-    @JsonProperty("version")
-    private String version = null;
-
+    private String name;
+    private String version;
 }
 

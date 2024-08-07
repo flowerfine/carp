@@ -16,23 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.definition;
 
 import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonDefinitionReference;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonSchematic;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class V1beta1PolicyDefinitionSpec {
-    @JsonProperty("definitionRef")
-    private CommonDefinitionReference definitionRef = null;
+public class V1beta1WorkflowStepDefinitionSpec {
 
-    @JsonProperty("manageHealthCheck")
-    private Boolean manageHealthCheck = null;
-
-    @JsonProperty("schematic")
-    private CommonSchematic schematic = null;
-
+    private CommonDefinitionReference definitionRef;
+    private CommonSchematic schematic;
 }
 

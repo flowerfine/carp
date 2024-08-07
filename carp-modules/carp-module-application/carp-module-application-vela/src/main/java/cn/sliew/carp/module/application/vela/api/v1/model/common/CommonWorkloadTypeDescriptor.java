@@ -18,16 +18,12 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class CommonWorkloadTypeDescriptor {
-    @JsonProperty("definition")
-    private CommonWorkloadGVK definition = null;
 
-    @JsonProperty("type")
-    private String type = null;
-
+    private CommonWorkloadGVK definition;
+    private String type;
 }
 

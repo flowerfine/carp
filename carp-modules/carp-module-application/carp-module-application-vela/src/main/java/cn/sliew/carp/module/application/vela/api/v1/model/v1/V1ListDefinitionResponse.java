@@ -18,17 +18,14 @@
 
 package cn.sliew.carp.module.application.vela.api.v1.model.v1;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1DefinitionBase;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import cn.sliew.carp.module.application.vela.api.v1.model.definition.V1DefinitionBase;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class V1ListDefinitionResponse {
-    @JsonProperty("definitions")
-    private List<V1DefinitionBase> definitions = new ArrayList<V1DefinitionBase>();
 
+    private List<V1DefinitionBase> definitions;
 }
 

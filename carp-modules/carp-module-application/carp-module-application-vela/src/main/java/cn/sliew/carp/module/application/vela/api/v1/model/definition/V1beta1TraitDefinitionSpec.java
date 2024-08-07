@@ -16,53 +16,29 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.definition;
 
 import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonDefinitionReference;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonSchematic;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonStatus;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public class V1beta1TraitDefinitionSpec {
-    @JsonProperty("appliesToWorkloads")
-    private List<String> appliesToWorkloads = null;
 
-    @JsonProperty("conflictsWith")
-    private List<String> conflictsWith = null;
-
-    @JsonProperty("controlPlaneOnly")
-    private Boolean controlPlaneOnly = null;
-
-    @JsonProperty("definitionRef")
-    private CommonDefinitionReference definitionRef = null;
-
-    @JsonProperty("extension")
-    private String extension = null;
-
-    @JsonProperty("manageWorkload")
-    private Boolean manageWorkload = null;
-
-    @JsonProperty("podDisruptive")
-    private Boolean podDisruptive = null;
-
-    @JsonProperty("revisionEnabled")
-    private Boolean revisionEnabled = null;
-
-    @JsonProperty("schematic")
-    private CommonSchematic schematic = null;
-
-    @JsonProperty("stage")
-    private String stage = null;
-
-    @JsonProperty("status")
-    private CommonStatus status = null;
-
-    @JsonProperty("workloadRefPath")
-    private String workloadRefPath = null;
-
+    private List<String> appliesToWorkloads;
+    private List<String> conflictsWith;
+    private Boolean controlPlaneOnly;
+    private String extension;
+    private Boolean manageWorkload;
+    private Boolean podDisruptive;
+    private Boolean revisionEnabled;
+    private String stage;
+    private CommonStatus status;
+    private String workloadRefPath;
+    private CommonDefinitionReference definitionRef;
+    private CommonSchematic schematic;
 }
 

@@ -19,10 +19,10 @@
 package cn.sliew.carp.module.application.vela.api.v1.model.v1;
 
 import cn.sliew.carp.module.application.vela.api.v1.model.common.SchemaUIParameter;
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1beta1ComponentDefinitionSpec;
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1beta1PolicyDefinitionSpec;
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1beta1TraitDefinitionSpec;
-import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1beta1WorkflowStepDefinitionSpec;
+import cn.sliew.carp.module.application.vela.api.v1.model.definition.V1beta1ComponentDefinitionSpec;
+import cn.sliew.carp.module.application.vela.api.v1.model.definition.V1beta1PolicyDefinitionSpec;
+import cn.sliew.carp.module.application.vela.api.v1.model.definition.V1beta1TraitDefinitionSpec;
+import cn.sliew.carp.module.application.vela.api.v1.model.definition.V1beta1WorkflowStepDefinitionSpec;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

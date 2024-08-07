@@ -16,39 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.definition;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonChildResourceKind;
+import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonDefinitionReference;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonSchematic;
-import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonStatus;
-import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonWorkloadTypeDescriptor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class V1beta1ComponentDefinitionSpec {
-    @JsonProperty("childResourceKinds")
-    private List<CommonChildResourceKind> childResourceKinds = null;
+public class V1beta1PolicyDefinitionSpec {
 
-    @JsonProperty("extension")
-    private String extension = null;
-
-    @JsonProperty("podSpecPath")
-    private String podSpecPath = null;
-
-    @JsonProperty("revisionLabel")
-    private String revisionLabel = null;
-
-    @JsonProperty("schematic")
-    private CommonSchematic schematic = null;
-
-    @JsonProperty("status")
-    private CommonStatus status = null;
-
-    @JsonProperty("workload")
-    private CommonWorkloadTypeDescriptor workload = null;
-
+    private Boolean manageHealthCheck;
+    private CommonDefinitionReference definitionRef;
+    private CommonSchematic schematic;
 }
 

@@ -16,14 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.common;
+package cn.sliew.carp.module.application.vela.api.v1.model.definition;
 
 import lombok.Data;
 
-@Data
-public class CommonStatus {
+import java.util.Map;
 
-    private String customStatus;
-    private String healthPolicy;
+@Data
+public class V1DefinitionBase {
+
+    private String name;
+    private String alias;
+    private String description;
+    private String category;
+    private String icon;
+    private Map<String, String> labels;
+    private String workloadType;
+    private String ownerAddon;
+    private String status;
+    private V1beta1ComponentDefinitionSpec component;
+    private V1beta1PolicyDefinitionSpec policy;
+    private V1beta1TraitDefinitionSpec trait;
+    private V1beta1WorkflowStepDefinitionSpec workflowStep;
 }
 

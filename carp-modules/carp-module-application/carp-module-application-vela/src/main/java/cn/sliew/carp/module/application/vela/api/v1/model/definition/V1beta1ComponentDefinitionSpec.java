@@ -16,20 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.application.vela.api.v1.model.v1;
+package cn.sliew.carp.module.application.vela.api.v1.model.definition;
 
-import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonDefinitionReference;
+import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonChildResourceKind;
 import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonSchematic;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonStatus;
+import cn.sliew.carp.module.application.vela.api.v1.model.common.CommonWorkloadTypeDescriptor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class V1beta1WorkflowStepDefinitionSpec {
-    @JsonProperty("definitionRef")
-    private CommonDefinitionReference definitionRef = null;
+public class V1beta1ComponentDefinitionSpec {
 
-    @JsonProperty("schematic")
-    private CommonSchematic schematic = null;
-
+    private String podSpecPath;
+    private String revisionLabel;
+    private String extension;
+    private List<CommonChildResourceKind> childResourceKinds;
+    private CommonSchematic schematic;
+    private CommonWorkloadTypeDescriptor workload;
+    private CommonStatus status;
 }
 
