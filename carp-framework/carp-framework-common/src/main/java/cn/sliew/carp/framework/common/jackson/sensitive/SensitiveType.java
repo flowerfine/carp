@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.framework.common.jackson.sensitive;
 
-import cn.sliew.scaleph.common.codec.CodecUtil;
+import cn.sliew.carp.framework.common.codec.CodecUtil;
 
 public enum SensitiveType {
 

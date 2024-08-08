@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
-import static cn.sliew.scaleph.common.exception.Rethrower.checkArgument;
+import static cn.sliew.milky.common.check.Ensures.checkArgument;
 
 @JsonTypeInfo(use = Id.NAME, include = As.EXISTING_PROPERTY, property = "type", visible = true)
 @JsonPropertyOrder({"type"})

@@ -212,6 +212,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-datasource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-security-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
