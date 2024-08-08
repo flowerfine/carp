@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@AnonymousAccess
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/application/vela/auth")
@@ -38,21 +39,18 @@ public class VelaAuthController {
     @Autowired
     private AuthenticationApi authenticationApi;
 
-    @AnonymousAccess
     @GetMapping("login_type")
     @Operation(summary = "登陆类型", description = "登陆类型")
     public ResponseEntity<V1GetLoginTypeResponse> getLoginType() {
         return authenticationApi.getLoginType(VelaFeignConfig.VELA_URI);
     }
 
-    @AnonymousAccess
     @GetMapping("user_info")
     @Operation(summary = "登陆用户信息", description = "登陆用户信息")
     public ResponseEntity<V1LoginUserInfoResponse> getLoginUserInfo() {
         return authenticationApi.getLoginUserInfo(VelaFeignConfig.VELA_URI);
     }
 
-    @AnonymousAccess
     @PostMapping("login")
     @Operation(summary = "登陆", description = "登陆")
     public ResponseEntity<V1LoginResponse> login(@RequestBody V1LoginRequest request) {
@@ -61,7 +59,6 @@ public class VelaAuthController {
         return responseEntity;
     }
 
-    @AnonymousAccess
     @GetMapping("refreshToken")
     @Operation(summary = "刷新授权", description = "刷新授权")
     public ResponseEntity<V1RefreshTokenResponse> refreshToken(@RequestParam("refreshToken") String refreshToken) {
@@ -70,21 +67,18 @@ public class VelaAuthController {
         return responseEntity;
     }
 
-    @AnonymousAccess
     @GetMapping(value = "admin_configured")
     @Operation(summary = "是否配置 Admin 用户", description = "是否配置 Admin 用户")
     public ResponseEntity<V1AdminConfiguredResponse> adminConfigured() {
         return authenticationApi.adminConfigured(VelaFeignConfig.VELA_URI);
     }
 
-    @AnonymousAccess
     @PutMapping(value = "init_admin")
     @Operation(summary = "配置 Admin 用户", description = "配置 Admin 用户")
     public ResponseEntity<V1InitAdminResponse> configureAdmin(@RequestBody V1InitAdminRequest request) {
         return authenticationApi.configureAdmin(VelaFeignConfig.VELA_URI, request);
     }
 
-    @AnonymousAccess
     @GetMapping(value = "dex_config")
     @Operation(summary = "dex配置", description = "dex配置")
     public ResponseEntity<V1DexConfigResponse> getDexConfig() {

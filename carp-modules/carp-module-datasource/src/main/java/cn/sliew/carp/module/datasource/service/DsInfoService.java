@@ -16,25 +16,32 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.datasource.repository.mapper;
+package cn.sliew.carp.module.datasource.service;
 
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.datasource.modal.AbstractDataSource;
 import cn.sliew.carp.module.datasource.repository.entity.DsInfo;
-import cn.sliew.carp.module.datasource.repository.entity.DsInfoVO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
+import cn.sliew.carp.module.datasource.service.param.DsInfoListParam;
+import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Collection;
 import java.util.List;
 
-@Repository
-public interface DsInfoMapper extends BaseMapper<DsInfo> {
+public interface DsInfoService extends IService<DsInfo> {
 
-    Page<DsInfoVO> list(Page<DsInfo> page, @Param("dsType") DataSourceType dsType, @Param("name") String name);
+    PageResult<DsInfoDTO> list(DsInfoListParam param);
 
-    List<DsInfoVO> listByTypes(@Param("type") DataSourceType type);
+    List<DsInfoDTO> listByType(DataSourceType type);
 
-    DsInfoVO getById(@Param("id") Long id);
+    DsInfoDTO selectOne(Long id, boolean decrypt);
 
+    boolean add(AbstractDataSource dataSource);
+
+    boolean update(Long id, AbstractDataSource dataSource);
+
+    boolean deleteById(Long id);
+
+    boolean deleteBatch(Collection<Long> ids);
 }

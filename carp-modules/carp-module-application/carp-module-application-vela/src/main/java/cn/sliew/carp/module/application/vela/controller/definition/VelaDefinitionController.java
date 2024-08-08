@@ -21,7 +21,6 @@ package cn.sliew.carp.module.application.vela.controller.definition;
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.application.vela.api.v1.DefinitionApi;
-import cn.sliew.carp.module.application.vela.api.v1.model.security.V1GetLoginTypeResponse;
 import cn.sliew.carp.module.application.vela.api.v1.model.v1.V1ListDefinitionResponse;
 import cn.sliew.carp.module.application.vela.config.VelaFeignConfig;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@AnonymousAccess
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/application/vela/definitions")
@@ -42,7 +42,6 @@ public class VelaDefinitionController {
     @Autowired
     private DefinitionApi definitionApi;
 
-    @AnonymousAccess
     @GetMapping
     @Operation(summary = "分页查询", description = "分页查询")
     public ResponseEntity<V1ListDefinitionResponse> listDefinitions(@RequestParam("type") String type,

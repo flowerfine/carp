@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpDataSourceType implements DictInstance {
+public enum DataSourceType implements DictInstance {
 
     MYSQL("MySQL", "MySQL", "mysql remark"),
     ORACLE("Oracle", "Oracle", null),
@@ -79,10 +79,10 @@ public enum CarpDataSourceType implements DictInstance {
     ;
 
     @JsonCreator
-    public static CarpDataSourceType of(String value) {
+    public static DataSourceType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpDataSourceType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(DataSourceType.class, value));
     }
 
     @EnumValue
@@ -90,7 +90,7 @@ public enum CarpDataSourceType implements DictInstance {
     private String label;
     private String remark;
 
-    CarpDataSourceType(String value, String label, String remark) {
+    DataSourceType(String value, String label, String remark) {
         this.value = value;
         this.label = label;
         this.remark = remark;

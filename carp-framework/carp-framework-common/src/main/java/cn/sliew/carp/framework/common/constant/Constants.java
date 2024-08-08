@@ -16,25 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.datasource.repository.mapper;
+package cn.sliew.carp.framework.common.constant;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
-import cn.sliew.carp.module.datasource.repository.entity.DsInfo;
-import cn.sliew.carp.module.datasource.repository.entity.DsInfoVO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import java.io.File;
 
-import java.util.List;
+public enum Constants {
+    ;
 
-@Repository
-public interface DsInfoMapper extends BaseMapper<DsInfo> {
+    /**
+     * 默认日期格式
+     */
+    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String MS_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
-    Page<DsInfoVO> list(Page<DsInfo> page, @Param("dsType") DataSourceType dsType, @Param("name") String name);
+    public static final String SEPARATOR = "-";
+    public static final String PATH_SEPARATOR = File.separator;
 
-    List<DsInfoVO> listByTypes(@Param("type") DataSourceType type);
+    public static final String DEFAULT_TIMEZONE = "GMT+8";
+    public static final String DEFAULT_CHARSET = "UTF-8";
 
-    DsInfoVO getById(@Param("id") Long id);
-
+    public static final String CODEC_STR_PREFIX = "Encrypted:";
 }

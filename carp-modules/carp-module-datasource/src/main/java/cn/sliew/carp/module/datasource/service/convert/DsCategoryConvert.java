@@ -16,25 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.datasource.repository.mapper;
+package cn.sliew.carp.module.datasource.service.convert;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
-import cn.sliew.carp.module.datasource.repository.entity.DsInfo;
-import cn.sliew.carp.module.datasource.repository.entity.DsInfoVO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.module.datasource.repository.entity.DsCategory;
+import cn.sliew.carp.module.datasource.service.dto.DsCategoryDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
-@Repository
-public interface DsInfoMapper extends BaseMapper<DsInfo> {
-
-    Page<DsInfoVO> list(Page<DsInfo> page, @Param("dsType") DataSourceType dsType, @Param("name") String name);
-
-    List<DsInfoVO> listByTypes(@Param("type") DataSourceType type);
-
-    DsInfoVO getById(@Param("id") Long id);
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface DsCategoryConvert extends BaseConvert<DsCategory, DsCategoryDTO> {
+    DsCategoryConvert INSTANCE = Mappers.getMapper(DsCategoryConvert.class);
 
 }

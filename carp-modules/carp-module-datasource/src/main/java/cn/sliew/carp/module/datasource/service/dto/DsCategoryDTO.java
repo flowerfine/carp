@@ -16,25 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.datasource.repository.mapper;
+package cn.sliew.carp.module.datasource.service.dto;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
-import cn.sliew.carp.module.datasource.repository.entity.DsInfo;
-import cn.sliew.carp.module.datasource.repository.entity.DsInfoVO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode
+@Schema(name = "DsCategory对象", description = "data source category")
+public class DsCategoryDTO extends BaseDTO {
 
-@Repository
-public interface DsInfoMapper extends BaseMapper<DsInfo> {
+    private static final long serialVersionUID = 1L;
 
-    Page<DsInfoVO> list(Page<DsInfo> page, @Param("dsType") DataSourceType dsType, @Param("name") String name);
+    @Schema(description = "name")
+    private String name;
 
-    List<DsInfoVO> listByTypes(@Param("type") DataSourceType type);
+    @Schema(description = "order")
+    private Integer order;
 
-    DsInfoVO getById(@Param("id") Long id);
+    @Schema(description = "remark")
+    private String remark;
 
 }

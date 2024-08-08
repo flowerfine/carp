@@ -16,32 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.datasource.repository.entity;
+package cn.sliew.carp.module.datasource.service.dto;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
-import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.carp.framework.common.collection.PropValuePair;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
 @EqualsAndHashCode
-@TableName("carp_ds_type")
-public class DsType extends BaseAuditDO {
+@Schema(name = "DsInfo对象", description = "data source info")
+public class DsInfoDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("`type`")
-    private DataSourceType type;
+    @Schema(description = "data source type id")
+    private DsTypeDTO dsType;
 
-    @TableField("logo")
-    private String logo;
+    @Schema(description = "version")
+    private String version;
 
-    @TableField("`order`")
-    private Integer order;
+    @Schema(description = "name")
+    private String name;
 
-    @TableField("remark")
+    @Schema(description = "props")
+    private Map<String, Object> props;
+
+    @Schema(description = "additional props")
+    private List<PropValuePair> additionalProps;
+
+    @Schema(description = "remark")
     private String remark;
 
 }

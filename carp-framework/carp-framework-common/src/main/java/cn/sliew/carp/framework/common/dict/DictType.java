@@ -20,6 +20,8 @@ package cn.sliew.carp.framework.common.dict;
 
 import cn.sliew.carp.framework.common.dict.common.IsDeleted;
 import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.RedisMode;
 import cn.sliew.carp.framework.common.dict.security.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -43,6 +45,9 @@ public enum DictType implements DictDefinition {
     RESOURCE_WEB_TYPE("sec_resource_web_type", "安全-资源-web-类型", SecResourceWebType.class),
     RESOURCE_DATA_TYPE("sec_resource_data_type", "安全-资源-数据-类型", SecResourceDataType.class),
     RESOURCE_STATUS("sec_resource_status", "安全-资源状态", SecResourceStatus.class),
+
+    DATASOURCE_TYPE("datasource_type", "数据源类型", DataSourceType.class),
+    DS_REDIS_MODE("datasource_redis_mode", "Redis Mode", RedisMode.class),
     ;
 
     @JsonCreator
