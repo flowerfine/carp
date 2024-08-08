@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class RedisDataSource extends AbstractDataSource {

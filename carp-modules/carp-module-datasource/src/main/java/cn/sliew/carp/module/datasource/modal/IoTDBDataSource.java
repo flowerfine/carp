@@ -30,6 +30,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.Map;
 
+@Deprecated
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class IoTDBDataSource extends AbstractDataSource {

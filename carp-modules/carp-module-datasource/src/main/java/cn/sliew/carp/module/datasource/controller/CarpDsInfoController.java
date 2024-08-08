@@ -20,6 +20,7 @@ package cn.sliew.carp.module.datasource.controller;
 
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.datasource.modal.AbstractDataSource;
 import cn.sliew.carp.module.datasource.service.DsInfoService;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AnonymousAccess
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/datasource/info")

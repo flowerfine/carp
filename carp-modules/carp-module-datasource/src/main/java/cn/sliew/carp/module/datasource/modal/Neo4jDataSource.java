@@ -34,6 +34,7 @@ import java.util.Map;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
+@Deprecated
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Neo4jDataSource extends AbstractDataSource {

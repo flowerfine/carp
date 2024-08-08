@@ -33,6 +33,7 @@ import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PulsarDataSource extends AbstractDataSource {

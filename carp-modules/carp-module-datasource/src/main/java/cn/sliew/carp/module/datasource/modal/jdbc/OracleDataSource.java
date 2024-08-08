@@ -22,6 +22,7 @@ import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@Deprecated
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class OracleDataSource extends JdbcDataSource {

@@ -45,6 +45,7 @@ import lombok.Data;
 import java.util.Iterator;
 import java.util.List;
 
+@Deprecated
 @Data
 @JsonTypeIdResolver(AbstractDataSource.DataSourceResolver.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
