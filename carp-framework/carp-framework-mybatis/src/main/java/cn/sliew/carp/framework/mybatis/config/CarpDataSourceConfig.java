@@ -44,7 +44,8 @@ import javax.sql.DataSource;
 @MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
         basePackages = {
                 DataSourceConstants.MAPPER_MODULE_SECURITY_PACKAGE,
-                DataSourceConstants.MAPPER_MODULE_KUBERNETES_PACKAGE
+                DataSourceConstants.MAPPER_MODULE_KUBERNETES_PACKAGE,
+                DataSourceConstants.MAPPER_MODULE_DATASOURCE_PACKAGE
         })
 public class CarpDataSourceConfig {
 

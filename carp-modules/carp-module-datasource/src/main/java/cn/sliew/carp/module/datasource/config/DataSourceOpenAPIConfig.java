@@ -16,17 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.mybatis;
+package cn.sliew.carp.module.datasource.config;
 
-public enum DataSourceConstants {
-    ;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-    public static final String MAPPER_MODULE_SECURITY_PACKAGE = "cn.sliew.carp.module.security.core.repository.mapper";
-    public static final String MAPPER_MODULE_KUBERNETES_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
-    public static final String MAPPER_MODULE_DATASOURCE_PACKAGE = "cn.sliew.carp.module.datasource.repository.mapper";
-    public static final String MAPPER_XML_PATH = "classpath*:cn/sliew/carp/**/repository/**/*.xml";
+@Configuration
+public class DataSourceOpenAPIConfig {
 
-    public static final String SQL_SESSION_FACTORY = "carpSqlSessionFactory";
-    public static final String DATA_SOURCE_FACTORY = "carpDataSource";
-    public static final String TRANSACTION_MANAGER_FACTORY = "carpTransactionManager";
+    @Bean
+    public GroupedOpenApi carpDataSourceModuleOpenApi() {
+        return GroupedOpenApi.builder().group("数据源模块")
+                .pathsToMatch("/api/carp/datasource/**")
+                .packagesToScan("cn.sliew.carp.module.datasource").build();
+    }
 }

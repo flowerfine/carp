@@ -16,17 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.mybatis;
+package cn.sliew.carp.module.datasource.repository.mapper;
 
-public enum DataSourceConstants {
-    ;
+import cn.sliew.carp.module.datasource.repository.entity.DsType;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-    public static final String MAPPER_MODULE_SECURITY_PACKAGE = "cn.sliew.carp.module.security.core.repository.mapper";
-    public static final String MAPPER_MODULE_KUBERNETES_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
-    public static final String MAPPER_MODULE_DATASOURCE_PACKAGE = "cn.sliew.carp.module.datasource.repository.mapper";
-    public static final String MAPPER_XML_PATH = "classpath*:cn/sliew/carp/**/repository/**/*.xml";
+import java.util.List;
 
-    public static final String SQL_SESSION_FACTORY = "carpSqlSessionFactory";
-    public static final String DATA_SOURCE_FACTORY = "carpDataSource";
-    public static final String TRANSACTION_MANAGER_FACTORY = "carpTransactionManager";
+@Repository
+public interface DsTypeMapper extends BaseMapper<DsType> {
+
+    List<DsType> listTypes(@Param("categoryId") Long categoryId, @Param("type") String type);
+
 }

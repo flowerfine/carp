@@ -75,6 +75,7 @@
         <module>carp-modules</module>
         <module>carp-dist</module>
         <module>carp-examples</module>
+        <module>carp-modules/carp-module-datasource</module>
     </modules>
 
     <properties>

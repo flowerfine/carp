@@ -16,17 +16,27 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.mybatis;
+package cn.sliew.carp.module.datasource.repository.entity;
 
-public enum DataSourceConstants {
-    ;
+import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-    public static final String MAPPER_MODULE_SECURITY_PACKAGE = "cn.sliew.carp.module.security.core.repository.mapper";
-    public static final String MAPPER_MODULE_KUBERNETES_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
-    public static final String MAPPER_MODULE_DATASOURCE_PACKAGE = "cn.sliew.carp.module.datasource.repository.mapper";
-    public static final String MAPPER_XML_PATH = "classpath*:cn/sliew/carp/**/repository/**/*.xml";
+@Data
+@EqualsAndHashCode
+@TableName("carp_ds_category")
+public class DsCategory extends BaseAuditDO {
 
-    public static final String SQL_SESSION_FACTORY = "carpSqlSessionFactory";
-    public static final String DATA_SOURCE_FACTORY = "carpDataSource";
-    public static final String TRANSACTION_MANAGER_FACTORY = "carpTransactionManager";
+    private static final long serialVersionUID = 1L;
+
+    @TableField("`name`")
+    private String name;
+
+    @TableField("`order`")
+    private Integer order;
+
+    @TableField("remark")
+    private String remark;
 }
