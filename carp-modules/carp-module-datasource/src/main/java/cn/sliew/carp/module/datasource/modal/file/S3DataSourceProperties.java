@@ -42,7 +42,7 @@ public class S3DataSourceProperties extends AbstractDataSourceProperties {
     private String accessSecret;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.S3;
+    public String getType() {
+        return DataSourceType.S3.getValue();
     }
 }

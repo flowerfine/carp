@@ -38,7 +38,7 @@ public class SocketDataSourceProperties extends AbstractDataSourceProperties {
     private Integer port;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.SOCKET;
+    public String getType() {
+        return DataSourceType.SOCKET.getValue();
     }
 }

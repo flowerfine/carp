@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class GreenplumDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.GREENPLUM;
+    public String getType() {
+        return DataSourceType.GREENPLUM.getValue();
     }
 }

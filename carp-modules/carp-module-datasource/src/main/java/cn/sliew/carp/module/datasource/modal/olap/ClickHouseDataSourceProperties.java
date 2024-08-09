@@ -46,7 +46,7 @@ public class ClickHouseDataSourceProperties extends AbstractDataSourceProperties
     private String password;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.CLICKHOUSE;
+    public String getType() {
+        return DataSourceType.CLICKHOUSE.getValue();
     }
 }

@@ -47,7 +47,7 @@ public class SftpDataSourceProperties extends AbstractDataSourceProperties {
     private String password;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.SFTP;
+    public String getType() {
+        return DataSourceType.SFTP.getValue();
     }
 }

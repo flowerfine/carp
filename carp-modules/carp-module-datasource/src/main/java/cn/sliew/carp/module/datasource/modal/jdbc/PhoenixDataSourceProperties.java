@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class PhoenixDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.PHOENIX;
+    public String getType() {
+        return DataSourceType.PHOENIX.getValue();
     }
 }

@@ -54,8 +54,8 @@ public class RedisDataSourceProperties extends AbstractDataSourceProperties {
     private List<Node> nodes;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.REDIS;
+    public String getType() {
+        return DataSourceType.REDIS.getValue();
     }
 
     @Data

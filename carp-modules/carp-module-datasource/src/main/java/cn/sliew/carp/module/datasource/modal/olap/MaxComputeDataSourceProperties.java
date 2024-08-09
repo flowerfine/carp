@@ -42,7 +42,7 @@ public class MaxComputeDataSourceProperties extends AbstractDataSourceProperties
     private String accesskey;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.MAXCOMPUTE;
+    public String getType() {
+        return DataSourceType.MAXCOMPUTE.getValue();
     }
 }

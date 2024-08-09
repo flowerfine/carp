@@ -22,11 +22,11 @@ import cn.sliew.carp.framework.common.codec.CodecUtil;
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
-import cn.sliew.carp.module.datasource.modal.AbstractDataSource;
+import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
 import cn.sliew.carp.module.datasource.repository.entity.DsInfo;
 import cn.sliew.carp.module.datasource.repository.entity.DsInfoVO;
 import cn.sliew.carp.module.datasource.repository.mapper.DsInfoMapper;
-import cn.sliew.carp.module.datasource.service.DsInfoService;
+import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
 import cn.sliew.carp.module.datasource.service.convert.DsInfoConvert;
 import cn.sliew.carp.module.datasource.service.convert.DsInfoVOConvert;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
@@ -41,7 +41,7 @@ import java.util.*;
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Service
-public class DsInfoServiceImpl extends ServiceImpl<DsInfoMapper, DsInfo> implements DsInfoService {
+public class CarpDsInfoServiceImpl extends ServiceImpl<DsInfoMapper, DsInfo> implements CarpDsInfoService {
 
     @Override
     public PageResult<DsInfoDTO> list(DsInfoListParam param) {
@@ -83,13 +83,13 @@ public class DsInfoServiceImpl extends ServiceImpl<DsInfoMapper, DsInfo> impleme
     }
 
     @Override
-    public boolean add(AbstractDataSource dataSource) {
+    public boolean add(DataSourceInfo dataSource) {
         DsInfo record = DsInfoConvert.INSTANCE.toDo(dataSource.toDsInfo());
         return save(record);
     }
 
     @Override
-    public boolean update(Long id, AbstractDataSource dataSource) {
+    public boolean update(Long id, DataSourceInfo dataSource) {
         DsInfo record = DsInfoConvert.INSTANCE.toDo(dataSource.toDsInfo());
         record.setId(id);
         return saveOrUpdate(record);

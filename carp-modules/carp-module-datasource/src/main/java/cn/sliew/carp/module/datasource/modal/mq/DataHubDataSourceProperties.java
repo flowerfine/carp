@@ -42,7 +42,7 @@ public class DataHubDataSourceProperties extends AbstractDataSourceProperties {
     private String accessKey;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.DATAHUB;
+    public String getType() {
+        return DataSourceType.DATAHUB.getValue();
     }
 }

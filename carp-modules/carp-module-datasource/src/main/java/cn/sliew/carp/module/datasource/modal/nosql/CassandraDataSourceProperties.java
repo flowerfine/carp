@@ -47,7 +47,7 @@ public class CassandraDataSourceProperties extends AbstractDataSourceProperties 
     private String datacenter;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.CASSANDRA;
+    public String getType() {
+        return DataSourceType.CASSANDRA.getValue();
     }
 }

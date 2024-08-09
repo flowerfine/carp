@@ -45,7 +45,7 @@ public class Neo4jDataSourceProperties extends AbstractDataSourceProperties {
     private String kerberosTicket;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.NEO4J;
+    public String getType() {
+        return DataSourceType.NEO4J.getValue();
     }
 }

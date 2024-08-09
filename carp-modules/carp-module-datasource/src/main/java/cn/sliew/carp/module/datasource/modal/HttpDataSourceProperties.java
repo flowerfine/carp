@@ -37,7 +37,7 @@ public class HttpDataSourceProperties extends AbstractDataSourceProperties {
     private String url;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.HTTP;
+    public String getType() {
+        return DataSourceType.HTTP.getValue();
     }
 }

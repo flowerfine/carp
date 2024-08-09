@@ -44,7 +44,7 @@ public class PulsarDataSourceProperties extends AbstractDataSourceProperties {
     private String authParams;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.PULSAR;
+    public String getType() {
+        return DataSourceType.PULSAR.getValue();
     }
 }

@@ -17,4 +17,4 @@ create table carp_k8s_cluster
     primary key (id),
     unique key (uuid),
     key           idx_name (`name`)
-) engine = innodb comment = 'k8s 集群';
+) engine = innodb comment = 'k8s cluster';

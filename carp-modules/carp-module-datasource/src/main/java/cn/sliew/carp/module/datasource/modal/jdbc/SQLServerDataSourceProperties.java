@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class SQLServerDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.SQLSERVER;
+    public String getType() {
+        return DataSourceType.SQLSERVER.getValue();
     }
 }

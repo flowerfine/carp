@@ -34,62 +34,64 @@ import cn.sliew.carp.module.datasource.modal.olap.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 @Data
+@Validated
 @JsonTypeIdResolver(AbstractDataSourceProperties.DataSourceResolver.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class AbstractDataSourceProperties implements Polymorphic<DataSourceType> {
+public abstract class AbstractDataSourceProperties implements Polymorphic<String> {
 
-    public abstract DataSourceType getType();
+    public abstract String getType();
 
-    public static final class DataSourceResolver extends PolymorphicResolver<DataSourceType> {
+    public static final class DataSourceResolver extends PolymorphicResolver<String> {
         public DataSourceResolver() {
             bindDefault(MySQLDataSourceProperties.class);
 
-            bind(DataSourceType.MYSQL, MySQLDataSourceProperties.class);
-            bind(DataSourceType.ORACLE, OracleDataSourceProperties.class);
-            bind(DataSourceType.POSTGRESQL, PostgreSQLDataSourceProperties.class);
-            bind(DataSourceType.SQLSERVER, SQLServerDataSourceProperties.class);
-            bind(DataSourceType.DMDB, DmDBDataSourceProperties.class);
-            bind(DataSourceType.GBASE8A, GBase8aDataSourceProperties.class);
-            bind(DataSourceType.GREENPLUM, GreenplumDataSourceProperties.class);
-            bind(DataSourceType.PHOENIX, PhoenixDataSourceProperties.class);
+            bind(DataSourceType.MYSQL.getValue(), MySQLDataSourceProperties.class);
+            bind(DataSourceType.ORACLE.getValue(), OracleDataSourceProperties.class);
+            bind(DataSourceType.POSTGRESQL.getValue(), PostgreSQLDataSourceProperties.class);
+            bind(DataSourceType.SQLSERVER.getValue(), SQLServerDataSourceProperties.class);
+            bind(DataSourceType.DMDB.getValue(), DmDBDataSourceProperties.class);
+            bind(DataSourceType.GBASE8A.getValue(), GBase8aDataSourceProperties.class);
+            bind(DataSourceType.GREENPLUM.getValue(), GreenplumDataSourceProperties.class);
+            bind(DataSourceType.PHOENIX.getValue(), PhoenixDataSourceProperties.class);
 
-            bind(DataSourceType.REDIS, RedisDataSourceProperties.class);
-            bind(DataSourceType.ELASTICSEARCH, ElasticsearchDataSourceProperties.class);
-            bind(DataSourceType.MONGODB, MongoDBDataSourceProperties.class);
-            bind(DataSourceType.CASSANDRA, CassandraDataSourceProperties.class);
+            bind(DataSourceType.REDIS.getValue(), RedisDataSourceProperties.class);
+            bind(DataSourceType.ELASTICSEARCH.getValue(), ElasticsearchDataSourceProperties.class);
+            bind(DataSourceType.MONGODB.getValue(), MongoDBDataSourceProperties.class);
+            bind(DataSourceType.CASSANDRA.getValue(), CassandraDataSourceProperties.class);
 
-            bind(DataSourceType.KAFKA, KafkaDataSourceProperties.class);
-            bind(DataSourceType.PULSAR, PulsarDataSourceProperties.class);
-            bind(DataSourceType.DATAHUB, DataHubDataSourceProperties.class);
+            bind(DataSourceType.KAFKA.getValue(), KafkaDataSourceProperties.class);
+            bind(DataSourceType.PULSAR.getValue(), PulsarDataSourceProperties.class);
+            bind(DataSourceType.DATAHUB.getValue(), DataHubDataSourceProperties.class);
 
-            bind(DataSourceType.FTP, FtpDataSourceProperties.class);
-            bind(DataSourceType.SFTP, SftpDataSourceProperties.class);
-            bind(DataSourceType.OSS, OSSDataSourceProperties.class);
-            bind(DataSourceType.OSSJINDO, OSSJindoDataSourceProperties.class);
-            bind(DataSourceType.S3, S3DataSourceProperties.class);
-            bind(DataSourceType.HDFS, HDFSDataSourceProperties.class);
+            bind(DataSourceType.FTP.getValue(), FtpDataSourceProperties.class);
+            bind(DataSourceType.SFTP.getValue(), SftpDataSourceProperties.class);
+            bind(DataSourceType.OSS.getValue(), OSSDataSourceProperties.class);
+            bind(DataSourceType.OSSJINDO.getValue(), OSSJindoDataSourceProperties.class);
+            bind(DataSourceType.S3.getValue(), S3DataSourceProperties.class);
+            bind(DataSourceType.HDFS.getValue(), HDFSDataSourceProperties.class);
 
-            bind(DataSourceType.HIVE, HiveDataSourceProperties.class);
+            bind(DataSourceType.HIVE.getValue(), HiveDataSourceProperties.class);
 
-            bind(DataSourceType.CLICKHOUSE, ClickHouseDataSourceProperties.class);
-            bind(DataSourceType.KUDU, KuduDataSourceProperties.class);
-            bind(DataSourceType.DORIS, DorisDataSourceProperties.class);
-            bind(DataSourceType.STARROCKS, StarRocksDataSourceProperties.class);
-            bind(DataSourceType.MAXCOMPUTE, MaxComputeDataSourceProperties.class);
+            bind(DataSourceType.CLICKHOUSE.getValue(), ClickHouseDataSourceProperties.class);
+            bind(DataSourceType.KUDU.getValue(), KuduDataSourceProperties.class);
+            bind(DataSourceType.DORIS.getValue(), DorisDataSourceProperties.class);
+            bind(DataSourceType.STARROCKS.getValue(), StarRocksDataSourceProperties.class);
+            bind(DataSourceType.MAXCOMPUTE.getValue(), MaxComputeDataSourceProperties.class);
 
-            bind(DataSourceType.IOTDB, IoTDBDataSourceProperties.class);
-            bind(DataSourceType.NEO4J, Neo4jDataSourceProperties.class);
+            bind(DataSourceType.IOTDB.getValue(), IoTDBDataSourceProperties.class);
+            bind(DataSourceType.NEO4J.getValue(), Neo4jDataSourceProperties.class);
 
-            bind(DataSourceType.SOCKET, SocketDataSourceProperties.class);
-            bind(DataSourceType.HTTP, HttpDataSourceProperties.class);
-            bind(DataSourceType.INFLUXDB, InfluxDBDataSourceProperties.class);
+            bind(DataSourceType.SOCKET.getValue(), SocketDataSourceProperties.class);
+            bind(DataSourceType.HTTP.getValue(), HttpDataSourceProperties.class);
+            bind(DataSourceType.INFLUXDB.getValue(), InfluxDBDataSourceProperties.class);
         }
 
         @Override
         protected String typeFromSubtype(Object obj) {
-            return subTypes.inverse().get(obj.getClass()).getValue();
+            return subTypes.inverse().get(obj.getClass());
         }
 
         @Override

@@ -41,7 +41,7 @@ public class IoTDBDataSourceProperties extends AbstractDataSourceProperties {
     private String password;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.IOTDB;
+    public String getType() {
+        return DataSourceType.IOTDB.getValue();
     }
 }

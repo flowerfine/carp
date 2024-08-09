@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class GBase8aDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.GBASE8A;
+    public String getType() {
+        return DataSourceType.GBASE8A.getValue();
     }
 }

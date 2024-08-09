@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class PostgreSQLDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.POSTGRESQL;
+    public String getType() {
+        return DataSourceType.POSTGRESQL.getValue();
     }
 }

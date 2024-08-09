@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class OracleDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.ORACLE;
+    public String getType() {
+        return DataSourceType.ORACLE.getValue();
     }
 }

@@ -50,7 +50,7 @@ public class FtpDataSourceProperties extends AbstractDataSourceProperties {
     private String connectionMode;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.FTP;
+    public String getType() {
+        return DataSourceType.FTP.getValue();
     }
 }

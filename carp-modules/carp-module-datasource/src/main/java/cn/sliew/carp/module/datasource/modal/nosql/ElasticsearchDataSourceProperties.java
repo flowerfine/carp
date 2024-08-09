@@ -40,7 +40,7 @@ public class ElasticsearchDataSourceProperties extends AbstractDataSourcePropert
     private String password;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.ELASTICSEARCH;
+    public String getType() {
+        return DataSourceType.ELASTICSEARCH.getValue();
     }
 }

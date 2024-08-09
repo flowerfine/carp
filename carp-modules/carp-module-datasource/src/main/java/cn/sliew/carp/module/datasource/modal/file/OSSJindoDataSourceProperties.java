@@ -46,7 +46,7 @@ public class OSSJindoDataSourceProperties extends AbstractDataSourceProperties {
     private String accessSecret;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.OSS;
+    public String getType() {
+        return DataSourceType.OSS.getValue();
     }
 }

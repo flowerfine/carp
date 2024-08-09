@@ -34,7 +34,7 @@ public class MongoDBDataSourceProperties extends AbstractDataSourceProperties {
     private String uri;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.MONGODB;
+    public String getType() {
+        return DataSourceType.MONGODB.getValue();
     }
 }

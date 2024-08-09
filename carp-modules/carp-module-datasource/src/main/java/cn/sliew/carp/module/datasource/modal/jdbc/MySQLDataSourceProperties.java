@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class MySQLDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.MYSQL;
+    public String getType() {
+        return DataSourceType.MYSQL.getValue();
     }
 }

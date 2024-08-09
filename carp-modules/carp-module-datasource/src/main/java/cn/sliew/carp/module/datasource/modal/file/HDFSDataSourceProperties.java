@@ -38,7 +38,7 @@ public class HDFSDataSourceProperties extends AbstractDataSourceProperties {
     private String fsDefaultFS;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.HDFS;
+    public String getType() {
+        return DataSourceType.HDFS.getValue();
     }
 }

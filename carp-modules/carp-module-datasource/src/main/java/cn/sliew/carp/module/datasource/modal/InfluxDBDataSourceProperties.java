@@ -39,7 +39,7 @@ public class InfluxDBDataSourceProperties extends AbstractDataSourceProperties {
     private String password;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.INFLUXDB;
+    public String getType() {
+        return DataSourceType.INFLUXDB.getValue();
     }
 }

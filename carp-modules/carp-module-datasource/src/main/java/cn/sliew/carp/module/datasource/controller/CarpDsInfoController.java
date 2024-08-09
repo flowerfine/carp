@@ -22,8 +22,8 @@ import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.datasource.modal.AbstractDataSource;
-import cn.sliew.carp.module.datasource.service.DsInfoService;
+import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
+import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import cn.sliew.carp.module.datasource.service.param.DsInfoListParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,48 +42,48 @@ import java.util.List;
 public class CarpDsInfoController {
 
     @Autowired
-    private DsInfoService dsInfoService;
+    private CarpDsInfoService carpDsInfoService;
 
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
     public PageResult<DsInfoDTO> list(@Valid DsInfoListParam param) {
-        return dsInfoService.list(param);
+        return carpDsInfoService.list(param);
     }
 
     @GetMapping("{type}")
     @Operation(summary = "查询所有", description = "查询指定数据源类型下所有数据源")
     public List<DsInfoDTO> listByType(@PathVariable("type") DataSourceType type) {
-        return dsInfoService.listByType(type);
+        return carpDsInfoService.listByType(type);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "查询详情", description = "查询详情")
     public DsInfoDTO get(@PathVariable("id") Long id) {
-        return dsInfoService.selectOne(id, false);
+        return carpDsInfoService.selectOne(id, false);
     }
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
-    public boolean add(@Valid @RequestBody AbstractDataSource dataSource) {
-        return dsInfoService.add(dataSource);
+    public boolean add(@Valid @RequestBody DataSourceInfo dataSource) {
+        return carpDsInfoService.add(dataSource);
     }
 
     @PostMapping("{id}")
     @Operation(summary = "更新", description = "更新")
-    public boolean update(@PathVariable("id") Long id, @Valid @RequestBody AbstractDataSource dataSource) {
-        return dsInfoService.update(id, dataSource);
+    public boolean update(@PathVariable("id") Long id, @Valid @RequestBody DataSourceInfo dataSource) {
+        return carpDsInfoService.update(id, dataSource);
     }
 
     @DeleteMapping("{id}")
     @Operation(summary = "删除", description = "删除")
     public boolean delete(@PathVariable("id") Long id) {
-        return dsInfoService.deleteById(id);
+        return carpDsInfoService.deleteById(id);
     }
 
     @DeleteMapping("batch")
     @Operation(summary = "批量删除", description = "批量删除")
     public boolean deleteBatch(@RequestBody List<Long> ids) {
-        return dsInfoService.deleteBatch(ids);
+        return carpDsInfoService.deleteBatch(ids);
     }
 
 }

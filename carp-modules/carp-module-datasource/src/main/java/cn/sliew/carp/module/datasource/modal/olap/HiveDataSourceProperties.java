@@ -43,7 +43,7 @@ public class HiveDataSourceProperties extends AbstractDataSourceProperties {
     private String kerberosPrincipal;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.HIVE;
+    public String getType() {
+        return DataSourceType.HIVE.getValue();
     }
 }

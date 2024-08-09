@@ -32,7 +32,7 @@ public class KuduDataSourceProperties extends AbstractDataSourceProperties {
     private String masters;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.KUDU;
+    public String getType() {
+        return DataSourceType.KUDU.getValue();
     }
 }

@@ -46,7 +46,7 @@ public class DorisDataSourceProperties extends AbstractDataSourceProperties {
     private Integer queryPort;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.DORIS;
+    public String getType() {
+        return DataSourceType.DORIS.getValue();
     }
 }

@@ -20,7 +20,7 @@ package cn.sliew.carp.module.datasource.service;
 
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.module.datasource.modal.AbstractDataSource;
+import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
 import cn.sliew.carp.module.datasource.repository.entity.DsInfo;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import cn.sliew.carp.module.datasource.service.param.DsInfoListParam;
@@ -29,7 +29,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.Collection;
 import java.util.List;
 
-public interface DsInfoService extends IService<DsInfo> {
+public interface CarpDsInfoService extends IService<DsInfo> {
 
     PageResult<DsInfoDTO> list(DsInfoListParam param);
 
@@ -37,9 +37,9 @@ public interface DsInfoService extends IService<DsInfo> {
 
     DsInfoDTO selectOne(Long id, boolean decrypt);
 
-    boolean add(AbstractDataSource dataSource);
+    boolean add(DataSourceInfo dataSource);
 
-    boolean update(Long id, AbstractDataSource dataSource);
+    boolean update(Long id, DataSourceInfo dataSource);
 
     boolean deleteById(Long id);
 

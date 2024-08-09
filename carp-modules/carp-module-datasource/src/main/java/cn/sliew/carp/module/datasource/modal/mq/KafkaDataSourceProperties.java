@@ -34,7 +34,7 @@ public class KafkaDataSourceProperties extends AbstractDataSourceProperties {
     private String bootstrapServers;
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.KAFKA;
+    public String getType() {
+        return DataSourceType.KAFKA.getValue();
     }
 }

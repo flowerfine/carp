@@ -19,10 +19,15 @@
 package cn.sliew.carp.module.datasource.modal;
 
 import cn.sliew.carp.framework.common.collection.PropValuePair;
+import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
+import cn.sliew.carp.module.datasource.service.dto.DsTypeDTO;
+import cn.sliew.milky.common.util.JacksonUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -48,4 +53,15 @@ public class DataSourceInfo {
 
     @Schema(description = "remark")
     private String remark;
+
+    public DsInfoDTO toDsInfo() {
+        DsInfoDTO dto = new DsInfoDTO();
+        BeanUtils.copyProperties(this, dto);
+        DsTypeDTO dsType = new DsTypeDTO();
+        dsType.setId(getDsTypeId());
+        dsType.setType(DataSourceType.of(props.getType()));
+        dto.setDsType(dsType);
+        dto.setProps(JacksonUtil.toMap(JacksonUtil.toJsonNode(props)));
+        return dto;
+    }
 }

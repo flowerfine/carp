@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class DmDBDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.DMDB;
+    public String getType() {
+        return DataSourceType.DMDB.getValue();
     }
 }
