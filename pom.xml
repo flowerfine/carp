@@ -109,9 +109,6 @@
 
         <mybatis.version>3.0.3</mybatis.version>
         <mybatis.plus.version>3.5.6</mybatis.plus.version>
-
-        <mybatis.version>3.0.3</mybatis.version>
-        <mybatis.plus.version>3.5.6</mybatis.plus.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <mysql.version>8.3.0</mysql.version>
         <h2.version>2.3.230</h2.version>

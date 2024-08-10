@@ -106,6 +106,11 @@ public interface SecAuthorizationService {
     // -------------------------------------------------------------------------------------------
 
     /**
+     * 查询用户绑定所有角色列表
+     */
+    List<SecRoleDTO> listAllAuthorizedRolesByUserId(SecRoleListByUserParam param);
+    
+    /**
      * 查询用户绑定角色列表
      */
     PageResult<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param);

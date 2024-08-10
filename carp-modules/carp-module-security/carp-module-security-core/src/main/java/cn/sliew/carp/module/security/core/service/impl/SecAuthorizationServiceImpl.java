@@ -101,6 +101,11 @@ public class SecAuthorizationServiceImpl implements SecAuthorizationService {
     }
 
     @Override
+    public List<SecRoleDTO> listAllAuthorizedRolesByUserId(SecRoleListByUserParam param) {
+        return secUserRoleService.listAllAuthorizedRolesByUserId(param);
+    }
+
+    @Override
     public PageResult<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param) {
         return secUserRoleService.listAuthorizedRolesByUserId(param);
     }

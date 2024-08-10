@@ -28,6 +28,8 @@ import cn.sliew.carp.module.security.core.service.param.authorize.SecUserBatchAu
 import cn.sliew.carp.module.security.core.service.param.authorize.SecUserListByRoleParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 public interface SecUserRoleService extends IService<SecUserRole> {
 
     // -------------------------------------------------------------------------------------------
@@ -57,6 +59,11 @@ public interface SecUserRoleService extends IService<SecUserRole> {
     // -------------------------------------------------------------------------------------------
     // user -> role
     // -------------------------------------------------------------------------------------------
+
+    /**
+     * 查询用户绑定所有角色列表
+     */
+    List<SecRoleDTO> listAllAuthorizedRolesByUserId(SecRoleListByUserParam param);
 
     /**
      * 查询用户绑定角色列表

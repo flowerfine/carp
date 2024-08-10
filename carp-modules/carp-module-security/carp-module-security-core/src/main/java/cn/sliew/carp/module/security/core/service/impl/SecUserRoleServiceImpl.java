@@ -87,6 +87,12 @@ public class SecUserRoleServiceImpl extends ServiceImpl<SecUserRoleMapper, SecUs
     }
 
     @Override
+    public List<SecRoleDTO> listAllAuthorizedRolesByUserId(SecRoleListByUserParam param) {
+        List<SecRole> secRoleList = baseMapper.selectRelatedRolesByUser(param.getUserId(), null, param.getName());
+        return SecRoleConvert.INSTANCE.toDto(secRoleList);
+    }
+
+    @Override
     public PageResult<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param) {
         Page page = new Page(param.getCurrent(), param.getPageSize());
         Page<SecRole> secRolePage = baseMapper.selectRelatedRolesByUser(page, param.getUserId(), null, param.getName());

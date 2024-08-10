@@ -50,6 +50,13 @@ public interface SecUserRoleMapper extends BaseMapper<SecUserRole> {
                                              @Param("userName") String userName);
 
     /**
+     * 查询用户关联的角色。黑魔法，干掉了 page 参数
+     */
+    List<SecRole> selectRelatedRolesByUser(@Param("userId") Long userId,
+                                           @Param("status") SecRoleStatus status,
+                                           @Param("name") String name);
+
+    /**
      * 查询用户关联的角色
      */
     Page<SecRole> selectRelatedRolesByUser(Page page,
