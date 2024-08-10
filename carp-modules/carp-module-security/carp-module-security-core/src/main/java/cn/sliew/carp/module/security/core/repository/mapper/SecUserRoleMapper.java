@@ -52,14 +52,16 @@ public interface SecUserRoleMapper extends BaseMapper<SecUserRole> {
     /**
      * 查询用户关联的角色
      */
-    List<SecRole> selectRelatedRolesByUser(@Param("userId") Long userId,
+    Page<SecRole> selectRelatedRolesByUser(Page page,
+                                           @Param("userId") Long userId,
                                            @Param("status") SecRoleStatus status,
                                            @Param("name") String name);
 
     /**
      * 查询用户未关联的角色
      */
-    List<SecRole> selectUnrelatedRolesByUser(@Param("userId") Long userId,
+    Page<SecRole> selectUnrelatedRolesByUser(Page page,
+                                             @Param("userId") Long userId,
                                              @Param("status") SecRoleStatus status,
                                              @Param("name") String name);
 }

@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebRole;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebWithAuthorizeDTO;
@@ -26,7 +27,6 @@ import cn.sliew.carp.module.security.core.service.param.authorize.SecResourceWeb
 import cn.sliew.carp.module.security.core.service.param.authorize.SecResourceWebListByRoleParam;
 import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleBatchAuthorizeForResourceWebParam;
 import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleListByResourceWebParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -40,12 +40,12 @@ public interface SecResourceWebRoleService extends IService<SecResourceWebRole> 
     /**
      * 查询 资源-web 绑定角色列表
      */
-    Page<SecRoleDTO> listAuthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param);
+    PageResult<SecRoleDTO> listAuthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param);
 
     /**
      * 查询 资源-web 未绑定角色列表
      */
-    Page<SecRoleDTO> listUnauthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param);
+    PageResult<SecRoleDTO> listUnauthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param);
 
     /**
      * 批量为 资源-web 绑定角色

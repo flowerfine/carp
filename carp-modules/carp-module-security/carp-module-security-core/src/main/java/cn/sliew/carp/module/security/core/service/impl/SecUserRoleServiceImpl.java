@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service.impl;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.repository.entity.SecRole;
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
 import cn.sliew.carp.module.security.core.repository.entity.SecUserRole;
@@ -44,20 +45,20 @@ import java.util.List;
 public class SecUserRoleServiceImpl extends ServiceImpl<SecUserRoleMapper, SecUserRole> implements SecUserRoleService {
 
     @Override
-    public Page<SecUserDTO> listAuthorizedUsersByRoleId(SecUserListByRoleParam param) {
+    public PageResult<SecUserDTO> listAuthorizedUsersByRoleId(SecUserListByRoleParam param) {
         Page page = new Page(param.getCurrent(), param.getPageSize());
         Page<SecUser> secUserPage = baseMapper.selectRelatedUsersByRole(page, param.getRoleId(), param.getStatus(), param.getUserName());
-        Page<SecUserDTO> result = new Page<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
+        PageResult<SecUserDTO> result = new PageResult<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
         List<SecUserDTO> secUserDTOS = SecUserConvert.INSTANCE.toDto(secUserPage.getRecords());
         result.setRecords(secUserDTOS);
         return result;
     }
 
     @Override
-    public Page<SecUserDTO> listUnauthorizedUsersByRoleId(SecUserListByRoleParam param) {
+    public PageResult<SecUserDTO> listUnauthorizedUsersByRoleId(SecUserListByRoleParam param) {
         Page page = new Page(param.getCurrent(), param.getPageSize());
         Page<SecUser> secUserPage = baseMapper.selectUnrelatedUsersByRole(page, param.getRoleId(), param.getStatus(), param.getUserName());
-        Page<SecUserDTO> result = new Page<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
+        PageResult<SecUserDTO> result = new PageResult<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
         List<SecUserDTO> secUserDTOS = SecUserConvert.INSTANCE.toDto(secUserPage.getRecords());
         result.setRecords(secUserDTOS);
         return result;
@@ -86,15 +87,23 @@ public class SecUserRoleServiceImpl extends ServiceImpl<SecUserRoleMapper, SecUs
     }
 
     @Override
-    public List<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param) {
-        List<SecRole> secRoleList = baseMapper.selectRelatedRolesByUser(param.getUserId(), null, param.getName());
-        return SecRoleConvert.INSTANCE.toDto(secRoleList);
+    public PageResult<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param) {
+        Page page = new Page(param.getCurrent(), param.getPageSize());
+        Page<SecRole> secRolePage = baseMapper.selectRelatedRolesByUser(page, param.getUserId(), null, param.getName());
+        PageResult<SecRoleDTO> result = new PageResult<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
+        List<SecRoleDTO> secRoleDTOS = SecRoleConvert.INSTANCE.toDto(secRolePage.getRecords());
+        result.setRecords(secRoleDTOS);
+        return result;
     }
 
     @Override
-    public List<SecRoleDTO> listUnauthorizedRolesByUserId(SecRoleListByUserParam param) {
-        List<SecRole> secRoleList = baseMapper.selectUnrelatedRolesByUser(param.getUserId(), null, param.getName());
-        return SecRoleConvert.INSTANCE.toDto(secRoleList);
+    public PageResult<SecRoleDTO> listUnauthorizedRolesByUserId(SecRoleListByUserParam param) {
+        Page page = new Page(param.getCurrent(), param.getPageSize());
+        Page<SecRole> secRolePage = baseMapper.selectUnrelatedRolesByUser(page, param.getUserId(), null, param.getName());
+        PageResult<SecRoleDTO> result = new PageResult<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
+        List<SecRoleDTO> secRoleDTOS = SecRoleConvert.INSTANCE.toDto(secRolePage.getRecords());
+        result.setRecords(secRoleDTOS);
+        return result;
     }
 
     @Override

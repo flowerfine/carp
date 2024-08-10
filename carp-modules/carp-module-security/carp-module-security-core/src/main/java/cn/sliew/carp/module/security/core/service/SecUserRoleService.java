@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.repository.entity.SecUserRole;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
@@ -25,10 +26,7 @@ import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleBatchAu
 import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleListByUserParam;
 import cn.sliew.carp.module.security.core.service.param.authorize.SecUserBatchAuthorizeForRoleParam;
 import cn.sliew.carp.module.security.core.service.param.authorize.SecUserListByRoleParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
 
 public interface SecUserRoleService extends IService<SecUserRole> {
 
@@ -39,12 +37,12 @@ public interface SecUserRoleService extends IService<SecUserRole> {
     /**
      * 查询角色绑定用户列表
      */
-    Page<SecUserDTO> listAuthorizedUsersByRoleId(SecUserListByRoleParam param);
+    PageResult<SecUserDTO> listAuthorizedUsersByRoleId(SecUserListByRoleParam param);
 
     /**
      * 查询角色未绑定用户列表
      */
-    Page<SecUserDTO> listUnauthorizedUsersByRoleId(SecUserListByRoleParam param);
+    PageResult<SecUserDTO> listUnauthorizedUsersByRoleId(SecUserListByRoleParam param);
 
     /**
      * 批量为角色绑定用户
@@ -63,12 +61,12 @@ public interface SecUserRoleService extends IService<SecUserRole> {
     /**
      * 查询用户绑定角色列表
      */
-    List<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param);
+    PageResult<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param);
 
     /**
      * 查询用户未绑定角色列表
      */
-    List<SecRoleDTO> listUnauthorizedRolesByUserId(SecRoleListByUserParam param);
+    PageResult<SecRoleDTO> listUnauthorizedRolesByUserId(SecRoleListByUserParam param);
 
     /**
      * 批量为用户绑定角色

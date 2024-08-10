@@ -18,13 +18,13 @@
 
 package cn.sliew.carp.module.security.core.controller;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.security.core.service.SecAuthorizationService;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebWithAuthorizeDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.core.service.param.authorize.*;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -44,16 +44,14 @@ public class SecAuthorizationController {
 
     @GetMapping("resource-web/authorized-roles")
     @Operation(summary = "查询 资源-web 绑定角色列表", description = "查询 资源-web 绑定角色列表")
-    public Page<SecRoleDTO> listAuthorizedRolesByResourceWebId(@Valid SecRoleListByResourceWebParam param) {
-        Page<SecRoleDTO> result = secAuthorizationService.listAuthorizedRolesByResourceWebId(param);
-        return result;
+    public PageResult<SecRoleDTO> listAuthorizedRolesByResourceWebId(@Valid SecRoleListByResourceWebParam param) {
+        return secAuthorizationService.listAuthorizedRolesByResourceWebId(param);
     }
 
     @GetMapping("resource-web/unauthorized-roles")
     @Operation(summary = "查询 资源-web 未绑定角色列表", description = "查询 资源-web 未绑定角色列表")
-    public Page<SecRoleDTO> listUnauthorizedRolesByResourceWebId(@Valid SecRoleListByResourceWebParam param) {
-        Page<SecRoleDTO> result = secAuthorizationService.listUnauthorizedRolesByResourceWebId(param);
-        return result;
+    public PageResult<SecRoleDTO> listUnauthorizedRolesByResourceWebId(@Valid SecRoleListByResourceWebParam param) {
+        return secAuthorizationService.listUnauthorizedRolesByResourceWebId(param);
     }
 
     @PutMapping("resource-web/roles")
@@ -89,16 +87,14 @@ public class SecAuthorizationController {
 
     @GetMapping("role/authorized-users")
     @Operation(summary = "查询角色绑定用户列表", description = "查询角色绑定用户列表")
-    public Page<SecUserDTO> listAuthorizedUsersByRoleId(@Valid SecUserListByRoleParam param) {
-        Page<SecUserDTO> result = secAuthorizationService.listAuthorizedUsersByRoleId(param);
-        return result;
+    public PageResult<SecUserDTO> listAuthorizedUsersByRoleId(@Valid SecUserListByRoleParam param) {
+        return secAuthorizationService.listAuthorizedUsersByRoleId(param);
     }
 
     @GetMapping("role/unauthorized-users")
     @Operation(summary = "查询角色未绑定用户列表", description = "查询角色未绑定用户列表")
-    public Page<SecUserDTO> listUnauthorizedUsersByRoleId(@Valid SecUserListByRoleParam param) {
-        Page<SecUserDTO> result = secAuthorizationService.listUnauthorizedUsersByRoleId(param);
-        return result;
+    public PageResult<SecUserDTO> listUnauthorizedUsersByRoleId(@Valid SecUserListByRoleParam param) {
+        return secAuthorizationService.listUnauthorizedUsersByRoleId(param);
     }
 
     @PutMapping("role/users")
@@ -115,16 +111,14 @@ public class SecAuthorizationController {
 
     @GetMapping("user/authorized-roles")
     @Operation(summary = "查询用户绑定角色列表", description = "查询用户绑定角色列表")
-    public List<SecRoleDTO> listAuthorizedRolesByUserId(@Valid SecRoleListByUserParam param) {
-        List<SecRoleDTO> result = secAuthorizationService.listAuthorizedRolesByUserId(param);
-        return result;
+    public PageResult<SecRoleDTO> listAuthorizedRolesByUserId(@Valid SecRoleListByUserParam param) {
+        return secAuthorizationService.listAuthorizedRolesByUserId(param);
     }
 
     @GetMapping("user/unauthorized-roles")
     @Operation(summary = "查询用户未绑定角色列表", description = "查询用户未绑定角色列表")
-    public List<SecRoleDTO> listUnauthorizedRolesByUserId(@Valid SecRoleListByUserParam param) {
-        List<SecRoleDTO> result = secAuthorizationService.listUnauthorizedRolesByUserId(param);
-        return result;
+    public PageResult<SecRoleDTO> listUnauthorizedRolesByUserId(@Valid SecRoleListByUserParam param) {
+        return secAuthorizationService.listUnauthorizedRolesByUserId(param);
     }
 
     @PutMapping("user/roles")

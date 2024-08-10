@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service.impl;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebRole;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebVO;
@@ -47,20 +48,20 @@ import java.util.List;
 public class SecResourceWebRoleServiceImpl extends ServiceImpl<SecResourceWebRoleMapper, SecResourceWebRole> implements SecResourceWebRoleService {
 
     @Override
-    public Page<SecRoleDTO> listAuthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param) {
+    public PageResult<SecRoleDTO> listAuthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param) {
         Page page = new Page(param.getCurrent(), param.getPageSize());
         Page<SecRole> secRolePage = baseMapper.selectRelatedRolesByWebResource(page, param.getResourceWebId(), param.getStatus(), param.getName());
-        Page<SecRoleDTO> result = new Page<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
+        PageResult<SecRoleDTO> result = new PageResult<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
         List<SecRoleDTO> secRoleDTOS = SecRoleConvert.INSTANCE.toDto(secRolePage.getRecords());
         result.setRecords(secRoleDTOS);
         return result;
     }
 
     @Override
-    public Page<SecRoleDTO> listUnauthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param) {
+    public PageResult<SecRoleDTO> listUnauthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param) {
         Page page = new Page(param.getCurrent(), param.getPageSize());
         Page<SecRole> secRolePage = baseMapper.selectUnrelatedRolesByWebResource(page, param.getResourceWebId(), param.getStatus(), param.getName());
-        Page<SecRoleDTO> result = new Page<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
+        PageResult<SecRoleDTO> result = new PageResult<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
         List<SecRoleDTO> secRoleDTOS = SecRoleConvert.INSTANCE.toDto(secRolePage.getRecords());
         result.setRecords(secRoleDTOS);
         return result;

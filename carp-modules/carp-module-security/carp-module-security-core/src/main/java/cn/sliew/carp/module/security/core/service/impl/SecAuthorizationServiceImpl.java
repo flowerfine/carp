@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service.impl;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.security.core.service.SecAuthorizationService;
 import cn.sliew.carp.module.security.core.service.SecResourceWebRoleService;
 import cn.sliew.carp.module.security.core.service.SecUserRoleService;
@@ -26,7 +27,6 @@ import cn.sliew.carp.module.security.core.service.dto.SecResourceWebWithAuthoriz
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.core.service.param.authorize.*;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +41,12 @@ public class SecAuthorizationServiceImpl implements SecAuthorizationService {
     private SecUserRoleService secUserRoleService;
 
     @Override
-    public Page<SecRoleDTO> listAuthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param) {
+    public PageResult<SecRoleDTO> listAuthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param) {
         return secResourceWebRoleService.listAuthorizedRolesByResourceWebId(param);
     }
 
     @Override
-    public Page<SecRoleDTO> listUnauthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param) {
+    public PageResult<SecRoleDTO> listUnauthorizedRolesByResourceWebId(SecRoleListByResourceWebParam param) {
         return secResourceWebRoleService.listUnauthorizedRolesByResourceWebId(param);
     }
 
@@ -81,12 +81,12 @@ public class SecAuthorizationServiceImpl implements SecAuthorizationService {
     }
 
     @Override
-    public Page<SecUserDTO> listAuthorizedUsersByRoleId(SecUserListByRoleParam param) {
+    public PageResult<SecUserDTO> listAuthorizedUsersByRoleId(SecUserListByRoleParam param) {
         return secUserRoleService.listAuthorizedUsersByRoleId(param);
     }
 
     @Override
-    public Page<SecUserDTO> listUnauthorizedUsersByRoleId(SecUserListByRoleParam param) {
+    public PageResult<SecUserDTO> listUnauthorizedUsersByRoleId(SecUserListByRoleParam param) {
         return secUserRoleService.listUnauthorizedUsersByRoleId(param);
     }
 
@@ -101,12 +101,12 @@ public class SecAuthorizationServiceImpl implements SecAuthorizationService {
     }
 
     @Override
-    public List<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param) {
+    public PageResult<SecRoleDTO> listAuthorizedRolesByUserId(SecRoleListByUserParam param) {
         return secUserRoleService.listAuthorizedRolesByUserId(param);
     }
 
     @Override
-    public List<SecRoleDTO> listUnauthorizedRolesByUserId(SecRoleListByUserParam param) {
+    public PageResult<SecRoleDTO> listUnauthorizedRolesByUserId(SecRoleListByUserParam param) {
         return secUserRoleService.listUnauthorizedRolesByUserId(param);
     }
 
