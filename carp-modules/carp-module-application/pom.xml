@@ -30,6 +30,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>carp-module-application-controller</module>
         <module>carp-module-application-oam</module>
         <module>carp-module-application-vela</module>
     </modules>

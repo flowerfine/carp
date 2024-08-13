@@ -22,21 +22,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-modules</artifactId>
         <version>0.0.10-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-modules</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-alert</artifactId>
 
-    <modules>
-        <module>carp-module-alert</module>
-        <module>carp-module-application</module>
-        <module>carp-module-datasource</module>
-        <module>carp-module-kubernetes</module>
-        <module>carp-module-persistence</module>
-        <module>carp-module-plugin</module>
-        <module>carp-module-resource</module>
-        <module>carp-module-security</module>
-        <module>carp-module-system</module>
-    </modules>
 </project>
