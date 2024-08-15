@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.framework.common.dict;
 
+import cn.sliew.carp.framework.common.dict.alert.AlertStatus;
 import cn.sliew.carp.framework.common.dict.common.IsDeleted;
 import cn.sliew.carp.framework.common.dict.common.YesOrNo;
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
@@ -35,6 +36,8 @@ public enum DictType implements DictDefinition {
 
     YES_OR_NO("yes_or_no", "是否", YesOrNo.class),
     IS_DELETED("is_delete", "是否删除", IsDeleted.class),
+
+    ALERT_STATUS("alert_status", "告警消息状态", AlertStatus.class),
 
     SEC_APPLICATION_TYPE("sec_application_type", "安全-应用类型", SecApplicationType.class),
     SEC_APPLICATION_STATUS("sec_application_status", "安全-应用状态", SecApplicationStatus.class),

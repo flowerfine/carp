@@ -1,0 +1,40 @@
+{
+  "receiver": "webhook",
+  "status": "firing",
+  "alerts": [
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "Watchdog",
+        "prometheus": "default/prometheus-operator-kube-p-prometheus",
+        "severity": "none"
+      },
+      "annotations": {
+        "description": "This is an alert meant to ensure that the entire alerting pipeline is functional.\nThis alert is always firing, therefore it should always be firing in Alertmanager\nand always fire against a receiver. There are integrations with various notification\nmechanisms that send a notification when this alert is not firing. For example the\n\"DeadMansSnitch\" integration in PagerDuty.\n",
+        "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/general/watchdog",
+        "summary": "An alert that should always be firing to certify that Alertmanager is working properly."
+      },
+      "startsAt": "2024-08-15T10:02:26.179Z",
+      "endsAt": "0001-01-01T00:00:00Z",
+      "generatorURL": "http://prometheus-operator-kube-p-prometheus.default:9090/graph?g0.expr=vector%281%29&g0.tab=1",
+      "fingerprint": "f9b1905641cd8639"
+    }
+  ],
+  "groupLabels": {
+
+  },
+  "commonLabels": {
+    "alertname": "Watchdog",
+    "prometheus": "default/prometheus-operator-kube-p-prometheus",
+    "severity": "none"
+  },
+  "commonAnnotations": {
+    "description": "This is an alert meant to ensure that the entire alerting pipeline is functional.\nThis alert is always firing, therefore it should always be firing in Alertmanager\nand always fire against a receiver. There are integrations with various notification\nmechanisms that send a notification when this alert is not firing. For example the\n\"DeadMansSnitch\" integration in PagerDuty.\n",
+    "runbook_url": "https://runbooks.prometheus-operator.dev/runbooks/general/watchdog",
+    "summary": "An alert that should always be firing to certify that Alertmanager is working properly."
+  },
+  "externalURL": "http://prometheus-operator-kube-p-alertmanager.default:9093",
+  "version": "4",
+  "groupKey": "{}/{}:{}",
+  "truncatedAlerts": 0
+}

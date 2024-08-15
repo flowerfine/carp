@@ -20,10 +20,11 @@ package cn.sliew.carp.module.alert.controller;
 
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
+import cn.sliew.carp.module.alert.model.AlertList;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +37,7 @@ public class CarpAlertController {
 
     @PostMapping
     @Operation(summary = "接收告警", description = "接收告警")
-    public void receiveAlert(HttpServletResponse response) throws Exception {
+    public void receiveAlert(@RequestBody AlertList alertList) {
 
     }
 }
