@@ -16,20 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.example.mongo.config;
+package cn.sliew.carp.example.ageiport.config;
 
-import org.springdoc.core.models.GroupedOpenApi;
+import com.alibaba.ageiport.processor.core.AgeiPort;
+import com.alibaba.ageiport.processor.core.AgeiPortOptions;
+import com.alibaba.ageiport.processor.core.client.http.HttpTaskServerClientOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MongoOpenAPIConfig {
+public class AGEIPortConfig {
 
     @Bean
-    public GroupedOpenApi carpMongoExampleOpenApi() {
-        return GroupedOpenApi.builder().group("Mongo模块")
-                .pathsToMatch("/api/carp/example/mongo/**")
-                .packagesToScan("cn.sliew.carp.example.mongo").build();
-    }
+    public AgeiPort ageiPort() {
+        AgeiPortOptions options = AgeiPortOptions.debug();
 
+//        HttpTaskServerClientOptions clientOptions = new HttpTaskServerClientOptions();
+//        clientOptions.setEndpoint("localhost");
+//        options.setTaskServerClientOptions(clientOptions);
+
+        return AgeiPort.ageiPort(options);
+    }
 }

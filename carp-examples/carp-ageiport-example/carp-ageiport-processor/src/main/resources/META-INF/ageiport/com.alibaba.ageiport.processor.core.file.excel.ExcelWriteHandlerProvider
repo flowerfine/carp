@@ -1,1 +1,1 @@
-UDFExcelWriteHandlerProvider=com.alibaba.ageiport.test.processor.core.excel.UDFExcelWriteHandlerProvider
+UDFExcelWriteHandlerProvider=cn.sliew.carp.processor.core.excel.UDFExcelWriteHandlerProvider

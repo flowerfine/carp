@@ -1,1 +1,1 @@
-UdfExportSliceStrategy=com.alibaba.ageiport.test.processor.core.strategy.slice.UdfExportSliceStrategy
+UdfExportSliceStrategy=cn.sliew.carp.processor.core.strategy.slice.UdfExportSliceStrategy

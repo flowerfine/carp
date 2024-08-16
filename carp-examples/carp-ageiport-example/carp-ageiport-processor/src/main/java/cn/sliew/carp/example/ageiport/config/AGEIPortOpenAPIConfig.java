@@ -16,20 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.example.mongo.config;
+package cn.sliew.carp.example.ageiport.config;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MongoOpenAPIConfig {
+public class AGEIPortOpenAPIConfig {
 
     @Bean
-    public GroupedOpenApi carpMongoExampleOpenApi() {
-        return GroupedOpenApi.builder().group("Mongo模块")
-                .pathsToMatch("/api/carp/example/mongo/**")
-                .packagesToScan("cn.sliew.carp.example.mongo").build();
+    public GroupedOpenApi carpAGEIPortExampleOpenApi() {
+        return GroupedOpenApi.builder().group("AGEIPort模块")
+                .pathsToMatch("/api/carp/example/ageiport/**")
+                .packagesToScan("cn.sliew.carp.example.ageiport").build();
     }
 
 }

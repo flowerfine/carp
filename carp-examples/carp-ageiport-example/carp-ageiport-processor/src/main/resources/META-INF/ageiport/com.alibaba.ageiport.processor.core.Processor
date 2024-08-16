@@ -1,14 +1,14 @@
-StandaloneExportProcessor=com.alibaba.ageiport.test.processor.core.exporter.StandaloneExportProcessor
-DynamicColumnExportProcessor=com.alibaba.ageiport.test.processor.core.exporter.DynamicColumnExportProcessor
-ClusterExportProcessor=com.alibaba.ageiport.test.processor.core.exporter.ClusterExportProcessor
-ExcelStyleExportProcessor=com.alibaba.ageiport.test.processor.core.exporter.ExcelStyleExportProcessor
-MultiSheetExportProcessor=com.alibaba.ageiport.test.processor.core.exporter.MultiSheetExportProcessor
-UdfSliceStrategyExportProcessor=com.alibaba.ageiport.test.processor.core.exporter.UdfSliceStrategyExportProcessor
-CSVExportProcessor=com.alibaba.ageiport.test.processor.core.exporter.CSVExportProcessor
+StandaloneExportProcessor=cn.sliew.carp.processor.core.exporter.StandaloneExportProcessor
+DynamicColumnExportProcessor=cn.sliew.carp.processor.core.exporter.DynamicColumnExportProcessor
+ClusterExportProcessor=cn.sliew.carp.processor.core.exporter.ClusterExportProcessor
+ExcelStyleExportProcessor=cn.sliew.carp.processor.core.exporter.ExcelStyleExportProcessor
+MultiSheetExportProcessor=cn.sliew.carp.processor.core.exporter.MultiSheetExportProcessor
+UdfSliceStrategyExportProcessor=cn.sliew.carp.processor.core.exporter.UdfSliceStrategyExportProcessor
+CSVExportProcessor=cn.sliew.carp.processor.core.exporter.CSVExportProcessor
 
-StandaloneImportProcessor=com.alibaba.ageiport.test.processor.core.importer.StandaloneImportProcessor
-ClusterImportProcessor=com.alibaba.ageiport.test.processor.core.importer.ClusterImportProcessor
-MultiSheetImportProcessor=com.alibaba.ageiport.test.processor.core.importer.MultiSheetImportProcessor
-CSVImportProcessor=com.alibaba.ageiport.test.processor.core.importer.CSVImportProcessor
-DynamicColumnImportProcessor=com.alibaba.ageiport.test.processor.core.importer.DynamicColumnImportProcessor
+StandaloneImportProcessor=cn.sliew.carp.processor.core.importer.StandaloneImportProcessor
+ClusterImportProcessor=cn.sliew.carp.processor.core.importer.ClusterImportProcessor
+MultiSheetImportProcessor=cn.sliew.carp.processor.core.importer.MultiSheetImportProcessor
+CSVImportProcessor=cn.sliew.carp.processor.core.importer.CSVImportProcessor
+DynamicColumnImportProcessor=cn.sliew.carp.processor.core.importer.DynamicColumnImportProcessor
 

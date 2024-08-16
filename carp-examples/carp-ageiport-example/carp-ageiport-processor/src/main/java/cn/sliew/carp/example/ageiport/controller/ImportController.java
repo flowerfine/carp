@@ -16,20 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.example.mongo.config;
+package cn.sliew.carp.example.ageiport.controller;
 
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Configuration
-public class MongoOpenAPIConfig {
+@RestController
+@RequestMapping("/api/carp/example/ageiport/import")
+@Tag(name = "测试模块-导入功能")
+public class ImportController {
 
-    @Bean
-    public GroupedOpenApi carpMongoExampleOpenApi() {
-        return GroupedOpenApi.builder().group("Mongo模块")
-                .pathsToMatch("/api/carp/example/mongo/**")
-                .packagesToScan("cn.sliew.carp.example.mongo").build();
+    @PutMapping
+    @Operation(summary = "新增", description = "新增")
+    public Boolean add() {
+        return true;
     }
 
 }

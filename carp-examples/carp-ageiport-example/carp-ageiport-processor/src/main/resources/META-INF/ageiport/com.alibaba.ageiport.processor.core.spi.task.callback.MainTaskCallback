@@ -1,1 +1,1 @@
-TestMainTaskCallback=com.alibaba.ageiport.test.processor.core.TestMainTaskCallback
+TestMainTaskCallback=cn.sliew.carp.processor.core.TestMainTaskCallback

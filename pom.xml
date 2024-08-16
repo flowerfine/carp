@@ -75,7 +75,6 @@
         <module>carp-modules</module>
         <module>carp-dist</module>
         <module>carp-examples</module>
-        <module>carp-examples/carp-ageiport-example</module>
     </modules>
 
     <properties>
