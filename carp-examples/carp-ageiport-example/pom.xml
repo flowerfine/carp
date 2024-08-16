@@ -28,18 +28,17 @@
     </parent>
     <artifactId>carp-ageiport-example</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>carp-ageiport-server</module>
+        <module>carp-ageiport-processor</module>
     </modules>
 
     <properties>
         <ageiport.version>0.3.2</ageiport.version>
         <quarkus.version>3.3.2</quarkus.version>
+        <junit.version>5.9.0</junit.version>
     </properties>
-
-    <dependencies>
-
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -55,6 +54,22 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>ageiport-task-server</artifactId>
                 <version>${ageiport.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>ageiport-processor-core</artifactId>
+                <version>${ageiport.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
