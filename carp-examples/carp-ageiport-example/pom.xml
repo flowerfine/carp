@@ -30,6 +30,7 @@
 
     <properties>
         <ageiport.version>0.3.2</ageiport.version>
+        <quarkus.version>3.3.2</quarkus.version>
     </properties>
 
     <dependencies>
@@ -38,6 +39,23 @@
             <artifactId>ageiport-task-server</artifactId>
             <version>${ageiport.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-spring-web</artifactId>
+        </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-bom</artifactId>
+                <version>${quarkus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
