@@ -22,41 +22,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-examples</artifactId>
+        <artifactId>carp-ageiport-example</artifactId>
         <version>0.0.10-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-ageiport-example</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>carp-ageiport-server</module>
-    </modules>
-
-    <properties>
-        <ageiport.version>0.3.2</ageiport.version>
-        <quarkus.version>3.3.2</quarkus.version>
-    </properties>
+    <artifactId>carp-ageiport-server</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>ageiport-task-server</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-spring-web</artifactId>
+        </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-bom</artifactId>
-                <version>${quarkus.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>ageiport-task-server</artifactId>
-                <version>${ageiport.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 </project>
