@@ -16,14 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.kubernetes.service.entity.spec;
+package cn.sliew.carp.module.kubernetes.service.impl;
 
-import lombok.Data;
+import cn.sliew.carp.module.kubernetes.service.KubernetesClientService;
+import cn.sliew.carp.module.kubernetes.service.NamespaceService;
+import io.fabric8.kubernetes.api.model.NamespaceList;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Data
-public class ClusterSpec {
+@Service
+public class NamespaceServiceImpl implements NamespaceService {
 
-    private String context;
-    private String authMode;
-    private String configContent;
+    @Autowired
+    private KubernetesClientService kubernetesClientService;
+
+    @Override
+    public NamespaceList list(Long id) {
+        KubernetesClient client = kubernetesClientService.getClient(id);
+        return client.namespaces().list();
+    }
 }

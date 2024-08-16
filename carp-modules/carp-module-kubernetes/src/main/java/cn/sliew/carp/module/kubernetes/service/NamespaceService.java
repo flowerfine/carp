@@ -16,14 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.kubernetes.service.entity.spec;
+package cn.sliew.carp.module.kubernetes.service;
 
-import lombok.Data;
+import io.fabric8.kubernetes.api.model.NamespaceList;
 
-@Data
-public class ClusterSpec {
+public interface NamespaceService {
 
-    private String context;
-    private String authMode;
-    private String configContent;
+    NamespaceList list(Long id);
 }

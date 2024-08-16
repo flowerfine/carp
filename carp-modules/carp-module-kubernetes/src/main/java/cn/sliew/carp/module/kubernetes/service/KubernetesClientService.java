@@ -16,14 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.kubernetes.service.entity.spec;
+package cn.sliew.carp.module.kubernetes.service;
 
-import lombok.Data;
+import io.fabric8.kubernetes.client.Config;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.NamespacedKubernetesClient;
 
-@Data
-public class ClusterSpec {
+public interface KubernetesClientService {
 
-    private String context;
-    private String authMode;
-    private String configContent;
+    KubernetesClient getClient(Long id);
+
+    NamespacedKubernetesClient getClient(Long id, String namespace);
+
+    Config getConfig(Long id);
+
 }
