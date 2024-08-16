@@ -35,6 +35,7 @@
     </modules>
 
     <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
         <ageiport.version>0.3.2</ageiport.version>
         <quarkus.version>3.3.2</quarkus.version>
         <junit.version>5.9.0</junit.version>
