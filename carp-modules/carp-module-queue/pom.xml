@@ -22,23 +22,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-modules</artifactId>
         <version>0.0.10-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-queue</artifactId>
 
-    <modules>
-        <module>carp-framework-common</module>
-        <module>carp-framework-dag</module>
-        <module>carp-framework-exception</module>
-        <module>carp-framework-metrics</module>
-        <module>carp-framework-mongo</module>
-        <module>carp-framework-mybatis</module>
-        <module>carp-framework-pekko</module>
-        <module>carp-framework-redis</module>
-        <module>carp-framework-web</module>
-    </modules>
 
 </project>

@@ -39,5 +39,6 @@
         <module>carp-module-resource</module>
         <module>carp-module-security</module>
         <module>carp-module-system</module>
+        <module>carp-module-queue</module>
     </modules>
 </project>
