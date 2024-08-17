@@ -23,6 +23,9 @@ import cn.sliew.carp.framework.common.dict.common.IsDeleted;
 import cn.sliew.carp.framework.common.dict.common.YesOrNo;
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
 import cn.sliew.carp.framework.common.dict.datasource.RedisMode;
+import cn.sliew.carp.framework.common.dict.k8s.ClusterStatus;
+import cn.sliew.carp.framework.common.dict.k8s.ClusterType;
+import cn.sliew.carp.framework.common.dict.oam.AppType;
 import cn.sliew.carp.framework.common.dict.security.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,6 +39,11 @@ public enum DictType implements DictDefinition {
 
     YES_OR_NO("yes_or_no", "是否", YesOrNo.class),
     IS_DELETED("is_delete", "是否删除", IsDeleted.class),
+
+    K8S_CLUSTER_TYPE("k8s_cluster_type", "集群类型", ClusterType.class),
+    K8S_CLUSTER_STATUS("k8s_cluster_status", "集群状态", ClusterStatus.class),
+
+    OAM_APP_TYPE("oam_app_type", "应用类型", AppType.class),
 
     ALERT_STATUS("alert_status", "告警消息状态", AlertStatus.class),
 

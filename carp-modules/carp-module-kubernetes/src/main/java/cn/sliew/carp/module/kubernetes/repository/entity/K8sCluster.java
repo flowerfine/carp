@@ -18,6 +18,8 @@
 
 package cn.sliew.carp.module.kubernetes.repository.entity;
 
+import cn.sliew.carp.framework.common.dict.k8s.ClusterStatus;
+import cn.sliew.carp.framework.common.dict.k8s.ClusterType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import cn.sliew.carp.framework.mybatis.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -31,6 +33,10 @@ import lombok.Setter;
 @TableName("carp_k8s_cluster")
 @Schema(name = "K8sCluster", description = "k8s 集群")
 public class K8sCluster extends BaseAuditDO {
+
+    @Schema(description = "type")
+    @TableField("type")
+    private ClusterType type;
 
     @Schema(description = "uuid")
     @TableField("uuid")
@@ -47,6 +53,10 @@ public class K8sCluster extends BaseAuditDO {
     @Schema(description = "status")
     @TableField("`status`")
     private String status;
+
+    @Schema(description = "cluster status. 0: disabled, 1: enabled")
+    @TableField("cluster_status")
+    private ClusterStatus clusterStatus;
 
     @Schema(description = "备注")
     @TableField("remark")
