@@ -21,6 +21,7 @@ package cn.sliew.carp.framework.mybatis;
 public enum DataSourceConstants {
     ;
 
+    public static final String MAPPER_FRAMEWORK_DAG_PACKAGE = "cn.sliew.carp.framework.dag.repository.mapper";
     public static final String MAPPER_MODULE_SECURITY_PACKAGE = "cn.sliew.carp.module.security.core.repository.mapper";
     public static final String MAPPER_MODULE_KUBERNETES_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
     public static final String MAPPER_MODULE_DATASOURCE_PACKAGE = "cn.sliew.carp.module.datasource.repository.mapper";
