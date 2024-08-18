@@ -218,12 +218,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-module-security-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>carp-module-security-spring</artifactId>
+                <artifactId>carp-module-kubernetes</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -233,7 +228,17 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-module-kubernetes</artifactId>
+                <artifactId>carp-module-queue-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-security-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-security-spring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
