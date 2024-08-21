@@ -30,6 +30,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>carp-plugin-schedule</module>
         <module>carp-plugin-test</module>
     </modules>
 

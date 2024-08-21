@@ -249,6 +249,11 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-plugin-schedule-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-plugin-test-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
