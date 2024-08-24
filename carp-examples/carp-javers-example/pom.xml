@@ -22,21 +22,26 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-examples</artifactId>
         <version>0.0.11-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-examples</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-javers-example</artifactId>
 
-    <modules>
-        <module>carp-ageiport-example</module>
-        <module>carp-javers-example</module>
-        <module>carp-mongo-example</module>
-        <module>carp-pekko-example</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-mybatis</artifactId>
+        </dependency>
 
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+        <dependency>
+            <groupId>org.javers</groupId>
+            <artifactId>javers-spring</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
