@@ -55,7 +55,7 @@
     <select id="listByDagInstanceId" resultMap="DagStepVOMap">
         select
         <include refid="Base_Column_List"/>
-        from dag_step
+        from carp_dag_step
         where dag_instance_id = #{dagInstanceId}
     </select>
 

@@ -26,7 +26,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@TableName("dag_link")
+@TableName("carp_dag_link")
 public class DagLink extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;
