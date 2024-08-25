@@ -23,7 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("dag_link")
+@TableName("carp_dag_link")
 public class DagLinkVO extends DagLink {
 
     @TableField(value = "dag_config_link_id", exist = false)

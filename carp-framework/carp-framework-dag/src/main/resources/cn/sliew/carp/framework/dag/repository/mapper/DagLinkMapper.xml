@@ -54,7 +54,7 @@
     <select id="listByDagInstanceId" resultMap="DagLinkVOMap">
         select
         <include refid="Base_Column_List"/>
-        from dag_link
+        from carp_dag_link
         where dag_instance_id = #{dagInstanceId}
     </select>
 

@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>
-    <version>0.0.10-SNAPSHOT</version>
+    <version>0.0.11-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>carp</name>
     <description>Carp Framwork</description>
@@ -127,6 +127,7 @@
         <pf4j.version>3.12.0</pf4j.version>
         <pf4j-spring.version>0.9.0</pf4j-spring.version>
         <kubernetes-client.version>6.9.2</kubernetes-client.version>
+        <javers.version>7.6.1</javers.version>
     </properties>
 
     <dependencyManagement>
@@ -551,6 +552,17 @@
                 <groupId>io.fabric8</groupId>
                 <artifactId>kubernetes-client</artifactId>
                 <version>${kubernetes-client.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.javers</groupId>
+                <artifactId>javers-spring-boot-starter-sql</artifactId>
+                <version>${javers.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javers</groupId>
+                <artifactId>javers-spring</artifactId>
+                <version>${javers.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -24,7 +24,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("dag_config_step")
+@TableName("carp_dag_config_step")
 public class DagConfigStep extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;

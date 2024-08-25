@@ -27,7 +27,7 @@ import lombok.Data;
  * DAG 配置连线
  */
 @Data
-@TableName("dag_config_link")
+@TableName("carp_dag_config_link")
 public class DagConfigLink extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;

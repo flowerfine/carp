@@ -23,7 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("dag_step")
+@TableName("carp_dag_step")
 public class DagStepVO extends DagStep {
 
     @TableField("dag_config_step_id")

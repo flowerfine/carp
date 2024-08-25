@@ -23,13 +23,14 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
-        <version>0.0.10-SNAPSHOT</version>
+        <version>0.0.11-SNAPSHOT</version>
     </parent>
     <artifactId>carp-examples</artifactId>
     <packaging>pom</packaging>
 
     <modules>
         <module>carp-ageiport-example</module>
+        <module>carp-javers-example</module>
         <module>carp-mongo-example</module>
         <module>carp-pekko-example</module>
     </modules>

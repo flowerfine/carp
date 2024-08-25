@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@TableName("dag_config")
+@TableName("carp_dag_config")
 public class DagConfig extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;
