@@ -1,6 +1,7 @@
 package cn.sliew.carp.framework.dag.task.model;
 
 import jakarta.annotation.Nonnull;
+import org.springframework.scheduling.Trigger;
 
 import java.util.List;
 import java.util.Map;
