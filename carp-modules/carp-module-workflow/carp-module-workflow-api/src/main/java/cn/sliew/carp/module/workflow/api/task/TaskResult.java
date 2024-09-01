@@ -16,13 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.module.scheduler.repository.mapper;
+package cn.sliew.carp.module.workflow.api.task;
 
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface ScheduleJobInstanceMapper extends BaseMapper<ScheduleJobInstance> {
-
+public class TaskResult {
 }

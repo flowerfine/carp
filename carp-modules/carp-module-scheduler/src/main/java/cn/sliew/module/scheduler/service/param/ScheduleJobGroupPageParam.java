@@ -16,13 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.module.scheduler.repository.mapper;
+package cn.sliew.module.scheduler.service.param;
 
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-@Repository
-public interface ScheduleJobInstanceMapper extends BaseMapper<ScheduleJobInstance> {
+@Data
+public class ScheduleJobGroupPageParam extends PageParam {
 
+    @Schema(description = "命名空间。模糊搜索")
+    private String namespace;
+
+    @Schema(description = "分组名称。模糊搜索")
+    private String name;
 }

@@ -16,13 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.module.scheduler.repository.mapper;
+package cn.sliew.carp.module.workflow.api.task;
 
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import java.time.Duration;
 
-@Repository
-public interface ScheduleJobInstanceMapper extends BaseMapper<ScheduleJobInstance> {
+public interface RetryableTask extends Task{
 
+    long getBackoffPeriod();
+
+    long getTimeout();
+
+    default long getDynamicTimeout(StageExecution stage) {
+        return getTimeout();
+    }
+
+    default long getDynamicBackoffPeriod(Duration taskDuration) {
+        return getBackoffPeriod();
+    }
+
+    default long getDynamicBackoffPeriod(StageExecution stage, Duration taskDuration) {
+        return getDynamicBackoffPeriod(taskDuration);
+    }
 }

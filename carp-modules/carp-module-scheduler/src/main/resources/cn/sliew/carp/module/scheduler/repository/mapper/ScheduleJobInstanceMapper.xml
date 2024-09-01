@@ -20,7 +20,7 @@
 <mapper namespace="cn.sliew.module.scheduler.repository.mapper.ScheduleJobInstanceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.module.scheduler.repository.entity.ScheduleJobInstanceDTO">
+    <resultMap id="BaseResultMap" type="cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance">
         <result column="id" property="id" />
         <result column="creator" property="creator" />
         <result column="create_time" property="createTime" />

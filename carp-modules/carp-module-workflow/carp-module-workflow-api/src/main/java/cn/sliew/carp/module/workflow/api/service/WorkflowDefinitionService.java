@@ -16,13 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.module.scheduler.repository.mapper;
+package cn.sliew.carp.module.workflow.api.service;
 
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.module.workflow.api.service.param.WorkflowDefinitionListParam;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.graph.Graph;
 
-@Repository
-public interface ScheduleJobInstanceMapper extends BaseMapper<ScheduleJobInstance> {
+public interface WorkflowDefinitionService {
 
+    Page<DagConfigDTO> list(WorkflowDefinitionListParam param);
+
+    DagConfigDTO get(Long id);
+
+    Graph<DagConfigStepDTO> getDag(Long id);
+
+    DagConfigStepDTO getTaskDefinition(Long dagConfigStepId);
 }

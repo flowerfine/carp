@@ -19,8 +19,8 @@
 package cn.sliew.module.scheduler.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstanceDTO;
-import cn.sliew.module.scheduler.service.dto.ScheduleJobInstance;
+import cn.sliew.module.scheduler.service.dto.ScheduleJobInstanceDTO;
+import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -16,13 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.module.scheduler.repository.mapper;
+package cn.sliew.module.scheduler.service.param;
 
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-@Repository
-public interface ScheduleJobInstanceMapper extends BaseMapper<ScheduleJobInstance> {
+@Data
+public class ScheduleJobInstanceListParam {
 
+    @NotNull
+    @Schema(description = "任务配置id")
+    private Long jobConfigId;
+
+    @Schema(description = "状态")
+    private String status;
 }

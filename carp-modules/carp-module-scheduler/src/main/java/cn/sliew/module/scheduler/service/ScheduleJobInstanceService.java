@@ -19,20 +19,28 @@
 package cn.sliew.module.scheduler.service;
 
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstanceDTO;
+import cn.sliew.module.scheduler.service.dto.ScheduleJobInstanceDTO;
+import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
+import cn.sliew.module.scheduler.service.param.ScheduleJobInstanceAddParam;
+import cn.sliew.module.scheduler.service.param.ScheduleJobInstanceListParam;
+import cn.sliew.module.scheduler.service.param.ScheduleJobInstancePageParam;
+import cn.sliew.module.scheduler.service.param.ScheduleJobInstanceUpdateParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Collection;
+import java.util.List;
 
-public interface ScheduleJobInstanceService extends IService<ScheduleJobInstanceDTO> {
+public interface ScheduleJobInstanceService extends IService<ScheduleJobInstance> {
 
-    PageResult<ScheduleJobInstanceDTO> list(ScheduleJobInstanceDTO param);
+    PageResult<ScheduleJobInstanceDTO> list(ScheduleJobInstancePageParam param);
+
+    List<ScheduleJobInstanceDTO> listAll(ScheduleJobInstanceListParam param);
 
     ScheduleJobInstanceDTO get(Long id);
 
-    boolean add(ScheduleJobInstanceDTO param);
+    boolean add(ScheduleJobInstanceAddParam param);
 
-    boolean update(ScheduleJobInstanceDTO param);
+    boolean update(ScheduleJobInstanceUpdateParam param);
 
     boolean delete(Long id);
 

@@ -16,13 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.module.scheduler.repository.mapper;
+package cn.sliew.carp.module.workflow.api.service.param;
 
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowType;
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Repository
-public interface ScheduleJobInstanceMapper extends BaseMapper<ScheduleJobInstance> {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class WorkflowDefinitionListParam extends PageParam {
 
+    @NotNull
+    @Schema(description = "workflow type")
+    private WorkflowType type;
+
+    @Schema(description = "workflow name")
+    private String name;
 }

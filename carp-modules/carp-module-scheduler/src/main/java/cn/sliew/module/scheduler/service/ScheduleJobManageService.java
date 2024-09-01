@@ -16,13 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.module.scheduler.repository.mapper;
+package cn.sliew.module.scheduler.service;
 
-import cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Repository;
+public interface ScheduleJobManageService {
 
-@Repository
-public interface ScheduleJobInstanceMapper extends BaseMapper<ScheduleJobInstance> {
+    void execute(String jobInstanceId);
 
+    void schedule(String jobInstanceId);
+
+    void unschedule(String jobInstanceId);
+
+    void suspend(String jobInstanceId);
+
+    void resume(String jobInstanceId);
 }

@@ -168,7 +168,17 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-dag</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-framework-exception</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-metrics</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -183,12 +193,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-metrics</artifactId>
+                <artifactId>carp-framework-pekko</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -198,7 +203,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-pekko</artifactId>
+                <artifactId>carp-framework-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
