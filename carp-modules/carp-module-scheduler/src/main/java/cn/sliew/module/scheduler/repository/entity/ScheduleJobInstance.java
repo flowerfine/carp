@@ -21,41 +21,33 @@ package cn.sliew.module.scheduler.repository.entity;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @TableName("schedule_job_instance")
-@Schema(name = "ScheduleJobInstance", description = "schedule job instance")
 public class ScheduleJobInstance extends BaseAuditDO {
 
-    @Schema(description = "任务配置id")
     @TableField("job_config_id")
     private Long jobConfigId;
 
-    @Schema(description = "实例名称")
     @TableField("`name`")
     private String name;
 
-    @Schema(description = "CRON表达式")
     @TableField("cron")
     private String cron;
 
-    @Schema(description = "参数")
+    @TableField("props")
+    private String props;
+
     @TableField("params")
     private String params;
 
-    @Schema(description = "超时时间（毫秒）")
     @TableField("timeout")
     private Long timeout;
 
-    @Schema(description = "状态")
     @TableField("`status`")
     private String status;
 
-    @Schema(description = "remark")
     @TableField("remark")
     private String remark;
 }

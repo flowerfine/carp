@@ -21,7 +21,9 @@ CREATE TABLE `schedule_job_config`
 (
     `id`           bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
     `job_group_id` bigint(20) NOT NULL COMMENT '任务分组 id',
-    `type`         varchar(8)  NOT NULL COMMENT '任务类型',
+    `type`         varchar(8)  NOT NULL COMMENT '类型。系统、用户',
+    `engine_type`  varchar(8)  NOT NULL COMMENT '引擎类型。内置、temporal、DolphinScheduler',
+    `job_type`     varchar(8)  NOT NULL COMMENT '任务类型。normal、workflow',
     `name`         varchar(64) NOT NULL COMMENT '任务名称',
     `handler`      varchar(64) COMMENT '任务处理器',
     `remark`       varchar(255) COMMENT 'remark',
@@ -40,6 +42,7 @@ CREATE TABLE `schedule_job_instance`
     `job_config_id` bigint(20) NOT NULL COMMENT '任务配置id',
     `name`          varchar(255) NOT NULL COMMENT '实例名称',
     `cron`          varchar(128) COMMENT 'CRON表达式',
+    `props`         varchar(255) COMMENT '属性',
     `params`        varchar(255) COMMENT '参数',
     `timeout`       bigint(20) COMMENT '超时时间（毫秒）',
     `status`        varchar(4)   NOT NULL COMMENT '状态',

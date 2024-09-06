@@ -18,36 +18,36 @@
 
 package cn.sliew.module.scheduler.repository.entity;
 
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @TableName("schedule_job_config")
-@Schema(name = "ScheduleJobConfig", description = "schedule job config")
 public class ScheduleJobConfig extends BaseAuditDO {
 
-    @Schema(description = "任务分组 id")
     @TableField("job_group_id")
     private Long jobGroupId;
 
-    @Schema(description = "任务类型")
     @TableField("`type`")
-    private String type;
+    private ScheduleType type;
 
-    @Schema(description = "任务名称")
+    @TableField("`engine_type`")
+    private ScheduleEngineType engineType;
+
+    @TableField("`job_type`")
+    private ScheduleJobType jobType;
+
     @TableField("`name`")
     private String name;
 
-    @Schema(description = "任务处理器")
     @TableField("`handler`")
     private String handler;
 
-    @Schema(description = "remark")
     @TableField("remark")
     private String remark;
 }

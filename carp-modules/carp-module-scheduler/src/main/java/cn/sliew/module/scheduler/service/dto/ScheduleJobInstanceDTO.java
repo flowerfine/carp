@@ -19,6 +19,7 @@
 package cn.sliew.module.scheduler.service.dto;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -34,6 +35,9 @@ public class ScheduleJobInstanceDTO extends BaseDTO {
 
     @Schema(description = "CRON表达式")
     private String cron;
+
+    @Schema(description = "属性")
+    private JsonNode props;
 
     @Schema(description = "参数")
     private String params;

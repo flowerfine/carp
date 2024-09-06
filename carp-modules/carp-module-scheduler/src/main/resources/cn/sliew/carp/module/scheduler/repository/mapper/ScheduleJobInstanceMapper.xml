@@ -29,6 +29,7 @@
         <result column="job_config_id" property="jobConfigId" />
         <result column="name" property="name" />
         <result column="cron" property="cron" />
+        <result column="props" property="props" />
         <result column="params" property="params" />
         <result column="timeout" property="timeout" />
         <result column="status" property="status" />
@@ -42,7 +43,7 @@
         create_time,
         editor,
         update_time,
-        job_config_id, `name`, cron, params, timeout, `status`, remark
+        job_config_id, `name`, cron, props, params, timeout, `status`, remark
     </sql>
 
 </mapper>

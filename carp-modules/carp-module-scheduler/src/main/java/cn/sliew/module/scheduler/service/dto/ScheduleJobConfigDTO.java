@@ -18,7 +18,11 @@
 
 package cn.sliew.module.scheduler.service.dto;
 
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -29,8 +33,14 @@ public class ScheduleJobConfigDTO extends BaseDTO {
     @Schema(description = "任务分组 id")
     private Long jobGroupId;
 
+    @Schema(description = "类型")
+    private ScheduleType type;
+
+    @Schema(description = "引擎类型")
+    private ScheduleEngineType engineType;
+
     @Schema(description = "任务类型")
-    private String type;
+    private ScheduleJobType jobType;
 
     @Schema(description = "任务名称")
     private String name;

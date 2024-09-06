@@ -16,23 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.service.param;
+package cn.sliew.carp.module.workflow.api.service;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowType;
-import cn.sliew.carp.framework.common.model.PageParam;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class WorkflowDefinitionListParam extends PageParam {
+public interface WorkflowDagService {
 
-    @NotNull
-    @Schema(description = "workflow type")
-    private WorkflowType type;
+    Long initialize(String name, String remark);
 
-    @Schema(description = "workflow name")
-    private String name;
+    void destroy(Long dagId);
+
+    DagConfigComplexDTO getDag(Long dagId);
+
+    DagConfigStepDTO getStep(Long stepId);
+
+    void update(Long dagId, DagGraphVO graph);
+
 }

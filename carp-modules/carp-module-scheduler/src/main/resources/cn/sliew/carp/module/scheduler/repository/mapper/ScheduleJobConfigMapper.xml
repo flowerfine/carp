@@ -28,6 +28,8 @@
         <result column="update_time" property="updateTime" />
         <result column="job_group_id" property="jobGroupId" />
         <result column="type" property="type" />
+        <result column="engine_type" property="engineType" />
+        <result column="job_type" property="jobType" />
         <result column="name" property="name" />
         <result column="handler" property="handler" />
         <result column="remark" property="remark" />
@@ -40,7 +42,7 @@
         create_time,
         editor,
         update_time,
-        job_group_id, `type`, `name`, `handler`, remark
+        job_group_id, `type`, `engine_type`, `job_type`, `name`, `handler`, remark
     </sql>
 
 </mapper>

@@ -18,6 +18,7 @@
 
 package cn.sliew.module.scheduler.service.impl;
 
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.module.scheduler.repository.entity.ScheduleJobConfig;
@@ -49,7 +50,9 @@ public class ScheduleJobConfigServiceImpl extends ServiceImpl<ScheduleJobConfigM
         Page<ScheduleJobConfig> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<ScheduleJobConfig> queryChainWrapper = Wrappers.lambdaQuery(ScheduleJobConfig.class)
                 .eq(ScheduleJobConfig::getJobGroupId, param.getJobGroupId())
-                .eq(StringUtils.hasText(param.getType()), ScheduleJobConfig::getType, param.getType())
+                .eq(param.getType() != null, ScheduleJobConfig::getType, param.getType())
+                .eq(param.getEngineType() != null, ScheduleJobConfig::getEngineType, param.getEngineType())
+                .eq(param.getJobType() != null, ScheduleJobConfig::getJobType, param.getJobType())
                 .like(StringUtils.hasText(param.getName()), ScheduleJobConfig::getName, param.getName())
                 .like(StringUtils.hasText(param.getHandler()), ScheduleJobConfig::getHandler, param.getHandler())
                 .orderByAsc(ScheduleJobConfig::getId);
@@ -63,7 +66,9 @@ public class ScheduleJobConfigServiceImpl extends ServiceImpl<ScheduleJobConfigM
     public List<ScheduleJobConfigDTO> listAll(ScheduleJobConfigListParam param) {
         LambdaQueryWrapper<ScheduleJobConfig> queryChainWrapper = Wrappers.lambdaQuery(ScheduleJobConfig.class)
                 .eq(ScheduleJobConfig::getJobGroupId, param.getJobGroupId())
-                .eq(StringUtils.hasText(param.getType()), ScheduleJobConfig::getType, param.getType())
+                .eq(param.getType() != null, ScheduleJobConfig::getType, param.getType())
+                .eq(param.getEngineType() != null, ScheduleJobConfig::getEngineType, param.getEngineType())
+                .eq(param.getJobType() != null, ScheduleJobConfig::getJobType, param.getJobType())
                 .orderByAsc(ScheduleJobConfig::getId);
         List<ScheduleJobConfig> list = list(queryChainWrapper);
         return ScheduleJobConfigConvert.INSTANCE.toDto(list);
@@ -79,6 +84,7 @@ public class ScheduleJobConfigServiceImpl extends ServiceImpl<ScheduleJobConfigM
     public boolean add(ScheduleJobConfigAddParam param) {
         ScheduleJobConfig entity = new ScheduleJobConfig();
         BeanUtils.copyProperties(param, entity);
+        entity.setType(ScheduleType.USER);
         return save(entity);
     }
 

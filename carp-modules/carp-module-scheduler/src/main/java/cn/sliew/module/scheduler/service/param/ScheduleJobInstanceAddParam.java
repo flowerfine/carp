@@ -18,6 +18,7 @@
 
 package cn.sliew.module.scheduler.service.param;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,9 @@ public class ScheduleJobInstanceAddParam {
     @NotBlank
     @Schema(description = "CRON表达式")
     private String cron;
+
+    @Schema(description = "属性")
+    private JsonNode props;
 
     @Schema(description = "参数")
     private String params;

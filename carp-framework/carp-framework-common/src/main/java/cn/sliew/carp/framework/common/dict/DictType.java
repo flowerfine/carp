@@ -26,6 +26,10 @@ import cn.sliew.carp.framework.common.dict.datasource.RedisMode;
 import cn.sliew.carp.framework.common.dict.k8s.ClusterStatus;
 import cn.sliew.carp.framework.common.dict.k8s.ClusterType;
 import cn.sliew.carp.framework.common.dict.oam.AppType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleStatus;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
 import cn.sliew.carp.framework.common.dict.security.*;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -59,6 +63,11 @@ public enum DictType implements DictDefinition {
 
     DATASOURCE_TYPE("datasource_type", "数据源类型", DataSourceType.class),
     DS_REDIS_MODE("datasource_redis_mode", "Redis Mode", RedisMode.class),
+
+    SCHEDULE_TYPE("schedule_type", "Schedule Type", ScheduleType.class),
+    SCHEDULE_STATUS("schedule_status", "Schedule Status", ScheduleStatus.class),
+    SCHEDULE_JOB_TYPE("schedule_job_type", "Schedule Job Type", ScheduleJobType.class),
+    SCHEDULE_ENGINE_TYPE("schedule_engine_type", "Schedule Engine Type", ScheduleEngineType.class),
     ;
 
     @JsonCreator
