@@ -18,11 +18,19 @@
 
 package cn.sliew.carp.module.workflow.api.graph;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.framework.common.model.BaseDTO;
 import lombok.Data;
 
 @Data
-public class WorkflowDefinitionGraph {
+public class WorkflowTaskDefinition extends BaseDTO {
 
-    private DAG<WorkflowTaskDefinition> dag;
+    private Long dagId;
+
+    private String stepId;
+
+    private String name;
+
+    private WorkflowTaskDefinitionMeta meta;
+
+    private WorkflowTaskDefinitionAttrs attrs;
 }

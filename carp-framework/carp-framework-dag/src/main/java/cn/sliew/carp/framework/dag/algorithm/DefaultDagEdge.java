@@ -16,13 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.framework.dag.algorithm;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-public class WorkflowDefinitionGraph {
+@Getter
+public class DefaultDagEdge<N> {
 
-    private DAG<WorkflowTaskDefinition> dag;
+    private final N source;
+    private final N target;
+
+    public DefaultDagEdge(N source, N target) {
+        this.source = source;
+        this.target = target;
+    }
 }

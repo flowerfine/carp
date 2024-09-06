@@ -20,8 +20,10 @@ package cn.sliew.carp.module.workflow.api.service.impl;
 
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.DagConfigStepService;
+import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleAddParam;
 import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
@@ -35,6 +37,8 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     private DagConfigComplexService dagConfigComplexService;
     @Autowired
     private DagConfigStepService dagConfigStepService;
+    @Autowired
+    private DagInstanceComplexService dagInstanceComplexService;
 
     @Override
     public Long initialize(String name, String remark) {
@@ -63,5 +67,10 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     @Override
     public void update(Long dagId, DagGraphVO graph) {
         dagConfigComplexService.replace(dagId, graph);
+    }
+
+    @Override
+    public DagInstanceComplexDTO getDagInstance(Long dagInstanceId) {
+        return dagInstanceComplexService.selectOne(dagInstanceId);
     }
 }

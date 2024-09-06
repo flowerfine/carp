@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.workflow.api.service;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import lombok.Data;
+import cn.sliew.carp.module.workflow.api.graph.WorkflowDefinitionGraph;
+import cn.sliew.carp.module.workflow.api.graph.WorkflowExecutionGraph;
 
-@Data
-public class WorkflowDefinitionGraph {
+public interface WorkflowDefinitionService {
 
-    private DAG<WorkflowTaskDefinition> dag;
+    WorkflowDefinitionGraph get(Long dagId);
+
+    WorkflowExecutionGraph getExecutionGraph(Long dagInstanceId);
 }

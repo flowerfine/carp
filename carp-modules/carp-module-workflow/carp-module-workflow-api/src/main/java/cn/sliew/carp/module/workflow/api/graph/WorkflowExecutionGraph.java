@@ -18,10 +18,11 @@
 
 package cn.sliew.carp.module.workflow.api.graph;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import com.google.common.graph.Graph;
+import cn.sliew.carp.framework.dag.algorithm.DAG;
+import lombok.Data;
 
-public interface WorkflowExecutionGraph {
+@Data
+public class WorkflowExecutionGraph {
 
-    Graph<DagStepDTO> getGraph();
+    private DAG<WorkflowTaskInstance> dag;
 }

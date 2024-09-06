@@ -18,11 +18,9 @@
 
 package cn.sliew.carp.module.workflow.api.graph;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
 import lombok.Data;
 
 @Data
-public class WorkflowDefinitionGraph {
+public class WorkflowDefinitionMeta {
 
-    private DAG<WorkflowTaskDefinition> dag;
 }

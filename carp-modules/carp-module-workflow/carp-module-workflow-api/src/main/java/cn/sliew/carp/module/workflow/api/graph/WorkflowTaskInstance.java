@@ -16,34 +16,34 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.service.dto;
+package cn.sliew.carp.module.workflow.api.graph;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.Map;
+import java.util.Date;
 
 @Data
-public class WorkflowDefinitionDTO extends BaseDTO {
+public class WorkflowTaskInstance extends BaseDTO {
 
-    @Schema(description = "workflow type")
-    private WorkflowType type;
+    private Long dagInstanceId;
 
-    @Schema(description = "workflow name")
-    private String name;
+    @Schema(description = "步骤")
+    private WorkflowTaskDefinition definition;
 
-    @Schema(description = "workflow param")
-    private Map<String, Object> param;
+    private String uuid;
 
-    @Schema(description = "备注")
-    private String remark;
+    private JsonNode inputs;
 
-    @Schema(description = "schedule")
-    private WorkflowScheduleDTO schedule;
+    private JsonNode outputs;
 
-    @Schema(description = "dag")
-    private DagConfigComplexDTO dag;
+    private String status;
+
+    private Date startTime;
+
+    private Date endTime;
+
 }

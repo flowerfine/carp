@@ -21,7 +21,6 @@ package cn.sliew.carp.framework.dag.algorithm;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
@@ -32,10 +31,26 @@ import java.util.stream.Collectors;
 
 public class DAG<N> {
 
-    private Graph<N, DefaultEdge> jgrapht = GraphTypeBuilder.<N, DefaultEdge>directed()
+    private Graph<N, DefaultDagEdge<N>> jgrapht = GraphTypeBuilder.<N, DefaultDagEdge<N>>directed()
             .allowingSelfLoops(false)
             .weighted(false)
             .buildGraph();
+
+    public void addNode(N node) {
+        jgrapht.addVertex(node);
+    }
+
+    public void addEdge(N source, N target) {
+        jgrapht.addEdge(source, target, new DefaultDagEdge<>(source, target));
+    }
+
+    public Set<N> nodes() {
+        return jgrapht.vertexSet();
+    }
+
+    public Set<DefaultDagEdge<N>> edges() {
+        return jgrapht.edgeSet();
+    }
 
     public Set<N> getSources() {
         return jgrapht.vertexSet().stream()
@@ -50,7 +65,7 @@ public class DAG<N> {
     }
 
     public Integer getMaxDepth() {
-        AllDirectedPaths<N, DefaultEdge> paths = new AllDirectedPaths<>(jgrapht);
+        AllDirectedPaths<N, DefaultDagEdge<N>> paths = new AllDirectedPaths<>(jgrapht);
         return paths.getAllPaths(getSources(), getSinks(), true, null)
                 .stream().map(GraphPath::getLength)
                 .sorted()
@@ -58,14 +73,14 @@ public class DAG<N> {
     }
 
     public void topologyTraversal(Consumer<N> consumer) {
-        TopologicalOrderIterator<N, DefaultEdge> iterator = new TopologicalOrderIterator<>(jgrapht);
+        TopologicalOrderIterator<N, DefaultDagEdge<N>> iterator = new TopologicalOrderIterator<>(jgrapht);
         while (iterator.hasNext()) {
             consumer.accept(iterator.next());
         }
     }
 
     public void breadthFirstTraversal(Consumer<N> consumer) {
-        BreadthFirstIterator<N, DefaultEdge> iterator = new BreadthFirstIterator<>(jgrapht);
+        BreadthFirstIterator<N, DefaultDagEdge<N>> iterator = new BreadthFirstIterator<>(jgrapht);
         while (iterator.hasNext()) {
             N node = iterator.next();
             int depth = iterator.getDepth(node);
@@ -82,7 +97,7 @@ public class DAG<N> {
 
     public void doExecuteBFS(Integer depth, Integer maxDepth, Consumer consumer) {
         // 使用 BFS，计算每个节点所在的层级
-        BreadthFirstIterator<N, DefaultEdge> iterator = new BreadthFirstIterator<>(jgrapht);
+        BreadthFirstIterator<N, DefaultDagEdge<N>> iterator = new BreadthFirstIterator<>(jgrapht);
         while (iterator.hasNext()) {
             N node = iterator.next();
             if (iterator.getDepth(node) == depth) {

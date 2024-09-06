@@ -20,6 +20,7 @@ package cn.sliew.carp.module.workflow.api.service;
 
 import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 
 public interface WorkflowDagService {
@@ -34,4 +35,5 @@ public interface WorkflowDagService {
 
     void update(Long dagId, DagGraphVO graph);
 
+    DagInstanceComplexDTO getDagInstance(Long dagInstanceId);
 }

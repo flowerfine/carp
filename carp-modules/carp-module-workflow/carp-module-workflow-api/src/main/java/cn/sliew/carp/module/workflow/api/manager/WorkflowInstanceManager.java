@@ -16,13 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.service.dto;
+package cn.sliew.carp.module.workflow.api.manager;
 
-import lombok.Data;
+public interface WorkflowInstanceManager {
 
-@Data
-public class WorkflowDefinitionDagMeta {
+    void deploy(Long workflowDefinitionId);
 
-    private Long scheduleJobInstanceId;
+    void shutdown(Long id);
 
+    void suspend(Long id);
+
+    void resume(Long id);
 }
