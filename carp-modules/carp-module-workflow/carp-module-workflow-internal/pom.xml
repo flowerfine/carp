@@ -26,12 +26,21 @@
         <version>0.0.12-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-workflow-api</artifactId>
+    <artifactId>carp-module-workflow-internal</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-framework-dag</artifactId>
+            <artifactId>carp-module-workflow-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-queue-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-statemachine</artifactId>
         </dependency>
     </dependencies>
 

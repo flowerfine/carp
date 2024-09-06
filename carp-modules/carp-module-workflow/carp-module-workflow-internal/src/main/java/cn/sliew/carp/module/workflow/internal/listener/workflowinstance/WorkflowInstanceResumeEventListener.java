@@ -16,24 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.queue.api.memory;
+package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
 
-import cn.sliew.carp.module.queue.api.BaseQueueFactory;
-import cn.sliew.carp.module.queue.api.ListenerManager;
-import cn.sliew.carp.module.queue.api.Queue;
-import org.springframework.stereotype.Component;
+import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.scaleph.queue.MessageListener;
+import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
+import lombok.extern.slf4j.Slf4j;
 
-@Component
-public class DefaultDelayQueueFactory extends BaseQueueFactory {
+@Slf4j
+@MessageListener(topic = WorkflowInstanceResumeEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
+public class WorkflowInstanceResumeEventListener implements WorkflowInstanceEventListener {
 
-    private final ListenerManager listenerManager;
-
-    public DefaultDelayQueueFactory(ListenerManager listenerManager) {
-        this.listenerManager = listenerManager;
-    }
+    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_COMMAND_RESUME";
 
     @Override
-    protected Queue doCreate(String name) {
-        return new DefaultDelayQueue(name, listenerManager);
+    public void onEvent(WorkflowInstanceEventDTO event) {
+        log.info("on event, {}", JacksonUtil.toJsonString(event));
     }
 }

@@ -16,24 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.queue.api.memory;
+package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
 
-import cn.sliew.carp.module.queue.api.BaseQueueFactory;
-import cn.sliew.carp.module.queue.api.ListenerManager;
-import cn.sliew.carp.module.queue.api.Queue;
-import org.springframework.stereotype.Component;
+import cn.sliew.scaleph.queue.Message;
+import cn.sliew.scaleph.queue.MessageHandler;
+import cn.sliew.scaleph.queue.util.FuryUtil;
 
-@Component
-public class DefaultDelayQueueFactory extends BaseQueueFactory {
-
-    private final ListenerManager listenerManager;
-
-    public DefaultDelayQueueFactory(ListenerManager listenerManager) {
-        this.listenerManager = listenerManager;
-    }
+public interface WorkflowInstanceEventListener extends MessageHandler {
 
     @Override
-    protected Queue doCreate(String name) {
-        return new DefaultDelayQueue(name, listenerManager);
+    default void handler(Message message) throws Exception {
+        if (message.getBody() != null) {
+            Object deserialized = FuryUtil.deserializeByJava(message.getBody());
+            if (deserialized instanceof WorkflowInstanceEventDTO) {
+                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
+                onEvent(eventDTO);
+            }
+        }
     }
+
+    void onEvent(WorkflowInstanceEventDTO eventDTO);
 }

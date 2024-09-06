@@ -31,6 +31,7 @@
 
     <modules>
         <module>carp-module-workflow-api</module>
+        <module>carp-module-workflow-internal</module>
     </modules>
 
 </project>
