@@ -24,6 +24,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.Queue;
 import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.module.queue.api.util.Serder;
 import cn.sliew.carp.module.workflow.internal.listener.workflowinstance.*;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.alibaba.cola.statemachine.Action;
@@ -109,7 +110,7 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
 
             Message message = Message.builder()
                     .topic(queue.getName())
-                    .body(FuryUtil.serializeByJava(eventDTO))
+                    .body(Serder.serializeByJava(eventDTO))
                     .build();
             queue.push(message);
         };

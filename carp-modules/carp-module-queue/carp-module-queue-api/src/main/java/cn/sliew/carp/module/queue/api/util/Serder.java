@@ -16,31 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.queue.api;
+package cn.sliew.carp.module.queue.api.util;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import java.io.*;
 
-import java.util.EventObject;
-import java.util.Map;
+public enum Serder {
+    ;
 
-@Data
-@Builder
-public final class Message extends EventObject {
-
-    public Message(Object source) {
-        super(source);
+    public static byte[] serializeByJava(Object obj) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            oos.writeObject(obj);
+            return bos.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private String id;
-    private String topic;
+    public static Object deserializeByJava(byte[] bytes) {
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+             ObjectInputStream ois = new ObjectInputStream(bis)) {
+            return ois.readObject();
 
-    private Integer retry;
-    private Integer maxRetry;
-    private Integer backoffMills;
-
-    private Map<String, Object> headers;
-    private byte[] body;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
