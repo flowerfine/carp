@@ -18,18 +18,18 @@
 
 package cn.sliew.carp.module.workflow.internal.statemachine;
 
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.queue.api.Message;
+import cn.sliew.carp.module.queue.api.Queue;
+import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.module.queue.api.util.Serder;
+import cn.sliew.carp.module.workflow.internal.listener.taskinstance.WorkflowTaskInstanceDeployEventListener;
+import cn.sliew.carp.module.workflow.internal.listener.taskinstance.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.listener.taskinstance.WorkflowTaskInstanceFailureEventListener;
+import cn.sliew.carp.module.workflow.internal.listener.taskinstance.WorkflowTaskInstanceSuccessEventListener;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.queue.Message;
-import cn.sliew.scaleph.queue.Queue;
-import cn.sliew.scaleph.queue.QueueFactory;
-import cn.sliew.scaleph.queue.util.FuryUtil;
-import cn.sliew.scaleph.workflow.simple.listener.taskinstance.WorkflowTaskInstanceDeployEventListener;
-import cn.sliew.scaleph.workflow.simple.listener.taskinstance.WorkflowTaskInstanceEventDTO;
-import cn.sliew.scaleph.workflow.simple.listener.taskinstance.WorkflowTaskInstanceFailureEventListener;
-import cn.sliew.scaleph.workflow.simple.listener.taskinstance.WorkflowTaskInstanceSuccessEventListener;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilder;
@@ -103,7 +103,7 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
             WorkflowTaskInstanceEventDTO eventDTO = new WorkflowTaskInstanceEventDTO(fromState, toState, eventEnum, pair.getLeft(), pair.getRight());
             Message message = Message.builder()
                     .topic(queue.getName())
-                    .body(FuryUtil.serializeByJava(eventDTO))
+                    .body(Serder.serializeByJava(eventDTO))
                     .build();
             queue.push(message);
         };

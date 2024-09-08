@@ -20,8 +20,8 @@ package cn.sliew.carp.module.workflow.internal.listener.taskinstance;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;

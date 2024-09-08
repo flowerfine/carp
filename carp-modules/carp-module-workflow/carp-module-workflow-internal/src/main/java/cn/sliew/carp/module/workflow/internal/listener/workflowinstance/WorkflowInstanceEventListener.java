@@ -18,10 +18,6 @@
 
 package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
 
-import cn.sliew.scaleph.queue.Message;
-import cn.sliew.scaleph.queue.MessageHandler;
-import cn.sliew.scaleph.queue.util.FuryUtil;
-
 public interface WorkflowInstanceEventListener extends MessageHandler {
 
     @Override

@@ -18,11 +18,11 @@
 
 package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
 
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.carp.module.queue.api.MessageListener;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;

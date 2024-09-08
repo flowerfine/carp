@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.workflow.internal.listener.taskinstance;
 
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceEvent;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
 import lombok.Getter;
 
 import java.io.Serializable;

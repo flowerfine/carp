@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
 
+import cn.sliew.carp.module.queue.api.MessageListener;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

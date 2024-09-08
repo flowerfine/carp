@@ -18,15 +18,15 @@
 
 package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
 
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowInstanceStateMachine;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.carp.module.queue.api.MessageListener;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
 import com.google.common.graph.Graph;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -18,11 +18,11 @@
 
 package cn.sliew.carp.module.workflow.internal.listener.taskinstance;
 
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.scaleph.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.scaleph.queue.MessageListener;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.carp.module.queue.api.MessageListener;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
 
 import java.io.Serializable;
 import java.util.Date;

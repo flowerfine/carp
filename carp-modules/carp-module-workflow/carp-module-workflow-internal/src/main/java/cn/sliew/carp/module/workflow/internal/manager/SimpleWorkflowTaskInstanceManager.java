@@ -20,8 +20,8 @@ package cn.sliew.carp.module.workflow.internal.manager;
 
 import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.scaleph.workflow.manager.WorkflowTaskInstanceManager;
-import cn.sliew.scaleph.workflow.simple.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
