@@ -17,10 +17,10 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.module.scheduler.repository.mapper.ScheduleJobConfigMapper">
+<mapper namespace="cn.sliew.carp.module.scheduler.repository.mapper.ScheduleJobConfigMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.module.scheduler.repository.entity.ScheduleJobConfig">
+    <resultMap id="BaseResultMap" type="cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobConfig">
         <result column="id" property="id" />
         <result column="creator" property="creator" />
         <result column="create_time" property="createTime" />
@@ -35,9 +35,9 @@
         <result column="remark" property="remark" />
     </resultMap>
 
-    <resultMap id="ScheduleJobConfigMap" extends="BaseResultMap" type="cn.sliew.module.scheduler.repository.entity.ScheduleJobConfigVO">
+    <resultMap id="ScheduleJobConfigMap" extends="BaseResultMap" type="cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobConfigVO">
         <association column="job_group_id" property="jobGroup"
-                     select="cn.sliew.module.scheduler.repository.mapper.ScheduleJobGroupMapper.selectById"/>
+                     select="cn.sliew.carp.module.scheduler.repository.mapper.ScheduleJobGroupMapper.selectById"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

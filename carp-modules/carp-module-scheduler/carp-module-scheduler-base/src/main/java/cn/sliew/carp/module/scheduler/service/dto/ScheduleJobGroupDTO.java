@@ -16,15 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.service.dto;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class WorkflowDefinitionGraph {
+@Schema(name = "ScheduleJobGroup", description = "schedule job group")
+public class ScheduleJobGroupDTO extends BaseDTO {
 
-    private Long dagConfigId;
+    @Schema(description = "命名空间")
+    private String namespace;
 
-    private DAG<WorkflowTaskDefinition> dag;
+    @Schema(description = "分组名称")
+    private String name;
+
+    @Schema(description = "remark")
+    private String remark;
 }

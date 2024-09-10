@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.repository.mapper;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import lombok.Data;
+import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobConfig;
+import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobConfigVO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-@Data
-public class WorkflowDefinitionGraph {
+@Repository
+public interface ScheduleJobConfigMapper extends BaseMapper<ScheduleJobConfig> {
 
-    private Long dagConfigId;
-
-    private DAG<WorkflowTaskDefinition> dag;
+    ScheduleJobConfigVO get(@Param("id") Long id);
 }

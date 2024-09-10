@@ -16,15 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.repository.entity;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-public class WorkflowDefinitionGraph {
+@TableName("schedule_job_group")
+public class ScheduleJobGroup extends BaseAuditDO {
 
-    private Long dagConfigId;
+    @TableField("namespace")
+    private String namespace;
 
-    private DAG<WorkflowTaskDefinition> dag;
+    @TableField("`name`")
+    private String name;
+
+    @TableField("remark")
+    private String remark;
 }

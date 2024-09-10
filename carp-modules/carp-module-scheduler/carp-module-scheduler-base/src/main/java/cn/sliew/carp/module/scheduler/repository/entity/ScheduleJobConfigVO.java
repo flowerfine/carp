@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.repository.entity;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-public class WorkflowDefinitionGraph {
+@TableName("schedule_job_config")
+public class ScheduleJobConfigVO extends ScheduleJobConfig {
 
-    private Long dagConfigId;
-
-    private DAG<WorkflowTaskDefinition> dag;
+    @TableField(value = "job_group_id", exist = false)
+    private ScheduleJobGroup jobGroup;
 }

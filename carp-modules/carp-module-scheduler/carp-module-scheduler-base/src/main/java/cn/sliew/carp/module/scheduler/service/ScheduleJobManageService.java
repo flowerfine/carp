@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.service;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import lombok.Data;
+public interface ScheduleJobManageService {
 
-@Data
-public class WorkflowDefinitionGraph {
+    boolean exists(Long jobInstanceId);
 
-    private Long dagConfigId;
+    void execute(Long jobInstanceId);
 
-    private DAG<WorkflowTaskDefinition> dag;
+    void schedule(Long jobInstanceId);
+
+    void unschedule(Long jobInstanceId);
+
+    void suspend(Long jobInstanceId);
+
+    void resume(Long jobInstanceId);
 }

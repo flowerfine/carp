@@ -16,15 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.quartz.service;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
-@Data
-public class WorkflowDefinitionGraph {
+@Slf4j
+public class QuartzJobHandler extends QuartzJobBean {
 
-    private Long dagConfigId;
-
-    private DAG<WorkflowTaskDefinition> dag;
+    @Override
+    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+        JobDataMap dataMap = context.getMergedJobDataMap();
+        String json = dataMap.getString(QuartzUtil.JOB_INSTANCE_ATTR);
+    }
 }

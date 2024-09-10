@@ -16,15 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.service.param;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class WorkflowDefinitionGraph {
+public class ScheduleJobInstancePageParam extends PageParam {
 
-    private Long dagConfigId;
+    @NotNull
+    @Schema(description = "任务配置id")
+    private Long jobConfigId;
 
-    private DAG<WorkflowTaskDefinition> dag;
+    @Schema(description = "实例名称")
+    private String name;
+
+    @Schema(description = "状态")
+    private String status;
 }

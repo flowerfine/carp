@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.config;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import lombok.Data;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Data
-public class WorkflowDefinitionGraph {
+@Configuration
+public class ScheduleOpenAPIConfig {
 
-    private Long dagConfigId;
-
-    private DAG<WorkflowTaskDefinition> dag;
+    @Bean
+    public GroupedOpenApi carpScheduleModuleOpenApi() {
+        return GroupedOpenApi.builder().group("调度模块")
+                .pathsToMatch("/api/carp/schedule/**")
+                .packagesToScan("cn.sliew.carp.module.scheduler").build();
+    }
 }

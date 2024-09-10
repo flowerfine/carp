@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.scheduler.service.convert;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import lombok.Data;
+import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobGroup;
+import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobGroupDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@Data
-public class WorkflowDefinitionGraph {
-
-    private Long dagConfigId;
-
-    private DAG<WorkflowTaskDefinition> dag;
+@Mapper
+public interface ScheduleJobGroupConvert extends BaseConvert<ScheduleJobGroup, ScheduleJobGroupDTO> {
+    ScheduleJobGroupConvert INSTANCE = Mappers.getMapper(ScheduleJobGroupConvert.class);
 }
