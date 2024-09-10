@@ -16,24 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.module.scheduler.service.param;
 
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.util.Serder;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-public interface WorkflowInstanceEventListener extends MessageHandler {
+@Data
+public class ScheduleJobManageParam {
 
-    @Override
-    default void handler(Message message) throws Exception {
-        if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowInstanceEventDTO) {
-                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
-                onEvent(eventDTO);
-            }
-        }
-    }
-
-    void onEvent(WorkflowInstanceEventDTO eventDTO);
+    @NotBlank
+    @Schema(description = "任务实例 ID")
+    private Long jobInstanceId;
 }

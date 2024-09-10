@@ -22,15 +22,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-modules</artifactId>
+        <artifactId>carp-module-scheduler</artifactId>
         <version>0.0.12-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-scheduler</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-scheduler-quartz</artifactId>
 
-    <modules>
-        <module>carp-module-scheduler-base</module>
-        <module>carp-module-scheduler-quartz</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-scheduler-base</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

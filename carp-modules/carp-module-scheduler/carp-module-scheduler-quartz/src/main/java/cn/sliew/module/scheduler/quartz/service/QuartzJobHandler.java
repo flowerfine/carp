@@ -16,24 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.module.scheduler.quartz.service;
 
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.util.Serder;
+import lombok.extern.slf4j.Slf4j;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
-public interface WorkflowInstanceEventListener extends MessageHandler {
+@Slf4j
+public class QuartzJobHandler extends QuartzJobBean {
 
     @Override
-    default void handler(Message message) throws Exception {
-        if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowInstanceEventDTO) {
-                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
-                onEvent(eventDTO);
-            }
-        }
+    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+        JobDataMap dataMap = context.getMergedJobDataMap();
+        String json = dataMap.getString(QuartzUtil.JOB_INSTANCE_ATTR);
     }
-
-    void onEvent(WorkflowInstanceEventDTO eventDTO);
 }

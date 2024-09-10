@@ -16,24 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.module.scheduler.repository.mapper;
 
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.util.Serder;
+import cn.sliew.module.scheduler.repository.entity.ScheduleJobConfig;
+import cn.sliew.module.scheduler.repository.entity.ScheduleJobConfigVO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-public interface WorkflowInstanceEventListener extends MessageHandler {
+@Repository
+public interface ScheduleJobConfigMapper extends BaseMapper<ScheduleJobConfig> {
 
-    @Override
-    default void handler(Message message) throws Exception {
-        if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowInstanceEventDTO) {
-                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
-                onEvent(eventDTO);
-            }
-        }
-    }
-
-    void onEvent(WorkflowInstanceEventDTO eventDTO);
+    ScheduleJobConfigVO get(@Param("id") Long id);
 }

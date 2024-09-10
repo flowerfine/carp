@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.module.scheduler.repository.mapper.ScheduleJobInstanceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sliew.module.scheduler.repository.entity.ScheduleJobInstance">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="job_config_id" property="jobConfigId" />
+        <result column="name" property="name" />
+        <result column="cron" property="cron" />
+        <result column="props" property="props" />
+        <result column="params" property="params" />
+        <result column="timeout" property="timeout" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <resultMap id="ScheduleJobInstanceVOMap" extends="BaseResultMap" type="cn.sliew.module.scheduler.repository.entity.ScheduleJobInstanceVO">
+        <association column="job_config_id" property="jobConfig"
+                     select="cn.sliew.module.scheduler.repository.mapper.ScheduleJobConfigMapper.get"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        creator,
+        create_time,
+        editor,
+        update_time,
+        job_config_id, `name`, cron, props, params, timeout, `status`, remark
+    </sql>
+
+    <select id="get" resultMap="ScheduleJobInstanceVOMap">
+        select
+        <include refid="Base_Column_List"/>
+        from schedule_job_instance
+        where id = #{id}
+    </select>
+
+</mapper>

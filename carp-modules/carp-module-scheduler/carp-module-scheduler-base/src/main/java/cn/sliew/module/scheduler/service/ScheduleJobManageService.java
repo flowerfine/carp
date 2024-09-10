@@ -16,24 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.module.scheduler.service;
 
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.util.Serder;
+public interface ScheduleJobManageService {
 
-public interface WorkflowInstanceEventListener extends MessageHandler {
+    boolean exists(Long jobInstanceId);
 
-    @Override
-    default void handler(Message message) throws Exception {
-        if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowInstanceEventDTO) {
-                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
-                onEvent(eventDTO);
-            }
-        }
-    }
+    void execute(Long jobInstanceId);
 
-    void onEvent(WorkflowInstanceEventDTO eventDTO);
+    void schedule(Long jobInstanceId);
+
+    void unschedule(Long jobInstanceId);
+
+    void suspend(Long jobInstanceId);
+
+    void resume(Long jobInstanceId);
 }

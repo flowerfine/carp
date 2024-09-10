@@ -16,24 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.module.scheduler.repository.entity;
 
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.util.Serder;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
-public interface WorkflowInstanceEventListener extends MessageHandler {
+@Data
+@TableName("schedule_job_config")
+public class ScheduleJobConfigVO extends ScheduleJobConfig {
 
-    @Override
-    default void handler(Message message) throws Exception {
-        if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowInstanceEventDTO) {
-                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
-                onEvent(eventDTO);
-            }
-        }
-    }
-
-    void onEvent(WorkflowInstanceEventDTO eventDTO);
+    @TableField(value = "job_group_id", exist = false)
+    private ScheduleJobGroup jobGroup;
 }
