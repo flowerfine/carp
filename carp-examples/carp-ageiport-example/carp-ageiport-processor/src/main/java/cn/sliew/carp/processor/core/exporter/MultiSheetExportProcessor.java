@@ -80,8 +80,8 @@ public class MultiSheetExportProcessor implements ExportProcessor<UserQuery, Use
         BizDataGroupImpl<MultiSheetUserView> group = new BizDataGroupImpl<>();
 
         BizDataGroupImpl.Data<MultiSheetUserView> dataMan = new BizDataGroupImpl.Data<>();
-        List<BizDataItem<MultiSheetUserView>> itemsMain = new ArrayList<>();
-        dataMan.setItems(itemsMain);
+        List<BizDataItem<MultiSheetUserView>> itemsMan = new ArrayList<>();
+        dataMan.setItems(itemsMan);
         Map<String, String> metaMan = new HashMap<>();
         metaMan.put(ExcelConstants.sheetNameKey, "男");
         metaMan.put(ExcelConstants.sheetNoKey, "0");
@@ -116,7 +116,7 @@ public class MultiSheetExportProcessor implements ExportProcessor<UserQuery, Use
             BizDataGroupImpl.Item<MultiSheetUserView> item = new BizDataGroupImpl.Item<>();
             item.setData(view);
             if (view.getGender().equals("男")) {
-                itemsMain.add(item);
+                itemsMan.add(item);
             } else if (view.getGender().equals("女")) {
                 itemsWomen.add(item);
             } else {
