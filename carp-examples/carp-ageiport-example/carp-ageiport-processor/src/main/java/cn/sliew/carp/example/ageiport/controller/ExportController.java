@@ -19,6 +19,7 @@
 package cn.sliew.carp.example.ageiport.controller;
 
 import cn.sliew.carp.processor.core.TestHelper;
+import cn.sliew.carp.processor.core.exporter.MultiSheetExportProcessor;
 import cn.sliew.carp.processor.core.exporter.StandaloneExportProcessor;
 import cn.sliew.carp.processor.core.model.UserQuery;
 import cn.sliew.milky.common.util.JacksonUtil;
@@ -51,7 +52,7 @@ public class ExportController {
 
         //3.调用本地方法executeTask，开始执行任务，并获取任务实例ID。
         TaskExecuteParam request = new TaskExecuteParam();
-        request.setTaskSpecificationCode(StandaloneExportProcessor.class.getSimpleName());
+        request.setTaskSpecificationCode(MultiSheetExportProcessor.class.getSimpleName());
         request.setBizUserId("userId");
         request.setBizQuery(JsonUtil.toJsonString(query));
         TaskExecuteResult response = ageiPort.getTaskService().executeTask(request);
