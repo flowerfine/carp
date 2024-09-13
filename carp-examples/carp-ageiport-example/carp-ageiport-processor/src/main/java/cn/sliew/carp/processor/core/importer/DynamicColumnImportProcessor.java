@@ -1,8 +1,8 @@
 package cn.sliew.carp.processor.core.importer;
 
-import cn.sliew.carp.processor.core.model.Data;
-import cn.sliew.carp.processor.core.model.DynamicColumnView;
-import cn.sliew.carp.processor.core.model.Query;
+import cn.sliew.carp.processor.core.model.UserData;
+import cn.sliew.carp.processor.core.model.DynamicColumnUserView;
+import cn.sliew.carp.processor.core.model.UserQuery;
 import com.alibaba.ageiport.common.collections.Lists;
 import com.alibaba.ageiport.common.logger.Logger;
 import com.alibaba.ageiport.common.logger.LoggerFactory;
@@ -28,13 +28,13 @@ import java.util.*;
 
 //1.实现ImportProcessor接口
 @ImportSpecification(code = "DynamicColumnImportProcessor", name = "DynamicColumnImportProcessor")
-public class DynamicColumnImportProcessor implements ImportProcessor<Query, Data, DynamicColumnView> {
+public class DynamicColumnImportProcessor implements ImportProcessor<UserQuery, UserData, DynamicColumnUserView> {
 
     Logger logger = LoggerFactory.getLogger(DynamicColumnImportProcessor.class);
 
 
     @Override
-    public BizDynamicColumnHeaders getDynamicHeaders(BizUser user, Query query) throws BizException {
+    public BizDynamicColumnHeaders getDynamicHeaders(BizUser user, UserQuery query) throws BizException {
         //一般此接口返回值是由query查询数据库or接口获取到的，此处仅为示例，直接由入参传入并构造动态列
 
         Integer dynamicHeaderCount = query.getDynamicHeaderCount();
@@ -76,12 +76,12 @@ public class DynamicColumnImportProcessor implements ImportProcessor<Query, Data
 
     //2.实现ImportProcessor接口的convertAndCheck方法
     @Override
-    public BizImportResult<DynamicColumnView, Data> convertAndCheck(BizUser user, Query query, List<DynamicColumnView> views) {
-        BizImportResultImpl<DynamicColumnView, Data> result = new BizImportResultImpl<>();
+    public BizImportResult<DynamicColumnUserView, UserData> convertAndCheck(BizUser user, UserQuery query, List<DynamicColumnUserView> views) {
+        BizImportResultImpl<DynamicColumnUserView, UserData> result = new BizImportResultImpl<>();
 
-        List<Data> data = new ArrayList<>();
-        for (DynamicColumnView view : views) {
-            Data datum = new Data();
+        List<UserData> data = new ArrayList<>();
+        for (DynamicColumnUserView view : views) {
+            UserData datum = new UserData();
             datum.setId(view.getId());
             datum.setName(view.getName());
             Map<String, Object> dynamicColumns = new HashMap<>();
@@ -97,9 +97,9 @@ public class DynamicColumnImportProcessor implements ImportProcessor<Query, Data
 
     //3.实现ExportProcessor接口的write方法，此方法负责执行写入业务逻辑。
     @Override
-    public BizImportResult<DynamicColumnView, Data> write(BizUser user, Query query, List<Data> data) {
-        BizImportResultImpl<DynamicColumnView, Data> result = new BizImportResultImpl<>();
-        for (Data datum : data) {
+    public BizImportResult<DynamicColumnUserView, UserData> write(BizUser user, UserQuery query, List<UserData> data) {
+        BizImportResultImpl<DynamicColumnUserView, UserData> result = new BizImportResultImpl<>();
+        for (UserData datum : data) {
             logger.info(JsonUtil.toJsonString(datum));
         }
         if (query.isErrorWhenWriteData()) {
@@ -109,7 +109,7 @@ public class DynamicColumnImportProcessor implements ImportProcessor<Query, Data
     }
 
     @Override
-    public BizImportTaskRuntimeConfig taskRuntimeConfig(BizUser user, Query query) throws BizException {
+    public BizImportTaskRuntimeConfig taskRuntimeConfig(BizUser user, UserQuery query) throws BizException {
         BizImportTaskRuntimeConfigImpl runtimeConfig = new BizImportTaskRuntimeConfigImpl();
         runtimeConfig.setExecuteType("STANDALONE");
         return runtimeConfig;

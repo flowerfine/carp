@@ -1,7 +1,7 @@
 package cn.sliew.carp.processor.core.importer;
 
 import cn.sliew.carp.processor.core.TestHelper;
-import cn.sliew.carp.processor.core.model.Query;
+import cn.sliew.carp.processor.core.model.UserQuery;
 import com.alibaba.ageiport.common.utils.JsonUtil;
 import com.alibaba.ageiport.processor.core.AgeiPort;
 import com.alibaba.ageiport.processor.core.AgeiPortOptions;
@@ -37,7 +37,7 @@ public class MultiSheetImportProcessorTest {
 
         //3.构造查询参数TaskExecuteParam
         TaskExecuteParam request = new TaskExecuteParam();
-        Query query = new Query();
+        UserQuery query = new UserQuery();
         query.setTotalCount(100);
         request.setTaskSpecificationCode(taskCode);
         request.setBizUserId("userId");

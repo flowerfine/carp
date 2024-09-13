@@ -2,7 +2,7 @@ package cn.sliew.carp.processor.core.sync;
 
 import cn.sliew.carp.processor.core.TestHelper;
 import cn.sliew.carp.processor.core.importer.ClusterImportProcessor;
-import cn.sliew.carp.processor.core.model.Query;
+import cn.sliew.carp.processor.core.model.UserQuery;
 import com.alibaba.ageiport.common.utils.JsonUtil;
 import com.alibaba.ageiport.processor.core.AgeiPort;
 import com.alibaba.ageiport.processor.core.AgeiPortOptions;
@@ -35,7 +35,7 @@ public class StandaloneImportProcessTemplateTest {
         ageiPort.getFileStore().save(fileKey, inputStream, new HashMap<>());
 
         TaskExecuteParam request = new TaskExecuteParam();
-        Query query = new Query();
+        UserQuery query = new UserQuery();
         query.setTotalCount(100);
         request.setTaskSpecificationCode(taskCode);
         request.setBizUserId("userId");

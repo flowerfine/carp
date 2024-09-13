@@ -8,15 +8,15 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Query {
+public class UserQuery {
 
     private Integer totalCount = 10000;
 
-    private List<View> checkErrorData;
+    private List<UserView> checkErrorData;
 
     private List<String> checkErrorDataWhenIdIn;
 
-    private List<View> writeErrorData;
+    private List<UserView> writeErrorData;
 
     private Integer dynamicHeaderCount;
 

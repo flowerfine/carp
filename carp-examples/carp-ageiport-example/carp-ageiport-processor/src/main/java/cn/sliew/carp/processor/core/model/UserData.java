@@ -10,7 +10,7 @@ import java.util.Map;
 @ToString
 @Getter
 @Setter
-public class Data {
+public class UserData {
 
     private Integer id;
 

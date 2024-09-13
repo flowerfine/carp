@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class View {
+public class UserView {
 
     @ViewField(headerName = {"基本信息", "编码"})
     private Integer id;

@@ -1,8 +1,8 @@
 package cn.sliew.carp.processor.core.importer;
 
-import cn.sliew.carp.processor.core.model.Data;
-import cn.sliew.carp.processor.core.model.Query;
-import cn.sliew.carp.processor.core.model.View;
+import cn.sliew.carp.processor.core.model.UserData;
+import cn.sliew.carp.processor.core.model.UserQuery;
+import cn.sliew.carp.processor.core.model.UserView;
 import com.alibaba.ageiport.common.logger.Logger;
 import com.alibaba.ageiport.common.logger.LoggerFactory;
 import com.alibaba.ageiport.common.utils.CollectionUtils;
@@ -22,18 +22,18 @@ import java.util.List;
 
 //1.实现ImportProcessor接口
 @ImportSpecification(code = "CSVImportProcessor", name = "CSVImportProcessor", fileType = "csv")
-public class CSVImportProcessor implements ImportProcessor<Query, Data, View> {
+public class CSVImportProcessor implements ImportProcessor<UserQuery, UserData, UserView> {
 
     Logger logger = LoggerFactory.getLogger(CSVImportProcessor.class);
 
     //2.实现ImportProcessor接口的convertAndCheck方法
     @Override
-    public BizImportResult<View, Data> convertAndCheck(BizUser user, Query query, List<View> views) {
-        BizImportResultImpl<View, Data> result = new BizImportResultImpl<>();
+    public BizImportResult<UserView, UserData> convertAndCheck(BizUser user, UserQuery query, List<UserView> views) {
+        BizImportResultImpl<UserView, UserData> result = new BizImportResultImpl<>();
 
-        List<Data> data = new ArrayList<>();
-        for (View view : views) {
-            Data datum = new Data();
+        List<UserData> data = new ArrayList<>();
+        for (UserView view : views) {
+            UserData datum = new UserData();
             datum.setId(view.getId());
             datum.setName(view.getName());
             datum.setGender(view.getGender());
@@ -53,15 +53,15 @@ public class CSVImportProcessor implements ImportProcessor<Query, Data, View> {
 
     //3.实现ExportProcessor接口的write方法，此方法负责执行写入业务逻辑。
     @Override
-    public BizImportResult<View, Data> write(BizUser user, Query query, List<Data> data) {
-        BizImportResultImpl<View, Data> result = new BizImportResultImpl<>();
+    public BizImportResult<UserView, UserData> write(BizUser user, UserQuery query, List<UserData> data) {
+        BizImportResultImpl<UserView, UserData> result = new BizImportResultImpl<>();
         logger.info(JsonUtil.toJsonString(data));
         result.setView(query.getWriteErrorData());
         return result;
     }
 
     @Override
-    public BizImportTaskRuntimeConfig taskRuntimeConfig(BizUser user, Query query) throws BizException {
+    public BizImportTaskRuntimeConfig taskRuntimeConfig(BizUser user, UserQuery query) throws BizException {
         BizImportTaskRuntimeConfigImpl runtimeConfig = new BizImportTaskRuntimeConfigImpl();
         runtimeConfig.setExecuteType("STANDALONE");
         return runtimeConfig;

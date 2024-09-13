@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class DynamicColumnView {
+public class DynamicColumnUserView {
 
     @ViewField(headerName = "编码")
     private Integer id;
