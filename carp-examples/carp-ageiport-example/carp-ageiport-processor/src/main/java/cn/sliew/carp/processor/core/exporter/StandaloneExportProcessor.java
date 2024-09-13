@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 //1.实现ExportProcessor接口
 @ExportSpecification(code = "StandaloneExportProcessor", name = "StandaloneExportProcessor")
 public class StandaloneExportProcessor implements ExportProcessor<Query, Data, View> {

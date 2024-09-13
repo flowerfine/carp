@@ -1,6 +1,5 @@
 package cn.sliew.carp.processor.core.model;
 
-import com.alibaba.ageiport.processor.core.annotation.ViewField;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
