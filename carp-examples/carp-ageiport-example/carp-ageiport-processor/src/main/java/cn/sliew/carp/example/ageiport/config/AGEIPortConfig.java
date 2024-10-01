@@ -31,9 +31,9 @@ public class AGEIPortConfig {
     public AgeiPort ageiPort() {
         AgeiPortOptions options = AgeiPortOptions.debug();
 
-        HttpTaskServerClientOptions clientOptions = new HttpTaskServerClientOptions();
-        clientOptions.setEndpoint("localhost");
-        options.setTaskServerClientOptions(clientOptions);
+//        HttpTaskServerClientOptions clientOptions = new HttpTaskServerClientOptions();
+//        clientOptions.setEndpoint("localhost");
+//        options.setTaskServerClientOptions(clientOptions);
 
         return AgeiPort.ageiPort(options);
     }

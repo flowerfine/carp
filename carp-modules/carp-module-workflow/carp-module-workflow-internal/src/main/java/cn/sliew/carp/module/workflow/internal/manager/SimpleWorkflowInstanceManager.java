@@ -21,7 +21,6 @@ package cn.sliew.carp.module.workflow.internal.manager;
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
-import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,17 +29,13 @@ import org.springframework.stereotype.Component;
 public class SimpleWorkflowInstanceManager implements WorkflowInstanceManager {
 
     @Autowired
-    private WorkflowDefinitionService workflowDefinitionService;
-    @Autowired
     private DagInstanceComplexService dagInstanceComplexService;
     @Autowired
     private WorkflowInstanceStateMachine stateMachine;
 
     @Override
     public void deploy(Long workflowDefinitionId) {
-        WorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowDefinitionId);
-        workflowDefinitionDTO.getDag().getId();
-        Long dagInstanceId = dagInstanceComplexService.initialize(workflowDefinitionDTO.getDag().getId());
+        Long dagInstanceId = dagInstanceComplexService.initialize(workflowDefinitionId);
         stateMachine.deploy(get(dagInstanceId));
     }
 

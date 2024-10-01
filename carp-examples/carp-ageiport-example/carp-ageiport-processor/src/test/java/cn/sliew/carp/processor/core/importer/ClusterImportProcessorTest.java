@@ -1,8 +1,8 @@
 package cn.sliew.carp.processor.core.importer;
 
 import cn.sliew.carp.processor.core.TestHelper;
-import cn.sliew.carp.processor.core.model.Query;
-import cn.sliew.carp.processor.core.model.View;
+import cn.sliew.carp.processor.core.model.UserQuery;
+import cn.sliew.carp.processor.core.model.UserView;
 import com.alibaba.ageiport.common.collections.Lists;
 import com.alibaba.ageiport.common.utils.JsonUtil;
 import com.alibaba.ageiport.processor.core.AgeiPort;
@@ -35,7 +35,7 @@ public class ClusterImportProcessorTest {
         ageiPort.getFileStore().save(fileKey, inputStream, new HashMap<>());
 
         TaskExecuteParam request = new TaskExecuteParam();
-        Query query = new Query();
+        UserQuery query = new UserQuery();
         query.setTotalCount(100);
         request.setTaskSpecificationCode(taskCode);
         request.setBizUserId("userId");
@@ -61,10 +61,10 @@ public class ClusterImportProcessorTest {
         ageiPort.getFileStore().save(fileKey, inputStream, new HashMap<>());
 
         TaskExecuteParam request = new TaskExecuteParam();
-        Query query = new Query();
+        UserQuery query = new UserQuery();
 
 
-        View view = new View();
+        UserView view = new UserView();
         view.setId(1);
         view.setName("name1");
 

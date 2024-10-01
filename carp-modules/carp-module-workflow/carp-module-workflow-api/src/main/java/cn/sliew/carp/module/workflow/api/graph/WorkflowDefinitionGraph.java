@@ -24,5 +24,7 @@ import lombok.Data;
 @Data
 public class WorkflowDefinitionGraph {
 
+    private Long dagConfigId;
+
     private DAG<WorkflowTaskDefinition> dag;
 }

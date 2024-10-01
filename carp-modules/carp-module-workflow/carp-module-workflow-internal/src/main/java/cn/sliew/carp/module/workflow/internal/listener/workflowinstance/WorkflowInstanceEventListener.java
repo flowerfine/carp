@@ -18,12 +18,16 @@
 
 package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
 
+import cn.sliew.carp.module.queue.api.Message;
+import cn.sliew.carp.module.queue.api.MessageHandler;
+import cn.sliew.carp.module.queue.api.util.Serder;
+
 public interface WorkflowInstanceEventListener extends MessageHandler {
 
     @Override
     default void handler(Message message) throws Exception {
         if (message.getBody() != null) {
-            Object deserialized = FuryUtil.deserializeByJava(message.getBody());
+            Object deserialized = Serder.deserializeByJava(message.getBody());
             if (deserialized instanceof WorkflowInstanceEventDTO) {
                 WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
                 onEvent(eventDTO);

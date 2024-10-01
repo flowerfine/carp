@@ -18,7 +18,6 @@
 
 package cn.sliew.carp.module.workflow.internal.listener.taskinstance;
 
-
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.MessageHandler;
 import cn.sliew.carp.module.queue.api.util.Serder;

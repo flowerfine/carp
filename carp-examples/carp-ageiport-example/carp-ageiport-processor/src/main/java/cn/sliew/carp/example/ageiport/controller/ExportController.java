@@ -19,8 +19,10 @@
 package cn.sliew.carp.example.ageiport.controller;
 
 import cn.sliew.carp.processor.core.TestHelper;
+import cn.sliew.carp.processor.core.exporter.DynamicColumnExportProcessor;
+import cn.sliew.carp.processor.core.exporter.MultiSheetExportProcessor;
 import cn.sliew.carp.processor.core.exporter.StandaloneExportProcessor;
-import cn.sliew.carp.processor.core.model.Query;
+import cn.sliew.carp.processor.core.model.UserQuery;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.alibaba.ageiport.common.utils.JsonUtil;
 import com.alibaba.ageiport.processor.core.AgeiPort;
@@ -31,7 +33,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,12 +48,12 @@ public class ExportController {
     @Operation(summary = "测试 Standalone", description = "测试 Standalone")
     public void testStandalone() throws Exception {
         //2.构造查询参数TaskExecuteParam
-        Query query = new Query();
+        UserQuery query = new UserQuery();
         query.setTotalCount(1);
 
         //3.调用本地方法executeTask，开始执行任务，并获取任务实例ID。
         TaskExecuteParam request = new TaskExecuteParam();
-        request.setTaskSpecificationCode(StandaloneExportProcessor.class.getSimpleName());
+        request.setTaskSpecificationCode(DynamicColumnExportProcessor.class.getSimpleName());
         request.setBizUserId("userId");
         request.setBizQuery(JsonUtil.toJsonString(query));
         TaskExecuteResult response = ageiPort.getTaskService().executeTask(request);
