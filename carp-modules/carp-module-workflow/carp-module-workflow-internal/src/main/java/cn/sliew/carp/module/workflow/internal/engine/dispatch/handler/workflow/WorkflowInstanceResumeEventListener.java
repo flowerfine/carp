@@ -16,21 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.module.queue.api.MessageListener;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@MessageListener(topic = WorkflowInstanceSuspendEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
-public class WorkflowInstanceSuspendEventListener implements WorkflowInstanceEventListener {
+@Component
+public class WorkflowInstanceResumeEventListener implements WorkflowInstanceEventListener {
 
-    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_COMMAND_SUSPEND";
-    
     @Override
-    public void onEvent(WorkflowInstanceEventDTO event) {
+    public WorkflowInstanceEvent getType() {
+        return WorkflowInstanceEvent.COMMAND_RESUME;
+    }
+
+    @Override
+    public void handleInternal(WorkflowInstanceEventDTO event) {
         log.info("on event, {}", JacksonUtil.toJsonString(event));
     }
 }

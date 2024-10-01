@@ -16,24 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.util.Serder;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.milky.common.util.JacksonUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
-public interface WorkflowInstanceEventListener extends MessageHandler {
+@Slf4j
+@Component
+public class WorkflowInstanceSuspendEventListener implements WorkflowInstanceEventListener {
 
     @Override
-    default void handler(Message message) throws Exception {
-        if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowInstanceEventDTO) {
-                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
-                onEvent(eventDTO);
-            }
-        }
+    public WorkflowInstanceEvent getType() {
+        return WorkflowInstanceEvent.COMMAND_SUSPEND;
     }
 
-    void onEvent(WorkflowInstanceEventDTO eventDTO);
+    @Override
+    public void handleInternal(WorkflowInstanceEventDTO event) {
+        log.info("on event, {}", JacksonUtil.toJsonString(event));
+    }
 }

@@ -16,21 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
-import cn.sliew.carp.module.queue.api.MessageListener;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
-import cn.sliew.milky.common.util.JacksonUtil;
-import lombok.extern.slf4j.Slf4j;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowTaskInstanceEventHandler;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 
-@Slf4j
-@MessageListener(topic = WorkflowInstanceShutdownEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
-public class WorkflowInstanceShutdownEventListener implements WorkflowInstanceEventListener {
-
-    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_COMMAND_SHUTDOWN";
+public interface WorkflowTaskInstanceEventListener extends WorkflowTaskInstanceEventHandler {
 
     @Override
-    public void onEvent(WorkflowInstanceEventDTO event) {
-        log.info("on event, {}", JacksonUtil.toJsonString(event));
+    default void handle(WorkflowTaskInstanceStatusEvent event) {
+        if (event instanceof WorkflowTaskInstanceEventDTO == false) {
+            throw new RuntimeException();
+        }
+        handleInternal((WorkflowTaskInstanceEventDTO) event);
     }
+
+    void handleInternal(WorkflowTaskInstanceEventDTO eventDTO);
 }

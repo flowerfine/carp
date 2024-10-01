@@ -16,10 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
+import cn.sliew.carp.framework.dag.service.DagStepService;
+import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;
@@ -33,7 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public abstract class AbstractWorkflowInstanceEventListener implements WorkflowInstanceEventListener, InitializingBean, BeanFactoryAware {
+public abstract class AbstractWorkflowTaskInstanceEventListener implements WorkflowTaskInstanceEventListener, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;
@@ -41,7 +45,13 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     @Autowired
     protected DagInstanceComplexService dagInstanceComplexService;
     @Autowired
-    protected WorkflowInstanceStateMachine stateMachine;
+    protected DagStepService dagStepService;
+    @Autowired
+    protected WorkflowInstanceService workflowInstanceService;
+    @Autowired
+    protected WorkflowInstanceStateMachine workflowInstanceStateMachine;
+    @Autowired
+    protected WorkflowTaskInstanceStateMachine stateMachine;
     @Autowired
     private RedissonClient redissonClient;
 
@@ -52,22 +62,22 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        executorService = redissonClient.getExecutorService(WorkflowInstanceStateMachine.EXECUTOR);
+        executorService = redissonClient.getExecutorService(WorkflowTaskInstanceStateMachine.EXECUTOR);
         executorService.registerWorkers(WorkerOptions.defaults().workers(20).beanFactory(beanFactory));
     }
 
     @Override
-    public void onEvent(WorkflowInstanceEventDTO event) {
+    public void handleInternal(WorkflowTaskInstanceEventDTO event) {
         try {
             handleEventAsync(event);
         } catch (Throwable throwable) {
-            onFailure(event.getWorkflowInstanceId(), throwable);
+            onFailure(event.getWorkflowTaskInstanceId(), throwable);
         }
     }
 
-    protected void onFailure(Long workflowInstanceId, Throwable throwable) {
-        stateMachine.onFailure(dagInstanceComplexService.selectSimpleOne(workflowInstanceId), throwable);
+    protected void onFailure(Long workflowTaskInstanceId, Throwable throwable) {
+//        stateMachine.onFailure(dagStepService.get(workflowTaskInstanceId), throwable);
     }
 
-    protected abstract CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event);
+    protected abstract CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event);
 }

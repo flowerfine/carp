@@ -16,24 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.taskinstance;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.util.Serder;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowInstanceEventHandler;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 
-public interface WorkflowTaskInstanceEventListener extends MessageHandler {
+public interface WorkflowInstanceEventListener extends WorkflowInstanceEventHandler {
 
     @Override
-    default void handler(Message message) throws Exception {
-        if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowTaskInstanceEventDTO) {
-                WorkflowTaskInstanceEventDTO eventDTO = (WorkflowTaskInstanceEventDTO)deserialized;
-                onEvent(eventDTO);
-            }
+    default void handle(WorkflowInstanceStatusEvent event) {
+        if (event instanceof WorkflowInstanceEventDTO == false) {
+            throw new RuntimeException();
         }
+        handleInternal((WorkflowInstanceEventDTO) event);
     }
 
-    void onEvent(WorkflowTaskInstanceEventDTO eventDTO);
+    void handleInternal(WorkflowInstanceEventDTO eventDTO);
 }

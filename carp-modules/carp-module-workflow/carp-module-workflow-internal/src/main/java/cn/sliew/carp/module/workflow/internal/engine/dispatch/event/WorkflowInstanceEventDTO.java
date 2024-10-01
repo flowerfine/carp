@@ -16,16 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 import lombok.Getter;
 
 import java.io.Serializable;
 
 @Getter
-public class WorkflowInstanceEventDTO implements Serializable {
+public class WorkflowInstanceEventDTO implements WorkflowInstanceStatusEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,5 +46,10 @@ public class WorkflowInstanceEventDTO implements Serializable {
         this.event = event;
         this.workflowInstanceId = workflowInstanceId;
         this.throwable = throwable;
+    }
+
+    @Override
+    public WorkflowInstanceEvent getEvent() {
+        return event;
     }
 }

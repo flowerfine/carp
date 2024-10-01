@@ -16,48 +16,49 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.workflowinstance;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.carp.module.queue.api.MessageListener;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-@MessageListener(topic = WorkflowInstanceFailureEventListener.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
-public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstanceEventListener {
-
-    public static final String TOPIC = "TOPIC_WORKFLOW_INSTANCE_PROCESS_FAILURE";
+@Component
+public class WorkflowInstanceSuccessEventListener extends AbstractWorkflowInstanceEventListener {
 
     @Autowired
     private DagInstanceService dagInstanceService;
 
     @Override
-    protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowInstanceId(), event.getThrowable()));
+    public WorkflowInstanceEvent getType() {
+        return WorkflowInstanceEvent.PROCESS_SUCCESS;
     }
 
-    private class FailureRunner implements Runnable, Serializable {
+    @Override
+    protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
+        return CompletableFuture.runAsync(new SuccessRunner(event.getWorkflowInstanceId()));
+    }
+
+    private class SuccessRunner implements Runnable, Serializable {
 
         private Long workflowInstanceId;
-        private Optional<Throwable> throwable;
 
-        public FailureRunner(Long workflowInstanceId, Throwable throwable) {
+        public SuccessRunner(Long workflowInstanceId) {
             this.workflowInstanceId = workflowInstanceId;
-            this.throwable = Optional.ofNullable(throwable);
         }
 
         @Override
         public void run() {
             DagInstanceDTO dagInstanceUpdateParam = new DagInstanceDTO();
             dagInstanceUpdateParam.setId(workflowInstanceId);
-            dagInstanceUpdateParam.setStatus(WorkflowInstanceState.FAILURE.getValue());
+            dagInstanceUpdateParam.setStatus(WorkflowInstanceState.SUCCESS.getValue());
             dagInstanceUpdateParam.setEndTime(new Date());
             dagInstanceService.update(dagInstanceUpdateParam);
         }

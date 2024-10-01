@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.module.workflow.internal.manager;
 
-import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
+import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 public class SimpleWorkflowTaskInstanceManager implements WorkflowTaskInstanceManager {
 
     @Autowired
-    private DagStepService dagStepService;
+    private WorkflowInstanceService workflowInstanceService;
     @Autowired
     private WorkflowTaskInstanceStateMachine stateMachine;
 
@@ -53,7 +53,7 @@ public class SimpleWorkflowTaskInstanceManager implements WorkflowTaskInstanceMa
         stateMachine.resume(get(id));
     }
 
-    private DagStepDTO get(Long id) {
-        return dagStepService.get(id);
+    private WorkflowTaskInstance get(Long id) {
+        return workflowInstanceService.getTask(id);
     }
 }

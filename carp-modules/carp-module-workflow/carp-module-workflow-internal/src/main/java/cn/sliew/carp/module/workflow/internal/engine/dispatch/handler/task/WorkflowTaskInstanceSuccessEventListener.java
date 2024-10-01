@@ -16,22 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.internal.listener.taskinstance;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.queue.api.MessageListener;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
-@MessageListener(topic = WorkflowTaskInstanceSuccessEventListener.TOPIC, consumerGroup = WorkflowTaskInstanceStateMachine.CONSUMER_GROUP)
+@Component
 public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTaskInstanceEventListener {
 
-    public static final String TOPIC = "TOPIC_WORKFLOW_TASK_INSTANCE_PROCESS_SUCCESS";
+    @Override
+    public WorkflowTaskInstanceEvent getType() {
+        return WorkflowTaskInstanceEvent.PROCESS_SUCCESS;
+    }
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {
@@ -54,9 +58,8 @@ public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTa
             dagStepUpdateParam.setEndTime(new Date());
             dagStepService.update(dagStepUpdateParam);
 
-            DagStepDTO stepDTO = dagStepService.get(workflowTaskInstanceId);
-            DagInstanceDTO instanceDTO = dagInstanceComplexService.selectSimpleOne(stepDTO.getDagInstanceId());
-            workflowInstanceStateMachine.onTaskChange(instanceDTO);
+            WorkflowTaskInstance taskInstance = workflowInstanceService.getTask(workflowTaskInstanceId);
+            workflowInstanceStateMachine.onTaskChange(workflowInstanceService.get(taskInstance.getWorkflowInstanceId()));
         }
     }
 
