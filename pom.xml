@@ -110,6 +110,7 @@
         <mybatis.plus.version>3.5.7</mybatis.plus.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <mysql.version>8.3.0</mysql.version>
+        <postgresql.version>42.3.3</postgresql.version>
         <h2.version>2.3.230</h2.version>
 
         <sa-token.version>1.38.0</sa-token.version>

@@ -160,22 +160,22 @@ VALUES (9, 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorInstanceStat
 INSERT INTO `carp_dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`,
                                     `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (10, 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus-1', 460, 400, NULL, NULL,
-        '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepOne\",\"type\":\"1\"}',
+        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepOne","stepType":"normal","taskType":"1"}',
         '{"key1":"value1"}', 'sys', 'sys');
 INSERT INTO `carp_dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`,
                                     `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (11, 7, '2c2cb6c8-794b-4cc1-8258-cd1898912744', 'FlinkJobStatus-2', 460, 400, NULL, NULL,
-        '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepTwo\",\"type\":\"1\"}',
+        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepTwo","stepType":"normal","taskType":"1"}',
         '{"key2":"value2"}', 'sys', 'sys');
 INSERT INTO `carp_dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`,
                                     `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (12, 7, 'd82a947b-f414-4273-973a-06f20fe33f0d', 'FlinkJobStatus-3-1', 460, 400, NULL, NULL,
-        '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeOne\",\"type\":\"1\"}',
+        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeOne","stepType":"normal","taskType":"1"}',
         '{"key3-1":"value3-1"}', 'sys', 'sys');
 INSERT INTO `carp_dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`,
                                     `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
 VALUES (13, 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatus-3-2', 460, 400, NULL, NULL,
-        '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeTwo\",\"type\":\"1\"}',
+        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeTwo","stepType":"normal","taskType":"1"}',
         '{"key3-2":"value3-2"}', 'sys', 'sys');
 INSERT INTO `carp_dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`,
                                     `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
