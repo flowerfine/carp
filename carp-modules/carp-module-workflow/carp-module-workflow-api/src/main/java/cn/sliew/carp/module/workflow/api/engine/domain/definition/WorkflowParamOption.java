@@ -16,22 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.domain;
+package cn.sliew.carp.module.workflow.api.engine.domain.definition;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskType;
-import com.fasterxml.jackson.databind.JsonNode;
+import cn.sliew.carp.framework.common.dict.data.DataType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class WorkflowDagNode {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class WorkflowParamOption {
 
     private String name;
-    // 如果是 java，则为 dag_step id，如果是 sub_workflow，则为 dag id
-    private Long refId;
-    private WorkflowTaskType type;
-    private JsonNode inputParams;
-    private JsonNode outputParams;
-
-    private Long maxRetryTimes;
-    private Long timeout;
+    private Object value;
+    private DataType type;
+    private Boolean isOverWrite;
 }

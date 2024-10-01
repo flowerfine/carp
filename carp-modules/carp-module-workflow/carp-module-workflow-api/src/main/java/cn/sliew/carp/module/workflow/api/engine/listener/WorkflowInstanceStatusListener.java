@@ -16,11 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.workflow.api.engine.listener;
 
-import lombok.Data;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 
-@Data
-public class WorkflowTaskDefinitionAttrs {
+public interface WorkflowInstanceStatusListener {
 
+    WorkflowInstanceState getState();
+
+    void onEvent(WorkflowInstanceStatusEvent event);
 }

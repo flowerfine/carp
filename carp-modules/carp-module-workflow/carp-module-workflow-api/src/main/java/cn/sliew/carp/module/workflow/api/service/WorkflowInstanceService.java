@@ -18,11 +18,22 @@
 
 package cn.sliew.carp.module.workflow.api.service;
 
+import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
+import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
 
 public interface WorkflowInstanceService {
 
+    WorkflowInstance get(Long workflowInstanceId);
+
+    WorkflowInstance getGraph(Long workflowInstanceId);
+
+    WorkflowTaskInstance getTask(Long workflowTaskInstanceId);
+
+    Long simpleInitialize(Long workflowDefinitionId);
+
     Long run(WorkflowRunParam param);
 
-    void stop(Long workflowInstanceId);
+    void stop(WorkflowStopParam param);
 }

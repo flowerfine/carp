@@ -16,14 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.domain;
+package cn.sliew.carp.module.workflow.api.engine.domain.instance;
 
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphEdge;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphNode;
 import lombok.Data;
 
-@Data
-public class WorkflowDagEdge {
+import java.util.List;
 
-    private Long sourceId;
-    private Long targetId;
-    private String expression;
+@Data
+public class WorkflowExecutionGraph {
+
+    private WorkflowTaskInstance preTask;
+
+    private WorkflowTaskInstance postTask;
+
+    private List<WorkflowTaskInstance> tasks;
+
+    private List<WorkflowDefinitionGraphEdge> edges;
 }

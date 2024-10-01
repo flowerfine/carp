@@ -22,10 +22,11 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public interface WorkflowDagService {
 
-    Long initialize(String name, String remark);
+    Long initialize(String name, JsonNode inputParams, String remark);
 
     void destroy(Long dagId);
 

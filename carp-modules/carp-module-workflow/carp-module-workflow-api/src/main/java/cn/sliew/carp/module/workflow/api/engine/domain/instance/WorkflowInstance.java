@@ -16,15 +16,33 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.workflow.api.engine.domain.instance;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class WorkflowDefinitionGraph {
+public class WorkflowInstance extends BaseDTO {
 
-    private Long dagConfigId;
+    private WorkflowDefinition definition;
 
-    private DAG<WorkflowTaskDefinition> dag;
+    private String uuid;
+
+    private JsonNode inputs;
+
+    private JsonNode ouputs;
+
+    private WorkflowInstanceState status;
+
+    private Date startTime;
+
+    private Date endTime;
+
+    private WorkflowExecutionGraph graph;
+
 }

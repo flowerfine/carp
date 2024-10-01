@@ -16,20 +16,33 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.domain;
+package cn.sliew.carp.module.workflow.api.engine.domain.definition;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
 @Data
-public class Workflow extends BaseDTO {
+public class WorkflowDefinitionGraphEdge extends BaseDTO {
 
-    private String name;
+    private Long workflowDefinitionId;
 
-    private WorkflowDAG dag;
+    private String linkId;
 
-    private JsonNode inputParams;
+    private String linkName;
 
-    private String remark;
+    private String fromStepId;
+
+    private String toStepId;
+
+    private Integer positionX;
+
+    private Integer positionY;
+
+    private String shape;
+
+    private String stype;
+
+    private WorkflowDefinitionGraphEdgeMeta meta;
+
+    private WorkflowDefinitionGraphEdgeAttrs attrs;
 }

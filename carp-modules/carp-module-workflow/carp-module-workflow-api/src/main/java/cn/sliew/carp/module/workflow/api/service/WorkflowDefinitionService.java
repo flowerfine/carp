@@ -18,12 +18,12 @@
 
 package cn.sliew.carp.module.workflow.api.service;
 
-import cn.sliew.carp.module.workflow.api.graph.WorkflowDefinitionGraph;
-import cn.sliew.carp.module.workflow.api.graph.WorkflowExecutionGraph;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
 
 public interface WorkflowDefinitionService {
 
-    WorkflowDefinitionGraph get(Long dagId);
+    WorkflowDefinition get(Long id);
 
-    WorkflowExecutionGraph getExecutionGraph(Long dagInstanceId);
+    WorkflowDefinition getGraph(Long id);
+
 }

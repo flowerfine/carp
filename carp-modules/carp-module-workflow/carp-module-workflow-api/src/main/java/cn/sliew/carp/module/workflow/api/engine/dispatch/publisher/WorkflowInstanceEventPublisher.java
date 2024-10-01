@@ -16,15 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.manager;
+package cn.sliew.carp.module.workflow.api.engine.dispatch.publisher;
 
-public interface WorkflowInstanceManager {
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 
-    void deploy(Long id);
+public interface WorkflowInstanceEventPublisher {
 
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
+    void publish(WorkflowInstanceStatusEvent event);
 }

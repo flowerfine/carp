@@ -19,35 +19,33 @@
 package cn.sliew.carp.module.workflow.api.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.carp.module.workflow.api.graph.WorkflowTaskDefinition;
-import cn.sliew.carp.module.workflow.api.graph.WorkflowTaskDefinitionAttrs;
-import cn.sliew.carp.module.workflow.api.graph.WorkflowTaskDefinitionMeta;
-import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
+import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.StringUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WorkflowTaskDefinitionConvert extends BaseConvert<DagConfigStepDTO, WorkflowTaskDefinition> {
-    WorkflowTaskDefinitionConvert INSTANCE = Mappers.getMapper(WorkflowTaskDefinitionConvert.class);
+public interface WorkflowInstanceConvert extends BaseConvert<DagInstanceDTO, WorkflowInstance> {
+    WorkflowInstanceConvert INSTANCE = Mappers.getMapper(WorkflowInstanceConvert.class);
 
     @Override
-    default DagConfigStepDTO toDo(WorkflowTaskDefinition dto) {
+    default DagInstanceDTO toDo(WorkflowInstance dto) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    default WorkflowTaskDefinition toDto(DagConfigStepDTO entity) {
-        WorkflowTaskDefinition dto = new WorkflowTaskDefinition();
+    default WorkflowInstance toDto(DagInstanceDTO entity) {
+        WorkflowInstance dto = new WorkflowInstance();
         BeanUtils.copyProperties(entity, dto);
-        dto.setName(entity.getStepName());
-        if (entity.getStepMeta() != null) {
-            dto.setMeta(JacksonUtil.toObject(entity.getStepMeta(), WorkflowTaskDefinitionMeta.class));
+        if (entity.getDagConfig() != null) {
+            dto.setDefinition(WorkflowDefinitionConvert.INSTANCE.toDto(entity.getDagConfig()));
         }
-        if (entity.getStepAttrs() != null) {
-            dto.setAttrs(JacksonUtil.toObject(entity.getStepAttrs(), WorkflowTaskDefinitionAttrs.class));
+        if (StringUtils.hasText(entity.getStatus())) {
+            dto.setStatus(WorkflowInstanceState.of(entity.getStatus()));
         }
         return dto;
     }

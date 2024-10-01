@@ -16,15 +16,12 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.manager;
+package cn.sliew.carp.module.workflow.api.service.param;
 
-public interface WorkflowInstanceManager {
+import lombok.Data;
 
-    void deploy(Long id);
+@Data
+public class WorkflowStopParam {
 
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
+    private Long workflowInstanceId;
 }

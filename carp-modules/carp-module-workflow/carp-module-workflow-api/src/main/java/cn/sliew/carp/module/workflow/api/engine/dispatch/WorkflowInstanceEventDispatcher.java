@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.workflow.api.engine.dispatch;
 
-import lombok.Data;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 
-@Data
-public class WorkflowDefinitionMeta {
+public interface WorkflowInstanceEventDispatcher {
 
+    void dispatch(WorkflowInstanceStatusEvent event);
 }

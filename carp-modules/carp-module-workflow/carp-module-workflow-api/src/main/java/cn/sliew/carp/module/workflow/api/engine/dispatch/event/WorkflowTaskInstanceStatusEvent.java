@@ -16,15 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.manager;
+package cn.sliew.carp.module.workflow.api.engine.dispatch.event;
 
-public interface WorkflowInstanceManager {
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
 
-    void deploy(Long id);
+public interface WorkflowTaskInstanceStatusEvent {
 
-    void shutdown(Long id);
-
-    void suspend(Long id);
-
-    void resume(Long id);
+    WorkflowTaskInstanceEvent getEvent();
 }

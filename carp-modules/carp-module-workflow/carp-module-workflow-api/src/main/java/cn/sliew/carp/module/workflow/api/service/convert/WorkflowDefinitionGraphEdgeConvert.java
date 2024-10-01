@@ -19,34 +19,34 @@
 package cn.sliew.carp.module.workflow.api.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphEdge;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphEdgeAttrs;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphEdgeMeta;
+import cn.sliew.milky.common.util.JacksonUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.StringUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WorkflowTaskInstanceConvert extends BaseConvert<DagStepDTO, WorkflowTaskInstance> {
-    WorkflowTaskInstanceConvert INSTANCE = Mappers.getMapper(WorkflowTaskInstanceConvert.class);
+public interface WorkflowDefinitionGraphEdgeConvert extends BaseConvert<DagConfigLinkDTO, WorkflowDefinitionGraphEdge> {
+    WorkflowDefinitionGraphEdgeConvert INSTANCE = Mappers.getMapper(WorkflowDefinitionGraphEdgeConvert.class);
 
     @Override
-    default DagStepDTO toDo(WorkflowTaskInstance dto) {
+    default DagConfigLinkDTO toDo(WorkflowDefinitionGraphEdge dto) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    default WorkflowTaskInstance toDto(DagStepDTO entity) {
-        WorkflowTaskInstance dto = new WorkflowTaskInstance();
+    default WorkflowDefinitionGraphEdge toDto(DagConfigLinkDTO entity) {
+        WorkflowDefinitionGraphEdge dto = new WorkflowDefinitionGraphEdge();
         BeanUtils.copyProperties(entity, dto);
-        dto.setWorkflowInstanceId(entity.getDagInstanceId());
-        if (entity.getDagConfigStep() != null) {
-            dto.setNode(WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(entity.getDagConfigStep()));
+        if (entity.getLinkMeta() != null) {
+            dto.setMeta(JacksonUtil.toObject(entity.getLinkMeta(), WorkflowDefinitionGraphEdgeMeta.class));
         }
-        if (StringUtils.hasText(entity.getStatus())) {
-            dto.setStatus(WorkflowTaskInstanceStage.of(entity.getStatus()));
+        if (entity.getLinkAttrs() != null) {
+            dto.setAttrs(JacksonUtil.toObject(entity.getLinkAttrs(), WorkflowDefinitionGraphEdgeAttrs.class));
         }
         return dto;
     }

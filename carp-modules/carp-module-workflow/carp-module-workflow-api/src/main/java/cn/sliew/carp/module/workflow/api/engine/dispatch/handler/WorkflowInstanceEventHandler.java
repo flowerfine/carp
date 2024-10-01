@@ -16,21 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.workflow.api.engine.dispatch.handler;
 
-import cn.sliew.carp.framework.common.model.BaseDTO;
-import lombok.Data;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 
-@Data
-public class WorkflowTaskDefinition extends BaseDTO {
+public interface WorkflowInstanceEventHandler {
 
-    private Long dagId;
+    WorkflowInstanceEvent getType();
 
-    private String stepId;
-
-    private String name;
-
-    private WorkflowTaskDefinitionMeta meta;
-
-    private WorkflowTaskDefinitionAttrs attrs;
+    void handle(WorkflowInstanceStatusEvent event);
 }

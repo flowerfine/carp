@@ -16,11 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.workflow.api.engine.dispatch.handler;
 
-import lombok.Data;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 
-@Data
-public class WorkflowTaskDefinitionMeta {
+public interface WorkflowTaskInstanceEventHandler {
 
+    WorkflowTaskInstanceEvent getType();
+
+    void handle(WorkflowTaskInstanceStatusEvent event);
 }

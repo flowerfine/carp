@@ -18,63 +18,55 @@
 
 package cn.sliew.carp.module.workflow.api.service.impl;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
-import cn.sliew.carp.framework.dag.service.dto.*;
-import cn.sliew.carp.module.workflow.api.graph.WorkflowDefinitionGraph;
-import cn.sliew.carp.module.workflow.api.graph.WorkflowExecutionGraph;
-import cn.sliew.carp.module.workflow.api.graph.WorkflowTaskDefinition;
-import cn.sliew.carp.module.workflow.api.graph.WorkflowTaskInstance;
-import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowStepType;
+import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraph;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphEdge;
+import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphNode;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
-import cn.sliew.carp.module.workflow.api.service.convert.WorkflowTaskDefinitionConvert;
-import cn.sliew.carp.module.workflow.api.service.convert.WorkflowTaskInstanceConvert;
+import cn.sliew.carp.module.workflow.api.service.convert.WorkflowDefinitionConvert;
+import cn.sliew.carp.module.workflow.api.service.convert.WorkflowDefinitionGraphEdgeConvert;
+import cn.sliew.carp.module.workflow.api.service.convert.WorkflowDefinitionGraphNodeConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService {
 
     @Autowired
-    private WorkflowDagService workflowDagService;
+    private DagConfigComplexService dagConfigComplexService;
 
     @Override
-    public WorkflowDefinitionGraph get(Long dagId) {
-        DagConfigComplexDTO complexDTO = workflowDagService.getDag(dagId);
+    public WorkflowDefinition get(Long id) {
+        DagConfigDTO dagConfigDTO = dagConfigComplexService.selectSimpleOne(id);
+        return WorkflowDefinitionConvert.INSTANCE.toDto(dagConfigDTO);
+    }
+
+    @Override
+    public WorkflowDefinition getGraph(Long id) {
+        DagConfigComplexDTO complexDTO = dagConfigComplexService.selectOne(id);
+        WorkflowDefinition dto = WorkflowDefinitionConvert.INSTANCE.toDto(complexDTO);
         WorkflowDefinitionGraph graph = new WorkflowDefinitionGraph();
-        DAG<WorkflowTaskDefinition> dag = new DAG<>();
-        Map<String, WorkflowTaskDefinition> taskDefinitionMap = new HashMap<>();
-        for (DagConfigStepDTO stepDTO : complexDTO.getSteps()) {
-            WorkflowTaskDefinition taskDefinition = WorkflowTaskDefinitionConvert.INSTANCE.toDto(stepDTO);
-            taskDefinitionMap.put(taskDefinition.getStepId(), taskDefinition);
-            dag.addNode(taskDefinition);
-        }
-        for (DagConfigLinkDTO linkDTO : complexDTO.getLinks()) {
-            dag.addEdge(taskDefinitionMap.get(linkDTO.getFromStepId()), taskDefinitionMap.get(linkDTO.getToStepId()));
-        }
-        graph.setDag(dag);
-        return graph;
+        dto.setGraph(graph);
+
+        List<WorkflowDefinitionGraphEdge> edges = WorkflowDefinitionGraphEdgeConvert.INSTANCE.toDto(complexDTO.getLinks());
+        List<WorkflowDefinitionGraphNode> allNodes = WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(complexDTO.getSteps());
+        WorkflowDefinitionGraphNode preNode = allNodes.stream().filter(node -> node.getMeta().getStepType() == WorkflowStepType.PRE).findFirst().orElse(null);
+        WorkflowDefinitionGraphNode postNode = allNodes.stream().filter(node -> node.getMeta().getStepType() == WorkflowStepType.POST).findFirst().orElse(null);
+        List<WorkflowDefinitionGraphNode> normalNodes = allNodes.stream().filter(node -> node.getMeta().getStepType() == WorkflowStepType.NORMAL).collect(Collectors.toList());
+
+        graph.setEdges(edges);
+        graph.setPreNode(preNode);
+        graph.setPostNode(postNode);
+        graph.setNodes(normalNodes);
+
+        return dto;
     }
 
-    @Override
-    public WorkflowExecutionGraph getExecutionGraph(Long dagInstanceId) {
-        DagInstanceComplexDTO complexDTO = workflowDagService.getDagInstance(dagInstanceId);
-        WorkflowDefinitionGraph definitionGraph = get(complexDTO.getDagConfig().getId());
-        WorkflowExecutionGraph executionGraph = new WorkflowExecutionGraph();
-        DAG<WorkflowTaskInstance> dag = new DAG<>();
-        Map<String, WorkflowTaskInstance> taskInstanceMap = new HashMap<>();
-        for (DagStepDTO stepDTO : complexDTO.getSteps()) {
-            WorkflowTaskInstance taskInstance = WorkflowTaskInstanceConvert.INSTANCE.toDto(stepDTO);
-            taskInstanceMap.put(taskInstance.getDefinition().getStepId(), taskInstance);
-            dag.addNode(taskInstance);
-        }
-        for (DefaultDagEdge<WorkflowTaskDefinition> edge : definitionGraph.getDag().edges()) {
-            dag.addEdge(taskInstanceMap.get(edge.getSource().getStepId()), taskInstanceMap.get(edge.getTarget().getStepId()));
-        }
-        executionGraph.setDag(dag);
-        return executionGraph;
-    }
 }

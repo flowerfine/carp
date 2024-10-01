@@ -16,34 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.workflow.api.engine.listener;
 
-import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
-import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 
-import java.util.Date;
+public interface WorkflowTaskInstanceStatusListener {
 
-@Data
-public class WorkflowTaskInstance extends BaseDTO {
+    WorkflowTaskInstanceStage getStage();
 
-    private Long dagInstanceId;
-
-    @Schema(description = "步骤")
-    private WorkflowTaskDefinition definition;
-
-    private String uuid;
-
-    private JsonNode inputs;
-
-    private JsonNode outputs;
-
-    private String status;
-
-    private Date startTime;
-
-    private Date endTime;
-
+    void onEvent(WorkflowTaskInstanceStatusEvent event);
 }

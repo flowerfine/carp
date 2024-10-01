@@ -16,21 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.domain;
+package cn.sliew.carp.module.workflow.api.engine.dispatch.event;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import lombok.Data;
+import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
 
-import java.util.List;
+public interface WorkflowInstanceStatusEvent {
 
-@Data
-public class WorkflowDAG {
-
-    private WorkflowDagNode preNode;
-
-    private WorkflowDagNode postNode;
-
-    private List<WorkflowDagNode> nodes;
-
-    private List<WorkflowDagNode> edges;
+    WorkflowInstanceEvent getEvent();
 }

@@ -16,15 +16,31 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.manager;
+package cn.sliew.carp.module.workflow.api.engine.domain.definition;
 
-public interface WorkflowInstanceManager {
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import lombok.Data;
 
-    void deploy(Long id);
+import java.util.List;
 
-    void shutdown(Long id);
+@Data
+public class WorkflowDefinition extends BaseDTO {
 
-    void suspend(Long id);
+    private String type;
 
-    void resume(Long id);
+    private String name;
+
+    private String uuid;
+
+    private WorkflowDefinitionGraph graph;
+
+    private WorkflowDefinitionMeta meta;
+
+    private WorkflowDefinitionAttrs attrs;
+
+    private List<WorkflowParamOption> inputOptions;
+
+    private List<WorkflowParamOption> outputOptions;
+
+    private String remark;
 }

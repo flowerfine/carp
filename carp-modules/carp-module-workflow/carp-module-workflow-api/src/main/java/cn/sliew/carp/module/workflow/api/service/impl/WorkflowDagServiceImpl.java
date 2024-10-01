@@ -27,6 +27,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleAddParam;
 import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,10 +42,11 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     private DagInstanceComplexService dagInstanceComplexService;
 
     @Override
-    public Long initialize(String name, String remark) {
+    public Long initialize(String name, JsonNode inputParams, String remark) {
         DagConfigSimpleAddParam param = new DagConfigSimpleAddParam();
         param.setType("WorkFlow");
         param.setName(name);
+        param.setInputOptions(inputParams);
         param.setRemark(remark);
         return dagConfigComplexService.insert(param);
     }

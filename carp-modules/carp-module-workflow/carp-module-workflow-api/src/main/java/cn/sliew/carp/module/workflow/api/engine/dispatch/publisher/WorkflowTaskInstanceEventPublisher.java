@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.workflow.api.graph;
+package cn.sliew.carp.module.workflow.api.engine.dispatch.publisher;
 
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import lombok.Data;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 
-@Data
-public class WorkflowExecutionGraph {
+public interface WorkflowTaskInstanceEventPublisher {
 
-    private DAG<WorkflowTaskInstance> dag;
+    void publish(WorkflowTaskInstanceStatusEvent event);
 }
