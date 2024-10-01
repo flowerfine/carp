@@ -26,28 +26,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum WorkflowTaskInstanceStage implements DictInstance {
+public enum WorkflowStepType implements DictInstance {
 
-    PENDING("0", "PENDING"),
-    RUNNING("1", "RUNNING"),
-    SUSPEND("3", "SUSPEND"),
-    SUCCESS("4", "SUCCESS"),
-    FAILURE("5", "FAILURE"),
-    TERMINATED("6", "TERMINATED"),
+    PRE("pre", "前置"),
+    POST("post", "后置"),
+    NORMAL("normal", "正常"),
     ;
 
     @JsonCreator
-    public static WorkflowTaskInstanceStage of(String value) {
+    public static WorkflowStepType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(WorkflowTaskInstanceStage.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(WorkflowStepType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    WorkflowTaskInstanceStage(String value, String label) {
+    WorkflowStepType(String value, String label) {
         this.value = value;
         this.label = label;
     }
@@ -61,29 +58,4 @@ public enum WorkflowTaskInstanceStage implements DictInstance {
     public String getLabel() {
         return label;
     }
-
-    public boolean isEnd() {
-        switch (this) {
-            case SUCCESS:
-            case FAILURE:
-            case TERMINATED:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    public boolean isSuccess() {
-        switch (this) {
-            case SUCCESS:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    public boolean isFailure() {
-        return isSuccess() == false;
-    }
-
 }

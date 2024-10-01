@@ -28,12 +28,8 @@ import java.util.Arrays;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum WorkflowExecuteType implements DictInstance {
 
-    SEQUENTIAL("0", "Sequential"),
-    PARALLEL("1", "Parallel"),
-    DEPENDENT("2", "Dependent"),
-    IF("3", "If"),
-    SWITCH("4", "Switch"),
-    WHILE("5", "While"),
+    EXECUTE("execute", "execute"),
+    health("health", "health"),
     ;
 
     @JsonCreator
