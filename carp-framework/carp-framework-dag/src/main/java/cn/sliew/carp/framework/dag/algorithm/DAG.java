@@ -18,13 +18,14 @@
 
 package cn.sliew.carp.framework.dag.algorithm;
 
+import com.google.common.collect.Lists;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
-import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -52,6 +53,30 @@ public class DAG<N> {
         return jgrapht.edgeSet();
     }
 
+    public DefaultDagEdge<N> getEdge(N source, N target) {
+        return jgrapht.getEdge(source, target);
+    }
+
+    public void removeEdge(N source, N target) {
+        jgrapht.removeEdge(source, target);
+    }
+
+    public Integer inDegree(N node) {
+        return jgrapht.inDegreeOf(node);
+    }
+
+    public Set<N> inDegreeOf(N node) {
+        return jgrapht.incomingEdgesOf(node).stream().map(DefaultDagEdge::getTarget).collect(Collectors.toSet());
+    }
+
+    public Integer outDegree(N node) {
+        return jgrapht.outDegreeOf(node);
+    }
+
+    public Set<N> outDegreeOf(N node) {
+        return jgrapht.outgoingEdgesOf(node).stream().map(DefaultDagEdge::getTarget).collect(Collectors.toSet());
+    }
+
     public Set<N> getSources() {
         return jgrapht.vertexSet().stream()
                 .filter(node -> jgrapht.inDegreeOf(node) == 0)
@@ -72,6 +97,12 @@ public class DAG<N> {
                 .findFirst().get();
     }
 
+    public List<N> topologySort() {
+        List<N> queue = Lists.newArrayList();
+        topologyTraversal(node -> queue.add(node));
+        return queue;
+    }
+
     public void topologyTraversal(Consumer<N> consumer) {
         TopologicalOrderIterator<N, DefaultDagEdge<N>> iterator = new TopologicalOrderIterator<>(jgrapht);
         while (iterator.hasNext()) {
@@ -79,34 +110,66 @@ public class DAG<N> {
         }
     }
 
-    public void breadthFirstTraversal(Consumer<N> consumer) {
-        BreadthFirstIterator<N, DefaultDagEdge<N>> iterator = new BreadthFirstIterator<>(jgrapht);
-        while (iterator.hasNext()) {
-            N node = iterator.next();
-            int depth = iterator.getDepth(node);
-            consumer.accept(node);
-        }
+    public DAG<N> copy() {
+        DAG<N> copy = new DAG<>();
+        nodes().forEach(copy::addNode);
+        edges().forEach(edge -> copy.addEdge(edge.getSource(), edge.getTarget()));
+        return copy;
     }
 
     /**
-     * 一层一层执行
+     * https://magjac.com/graphviz-visual-editor/
+     * <p>
+     * digraph {
+     * A -> B;
+     * B -> C;
+     * B -> D;
+     * B -> E;
+     * A -> F;
+     * A -> K;
+     * C -> G;
+     * D -> G;
+     * E -> G;
+     * F -> H;
+     * G -> H;
+     * H -> I;
+     * H -> J;
+     * }
      */
-    public void executeBFS(Consumer<N> consumer) {
-        doExecuteBFS(0, getMaxDepth(), consumer);
-    }
+    public static void main(String[] args) {
+        DAG<String> dag = new DAG<>();
+        dag.addNode("A");
+        dag.addNode("B");
+        dag.addNode("C");
+        dag.addNode("D");
+        dag.addNode("E");
+        dag.addNode("F");
+        dag.addNode("G");
+        dag.addNode("H");
+        dag.addNode("I");
+        dag.addNode("J");
+        dag.addNode("K");
 
-    public void doExecuteBFS(Integer depth, Integer maxDepth, Consumer consumer) {
-        // 使用 BFS，计算每个节点所在的层级
-        BreadthFirstIterator<N, DefaultDagEdge<N>> iterator = new BreadthFirstIterator<>(jgrapht);
-        while (iterator.hasNext()) {
-            N node = iterator.next();
-            if (iterator.getDepth(node) == depth) {
-                consumer.accept(node);
-            }
-        }
-        if (depth <= maxDepth) {
-            // 开始遍历第二层
-            doExecuteBFS(depth + 1, maxDepth, consumer);
-        }
+        dag.addEdge("A", "B");
+        dag.addEdge("B", "C");
+        dag.addEdge("B", "D");
+        dag.addEdge("B", "E");
+        dag.addEdge("A", "F");
+        dag.addEdge("A", "K");
+
+        dag.addEdge("C", "G");
+        dag.addEdge("D", "G");
+        dag.addEdge("E", "G");
+
+        dag.addEdge("F", "H");
+        dag.addEdge("G", "H");
+
+        dag.addEdge("H", "I");
+        dag.addEdge("H", "J");
+
+        System.out.println(dag.topologySort());
+        List<Set<String>> queue = Lists.newArrayList();
+        DagUtil.execute(dag, nodes -> queue.add(nodes));
+        System.out.println(queue);
     }
 }

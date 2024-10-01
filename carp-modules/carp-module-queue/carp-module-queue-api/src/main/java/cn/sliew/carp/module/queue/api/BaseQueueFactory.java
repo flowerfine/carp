@@ -27,7 +27,7 @@ public abstract class BaseQueueFactory implements QueueFactory {
 
     @Override
     public Queue get(String topic) {
-        return registry.get(topic);
+        return registry.getOrDefault(topic, create(topic));
     }
 
     @Override

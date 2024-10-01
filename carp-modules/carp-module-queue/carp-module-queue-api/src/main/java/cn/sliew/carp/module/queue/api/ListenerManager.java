@@ -20,11 +20,13 @@ package cn.sliew.carp.module.queue.api;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class ListenerManager {
 
     // row, column, values

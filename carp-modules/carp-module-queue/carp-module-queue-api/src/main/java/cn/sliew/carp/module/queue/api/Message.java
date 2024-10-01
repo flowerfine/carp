@@ -20,18 +20,34 @@ package cn.sliew.carp.module.queue.api;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.EventObject;
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 @Builder
 public final class Message extends EventObject {
 
+    public Message() {
+        super(new Object());
+    }
+
     public Message(Object source) {
         super(source);
+    }
+
+    public Message(String id, String topic, Integer retry, Integer maxRetry, Integer backoffMills, Map<String, Object> headers, byte[] body) {
+        super(new Object());
+        this.id = id;
+        this.topic = topic;
+        this.retry = retry;
+        this.maxRetry = maxRetry;
+        if (Objects.nonNull(backoffMills)) {
+            this.backoffMills = backoffMills;
+        }
+        this.headers = headers;
+        this.body = body;
     }
 
     private String id;
@@ -39,7 +55,7 @@ public final class Message extends EventObject {
 
     private Integer retry;
     private Integer maxRetry;
-    private Integer backoffMills;
+    private Integer backoffMills = 0;
 
     private Map<String, Object> headers;
     private byte[] body;

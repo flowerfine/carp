@@ -33,4 +33,6 @@ public interface DagStepService extends IService<DagStep> {
     boolean add(DagStepDTO stepDTO);
 
     boolean update(DagStepDTO stepDTO);
+
+    boolean updateStatus(Long id, String fromStatus, String toStatus);
 }

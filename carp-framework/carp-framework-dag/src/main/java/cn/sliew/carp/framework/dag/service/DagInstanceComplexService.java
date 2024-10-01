@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.framework.dag.service;
 
+import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
@@ -31,6 +32,8 @@ public interface DagInstanceComplexService {
     DagInstanceDTO selectSimpleOne(Long dagInstanceId);
 
     Graph<DagStepDTO> getDag(Long dagInstanceId, Graph<DagConfigStepDTO> configDag);
+
+    DAG<DagStepDTO> getDagNew(Long dagInstanceId);
 
     Long initialize(Long dagConfigId);
 }

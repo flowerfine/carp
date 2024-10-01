@@ -21,16 +21,14 @@ package cn.sliew.carp.module.queue.api.memory;
 import cn.sliew.carp.module.queue.api.BaseQueueFactory;
 import cn.sliew.carp.module.queue.api.ListenerManager;
 import cn.sliew.carp.module.queue.api.Queue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DefaultDelayQueueFactory extends BaseQueueFactory {
 
-    private final ListenerManager listenerManager;
-
-    public DefaultDelayQueueFactory(ListenerManager listenerManager) {
-        this.listenerManager = listenerManager;
-    }
+    @Autowired
+    private ListenerManager listenerManager;
 
     @Override
     protected Queue doCreate(String name) {
