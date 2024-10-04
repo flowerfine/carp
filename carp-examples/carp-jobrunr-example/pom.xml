@@ -24,20 +24,33 @@
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
         <version>0.0.12-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-examples</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>carp-ageiport-example</module>
-        <module>carp-javers-example</module>
-        <module>carp-jobrunr-example</module>
-        <module>carp-mongo-example</module>
-        <module>carp-pekko-example</module>
-    </modules>
+    <artifactId>carp-jobrunr-example</artifactId>
 
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
+        <jobrunr.version>7.3.0</jobrunr.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-metrics</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jobrunr</groupId>
+            <artifactId>jobrunr-spring-boot-3-starter</artifactId>
+            <version>${jobrunr.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
