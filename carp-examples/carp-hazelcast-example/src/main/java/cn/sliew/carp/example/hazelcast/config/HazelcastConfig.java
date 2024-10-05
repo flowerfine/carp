@@ -16,29 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.example.hazelcast.controller;
+package cn.sliew.carp.example.hazelcast.config;
 
-import cn.sliew.carp.example.hazelcast.service.HazelcastMapService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.hazelcast.core.HazelcastInstance;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.context.annotation.Configuration;
 
-@RestController
-@RequestMapping("/api/carp/example/hazelcast")
-@Tag(name = "测试模块-Hazelcast")
-public class CommandController {
+@Slf4j
+@Configuration
+public class HazelcastConfig implements InitializingBean {
 
     @Autowired
-    private HazelcastMapService mapService;
+    private HazelcastInstance hazelcastInstance;
 
-    @PostMapping("/put")
-    public boolean put(@RequestParam("key") String key, @RequestParam("value") String value) {
-        mapService.getMap("map-command").put(key, value);
-        return true;
-    }
-
-    @GetMapping("/get")
-    public String get(@RequestParam("key") String key) {
-        return mapService.getMap("map-command").get(key);
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println();
+        System.out.println(hazelcastInstance.getConfig());
+        System.out.println();
     }
 }

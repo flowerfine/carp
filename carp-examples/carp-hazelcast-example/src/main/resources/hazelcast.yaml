@@ -1,6 +1,29 @@
 hazelcast:
-#  instanceName: carp-hazelcast-example
-#  clusterName: carp-hazelcast
+  instance-name: carp-hazelcast-example
+  cluster-name: carp-hazelcast
+  persistence:
+    enabled: false # 企业版功能
+    base-dir: /tmp/hazelcast/persistence
+  native-memory:
+    enabled: true
+  local-device:
+    my-disk:
+      base-dir: "/tmp/hazelcast/myDisk"
+  map:
+    my-map:
+      in-memory-format: NATIVE
+      tiered-store:
+        enabled: true
+        memory-tier:
+          capacity:
+            unit: MEGABYTES
+            value: 256
+        disk-tier:
+          enabled: true
+          device-name: "my-disk"
+  durable-executor-service:
+    myDurableExecutorService:
+      name: myDurableExecutorService
   network:
     join:
       multicast:
