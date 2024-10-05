@@ -24,21 +24,29 @@
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
         <version>0.0.12-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-examples</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>carp-ageiport-example</module>
-        <module>carp-hazelcast-example</module>
-        <module>carp-javers-example</module>
-        <module>carp-jobrunr-example</module>
-        <module>carp-mongo-example</module>
-        <module>carp-pekko-example</module>
-    </modules>
+    <artifactId>carp-hazelcast-example</artifactId>
 
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
+        <hazelcast.version>5.5.0</hazelcast.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-mybatis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
+            <version>${hazelcast.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
