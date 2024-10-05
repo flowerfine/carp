@@ -616,6 +616,7 @@
                 <includes>
                     <include>META-INF/**/*</include>
                     <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
                     <include>**/*.conf</include>
