@@ -1,4 +1,6 @@
 hazelcast:
+#  instanceName: carp-hazelcast-example
+#  clusterName: carp-hazelcast
   network:
     join:
       multicast:
