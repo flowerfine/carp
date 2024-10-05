@@ -71,11 +71,12 @@ public class ComputingController {
     @Operation(summary = "调度 Runnable 任务")
     public String scheduleRunnable(@RequestParam("input") String input) throws Exception {
         IScheduledExecutorService executorService = hazelcastInstance.getScheduledExecutorService("myScheduledExecutorService");
-        IScheduledFuture<?> future = executorService.scheduleAtFixedRate(new EchoRunnable(input), 0, 30, TimeUnit.SECONDS);
+        IScheduledFuture<?> future = executorService.scheduleAtFixedRate(new EchoRunnable(input), 0, 5, TimeUnit.SECONDS);
 //        future.get();
 
         String urn = future.getHandler().toUrn();
-        future.dispose();
+        // dispose() 会停止任务
+//        future.dispose();
         return urn;
     }
 
@@ -85,7 +86,8 @@ public class ComputingController {
         IScheduledExecutorService executorService = hazelcastInstance.getScheduledExecutorService("myScheduledExecutorService");
         ScheduledTaskHandler handler = ScheduledTaskHandler.of(urn);
         IScheduledFuture<?> future = executorService.getScheduledFuture(handler);
-        future.cancel(true);
+        // 不支持为 true，只能设置为 false
+        future.cancel(false);
         future.dispose();
     }
 }
