@@ -22,9 +22,11 @@ public interface Task {
 
     String getType();
 
-    void init();
+    void init(TaskContext context);
 
-    void handle(TaskContext context, TaskListener listener) throws TaskException;
+    TaskResult handle(TaskContext context) throws TaskException;
 
-    void cancel() throws TaskException;
+    TaskResult cancel() throws TaskException;
+
+    TaskResult onTimeout() throws TaskException;
 }

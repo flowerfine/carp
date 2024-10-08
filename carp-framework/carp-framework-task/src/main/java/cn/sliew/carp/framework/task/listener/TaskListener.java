@@ -16,15 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task;
+package cn.sliew.carp.framework.task.listener;
 
-import java.util.Map;
+import cn.sliew.carp.framework.task.TaskContext;
+import cn.sliew.carp.framework.task.TaskResult;
 
-public interface TaskContext {
+public interface TaskListener {
 
-    Map<String, Object> getVariables();
+    default void beforeTask(TaskContext context) {
 
-    Map<String, Object> getInputs();
+    }
 
-    void log();
+    void onSuccess(TaskContext context, TaskResult result);
+
+    void onException(TaskContext context, Exception e);
+
+    default void afterAll(TaskContext context) {
+
+    }
 }

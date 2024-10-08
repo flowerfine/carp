@@ -16,7 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task;
+package cn.sliew.carp.example.camellia.config;
 
-public interface TaskListener {
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class CamelliaOpenAPIConfig {
+
+    @Bean
+    public GroupedOpenApi carpCamelliaExampleOpenApi() {
+        return GroupedOpenApi.builder().group("Camellia模块")
+                .pathsToMatch("/api/carp/example/camellia/**", "/camellia/**")
+                .packagesToScan("cn.sliew.carp.example.camellia", "com.netease.nim.camellia.delayqueue.server.springboot").build();
+    }
+
 }

@@ -22,26 +22,38 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-examples</artifactId>
         <version>0.0.12-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-examples</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>carp-ageiport-example</module>
-        <module>carp-camellia-example</module>
-        <module>carp-hazelcast-example</module>
-        <module>carp-javers-example</module>
-        <module>carp-jobrunr-example</module>
-        <module>carp-mongo-example</module>
-        <module>carp-pekko-example</module>
-        <module>carp-redisson-example</module>
-    </modules>
+    <artifactId>carp-camellia-example</artifactId>
 
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
+        <camellia.version>1.2.30</camellia.version>
+        <jedis.version>2.9.0</jedis.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netease.nim</groupId>
+            <artifactId>camellia-delay-queue-server-spring-boot3-starter</artifactId>
+            <version>${camellia.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netease.nim</groupId>
+            <artifactId>camellia-delay-queue-sdk-spring-boot3-starter</artifactId>
+            <version>${camellia.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
+    </dependencies>
 </project>

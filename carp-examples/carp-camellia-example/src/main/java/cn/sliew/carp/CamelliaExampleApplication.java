@@ -16,15 +16,17 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task;
+package cn.sliew.carp;
 
-import java.util.Map;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public interface TaskContext {
+@SpringBootApplication
+public class CamelliaExampleApplication {
 
-    Map<String, Object> getVariables();
-
-    Map<String, Object> getInputs();
-
-    void log();
+    public static void main(String[] args) {
+        // 需添加 jvm 参数
+        // --add-opens java.base/java.lang=ALL-UNNAMED
+        SpringApplication.run(CamelliaExampleApplication.class, args);
+    }
 }

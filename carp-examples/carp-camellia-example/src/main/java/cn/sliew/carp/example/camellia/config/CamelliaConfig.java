@@ -16,15 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task;
+package cn.sliew.carp.example.camellia.config;
 
-import java.util.Map;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-public interface TaskContext {
-
-    Map<String, Object> getVariables();
-
-    Map<String, Object> getInputs();
-
-    void log();
+@Configuration
+@ComponentScan(basePackages = {"com.netease.nim.camellia.redis.springboot",
+        "com.netease.nim.camellia.delayqueue.server"})
+public class CamelliaConfig {
 }

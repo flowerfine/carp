@@ -18,13 +18,22 @@
 
 package cn.sliew.carp.framework.task;
 
+import cn.sliew.carp.framework.common.dict.task.TaskStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Map;
 
-public interface TaskContext {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TaskResult {
 
-    Map<String, Object> getVariables();
+    private TaskStatus status;
+    private String message;
 
-    Map<String, Object> getInputs();
-
-    void log();
+    private Map<String, Object> outputs;
 }
