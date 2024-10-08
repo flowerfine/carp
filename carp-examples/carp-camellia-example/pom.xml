@@ -43,10 +43,10 @@
             <artifactId>camellia-delay-queue-server-spring-boot3-starter</artifactId>
             <version>${camellia.version}</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.netease.nim</groupId>
             <artifactId>camellia-delay-queue-sdk-spring-boot3-starter</artifactId>
             <version>${camellia.version}</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 </project>
