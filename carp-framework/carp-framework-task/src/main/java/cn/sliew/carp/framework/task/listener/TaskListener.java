@@ -16,17 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task;
+package cn.sliew.carp.framework.task.listener;
 
-public interface Task {
+import cn.sliew.carp.framework.task.TaskContext;
+import cn.sliew.carp.framework.task.TaskResult;
 
-    String getType();
+public interface TaskListener {
 
-    void init(TaskContext context);
+    default void beforeTask(TaskContext context) {
 
-    TaskResult handle(TaskContext context) throws TaskException;
+    }
 
-    TaskResult cancel() throws TaskException;
+    void onSuccess(TaskContext context, TaskResult result);
 
-    TaskResult onTimeout() throws TaskException;
+    void onException(TaskContext context, Exception e);
+
+    default void afterAll(TaskContext context) {
+
+    }
 }

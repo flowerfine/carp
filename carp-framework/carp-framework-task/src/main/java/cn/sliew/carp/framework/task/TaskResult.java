@@ -18,15 +18,21 @@
 
 package cn.sliew.carp.framework.task;
 
-public interface Task {
+import cn.sliew.carp.framework.common.dict.task.TaskStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    String getType();
+import java.util.Map;
 
-    void init(TaskContext context);
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TaskResult {
 
-    TaskResult handle(TaskContext context) throws TaskException;
+    private TaskStatus status;
 
-    TaskResult cancel() throws TaskException;
-
-    TaskResult onTimeout() throws TaskException;
+    private Map<String, Object> outputs;
 }

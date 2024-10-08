@@ -18,7 +18,11 @@
 
 package cn.sliew.carp.framework.task;
 
+import java.util.Map;
+
 public interface TaskContext {
+
+    Map<String, Object> getInputs();
 
     void log();
 }

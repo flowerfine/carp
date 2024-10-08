@@ -18,5 +18,6 @@
 
 package cn.sliew.carp.framework.task;
 
-public interface TaskListener {
+public interface TaskInput {
+    
 }
