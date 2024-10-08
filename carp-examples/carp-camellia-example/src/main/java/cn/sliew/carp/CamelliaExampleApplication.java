@@ -25,6 +25,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CamelliaExampleApplication {
 
     public static void main(String[] args) {
+        // 需添加 jvm 参数
+        // --add-opens java.base/java.lang=ALL-UNNAMED
         SpringApplication.run(CamelliaExampleApplication.class, args);
     }
 }

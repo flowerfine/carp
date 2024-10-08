@@ -80,7 +80,7 @@ camellia-delay-queue-server:
 #  topic-active-tag-timeout-millis: 1800000 #一个topic多久不活跃（没有待消费的消息，也没有针对该topic的增删改查操作）会被回收相关资源，默认30分钟
 
 camellia-delay-queue-sdk:
-  url: http://127.0.0.1:8080
+  url: http://127.0.0.1:${server.port}${server.servlet.context-path}
   listener-config:
     ack-timeout-millis: 30000 #消费时告知服务器的消费ack超时时间，默认30s，添加listener时可以单独设置，如果未设置，则走本默认配置
     pull-batch: 1 #每次pullMsg时的批量大小，默认1，添加listener时可以单独设置，如果未设置，则走本默认配置，需要特别注意pull-batch和ack-timeout-millis的关系，避免未及时ack被服务器判断超时导致重复消费

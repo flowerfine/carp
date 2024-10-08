@@ -28,8 +28,8 @@ public class CamelliaOpenAPIConfig {
     @Bean
     public GroupedOpenApi carpCamelliaExampleOpenApi() {
         return GroupedOpenApi.builder().group("Camellia模块")
-                .pathsToMatch("/api/carp/example/camellia/**")
-                .packagesToScan("cn.sliew.carp.example.camellia").build();
+                .pathsToMatch("/api/carp/example/camellia/**", "/camellia/**")
+                .packagesToScan("cn.sliew.carp.example.camellia", "com.netease.nim.camellia.delayqueue.server.springboot").build();
     }
 
 }

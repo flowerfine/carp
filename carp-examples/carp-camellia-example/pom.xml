@@ -30,6 +30,7 @@
 
     <properties>
         <camellia.version>1.2.30</camellia.version>
+        <jedis.version>2.9.0</jedis.version>
     </properties>
 
     <dependencies>
@@ -43,10 +44,16 @@
             <artifactId>camellia-delay-queue-server-spring-boot3-starter</artifactId>
             <version>${camellia.version}</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>com.netease.nim</groupId>
             <artifactId>camellia-delay-queue-sdk-spring-boot3-starter</artifactId>
             <version>${camellia.version}</version>
-        </dependency>-->
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
     </dependencies>
 </project>
