@@ -23,7 +23,11 @@ import com.netease.nim.camellia.delayqueue.common.domain.CamelliaDelayMsg;
 import com.netease.nim.camellia.delayqueue.sdk.CamelliaDelayMsgListener;
 import com.netease.nim.camellia.delayqueue.sdk.springboot.CamelliaDelayMsgListenerConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.springframework.stereotype.Component;
+
+import java.time.Duration;
 
 /**
  * 使用spring托管
@@ -39,9 +43,12 @@ public class ConsumerService1 implements CamelliaDelayMsgListener {
 
     @Override
     public boolean onMsg(CamelliaDelayMsg delayMsg) {
+        String produceTime = DateFormatUtils.format(delayMsg.getProduceTime(), "yyyy-MM-dd HH:mm:ss");
+        String triggerTime = DateFormatUtils.format(delayMsg.getTriggerTime(), "yyyy-MM-dd HH:mm:ss");
+        String delay = DurationFormatUtils.formatDurationHMS(delayMsg.getTriggerTime() - delayMsg.getProduceTime());
         try {
-            log.info("onMsg, time-gap = {}, delayMsg = {}",
-                    System.currentTimeMillis() - delayMsg.getTriggerTime(), JacksonUtil.toJsonString(delayMsg));
+            log.info("onMsg, produceTime = {}, triggerTime = {}, delay = {}, time-gap = {}, delayMsg = {}",
+                    produceTime, triggerTime, delay, System.currentTimeMillis() - delayMsg.getTriggerTime(), JacksonUtil.toJsonString(delayMsg));
             return true;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
