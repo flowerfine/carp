@@ -18,24 +18,35 @@
 
 package cn.sliew.carp.example.camellia.controller;
 
-import cn.sliew.carp.example.hazelcast.service.HazelcastMapService;
+import cn.sliew.carp.example.camellia.listener.ConsumerService1;
+import com.netease.nim.camellia.delayqueue.common.domain.CamelliaDelayMsg;
+import com.netease.nim.camellia.delayqueue.sdk.CamelliaDelayQueueSdk;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeUnit;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/carp/example/camellia")
 @Tag(name = "测试模块-Camellia延迟消息")
 public class DelayMsgController {
 
-    @PostMapping("/put")
-    public boolean put(@RequestParam("key") String key, @RequestParam("value") String value) {
-        mapService.getMap("map-command").put(key, value);
-        return true;
-    }
+    @Autowired
+    private CamelliaDelayQueueSdk delayQueueSdk;
 
-    @GetMapping("/get")
-    public String get(@RequestParam("key") String key) {
-        return mapService.getMap("map-command").get(key);
+    @PostMapping("/put")
+    public CamelliaDelayMsg sendDelayMsg(@RequestParam("msg") String msg,
+                                         @RequestParam("delaySeconds") long delaySeconds,
+                                         @RequestParam(value = "ttlSeconds", required = false, defaultValue = "30") long ttlSeconds,
+                                         @RequestParam(value = "maxRetry", required = false, defaultValue = "3") int maxRetry) {
+        String topic = ConsumerService1.TOPIC;
+        log.info("sendDelayMsg, topic = {}, msg = {}, delaySeconds = {}, ttlSeconds = {}, maxRetry = {}", topic, msg, delaySeconds, ttlSeconds, maxRetry);
+        return delayQueueSdk.sendMsg(topic, msg, delaySeconds, TimeUnit.SECONDS, ttlSeconds, TimeUnit.SECONDS, maxRetry);
     }
 }

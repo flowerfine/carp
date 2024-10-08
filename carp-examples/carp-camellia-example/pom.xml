@@ -29,7 +29,7 @@
     <artifactId>carp-camellia-example</artifactId>
 
     <properties>
-        <camellia.version>1.23.0</camellia.version>
+        <camellia.version>1.2.30</camellia.version>
     </properties>
 
     <dependencies>
@@ -40,12 +40,12 @@
 
         <dependency>
             <groupId>com.netease.nim</groupId>
-            <artifactId>camellia-delay-queue-server-spring-boot-starter</artifactId>
+            <artifactId>camellia-delay-queue-server-spring-boot3-starter</artifactId>
             <version>${camellia.version}</version>
         </dependency>
         <dependency>
             <groupId>com.netease.nim</groupId>
-            <artifactId>camellia-delay-queue-sdk-spring-boot-starter</artifactId>
+            <artifactId>camellia-delay-queue-sdk-spring-boot3-starter</artifactId>
             <version>${camellia.version}</version>
         </dependency>
     </dependencies>
