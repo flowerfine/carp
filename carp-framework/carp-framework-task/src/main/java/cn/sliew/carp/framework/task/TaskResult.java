@@ -33,6 +33,7 @@ import java.util.Map;
 public class TaskResult {
 
     private TaskStatus status;
+    private String message;
 
     private Map<String, Object> outputs;
 }

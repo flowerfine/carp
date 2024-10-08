@@ -22,6 +22,8 @@ import java.util.Map;
 
 public interface TaskContext {
 
+    Map<String, Object> getVariables();
+
     Map<String, Object> getInputs();
 
     void log();
