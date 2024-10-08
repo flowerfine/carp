@@ -22,25 +22,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-examples</artifactId>
         <version>0.0.12-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-examples</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-redisson-example</artifactId>
 
-    <modules>
-        <module>carp-ageiport-example</module>
-        <module>carp-hazelcast-example</module>
-        <module>carp-javers-example</module>
-        <module>carp-jobrunr-example</module>
-        <module>carp-mongo-example</module>
-        <module>carp-pekko-example</module>
-        <module>carp-redisson-example</module>
-    </modules>
-
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-redis</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
