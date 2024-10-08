@@ -27,8 +27,6 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-
 /**
  * 使用spring托管
  * 此时需要service实现CamelliaDelayMsgListener接口，并且添加@CamelliaDelayMsgListenerConfig注解设置topic以及其他参数
@@ -45,11 +43,13 @@ public class ConsumerService1 implements CamelliaDelayMsgListener {
     public boolean onMsg(CamelliaDelayMsg delayMsg) {
         String produceTime = DateFormatUtils.format(delayMsg.getProduceTime(), "yyyy-MM-dd HH:mm:ss");
         String triggerTime = DateFormatUtils.format(delayMsg.getTriggerTime(), "yyyy-MM-dd HH:mm:ss");
-        String delay = DurationFormatUtils.formatDurationHMS(delayMsg.getTriggerTime() - delayMsg.getProduceTime());
+        String expectDelay = DurationFormatUtils.formatDurationHMS(delayMsg.getTriggerTime() - delayMsg.getProduceTime());
+        String actualDelay = DurationFormatUtils.formatDurationHMS(System.currentTimeMillis() - delayMsg.getProduceTime());
         try {
-            log.info("onMsg, produceTime = {}, triggerTime = {}, delay = {}, time-gap = {}, delayMsg = {}",
-                    produceTime, triggerTime, delay, System.currentTimeMillis() - delayMsg.getTriggerTime(), JacksonUtil.toJsonString(delayMsg));
-            return true;
+            log.info("onMsg, retry = {}, produceTime = {}, triggerTime = {}, delay = {}, actualDelay = {}, delayMsg = {}",
+                    delayMsg.getRetry(), produceTime, triggerTime, expectDelay, actualDelay, JacksonUtil.toJsonString(delayMsg));
+//            return RandomUtils.nextBoolean(); //返回false，则delay-queue-server会重试
+            return false;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return false;//返回false，则delay-queue-server会重试
