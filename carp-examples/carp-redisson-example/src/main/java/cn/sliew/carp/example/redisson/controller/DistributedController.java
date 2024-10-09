@@ -50,6 +50,12 @@ public class DistributedController {
         distributedExecutorService.scheduleLambda(input);
     }
 
+    @PostMapping("/scheduleRunnableWithCron")
+    @Operation(summary = "使用 CRON 调度 Runnable 任务")
+    public void scheduleRunnableWithCron(@RequestParam("input") String input) throws Exception {
+        distributedExecutorService.scheduleRunnableWithCron(input);
+    }
+
     @DeleteMapping("/cancel")
     @Operation(summary = "取消任务")
     public Boolean cancel(@RequestParam("taskId") String taskId) throws Exception {

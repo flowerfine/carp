@@ -102,4 +102,14 @@ public class DistributedExecutorService implements InitializingBean, BeanFactory
             log.info("异步执行, taskId: {}, input: {}, result: {}", taskId, input, result);
         });
     }
+
+    public void scheduleRunnableWithCron(String input) {
+        RScheduledFuture<?> future = executorService.schedule(new EchoRunner(input), CronSchedule.of("0/10 * * * * ?"));
+        String taskId = future.getTaskId();
+        // 要转成 CompletableFuture 才正常运行
+        future.toCompletableFuture().whenComplete((result, throwable) -> {
+            log.info("异步执行, taskId: {}, input: {}, result: {}", taskId, input, result);
+        });
+    }
+
 }
