@@ -18,21 +18,42 @@
 
 package cn.sliew.carp.example.redisson.controller;
 
+import cn.sliew.carp.example.redisson.service.DistributedExecutorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/carp/example/redisson/distributed")
 @Tag(name = "测试模块-分布式计算")
 public class DistributedController {
 
-    @PostMapping("/callable")
+    @Autowired
+    private DistributedExecutorService distributedExecutorService;
+
+    @PostMapping("/submitCallable")
     @Operation(summary = "执行 Callable 任务")
-    public Integer submitCallable() throws Exception {
-        return 0;
+    public String submitCallable(@RequestParam("input") String input) throws Exception {
+        return distributedExecutorService.submitCallable(input);
+    }
+
+    @PostMapping("/scheduleRunnable")
+    @Operation(summary = "调度 Runnable 任务")
+    public void scheduleRunnable(@RequestParam("input") String input) throws Exception {
+        distributedExecutorService.scheduleRunnable(input);
+    }
+
+    @PostMapping("/scheduleLambda")
+    @Operation(summary = "调度 Lambda 任务")
+    public void scheduleLambda(@RequestParam("input") String input) throws Exception {
+        distributedExecutorService.scheduleLambda(input);
+    }
+
+    @DeleteMapping("/cancel")
+    @Operation(summary = "取消任务")
+    public Boolean cancel(@RequestParam("taskId") String taskId) throws Exception {
+        return distributedExecutorService.cancel(taskId);
     }
 
 }

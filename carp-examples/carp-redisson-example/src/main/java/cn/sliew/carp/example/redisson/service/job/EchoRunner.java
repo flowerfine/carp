@@ -18,12 +18,32 @@
 
 package cn.sliew.carp.example.redisson.service.job;
 
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RedissonClient;
+import org.redisson.api.annotation.RInject;
+
 import java.io.Serializable;
 
+/**
+ * 必须实现 Serializable
+ */
+@Slf4j
 public class EchoRunner implements Runnable, Serializable {
+
+    @RInject
+    private RedissonClient client;
+
+    @RInject
+    private String taskId;
+
+    private String input;
+
+    public EchoRunner(String input) {
+        this.input = input;
+    }
 
     @Override
     public void run() {
-
+        log.info("execute, taskId: {}, input: {}", taskId, input);
     }
 }

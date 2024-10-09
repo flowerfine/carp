@@ -26,6 +26,6 @@ public class TaskFailureListenerImpl implements TaskFailureListener {
 
     @Override
     public void onFailed(String taskId, Throwable exception) {
-
+        log.error("redisson failed, taskId: {}", taskId, exception);
     }
 }

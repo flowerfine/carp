@@ -26,6 +26,6 @@ public class TaskStartedListenerImpl implements TaskStartedListener {
 
     @Override
     public void onStarted(String taskId) {
-
+        log.info("redisson started, taskId: {}", taskId);
     }
 }

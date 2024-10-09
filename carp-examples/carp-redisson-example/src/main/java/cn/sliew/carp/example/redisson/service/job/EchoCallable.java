@@ -24,6 +24,9 @@ import org.redisson.api.annotation.RInject;
 import java.io.Serializable;
 import java.util.concurrent.Callable;
 
+/**
+ * 必须实现 Serializable
+ */
 public class EchoCallable implements Callable<String>, Serializable {
 
     @RInject
@@ -32,8 +35,14 @@ public class EchoCallable implements Callable<String>, Serializable {
     @RInject
     private String taskId;
 
+    private String input;
+
+    public EchoCallable(String input) {
+        this.input = input;
+    }
+
     @Override
     public String call() throws Exception {
-        return "";
+        return String.format("%s: %s", taskId, input);
     }
 }

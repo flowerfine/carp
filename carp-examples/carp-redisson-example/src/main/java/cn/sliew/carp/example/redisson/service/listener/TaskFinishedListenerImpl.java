@@ -26,6 +26,6 @@ public class TaskFinishedListenerImpl implements TaskFinishedListener {
 
     @Override
     public void onFinished(String taskId) {
-
+        log.info("redisson finished, taskId: {}", taskId);
     }
 }

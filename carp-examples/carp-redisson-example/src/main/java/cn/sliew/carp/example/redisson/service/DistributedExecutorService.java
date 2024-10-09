@@ -18,13 +18,14 @@
 
 package cn.sliew.carp.example.redisson.service;
 
+import cn.sliew.carp.example.redisson.service.job.EchoCallable;
+import cn.sliew.carp.example.redisson.service.job.EchoRunner;
 import cn.sliew.carp.example.redisson.service.listener.TaskFailureListenerImpl;
 import cn.sliew.carp.example.redisson.service.listener.TaskFinishedListenerImpl;
 import cn.sliew.carp.example.redisson.service.listener.TaskStartedListenerImpl;
 import cn.sliew.carp.example.redisson.service.listener.TaskSuccessListenerImpl;
-import org.redisson.api.RScheduledExecutorService;
-import org.redisson.api.RedissonClient;
-import org.redisson.api.WorkerOptions;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.*;
 import org.redisson.api.options.ExecutorOptions;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -33,8 +34,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 public class DistributedExecutorService implements InitializingBean, BeanFactoryAware {
 
@@ -63,5 +67,39 @@ public class DistributedExecutorService implements InitializingBean, BeanFactory
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
+    }
+
+    public Boolean cancel(String taskId) {
+        return executorService.cancelTask(taskId);
+    }
+
+    public String submitCallable(String input) throws ExecutionException, InterruptedException {
+        RExecutorFuture<String> future = executorService.submit(new EchoCallable(input));
+        String taskId = future.getTaskId();
+        future.toCompletableFuture().whenComplete((result, throwable) -> {
+            log.info("异步执行, taskId: {}, input: {}, result: {}", taskId, input, result);
+        });
+        return future.get();
+    }
+
+    public void scheduleRunnable(String input) {
+        RScheduledFuture<?> future = executorService.scheduleWithFixedDelay(new EchoRunner(input), 0, 10, TimeUnit.SECONDS);
+        String taskId = future.getTaskId();
+        // 要转成 CompletableFuture 才正常运行
+        future.toCompletableFuture().whenComplete((result, throwable) -> {
+            log.info("异步执行, taskId: {}, input: {}, result: {}", taskId, input, result);
+        });
+    }
+
+    public void scheduleLambda(String input) {
+        // lambda 不支持传参数
+        // 也能看出 redisson 任务必须实现 Serializable 接口
+        RScheduledFuture<?> future = executorService.scheduleWithFixedDelay((Runnable & Serializable)() -> {
+            log.info("execute");
+        }, 0, 10, TimeUnit.SECONDS);
+        String taskId = future.getTaskId();
+        future.toCompletableFuture().whenComplete((result, throwable) -> {
+            log.info("异步执行, taskId: {}, input: {}, result: {}", taskId, input, result);
+        });
     }
 }
