@@ -1,5 +1,6 @@
 package cn.sliew.carp.example.redisson.service;
 
+import org.redisson.api.RIdGenerator;
 import org.redisson.api.RReliableTopic;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.InitializingBean;
