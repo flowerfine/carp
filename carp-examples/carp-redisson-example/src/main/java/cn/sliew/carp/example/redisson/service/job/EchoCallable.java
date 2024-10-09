@@ -18,6 +18,9 @@
 
 package cn.sliew.carp.example.redisson.service.job;
 
+import org.redisson.api.RedissonClient;
+import org.redisson.api.annotation.RInject;
+
 import java.io.Serializable;
 import java.util.concurrent.Callable;
 
