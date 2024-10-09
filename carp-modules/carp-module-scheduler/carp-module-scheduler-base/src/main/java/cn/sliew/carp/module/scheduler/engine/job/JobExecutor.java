@@ -16,24 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.example.redisson.service;
+package cn.sliew.carp.module.scheduler.engine.job;
 
-import org.redisson.api.RReliableTopic;
-import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+public interface JobExecutor {
 
-@Service
-public class PubSubService implements InitializingBean {
-
-    public static final String RELIABLE_TOPIC_NAME = "reliableTopic";
-
-    @Autowired
-    private RedissonClient client;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        RReliableTopic reliableTopic = client.getReliableTopic(RELIABLE_TOPIC_NAME);
-    }
+    JobResult execute(JobContext context) throws Exception;
 }
