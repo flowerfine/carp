@@ -65,6 +65,17 @@ services:
     networks:
       - carp
 
+  gravitino:
+    image: apache/gravitino:0.6.0-incubating
+    container_name: gravitino
+    ports:
+      - 8090:8090
+#    volumes:
+#      - /path/to/mysql.jar:/root/gravitino/catalogs/jdbc-mysql/libs/mysql.jar
+#      - /path/to/mysql.jar:/root/gravitino/catalogs/jdbc-doris/libs/mysql.jar
+    networks:
+      - carp
+
 networks:
   carp:
     driver: bridge
