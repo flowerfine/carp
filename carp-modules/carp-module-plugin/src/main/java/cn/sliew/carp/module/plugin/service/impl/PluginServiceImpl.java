@@ -27,6 +27,7 @@ import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,20 @@ public class PluginServiceImpl implements PluginService {
     @Override
     public PluginDescriptor get(String pluginId) {
         return pluginManager.getPlugin(pluginId).getDescriptor();
+    }
+
+    @Override
+    public String enablePlugin(String path) {
+        String pluginId = pluginManager.loadPlugin(Path.of(path));
+        pluginManager.enablePlugin(pluginId);
+        return pluginId;
+    }
+
+    @Override
+    public boolean disablePlugin(String pluginId) {
+        pluginManager.disablePlugin(pluginId);
+        pluginManager.deletePlugin(pluginId);
+        return pluginManager.unloadPlugin(pluginId);
     }
 
     @Override

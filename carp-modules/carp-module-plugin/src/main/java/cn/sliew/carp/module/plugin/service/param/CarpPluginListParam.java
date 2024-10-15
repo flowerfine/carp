@@ -16,25 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.plugin.service;
+package cn.sliew.carp.module.plugin.service.param;
 
-import org.pf4j.PluginDescriptor;
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class CarpPluginListParam extends PageParam {
 
-public interface PluginService {
+    @Schema(description = "type")
+    private String type;
 
-    List<PluginDescriptor> listAll();
+    @Schema(description = "名称")
+    private String name;
 
-    PluginDescriptor get(String pluginId);
-
-    String enablePlugin(String path);
-
-    boolean disablePlugin(String pluginId);
-
-    <EP> List<EP> getExtensions(Class<EP> clazz);
-
-    <EP> List<EP> getExtensions(Class<EP> clazz, String pluginId);
-
-    void testExtension();
+    @Schema(description = "状态")
+    private String status;
 }

@@ -16,25 +16,35 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.plugin.service;
+package cn.sliew.carp.module.plugin.service.dto;
 
-import org.pf4j.PluginDescriptor;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode
+@Schema(name = "CarpPlugin", description = "plugin")
+public class CarpPluginDTO extends BaseDTO {
 
-public interface PluginService {
+    private static final long serialVersionUID = 1L;
 
-    List<PluginDescriptor> listAll();
+    @Schema(description = "type")
+    private String type;
 
-    PluginDescriptor get(String pluginId);
+    @Schema(description = "名称")
+    private String name;
 
-    String enablePlugin(String path);
+    @Schema(description = "链接")
+    private String url;
 
-    boolean disablePlugin(String pluginId);
+    @Schema(description = "状态")
+    private String status;
 
-    <EP> List<EP> getExtensions(Class<EP> clazz);
+    @Schema(description = "pf4j pluginId")
+    private String pluginId;
 
-    <EP> List<EP> getExtensions(Class<EP> clazz, String pluginId);
-
-    void testExtension();
+    @Schema(description = "备注")
+    private String remark;
 }

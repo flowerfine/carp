@@ -16,25 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.plugin.service;
+package cn.sliew.carp.module.plugin.service.convert;
 
-import org.pf4j.PluginDescriptor;
+import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
+import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
-public interface PluginService {
-
-    List<PluginDescriptor> listAll();
-
-    PluginDescriptor get(String pluginId);
-
-    String enablePlugin(String path);
-
-    boolean disablePlugin(String pluginId);
-
-    <EP> List<EP> getExtensions(Class<EP> clazz);
-
-    <EP> List<EP> getExtensions(Class<EP> clazz, String pluginId);
-
-    void testExtension();
+@Mapper
+public interface CarpPluginConvert extends BaseConvert<CarpPlugin, CarpPluginDTO> {
+    CarpPluginConvert INSTANCE = Mappers.getMapper(CarpPluginConvert.class);
 }

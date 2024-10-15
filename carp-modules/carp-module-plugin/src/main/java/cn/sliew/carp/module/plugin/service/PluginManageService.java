@@ -18,23 +18,30 @@
 
 package cn.sliew.carp.module.plugin.service;
 
-import org.pf4j.PluginDescriptor;
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
+import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginAddParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginUpdateParam;
+import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Collection;
 import java.util.List;
 
-public interface PluginService {
+public interface PluginManageService extends IService<CarpPlugin> {
 
-    List<PluginDescriptor> listAll();
+    PageResult<CarpPluginDTO> list(CarpPluginListParam param);
 
-    PluginDescriptor get(String pluginId);
+    List<CarpPluginDTO> listAll();
 
-    String enablePlugin(String path);
+    CarpPluginDTO get(Long id);
 
-    boolean disablePlugin(String pluginId);
+    boolean add(CarpPluginAddParam param);
 
-    <EP> List<EP> getExtensions(Class<EP> clazz);
+    boolean update(CarpPluginUpdateParam param);
 
-    <EP> List<EP> getExtensions(Class<EP> clazz, String pluginId);
+    boolean delete(Long id);
 
-    void testExtension();
+    boolean deleteBatch(Collection<Long> ids);
 }

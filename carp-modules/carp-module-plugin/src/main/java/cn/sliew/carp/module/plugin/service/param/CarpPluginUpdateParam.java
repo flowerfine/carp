@@ -16,25 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.plugin.service;
+package cn.sliew.carp.module.plugin.service.param;
 
-import org.pf4j.PluginDescriptor;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+@Data
+@EqualsAndHashCode
+public class CarpPluginUpdateParam {
 
-public interface PluginService {
+    @NotNull
+    @Schema(description = "ID")
+    private Long id;
 
-    List<PluginDescriptor> listAll();
+    @NotBlank
+    @Schema(description = "名称")
+    private String name;
 
-    PluginDescriptor get(String pluginId);
+    @NotBlank
+    @Schema(description = "链接")
+    private String url;
 
-    String enablePlugin(String path);
-
-    boolean disablePlugin(String pluginId);
-
-    <EP> List<EP> getExtensions(Class<EP> clazz);
-
-    <EP> List<EP> getExtensions(Class<EP> clazz, String pluginId);
-
-    void testExtension();
+    @Schema(description = "备注")
+    private String remark;
 }

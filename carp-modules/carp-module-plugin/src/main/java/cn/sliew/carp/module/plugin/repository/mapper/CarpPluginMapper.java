@@ -16,25 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.plugin.service;
+package cn.sliew.carp.module.plugin.repository.mapper;
 
-import org.pf4j.PluginDescriptor;
+import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Repository
+public interface CarpPluginMapper extends BaseMapper<CarpPlugin> {
 
-public interface PluginService {
-
-    List<PluginDescriptor> listAll();
-
-    PluginDescriptor get(String pluginId);
-
-    String enablePlugin(String path);
-
-    boolean disablePlugin(String pluginId);
-
-    <EP> List<EP> getExtensions(Class<EP> clazz);
-
-    <EP> List<EP> getExtensions(Class<EP> clazz, String pluginId);
-
-    void testExtension();
 }
