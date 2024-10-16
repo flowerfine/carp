@@ -44,4 +44,8 @@ public interface PluginService extends IService<CarpPlugin> {
     boolean delete(Long id);
 
     boolean deleteBatch(Collection<Long> ids);
+
+    boolean enable(Long id);
+
+    boolean disable(Long id);
 }

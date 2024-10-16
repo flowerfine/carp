@@ -46,6 +46,7 @@ import javax.sql.DataSource;
                 DataSourceConstants.MAPPER_FRAMEWORK_DAG_PACKAGE,
                 DataSourceConstants.MAPPER_MODULE_DATASOURCE_PACKAGE,
                 DataSourceConstants.MAPPER_MODULE_KUBERNETES_PACKAGE,
+                DataSourceConstants.MAPPER_MODULE_PLUGIN_PACKAGE,
                 DataSourceConstants.MAPPER_MODULE_SCHEDULER_PACKAGE,
                 DataSourceConstants.MAPPER_MODULE_SECURITY_PACKAGE
         })

@@ -19,12 +19,14 @@
 package cn.sliew.carp.module.plugin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.http.HttpUtil;
 import cn.sliew.carp.framework.common.dict.common.YesOrNo;
 import cn.sliew.carp.framework.common.dict.plugin.PluginType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
 import cn.sliew.carp.module.plugin.repository.mapper.CarpPluginMapper;
+import cn.sliew.carp.module.plugin.service.Pf4jService;
 import cn.sliew.carp.module.plugin.service.PluginService;
 import cn.sliew.carp.module.plugin.service.convert.CarpPluginConvert;
 import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
@@ -32,18 +34,24 @@ import cn.sliew.carp.module.plugin.service.param.CarpPluginAddParam;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
 @Service
 public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin> implements PluginService {
+
+    @Autowired
+    private Pf4jService pf4jService;
 
     @Override
     public PageResult<CarpPluginDTO> list(CarpPluginListParam param) {
@@ -96,5 +104,25 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     @Override
     public boolean deleteBatch(Collection<Long> ids) {
         return removeByIds(ids);
+    }
+
+    @Override
+    public boolean enable(Long id) {
+        // 下载插件至本地
+        CarpPluginDTO dto = get(id);
+        File file = HttpUtil.downloadFileFromUrl(dto.getUrl(), "");
+        // 启用插件
+        String pluginId = pf4jService.enablePlugin(file.getAbsolutePath());
+        // 更新插件信息
+        LambdaUpdateWrapper<CarpPlugin> updateWrapper = Wrappers.lambdaUpdate(CarpPlugin.class)
+                .eq(CarpPlugin::getId, id)
+                .set(CarpPlugin::getPluginId, pluginId);
+        return update(updateWrapper);
+    }
+
+    @Override
+    public boolean disable(Long id) {
+        CarpPluginDTO dto = get(id);
+        return pf4jService.disablePlugin(dto.getPluginId());
     }
 }

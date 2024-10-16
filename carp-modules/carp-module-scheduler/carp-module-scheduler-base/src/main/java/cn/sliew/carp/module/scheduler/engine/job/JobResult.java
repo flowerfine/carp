@@ -28,4 +28,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobResult {
+
+    public boolean success;
 }

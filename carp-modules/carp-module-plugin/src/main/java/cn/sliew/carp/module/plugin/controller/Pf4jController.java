@@ -20,6 +20,7 @@ package cn.sliew.carp.module.plugin.controller;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.module.plugin.service.Pf4jService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@AnonymousAccess
 @RestController
 @RequestMapping("/api/carp/plugin/pf4j")
 @Tag(name = "插件模块-Pf4j管理")

@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.plugin.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.module.plugin.service.PluginService;
 import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginAddParam;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AnonymousAccess
 @RestController
 @RequestMapping("/api/carp/plugin")
 @Tag(name = "插件模块-插件管理")
