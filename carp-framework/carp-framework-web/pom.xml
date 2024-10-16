@@ -29,15 +29,13 @@
     <artifactId>carp-framework-web</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-framework-exception</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-framework-exception</artifactId>
+            <artifactId>carp-framework-spring</artifactId>
         </dependency>
 
         <dependency>

@@ -18,21 +18,22 @@
 
 package cn.sliew.carp.module.plugin.plugin;
 
-import org.pf4j.*;
+import org.pf4j.PluginStatusProvider;
 
-public class CustomPluginManager extends DefaultPluginManager {
+public class CustomPluginStatusProvider implements PluginStatusProvider {
 
     @Override
-    protected PluginRepository createPluginRepository() {
-        return new CompoundPluginRepository()
-                .add(new DevelopmentPluginRepository(getPluginsRoots()), this::isDevelopment)
-                .add(new JarPluginRepository(getPluginsRoots()), this::isNotDevelopment)
-                .add(new DefaultPluginRepository(getPluginsRoots()), this::isNotDevelopment)
-                .add(new CustomPluginRepository());
+    public boolean isPluginDisabled(String pluginId) {
+        return false;
     }
 
     @Override
-    protected PluginStatusProvider createPluginStatusProvider() {
-        return new CustomPluginStatusProvider();
+    public void disablePlugin(String pluginId) {
+
+    }
+
+    @Override
+    public void enablePlugin(String pluginId) {
+
     }
 }

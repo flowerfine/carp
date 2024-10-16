@@ -83,4 +83,16 @@ public class PluginController {
     public Boolean deleteBatch(@RequestBody List<Long> ids) {
         return pluginService.deleteBatch(ids);
     }
+
+    @PostMapping("{id}/enable")
+    @Operation(summary = "启用", description = "启用")
+    public Boolean enable(@PathVariable("id") Long id) {
+        return pluginService.enable(id);
+    }
+
+    @PostMapping("{id}/disable")
+    @Operation(summary = "禁用", description = "禁用")
+    public Boolean disable(@PathVariable("id") Long id) {
+        return pluginService.disable(id);
+    }
 }

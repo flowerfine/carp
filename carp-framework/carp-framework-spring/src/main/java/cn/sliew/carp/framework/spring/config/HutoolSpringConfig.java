@@ -16,23 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.plugin.plugin;
+package cn.sliew.carp.framework.spring.config;
 
-import org.pf4j.*;
+import cn.hutool.extra.spring.EnableSpringUtil;
+import org.springframework.context.annotation.Configuration;
 
-public class CustomPluginManager extends DefaultPluginManager {
+@Configuration
+@EnableSpringUtil
+public class HutoolSpringConfig {
 
-    @Override
-    protected PluginRepository createPluginRepository() {
-        return new CompoundPluginRepository()
-                .add(new DevelopmentPluginRepository(getPluginsRoots()), this::isDevelopment)
-                .add(new JarPluginRepository(getPluginsRoots()), this::isNotDevelopment)
-                .add(new DefaultPluginRepository(getPluginsRoots()), this::isNotDevelopment)
-                .add(new CustomPluginRepository());
-    }
-
-    @Override
-    protected PluginStatusProvider createPluginStatusProvider() {
-        return new CustomPluginStatusProvider();
-    }
 }

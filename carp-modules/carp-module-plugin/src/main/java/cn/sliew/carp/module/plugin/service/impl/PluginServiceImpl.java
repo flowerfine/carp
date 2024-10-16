@@ -23,7 +23,9 @@ import cn.hutool.http.HttpUtil;
 import cn.sliew.carp.framework.common.dict.common.YesOrNo;
 import cn.sliew.carp.framework.common.dict.plugin.PluginType;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.nio.FileUtil;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
+import cn.sliew.carp.framework.spring.util.SystemUtil;
 import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
 import cn.sliew.carp.module.plugin.repository.mapper.CarpPluginMapper;
 import cn.sliew.carp.module.plugin.service.Pf4jService;
@@ -38,12 +40,14 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
@@ -110,14 +114,29 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     public boolean enable(Long id) {
         // 下载插件至本地
         CarpPluginDTO dto = get(id);
-        File file = HttpUtil.downloadFileFromUrl(dto.getUrl(), "");
-        // 启用插件
-        String pluginId = pf4jService.enablePlugin(file.getAbsolutePath());
-        // 更新插件信息
-        LambdaUpdateWrapper<CarpPlugin> updateWrapper = Wrappers.lambdaUpdate(CarpPlugin.class)
-                .eq(CarpPlugin::getId, id)
-                .set(CarpPlugin::getPluginId, pluginId);
-        return update(updateWrapper);
+        Path path = null;
+        try {
+            path = FileUtil.createFile(SystemUtil.getPluginsPath(), FilenameUtils.getName(dto.getUrl()));
+            HttpUtil.downloadFileFromUrl(dto.getUrl(), path.toAbsolutePath().toFile().getAbsolutePath());
+            // 启用插件
+            String pluginId = pf4jService.enablePlugin(path);
+            // 更新插件信息
+            LambdaUpdateWrapper<CarpPlugin> updateWrapper = Wrappers.lambdaUpdate(CarpPlugin.class)
+                    .eq(CarpPlugin::getId, id)
+                    .set(CarpPlugin::getPluginId, pluginId);
+            return update(updateWrapper);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        } finally {
+            if (path != null) {
+                try {
+                    FileUtil.deleteFile(path);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     @Override

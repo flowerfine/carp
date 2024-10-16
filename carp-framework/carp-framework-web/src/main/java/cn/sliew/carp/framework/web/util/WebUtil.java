@@ -18,8 +18,7 @@
 
 package cn.sliew.carp.framework.web.util;
 
-import cn.hutool.core.net.NetUtil;
-import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.sliew.carp.framework.common.model.ResponseVO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +28,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 public class WebUtil extends WebUtils {
@@ -38,37 +36,19 @@ public class WebUtil extends WebUtils {
      * 将字符串渲染到客户端 * * @param response 渲染对象 * @param string 待渲染的字符串 * @return null
      */
     public static void renderJson(HttpServletResponse response, ResponseVO responseVO) throws IOException {
-        try (PrintWriter out = response.getWriter()) {
-            response.setStatus(HttpStatus.OK.value());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-            out.write(JacksonUtil.toJsonString(responseVO));
-            out.flush();
-        }
+        response.setStatus(HttpStatus.OK.value());
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        JakartaServletUtil.write(response, JacksonUtil.toJsonString(responseVO), MediaType.APPLICATION_JSON_VALUE);
     }
 
     /**
      * copied from hutool for javax -> jakarta
      */
     public static String getClientIP(HttpServletRequest request, String... otherHeaderNames) {
-        String[] headers = {"X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
-        if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
-            headers = ArrayUtil.addAll(headers, otherHeaderNames);
-        }
-
-        return getClientIPByHeader(request, headers);
+        return JakartaServletUtil.getClientIP(request, otherHeaderNames);
     }
 
     public static String getClientIPByHeader(HttpServletRequest request, String... headerNames) {
-        String ip;
-        for (String header : headerNames) {
-            ip = request.getHeader(header);
-            if (false == NetUtil.isUnknown(ip)) {
-                return NetUtil.getMultistageReverseProxyIp(ip);
-            }
-        }
-
-        ip = request.getRemoteAddr();
-        return NetUtil.getMultistageReverseProxyIp(ip);
+        return JakartaServletUtil.getClientIPByHeader(request, headerNames);
     }
 }

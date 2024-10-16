@@ -59,8 +59,8 @@ public class Pf4jServiceImpl implements Pf4jService {
     }
 
     @Override
-    public String enablePlugin(String path) {
-        String pluginId = pluginManager.loadPlugin(Path.of(path));
+    public String enablePlugin(Path path) {
+        String pluginId = pluginManager.loadPlugin(path);
         pluginManager.enablePlugin(pluginId);
         return pluginId;
     }

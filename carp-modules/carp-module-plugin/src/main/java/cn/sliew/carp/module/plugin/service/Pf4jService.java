@@ -22,6 +22,7 @@ import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import org.pf4j.PluginDescriptor;
 
+import java.nio.file.Path;
 import java.util.List;
 
 public interface Pf4jService {
@@ -32,7 +33,7 @@ public interface Pf4jService {
 
     PluginDescriptor get(String pluginId);
 
-    String enablePlugin(String path);
+    String enablePlugin(Path path);
 
     boolean disablePlugin(String pluginId);
 
