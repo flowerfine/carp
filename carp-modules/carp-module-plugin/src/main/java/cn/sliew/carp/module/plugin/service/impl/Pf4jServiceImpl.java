@@ -70,14 +70,15 @@ public class Pf4jServiceImpl implements Pf4jService {
 
     @Override
     public boolean enablePlugin(String pluginId) {
-        return pluginManager.enablePlugin(pluginId);
+        pluginManager.enablePlugin(pluginId);
+        pluginManager.startPlugin(pluginId);
+        return true;
     }
 
     @Override
     public boolean disablePlugin(String pluginId) {
         pluginManager.disablePlugin(pluginId);
-//        pluginManager.deletePlugin(pluginId);
-        return pluginManager.unloadPlugin(pluginId);
+        return pluginManager.deletePlugin(pluginId);
     }
 
     @Override

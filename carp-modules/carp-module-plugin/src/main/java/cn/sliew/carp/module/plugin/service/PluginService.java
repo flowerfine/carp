@@ -29,6 +29,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface PluginService extends IService<CarpPlugin> {
 
@@ -38,7 +39,7 @@ public interface PluginService extends IService<CarpPlugin> {
 
     CarpPluginDTO get(Long id);
 
-    CarpPluginDTO getByPluginId(String pluginId);
+    Optional<CarpPluginDTO> getByPluginId(String pluginId);
 
     boolean add(CarpPluginAddParam param);
 

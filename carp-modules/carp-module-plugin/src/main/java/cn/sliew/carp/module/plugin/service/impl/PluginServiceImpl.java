@@ -50,8 +50,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
-
-import static cn.sliew.milky.common.check.Ensures.checkState;
+import java.util.Optional;
 
 @Service
 public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin> implements PluginService {
@@ -88,12 +87,10 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     }
 
     @Override
-    public CarpPluginDTO getByPluginId(String pluginId) {
+    public Optional<CarpPluginDTO> getByPluginId(String pluginId) {
         LambdaQueryWrapper<CarpPlugin> queryChainWrapper = Wrappers.lambdaQuery(CarpPlugin.class)
                 .eq(CarpPlugin::getPluginId, pluginId);
-        CarpPlugin entity = getOne(queryChainWrapper);
-        checkState(entity != null, () -> "plugin not exists for pluginId: " + pluginId);
-        return CarpPluginConvert.INSTANCE.toDto(entity);
+        return getOneOpt(queryChainWrapper).map(CarpPluginConvert.INSTANCE::toDto);
     }
 
     @Override
@@ -163,6 +160,13 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     @Override
     public boolean disable(Long id) {
         CarpPluginDTO dto = get(id);
-        return pf4jService.disablePlugin(dto.getPluginId());
+
+        // 禁用插件
+        pf4jService.disablePlugin(dto.getPluginId());
+        // 更新插件信息
+        LambdaUpdateWrapper<CarpPlugin> updateWrapper = Wrappers.lambdaUpdate(CarpPlugin.class)
+                .eq(CarpPlugin::getId, id)
+                .set(CarpPlugin::getPluginId, null);
+        return update(updateWrapper);
     }
 }
