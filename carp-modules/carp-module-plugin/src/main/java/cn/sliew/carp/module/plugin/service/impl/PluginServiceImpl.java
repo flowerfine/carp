@@ -18,65 +18,83 @@
 
 package cn.sliew.carp.module.plugin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.plugin.PluginType;
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.mybatis.DataSourceConstants;
+import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
+import cn.sliew.carp.module.plugin.repository.mapper.CarpPluginMapper;
 import cn.sliew.carp.module.plugin.service.PluginService;
-import cn.sliew.carp.plugin.test.api.Greeting;
-import lombok.extern.slf4j.Slf4j;
-import org.pf4j.PluginDescriptor;
-import org.pf4j.PluginManager;
-import org.pf4j.PluginWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.sliew.carp.module.plugin.service.convert.CarpPluginConvert;
+import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginAddParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginUpdateParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Slf4j
 @Service
-public class PluginServiceImpl implements PluginService {
-
-    @Autowired
-    private PluginManager pluginManager;
+public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin> implements PluginService {
 
     @Override
-    public List<PluginDescriptor> listAll() {
-        return pluginManager.getPlugins().stream().map(PluginWrapper::getDescriptor).collect(Collectors.toList());
+    public PageResult<CarpPluginDTO> list(CarpPluginListParam param) {
+        Page<CarpPlugin> page = new Page<>(param.getCurrent(), param.getPageSize());
+        LambdaQueryWrapper<CarpPlugin> queryChainWrapper = Wrappers.lambdaQuery(CarpPlugin.class)
+                .like(StringUtils.hasText(param.getName()), CarpPlugin::getName, param.getName())
+                .eq(param.getType() != null, CarpPlugin::getType, param.getType())
+                .eq(param.getStatus() != null, CarpPlugin::getStatus, param.getStatus())
+                .orderByAsc(CarpPlugin::getId);
+        Page<CarpPlugin> secRolePage = page(page, queryChainWrapper);
+        PageResult<CarpPluginDTO> pageResult = new PageResult<>(secRolePage.getCurrent(), secRolePage.getSize(), secRolePage.getTotal());
+        pageResult.setRecords(CarpPluginConvert.INSTANCE.toDto(secRolePage.getRecords()));
+        return pageResult;
     }
 
     @Override
-    public PluginDescriptor get(String pluginId) {
-        return pluginManager.getPlugin(pluginId).getDescriptor();
+    public List<CarpPluginDTO> listAll() {
+        LambdaQueryWrapper<CarpPlugin> queryChainWrapper = Wrappers.lambdaQuery(CarpPlugin.class)
+                .orderByAsc(CarpPlugin::getId);
+        List<CarpPlugin> entities = list(queryChainWrapper);
+        return CarpPluginConvert.INSTANCE.toDto(entities);
     }
 
     @Override
-    public String enablePlugin(String path) {
-        String pluginId = pluginManager.loadPlugin(Path.of(path));
-        pluginManager.enablePlugin(pluginId);
-        return pluginId;
+    public CarpPluginDTO get(Long id) {
+        CarpPlugin entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("plugin not exists for id: " + id));
+        return CarpPluginConvert.INSTANCE.toDto(entity);
     }
 
     @Override
-    public boolean disablePlugin(String pluginId) {
-        pluginManager.disablePlugin(pluginId);
-        pluginManager.deletePlugin(pluginId);
-        return pluginManager.unloadPlugin(pluginId);
+    public boolean add(CarpPluginAddParam param) {
+        CarpPlugin entity = BeanUtil.copyProperties(param, CarpPlugin.class);
+        entity.setType(PluginType.INTERNAL);
+        entity.setStatus(YesOrNo.NO);
+        return save(entity);
     }
 
     @Override
-    public <EP> List<EP> getExtensions(Class<EP> clazz) {
-        return pluginManager.getExtensions(clazz);
+    public boolean update(CarpPluginUpdateParam param) {
+        CarpPlugin entity = BeanUtil.copyProperties(param, CarpPlugin.class);
+        return updateById(entity);
     }
 
     @Override
-    public <EP> List<EP> getExtensions(Class<EP> clazz, String pluginId) {
-        return pluginManager.getExtensions(clazz, pluginId);
+    public boolean delete(Long id) {
+        return removeById(id);
     }
 
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
-    public void testExtension() {
-        List<Greeting> extensions = getExtensions(Greeting.class);
-        for (Greeting greeting : extensions) {
-            log.info("   {}", greeting.getGreeting());
-        }
+    public boolean deleteBatch(Collection<Long> ids) {
+        return removeByIds(ids);
     }
 }
