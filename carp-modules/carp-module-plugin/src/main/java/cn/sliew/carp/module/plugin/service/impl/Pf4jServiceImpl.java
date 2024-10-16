@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class Pf4jServiceImpl implements Pf4jService {
     public List<PluginDescriptor> listAll() {
         return pluginManager.getPlugins().stream()
                 .map(PluginWrapper::getDescriptor)
-                .sorted()
+                .sorted(Comparator.comparing(PluginDescriptor::getPluginId))
                 .collect(Collectors.toList());
     }
 

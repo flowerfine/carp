@@ -34,7 +34,7 @@ public class CustomPluginManager extends DefaultPluginManager {
 //    @Override
 //    protected ExtensionFinder createExtensionFinder() {
 //        DefaultExtensionFinder extensionFinder = new DefaultExtensionFinder(this);
-//        extensionFinder.add(new CustomLegacyExtensionFinder(this));
+//        extensionFinder.addServiceProviderExtensionFinder();
 //        addPluginStateListener(extensionFinder);
 //
 //        return extensionFinder;
