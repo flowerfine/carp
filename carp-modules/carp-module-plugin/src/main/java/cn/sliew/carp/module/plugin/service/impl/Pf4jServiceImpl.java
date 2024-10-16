@@ -18,6 +18,8 @@
 
 package cn.sliew.carp.module.plugin.service.impl;
 
+import cn.sliew.carp.framework.common.model.PageParam;
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.plugin.service.Pf4jService;
 import cn.sliew.carp.plugin.test.api.Greeting;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +41,16 @@ public class Pf4jServiceImpl implements Pf4jService {
     private PluginManager pluginManager;
 
     @Override
+    public PageResult<PluginDescriptor> page(PageParam param) {
+        return PageResult.build(listAll(), param);
+    }
+
+    @Override
     public List<PluginDescriptor> listAll() {
-        return pluginManager.getPlugins().stream().map(PluginWrapper::getDescriptor).collect(Collectors.toList());
+        return pluginManager.getPlugins().stream()
+                .map(PluginWrapper::getDescriptor)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     @Override

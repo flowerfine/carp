@@ -18,9 +18,12 @@
 
 package cn.sliew.carp.module.plugin.controller;
 
+import cn.sliew.carp.framework.common.model.PageParam;
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.plugin.service.Pf4jService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.pf4j.PluginDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +40,12 @@ public class Pf4jController {
 
     @Autowired
     private Pf4jService pf4jService;
+
+    @GetMapping("page")
+    @Operation(summary = "分页查询", description = "分页查询")
+    public PageResult<PluginDescriptor> list(@Valid PageParam param) {
+        return pf4jService.page(param);
+    }
 
     @GetMapping
     @Operation(summary = "查询所有", description = "查询所有")

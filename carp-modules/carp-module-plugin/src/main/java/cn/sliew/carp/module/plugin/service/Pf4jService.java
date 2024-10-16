@@ -18,11 +18,15 @@
 
 package cn.sliew.carp.module.plugin.service;
 
+import cn.sliew.carp.framework.common.model.PageParam;
+import cn.sliew.carp.framework.common.model.PageResult;
 import org.pf4j.PluginDescriptor;
 
 import java.util.List;
 
 public interface Pf4jService {
+
+    PageResult<PluginDescriptor> page(PageParam param);
 
     List<PluginDescriptor> listAll();
 

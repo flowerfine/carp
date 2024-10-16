@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -49,5 +50,16 @@ public class PageResult<T> implements Serializable {
         this.current = current;
         this.size = size;
         this.total = total;
+    }
+
+    public static PageResult build(List records, PageParam pageParam) {
+        if (CollectionUtils.isEmpty(records)) {
+            return new PageResult(pageParam.getCurrent(), pageParam.getPageSize(), 0L);
+        }
+        PageResult pageResult = new PageResult(pageParam.getCurrent(), pageParam.getPageSize(), Long.valueOf(records.size()));
+        Long from = (pageParam.getCurrent() - 1) * pageParam.getPageSize();
+        Long last = pageParam.getCurrent() * pageParam.getPageSize() <= records.size() ? pageParam.getCurrent() * pageParam.getPageSize() : records.size();
+        pageResult.setRecords(records.subList(from.intValue(), last.intValue()));
+        return pageResult;
     }
 }
