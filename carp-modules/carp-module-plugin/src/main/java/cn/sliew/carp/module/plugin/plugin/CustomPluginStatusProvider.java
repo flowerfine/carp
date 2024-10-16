@@ -18,22 +18,28 @@
 
 package cn.sliew.carp.module.plugin.plugin;
 
+import cn.hutool.extra.spring.SpringUtil;
+import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.module.plugin.service.PluginService;
 import org.pf4j.PluginStatusProvider;
 
 public class CustomPluginStatusProvider implements PluginStatusProvider {
 
     @Override
     public boolean isPluginDisabled(String pluginId) {
-        return false;
+        PluginService pluginService = SpringUtil.getBean(PluginService.class);
+        return pluginService.getByPluginId(pluginId).getStatus() == YesOrNo.NO;
     }
 
     @Override
     public void disablePlugin(String pluginId) {
-
+        PluginService pluginService = SpringUtil.getBean(PluginService.class);
+        pluginService.updateStatus(pluginId, YesOrNo.NO);
     }
 
     @Override
     public void enablePlugin(String pluginId) {
-
+        PluginService pluginService = SpringUtil.getBean(PluginService.class);
+        pluginService.updateStatus(pluginId, YesOrNo.YES);
     }
 }

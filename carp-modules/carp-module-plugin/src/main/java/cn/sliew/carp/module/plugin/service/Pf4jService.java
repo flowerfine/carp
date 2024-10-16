@@ -33,7 +33,11 @@ public interface Pf4jService {
 
     PluginDescriptor get(String pluginId);
 
-    String enablePlugin(Path path);
+    String loadPlugin(Path path);
+
+    boolean unloadPlugin(String pluginId);
+
+    boolean enablePlugin(String pluginId);
 
     boolean disablePlugin(String pluginId);
 

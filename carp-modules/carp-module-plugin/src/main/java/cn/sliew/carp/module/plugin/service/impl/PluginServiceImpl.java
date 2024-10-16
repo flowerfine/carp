@@ -51,6 +51,8 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
+import static cn.sliew.milky.common.check.Ensures.checkState;
+
 @Service
 public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin> implements PluginService {
 
@@ -86,6 +88,15 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     }
 
     @Override
+    public CarpPluginDTO getByPluginId(String pluginId) {
+        LambdaQueryWrapper<CarpPlugin> queryChainWrapper = Wrappers.lambdaQuery(CarpPlugin.class)
+                .eq(CarpPlugin::getPluginId, pluginId);
+        CarpPlugin entity = getOne(queryChainWrapper);
+        checkState(entity != null, () -> "plugin not exists for pluginId: " + pluginId);
+        return CarpPluginConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
     public boolean add(CarpPluginAddParam param) {
         CarpPlugin entity = BeanUtil.copyProperties(param, CarpPlugin.class);
         entity.setType(PluginType.INTERNAL);
@@ -97,6 +108,14 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     public boolean update(CarpPluginUpdateParam param) {
         CarpPlugin entity = BeanUtil.copyProperties(param, CarpPlugin.class);
         return updateById(entity);
+    }
+
+    @Override
+    public boolean updateStatus(String pluginId, YesOrNo status) {
+        LambdaUpdateWrapper<CarpPlugin> updateWrapper = Wrappers.lambdaUpdate(CarpPlugin.class)
+                .eq(CarpPlugin::getPluginId, pluginId)
+                .set(CarpPlugin::getStatus, status);
+        return update(updateWrapper);
     }
 
     @Override
@@ -119,12 +138,14 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
             path = FileUtil.createFile(SystemUtil.getPluginsPath(), FilenameUtils.getName(dto.getUrl()));
             HttpUtil.downloadFileFromUrl(dto.getUrl(), path.toAbsolutePath().toFile().getAbsolutePath());
             // 启用插件
-            String pluginId = pf4jService.enablePlugin(path);
+            String pluginId = pf4jService.loadPlugin(path);
             // 更新插件信息
             LambdaUpdateWrapper<CarpPlugin> updateWrapper = Wrappers.lambdaUpdate(CarpPlugin.class)
                     .eq(CarpPlugin::getId, id)
                     .set(CarpPlugin::getPluginId, pluginId);
-            return update(updateWrapper);
+            update(updateWrapper);
+            // 启用插件信息
+            return pf4jService.enablePlugin(pluginId);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
