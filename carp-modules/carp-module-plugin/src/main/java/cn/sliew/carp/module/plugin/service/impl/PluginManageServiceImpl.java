@@ -19,6 +19,8 @@
 package cn.sliew.carp.module.plugin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.plugin.PluginType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
@@ -74,7 +76,8 @@ public class PluginManageServiceImpl extends ServiceImpl<CarpPluginMapper, CarpP
     @Override
     public boolean add(CarpPluginAddParam param) {
         CarpPlugin entity = BeanUtil.copyProperties(param, CarpPlugin.class);
-        entity.setType("custom");
+        entity.setType(PluginType.INTERNAL);
+        entity.setStatus(YesOrNo.NO);
         return save(entity);
     }
 
