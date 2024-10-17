@@ -39,6 +39,12 @@ public class DagConfigSimpleAddParam {
     @Schema(description = "DAG属性")
     private JsonNode dagAttrs;
 
+    @Schema(description = "输入参数声明")
+    private JsonNode inputOptions;
+
+    @Schema(description = "输入参数声明")
+    private JsonNode outputOptions;
+
     @Schema(description = "备注")
     private String remark;
 }

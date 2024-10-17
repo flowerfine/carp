@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
-        <version>0.0.11-SNAPSHOT</version>
+        <version>0.0.12-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework</artifactId>
@@ -38,6 +38,8 @@
         <module>carp-framework-mybatis</module>
         <module>carp-framework-pekko</module>
         <module>carp-framework-redis</module>
+        <module>carp-framework-spring</module>
+        <module>carp-framework-task</module>
         <module>carp-framework-web</module>
     </modules>
 

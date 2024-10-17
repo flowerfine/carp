@@ -18,16 +18,25 @@
 
 package cn.sliew.carp.module.plugin.plugin;
 
+import cn.hutool.extra.spring.SpringUtil;
+import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.nio.FileUtil;
+import cn.sliew.carp.module.plugin.service.PluginService;
+import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
+import lombok.extern.slf4j.Slf4j;
 import org.pf4j.PluginRepository;
 
 import java.io.FileFilter;
+import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * todo 从数据库配置读取插件加载地址
  */
+@Slf4j
 public class CustomPluginRepository implements PluginRepository {
 
     protected FileFilter filter;
@@ -42,11 +51,33 @@ public class CustomPluginRepository implements PluginRepository {
 
     @Override
     public List<Path> getPluginPaths() {
-        return Collections.emptyList();
+        // 读取数据库中启用的插件，然后下载，然后更新
+        PluginService pluginService = SpringUtil.getBean(PluginService.class);
+        CarpPluginListParam listParam = new CarpPluginListParam();
+        listParam.setStatus(YesOrNo.YES.getValue());
+        List<CarpPluginDTO> carpPluginDTOS = pluginService.listAll(listParam);
+        List<Path> paths = new ArrayList<>();
+        for (CarpPluginDTO dto : carpPluginDTOS) {
+            try {
+                Path path = pluginService.internalDownloadPlugin(dto);
+                if (filter == null || filter.accept(path.toFile())) {
+                    paths.add(path);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return paths;
     }
 
     @Override
     public boolean deletePluginPath(Path path) {
-        return true;
+        try {
+            FileUtil.deleteFile(path);
+            return true;
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
     }
 }

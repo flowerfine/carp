@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
-        <version>0.0.11-SNAPSHOT</version>
+        <version>0.0.12-SNAPSHOT</version>
     </parent>
     <artifactId>carp-server</artifactId>
 
@@ -50,6 +50,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-scheduler-quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-security-spring</artifactId>
         </dependency>
         <dependency>
@@ -63,6 +67,10 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-system</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-workflow-internal</artifactId>
         </dependency>
     </dependencies>
 

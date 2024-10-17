@@ -26,8 +26,11 @@ import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.convert.DagStepConvert;
 import cn.sliew.carp.framework.dag.service.convert.DagStepVOConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -57,5 +60,14 @@ public class DagStepServiceImpl extends ServiceImpl<DagStepMapper, DagStep> impl
     public boolean update(DagStepDTO stepDTO) {
         DagStep record = DagStepConvert.INSTANCE.toDo(stepDTO);
         return updateById(record);
+    }
+
+    @Override
+    public boolean updateStatus(Long id, String fromStatus, String toStatus) {
+        LambdaUpdateWrapper<DagStep> wrapper = Wrappers.lambdaUpdate(DagStep.class)
+                .eq(DagStep::getId, id)
+                .eq(StringUtils.hasText(fromStatus), DagStep::getStatus, fromStatus)
+                .set(DagStep::getStatus, toStatus);
+        return update(wrapper);
     }
 }

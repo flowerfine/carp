@@ -24,8 +24,11 @@ import cn.sliew.carp.framework.dag.repository.mapper.DagInstanceMapper;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.convert.DagInstanceConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class DagInstanceServiceImpl extends ServiceImpl<DagInstanceMapper, DagInstance> implements DagInstanceService {
@@ -48,5 +51,14 @@ public class DagInstanceServiceImpl extends ServiceImpl<DagInstanceMapper, DagIn
     public boolean update(DagInstanceDTO instanceDTO) {
         DagInstance record = DagInstanceConvert.INSTANCE.toDo(instanceDTO);
         return updateById(record);
+    }
+
+    @Override
+    public boolean updateStatus(Long id, String fromStatus, String toStatus) {
+        LambdaUpdateWrapper<DagInstance> wrapper = Wrappers.lambdaUpdate(DagInstance.class)
+                .eq(DagInstance::getId, id)
+                .eq(StringUtils.hasText(fromStatus), DagInstance::getStatus, fromStatus)
+                .set(DagInstance::getStatus, toStatus);
+        return update(wrapper);
     }
 }

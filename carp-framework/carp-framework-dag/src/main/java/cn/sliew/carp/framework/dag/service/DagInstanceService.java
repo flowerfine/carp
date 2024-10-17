@@ -29,4 +29,6 @@ public interface DagInstanceService extends IService<DagInstance> {
     Long add(DagInstanceDTO instanceDTO);
 
     boolean update(DagInstanceDTO instanceDTO);
+
+    boolean updateStatus(Long id, String fromStatus, String toStatus);
 }

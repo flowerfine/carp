@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.module.security.spring.config;
 
+import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
-import cn.sliew.carp.framework.web.util.SpringContextUtil;
 import cn.sliew.carp.module.security.spring.authentication.CarpAccessDeniedHandler;
 import cn.sliew.carp.module.security.spring.authentication.CarpAuthenticationEntryPoint;
 import cn.sliew.carp.module.security.spring.authentication.CarpPasswordEncoder;
@@ -38,7 +38,6 @@ import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -100,7 +99,7 @@ public class CarpSecurityConfig {
      * spring-security 按照从上往下顺序来匹配，一旦匹配成功则不在匹配
      */
     private void authorizeRequests(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizeHttpRequests) {
-        ApplicationContext applicationContext = SpringContextUtil.getApplicationContext();
+        ApplicationContext applicationContext = SpringUtil.getApplicationContext();
         // 自定义匿名访问url。查找匿名标记的资源
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext
                 .getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class)

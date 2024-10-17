@@ -19,9 +19,10 @@
 package cn.sliew.carp.framework.dag.service.impl;
 
 import cn.sliew.carp.framework.common.util.UUIDUtil;
+import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
 import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
-import com.google.common.graph.EndpointPair;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -32,7 +33,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -64,17 +64,27 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
 
     @Override
     public Graph<DagStepDTO> getDag(Long dagInstanceId, Graph<DagConfigStepDTO> configDag) {
-        List<DagStepDTO> dagStepDTOS = dagStepService.listSteps(dagInstanceId);
+        DAG<DagStepDTO> dag = getDagNew(dagInstanceId);
         MutableGraph<DagStepDTO> graph = GraphBuilder.directed().build();
+        dag.nodes().forEach(graph::addNode);
+        dag.edges().forEach(edge -> graph.putEdge(edge.getSource(), edge.getTarget()));
+        return graph;
+    }
+
+    @Override
+    public DAG<DagStepDTO> getDagNew(Long dagInstanceId) {
+        DagInstanceComplexDTO dagInstanceComplexDTO = selectOne(dagInstanceId);
+        DAG<DagConfigStepDTO> configGraph = dagConfigComplexService.getDagNew(dagInstanceComplexDTO.getDagConfig().getId());
+        DAG<DagStepDTO> graph = new DAG<>();
         Map<Long, DagStepDTO> stepMap = new HashMap<>();
-        for (DagStepDTO dagStepDTO : dagStepDTOS) {
+        for (DagStepDTO dagStepDTO : dagInstanceComplexDTO.getSteps()) {
             stepMap.put(dagStepDTO.getDagConfigStep().getId(), dagStepDTO);
             graph.addNode(dagStepDTO);
         }
-        for (EndpointPair<DagConfigStepDTO> edge : configDag.edges()) {
-            DagConfigStepDTO source = edge.source();
-            DagConfigStepDTO target = edge.target();
-            graph.putEdge(stepMap.get(source.getId()), stepMap.get(target.getId()));
+        for (DefaultDagEdge<DagConfigStepDTO> edge : configGraph.edges()) {
+            DagConfigStepDTO source = edge.getSource();
+            DagConfigStepDTO target = edge.getTarget();
+            graph.addEdge(stepMap.get(source.getId()), stepMap.get(target.getId()));
         }
         return graph;
     }
@@ -86,7 +96,6 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
         DagInstanceDTO dagInstanceDTO = new DagInstanceDTO();
         dagInstanceDTO.setDagConfig(dagConfigComplexDTO);
         dagInstanceDTO.setUuid(UUIDUtil.randomUUId());
-        dagInstanceDTO.setInputs(dagConfigComplexDTO.getDagAttrs());
         dagInstanceDTO.setStartTime(new Date());
         Long dagInstanceId = dagInstanceService.add(dagInstanceDTO);
         // 插入 dag_step
@@ -96,7 +105,6 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
                 dagStepDTO.setDagInstanceId(dagInstanceId);
                 dagStepDTO.setDagConfigStep(dagConfigStepDTO);
                 dagStepDTO.setUuid(UUIDUtil.randomUUId());
-                dagStepDTO.setInputs(dagConfigStepDTO.getStepAttrs());
                 dagStepDTO.setStartTime(new Date());
                 dagStepService.add(dagStepDTO);
             }

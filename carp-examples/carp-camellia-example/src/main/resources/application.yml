@@ -1,0 +1,121 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+server:
+  port: 8080
+  tomcat.uri-encoding: UTF-8
+  servlet.context-path: /${spring.application.name}
+
+spring:
+  application.name: carp
+  profiles.active: dev
+  main.allow-circular-references: true
+  messages:
+    encoding: utf-8
+    basename: static/i18n/messages
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+  mvc.pathmatch.matching-strategy: ant_path_matcher
+  servlet.multipart:
+    enabled: true
+    max-file-size: 1024MB
+    max-request-size: 1024MB
+  devtools.remote.restart.enabled: false
+
+management:
+  endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    root: info
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  default-flat-param-object: true
+knife4j:
+  enable: true
+  production: false
+  setting:
+    language: zh_cn
+    enable-footer: true
+    enable-debug: true
+    enable-open-api: true
+    enable-host: false
+  basic.enable: false
+  cors: true
+
+camellia-delay-queue-server:
+  ttl-millis: 3600000 #消息延迟时间到达转为可消费状态后，多久没有被成功消费后被删除，默认1h，提交消息时可以对每条消息都设置，如果不设置则走这个默认值
+  max-retry: 10 #消息延迟时间到达转为可消费状态后，最多被消费几次后还未成功ack后，也会标记为删除，默认10次，提交消息时可以对每条消息都设置，如果不设置则走这个默认值
+  ack-timeout-millis: 30000 #每次消息被消费后的ack超时时间，消费者来拉取时可以设置，如果没有设置，则使用本默认值
+#  monitorIntervalSeconds: 60 #监控数据刷新周期，默认60s
+#  namespace: default #命名空间，默认default
+#  schedule-thread-num: 4 #定时器的线程池大小，默认是cpu数，一般不需要特殊配置
+#  msg-schedule-millis: 100 #定时器的轮询间隔，代表了延迟消息的时间精确度，默认100ms，一般不需要特殊配置
+#  topic-schedule-seconds: 600 #扫描topic是否活跃的间隔，默认600s，一般不需要特殊配置
+#  check-trigger-thread-num: 32 #扫描消息是否可消费的线程池大小，默认是cpu数*4，一般不需要特殊配置
+#  check-timeout-thread-num: 32 #扫描消息是否消息超时的线程池大小，默认是cpu数*4，一般不需要特殊配置
+#  end-life-msg-expire-millis: 3000000 #消息到达终态（成功消息or过期or重试次数超限等），消息继续保留用于查询的缓存时间，默认5分钟
+#  topic-active-tag-timeout-millis: 1800000 #一个topic多久不活跃（没有待消费的消息，也没有针对该topic的增删改查操作）会被回收相关资源，默认30分钟
+
+camellia-delay-queue-sdk:
+  url: http://127.0.0.1:${server.port}${server.servlet.context-path}
+  listener-config:
+    ack-timeout-millis: 30000 #消费时告知服务器的消费ack超时时间，默认30s，添加listener时可以单独设置，如果未设置，则走本默认配置
+    pull-batch: 1 #每次pullMsg时的批量大小，默认1，添加listener时可以单独设置，如果未设置，则走本默认配置，需要特别注意pull-batch和ack-timeout-millis的关系，避免未及时ack被服务器判断超时导致重复消费
+    pull-interval-time-millis: 100 #pullMsg的轮询间隔，默认100ms，添加listener时可以单独设置，如果未设置，则走本默认配置
+    pull-threads: 1 #每个listener的默认pullMsg线程数量，默认1，添加listener时可以单独设置，如果未设置，则走本默认配置
+    consume-threads: 1 #每个listener的消息消费线程数量，默认1，添加listener时可以单独设置，如果未设置，则走本默认配置
+  http-config:
+    connect-timeout-millis: 5000 #到server的http超时配置，默认5000，一般不需要特殊配置
+    read-timeout-millis: 5000 #到server的http超时配置，默认5000，一般不需要特殊配置
+    write-timeout-millis: 500 #到server的http超时配置，默认5000，一般不需要特殊配置
+    max-requests: 4096 #到server的http配置，一般不需要特殊配置
+    max-requests-per-host: 1024 #到server的http配置，一般不需要特殊配置
+    max-idle-connections: 1024 #到server的http配置，一般不需要特殊配置
+    keep-alive-seconds: 30 #到server的http配置，一般不需要特殊配置
+
+camellia-redis:
+  type: local
+  local:
+  #    resource: redis://@127.0.0.1:6379  #redis-standalone
+    resource: redis://123456@127.0.0.1:6379  #redis-standalone with password
+  #    resource: redis-cluster://@127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381 #redis-cluster
+  #    resource: redis-cluster://passwd@127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381 #redis-cluster with password
+  #    resource: redis-sentinel://@127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381/masterName  #redis-sentinel
+  #    resource: redis-sentinel://passwd@127.0.0.1:16379,127.0.0.1:16380,127.0.0.1:16381/masterName  #redis-sentinel with password
+  redis-conf:
+    jedis:
+      timeout: 2000
+      min-idle: 0
+      max-idle: 10
+      max-active: 10
+      max-wait-millis: 2000
+    jedis-cluster:
+      max-wait-millis: 2000
+      min-idle: 0
+      max-idle: 8
+      max-active: 16
+      max-attempts: 5
+      timeout: 2000

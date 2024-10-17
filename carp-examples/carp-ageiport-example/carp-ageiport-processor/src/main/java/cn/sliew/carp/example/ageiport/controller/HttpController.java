@@ -20,7 +20,7 @@ package cn.sliew.carp.example.ageiport.controller;
 
 import cn.sliew.carp.processor.core.TestHelper;
 import cn.sliew.carp.processor.core.exporter.StandaloneExportProcessor;
-import cn.sliew.carp.processor.core.model.Query;
+import cn.sliew.carp.processor.core.model.UserQuery;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.alibaba.ageiport.common.utils.JsonUtil;
 import com.alibaba.ageiport.processor.core.AgeiPort;
@@ -40,7 +40,6 @@ import io.vertx.core.http.RequestOptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,7 +58,7 @@ public class HttpController {
     @GetMapping
     @Operation(summary = "测试", description = "测试")
     public void reqeust() throws Exception {
-        Query query = new Query();
+        UserQuery query = new UserQuery();
         query.setTotalCount(100);
         ExecuteMainTaskRequest executeMainTaskRequest = new ExecuteMainTaskRequest();
         executeMainTaskRequest.setTaskSpecificationCode(StandaloneExportProcessor.class.getSimpleName());

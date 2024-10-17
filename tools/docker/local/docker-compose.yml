@@ -58,10 +58,26 @@ services:
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=password
-      - MINIO_DEFAULT_BUCKETS=scaleph
+      - MINIO_DEFAULT_BUCKETS=scaleph,scaleph-public:public
     ports:
       - 9000:9000
       - 9001:9001
+    networks:
+      - carp
+
+  gravitino:
+    image: apache/gravitino:0.6.0-incubating
+    container_name: gravitino
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - 8090:8090
+#    volumes:
+#      - ../gravitino/conf/gravitino.conf:/root/gravitino/conf/gravitino.conf
+#      - /path/to/mysql.jar:/root/gravitino/libs/mysql.jar
+#      - /path/to/mysql.jar:/root/gravitino/catalogs/jdbc-mysql/libs/mysql.jar
+#      - /path/to/mysql.jar:/root/gravitino/catalogs/jdbc-doris/libs/mysql.jar
     networks:
       - carp
 

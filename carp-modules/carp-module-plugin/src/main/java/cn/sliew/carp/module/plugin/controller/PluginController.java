@@ -18,18 +18,23 @@
 
 package cn.sliew.carp.module.plugin.controller;
 
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.module.plugin.service.PluginService;
+import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginAddParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginPageParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginUpdateParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.pf4j.PluginDescriptor;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AnonymousAccess
 @RestController
 @RequestMapping("/api/carp/plugin")
 @Tag(name = "插件模块-插件管理")
@@ -38,21 +43,57 @@ public class PluginController {
     @Autowired
     private PluginService pluginService;
 
+    @GetMapping("page")
+    @Operation(summary = "分页查询", description = "分页查询")
+    public PageResult<CarpPluginDTO> list(@Valid CarpPluginPageParam param) {
+        return pluginService.list(param);
+    }
+
     @GetMapping
     @Operation(summary = "查询所有", description = "查询所有")
-    public List<PluginDescriptor> listAll() {
-        return pluginService.listAll();
+    public List<CarpPluginDTO> listAll(@Valid CarpPluginListParam param) {
+        return pluginService.listAll(param);
     }
 
-    @GetMapping("{pluginId}")
+    @GetMapping("{id}")
     @Operation(summary = "查询详情", description = "查询详情")
-    public PluginDescriptor get(@PathVariable("pluginId") String pluginId) {
-        return pluginService.get(pluginId);
+    public CarpPluginDTO get(@PathVariable("id") Long id) {
+        return pluginService.get(id);
     }
 
-    @GetMapping("test")
-    @Operation(summary = "测试一下", description = "测试一下")
-    public void test() {
-        pluginService.testExtension();
+    @PutMapping
+    @Operation(summary = "新增", description = "新增")
+    public Boolean add(@Valid @RequestBody CarpPluginAddParam param) {
+        return pluginService.add(param);
+    }
+
+    @PostMapping
+    @Operation(summary = "更新", description = "更新")
+    public Boolean update(@Valid @RequestBody CarpPluginUpdateParam param) {
+        return pluginService.update(param);
+    }
+
+    @DeleteMapping("{id}")
+    @Operation(summary = "删除", description = "删除")
+    public Boolean delete(@PathVariable("id") Long id) {
+        return pluginService.delete(id);
+    }
+
+    @DeleteMapping("batch")
+    @Operation(summary = "批量删除", description = "批量删除")
+    public Boolean deleteBatch(@RequestBody List<Long> ids) {
+        return pluginService.deleteBatch(ids);
+    }
+
+    @PostMapping("{id}/enable")
+    @Operation(summary = "启用", description = "启用")
+    public Boolean enable(@PathVariable("id") Long id) {
+        return pluginService.enable(id);
+    }
+
+    @PostMapping("{id}/disable")
+    @Operation(summary = "禁用", description = "禁用")
+    public Boolean disable(@PathVariable("id") Long id) {
+        return pluginService.disable(id);
     }
 }

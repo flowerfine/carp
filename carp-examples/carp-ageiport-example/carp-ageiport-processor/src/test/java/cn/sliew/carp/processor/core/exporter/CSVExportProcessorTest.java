@@ -1,7 +1,7 @@
 package cn.sliew.carp.processor.core.exporter;
 
 import cn.sliew.carp.processor.core.TestHelper;
-import cn.sliew.carp.processor.core.model.Query;
+import cn.sliew.carp.processor.core.model.UserQuery;
 import com.alibaba.ageiport.common.utils.JsonUtil;
 import com.alibaba.ageiport.processor.core.AgeiPort;
 import com.alibaba.ageiport.processor.core.AgeiPortOptions;
@@ -25,7 +25,7 @@ public class CSVExportProcessorTest {
         AgeiPort ageiPort = AgeiPort.ageiPort(options);
 
         //2.构造查询参数TaskExecuteParam
-        Query query = new Query();
+        UserQuery query = new UserQuery();
         query.setTotalCount(4000);
 
         //3.调用本地方法executeTask，开始执行任务，并获取任务实例ID。

@@ -30,4 +30,9 @@ public class CustomPluginManager extends DefaultPluginManager {
                 .add(new DefaultPluginRepository(getPluginsRoots()), this::isNotDevelopment)
                 .add(new CustomPluginRepository());
     }
+
+    @Override
+    protected PluginStatusProvider createPluginStatusProvider() {
+        return new CustomPluginStatusProvider();
+    }
 }

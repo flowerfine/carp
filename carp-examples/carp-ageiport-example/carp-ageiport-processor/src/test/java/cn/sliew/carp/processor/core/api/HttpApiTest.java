@@ -2,7 +2,7 @@ package cn.sliew.carp.processor.core.api;
 
 import cn.sliew.carp.processor.core.TestHelper;
 import cn.sliew.carp.processor.core.exporter.StandaloneExportProcessor;
-import cn.sliew.carp.processor.core.model.Query;
+import cn.sliew.carp.processor.core.model.UserQuery;
 import com.alibaba.ageiport.common.utils.JsonUtil;
 import com.alibaba.ageiport.processor.core.AgeiPort;
 import com.alibaba.ageiport.processor.core.AgeiPortOptions;
@@ -33,7 +33,7 @@ public class HttpApiTest {
         AgeiPortOptions options = AgeiPortOptions.debug();
         AgeiPort ageiPort = AgeiPort.ageiPort(options);
 
-        Query query = new Query();
+        UserQuery query = new UserQuery();
         query.setTotalCount(100);
         ExecuteMainTaskRequest executeMainTaskRequest = new ExecuteMainTaskRequest();
         executeMainTaskRequest.setTaskSpecificationCode(StandaloneExportProcessor.class.getSimpleName());

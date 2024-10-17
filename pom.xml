@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>
-    <version>0.0.11-SNAPSHOT</version>
+    <version>0.0.12-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>carp</name>
     <description>Carp Framwork</description>
@@ -110,6 +110,7 @@
         <mybatis.plus.version>3.5.7</mybatis.plus.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <mysql.version>8.3.0</mysql.version>
+        <postgresql.version>42.3.3</postgresql.version>
         <h2.version>2.3.230</h2.version>
 
         <sa-token.version>1.38.0</sa-token.version>
@@ -124,10 +125,11 @@
         <semver.version>0.9.0</semver.version>
         <auto-service.version>1.1.1</auto-service.version>
         <logbook.version>3.9.0</logbook.version>
-        <pf4j.version>3.12.0</pf4j.version>
+        <pf4j.version>3.12.1</pf4j.version>
         <pf4j-spring.version>0.9.0</pf4j-spring.version>
         <kubernetes-client.version>6.9.2</kubernetes-client.version>
         <javers.version>7.6.1</javers.version>
+        <gravitino.version>0.5.1</gravitino.version>
     </properties>
 
     <dependencyManagement>
@@ -168,7 +170,17 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-dag</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-framework-exception</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-metrics</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -183,12 +195,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-metrics</artifactId>
+                <artifactId>carp-framework-pekko</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -198,7 +205,12 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-pekko</artifactId>
+                <artifactId>carp-framework-spring</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -229,6 +241,16 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-scheduler-base</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-scheduler-quartz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-queue-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -245,6 +267,16 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-system</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-workflow-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-workflow-internal</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -373,6 +405,12 @@
                 <artifactId>mysql-connector-j</artifactId>
                 <scope>runtime</scope>
                 <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <scope>runtime</scope>
+                <version>${postgresql.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -583,6 +621,7 @@
                 <includes>
                     <include>META-INF/**/*</include>
                     <include>**/*.yml</include>
+                    <include>**/*.yaml</include>
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
                     <include>**/*.conf</include>

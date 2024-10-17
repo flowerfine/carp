@@ -85,7 +85,7 @@ public class SecRoleServiceImpl extends ServiceImpl<SecRoleMapper, SecRole> impl
     @Override
     public boolean update(SecRoleUpdateParam param) {
         SecRole entity = BeanUtil.copyProperties(param, SecRole.class);
-        return saveOrUpdate(entity);
+        return updateById(entity);
     }
 
     @Override

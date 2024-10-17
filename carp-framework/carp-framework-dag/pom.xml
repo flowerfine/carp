@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-framework</artifactId>
-        <version>0.0.11-SNAPSHOT</version>
+        <version>0.0.12-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-dag</artifactId>
@@ -37,6 +37,11 @@
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jgrapht</groupId>
+            <artifactId>jgrapht-core</artifactId>
         </dependency>
     </dependencies>
 </project>

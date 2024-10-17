@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.framework.dag.service.impl;
 
+import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
 import cn.sliew.carp.framework.dag.service.DagConfigService;
@@ -72,8 +73,17 @@ public class DagConfigComplexServiceImpl implements DagConfigComplexService {
 
     @Override
     public Graph<DagConfigStepDTO> getDag(Long dagId) {
-        DagConfigComplexDTO dag = selectOne(dagId);
+        DAG<DagConfigStepDTO> dag = getDagNew(dagId);
         MutableGraph<DagConfigStepDTO> graph = GraphBuilder.directed().build();
+        dag.nodes().forEach(graph::addNode);
+        dag.edges().forEach(edge -> graph.putEdge(edge.getSource(), edge.getTarget()));
+        return graph;
+    }
+
+    @Override
+    public DAG<DagConfigStepDTO> getDagNew(Long dagId) {
+        DagConfigComplexDTO dag = selectOne(dagId);
+        DAG<DagConfigStepDTO> graph = new DAG<>();
         List<DagConfigStepDTO> steps = dag.getSteps();
         List<DagConfigLinkDTO> links = dag.getLinks();
         if (CollectionUtils.isEmpty(steps)) {
@@ -84,7 +94,7 @@ public class DagConfigComplexServiceImpl implements DagConfigComplexService {
             graph.addNode(step);
             stepMap.put(step.getStepId(), step);
         }
-        links.forEach(link -> graph.putEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
+        links.forEach(link -> graph.addEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
         return graph;
     }
 
