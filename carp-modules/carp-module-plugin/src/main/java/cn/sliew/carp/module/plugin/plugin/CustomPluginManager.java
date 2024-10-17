@@ -31,15 +31,6 @@ public class CustomPluginManager extends DefaultPluginManager {
                 .add(new CustomPluginRepository());
     }
 
-//    @Override
-//    protected ExtensionFinder createExtensionFinder() {
-//        DefaultExtensionFinder extensionFinder = new DefaultExtensionFinder(this);
-//        extensionFinder.addServiceProviderExtensionFinder();
-//        addPluginStateListener(extensionFinder);
-//
-//        return extensionFinder;
-//    }
-
     @Override
     protected PluginStatusProvider createPluginStatusProvider() {
         return new CustomPluginStatusProvider();

@@ -143,17 +143,17 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
             update(updateWrapper);
             // 启用插件信息
             return pf4jService.enablePlugin(pluginId);
+            // 插件启用完毕后，不能删除通过 http 下载的 jar。插件后续仍需读取 LegacyExtensionFinder.EXTENSIONS_RESOURCE
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        } finally {
             if (path != null) {
                 try {
                     FileUtil.deleteFile(path);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
+            throw new RuntimeException(e);
         }
     }
 
