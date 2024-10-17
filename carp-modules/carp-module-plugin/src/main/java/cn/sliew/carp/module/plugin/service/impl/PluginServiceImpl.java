@@ -34,6 +34,7 @@ import cn.sliew.carp.module.plugin.service.convert.CarpPluginConvert;
 import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginAddParam;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginPageParam;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -52,6 +53,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static cn.sliew.milky.common.check.Ensures.checkState;
+
 @Service
 public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin> implements PluginService {
 
@@ -59,7 +62,7 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     private Pf4jService pf4jService;
 
     @Override
-    public PageResult<CarpPluginDTO> list(CarpPluginListParam param) {
+    public PageResult<CarpPluginDTO> list(CarpPluginPageParam param) {
         Page<CarpPlugin> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<CarpPlugin> queryChainWrapper = Wrappers.lambdaQuery(CarpPlugin.class)
                 .like(StringUtils.hasText(param.getName()), CarpPlugin::getName, param.getName())
@@ -73,8 +76,11 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     }
 
     @Override
-    public List<CarpPluginDTO> listAll() {
+    public List<CarpPluginDTO> listAll(CarpPluginListParam param) {
         LambdaQueryWrapper<CarpPlugin> queryChainWrapper = Wrappers.lambdaQuery(CarpPlugin.class)
+                .like(StringUtils.hasText(param.getName()), CarpPlugin::getName, param.getName())
+                .eq(param.getType() != null, CarpPlugin::getType, param.getType())
+                .eq(param.getStatus() != null, CarpPlugin::getStatus, param.getStatus())
                 .orderByAsc(CarpPlugin::getId);
         List<CarpPlugin> entities = list(queryChainWrapper);
         return CarpPluginConvert.INSTANCE.toDto(entities);
@@ -103,6 +109,8 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
 
     @Override
     public boolean update(CarpPluginUpdateParam param) {
+        CarpPluginDTO dto = get(param.getId());
+        checkState(dto.getStatus() == YesOrNo.NO, () -> "plugin already enabled, please disable it firstly");
         CarpPlugin entity = BeanUtil.copyProperties(param, CarpPlugin.class);
         return updateById(entity);
     }
@@ -127,13 +135,18 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     }
 
     @Override
+    public Path internalDownloadPlugin(CarpPluginDTO dto) throws IOException {
+        Path path = FileUtil.createFile(SystemUtil.getPluginsPath(), FilenameUtils.getName(dto.getUrl()));
+        HttpUtil.downloadFileFromUrl(dto.getUrl(), path.toAbsolutePath().toFile().getAbsolutePath());
+        return path;
+    }
+
+    @Override
     public boolean enable(Long id) {
         // 下载插件至本地
-        CarpPluginDTO dto = get(id);
         Path path = null;
         try {
-            path = FileUtil.createFile(SystemUtil.getPluginsPath(), FilenameUtils.getName(dto.getUrl()));
-            HttpUtil.downloadFileFromUrl(dto.getUrl(), path.toAbsolutePath().toFile().getAbsolutePath());
+            path = internalDownloadPlugin(get(id));
             // 启用插件
             String pluginId = pf4jService.loadPlugin(path);
             // 更新插件信息

@@ -18,13 +18,14 @@
 
 package cn.sliew.carp.module.plugin.service.param;
 
+import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode
-public class CarpPluginListParam {
+@EqualsAndHashCode(callSuper = true)
+public class CarpPluginPageParam extends PageParam {
 
     @Schema(description = "type")
     private String type;

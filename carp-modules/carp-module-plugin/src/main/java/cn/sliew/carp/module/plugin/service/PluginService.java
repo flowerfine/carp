@@ -24,18 +24,21 @@ import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
 import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginAddParam;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginPageParam;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginUpdateParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 public interface PluginService extends IService<CarpPlugin> {
 
-    PageResult<CarpPluginDTO> list(CarpPluginListParam param);
+    PageResult<CarpPluginDTO> list(CarpPluginPageParam param);
 
-    List<CarpPluginDTO> listAll();
+    List<CarpPluginDTO> listAll(CarpPluginListParam param);
 
     CarpPluginDTO get(Long id);
 
@@ -50,6 +53,8 @@ public interface PluginService extends IService<CarpPlugin> {
     boolean delete(Long id);
 
     boolean deleteBatch(Collection<Long> ids);
+
+    Path internalDownloadPlugin(CarpPluginDTO dto) throws IOException;
 
     boolean enable(Long id);
 

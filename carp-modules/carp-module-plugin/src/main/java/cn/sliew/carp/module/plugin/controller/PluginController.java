@@ -24,6 +24,7 @@ import cn.sliew.carp.module.plugin.service.PluginService;
 import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginAddParam;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginPageParam;
 import cn.sliew.carp.module.plugin.service.param.CarpPluginUpdateParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,14 +45,14 @@ public class PluginController {
 
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
-    public PageResult<CarpPluginDTO> list(@Valid CarpPluginListParam param) {
+    public PageResult<CarpPluginDTO> list(@Valid CarpPluginPageParam param) {
         return pluginService.list(param);
     }
 
     @GetMapping
     @Operation(summary = "查询所有", description = "查询所有")
-    public List<CarpPluginDTO> listAll() {
-        return pluginService.listAll();
+    public List<CarpPluginDTO> listAll(@Valid CarpPluginListParam param) {
+        return pluginService.listAll(param);
     }
 
     @GetMapping("{id}")
