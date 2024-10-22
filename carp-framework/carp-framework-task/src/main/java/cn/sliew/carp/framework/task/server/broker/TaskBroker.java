@@ -16,8 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.storage;
+package cn.sliew.carp.framework.task.server.broker;
 
-public interface BrokerStorage {
+import cn.sliew.carp.framework.task.server.detail.TaskDetail;
+import cn.sliew.carp.framework.task.server.storage.StorageProvider;
 
+import java.time.Duration;
+
+public interface TaskBroker {
+
+    TaskMessage sendTask(String topic, TaskDetail taskDetail, Duration delay);
+
+    TaskMessage getTask(String topic, String id);
+
+    TaskMessage deleteTask(String topic, String id);
+
+    StorageProvider getStorageProvider();
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.detail;
+package cn.sliew.carp.framework.task.server.detail;
 
 public interface TaskDetail {
 }

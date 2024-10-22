@@ -16,7 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.storage;
+package cn.sliew.carp.framework.task.server.serder;
 
-public interface TaskResultStorage {
+import cn.sliew.carp.framework.task.server.detail.TaskDetail;
+
+public interface Serder {
+
+    byte[] serialize(TaskDetail taskDetail);
+
+    TaskDetail deserialize(byte[] bytes);
 }

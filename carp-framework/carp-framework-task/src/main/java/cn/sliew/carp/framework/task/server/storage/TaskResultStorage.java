@@ -16,25 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.detail;
+package cn.sliew.carp.framework.task.server.storage;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.util.List;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class TaskInfo implements TaskDetail, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private String className;
-    private String methodName;
-    private List<TaskParam> params;
+public interface TaskResultStorage {
 }

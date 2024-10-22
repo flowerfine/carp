@@ -16,9 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task;
+package cn.sliew.carp.framework.task.server;
 
-public interface TaskScheduler {
+import cn.sliew.carp.framework.task.server.detail.TaskDetail;
 
+import java.time.Duration;
 
+public interface TaskClient {
+
+    /**
+     * fire-forget 任务，优先级任务，定时任务
+     */
+    String publish(String topic, TaskDetail task, Duration delay);
 }

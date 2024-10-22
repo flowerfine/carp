@@ -16,11 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.storage;
+package cn.sliew.carp.framework.task.server.storage;
 
-public interface StorageProvider {
+public interface BrokerStorage {
 
-    BrokerStorage getBrokerStorage();
-
-    TaskResultStorage getTaskResultStorage();
 }

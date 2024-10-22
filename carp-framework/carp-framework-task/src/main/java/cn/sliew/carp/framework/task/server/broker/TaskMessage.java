@@ -16,24 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.detail;
+package cn.sliew.carp.framework.task.server.broker;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public interface TaskMessage {
 
-import java.io.Serializable;
+    String getId();
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class TaskParam implements Serializable {
-
-    public static final long serialVersionUID = 1L;
-
-    private String className;
-    private String actualClassName;
-    private Object object;
+    Integer getStatus();
 }
