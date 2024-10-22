@@ -37,5 +37,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-framework-exception</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-redis</artifactId>
+        </dependency>
     </dependencies>
 </project>

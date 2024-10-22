@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.server;
+package cn.sliew.carp.framework.task.server.worker;
 
 public interface TaskWorker {
 
