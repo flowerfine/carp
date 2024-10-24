@@ -20,32 +20,24 @@ import com.alibaba.ageiport.processor.core.task.exporter.api.BizExportTaskRuntim
 
 import java.util.*;
 
-//1.实现ExportProcessor接口
 @ExportSpecification(code = "UdfSliceStrategyExportProcessor", name = "UdfSliceStrategyExportProcessor", sliceStrategy = "UdfExportSliceStrategy")
-public class UdfSliceStrategyExportProcessor implements ExportProcessor<UserQuery, UserData, UserView> {
+public class UdfSliceStrategyExportProcessor extends BaseExportProcessor {
 
-    //2.实现ExportProcessor接口的TotalCount方法
-    @Override
-    public Integer totalCount(BizUser bizUser, UserQuery query) throws BizException {
-        return query.getTotalCount();
-    }
-
-    //3.实现ExportProcessor接口的queryData方法
     @Override
     public List<UserData> queryData(BizUser user, UserQuery query, BizExportPage bizExportPage) throws BizException {
         List<UserData> data = new ArrayList<>();
         String sliceKey = query.getSliceKey();
         if (Objects.equals(sliceKey, "男")) {
-            data = queryMan(user, query, bizExportPage);
+            data = doQueryData(user, query, bizExportPage, 0, "男");
         } else if (Objects.equals(sliceKey, "女")) {
-            data = queryWomen(user, query, bizExportPage);
+            data = doQueryData(user, query, bizExportPage, 1, "女");
         } else if (Objects.equals(sliceKey, "其他")) {
-            data = queryOthers(user, query, bizExportPage);
+            data = doQueryData(user, query, bizExportPage, 2, "其他");
         }
         return data;
     }
 
-    private List<UserData> queryOthers(BizUser user, UserQuery query, BizExportPage bizExportPage) {
+    private List<UserData> doQueryData(BizUser user, UserQuery query, BizExportPage bizExportPage, Integer groupIndex, String gender) {
         List<UserData> dataList = new ArrayList<>();
         Integer offset = bizExportPage.getOffset();
         Integer size = bizExportPage.getSize();
@@ -54,61 +46,14 @@ public class UdfSliceStrategyExportProcessor implements ExportProcessor<UserQuer
             final UserData data = new UserData();
             data.setId(index);
             data.setName("name" + index);
-            data.setGender("其他");
-            data.setGroupIndex(2);
-            data.setGroupName("其他性别问卷");
-            data.setOtherQuestion1("其他性别问题回答1");
+            data.setGender(gender);
+            data.setGroupIndex(groupIndex);
+            data.setGroupName(String.format("%s性别问卷", gender));
+            data.setOtherQuestion1(String.format("%s性别问题回答1", gender));
+            data.setOtherQuestion2(String.format("%s性别问题回答2", gender));
+            data.setOtherQuestion2("其他性别问题回答2");
             data.setOtherQuestion2("其他性别问题回答2");
             dataList.add(data);
-        }
-        return dataList;
-    }
-
-    private List<UserData> queryWomen(BizUser user, UserQuery query, BizExportPage bizExportPage) {
-        List<UserData> dataList = new ArrayList<>();
-        Integer offset = bizExportPage.getOffset();
-        Integer size = bizExportPage.getSize();
-        for (int i = 1; i <= size; i++) {
-            int index = offset + i;
-            final UserData data = new UserData();
-            data.setId(index);
-            data.setName("name" + index);
-            data.setGender("女");
-            data.setGroupIndex(1);
-            data.setGroupName("女性性别问卷");
-            data.setWomenQuestion1("女性性别问题回答1");
-            data.setWomenQuestion2("女性性别问题回答2");
-            dataList.add(data);
-        }
-        return dataList;
-    }
-
-    private List<UserData> queryMan(BizUser user, UserQuery query, BizExportPage bizExportPage) {
-        List<UserData> dataList = new ArrayList<>();
-        Integer offset = bizExportPage.getOffset();
-        Integer size = bizExportPage.getSize();
-        for (int i = 1; i <= size; i++) {
-            int index = offset + i;
-            final UserData data = new UserData();
-            data.setId(index);
-            data.setName("name" + index);
-            data.setGender("男");
-            data.setGroupIndex(0);
-            data.setGroupName("男性性别问卷");
-            data.setManQuestion1("男性别问题回答1");
-            data.setManQuestion2("男性别问题回答2");
-            dataList.add(data);
-        }
-        return dataList;
-    }
-
-    //4.实现ExportProcessor接口的convert方法
-    @Override
-    public List<UserView> convert(BizUser user, UserQuery query, List<UserData> data) throws BizException {
-        List<UserView> dataList = new ArrayList<>();
-        for (UserData datum : data) {
-            UserView view = BeanUtils.cloneProp(datum, UserView.class);
-            dataList.add(view);
         }
         return dataList;
     }
@@ -133,15 +78,6 @@ public class UdfSliceStrategyExportProcessor implements ExportProcessor<UserQuer
             item.setData(v);
             items.add(item);
         }
-
         return group;
     }
-
-    @Override
-    public BizExportTaskRuntimeConfig taskRuntimeConfig(BizUser user, UserQuery query) throws BizException {
-        final BizExportTaskRuntimeConfigImpl runtimeConfig = new BizExportTaskRuntimeConfigImpl();
-        runtimeConfig.setExecuteType("STANDALONE");
-        return runtimeConfig;
-    }
-
 }
