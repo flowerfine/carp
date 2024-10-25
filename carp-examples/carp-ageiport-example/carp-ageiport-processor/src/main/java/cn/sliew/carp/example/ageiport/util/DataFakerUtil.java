@@ -20,22 +20,40 @@ package cn.sliew.carp.example.ageiport.util;
 
 import cn.sliew.carp.processor.core.model.UserData;
 import net.datafaker.Faker;
+import net.datafaker.transformations.Field;
+import net.datafaker.transformations.JavaObjectTransformer;
+import net.datafaker.transformations.Schema;
 
 import java.math.BigDecimal;
 
 public enum DataFakerUtil {
     ;
 
-    private static final Faker faker = new Faker();
+    private static final Faker FAKER = new Faker();
+    private static final JavaObjectTransformer J_TRANSFORMER = new JavaObjectTransformer();
 
-    public static UserData generate() {
-        UserData data = new UserData();
-        data.setName(faker.name().fullName());
-        data.setGender(faker.gender().types());
-        data.setAge(BigDecimal.valueOf(faker.number().numberBetween(1, 100)));
-        data.setGroupIndex(faker.number().numberBetween(1, 3));
-        return data;
+    public static Schema<Object, ?> userDataSchema() {
+        return Schema.of(
+                Field.field("id", () -> FAKER.number().positive()),
+                Field.field("name", () -> FAKER.name().fullName()),
+                Field.field("gender", () -> FAKER.gender().types()),
+                Field.field("age", () -> BigDecimal.valueOf(FAKER.number().numberBetween(1, 100))),
+                Field.field("groupIndex", () -> FAKER.number().numberBetween(1, 3)),
+
+                Field.field("manQuestion1", () -> FAKER.name().fullName()),
+                Field.field("manQuestion2", () -> FAKER.name().fullName()),
+                Field.field("womenQuestion1", () -> FAKER.name().fullName()),
+                Field.field("womenQuestion2", () -> FAKER.name().fullName()),
+                Field.field("otherQuestion1", () -> FAKER.name().fullName()),
+                Field.field("otherQuestion2", () -> FAKER.name().fullName())
+        );
     }
 
+    public static UserData generate() {
+        return (UserData) J_TRANSFORMER.apply(UserData.class, userDataSchema());
+    }
 
+    public static void main(String[] args) {
+        System.out.println(generate());
+    }
 }

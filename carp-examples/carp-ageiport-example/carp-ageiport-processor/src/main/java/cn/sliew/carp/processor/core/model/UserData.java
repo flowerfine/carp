@@ -7,9 +7,9 @@ import lombok.ToString;
 import java.math.BigDecimal;
 import java.util.Map;
 
-@ToString
 @Getter
 @Setter
+@ToString
 public class UserData {
 
     private Integer id;
