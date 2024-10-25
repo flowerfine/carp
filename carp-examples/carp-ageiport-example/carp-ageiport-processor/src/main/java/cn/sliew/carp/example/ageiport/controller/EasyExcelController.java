@@ -50,9 +50,10 @@ public class EasyExcelController {
         // 这种指定 sheet 的方式必须执行 finish() 方法。上面的 doWrite() 方法内部会自己执行 finish() 方法
         try (ExcelWriter excelWriter = EasyExcel.write(file).head(UserData.class).inMemory(false).autoCloseStream(true).build()) {
             // excel 单个 sheet 最多可写入 1048576 条数据。超出后需重新写
-            for (int i = 1 ; i <= 2; i++) {
+            for (int i = 1 ; i <= 10; i++) {
                 WriteSheet writeSheet = EasyExcel.writerSheet(i, "测试" + i).head(UserData.class).build();
                 doWriteSheet(excelWriter, writeSheet);
+                System.out.println(String.format("写入第%d批次数据", i));
             }
         }
     }
