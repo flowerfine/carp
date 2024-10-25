@@ -25,6 +25,10 @@ import net.datafaker.transformations.JavaObjectTransformer;
 import net.datafaker.transformations.Schema;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public enum DataFakerUtil {
     ;
@@ -53,7 +57,7 @@ public enum DataFakerUtil {
         return (UserData) J_TRANSFORMER.apply(UserData.class, userDataSchema());
     }
 
-    public static void main(String[] args) {
-        System.out.println(generate());
+    public static List<UserData> generateList(Integer count) {
+        return IntStream.range(0, count).mapToObj(index -> generate()).collect(Collectors.toList());
     }
 }

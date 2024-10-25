@@ -18,6 +18,13 @@
 
 package cn.sliew.carp.example.ageiport.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.UUID;
+import cn.sliew.carp.example.ageiport.util.DataFakerUtil;
+import cn.sliew.carp.processor.core.model.UserData;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +32,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/carp/example/easyexcel")
+@RequestMapping("/api/carp/example/ageiport/easyexcel")
 @Tag(name = "测试模块-EasyExcel功能")
 public class EasyExcelController {
 
     @GetMapping
     @Operation(summary = "测试流式导出", description = "测试流式导出")
     public void testStreamExport() throws Exception {
-
+        ExcelWriter excelWriter = EasyExcel.write(FileUtil.getUserHomePath() + "/Downloads/export/" + UUID.fastUUID().toString(true) + ".xlsx").head(UserData.class).build();
+        WriteSheet writeSheet = EasyExcel.writerSheet(1, "测试").build();
+        excelWriter.write(DataFakerUtil.generateList(5), writeSheet);
     }
 
 }
