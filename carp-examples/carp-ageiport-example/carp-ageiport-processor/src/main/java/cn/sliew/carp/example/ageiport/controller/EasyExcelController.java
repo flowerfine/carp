@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+
 @RestController
 @RequestMapping("/api/carp/example/ageiport/easyexcel")
 @Tag(name = "测试模块-EasyExcel功能")
@@ -39,9 +41,26 @@ public class EasyExcelController {
     @GetMapping
     @Operation(summary = "测试流式导出", description = "测试流式导出")
     public void testStreamExport() throws Exception {
-        ExcelWriter excelWriter = EasyExcel.write(FileUtil.getUserHomePath() + "/Downloads/export/" + UUID.fastUUID().toString(true) + ".xlsx").head(UserData.class).build();
-        WriteSheet writeSheet = EasyExcel.writerSheet(1, "测试").build();
-        excelWriter.write(DataFakerUtil.generateList(5), writeSheet);
+        File file = FileUtil.file(FileUtil.getUserHomePath() + "/Downloads/export/" + UUID.fastUUID().toString(true) + ".xlsx");
+        if (FileUtil.exist(file) == false) {
+            file.createNewFile();
+        }
+
+//        EasyExcel.write(file).head(UserData.class).sheet(1).doWrite(DataFakerUtil.generateList(5));
+        // 这种指定 sheet 的方式必须执行 finish() 方法。上面的 doWrite() 方法内部会自己执行 finish() 方法
+        try (ExcelWriter excelWriter = EasyExcel.write(file).head(UserData.class).inMemory(false).autoCloseStream(true).build()) {
+            // excel 单个 sheet 最多可写入 1048576 条数据。超出后需重新写
+            for (int i = 1 ; i <= 2; i++) {
+                WriteSheet writeSheet = EasyExcel.writerSheet(i, "测试" + i).head(UserData.class).build();
+                doWriteSheet(excelWriter, writeSheet);
+            }
+        }
+    }
+
+    private void doWriteSheet(ExcelWriter excelWriter, WriteSheet writeSheet) {
+        for (int i = 0; i < 50; i++) {
+            excelWriter.write(DataFakerUtil.generateList(10000), writeSheet);
+        }
     }
 
 }
