@@ -130,6 +130,7 @@
         <kubernetes-client.version>6.9.2</kubernetes-client.version>
         <javers.version>7.6.1</javers.version>
         <gravitino.version>0.5.1</gravitino.version>
+        <easyexcel.version>3.3.2</easyexcel.version>
     </properties>
 
     <dependencyManagement>
@@ -601,6 +602,12 @@
                 <groupId>org.javers</groupId>
                 <artifactId>javers-spring</artifactId>
                 <version>${javers.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
