@@ -37,10 +37,31 @@ public class LockService {
     @Autowired
     private RedissonClient client;
 
+    /**
+     * watchDog 只有设置 releaseTime 的 lock 不会生效，不会自动续期
+     */
     public boolean lock(String key, long lockTimeout, long releaseTime) {
         RLock lock = getLock(key);
         try {
+            // 尝试拿锁 lockTimeout 后停止重试,返回false
+            // 没有Watch Dog ，releaseTime 后自动释放
             return lock.tryLock(lockTimeout, releaseTime, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+
+    /**
+     * watchDog 自动续期时长默认为 30s，可通过 lockWatchdogTimeout 设置每次续期时长。
+     * watchDog 按照 lockWatchdogTimeout / 3 的频率检测 key，进行续期
+     */
+    public boolean lockWithAutoRefreshTTL(String key, long lockTimeout) {
+        RLock lock = getLock(key);
+        try {
+            // 尝试拿锁 lockTimeout 后停止重试,返回false
+            // 具有Watch Dog 自动延期机制 默认续30s
+            return lock.tryLock(lockTimeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return false;

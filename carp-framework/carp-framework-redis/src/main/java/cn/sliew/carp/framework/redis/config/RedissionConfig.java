@@ -26,6 +26,8 @@ import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Duration;
+
 @Configuration
 @AutoConfigureBefore(RedissonAutoConfiguration.class)
 public class RedissionConfig implements RedissonAutoConfigurationCustomizer {
@@ -34,5 +36,6 @@ public class RedissionConfig implements RedissonAutoConfigurationCustomizer {
     public void customize(Config config) {
         SingleServerConfig singleServerConfig = config.useSingleServer();
         singleServerConfig.setAddress(NetUtil.replaceLocalhost(singleServerConfig.getAddress()));
+        config.setLockWatchdogTimeout(Duration.ofSeconds(10L).toMillis());
     }
 }
