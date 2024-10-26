@@ -19,6 +19,7 @@
 package cn.sliew.carp.example.hazelcast.controller;
 
 import cn.sliew.carp.example.hazelcast.service.HazelcastMapService;
+import com.hazelcast.map.IMap;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,7 @@ public class CommandController {
     @PostMapping("/put")
     public boolean put(@RequestParam("key") String key, @RequestParam("value") String value) {
         mapService.getMap("map-command").put(key, value);
+        IMap<String, String> map = mapService.getMap("");
         return true;
     }
 
