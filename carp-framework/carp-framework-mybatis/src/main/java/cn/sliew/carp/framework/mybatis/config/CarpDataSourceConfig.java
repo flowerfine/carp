@@ -45,6 +45,7 @@ import javax.sql.DataSource;
         basePackages = {
                 DataSourceConstants.MAPPER_FRAMEWORK_DAG_PACKAGE,
                 DataSourceConstants.MAPPER_MODULE_DATASOURCE_PACKAGE,
+                DataSourceConstants.MAPPER_MODULE_HTTP_SYNC_PACKAGE,
                 DataSourceConstants.MAPPER_MODULE_KUBERNETES_PACKAGE,
                 DataSourceConstants.MAPPER_MODULE_PLUGIN_PACKAGE,
                 DataSourceConstants.MAPPER_MODULE_SCHEDULER_PACKAGE,
