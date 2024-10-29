@@ -22,17 +22,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-modules</artifactId>
+        <artifactId>carp-module-http-sync</artifactId>
         <version>0.0.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-http-sync</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-http-job</artifactId>
 
-    <modules>
-        <module>carp-module-http-framework</module>
-        <module>carp-module-http-job</module>
-        <module>carp-module-http-remote</module>
-    </modules>
-
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-http-framework</artifactId>
+        </dependency>
+    </dependencies>
 </project>

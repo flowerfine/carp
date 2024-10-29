@@ -28,4 +28,5 @@ public interface ParallelJobContext<Root extends RootTask, Sub extends SubTask> 
         return 20;
     }
 
+    SplitManager getSplitManager();
 }

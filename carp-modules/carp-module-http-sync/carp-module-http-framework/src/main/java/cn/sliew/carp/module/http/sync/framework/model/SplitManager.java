@@ -18,24 +18,34 @@
 
 package cn.sliew.carp.module.http.sync.framework.model;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.sliew.carp.module.http.sync.framework.util.GradientUtil;
 import cn.sliew.carp.module.http.sync.framework.util.SyncOffsetHelper;
 import org.apache.pekko.japi.Pair;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public interface SplitManager {
 
     List<Duration> getGradients();
 
-    default boolean supportSplit(LocalDateTime startTime, LocalDateTime endTime, Duration gradient) {
+    default boolean supportSplit(String startSyncOffset, String endSyncOffset, Duration gradient) {
+        LocalDateTime startTime = LocalDateTime.parse(startSyncOffset, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
+        LocalDateTime endTime = LocalDateTime.parse(endSyncOffset, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
         return SyncOffsetHelper.supportSplit(startTime, endTime, gradient);
     }
 
-    default List<Pair<LocalDateTime, LocalDateTime>> split(LocalDateTime startTime, LocalDateTime endTime, Duration gradient, int total) {
-        return SyncOffsetHelper.split(startTime, endTime, gradient, total);
+    default List<Pair<String, String>> split(String startSyncOffset, String endSyncOffset, Duration gradient, int total) {
+        LocalDateTime startTime = LocalDateTime.parse(startSyncOffset, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
+        LocalDateTime endTime = LocalDateTime.parse(endSyncOffset, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
+        return SyncOffsetHelper.split(startTime, endTime, gradient, total).stream().map(pair -> {
+            return Pair.create(DateUtil.format(pair.first(), DatePattern.NORM_DATETIME_PATTERN), DateUtil.format(pair.first(), DatePattern.NORM_DATETIME_PATTERN));
+        }).collect(Collectors.toUnmodifiableList());
     }
 
     default Duration getBackoffGradient() {

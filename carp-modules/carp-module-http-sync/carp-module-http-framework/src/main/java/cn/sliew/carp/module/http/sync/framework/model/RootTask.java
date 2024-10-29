@@ -18,7 +18,6 @@
 
 package cn.sliew.carp.module.http.sync.framework.model;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RootTask<Context extends SyncOffsetJobContext, Sub extends SubTask> {
@@ -27,5 +26,5 @@ public interface RootTask<Context extends SyncOffsetJobContext, Sub extends SubT
 
     List<Sub> split(Context context);
 
-    Sub build(Long subTaskId, LocalDateTime startTime, LocalDateTime endTime);
+    Sub build(Long subTaskId, String startSyncOffset, String endSyncOffset);
 }

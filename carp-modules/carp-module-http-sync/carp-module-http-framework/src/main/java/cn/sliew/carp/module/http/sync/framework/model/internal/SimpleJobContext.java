@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.http.sync.framework.model.internal;
 
+import cn.sliew.carp.module.http.sync.framework.model.SplitManager;
 import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetJobContext;
 import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetManager;
 import lombok.Getter;
@@ -26,7 +27,7 @@ import org.apache.pekko.actor.typed.ActorSystem;
 
 import java.util.Optional;
 
-@Getter
+//@Getter
 @Setter
 public class SimpleJobContext implements SyncOffsetJobContext {
 
@@ -40,6 +41,7 @@ public class SimpleJobContext implements SyncOffsetJobContext {
 
     private int subTaskParallelism;
     private int subTaskBatchSize;
+    private SplitManager splitManager;
 
     private SyncOffsetManager syncOffsetManager;
     private String initialSyncOffset;
@@ -73,6 +75,11 @@ public class SimpleJobContext implements SyncOffsetJobContext {
     @Override
     public ActorSystem getActorSystem() {
         return actorSystem;
+    }
+
+    @Override
+    public SplitManager getSplitManager() {
+        return splitManager;
     }
 
     @Override
