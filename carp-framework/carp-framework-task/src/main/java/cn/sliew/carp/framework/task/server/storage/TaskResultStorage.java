@@ -18,5 +18,13 @@
 
 package cn.sliew.carp.framework.task.server.storage;
 
+import cn.sliew.carp.framework.task.server.broker.TaskMessage;
+
 public interface TaskResultStorage {
+
+    TaskMessage getTask(String taskId);
+
+    TaskMessage getTaskResult(String taskId);
+
+    TaskMessage deleteTask(String taskId);
 }

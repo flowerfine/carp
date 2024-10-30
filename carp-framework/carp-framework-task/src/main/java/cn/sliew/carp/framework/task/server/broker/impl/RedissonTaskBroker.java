@@ -24,19 +24,28 @@ import cn.sliew.carp.framework.task.server.detail.TaskDetail;
 import cn.sliew.carp.framework.task.server.storage.StorageProvider;
 import cn.sliew.carp.framework.task.server.storage.TaskResultStorage;
 import cn.sliew.carp.framework.task.server.worker.impl.RedissonTaskWorker;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RScheduledFuture;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.WorkerOptions;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
+@Component
+@RequiredArgsConstructor
 public class RedissonTaskBroker implements TaskBroker {
 
     private RedissonClient client;
+    private TaskStartedListenerImpl taskStartedListener;;
+    private TaskFinishedListenerImpl taskFinishedListener;
+    private TaskSuccessListenerImpl taskSuccessListener;
+    private TaskFailureListenerImpl taskFailureListener;
 
     private ConcurrentMap<String, RScheduledExecutorService> executorServiceMap = new ConcurrentHashMap<>();
 
@@ -52,8 +61,10 @@ public class RedissonTaskBroker implements TaskBroker {
 
     @Override
     public TaskMessage getTask(String topic, String id) {
+        RScheduledExecutorService executorService = executorServiceMap.computeIfAbsent(topic, key -> buildExecutorService(key));
         // 读取任务结果
         TaskResultStorage taskResultStorage = getStorageProvider().getTaskResultStorage();
+
         return null;
     }
 
@@ -77,7 +88,11 @@ public class RedissonTaskBroker implements TaskBroker {
         RScheduledExecutorService executorService = client.getExecutorService(topic);
         WorkerOptions workerOptions = WorkerOptions.defaults()
                 .workers(2)
-                .taskTimeout(60, TimeUnit.SECONDS);
+                .taskTimeout(60, TimeUnit.SECONDS)
+                        .addListener(taskStartedListener)
+                        .addListener(taskFinishedListener)
+                        .addListener(taskSuccessListener)
+                        .addListener(taskFailureListener);
         executorService.registerWorkers(workerOptions);
         return executorService;
     }

@@ -16,23 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.server;
+package cn.sliew.carp.framework.task.server.broker.impl;
 
-import cn.sliew.carp.framework.task.server.broker.TaskBroker;
-import cn.sliew.carp.framework.task.server.detail.TaskDetail;
-import lombok.AllArgsConstructor;
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.executor.TaskSuccessListener;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
+import java.util.Map;
 
+@Slf4j
 @Component
-@AllArgsConstructor
-public class TaskClientImpl implements TaskClient {
+public class TaskSuccessListenerImpl implements TaskSuccessListener {
 
-    private TaskBroker taskBroker;
+    private Map<String, Object> taskResultRepository = Maps.newHashMap();
 
     @Override
-    public String publish(String topic, TaskDetail task, Duration delay) {
-        return taskBroker.sendTask(topic, task, delay).getId();
+    public <T> void onSucceeded(String taskId, T result) {
+        taskResultRepository.put(taskId, result);
+        log.info("redisson success, taskId: {}, result: {}", taskId, JacksonUtil.toJsonString(result));
     }
 }

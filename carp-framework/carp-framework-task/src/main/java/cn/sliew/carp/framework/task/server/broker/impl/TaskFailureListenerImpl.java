@@ -16,23 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.task.server;
+package cn.sliew.carp.framework.task.server.broker.impl;
 
-import cn.sliew.carp.framework.task.server.broker.TaskBroker;
-import cn.sliew.carp.framework.task.server.detail.TaskDetail;
-import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.executor.TaskFailureListener;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-
+@Slf4j
 @Component
-@AllArgsConstructor
-public class TaskClientImpl implements TaskClient {
-
-    private TaskBroker taskBroker;
+public class TaskFailureListenerImpl implements TaskFailureListener {
 
     @Override
-    public String publish(String topic, TaskDetail task, Duration delay) {
-        return taskBroker.sendTask(topic, task, delay).getId();
+    public void onFailed(String taskId, Throwable exception) {
+        log.error("redisson failed, taskId: {}", taskId, exception);
     }
 }

@@ -23,9 +23,11 @@ import cn.sliew.carp.framework.task.server.detail.TaskDetail;
 import cn.sliew.carp.framework.task.server.handler.TaskHandler;
 import cn.sliew.carp.framework.task.server.worker.TaskWorker;
 import cn.sliew.milky.common.concurrent.RunnableWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.annotation.RInject;
 
+@Slf4j
 public class RedissonTaskWorker implements TaskWorker, RunnableWrapper {
 
     private RedissonClient client;
@@ -61,6 +63,7 @@ public class RedissonTaskWorker implements TaskWorker, RunnableWrapper {
     @Override
     public void doRun() throws Exception {
         // 执行 executor
+        log.info("[}", taskDetail);
     }
 
     @Override
