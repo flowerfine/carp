@@ -22,27 +22,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-bkdevops-example</artifactId>
         <version>0.0.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-examples</artifactId>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>carp-ageiport-example</module>
-        <module>carp-bkdevops-example</module>
-        <module>carp-camellia-example</module>
-        <module>carp-hazelcast-example</module>
-        <module>carp-javers-example</module>
-        <module>carp-jobrunr-example</module>
-        <module>carp-mongo-example</module>
-        <module>carp-pekko-example</module>
-        <module>carp-redisson-example</module>
-    </modules>
-
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.tencent.devops</groupId>
+            <artifactId>devops-boot-starter-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tencent.devops</groupId>
+            <artifactId>devops-boot-starter-schedule-worker</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

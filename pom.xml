@@ -131,6 +131,7 @@
         <javers.version>7.6.1</javers.version>
         <gravitino.version>0.5.1</gravitino.version>
         <easyexcel.version>3.3.2</easyexcel.version>
+        <bkdevops.version>0.0.9</bkdevops.version>
     </properties>
 
     <dependencyManagement>
@@ -613,6 +614,22 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tencent.devops</groupId>
+                <artifactId>devops-boot-starter-service</artifactId>
+                <version>${bkdevops.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tencent.devops</groupId>
+                <artifactId>devops-boot-starter-schedule-server</artifactId>
+                <version>${bkdevops.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tencent.devops</groupId>
+                <artifactId>devops-boot-starter-schedule-worker</artifactId>
+                <version>${bkdevops.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

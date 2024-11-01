@@ -1,0 +1,15 @@
+server.port: 8081
+spring:
+  application.name: schedule-server-sample
+  data:
+    mongodb:
+      uri: mongodb://root:example@localhost:27017/schedule_local
+logging.level:
+  com.tencent: debug
+
+devops.schedule:
+  server:
+    auth:
+      access-token: xxx
+      username: admin
+      password: password
