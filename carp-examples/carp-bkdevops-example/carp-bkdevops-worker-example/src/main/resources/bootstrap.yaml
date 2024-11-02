@@ -1,4 +1,4 @@
-server.port: 8082
+server.port: 8083
 spring:
   application.name: discovery-test
 logging.level:
@@ -8,6 +8,6 @@ devops.schedule:
   worker:
     mode: DISCOVERY
     server:
-      address: http://localhost:8081
+      address: http://localhost:8082
       access-token: xxx
 

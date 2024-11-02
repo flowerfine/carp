@@ -18,7 +18,29 @@
 
 package cn.sliew.carp.example.bkdevops.schedule.worker.handler;
 
+import com.tencent.devops.schedule.executor.JobContext;
+import com.tencent.devops.schedule.executor.JobHandler;
+import com.tencent.devops.schedule.pojo.job.JobExecutionResult;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
 @Component
 public class SampleJobHandler implements JobHandler {
 
+    @NotNull
+    @Override
+    public JobExecutionResult execute(@NotNull JobContext context) {
+        String jobId = context.getJobId();
+        Map<String, Object> jobParamMap = context.getJobParamMap();
+        int broadcastIndex = context.getBroadcastIndex();
+        int broadcastTotal = context.getBroadcastTotal();
+        String logId = context.getLogId();
+        String image = context.getImage();
+        LocalDateTime triggerTime = context.getTriggerTime();
+        LocalDateTime updateTime = context.getUpdateTime();
+        return JobExecutionResult.Companion.success();
+    }
 }

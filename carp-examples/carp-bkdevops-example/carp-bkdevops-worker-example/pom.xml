@@ -26,6 +26,7 @@
         <version>0.0.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+    <artifactId>carp-bkdevops-worker-example</artifactId>
 
     <dependencies>
         <dependency>
