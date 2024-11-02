@@ -7,6 +7,8 @@ import com.alibaba.ageiport.common.logger.Logger;
 import com.alibaba.ageiport.common.logger.LoggerFactory;
 import com.alibaba.ageiport.common.utils.CollectionUtils;
 import com.alibaba.ageiport.common.utils.JsonUtil;
+import com.alibaba.ageiport.processor.core.AgeiPort;
+import com.alibaba.ageiport.processor.core.Context;
 import com.alibaba.ageiport.processor.core.annotation.ImportSpecification;
 import com.alibaba.ageiport.processor.core.exception.BizException;
 import com.alibaba.ageiport.processor.core.model.api.BizUser;
