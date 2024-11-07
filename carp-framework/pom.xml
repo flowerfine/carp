@@ -42,6 +42,7 @@
         <module>carp-framework-spring</module>
         <module>carp-framework-task</module>
         <module>carp-framework-web</module>
+        <module>carp-framework-license</module>
     </modules>
 
 </project>

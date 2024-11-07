@@ -25,6 +25,7 @@ import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
 import cn.sliew.carp.framework.common.dict.datasource.RedisMode;
 import cn.sliew.carp.framework.common.dict.k8s.ClusterStatus;
 import cn.sliew.carp.framework.common.dict.k8s.ClusterType;
+import cn.sliew.carp.framework.common.dict.license.LicenseType;
 import cn.sliew.carp.framework.common.dict.oam.AppType;
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
@@ -43,6 +44,8 @@ public enum DictType implements DictDefinition {
 
     YES_OR_NO("yes_or_no", "是否", YesOrNo.class),
     IS_DELETED("is_delete", "是否删除", IsDeleted.class),
+
+    LICENSE_TYPE("license_type", "证书类型", LicenseType.class),
 
     K8S_CLUSTER_TYPE("k8s_cluster_type", "集群类型", ClusterType.class),
     K8S_CLUSTER_STATUS("k8s_cluster_status", "集群状态", ClusterStatus.class),
