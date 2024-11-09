@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst;
+package cn.sliew.carp.module.http.sync.job.repository.mapper.jst;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractSubTask;
+import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstOrder;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-public abstract class AbstractJstSubTask<Root extends AbstractJstRootTask, Request, Response> extends AbstractSubTask<Root, Request, Response> {
+@Repository
+public interface JstOrderMapper extends BaseMapper<JstOrder> {
 
-    public AbstractJstSubTask(Long subTaskId, Root rootTask, String startSyncOffset, String endSyncOffset) {
-        super(subTaskId, rootTask, startSyncOffset, endSyncOffset);
-    }
 }

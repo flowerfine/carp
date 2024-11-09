@@ -16,13 +16,40 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst;
+package cn.sliew.carp.module.http.sync.job.jst.util;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractSubTask;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.lang.Nullable;
 
-public abstract class AbstractJstSubTask<Root extends AbstractJstRootTask, Request, Response> extends AbstractSubTask<Root, Request, Response> {
+import java.util.List;
 
-    public AbstractJstSubTask(Long subTaskId, Root rootTask, String startSyncOffset, String endSyncOffset) {
-        super(subTaskId, rootTask, startSyncOffset, endSyncOffset);
-    }
+@Getter
+@Setter
+public class JstResultWrapper<T> {
+
+    @JsonProperty("page_index")
+    private int pageIndex;
+
+    @JsonProperty("page_size")
+    private int pageSize;
+
+    @Nullable
+    @JsonProperty("data_count")
+    private int dataCount;
+
+    @Nullable
+    @JsonProperty("page_count")
+    private int pageCount;
+
+    @JsonProperty("has_next")
+    private boolean hasNext;
+
+    @JsonProperty("issuccess")
+    private boolean issuccess;
+
+    private int code;
+    private String msg;
+    private List<T> datas;
 }

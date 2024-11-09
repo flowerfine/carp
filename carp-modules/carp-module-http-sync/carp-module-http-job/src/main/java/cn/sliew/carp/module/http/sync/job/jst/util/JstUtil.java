@@ -16,13 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst;
+package cn.sliew.carp.module.http.sync.job.jst.util;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractSubTask;
+import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.module.http.sync.remote.jst.response.JstResult;
+import org.springframework.util.CollectionUtils;
 
-public abstract class AbstractJstSubTask<Root extends AbstractJstRootTask, Request, Response> extends AbstractSubTask<Root, Request, Response> {
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-    public AbstractJstSubTask(Long subTaskId, Root rootTask, String startSyncOffset, String endSyncOffset) {
-        super(subTaskId, rootTask, startSyncOffset, endSyncOffset);
+public enum JstUtil {
+    ;
+
+    public static <S, T> JstResultWrapper<T> convertResult(JstResult<S> jstResult, Function<S, T> convert) {
+        JstResultWrapper jstResultWrapper = BeanUtil.copyProperties(jstResult, JstResultWrapper.class);
+        if (CollectionUtils.isEmpty(jstResult.getDatas()) == false) {
+            jstResultWrapper.setDatas(jstResult.getDatas().stream().map(convert).collect(Collectors.toList()));
+        }
+        return jstResultWrapper;
     }
 }

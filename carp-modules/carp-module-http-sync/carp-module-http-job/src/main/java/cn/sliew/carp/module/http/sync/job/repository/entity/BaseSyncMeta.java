@@ -16,13 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst;
+package cn.sliew.carp.module.http.sync.job.repository.entity;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractSubTask;
+import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Data;
 
-public abstract class AbstractJstSubTask<Root extends AbstractJstRootTask, Request, Response> extends AbstractSubTask<Root, Request, Response> {
+import java.util.Date;
 
-    public AbstractJstSubTask(Long subTaskId, Root rootTask, String startSyncOffset, String endSyncOffset) {
-        super(subTaskId, rootTask, startSyncOffset, endSyncOffset);
-    }
+@Data
+public class BaseSyncMeta extends BaseAuditDO {
+
+    @TableField("sync_start_time")
+    private Date syncStartTime;
+
+    @TableField("sync_end_time")
+    private Date syncEndTime;
+
+    @TableField("sync_page_index")
+    private Integer syncPageIndex;
+
+    @TableField("sync_page_size")
+    private Integer syncPageSize;
 }

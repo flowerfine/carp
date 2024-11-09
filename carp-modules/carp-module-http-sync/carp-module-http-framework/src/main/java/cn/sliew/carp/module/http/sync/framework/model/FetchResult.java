@@ -16,13 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst;
+package cn.sliew.carp.module.http.sync.framework.model;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractSubTask;
+import lombok.Getter;
 
-public abstract class AbstractJstSubTask<Root extends AbstractJstRootTask, Request, Response> extends AbstractSubTask<Root, Request, Response> {
+@Getter
+public class FetchResult<Request, Response> {
 
-    public AbstractJstSubTask(Long subTaskId, Root rootTask, String startSyncOffset, String endSyncOffset) {
-        super(subTaskId, rootTask, startSyncOffset, endSyncOffset);
+    private final Request request;
+    private final Response response;
+
+    public FetchResult(Request request, Response response) {
+        this.request = request;
+        this.response = response;
     }
 }

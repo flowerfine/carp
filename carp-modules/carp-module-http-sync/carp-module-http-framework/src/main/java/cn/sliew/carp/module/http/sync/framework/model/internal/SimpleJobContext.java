@@ -21,13 +21,11 @@ package cn.sliew.carp.module.http.sync.framework.model.internal;
 import cn.sliew.carp.module.http.sync.framework.model.SplitManager;
 import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetJobContext;
 import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetManager;
-import lombok.Getter;
 import lombok.Setter;
 import org.apache.pekko.actor.typed.ActorSystem;
 
 import java.util.Optional;
 
-//@Getter
 @Setter
 public class SimpleJobContext implements SyncOffsetJobContext {
 

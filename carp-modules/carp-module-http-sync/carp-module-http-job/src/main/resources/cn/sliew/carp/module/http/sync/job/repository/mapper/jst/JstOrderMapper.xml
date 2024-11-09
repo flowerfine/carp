@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one or more
+  ~ contributor license agreements.  See the NOTICE file distributed with
+  ~ this work for additional information regarding copyright ownership.
+  ~ The ASF licenses this file to You under the Apache License, Version 2.0
+  ~ (the "License"); you may not use this file except in compliance with
+  ~ the License.  You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstOrder">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="app_key" property="appKey" />
+        <result column="is_cod" property="isCod" />
+        <result column="l_id" property="lId" />
+        <result column="send_date" property="sendDate" />
+        <result column="pay_date" property="payDate" />
+        <result column="freight" property="freight" />
+        <result column="receiver_address" property="receiverAddress" />
+        <result column="receiver_district" property="receiverDistrict" />
+        <result column="wms_co_id" property="wmsCoId" />
+        <result column="logistics_company" property="logisticsCompany" />
+        <result column="as_id" property="asId" />
+        <result column="free_amount" property="freeAmount" />
+        <result column="shop_name" property="shopName" />
+        <result column="question_type" property="questionType" />
+        <result column="outer_pay_id" property="outerPayId" />
+        <result column="so_id" property="soId" />
+        <result column="type" property="type" />
+        <result column="order_from" property="orderFrom" />
+        <result column="status" property="status" />
+        <result column="pay_amount" property="payAmount" />
+        <result column="shop_buyer_id" property="shopBuyerId" />
+        <result column="open_id" property="openId" />
+        <result column="shop_status" property="shopStatus" />
+        <result column="receiver_mobile" property="receiverMobile" />
+        <result column="receiver_phone" property="receiverPhone" />
+        <result column="order_date" property="orderDate" />
+        <result column="question_desc" property="questionDesc" />
+        <result column="receiver_city" property="receiverCity" />
+        <result column="receiver_state" property="receiverState" />
+        <result column="receiver_name" property="receiverName" />
+        <result column="o_id" property="oId" />
+        <result column="shop_id" property="shopId" />
+        <result column="co_id" property="coId" />
+        <result column="remark" property="remark" />
+        <result column="drp_co_id_from" property="drpCoIdFrom" />
+        <result column="modified" property="modified" />
+        <result column="labels" property="labels" />
+        <result column="paid_amount" property="paidAmount" />
+        <result column="currency" property="currency" />
+        <result column="buyer_message" property="buyerMessage" />
+        <result column="lc_id" property="lcId" />
+        <result column="invoice_title" property="invoiceTitle" />
+        <result column="invoice_type" property="invoiceType" />
+        <result column="buyer_tax_no" property="buyerTaxNo" />
+        <result column="creator_name" property="creatorName" />
+        <result column="plan_delivery_date" property="planDeliveryDate" />
+        <result column="node" property="node" />
+        <result column="receiver_town" property="receiverTown" />
+        <result column="drp_co_id_to" property="drpCoIdTo" />
+        <result column="shop_site" property="shopSite" />
+        <result column="un_lid" property="unLid" />
+        <result column="end_time" property="endTime" />
+        <result column="receiver_country" property="receiverCountry" />
+        <result column="receiver_zip" property="receiverZip" />
+        <result column="seller_flag" property="sellerFlag" />
+        <result column="receiver_email" property="receiverEmail" />
+        <result column="referrer_id" property="referrerId" />
+        <result column="referrer_name" property="referrerName" />
+        <result column="created" property="created" />
+        <result column="pays" property="pays" />
+        <result column="items" property="items" />
+        <result column="skus" property="skus" />
+        <result column="f_weight" property="fWeight" />
+        <result column="weight" property="weight" />
+        <result column="ts" property="ts" />
+        <result column="buyer_id" property="buyerId" />
+        <result column="buyer_paid_amount" property="buyerPaidAmount" />
+        <result column="seller_income_amount" property="sellerIncomeAmount" />
+        <result column="chosen_channel" property="chosenChannel" />
+        <result column="link_o_id" property="linkOId" />
+        <result column="merge_so_id" property="mergeSoId" />
+        <result column="shipment" property="shipment" />
+        <result column="sign_time" property="signTime" />
+        <result column="cb_finances" property="cbFinances" />
+        <result column="f_freight" property="fFreight" />
+        <result column="batch_id" property="batchId" />
+        <result column="produced_date" property="producedDate" />
+        <result column="tem_ext_data" property="temExtData" />
+        <result column="discount_rate" property="discountRate" />
+        <result column="tag" property="tag" />
+        <result column="amount" property="amount" />
+        <result column="is_split" property="isSplit" />
+        <result column="is_merge" property="isMerge" />
+        <result column="glasses" property="glasses" />
+        <result column="outer_as_id" property="outerAsId" />
+        <result column="outer_so_id" property="outerSoId" />
+        <result column="__raw_so_ids__" property="rawSoIds" />
+        <result column="ext_datas" property="extDatas" />
+        <result column="raw_so_id" property="rawSoId" />
+        <result column="drp_from" property="drpFrom" />
+        <result column="drp_to" property="drpTo" />
+        <result column="sync_start_time" property="syncStartTime" />
+        <result column="sync_end_time" property="syncEndTime" />
+        <result column="sync_page_index" property="syncPageIndex" />
+        <result column="sync_page_size" property="syncPageSize" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        creator,
+        create_time,
+        editor,
+        update_time,
+        app_key, is_cod, l_id, send_date, pay_date, freight, receiver_address, receiver_district, wms_co_id, logistics_company, as_id, free_amount, shop_name, question_type, outer_pay_id, so_id, `type`, order_from, `status`, pay_amount, shop_buyer_id, open_id, shop_status, receiver_mobile, receiver_phone, order_date, question_desc, receiver_city, receiver_state, receiver_name, o_id, shop_id, co_id, remark, drp_co_id_from, modified, labels, paid_amount, currency, buyer_message, lc_id, invoice_title, invoice_type, buyer_tax_no, creator_name, plan_delivery_date, node, receiver_town, drp_co_id_to, shop_site, un_lid, end_time, receiver_country, receiver_zip, seller_flag, receiver_email, referrer_id, referrer_name, created, pays, items, skus, f_weight, weight, ts, buyer_id, buyer_paid_amount, seller_income_amount, chosen_channel, link_o_id, merge_so_id, shipment, sign_time, cb_finances, f_freight, batch_id, produced_date, tem_ext_data, discount_rate, tag, amount, is_split, is_merge, glasses, outer_as_id, outer_so_id, __raw_so_ids__, ext_datas, raw_so_id, drp_from, drp_to, sync_start_time, sync_end_time, sync_page_index, sync_page_size
+    </sql>
+
+</mapper>

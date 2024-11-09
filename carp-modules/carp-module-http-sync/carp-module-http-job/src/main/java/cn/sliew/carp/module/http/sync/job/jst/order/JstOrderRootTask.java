@@ -16,13 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst;
+package cn.sliew.carp.module.http.sync.job.jst.order;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractSubTask;
+import cn.sliew.carp.module.http.sync.job.jst.AbstractJstRootTask;
+import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
 
-public abstract class AbstractJstSubTask<Root extends AbstractJstRootTask, Request, Response> extends AbstractSubTask<Root, Request, Response> {
+public class JstOrderRootTask extends AbstractJstRootTask<JstOrderSubTask> {
 
-    public AbstractJstSubTask(Long subTaskId, Root rootTask, String startSyncOffset, String endSyncOffset) {
-        super(subTaskId, rootTask, startSyncOffset, endSyncOffset);
+    public JstOrderRootTask(Long rootTaskId, JstAuth jstAuth) {
+        super(rootTaskId, jstAuth);
+    }
+
+    @Override
+    public JstOrderSubTask build(Long subTaskId, String startSyncOffset, String endSyncOffset) {
+        return null;
     }
 }
