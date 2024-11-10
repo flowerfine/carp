@@ -28,7 +28,6 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.base.Joiner;
-import com.jushuitan.api.util.ApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +53,8 @@ public class JstRemoteService {
         params.put("version", "2");
         params.put("charset", "utf-8");
         params.put("biz", param);
-        String sign = ApiUtil.getSign(auth.getAppSecret(), params);
+//        String sign = ApiUtil.getSign(auth.getAppSecret(), params);
+        String sign = null;
         params.put("sign", sign);
         return Joiner.on("&").withKeyValueSeparator("=").join(params);
     }

@@ -37,11 +37,5 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-http-remote-feign</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.jushuitan</groupId>
-            <artifactId>java-client</artifactId>
-            <version>${jst.version}</version>
-        </dependency>
     </dependencies>
 </project>

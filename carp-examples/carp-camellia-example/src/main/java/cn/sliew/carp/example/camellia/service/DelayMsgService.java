@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class DelayMsgService {
 
-    @Autowired(required = false)
+    @Autowired
     private CamelliaDelayQueueSdk delayQueueSdk;
 
     public CamelliaDelayMsg sendSimpleDelayMsg(String msg, long delaySeconds, long ttlSeconds, int maxRetry) {
