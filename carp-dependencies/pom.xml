@@ -111,6 +111,7 @@
         <gravitino.version>0.5.1</gravitino.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <bkdevops.version>0.0.9</bkdevops.version>
+        <asm.version>9.7</asm.version>
     </properties>
 
     <dependencyManagement>
@@ -599,6 +600,12 @@
                 <groupId>com.tencent.devops</groupId>
                 <artifactId>devops-boot-starter-schedule-server</artifactId>
                 <version>${bkdevops.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>${asm.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

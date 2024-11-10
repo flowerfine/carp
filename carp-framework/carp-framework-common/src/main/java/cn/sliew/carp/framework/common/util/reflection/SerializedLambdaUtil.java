@@ -18,12 +18,13 @@
 
 package cn.sliew.carp.framework.common.util.reflection;
 
+import cn.sliew.carp.framework.common.reflection.JobDetails;
+import cn.sliew.carp.framework.common.reflection.JobDetailsAsmGenerator;
+import cn.sliew.carp.framework.common.reflection.JobDetailsGenerator;
+import cn.sliew.carp.framework.common.reflection.lambdas.JobLambda;
 import cn.sliew.carp.framework.common.rpc.invocation.LambdaInvocation;
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
-import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -44,7 +45,7 @@ public enum SerializedLambdaUtil {
 
         try {
             Method writeReplaceMethod = value.getClass().getDeclaredMethod("writeReplace");
-            ReflectionUtil.makeAccessible(writeReplaceMethod);
+            ReflectionUtils.makeAccessible(writeReplaceMethod);
             return (SerializedLambda) writeReplaceMethod.invoke(value);
         } catch (Exception ignored) {
             Rethrower.throwAs(ignored);
@@ -74,9 +75,26 @@ public enum SerializedLambdaUtil {
         return toSerializedLambda(invocation);
     }
 
+    public static JobDetails testJobDetails(JobLambda invocation) {
+        JobDetailsGenerator generator = new JobDetailsAsmGenerator();
+        return generator.toJobDetails(invocation);
+    }
+
     public static void main(String[] args) {
+        testJobDetails();
+//        testSerializedLambda();
+    }
+
+    private static void testJobDetails() {
+        String echo = "hello, lambda";
+        JobDetails jobDetails = testJobDetails(() -> System.out.println(echo));
+        System.out.println(JacksonUtil.toJsonString(jobDetails));
+    }
+
+    private static void testSerializedLambda() {
         String echo = "hello, lambda";
         SerializedLambda serializedLambda = testLambda(() -> System.out.println(echo));
+
         // cn/sliew/carp/framework/common/util/reflection/SerializedLambdaUtil
         System.out.println(serializedLambda.getImplClass());
         // lambda$main$d04c9b6f$1
