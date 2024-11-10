@@ -22,7 +22,6 @@ import cn.sliew.carp.framework.common.reflection.JobDetails;
 import cn.sliew.carp.framework.common.reflection.JobDetailsAsmGenerator;
 import cn.sliew.carp.framework.common.reflection.JobDetailsGenerator;
 import cn.sliew.carp.framework.common.reflection.lambdas.JobLambda;
-import cn.sliew.carp.framework.common.rpc.invocation.LambdaInvocation;
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 
@@ -71,7 +70,7 @@ public enum SerializedLambdaUtil {
         return "/" + toFQResource(name.substring(0, name.indexOf("$$"))) + ".class";
     }
 
-    public static SerializedLambda testLambda(LambdaInvocation invocation) {
+    public static SerializedLambda testLambda(JobLambda invocation) {
         return toSerializedLambda(invocation);
     }
 

@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.example.camellia.controller;
 
-import cn.sliew.carp.example.camellia.listener.ConsumerService1;
+import cn.sliew.carp.example.camellia.service.DelayMsgService;
 import com.netease.nim.camellia.delayqueue.common.domain.CamelliaDelayMsg;
-import com.netease.nim.camellia.delayqueue.sdk.CamelliaDelayQueueSdk;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.TimeUnit;
-
 @Slf4j
 @RestController
 @RequestMapping("/api/carp/example/camellia")
@@ -38,15 +36,23 @@ import java.util.concurrent.TimeUnit;
 public class DelayMsgController {
 
     @Autowired
-    private CamelliaDelayQueueSdk delayQueueSdk;
+    private DelayMsgService delayMsgService;
 
-    @PostMapping("/put")
-    public CamelliaDelayMsg sendDelayMsg(@RequestParam("msg") String msg,
+    @PostMapping("/simple")
+    @Operation(summary = "发送-简单消息", description = "发送-简单消息")
+    public CamelliaDelayMsg sendSimpleDelayMsg(@RequestParam("msg") String msg,
                                          @RequestParam("delaySeconds") long delaySeconds,
                                          @RequestParam(value = "ttlSeconds", required = false, defaultValue = "30") long ttlSeconds,
                                          @RequestParam(value = "maxRetry", required = false, defaultValue = "3") int maxRetry) {
-        String topic = ConsumerService1.TOPIC;
-        log.info("sendDelayMsg, topic = {}, msg = {}, delaySeconds = {}, ttlSeconds = {}, maxRetry = {}", topic, msg, delaySeconds, ttlSeconds, maxRetry);
-        return delayQueueSdk.sendMsg(topic, msg, delaySeconds, TimeUnit.SECONDS, ttlSeconds, TimeUnit.SECONDS, maxRetry);
+        return delayMsgService.sendSimpleDelayMsg(msg, delaySeconds, ttlSeconds, maxRetry);
+    }
+
+    @PostMapping("/lambda")
+    @Operation(summary = "发送-Lambda消息", description = "发送-Lambda消息")
+    public CamelliaDelayMsg sendLambdaDelayMsg(@RequestParam("msg") String msg,
+                                               @RequestParam("delaySeconds") long delaySeconds,
+                                               @RequestParam(value = "ttlSeconds", required = false, defaultValue = "30") long ttlSeconds,
+                                               @RequestParam(value = "maxRetry", required = false, defaultValue = "3") int maxRetry) {
+        return delayMsgService.sendLambdaDelayMsg(msg, delaySeconds, ttlSeconds, maxRetry);
     }
 }

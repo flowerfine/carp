@@ -31,7 +31,6 @@
 
     <modules>
         <module>carp-ageiport-example</module>
-        <module>carp-bkdevops-example</module>
         <module>carp-camellia-example</module>
         <module>carp-hazelcast-example</module>
         <module>carp-javers-example</module>
