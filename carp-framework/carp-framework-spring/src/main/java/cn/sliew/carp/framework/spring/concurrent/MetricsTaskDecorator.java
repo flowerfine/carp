@@ -28,6 +28,7 @@ import org.springframework.core.task.TaskDecorator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class MetricsTaskDecorator implements TaskDecorator {
 
     private List<Tag> tags;
@@ -43,7 +44,6 @@ public class MetricsTaskDecorator implements TaskDecorator {
         return new JobMetricsRunnable(runnable);
     }
 
-    @Slf4j
     private class JobMetricsRunnable implements Runnable {
 
         private final Runnable task;

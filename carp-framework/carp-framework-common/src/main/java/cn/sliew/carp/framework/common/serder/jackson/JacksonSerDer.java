@@ -16,17 +16,22 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.common.serder.jdk;
+package cn.sliew.carp.framework.common.serder.jackson;
 
-import cn.sliew.carp.framework.common.serder.AbstractSerDerFactory;
 import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.milky.common.util.JacksonUtil;
 
-public class JdkSerDerFactory extends AbstractSerDerFactory {
+import java.nio.charset.StandardCharsets;
 
-    public static final JdkSerDerFactory INSTANCE = new JdkSerDerFactory();
+public class JacksonSerDer implements SerDer {
 
     @Override
-    protected SerDer create() {
-        return new JdkSerDer();
+    public byte[] serialize(Object object) {
+        return JacksonUtil.toJsonString(object).getBytes(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public <T> T deserialize(byte[] bytes, Class<T> clazz) {
+        return JacksonUtil.parseJsonString(new String(bytes, StandardCharsets.UTF_8), clazz);
     }
 }

@@ -16,17 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.common.serder.jdk;
+package cn.sliew.carp.framework.common.serder.jackson;
 
 import cn.sliew.carp.framework.common.serder.AbstractSerDerFactory;
 import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 
-public class JdkSerDerFactory extends AbstractSerDerFactory {
+public class JacksonSerDerFactory extends AbstractSerDerFactory {
 
     public static final JdkSerDerFactory INSTANCE = new JdkSerDerFactory();
 
     @Override
     protected SerDer create() {
-        return new JdkSerDer();
+        return new JacksonSerDer();
     }
 }
