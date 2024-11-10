@@ -16,10 +16,25 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.common.rpc.invocation;
+package cn.sliew.carp.framework.common.rpc.message;
 
-@FunctionalInterface
-public interface LambdaInvocation extends Invocation {
+import lombok.Data;
 
-    void run() throws Exception;
+/**
+ * dubbo: InvokerInvocationHandler
+ */
+@Data
+public class RpcMethodMessage implements Message {
+
+    public static final String TYPE = "rpc-method";
+
+    private String className;
+    private String method;
+    private Class<?>[] paramTypes;
+    private Object[] params;
+
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 }

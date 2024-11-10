@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.framework.common.util.reflection;
+package cn.sliew.carp.framework.common.rpc.message;
 
-import java.lang.reflect.AccessibleObject;
+import cn.sliew.carp.framework.common.jackson.polymorphic.Polymorphic;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 
-public enum ReflectionUtil {
-    ;
+@JsonSubTypes({
+        @JsonSubTypes.Type(name = RpcMethodMessage.TYPE, value = RpcMethodMessage.class)
+})
+public interface Message extends Polymorphic<String> {
 
-    public static void makeAccessible(AccessibleObject accessibleObject) {
-        accessibleObject.setAccessible(true);
-    }
-
+    @Override
+    String getType();
 }
