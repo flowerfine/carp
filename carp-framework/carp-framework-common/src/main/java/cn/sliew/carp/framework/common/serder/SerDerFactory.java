@@ -16,30 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.queue.api.util;
+package cn.sliew.carp.framework.common.serder;
 
-import java.io.*;
+public interface SerDerFactory {
 
-public enum Serder {
-    ;
-
-    public static byte[] serializeByJava(Object obj) {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
-            oos.writeObject(obj);
-            return bos.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Object deserializeByJava(byte[] bytes) {
-        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-             ObjectInputStream ois = new ObjectInputStream(bis)) {
-            return ois.readObject();
-
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    SerDer getInstance();
 }

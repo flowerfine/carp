@@ -19,10 +19,11 @@
 package cn.sliew.carp.module.workflow.internal.engine.dispatch;
 
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
+import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.MessageHandler;
 import cn.sliew.carp.module.queue.api.MessageListener;
-import cn.sliew.carp.module.queue.api.util.Serder;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowTaskInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowTaskInstanceEventHandler;
@@ -38,6 +39,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -75,9 +77,9 @@ public class InternalWorkflowTaskInstanceEventDispatcher implements WorkflowTask
     @Override
     public void handler(Message message) throws Exception {
         if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowTaskInstanceEventDTO) {
-                WorkflowTaskInstanceEventDTO eventDTO = (WorkflowTaskInstanceEventDTO) deserialized;
+            SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
+            WorkflowTaskInstanceEventDTO eventDTO = serDer.deserialize(message.getBody(), WorkflowTaskInstanceEventDTO.class);
+            if (Objects.nonNull(eventDTO)) {
                 dispatch(eventDTO);
             }
         }

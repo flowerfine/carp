@@ -19,13 +19,14 @@
 package cn.sliew.carp.module.workflow.internal.engine.dispatch;
 
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
+import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.MessageHandler;
 import cn.sliew.carp.module.queue.api.MessageListener;
-import cn.sliew.carp.module.queue.api.util.Serder;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowInstanceEventDispatcher;
-import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowInstanceEventHandler;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowInstanceEventHandler;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -75,9 +77,9 @@ public class InternalWorkflowInstanceEventDispatcher implements WorkflowInstance
     @Override
     public void handler(Message message) throws Exception {
         if (message.getBody() != null) {
-            Object deserialized = Serder.deserializeByJava(message.getBody());
-            if (deserialized instanceof WorkflowInstanceEventDTO) {
-                WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) deserialized;
+            SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
+            WorkflowInstanceEventDTO eventDTO = serDer.deserialize(message.getBody(), WorkflowInstanceEventDTO.class);
+            if (Objects.nonNull(eventDTO)) {
                 dispatch(eventDTO);
             }
         }
