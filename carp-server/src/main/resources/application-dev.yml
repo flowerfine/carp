@@ -16,11 +16,35 @@
 #
 
 spring:
-  datasource.carp:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    jdbc-url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/carp?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
-    username: ${MYSQL_USERNAME:root}
-    password: ${MYSQL_PASSWORD:123456}
+  datasource:
+    carp:
+      minimum-idle: 1
+      maximum-pool-size: 5
+      auto-commit: true
+      idle-timeout: 600000
+      pool-name: carp
+      max-lifetime: 900000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+      validation-timeout: 1000
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/carp?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:123456}
+    dataservice:
+      minimum-idle: 1
+      maximum-pool-size: 5
+      auto-commit: true
+      idle-timeout: 600000
+      pool-name: carp
+      max-lifetime: 900000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
+      validation-timeout: 1000
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/data_service?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useAffectedRows=true
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:123456}
   quartz:
     properties:
       org.quartz:

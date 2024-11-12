@@ -16,23 +16,29 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst.order;
+package cn.sliew.carp.module.http.sync.job.task.jst.order;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.sliew.carp.framework.exception.SliewException;
 import cn.sliew.carp.module.http.sync.framework.model.FetchResult;
 import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
-import cn.sliew.carp.module.http.sync.job.jst.AbstractJstSubTask;
-import cn.sliew.carp.module.http.sync.job.jst.util.JstResultWrapper;
-import cn.sliew.carp.module.http.sync.job.jst.util.JstUtil;
 import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
+import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstOrder;
 import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstOrderMapper;
+import cn.sliew.carp.module.http.sync.job.task.jst.AbstractJstSubTask;
+import cn.sliew.carp.module.http.sync.job.task.jst.util.JstResultWrapper;
+import cn.sliew.carp.module.http.sync.job.task.jst.util.JstUtil;
 import cn.sliew.carp.module.http.sync.remote.jst.request.order.OrdersSingleQuery;
 import cn.sliew.carp.module.http.sync.remote.jst.response.JstNewResult;
 import cn.sliew.carp.module.http.sync.remote.jst.response.order.JstOrdersResult;
 import cn.sliew.carp.module.http.sync.remote.jst.response.order.OrdersSingleDO;
 import cn.sliew.milky.common.util.JacksonUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.pekko.japi.Pair;
 import org.apache.pekko.stream.javadsl.Source;
 
@@ -97,6 +103,48 @@ public class JstOrderSubTask extends AbstractJstSubTask<JstOrderRootTask, Orders
 
     @Override
     protected void persistData(SimpleJobContext context, OrdersSingleQuery request, JstOrdersResult response) {
+        if (CollectionUtils.isEmpty(response.getDatas())) {
+            return;
+        }
+        response.getDatas().forEach(data -> upsert(request, data));
+    }
 
+    private void upsert(OrdersSingleQuery request, OrdersSingleDO data) {
+        JstOrder record = convert(request, data);
+
+        LambdaQueryWrapper<JstOrder> queryWrapper = Wrappers.lambdaQuery(JstOrder.class)
+                .eq(JstOrder::getAppKey, record.getAppKey())
+                .eq(JstOrder::getCompany, record.getCompany())
+                .eq(JstOrder::getOId, record.getOId())
+                .select(JstOrder::getId);
+
+        JstOrder jstOrder = jstOrderMapper.selectOne(queryWrapper);
+        if (jstOrder != null) {
+            record.setId(jstOrder.getId());
+            record.setEditor("sync-task");
+            jstOrderMapper.updateById(record);
+        } else {
+            record.setCreator("sync-task");
+            record.setEditor("sync-task");
+            jstOrderMapper.insert(record);
+        }
+    }
+
+    private JstOrder convert(OrdersSingleQuery request, OrdersSingleDO data) {
+        JstOrder record = BeanUtil.copyProperties(data, JstOrder.class);
+        if (CollectionUtils.isEmpty(data.getItems()) == false) {
+            record.setItems(JacksonUtil.toJsonString(data.getItems()));
+        }
+        if (org.springframework.util.CollectionUtils.isEmpty(data.getPays()) == false) {
+            record.setPays(JacksonUtil.toJsonString(data.getPays()));
+        }
+        if (org.springframework.util.CollectionUtils.isEmpty(data.getRawSoIds()) == false) {
+            record.setRawSoIds(JacksonUtil.toJsonString(data.getRawSoIds()));
+        }
+        record.setSyncStartTime(DateUtil.parse(request.getModifiedBegin(), DatePattern.NORM_DATETIME_PATTERN).toJdkDate());
+        record.setSyncEndTime(DateUtil.parse(request.getModifiedEnd(), DatePattern.NORM_DATETIME_PATTERN).toJdkDate());
+        record.setSyncPageIndex(request.getPageIndex());
+        record.setSyncPageSize(request.getPageSize());
+        return record;
     }
 }

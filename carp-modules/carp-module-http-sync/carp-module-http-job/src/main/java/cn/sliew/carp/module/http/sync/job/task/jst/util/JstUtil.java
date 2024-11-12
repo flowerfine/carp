@@ -16,19 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst.order;
+package cn.sliew.carp.module.http.sync.job.task.jst.util;
 
-import cn.sliew.carp.module.http.sync.job.jst.AbstractJstRootTask;
-import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
+import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.module.http.sync.remote.jst.response.JstResult;
+import org.springframework.util.CollectionUtils;
 
-public class JstOrderRootTask extends AbstractJstRootTask<JstOrderSubTask> {
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-    public JstOrderRootTask(Long rootTaskId, JstAuth jstAuth) {
-        super(rootTaskId, jstAuth);
-    }
+public enum JstUtil {
+    ;
 
-    @Override
-    public JstOrderSubTask build(Long subTaskId, String startSyncOffset, String endSyncOffset) {
-        return null;
+    public static <S, T> JstResultWrapper<T> convertResult(JstResult<S> jstResult, Function<S, T> convert) {
+        JstResultWrapper jstResultWrapper = BeanUtil.copyProperties(jstResult, JstResultWrapper.class);
+        if (CollectionUtils.isEmpty(jstResult.getDatas()) == false) {
+            jstResultWrapper.setDatas(jstResult.getDatas().stream().map(convert).collect(Collectors.toList()));
+        }
+        return jstResultWrapper;
     }
 }

@@ -34,6 +34,9 @@ public class JstOrder extends BaseSyncMeta {
     @TableField("app_key")
     private String appKey;
 
+    @TableField("company")
+    private String company;
+
     @TableField("is_cod")
     private String isCod;
 

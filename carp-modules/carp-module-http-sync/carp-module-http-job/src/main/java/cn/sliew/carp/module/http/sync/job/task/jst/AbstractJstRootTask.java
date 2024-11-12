@@ -16,23 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst.util;
+package cn.sliew.carp.module.http.sync.job.task.jst;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.sliew.carp.module.http.sync.remote.jst.response.JstResult;
-import org.springframework.util.CollectionUtils;
+import cn.sliew.carp.module.http.sync.framework.model.AbstractRootTask;
+import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
+import lombok.Getter;
 
-import java.util.function.Function;
-import java.util.stream.Collectors;
+public abstract class AbstractJstRootTask<Sub extends AbstractJstSubTask> extends AbstractRootTask<Sub> {
 
-public enum JstUtil {
-    ;
+    @Getter
+    private JstAuth jstAuth;
 
-    public static <S, T> JstResultWrapper<T> convertResult(JstResult<S> jstResult, Function<S, T> convert) {
-        JstResultWrapper jstResultWrapper = BeanUtil.copyProperties(jstResult, JstResultWrapper.class);
-        if (CollectionUtils.isEmpty(jstResult.getDatas()) == false) {
-            jstResultWrapper.setDatas(jstResult.getDatas().stream().map(convert).collect(Collectors.toList()));
-        }
-        return jstResultWrapper;
+    public AbstractJstRootTask(Long rootTaskId, JstAuth jstAuth) {
+        super(rootTaskId);
     }
 }

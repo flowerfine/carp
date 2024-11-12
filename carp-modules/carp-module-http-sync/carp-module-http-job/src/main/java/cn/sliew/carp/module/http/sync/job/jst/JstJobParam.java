@@ -18,16 +18,11 @@
 
 package cn.sliew.carp.module.http.sync.job.jst;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractRootTask;
-import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
-import lombok.Getter;
+import lombok.Data;
 
-public abstract class AbstractJstRootTask<Sub extends AbstractJstSubTask> extends AbstractRootTask<Sub> {
+@Data
+public class JstJobParam {
 
-    @Getter
-    private JstAuth jstAuth;
-
-    public AbstractJstRootTask(Long rootTaskId, JstAuth jstAuth) {
-        super(rootTaskId);
-    }
+    private String appKey;
+    private String company;
 }

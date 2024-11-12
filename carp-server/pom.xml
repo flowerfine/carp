@@ -42,11 +42,11 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-application-vela</artifactId>
+            <artifactId>carp-module-datasource</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-datasource</artifactId>
+            <artifactId>carp-module-http-job</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

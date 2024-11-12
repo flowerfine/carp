@@ -16,40 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst.util;
+package cn.sliew.carp.module.http.sync.job.enums;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.lang.Nullable;
-
-import java.util.List;
 
 @Getter
-@Setter
-public class JstResultWrapper<T> {
+public enum JobType {
 
-    @JsonProperty("page_index")
-    private int pageIndex;
+    NORMAL("normal", "普通任务"),
+    ;
 
-    @JsonProperty("page_size")
-    private int pageSize;
+    private String type;
+    private String desc;
 
-    @Nullable
-    @JsonProperty("data_count")
-    private int dataCount;
-
-    @Nullable
-    @JsonProperty("page_count")
-    private int pageCount;
-
-    @JsonProperty("has_next")
-    private boolean hasNext;
-
-    @JsonProperty("issuccess")
-    private boolean issuccess;
-
-    private int code;
-    private String msg;
-    private List<T> datas;
+    JobType(String type, String desc) {
+        this.type = type;
+        this.desc = desc;
+    }
 }
