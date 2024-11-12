@@ -38,9 +38,13 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractJob implements Job {
 
     protected ActorSystem<SpawnProtocol.Command> actorSystem;
+    protected SyncOffsetManager syncOffsetManager;
+    protected SplitManager splitManager;
 
-    public AbstractJob(ActorSystem<SpawnProtocol.Command> actorSystem) {
+    public AbstractJob(ActorSystem<SpawnProtocol.Command> actorSystem, SyncOffsetManager syncOffsetManager, SplitManager splitManager) {
         this.actorSystem = actorSystem;
+        this.syncOffsetManager = syncOffsetManager;
+        this.splitManager = splitManager;
     }
 
     @Override
@@ -95,7 +99,13 @@ public abstract class AbstractJob implements Job {
 
     public abstract String getJobName();
 
-    protected abstract SimpleJobContext buildJobContext();
+    protected SimpleJobContext buildJobContext() {
+        SimpleJobContext jobContext = new SimpleJobContext();
+        jobContext.setActorSystem(actorSystem);
+        jobContext.setSyncOffsetManager(syncOffsetManager);
+        jobContext.setSplitManager(splitManager);
+        return jobContext;
+    }
 
     protected JobProcessor buildJobProcessor(SimpleJobContext context) {
         return new DefaultJobProcessor(context);

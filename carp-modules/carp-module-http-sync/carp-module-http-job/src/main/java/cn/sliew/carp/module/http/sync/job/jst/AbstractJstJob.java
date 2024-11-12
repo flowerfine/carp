@@ -20,8 +20,11 @@ package cn.sliew.carp.module.http.sync.job.jst;
 
 import cn.sliew.carp.module.http.sync.framework.model.AbstractJob;
 import cn.sliew.carp.module.http.sync.framework.model.RootTask;
+import cn.sliew.carp.module.http.sync.framework.model.SplitManager;
+import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetManager;
 import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
 import cn.sliew.carp.module.http.sync.job.enums.JstJob;
+import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
 import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
 import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstAuthMapper;
 import cn.sliew.carp.module.http.sync.job.task.jst.AbstractJstRootTask;
@@ -35,10 +38,12 @@ import static cn.sliew.milky.common.check.Ensures.checkState;
 
 public abstract class AbstractJstJob extends AbstractJob {
 
+    protected final JstRemoteService jstRemoteService;
     private final JstAuthMapper jstAuthMapper;
 
-    public AbstractJstJob(ActorSystem<SpawnProtocol.Command> actorSystem, JstAuthMapper jstAuthMapper) {
-        super(actorSystem);
+    public AbstractJstJob(ActorSystem<SpawnProtocol.Command> actorSystem, SyncOffsetManager syncOffsetManager, SplitManager splitManager, JstRemoteService jstRemoteService, JstAuthMapper jstAuthMapper) {
+        super(actorSystem, syncOffsetManager, splitManager);
+        this.jstRemoteService = jstRemoteService;
         this.jstAuthMapper = jstAuthMapper;
     }
 
@@ -49,7 +54,12 @@ public abstract class AbstractJstJob extends AbstractJob {
 
     @Override
     protected SimpleJobContext buildJobContext() {
-        return new SimpleJobContext();
+        SimpleJobContext jobContext = super.buildJobContext();
+        JstJob jstJob = getJstJob();
+        jobContext.setGroup(jstJob.getGroup().getGroup());
+        jobContext.setJob(jstJob.getApi().getApi());
+        jobContext.setSubJob(jstJob.getType().getType());
+        return jobContext;
     }
 
     @Override

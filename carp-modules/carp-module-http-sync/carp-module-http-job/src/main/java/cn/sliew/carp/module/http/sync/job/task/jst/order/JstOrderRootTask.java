@@ -18,17 +18,22 @@
 
 package cn.sliew.carp.module.http.sync.job.task.jst.order;
 
+import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
+import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstOrderMapper;
 import cn.sliew.carp.module.http.sync.job.task.jst.AbstractJstRootTask;
 import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
 
 public class JstOrderRootTask extends AbstractJstRootTask<JstOrderSubTask> {
 
-    public JstOrderRootTask(Long rootTaskId, JstAuth jstAuth) {
-        super(rootTaskId, jstAuth);
+    private JstOrderMapper jstOrderMapper;
+
+    public JstOrderRootTask(Long rootTaskId, JstRemoteService jstRemoteService, JstAuth jstAuth, JstOrderMapper jstOrderMapper) {
+        super(rootTaskId, jstRemoteService, jstAuth);
+        this.jstOrderMapper = jstOrderMapper;
     }
 
     @Override
     public JstOrderSubTask build(Long subTaskId, String startSyncOffset, String endSyncOffset) {
-        return null;
+        return new JstOrderSubTask(subTaskId, this, startSyncOffset, endSyncOffset, getJstRemoteService(), jstOrderMapper);
     }
 }

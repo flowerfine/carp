@@ -16,22 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.task.jst;
+package cn.sliew.carp.module.http.sync.framework.model;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractRootTask;
-import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
-import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
-import lombok.Getter;
+import cn.sliew.carp.module.http.sync.framework.util.GradientUtil;
+import org.springframework.stereotype.Component;
 
-@Getter
-public abstract class AbstractJstRootTask<Sub extends AbstractJstSubTask> extends AbstractRootTask<Sub> {
+import java.time.Duration;
+import java.util.List;
 
-    private JstRemoteService jstRemoteService;
-    private JstAuth jstAuth;
+@Component
+public class DefaultSplitManager implements SplitManager {
 
-    public AbstractJstRootTask(Long rootTaskId, JstRemoteService jstRemoteService, JstAuth jstAuth) {
-        super(rootTaskId);
-        this.jstRemoteService = jstRemoteService;
-        this.jstAuth = jstAuth;
+    @Override
+    public List<Duration> getGradients() {
+        return GradientUtil.getDefaultGradients();
     }
 }

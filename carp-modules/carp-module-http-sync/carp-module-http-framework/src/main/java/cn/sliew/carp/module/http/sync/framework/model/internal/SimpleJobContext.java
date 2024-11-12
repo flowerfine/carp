@@ -37,8 +37,8 @@ public class SimpleJobContext implements SyncOffsetJobContext {
 
     private ActorSystem actorSystem;
 
-    private int subTaskParallelism;
-    private int subTaskBatchSize;
+    private int subTaskParallelism = 2;
+    private int subTaskBatchSize = 1;
     private SplitManager splitManager;
 
     private SyncOffsetManager syncOffsetManager;

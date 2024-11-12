@@ -18,10 +18,15 @@
 
 package cn.sliew.carp.module.http.sync.job.jst.order;
 
+import cn.sliew.carp.module.http.sync.framework.model.SplitManager;
+import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetManager;
+import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
 import cn.sliew.carp.module.http.sync.job.enums.JstJob;
 import cn.sliew.carp.module.http.sync.job.jst.AbstractJstJob;
+import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
 import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
 import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstAuthMapper;
+import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstOrderMapper;
 import cn.sliew.carp.module.http.sync.job.task.jst.AbstractJstRootTask;
 import cn.sliew.carp.module.http.sync.job.task.jst.order.JstOrderRootTask;
 import org.apache.pekko.actor.typed.ActorSystem;
@@ -31,8 +36,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class JstOrderJob extends AbstractJstJob {
 
-    public JstOrderJob(ActorSystem<SpawnProtocol.Command> actorSystem, JstAuthMapper jstAuthMapper) {
-        super(actorSystem, jstAuthMapper);
+    private final JstOrderMapper jstOrderMapper;
+
+    public JstOrderJob(ActorSystem<SpawnProtocol.Command> actorSystem, SyncOffsetManager syncOffsetManager, SplitManager splitManager, JstRemoteService jstRemoteService, JstAuthMapper jstAuthMapper, JstOrderMapper jstOrderMapper) {
+        super(actorSystem, syncOffsetManager, splitManager, jstRemoteService, jstAuthMapper);
+        this.jstOrderMapper = jstOrderMapper;
     }
 
     @Override
@@ -41,7 +49,18 @@ public class JstOrderJob extends AbstractJstJob {
     }
 
     @Override
+    protected SimpleJobContext buildJobContext() {
+        SimpleJobContext jobContext = super.buildJobContext();
+        jobContext.setInitialSyncOffset("2024-01-01 00:00:00");
+        jobContext.setFinalSyncOffset("2024-11-11 00:00:00");
+
+        jobContext.setSubTaskParallelism(2);
+        jobContext.setSubTaskBatchSize(1);
+        return jobContext;
+    }
+
+    @Override
     protected AbstractJstRootTask buildJstRootTask(JstAuth jstAuth) {
-        return new JstOrderRootTask(System.currentTimeMillis(), jstAuth);
+        return new JstOrderRootTask(System.currentTimeMillis(), jstRemoteService, jstAuth, jstOrderMapper);
     }
 }
