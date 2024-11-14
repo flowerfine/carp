@@ -20,6 +20,7 @@ package cn.sliew.carp.module.http.sync.job.remote;
 
 import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
 import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstAuthMapper;
+import cn.sliew.carp.module.http.sync.job.util.ApiUtil;
 import cn.sliew.carp.module.http.sync.remote.jst.api.JstOrderClient;
 import cn.sliew.carp.module.http.sync.remote.jst.request.order.OrdersSingleQuery;
 import cn.sliew.carp.module.http.sync.remote.jst.response.JstNewResult;
@@ -53,8 +54,7 @@ public class JstRemoteService {
         params.put("version", "2");
         params.put("charset", "utf-8");
         params.put("biz", param);
-//        String sign = ApiUtil.getSign(auth.getAppSecret(), params);
-        String sign = null;
+        String sign = ApiUtil.getSign(auth.getAppSecret(), params);
         params.put("sign", sign);
         return Joiner.on("&").withKeyValueSeparator("=").join(params);
     }

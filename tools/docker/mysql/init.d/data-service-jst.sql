@@ -18,14 +18,15 @@ create table `jst_auth`
     `editor`        varchar(32) comment '修改人',
     `update_time`   datetime     not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (`id`),
-    unique key `uniq_app` (`app_key`)
+    unique key `uniq_app` (`app_key`, `company`)
 ) engine = innodb comment='聚水潭 授权信息';
 
 drop table if exists jst_order;
 create table `jst_order`
 (
-    `id`                   bigint      not null auto_increment comment '自增主键',
-    `app_key`              varchar(64) not null comment '聚水潭应用 key',
+    `id`                   bigint       not null auto_increment comment '自增主键',
+    `app_key`              varchar(64)  not null comment '聚水潭应用 key',
+    `company`              varchar(255) not null comment '公司名称',
     `is_cod`               varchar(8) comment '是否货到付款',
     `l_id`                 varchar(256) comment '快递单号',
     `send_date`            datetime comment '发货日期',
@@ -121,9 +122,9 @@ create table `jst_order`
     `sync_page_index`      int(11) comment '同步元信息-页数',
     `sync_page_size`       int(11) comment '同步元信息-条数',
     `creator`              varchar(32) comment '创建人',
-    `create_time`          datetime    not null default current_timestamp comment '创建时间',
+    `create_time`          datetime     not null default current_timestamp comment '创建时间',
     `editor`               varchar(32) comment '修改人',
-    `update_time`          datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
+    `update_time`          datetime     not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (`id`),
-    unique key `uniq_o_id` (`app_key`,`o_id`)
+    unique key `uniq_o_id` (`app_key`,`company`,`o_id`)
 ) engine = innodb comment='聚水潭 订单查询（非淘系订单查询）';

@@ -83,10 +83,16 @@ public class DefaultSyncOffsetManager implements SyncOffsetManager<SimpleJobCont
     protected LambdaQueryWrapper<JobSyncOffset> buildQueryWrapper(SimpleJobContext context) {
         LambdaQueryWrapper<JobSyncOffset> queryWrapper = Wrappers.lambdaQuery(JobSyncOffset.class)
                 .eq(JobSyncOffset::getGroup, context.getGroup())
-                .eq(JobSyncOffset::getJob, context.getJob())
-                .eq(context.getSubJob().isPresent(), JobSyncOffset::getSubJob, context.getSubJob())
-                .eq(context.getAccount().isPresent(), JobSyncOffset::getAccount, context.getAccount())
-                .eq(context.getSubAccount().isPresent(), JobSyncOffset::getSubAccount, context.getSubAccount());
+                .eq(JobSyncOffset::getJob, context.getJob());
+        if (context.getSubJob().isPresent()) {
+            queryWrapper.eq(JobSyncOffset::getSubJob, context.getSubJob().get());
+        }
+        if (context.getAccount().isPresent()) {
+            queryWrapper.eq(JobSyncOffset::getAccount, context.getAccount().get());
+        }
+        if (context.getSubAccount().isPresent()) {
+            queryWrapper.eq(JobSyncOffset::getSubAccount, context.getSubAccount().get());
+        }
         return queryWrapper;
     }
 }

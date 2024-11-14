@@ -16,13 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst;
+package cn.sliew.carp.module.http.sync.job.config;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractSubTask;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-public abstract class AbstractJstSubTask<Root extends AbstractJstRootTask, Request, Response> extends AbstractSubTask<Root, Request, Response> {
+@Configuration
+public class HttpSyncOpenAPIConfig {
 
-    public AbstractJstSubTask(Long subTaskId, Root rootTask, String startSyncOffset, String endSyncOffset) {
-        super(subTaskId, rootTask, startSyncOffset, endSyncOffset);
+    @Bean
+    public GroupedOpenApi carpHttpSyncModuleOpenApi() {
+        return GroupedOpenApi.builder().group("Http同步模块")
+                .pathsToMatch("/api/carp/http-sync/**")
+                .packagesToScan("cn.sliew.carp.module.http.sync").build();
     }
 }

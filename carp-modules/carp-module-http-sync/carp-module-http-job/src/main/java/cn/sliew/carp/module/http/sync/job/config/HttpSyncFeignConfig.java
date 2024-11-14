@@ -46,7 +46,7 @@ import java.util.List;
 @EnableFeignClients(basePackages = {
         "cn.sliew.carp.module.http.sync"
 })
-public class DefaultFeignConfig {
+public class HttpSyncFeignConfig {
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonConverter;

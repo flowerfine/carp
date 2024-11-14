@@ -48,11 +48,11 @@ public abstract class AbstractRootTask<Sub extends AbstractSubTask> implements R
 
         SplitManager splitManager = context.getSplitManager();
         Optional<Duration> optional = splitManager.getGradients().stream()
-                .filter(gradient -> splitManager.supportSplit(syncOffset.getLastSyncOffset(), context.getFinalSyncOffset(), gradient))
+                .filter(gradient -> splitManager.supportSplit(syncOffset.getSyncOffset(), context.getFinalSyncOffset(), gradient))
                 .findFirst();
         Duration gradient = null;
         if (optional.isEmpty()) {
-            boolean backupSupport = splitManager.supportSplit(syncOffset.getLastSyncOffset(), context.getFinalSyncOffset(), splitManager.getBackoffGradient());
+            boolean backupSupport = splitManager.supportSplit(syncOffset.getSyncOffset(), context.getFinalSyncOffset(), splitManager.getBackoffGradient());
             if (backupSupport) {
                 gradient = splitManager.getBackoffGradient();
             }
@@ -62,7 +62,7 @@ public abstract class AbstractRootTask<Sub extends AbstractSubTask> implements R
         if (gradient == null) {
             return Collections.emptyList();
         }
-        List<Pair<String, String>> splits = context.getSplitManager().split(syncOffset.getSyncOffset(), syncOffset.getLastSyncOffset(), gradient, context.getSubTaskBatchSize());
+        List<Pair<String, String>> splits = context.getSplitManager().split(syncOffset.getSyncOffset(), context.getFinalSyncOffset(), gradient, context.getSubTaskBatchSize());
 
         List<Sub> subs = new ArrayList<>();
         for (int i = 0; i < splits.size(); i++) {

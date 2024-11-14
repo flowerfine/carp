@@ -16,23 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.job.jst.util;
+package cn.sliew.carp.module.http.sync.job.jst;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.sliew.carp.module.http.sync.remote.jst.response.JstResult;
-import org.springframework.util.CollectionUtils;
+import lombok.Data;
 
-import java.util.function.Function;
-import java.util.stream.Collectors;
+@Data
+public class JstJobParam {
 
-public enum JstUtil {
-    ;
-
-    public static <S, T> JstResultWrapper<T> convertResult(JstResult<S> jstResult, Function<S, T> convert) {
-        JstResultWrapper jstResultWrapper = BeanUtil.copyProperties(jstResult, JstResultWrapper.class);
-        if (CollectionUtils.isEmpty(jstResult.getDatas()) == false) {
-            jstResultWrapper.setDatas(jstResult.getDatas().stream().map(convert).collect(Collectors.toList()));
-        }
-        return jstResultWrapper;
-    }
+    private String appKey;
+    private String company;
 }

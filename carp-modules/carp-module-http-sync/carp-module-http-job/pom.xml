@@ -36,6 +36,11 @@
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-http-framework</artifactId>
         </dependency>
 

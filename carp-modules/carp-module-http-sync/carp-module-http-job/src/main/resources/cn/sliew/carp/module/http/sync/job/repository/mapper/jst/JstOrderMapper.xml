@@ -27,6 +27,7 @@
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
         <result column="app_key" property="appKey" />
+        <result column="company" property="company" />
         <result column="is_cod" property="isCod" />
         <result column="l_id" property="lId" />
         <result column="send_date" property="sendDate" />
@@ -130,7 +131,7 @@
         create_time,
         editor,
         update_time,
-        app_key, is_cod, l_id, send_date, pay_date, freight, receiver_address, receiver_district, wms_co_id, logistics_company, as_id, free_amount, shop_name, question_type, outer_pay_id, so_id, `type`, order_from, `status`, pay_amount, shop_buyer_id, open_id, shop_status, receiver_mobile, receiver_phone, order_date, question_desc, receiver_city, receiver_state, receiver_name, o_id, shop_id, co_id, remark, drp_co_id_from, modified, labels, paid_amount, currency, buyer_message, lc_id, invoice_title, invoice_type, buyer_tax_no, creator_name, plan_delivery_date, node, receiver_town, drp_co_id_to, shop_site, un_lid, end_time, receiver_country, receiver_zip, seller_flag, receiver_email, referrer_id, referrer_name, created, pays, items, skus, f_weight, weight, ts, buyer_id, buyer_paid_amount, seller_income_amount, chosen_channel, link_o_id, merge_so_id, shipment, sign_time, cb_finances, f_freight, batch_id, produced_date, tem_ext_data, discount_rate, tag, amount, is_split, is_merge, glasses, outer_as_id, outer_so_id, __raw_so_ids__, ext_datas, raw_so_id, drp_from, drp_to, sync_start_time, sync_end_time, sync_page_index, sync_page_size
+        app_key, company, is_cod, l_id, send_date, pay_date, freight, receiver_address, receiver_district, wms_co_id, logistics_company, as_id, free_amount, shop_name, question_type, outer_pay_id, so_id, `type`, order_from, `status`, pay_amount, shop_buyer_id, open_id, shop_status, receiver_mobile, receiver_phone, order_date, question_desc, receiver_city, receiver_state, receiver_name, o_id, shop_id, co_id, remark, drp_co_id_from, modified, labels, paid_amount, currency, buyer_message, lc_id, invoice_title, invoice_type, buyer_tax_no, creator_name, plan_delivery_date, node, receiver_town, drp_co_id_to, shop_site, un_lid, end_time, receiver_country, receiver_zip, seller_flag, receiver_email, referrer_id, referrer_name, created, pays, items, skus, f_weight, weight, ts, buyer_id, buyer_paid_amount, seller_income_amount, chosen_channel, link_o_id, merge_so_id, shipment, sign_time, cb_finances, f_freight, batch_id, produced_date, tem_ext_data, discount_rate, tag, amount, is_split, is_merge, glasses, outer_as_id, outer_so_id, __raw_so_ids__, ext_datas, raw_so_id, drp_from, drp_to, sync_start_time, sync_end_time, sync_page_index, sync_page_size
     </sql>
 
 </mapper>
