@@ -54,7 +54,7 @@
     <select id="get" resultMap="ScheduleJobInstanceVOMap">
         select
         <include refid="Base_Column_List"/>
-        from schedule_job_instance
+        from carp_schedule_job_instance
         where id = #{id}
     </select>
 

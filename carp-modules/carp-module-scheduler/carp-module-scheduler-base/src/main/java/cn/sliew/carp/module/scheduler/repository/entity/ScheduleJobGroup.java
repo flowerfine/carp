@@ -24,7 +24,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("schedule_job_group")
+@TableName("carp_schedule_job_group")
 public class ScheduleJobGroup extends BaseAuditDO {
 
     @TableField("namespace")
