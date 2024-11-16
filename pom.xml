@@ -133,6 +133,7 @@
         <easyexcel.version>3.3.2</easyexcel.version>
         <bkdevops.version>0.0.9</bkdevops.version>
         <asm.version>9.7</asm.version>
+        <javapoet.version>0.5.0</javapoet.version>
     </properties>
 
     <dependencyManagement>
@@ -652,6 +653,11 @@
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
                 <version>${asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.palantir.javapoet</groupId>
+                <artifactId>javapoet</artifactId>
+                <version>${javapoet.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
