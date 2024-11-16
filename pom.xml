@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>0.0.13-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>carp</name>
     <description>Carp Framwork</description>
@@ -68,13 +68,13 @@
     </distributionManagement>
 
     <modules>
+        <module>carp-dist</module>
+        <module>carp-examples</module>
         <module>carp-framework</module>
+        <module>carp-modules</module>
         <module>carp-plugins</module>
         <module>carp-server</module>
         <module>carp-support</module>
-        <module>carp-modules</module>
-        <module>carp-dist</module>
-        <module>carp-examples</module>
     </modules>
 
     <properties>
@@ -130,6 +130,10 @@
         <kubernetes-client.version>6.9.2</kubernetes-client.version>
         <javers.version>7.6.1</javers.version>
         <gravitino.version>0.5.1</gravitino.version>
+        <easyexcel.version>3.3.2</easyexcel.version>
+        <bkdevops.version>0.0.9</bkdevops.version>
+        <asm.version>9.7</asm.version>
+        <javapoet.version>0.5.0</javapoet.version>
     </properties>
 
     <dependencyManagement>
@@ -231,6 +235,26 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-http-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-http-job</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-http-remote-feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-http-remote-jst</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-kubernetes</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -288,6 +312,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-plugin-test-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-annotation-processor</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -602,6 +632,39 @@
                 <artifactId>javers-spring</artifactId>
                 <version>${javers.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tencent.devops</groupId>
+                <artifactId>devops-boot-starter-service</artifactId>
+                <version>${bkdevops.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tencent.devops</groupId>
+                <artifactId>devops-boot-starter-schedule-server</artifactId>
+                <version>${bkdevops.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tencent.devops</groupId>
+                <artifactId>devops-boot-starter-schedule-worker</artifactId>
+                <version>${bkdevops.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.palantir.javapoet</groupId>
+                <artifactId>javapoet</artifactId>
+                <version>${javapoet.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -690,6 +753,7 @@
                             <artifactId>auto-service</artifactId>
                             <version>${auto-service.version}</version>
                         </path>
+
                         <!-- !!! VERY IMPORTANT -->
                         <path>
                             <groupId>org.pf4j</groupId>

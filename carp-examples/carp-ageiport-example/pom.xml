@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-examples</artifactId>
-        <version>0.0.12-SNAPSHOT</version>
+        <version>0.0.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-ageiport-example</artifactId>
@@ -38,6 +38,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         <ageiport.version>0.3.2</ageiport.version>
         <quarkus.version>3.3.2</quarkus.version>
+        <datafaker.version>2.4.0</datafaker.version>
         <junit.version>5.9.0</junit.version>
     </properties>
 
@@ -60,6 +61,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>ageiport-processor-core</artifactId>
                 <version>${ageiport.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.datafaker</groupId>
+                <artifactId>datafaker</artifactId>
+                <version>${datafaker.version}</version>
             </dependency>
 
             <dependency>

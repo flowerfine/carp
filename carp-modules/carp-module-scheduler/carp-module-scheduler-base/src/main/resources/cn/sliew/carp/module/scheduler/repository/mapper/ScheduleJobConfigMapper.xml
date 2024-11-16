@@ -53,7 +53,7 @@
     <select id="get" resultMap="ScheduleJobConfigMap">
         select
         <include refid="Base_Column_List"/>
-        from schedule_job_config
+        from carp_schedule_job_config
         where id = #{id}
     </select>
 

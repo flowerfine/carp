@@ -26,7 +26,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@TableName("schedule_job_instance")
+@TableName("carp_schedule_job_instance")
 public class ScheduleJobInstance extends BaseAuditDO {
 
     @TableField("job_config_id")

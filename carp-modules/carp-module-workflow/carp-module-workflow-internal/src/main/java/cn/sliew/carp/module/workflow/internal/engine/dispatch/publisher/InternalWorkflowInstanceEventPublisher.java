@@ -18,10 +18,11 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.publisher;
 
+import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.Queue;
 import cn.sliew.carp.module.queue.api.QueueFactory;
-import cn.sliew.carp.module.queue.api.util.Serder;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowInstanceEventDispatcher;
@@ -44,9 +45,10 @@ public class InternalWorkflowInstanceEventPublisher implements WorkflowInstanceE
         WorkflowInstanceEventDTO eventDTO = (WorkflowInstanceEventDTO) event;
 
         Queue queue = queueFactory.get(InternalWorkflowInstanceEventDispatcher.TOPIC);
+        SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
         Message message = Message.builder()
                 .topic(queue.getName())
-                .body(Serder.serializeByJava(eventDTO))
+                .body(serDer.serialize(eventDTO))
                 .build();
         queue.push(message);
     }

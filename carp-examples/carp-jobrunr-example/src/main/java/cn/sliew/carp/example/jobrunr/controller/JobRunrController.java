@@ -49,9 +49,21 @@ public class JobRunrController {
     }
 
     @PutMapping("/enqueue-example-job-with-record")
+    @Operation(summary = "新增-复杂对象", description = "新增-复杂对象")
     public String enqueueExampleJobWithRecord(@RequestParam(value = "name", defaultValue = "World") String name) {
         SampleJobInput sampleJobInput = new SampleJobInput(UUID.randomUUID(), name);
         final JobId enqueuedJobId = jobScheduler.enqueue(() -> sampleService.sampleJobWithRecordInput(sampleJobInput));
+        return "Job Enqueued: " + enqueuedJobId.toString();
+    }
+
+    @PutMapping("/enqueue-example-job-pure-lambda")
+    @Operation(summary = "新增-纯lambda", description = "新增-纯lambda")
+    public String enqueueExampleJobPureLambda(@RequestParam(value = "name", defaultValue = "World") String name) {
+        final JobId enqueuedJobId = jobScheduler.enqueue(() -> {
+            // 只能写一个，如果打印 2 次就报错
+            System.out.println("第一次：Hello " + name);
+//            System.out.println("第二次：Hello " + name);
+        });
         return "Job Enqueued: " + enqueuedJobId.toString();
     }
 

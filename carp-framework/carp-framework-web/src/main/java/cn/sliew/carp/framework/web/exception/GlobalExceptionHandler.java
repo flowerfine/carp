@@ -28,16 +28,20 @@ import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @see DefaultHandlerExceptionResolver
+ */
 @Slf4j
-@ControllerAdvice
-public class GlobalExceptionHandler {
+@RestControllerAdvice
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * All exception handling converters
@@ -53,7 +57,6 @@ public class GlobalExceptionHandler {
         REGISTRY.put(BindException.class, new BindExceptionConvertor());
     }
 
-    @ResponseBody
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ResponseVO> exception(Throwable exception,
                                                 HttpServletRequest request,
@@ -62,7 +65,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
 
-    public ResponseVO convert(Throwable exception,HttpServletRequest request, HttpServletResponse response) {
+    public ResponseVO convert(Throwable exception, HttpServletRequest request, HttpServletResponse response) {
         ExceptionConvertor exceptionConvertor = REGISTRY.get(exception.getClass());
         if (exceptionConvertor == null) {
             if (exception instanceof SliewException) {

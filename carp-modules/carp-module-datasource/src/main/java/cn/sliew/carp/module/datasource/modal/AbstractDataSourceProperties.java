@@ -42,6 +42,7 @@ import org.springframework.validation.annotation.Validated;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractDataSourceProperties implements Polymorphic<String> {
 
+    @Override
     public abstract String getType();
 
     public static final class DataSourceResolver extends PolymorphicResolver<DataSourceType> {

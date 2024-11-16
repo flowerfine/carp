@@ -23,13 +23,14 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
-        <version>0.0.12-SNAPSHOT</version>
+        <version>0.0.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework</artifactId>
     <packaging>pom</packaging>
 
     <modules>
+        <module>carp-framework-biz</module>
         <module>carp-framework-common</module>
         <module>carp-framework-dag</module>
         <module>carp-framework-exception</module>
@@ -41,6 +42,7 @@
         <module>carp-framework-spring</module>
         <module>carp-framework-task</module>
         <module>carp-framework-web</module>
+        <module>carp-framework-license</module>
     </modules>
 
 </project>

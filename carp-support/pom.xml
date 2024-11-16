@@ -23,13 +23,14 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
-        <version>0.0.12-SNAPSHOT</version>
+        <version>0.0.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-support</artifactId>
     <packaging>pom</packaging>
 
     <modules>
+        <module>carp-annotation-processor</module>
         <module>carp-generator</module>
     </modules>
 

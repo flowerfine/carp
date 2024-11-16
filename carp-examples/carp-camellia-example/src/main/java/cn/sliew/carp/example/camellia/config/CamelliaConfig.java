@@ -22,7 +22,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = {"com.netease.nim.camellia.redis.springboot",
-        "com.netease.nim.camellia.delayqueue.server"})
+@ComponentScan(basePackages = {
+        "com.netease.nim.camellia.redis.springboot",
+        "com.netease.nim.camellia.delayqueue.server.springboot",
+        "com.netease.nim.camellia.delayqueue.sdk.springboot"
+})
 public class CamelliaConfig {
+
 }
