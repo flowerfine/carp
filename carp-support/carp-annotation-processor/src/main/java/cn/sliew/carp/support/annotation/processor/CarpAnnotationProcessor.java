@@ -53,18 +53,17 @@ public class CarpAnnotationProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
-            return processInternal(roundEnv);
+            processInternal(roundEnv);
         } catch (Exception e) {
             processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Exception occurred %s".formatted(e));
         }
         return false;
     }
 
-    protected boolean processInternal(RoundEnvironment roundEnv) {
+    protected void processInternal(RoundEnvironment roundEnv) {
         plugins.stream().map(plugin -> plugin.process(roundEnv.getElementsAnnotatedWith(plugin.supported())))
                 .flatMap(Collection::stream)
                 .forEach(this::writeFile);
-        return true;
     }
 
     private void writeFile(JavaFile javaFile) {

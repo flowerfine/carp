@@ -27,27 +27,31 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Types;
+import javax.tools.Diagnostic;
 import java.util.List;
+import java.util.Objects;
 
 class HandlerWriter {
 
-    private final ExecutableElement httpMethodElement;
-    private final ExecutableElement produceElement;
-    private final ExecutableElement processElement;
-    private final ExecutableElement pathElement;
-    private final Types typeUtils;
-    private final TypeMirror requestType;
+    private ExecutableElement httpMethodElement;
+    private ExecutableElement produceElement;
+    private ExecutableElement processElement;
+    private ExecutableElement pathElement;
+    private Types typeUtils;
+    private TypeMirror requestType;
 
     HandlerWriter(ProcessingEnvironment processingEnv) {
         this.typeUtils = processingEnv.getTypeUtils();
         var handlerInterfaceElement = processingEnv.getElementUtils().getTypeElement(RequestHandler.class.getCanonicalName());
-        this.httpMethodElement = getMethodElement(handlerInterfaceElement, "method");
-        this.produceElement = getMethodElement(handlerInterfaceElement, "produce");
-        this.processElement = getMethodElement(handlerInterfaceElement, "process");
-        this.pathElement = getMethodElement(handlerInterfaceElement, "path");
-        this.requestType = processingEnv.getElementUtils()
-                .getTypeElement(Request.class.getCanonicalName())
-                .asType();
+        if (Objects.nonNull(handlerInterfaceElement)) {
+            this.httpMethodElement = getMethodElement(handlerInterfaceElement, "method");
+            this.produceElement = getMethodElement(handlerInterfaceElement, "produce");
+            this.processElement = getMethodElement(handlerInterfaceElement, "process");
+            this.pathElement = getMethodElement(handlerInterfaceElement, "path");
+            this.requestType = processingEnv.getElementUtils()
+                    .getTypeElement(Request.class.getCanonicalName())
+                    .asType();
+        }
     }
 
     private static MethodSpec constructor(TypeName typeName) {
@@ -68,7 +72,7 @@ class HandlerWriter {
         return TypeSpec.classBuilder(handlerMethodName)
                 .addField(FieldSpec.builder(typeName, "controller", Modifier.FINAL, Modifier.PRIVATE).build())
                 .addMethod(constructor(typeName))
-                .addAnnotation(Generated.class)
+//                .addAnnotation(Generated.class)
                 .addSuperinterface(TypeName.get(RequestHandler.class))
                 .addModifiers(Modifier.FINAL)
                 .addMethods(List.of(

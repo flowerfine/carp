@@ -753,6 +753,7 @@
                             <artifactId>auto-service</artifactId>
                             <version>${auto-service.version}</version>
                         </path>
+
                         <!-- !!! VERY IMPORTANT -->
                         <path>
                             <groupId>org.pf4j</groupId>
