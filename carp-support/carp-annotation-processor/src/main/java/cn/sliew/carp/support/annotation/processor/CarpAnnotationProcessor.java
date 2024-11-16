@@ -18,7 +18,6 @@
 
 package cn.sliew.carp.support.annotation.processor;
 
-import cn.sliew.carp.support.annotation.processor.plugins.jackson.javapoet.JacksonJavapoetPlugin;
 import cn.sliew.carp.support.annotation.processor.plugins.web.WebPlugin;
 import com.google.auto.common.BasicAnnotationProcessor;
 import com.google.auto.service.AutoService;
@@ -26,44 +25,45 @@ import com.google.common.collect.Lists;
 import com.palantir.javapoet.JavaFile;
 
 import javax.annotation.processing.*;
-import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
+ * 参考 lombok.core.AnnotationProcessor
+ *
  * @see BasicAnnotationProcessor
  */
-@SupportedAnnotationTypes({"cn.sliew.carp.support.annotation.processor.CarpProcessor"})
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
+@SupportedAnnotationTypes("*")
 @AutoService(Processor.class)
 public class CarpAnnotationProcessor extends AbstractProcessor {
 
-    private List<CarpProcessorPlugin> plugins = Lists.newArrayList();
+    private List<CarpProcessorPlugin> registered = Lists.newArrayList();
+    private List<CarpProcessorPlugin> active = Lists.newArrayList();
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        plugins.add(new WebPlugin());
-        plugins.add(new JacksonJavapoetPlugin());
-        plugins.forEach(plugin -> plugin.init(processingEnv));
+        registered.add(new WebPlugin());
+        active = registered.stream().filter(plugin -> plugin.support(processingEnv)).collect(Collectors.toList());
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
-            processInternal(roundEnv);
+            processInternal(annotations, roundEnv);
         } catch (Exception e) {
             processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Exception occurred %s".formatted(e));
         }
         return false;
     }
 
-    protected void processInternal(RoundEnvironment roundEnv) {
-        plugins.stream().map(plugin -> plugin.process(roundEnv.getElementsAnnotatedWith(plugin.supported())))
+    protected void processInternal(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        active.stream().map(plugin -> plugin.process(roundEnv.getElementsAnnotatedWith(plugin.supported()), roundEnv))
                 .flatMap(Collection::stream)
                 .forEach(this::writeFile);
     }

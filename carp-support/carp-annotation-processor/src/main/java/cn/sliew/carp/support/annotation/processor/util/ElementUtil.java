@@ -16,18 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.annotation.processor.plugins.jackson;
+package cn.sliew.carp.support.annotation.processor.util;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.ElementFilter;
 
-@Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.METHOD)
-public @interface JacksonGetter {
+public enum ElementUtil {
+    ;
 
-    Class<?> mapping();
-
-    String attribute();
+    public static ExecutableElement getMethodElement(TypeElement typeElement, String elementName) {
+        return ElementFilter.methodsIn(typeElement.getEnclosedElements()).stream()
+                .filter(it -> it.getSimpleName().toString().equals(elementName))
+                .findFirst()
+                .get();
+    }
 }

@@ -18,18 +18,23 @@
 
 package cn.sliew.carp.support.annotation.processor.plugins.web;
 
+import cn.sliew.carp.support.annotation.processor.specs.GeneratedMethodSpecs;
+import cn.sliew.carp.support.annotation.processor.util.ElementUtil;
 import com.palantir.javapoet.*;
 
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.*;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Types;
 import java.util.List;
 import java.util.Objects;
 
 class HandlerWriter {
+
+    private static final String CONTROLLER = "controller";
 
     private ExecutableElement httpMethodElement;
     private ExecutableElement produceElement;
@@ -42,10 +47,10 @@ class HandlerWriter {
         this.typeUtils = processingEnv.getTypeUtils();
         var handlerInterfaceElement = processingEnv.getElementUtils().getTypeElement(RequestHandler.class.getCanonicalName());
         if (Objects.nonNull(handlerInterfaceElement)) {
-            this.httpMethodElement = getMethodElement(handlerInterfaceElement, "method");
-            this.produceElement = getMethodElement(handlerInterfaceElement, "produce");
-            this.processElement = getMethodElement(handlerInterfaceElement, "process");
-            this.pathElement = getMethodElement(handlerInterfaceElement, "path");
+            this.httpMethodElement = ElementUtil.getMethodElement(handlerInterfaceElement, "method");
+            this.produceElement = ElementUtil.getMethodElement(handlerInterfaceElement, "produce");
+            this.processElement = ElementUtil.getMethodElement(handlerInterfaceElement, "process");
+            this.pathElement = ElementUtil.getMethodElement(handlerInterfaceElement, "path");
             this.requestType = processingEnv.getElementUtils()
                     .getTypeElement(Request.class.getCanonicalName())
                     .asType();
@@ -54,21 +59,14 @@ class HandlerWriter {
 
     private static MethodSpec constructor(TypeName typeName) {
         return MethodSpec.constructorBuilder()
-                .addParameter(ParameterSpec.builder(typeName, "controller").build())
-                .addCode("this.controller = controller;")
+                .addParameter(ParameterSpec.builder(typeName, CONTROLLER).build())
+                .addCode("this.%s = %s;".formatted(CONTROLLER, CONTROLLER))
                 .build();
-    }
-
-    private static ExecutableElement getMethodElement(TypeElement typeElement, String elementName) {
-        return ElementFilter.methodsIn(typeElement.getEnclosedElements()).stream()
-                .filter(it -> it.getSimpleName().toString().equals(elementName))
-                .findFirst()
-                .get();
     }
 
     TypeSpec buildHandler(String handlerMethodName, ExecutableElement handler, TypeName typeName, RequestHandle annotation) {
         return TypeSpec.classBuilder(handlerMethodName)
-                .addField(FieldSpec.builder(typeName, "controller", Modifier.FINAL, Modifier.PRIVATE).build())
+                .addField(FieldSpec.builder(typeName, CONTROLLER, Modifier.FINAL, Modifier.PRIVATE).build())
                 .addMethod(constructor(typeName))
 //                .addAnnotation(Generated.class)
                 .addSuperinterface(TypeName.get(RequestHandler.class))
@@ -83,21 +81,27 @@ class HandlerWriter {
     }
 
     private MethodSpec method(HttpMethod httpMethod) {
-        return MethodSpec.overriding(httpMethodElement)
-                .addCode("return $T.$L;", httpMethod.getClass(), httpMethod.toString())
-                .build();
+        return GeneratedMethodSpecs.generatedOverrideMethodSpec(httpMethodElement,
+                CodeBlock.builder()
+                        .add("return $T.$L;", httpMethod.getClass(), httpMethod.toString())
+                        .build()
+        );
     }
 
     private MethodSpec path(String value) {
-        return MethodSpec.overriding(pathElement)
-                .addCode("return $S;", value)
-                .build();
+        return GeneratedMethodSpecs.generatedOverrideMethodSpec(pathElement,
+                CodeBlock.builder()
+                        .add("return $S;", value)
+                        .build()
+        );
     }
 
     private MethodSpec produce(String produce) {
-        return MethodSpec.overriding(produceElement)
-                .addCode("return $S;", produce)
-                .build();
+        return GeneratedMethodSpecs.generatedOverrideMethodSpec(produceElement,
+                CodeBlock.builder()
+                        .add("return $S;", produce)
+                        .build()
+        );
     }
 
     private MethodSpec process(ExecutableElement handlerMethod) {
@@ -125,13 +129,7 @@ class HandlerWriter {
         if (parameters.size() > 1 || !doesParamTypesMatchRequest(parameters)) {
             throw new RuntimeException("Too many parameters or type of param is not Request");
         }
-        var methodCallParams = parameters.stream().map(VariableElement::getSimpleName).map(Name::toString)
-                .findFirst()
-                .map(__ -> "(arg0)")
-                .orElse("()");
-        return CodeBlock.builder()
-                .add("controller.$L$L", handlerMethod.getSimpleName().toString(), methodCallParams)
-                .build();
+        return GeneratedMethodSpecs.generatedMethodCallSpec(parameters, CONTROLLER, handlerMethod);
     }
 
     private boolean doesParamTypesMatchRequest(List<? extends VariableElement> parameters) {

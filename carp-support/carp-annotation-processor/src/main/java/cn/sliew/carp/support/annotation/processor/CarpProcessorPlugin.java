@@ -22,20 +22,22 @@ import com.google.auto.common.BasicAnnotationProcessor;
 import com.palantir.javapoet.JavaFile;
 
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Set;
 
 /**
+ * 参考 lombok.core.AnnotationProcessor.ProcessorDescriptor
  * @see BasicAnnotationProcessor.Step
  */
 public interface CarpProcessorPlugin {
 
-    void init(ProcessingEnvironment processingEnv);
+    boolean support(ProcessingEnvironment processingEnv);
 
     Class<? extends Annotation> supported();
 
-    Collection<JavaFile> process(Set<? extends Element> annotated);
+    Collection<JavaFile> process(Set<? extends Element> annotated, RoundEnvironment roundEnv);
 
 }

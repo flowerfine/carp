@@ -33,9 +33,10 @@ public class WebPlugin extends AbstractClassGeneratePlugin {
     private HandlerWriter handlerWriter;
 
     @Override
-    public void init(ProcessingEnvironment processingEnv) {
-        super.init(processingEnv);
+    public boolean support(ProcessingEnvironment processingEnv) {
+        super.support(processingEnv);
         this.handlerWriter = new HandlerWriter(processingEnv);
+        return false;
     }
 
     @Override

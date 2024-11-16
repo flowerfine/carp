@@ -19,11 +19,10 @@
 package cn.sliew.carp.support.annotation.processor.plugins;
 
 import cn.sliew.carp.support.annotation.processor.CarpProcessorPlugin;
-import cn.sliew.carp.support.annotation.processor.util.ProcessingEnvUtils;
 import com.palantir.javapoet.JavaFile;
-import com.palantir.javapoet.TypeSpec;
 
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -31,6 +30,7 @@ import javax.lang.model.util.ElementFilter;
 import javax.tools.Diagnostic;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +46,15 @@ public abstract class AbstractProcessorPlugin implements CarpProcessorPlugin {
     protected ProcessingEnvironment processingEnv;
 
     @Override
-    public void init(ProcessingEnvironment processingEnv) {
+    public boolean support(ProcessingEnvironment processingEnv) {
         this.processingEnv = processingEnv;
+        return false;
     }
 
+    public abstract Class<? extends Annotation> supported();
+
     @Override
-    public Collection<JavaFile> process(Set<? extends Element> annotated) {
+    public Collection<JavaFile> process(Set<? extends Element> annotated, RoundEnvironment roundEnv) {
         Map<ElementMethod, List<ExecutableElement>> nameDataListMap = ElementFilter
                 .methodsIn(annotated)
                 .stream()
@@ -80,14 +83,7 @@ public abstract class AbstractProcessorPlugin implements CarpProcessorPlugin {
         }
     }
 
-    private JavaFile getJavaFile(ElementMethod elementMethod, IndexedValue<ExecutableElement> indexedValue) {
-        var handlerMethod = indexedValue.value();
-        var typeSpec = createType(elementMethod, indexedValue, handlerMethod);
-        String packageName = ProcessingEnvUtils.getPackageName(processingEnv, handlerMethod);
-        return JavaFile.builder(packageName, typeSpec).build();
-    }
-
-    protected abstract TypeSpec createType(ElementMethod elementMethod, IndexedValue<ExecutableElement> indexedValue, ExecutableElement handlerMethod);
+    protected abstract JavaFile getJavaFile(ElementMethod elementMethod, IndexedValue<ExecutableElement> indexedValue);
 
     protected void log(String msg) {
         if (processingEnv.getOptions().containsKey("debug")) {
