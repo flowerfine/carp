@@ -16,19 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.annotation.processor.plugins.web;
+package cn.sliew.carp.support.annotation.processor.plugins.jackson;
 
-import java.util.function.Function;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-record IndexedValue<T>(int index, T value) {
-    static <T> Function<T, IndexedValue<T>> indexed() {
-        return new Function<>() {
-            int index = 1;
+@Retention(RetentionPolicy.SOURCE)
+@Target(ElementType.METHOD)
+public @interface JacksonGetter {
 
-            @Override
-            public IndexedValue<T> apply(T t) {
-                return new IndexedValue<T>(index++, t);
-            }
-        };
-    }
+    Class<?> mapping();
+
+    String attribute();
 }

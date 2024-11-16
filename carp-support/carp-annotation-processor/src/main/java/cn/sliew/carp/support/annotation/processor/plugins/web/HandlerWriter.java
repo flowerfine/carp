@@ -20,14 +20,12 @@ package cn.sliew.carp.support.annotation.processor.plugins.web;
 
 import com.palantir.javapoet.*;
 
-import javax.annotation.processing.Generated;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.*;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Types;
-import javax.tools.Diagnostic;
 import java.util.List;
 import java.util.Objects;
 

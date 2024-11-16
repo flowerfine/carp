@@ -16,41 +16,41 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.annotation.processor.plugins.web;
+package cn.sliew.carp.support.annotation.processor.plugins.jackson.javapoet;
 
-import cn.sliew.carp.support.annotation.processor.plugins.AbstractClassGeneratePlugin;
+import cn.sliew.carp.support.annotation.processor.plugins.AbstractMethodGeneratePlugin;
 import cn.sliew.carp.support.annotation.processor.plugins.IndexedValue;
 import cn.sliew.carp.support.annotation.processor.plugins.ElementMethod;
-import com.palantir.javapoet.TypeName;
+import cn.sliew.carp.support.annotation.processor.plugins.jackson.JacksonGetter;
+import com.palantir.javapoet.JavaFile;
 import com.palantir.javapoet.TypeSpec;
 
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.Set;
 
-public class WebPlugin extends AbstractClassGeneratePlugin {
-
-    private HandlerWriter handlerWriter;
+public class JacksonJavapoetPlugin extends AbstractMethodGeneratePlugin {
 
     @Override
     public void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        this.handlerWriter = new HandlerWriter(processingEnv);
     }
 
     @Override
     public Class<? extends Annotation> supported() {
-        return RequestHandle.class;
+        return JacksonGetter.class;
     }
 
     @Override
-    protected TypeSpec createType(ElementMethod elementMethod, IndexedValue<ExecutableElement> indexedValue, ExecutableElement handlerMethod) {
-        return handlerWriter.buildHandler(
-                elementMethod.toMethodName(indexedValue.index()),
-                handlerMethod,
-                TypeName.get(handlerMethod.getEnclosingElement().asType()),
-                handlerMethod.getAnnotation(RequestHandle.class)
-        );
+    public Collection<JavaFile> process(Set<? extends Element> annotated) {
+        return null;
     }
 
+    @Override
+    protected TypeSpec createType(ElementMethod nameData, IndexedValue<ExecutableElement> indexedValue, ExecutableElement handlerMethod) {
+        return null;
+    }
 }

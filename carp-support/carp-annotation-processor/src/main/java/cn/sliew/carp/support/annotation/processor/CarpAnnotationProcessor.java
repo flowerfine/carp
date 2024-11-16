@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.support.annotation.processor;
 
+import cn.sliew.carp.support.annotation.processor.plugins.jackson.javapoet.JacksonJavapoetPlugin;
 import cn.sliew.carp.support.annotation.processor.plugins.web.WebPlugin;
 import com.google.auto.common.BasicAnnotationProcessor;
 import com.google.auto.service.AutoService;
@@ -47,6 +48,7 @@ public class CarpAnnotationProcessor extends AbstractProcessor {
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         plugins.add(new WebPlugin());
+        plugins.add(new JacksonJavapoetPlugin());
         plugins.forEach(plugin -> plugin.init(processingEnv));
     }
 
