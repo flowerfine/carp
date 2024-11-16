@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.annotation.processor;
+package cn.sliew.carp.support.annotation.processor.plugins.web;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.function.Function;
 
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
-@Retention(RetentionPolicy.SOURCE)
-public @interface CarpProcessor {
+record IndexedValue<T>(int index, T value) {
+    static <T> Function<T, IndexedValue<T>> indexed() {
+        return new Function<>() {
+            int index = 1;
 
+            @Override
+            public IndexedValue<T> apply(T t) {
+                return new IndexedValue<T>(index++, t);
+            }
+        };
+    }
 }

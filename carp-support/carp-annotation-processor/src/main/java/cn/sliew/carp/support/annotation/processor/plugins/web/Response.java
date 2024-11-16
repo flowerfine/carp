@@ -16,15 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.annotation.processor;
+package cn.sliew.carp.support.annotation.processor.plugins.web;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public interface Response {
+    static Response noContent() {
+        return new Response() {
+            @Override
+            public int statusCode() {
+                return 204;
+            }
 
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
-@Retention(RetentionPolicy.SOURCE)
-public @interface CarpProcessor {
+            @Override
+            public String body() {
+                return null;
+            }
+        };
+    }
 
+    int statusCode();
+
+    String body();
 }

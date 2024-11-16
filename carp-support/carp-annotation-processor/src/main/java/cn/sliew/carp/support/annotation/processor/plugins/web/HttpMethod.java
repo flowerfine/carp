@@ -16,15 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.annotation.processor;
+package cn.sliew.carp.support.annotation.processor.plugins.web;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
-@Retention(RetentionPolicy.SOURCE)
-public @interface CarpProcessor {
-
+public enum HttpMethod {
+    DELETE, GET, PATCH, POST, PUT
 }

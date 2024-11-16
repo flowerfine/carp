@@ -16,15 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.annotation.processor;
+package cn.sliew.carp.support.annotation.processor.util;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.PackageElement;
 
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
-@Retention(RetentionPolicy.SOURCE)
-public @interface CarpProcessor {
+public enum ProcessingEnvUtils {
+    ;
+
+    public static String getPackageName(ProcessingEnvironment processingEnvironment, Element element) {
+        return getPackageElement(processingEnvironment, element).getQualifiedName().toString();
+    }
+
+    public static PackageElement getPackageElement(ProcessingEnvironment processingEnvironment, Element element) {
+        return processingEnvironment.getElementUtils().getPackageOf(element);
+    }
 
 }

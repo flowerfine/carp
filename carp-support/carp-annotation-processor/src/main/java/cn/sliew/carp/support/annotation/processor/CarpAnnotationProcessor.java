@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.support.annotation.processor;
 
+import cn.sliew.carp.support.annotation.processor.plugins.web.WebPlugin;
 import com.google.auto.common.BasicAnnotationProcessor;
 import com.google.auto.service.AutoService;
 import com.google.common.collect.Lists;
@@ -45,6 +46,7 @@ public class CarpAnnotationProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
+        plugins.add(new WebPlugin());
         plugins.forEach(plugin -> plugin.init(processingEnv));
     }
 

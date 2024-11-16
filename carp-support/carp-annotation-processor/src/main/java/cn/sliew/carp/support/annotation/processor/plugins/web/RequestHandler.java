@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.annotation.processor;
+package cn.sliew.carp.support.annotation.processor.plugins.web;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public interface RequestHandler {
 
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
-@Retention(RetentionPolicy.SOURCE)
-public @interface CarpProcessor {
+    HttpMethod method();
+
+    String produce();
+
+    String path();
+
+    Object process(Request request) throws Exception;
 
 }
