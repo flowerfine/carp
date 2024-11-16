@@ -72,6 +72,11 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-internal</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-annotation-processor</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -317,6 +317,12 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-annotation-processor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
