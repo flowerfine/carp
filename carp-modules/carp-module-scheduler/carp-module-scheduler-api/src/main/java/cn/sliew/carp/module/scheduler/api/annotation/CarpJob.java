@@ -16,16 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.engine.job.java;
+package cn.sliew.carp.module.scheduler.api.annotation;
 
-import cn.sliew.carp.module.scheduler.engine.job.JobContext;
-import cn.sliew.carp.module.scheduler.engine.job.JobExecutor;
-import cn.sliew.carp.module.scheduler.engine.job.JobResult;
+import java.lang.annotation.*;
 
-public class JavaInterfaceJobExecutor implements JobExecutor {
+@Inherited
+@Documented
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface CarpJob {
 
-    @Override
-    public JobResult execute(JobContext context) throws Exception {
-        return null;
-    }
 }

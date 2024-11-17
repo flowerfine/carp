@@ -18,18 +18,28 @@
 
 package cn.sliew.carp.module.scheduler.quartz.service;
 
+import cn.sliew.carp.module.scheduler.api.executor.JobExecutor;
+import cn.sliew.carp.module.scheduler.api.executor.entity.trigger.TriggerParam;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 @Slf4j
 public class QuartzJobHandler extends QuartzJobBean {
 
+    @Autowired
+    private JobExecutor jobExecutor;
+
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         JobDataMap dataMap = context.getMergedJobDataMap();
         String json = dataMap.getString(QuartzUtil.JOB_INSTANCE_ATTR);
+
+
+//        TriggerParam triggerParam = new TriggerParam();
+//        jobExecutor.execute(triggerParam);
     }
 }

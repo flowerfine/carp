@@ -21,61 +21,50 @@ package cn.sliew.carp.module.scheduler.api.executor.handler.method;
 import cn.sliew.carp.module.scheduler.api.executor.JobContext;
 import cn.sliew.carp.module.scheduler.api.executor.JobHandler;
 import cn.sliew.carp.module.scheduler.api.executor.entity.job.JobExecutionResult;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.MethodUtils;
+import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 public class MethodJobHandler implements JobHandler {
 
     private final Object target;
-    private final String methodName;
-    private String initMethodName;
-    private String destroyMethodName;
+    private final Method method;
+    private Method initMethod;
+    private Method destroyMethod;
 
-    public MethodJobHandler(Object target, String methodName) {
+    public MethodJobHandler(Object target, Method method, Method initMethod, Method destroyMethod) {
         this.target = target;
-        this.methodName = methodName;
-    }
-
-    public MethodJobHandler(Object target, String methodName, String initMethodName, String destroyMethodName) {
-        this.target = target;
-        this.methodName = methodName;
-        this.initMethodName = initMethodName;
-        this.destroyMethodName = destroyMethodName;
+        this.method = method;
+        this.initMethod = initMethod;
+        this.destroyMethod = destroyMethod;
     }
 
     @Override
     public JobExecutionResult init(JobContext context) {
-        if (StringUtils.isBlank(initMethodName)) {
+        if (Objects.isNull(initMethod)) {
             return null;
         }
 
         try {
-            Object result = MethodUtils.invokeMethod(target, initMethodName, context);
+            Object result = ReflectionUtils.invokeMethod(initMethod, target, context);
             if (Objects.nonNull(result) && result instanceof JobExecutionResult) {
                 return (JobExecutionResult) result;
             }
-        } catch (IllegalAccessException e) {
-            return JobExecutionResult.failed("-1", "init method must be public", e);
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             return JobExecutionResult.failed("-1", "init method failed", e);
-        } catch (NoSuchMethodException ignored) {
-            // not happen
-            throw new RuntimeException(ignored);
         }
         return null;
     }
 
     @Override
     public void destroy(JobContext context) {
-        if (StringUtils.isBlank(destroyMethodName)) {
+        if (Objects.isNull(destroyMethod)) {
             return;
         }
         try {
-            MethodUtils.invokeMethod(target, destroyMethodName, context);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            ReflectionUtils.invokeMethod(destroyMethod, target, context);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -83,12 +72,12 @@ public class MethodJobHandler implements JobHandler {
     @Override
     public JobExecutionResult execute(JobContext context) {
         try {
-            Object result = MethodUtils.invokeMethod(target, methodName, context);
+            Object result = ReflectionUtils.invokeMethod(method, target, context);
             if (Objects.nonNull(result) && result instanceof JobExecutionResult) {
                 return (JobExecutionResult) result;
             }
             return JobExecutionResult.failed("-1", "job method not return JobExecutionResult", null);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (Exception e) {
             return JobExecutionResult.failed("-1", "job method failed", e);
         }
     }

@@ -16,8 +16,26 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.engine.job;
+package cn.sliew.carp.module.scheduler.api.annotation;
 
-public interface JobContext {
+import cn.sliew.carp.module.scheduler.api.configuration.CarpJobAutoConfiguration;
+import cn.sliew.carp.module.scheduler.api.configuration.CarpJobScannerRegistrar;
+import org.springframework.context.annotation.Import;
 
+import java.lang.annotation.*;
+
+/**
+ * Indicates that carp job auto-configuration should be applied
+ */
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+@Import({CarpJobAutoConfiguration.class, CarpJobScannerRegistrar.class})
+public @interface EnableCarpJob {
+
+    /**
+     * Base packages to scan for @CarpJob definition.
+     */
+    String[] basePackages() default {};
 }

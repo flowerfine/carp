@@ -16,18 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.engine.job;
+package cn.sliew.carp.module.scheduler.api.annotation;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.lang.annotation.*;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class JobResult {
+@Inherited
+@Documented
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface CarpJobHandler {
 
-    public boolean success;
+    String value();
+
+    String initMethod() default "";
+
+    String destroyMethod() default "";
 }

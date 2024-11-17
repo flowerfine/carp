@@ -19,10 +19,10 @@
 package cn.sliew.carp.module.scheduler.quartz.service;
 
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleStatus;
-import cn.sliew.milky.common.exception.Rethrower;
+import cn.sliew.carp.module.scheduler.api.scheduler.JobScheduler;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobInstanceService;
-import cn.sliew.carp.module.scheduler.service.ScheduleJobManageService;
 import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
+import cn.sliew.milky.common.exception.Rethrower;
 import org.quartz.*;
 import org.quartz.impl.matchers.EverythingMatcher;
 import org.springframework.beans.factory.InitializingBean;
@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ScheduleJobManageServiceImpl implements ScheduleJobManageService, InitializingBean {
+public class QuartzJobScheduler implements JobScheduler, InitializingBean {
 
     @Autowired
     private Scheduler scheduler;
