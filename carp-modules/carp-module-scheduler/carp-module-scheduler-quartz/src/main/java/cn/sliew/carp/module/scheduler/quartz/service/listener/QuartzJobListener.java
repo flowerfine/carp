@@ -16,13 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.quartz.service;
+package cn.sliew.carp.module.scheduler.quartz.service.listener;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class QuartzJobListener implements JobListener {
 
     @Override

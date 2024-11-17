@@ -50,13 +50,14 @@ public class QuartzJobHandler extends QuartzJobBean {
         triggerParam.setJobId(scheduleJobInstanceDTO.getJobConfig().getId().toString());
         triggerParam.setJobInstanceId(scheduleJobInstanceDTO.getId().toString());
 
+        // todo jobType & jobHandler
+
         if (StringUtils.hasText(scheduleJobInstanceDTO.getParams())) {
             triggerParam.setParams(JacksonUtil.toMap(JacksonUtil.toJsonNode(scheduleJobInstanceDTO.getParams())));
         }
         triggerParam.setFireTime(context.getFireTime());
         triggerParam.setTriggerTime(context.getScheduledFireTime());
         System.out.println("triggerParam: "+JacksonUtil.toJsonString(triggerParam));
-        System.out.println("context: "+JacksonUtil.toJsonString(context));
 //        jobExecutor.execute(triggerParam);
     }
 }

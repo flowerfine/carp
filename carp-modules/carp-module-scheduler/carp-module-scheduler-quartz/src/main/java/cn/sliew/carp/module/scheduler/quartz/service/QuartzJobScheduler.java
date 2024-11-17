@@ -20,6 +20,9 @@ package cn.sliew.carp.module.scheduler.quartz.service;
 
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleStatus;
 import cn.sliew.carp.module.scheduler.api.scheduler.JobScheduler;
+import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzJobListener;
+import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzSchedulerListener;
+import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzTriggerListener;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobInstanceService;
 import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
 import cn.sliew.milky.common.exception.Rethrower;
@@ -36,10 +39,19 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
     private Scheduler scheduler;
     @Autowired
     private ScheduleJobInstanceService scheduleJobInstanceService;
+    @Autowired
+    private QuartzSchedulerListener schedulerListener;
+    @Autowired
+    private QuartzJobListener jobListener;
+    @Autowired
+    private QuartzTriggerListener triggerListener;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        scheduler.getListenerManager().addJobListener(new QuartzJobListener(), EverythingMatcher.allJobs());
+        ListenerManager listenerManager = scheduler.getListenerManager();
+        listenerManager.addSchedulerListener(schedulerListener);
+        listenerManager.addJobListener(jobListener, EverythingMatcher.allJobs());
+        listenerManager.addTriggerListener(triggerListener);
     }
 
     @Override
