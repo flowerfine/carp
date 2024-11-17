@@ -28,4 +28,10 @@
     </parent>
     <artifactId>carp-module-scheduler-executor</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-common</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -265,7 +265,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-module-scheduler-base</artifactId>
+                <artifactId>carp-module-scheduler-manage</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
