@@ -25,8 +25,8 @@ import cn.sliew.carp.module.scheduler.api.executor.JobExecutor;
 import cn.sliew.carp.module.scheduler.api.executor.JobHandlerFactoryRegistry;
 import cn.sliew.carp.module.scheduler.api.executor.handler.bean.BeanJobHandlerFactory;
 import cn.sliew.carp.module.scheduler.api.executor.handler.method.MethodJobhandlerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
 @ConditionalOnClass(CarpJob.class)
@@ -52,7 +52,7 @@ public class CarpJobAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(JobExecutor.class)
+    @ConditionalOnMissingBean(JobExecutor.class)
     public JobExecutor defaultJobExecutor(JobHandlerFactoryRegistry jobHandlerFactoryRegistry) {
         return new DefaultJobExecutor(jobHandlerFactoryRegistry, new DefaultJobThreadRepository());
     }

@@ -18,12 +18,13 @@
 
 package cn.sliew.carp.module.scheduler.quartz.service;
 
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
+import cn.sliew.milky.common.util.JacksonUtil;
 import org.quartz.*;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public enum QuartzUtil {
@@ -58,28 +59,43 @@ public enum QuartzUtil {
         return TriggerKey.triggerKey(triggerName, triggerGroup);
     }
 
-    private static ScheduleBuilder buildSchedule(ScheduleJobInstanceDTO instance) {
+    public static Trigger getTrigger(ScheduleJobInstanceDTO instance) {
+        TriggerBuilder<Trigger> builder = buildTrigger(instance);
+        return builder
+                .withSchedule(buildCronSchedule(instance))
+                .build();
+    }
+
+    public static Trigger getTriggerOnce(ScheduleJobInstanceDTO instance) {
+        TriggerBuilder<Trigger> builder = buildTrigger(instance);
+        return builder
+                .withSchedule(buildOnceSchedule(instance))
+                .build();
+    }
+
+    private static TriggerBuilder<Trigger> buildTrigger(ScheduleJobInstanceDTO instance) {
+        TriggerBuilder<Trigger> builder = TriggerBuilder.newTrigger()
+                .withIdentity(getTriggerKey(instance));
+        if (Objects.nonNull(instance.getStartTime())) {
+            builder.startAt(instance.getStartTime());
+        }
+        if (Objects.nonNull(instance.getEndTime())) {
+            builder.endAt(instance.getEndTime());
+        }
+        return builder;
+    }
+
+    private static ScheduleBuilder buildCronSchedule(ScheduleJobInstanceDTO instance) {
         return CronScheduleBuilder
                 .cronSchedule(instance.getCron())
                 .inTimeZone(TimeZone.getTimeZone(instance.getTimezone()));
     }
 
-    public static Trigger getTrigger(ScheduleJobInstanceDTO instance) {
-        return TriggerBuilder.newTrigger()
-                .withIdentity(getTriggerKey(instance))
-                .startAt(instance.getStartTime())
-                .endAt(instance.getEndTime())
-                .withSchedule(buildSchedule(instance))
-                .build();
-    }
-
-    public static Trigger getTriggerOnce(ScheduleJobInstanceDTO instance) {
-        return TriggerBuilder.newTrigger()
-                .withIdentity(getTriggerKey(instance))
-                .startAt(instance.getStartTime())
-                .endAt(instance.getEndTime())
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(1))
-                .build();
+    private static ScheduleBuilder buildOnceSchedule(ScheduleJobInstanceDTO instance) {
+        return SimpleScheduleBuilder
+                .simpleSchedule()
+                .withIntervalInSeconds(1)
+                .withRepeatCount(1);
     }
 
 }
