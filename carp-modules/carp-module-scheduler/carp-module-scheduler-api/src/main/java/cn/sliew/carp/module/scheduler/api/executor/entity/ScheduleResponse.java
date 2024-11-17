@@ -16,13 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.executor;
+package cn.sliew.carp.module.scheduler.api.executor.entity;
 
-import cn.sliew.carp.module.scheduler.executor.entity.ScheduleResponse;
-import cn.sliew.carp.module.scheduler.executor.entity.trigger.TriggerParam;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public interface JobExecutor {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ScheduleResponse {
 
-    ScheduleResponse execute(TriggerParam param);
+    public static final ScheduleResponse SUCCESS = new ScheduleResponse("0", "success");
+    public static final ScheduleResponse FAILED = new ScheduleResponse("1", "failed");
 
+    private String code;
+    private String message;
 }

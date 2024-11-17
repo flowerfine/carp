@@ -20,7 +20,7 @@ package cn.sliew.carp.module.scheduler.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.scheduler.service.ScheduleJobManageService;
+import cn.sliew.carp.module.scheduler.api.scheduler.JobScheduler;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobInstanceService;
 import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
 import cn.sliew.carp.module.scheduler.service.param.*;
@@ -40,8 +40,8 @@ public class CarpJobInstanceController {
 
     @Autowired
     private ScheduleJobInstanceService scheduleJobInstanceService;
-    @Autowired
-    private ScheduleJobManageService scheduleJobManageService;
+    @Autowired(required = false)
+    private JobScheduler jobScheduler;
 
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
@@ -88,31 +88,31 @@ public class CarpJobInstanceController {
     @PostMapping("manage/execute")
     @Operation(summary = "执行一次", description = "执行一次")
     public void execute(@Valid @RequestBody ScheduleJobManageParam param) {
-        scheduleJobManageService.execute(param.getJobInstanceId());
+        jobScheduler.execute(param.getJobInstanceId());
     }
 
     @PostMapping("manage/schedule")
     @Operation(summary = "启动调度", description = "启动调度")
     public void schedule(@Valid @RequestBody ScheduleJobManageParam param) {
-        scheduleJobManageService.schedule(param.getJobInstanceId());
+        jobScheduler.schedule(param.getJobInstanceId());
     }
 
     @PostMapping("manage/unschedule")
     @Operation(summary = "取消调度", description = "取消调度")
     public void unschedule(@Valid @RequestBody ScheduleJobManageParam param) {
-        scheduleJobManageService.unschedule(param.getJobInstanceId());
+        jobScheduler.unschedule(param.getJobInstanceId());
     }
 
     @PostMapping("manage/suspend")
     @Operation(summary = "暂停", description = "暂停")
     public void suspend(@Valid @RequestBody ScheduleJobManageParam param) {
-        scheduleJobManageService.suspend(param.getJobInstanceId());
+        jobScheduler.suspend(param.getJobInstanceId());
     }
 
     @PostMapping("manage/resume")
     @Operation(summary = "恢复", description = "恢复")
     public void resume(@Valid @RequestBody ScheduleJobManageParam param) {
-        scheduleJobManageService.resume(param.getJobInstanceId());
+        jobScheduler.resume(param.getJobInstanceId());
     }
 
 }

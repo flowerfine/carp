@@ -26,12 +26,12 @@
         <version>0.0.14-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-scheduler-executor</artifactId>
+    <artifactId>carp-module-scheduler-api</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-framework-common</artifactId>
+            <artifactId>carp-framework-spring</artifactId>
         </dependency>
     </dependencies>
 </project>

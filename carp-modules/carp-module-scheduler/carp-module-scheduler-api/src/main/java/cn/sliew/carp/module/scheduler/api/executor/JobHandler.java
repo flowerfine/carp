@@ -16,22 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.executor;
+package cn.sliew.carp.module.scheduler.api.executor;
 
-import cn.hutool.core.date.DatePattern;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import cn.sliew.carp.module.scheduler.api.executor.entity.job.JobExecutionResult;
 
-import java.util.Date;
-import java.util.Map;
+public interface JobHandler {
 
-@Data
-public class JobContext {
+    JobExecutionResult init(JobContext context);
 
-    private String jobId;
-    private Map<String, Object> params;
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-    private Date triggerTime;
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-    private Date fireTime;
+    JobExecutionResult execute(JobContext context);
+
+    void destroy(JobContext context);
 }

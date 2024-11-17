@@ -16,24 +16,21 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.executor.entity.trigger;
+package cn.sliew.carp.module.scheduler.api.executor;
 
-import cn.hutool.core.date.DatePattern;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import java.util.Collection;
 
-import java.util.Date;
-import java.util.Map;
+public interface JobThreadRepository {
 
-@Data
-public class TriggerParam {
+    Collection<JobThread> getAll();
 
-    private String jobId;
-    private String jobHandler;
-    private Map<String, Object> params;
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-    private Date triggerTime;
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-    private Date fireTime;
+    Collection<JobThread> getByJobId(String jobId);
 
+    JobThread get(String jobId, String jobInstanceId);
+
+    boolean exists(String jobId, String jobInstanceId);
+
+    void save(JobThread thread);
+
+    JobThread remove(String jobId, String jobInstanceId);
 }

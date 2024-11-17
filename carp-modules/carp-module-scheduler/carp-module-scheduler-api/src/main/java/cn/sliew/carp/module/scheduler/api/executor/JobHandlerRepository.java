@@ -16,17 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.executor.entity;
+package cn.sliew.carp.module.scheduler.api.executor;
 
-import cn.sliew.carp.module.scheduler.executor.entity.job.JobExecutionResult;
-import lombok.Data;
+public interface JobHandlerRepository {
 
-@Data
-public class ScheduleResponse {
+    boolean exists(String name);
 
-    public static final JobExecutionResult SUCCESS = new JobExecutionResult("0", "success");
-    public static final JobExecutionResult FAILED = new JobExecutionResult("1", "failed");
+    JobHandler get(String name);
 
-    private String code;
-    private String message;
+    void register(String name, JobHandler handler);
+
+    JobHandler remove(String name);
 }

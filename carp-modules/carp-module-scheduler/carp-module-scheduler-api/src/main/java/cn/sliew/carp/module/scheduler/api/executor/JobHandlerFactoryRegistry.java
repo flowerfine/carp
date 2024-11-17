@@ -16,20 +16,14 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.executor.entity.job;
+package cn.sliew.carp.module.scheduler.api.executor;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import cn.sliew.milky.registry.AbstractRegistry;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class JobExecutionResult {
+public class JobHandlerFactoryRegistry extends AbstractRegistry<JobHandlerFactory, String> {
 
-    public static final JobExecutionResult SUCCESS = new JobExecutionResult("0", "success");
-    public static final JobExecutionResult FAILED = new JobExecutionResult("1", "failed");
-
-    private String code;
-    private String message;
+    @Override
+    public String getDefaultConfig() {
+        return "";
+    }
 }
