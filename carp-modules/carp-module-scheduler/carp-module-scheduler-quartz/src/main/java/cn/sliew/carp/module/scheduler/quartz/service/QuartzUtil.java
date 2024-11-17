@@ -19,9 +19,7 @@
 package cn.sliew.carp.module.scheduler.quartz.service;
 
 import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
-import cn.sliew.milky.common.util.JacksonUtil;
 import org.quartz.*;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Map;
 import java.util.Objects;
@@ -38,13 +36,10 @@ public enum QuartzUtil {
     private static final String TRIGGER_PREFIX = "trigger";
     private static final String TRIGGER_GROUP_PREFIX = "triggerGrp";
 
-    public static final String JOB_INSTANCE_ATTR = "CARP_JOB_INSTANCE_ATTR";
+    public static final String JOB_INSTANCE_ATTR = "CARP_JOB_INSTANCE_ID";
 
     public static JobDataMap buildDataMap(ScheduleJobInstanceDTO instance) {
-        ScheduleJobInstanceDTO copy = new ScheduleJobInstanceDTO();
-        BeanUtils.copyProperties(instance, copy);
-        copy.setStatus(null);
-        return new JobDataMap(Map.of(JOB_INSTANCE_ATTR, JacksonUtil.toJsonString(copy)));
+        return new JobDataMap(Map.of(JOB_INSTANCE_ATTR, instance.getId()));
     }
 
     public static JobKey getJobKey(ScheduleJobInstanceDTO instance) {
@@ -95,7 +90,7 @@ public enum QuartzUtil {
         return SimpleScheduleBuilder
                 .simpleSchedule()
                 .withIntervalInSeconds(1)
-                .withRepeatCount(1);
+                .withRepeatCount(0);
     }
 
 }
