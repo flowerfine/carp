@@ -18,18 +18,46 @@
 
 package cn.sliew.carp.module.scheduler.quartz.service;
 
+import cn.sliew.carp.module.scheduler.api.executor.JobExecutor;
+import cn.sliew.carp.module.scheduler.api.executor.entity.trigger.TriggerParam;
+import cn.sliew.carp.module.scheduler.service.ScheduleJobInstanceService;
+import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
+import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 public class QuartzJobHandler extends QuartzJobBean {
 
+    @Autowired
+    private JobExecutor jobExecutor;
+    @Autowired
+    private ScheduleJobInstanceService scheduleJobInstanceService;
+
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         JobDataMap dataMap = context.getMergedJobDataMap();
-        String json = dataMap.getString(QuartzUtil.JOB_INSTANCE_ATTR);
+        Long jobInstanceId = dataMap.getLong(QuartzUtil.JOB_INSTANCE_ATTR);
+
+        ScheduleJobInstanceDTO scheduleJobInstanceDTO = scheduleJobInstanceService.get(jobInstanceId);
+
+        TriggerParam triggerParam = new TriggerParam();
+        triggerParam.setJobId(scheduleJobInstanceDTO.getJobConfig().getId().toString());
+        triggerParam.setJobInstanceId(scheduleJobInstanceDTO.getId().toString());
+
+        // todo jobType & jobHandler
+
+        if (StringUtils.hasText(scheduleJobInstanceDTO.getParams())) {
+            triggerParam.setParams(JacksonUtil.toMap(JacksonUtil.toJsonNode(scheduleJobInstanceDTO.getParams())));
+        }
+        triggerParam.setFireTime(context.getFireTime());
+        triggerParam.setTriggerTime(context.getScheduledFireTime());
+        System.out.println("triggerParam: "+JacksonUtil.toJsonString(triggerParam));
+//        jobExecutor.execute(triggerParam);
     }
 }

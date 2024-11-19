@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>
-    <version>0.0.13-SNAPSHOT</version>
+    <version>0.0.14-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>carp</name>
     <description>Carp Framwork</description>
@@ -265,7 +265,12 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-module-scheduler-base</artifactId>
+                <artifactId>carp-module-scheduler-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-scheduler-manage</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

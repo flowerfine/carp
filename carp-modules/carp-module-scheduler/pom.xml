@@ -23,14 +23,15 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-modules</artifactId>
-        <version>0.0.13-SNAPSHOT</version>
+        <version>0.0.14-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-scheduler</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>carp-module-scheduler-base</module>
+        <module>carp-module-scheduler-api</module>
+        <module>carp-module-scheduler-manage</module>
         <module>carp-module-scheduler-quartz</module>
     </modules>
 </project>
