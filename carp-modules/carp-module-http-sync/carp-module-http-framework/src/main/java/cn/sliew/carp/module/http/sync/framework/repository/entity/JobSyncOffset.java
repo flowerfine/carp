@@ -24,7 +24,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("job_sync_offset")
+@TableName("carp_job_sync_offset")
 public class JobSyncOffset extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;

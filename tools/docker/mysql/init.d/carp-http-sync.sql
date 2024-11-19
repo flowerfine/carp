@@ -1,8 +1,8 @@
 create database if not exists carp default character set utf8mb4 collate utf8mb4_unicode_ci;
 use carp;
 
-drop table if exists job_sync_offset;
-create table `job_sync_offset`
+drop table if exists carp_job_sync_offset;
+create table `carp_job_sync_offset`
 (
     `id`               bigint      not null auto_increment comment '自增主键',
     `group`            varchar(64) not null comment '任务分组',
