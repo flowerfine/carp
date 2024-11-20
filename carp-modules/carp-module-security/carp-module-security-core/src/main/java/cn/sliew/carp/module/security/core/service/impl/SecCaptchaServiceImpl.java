@@ -53,7 +53,6 @@ public class SecCaptchaServiceImpl implements SecCaptchaService {
         String uuid = AUTH_CAPTCHA_KEY + UUIDUtil.randomUUId();
         // 过期时间 10min
         redisUtil.set(uuid, lineCaptcha.getCode(), Duration.ofMinutes(10L));
-        log.info("验证码测试, uuid: {}, code: {}", uuid, lineCaptcha.getCode());
         SecCaptchaDTO dto = new SecCaptchaDTO();
         dto.setUuid(uuid);
         dto.setImg(lineCaptcha.getImageBase64Data());
