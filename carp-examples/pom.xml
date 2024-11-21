@@ -34,6 +34,7 @@
         <module>carp-camellia-example</module>
         <module>carp-hazelcast-example</module>
         <module>carp-javers-example</module>
+        <module>carp-jdframe-example</module>
         <module>carp-jobrunr-example</module>
         <module>carp-mongo-example</module>
         <module>carp-pekko-example</module>
