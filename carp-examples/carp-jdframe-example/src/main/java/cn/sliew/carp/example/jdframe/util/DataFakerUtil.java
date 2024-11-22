@@ -24,7 +24,6 @@ import net.datafaker.transformations.Field;
 import net.datafaker.transformations.JavaObjectTransformer;
 import net.datafaker.transformations.Schema;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
