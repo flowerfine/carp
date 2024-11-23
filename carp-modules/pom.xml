@@ -33,6 +33,7 @@
         <module>carp-module-application</module>
         <module>carp-module-datasource</module>
         <module>carp-module-excel</module>
+        <module>carp-module-file</module>
         <module>carp-module-http-sync</module>
         <module>carp-module-kubernetes</module>
         <module>carp-module-persistence</module>
