@@ -16,25 +16,13 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.support.generator;
+package cn.sliew.carp.module.excel.repository.mapper;
 
-import cn.sliew.carp.support.generator.helper.MybatisPlusHelper;
+import cn.sliew.carp.module.excel.repository.entity.CarpFileImport;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-public class MySQLGenerator {
+@Repository
+public interface CarpFileImportMapper extends BaseMapper<CarpFileImport> {
 
-    private final static String AUTHOR = "wangqi";
-    private final static String URL = "jdbc:mysql://127.0.0.1:3306/carp";
-    private final static String USERNAME = "root";
-    private final static String PASSWORD = "123456"; //NOSONAR
-    private static final String BASE_PACKAGE = "cn.sliew";
-    private static final String MODULE = "carp";
-
-    /**
-     * just add table names here and run the {@link #main(String[])} method.
-     */
-    private static final String[] TABLES = {"carp_file_import"};
-
-    public static void main(String[] args) {
-        MybatisPlusHelper.generatorMySQL(URL, USERNAME, PASSWORD, AUTHOR, BASE_PACKAGE, MODULE, TABLES);
-    }
 }

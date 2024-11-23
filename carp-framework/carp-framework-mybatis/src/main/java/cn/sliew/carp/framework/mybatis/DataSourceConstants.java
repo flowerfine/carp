@@ -24,6 +24,7 @@ public enum DataSourceConstants {
     public static final String MAPPER_FRAMEWORK_DAG_PACKAGE = "cn.sliew.carp.framework.dag.repository.mapper";
     public static final String MAPPER_MODULE_DATASOURCE_PACKAGE = "cn.sliew.carp.module.datasource.repository.mapper";
     public static final String MAPPER_MODULE_HTTP_SYNC_PACKAGE = "cn.sliew.carp.module.http.sync.framework.repository.mapper";
+    public static final String MAPPER_MODULE_EXCEL_PACKAGE = "cn.sliew.carp.module.excel.repository.mapper";
     public static final String MAPPER_MODULE_KUBERNETES_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
     public static final String MAPPER_MODULE_PLUGIN_PACKAGE = "cn.sliew.carp.module.plugin.repository.mapper";
     public static final String MAPPER_MODULE_SCHEDULER_PACKAGE = "cn.sliew.carp.module.scheduler.repository.mapper";
