@@ -30,7 +30,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>carp-annotation-processor</module>
         <module>carp-generator</module>
     </modules>
 
