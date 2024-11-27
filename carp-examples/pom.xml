@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp</artifactId>
-        <version>0.0.15-SNAPSHOT</version>
+        <version>0.0.16-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-examples</artifactId>
@@ -34,6 +34,7 @@
         <module>carp-camellia-example</module>
         <module>carp-hazelcast-example</module>
         <module>carp-javers-example</module>
+        <module>carp-jdframe-example</module>
         <module>carp-jobrunr-example</module>
         <module>carp-mongo-example</module>
         <module>carp-pekko-example</module>
