@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-plugin-test</artifactId>
-        <version>0.0.15-SNAPSHOT</version>
+        <version>0.0.15</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-test-1</artifactId>

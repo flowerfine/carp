@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-module-http-remote</artifactId>
-        <version>0.0.15-SNAPSHOT</version>
+        <version>0.0.15</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-http-remote-jst</artifactId>
