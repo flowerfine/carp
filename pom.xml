@@ -75,6 +75,7 @@
         <module>carp-plugins</module>
         <module>carp-server</module>
         <module>carp-support</module>
+        <module>carp-ui</module>
     </modules>
 
     <properties>
