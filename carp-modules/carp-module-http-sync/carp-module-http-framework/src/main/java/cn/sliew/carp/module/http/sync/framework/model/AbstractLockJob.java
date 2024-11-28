@@ -21,6 +21,7 @@ package cn.sliew.carp.module.http.sync.framework.model;
 import cn.sliew.carp.module.http.sync.framework.model.job.JobInfo;
 import cn.sliew.carp.module.http.sync.framework.model.job.JobLogLevel;
 import cn.sliew.carp.module.http.sync.framework.model.manager.LockManager;
+import cn.sliew.carp.module.http.sync.framework.model.processor.JobContext;
 import cn.sliew.milky.common.util.JacksonUtil;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public abstract class AbstractLockJob extends AbstractProcessJob {
     }
 
     @Override
-    protected boolean doExecuteBefore(Object param) {
+    protected boolean doExecuteBefore(JobContext context, Object param) {
         LockManager lockManager = context.lockManager();
         JobInfo jobInfo = context.jobInfo();
         boolean lock = lockManager.lock(jobInfo);
@@ -59,7 +60,7 @@ public abstract class AbstractLockJob extends AbstractProcessJob {
     }
 
     @Override
-    protected void doExecuteAfter(Object param) {
+    protected void doExecuteAfter(JobContext context, Object param) {
         LockManager lockManager = context.lockManager();
         JobInfo jobInfo = context.jobInfo();
         boolean unlock = lockManager.unlock(jobInfo);
@@ -74,7 +75,7 @@ public abstract class AbstractLockJob extends AbstractProcessJob {
     }
 
     @Override
-    protected void handleAsyncResult(Object param, Pair<UniqueKillSwitch, CompletionStage<Done>> pair) {
+    protected void handleAsyncResult(JobContext context, Object param, Pair<UniqueKillSwitch, CompletionStage<Done>> pair) {
 
     }
 }

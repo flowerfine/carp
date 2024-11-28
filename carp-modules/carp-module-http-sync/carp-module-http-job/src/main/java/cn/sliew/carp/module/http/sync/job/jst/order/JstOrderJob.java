@@ -21,6 +21,7 @@ package cn.sliew.carp.module.http.sync.job.jst.order;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.carp.module.http.sync.framework.model.JobSetting;
+import cn.sliew.carp.module.http.sync.framework.model.job.JobLogLevel;
 import cn.sliew.carp.module.http.sync.framework.model.manager.LockManager;
 import cn.sliew.carp.module.http.sync.framework.repository.mapper.JobSyncOffsetMapper;
 import cn.sliew.carp.module.http.sync.job.enums.JstJob;
@@ -35,6 +36,8 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 import static cn.sliew.milky.common.check.Ensures.checkNotNull;
 
@@ -52,13 +55,20 @@ public class JstOrderJob extends AbstractJstJob {
     protected JstJob getJstJob() {
         return JstJob.NORMAL_ORDERS_SINGLE_QUERY;
     }
-    
+
     @Override
     public JobSetting getSetting(String param) {
+        // 一月之前
+        Date initSyncOffset = DateUtil.offsetMonth(DateUtil.date(), 1);
+        // 一小时之前
+        Date finalSyncOffset = DateUtil.offsetHour(DateUtil.date(), 1);
         return JobSetting.builder()
                 .jobInfo(getJobInfo(param))
-                .initSyncOffset("2024-01-01 00:00:00")
-                .finalSyncOffset(DateUtil.format(DateUtil.date(), DatePattern.NORM_DATETIME_PATTERN))
+                .logLevel(JobLogLevel.COMPLEX)
+                .initSyncOffset(DateUtil.format(initSyncOffset, DatePattern.NORM_DATETIME_PATTERN))
+                .finalSyncOffset(DateUtil.format(finalSyncOffset, DatePattern.NORM_DATETIME_PATTERN))
+                .parallelism(2)
+                .batchSize(100)
                 .build();
     }
 

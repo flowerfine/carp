@@ -37,15 +37,22 @@ import java.util.Properties;
 public class JobSetting {
 
     private JobInfo jobInfo;
+    @Builder.Default
     private JobLogLevel logLevel = JobLogLevel.SIMPLE;
     // pekko default-dispatcher
+    @Builder.Default
     private String dispatcher = "default-dispatcher";
 
+    @Builder.Default
     private Integer parallelism = 2;
+    @Builder.Default
     private Integer batchSize = 1;
 
+    @Builder.Default
     private Duration minGradient = GradientUtil.MIN_GRADIENT;
+    @Builder.Default
     private Boolean forceMinGradient = true;
+    @Builder.Default
     private List<Duration> gradients = GradientUtil.getDefaultGradients();
 
     private String initSyncOffset;

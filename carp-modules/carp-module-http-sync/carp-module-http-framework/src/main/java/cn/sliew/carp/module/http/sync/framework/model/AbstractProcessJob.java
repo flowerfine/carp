@@ -47,8 +47,7 @@ public abstract class AbstractProcessJob extends AbstractAroundJob {
     }
 
     @Override
-    protected Pair<UniqueKillSwitch, CompletionStage<Done>> doExecuteAsync(Object param) {
-        JobSetting setting = getSetting((String) param);
+    protected Pair<UniqueKillSwitch, CompletionStage<Done>> doExecuteAsync(JobContext context, Object param) {
         JobProcessor processor = buildJobProcessor(context);
         RootTask rootTask = buildRootTask(param);
 
@@ -63,7 +62,7 @@ public abstract class AbstractProcessJob extends AbstractAroundJob {
                 Flow.fromGraph(
                         GraphDSL.create(
                                 b -> {
-                                    int concurrency = setting.getParallelism();
+                                    int concurrency = context.jobSetting().getParallelism();
                                     UniformFanOutShape<SubTask, SubTask> partition =
                                             b.add(Partition.create(concurrency, subTask -> Math.toIntExact(subTask.getIdentifier()) % concurrency));
                                     UniformFanInShape<ProcessResult, ProcessResult> merge =
@@ -79,11 +78,11 @@ public abstract class AbstractProcessJob extends AbstractAroundJob {
                                 }));
 
         return source.via(subTasks)
-                .log(getJobName(setting.getJobInfo()))
+                .log(getJobName(context.jobInfo()))
                 .withAttributes(
                         Attributes.createLogLevels(
-                                getElementLogLevel(), // onElement
-                                Logging.InfoLevel(),  // onFinish
+                                getElementLogLevel(context), // onElement
+                                getFinishLogLevel(context),  // onFinish
                                 Logging.ErrorLevel()  // onFailure
                         )
                 )
@@ -98,7 +97,14 @@ public abstract class AbstractProcessJob extends AbstractAroundJob {
         return String.format("%s.%s", jobInfo.getGroup(), jobInfo.getJob());
     }
 
-    private int getElementLogLevel() {
+    private int getElementLogLevel(JobContext context) {
+        return switch (context.logLevel()) {
+            case FULL, COMPLEX -> Logging.DebugLevel();
+            default -> Logging.InfoLevel();
+        };
+    }
+
+    private int getFinishLogLevel(JobContext context) {
         return switch (context.logLevel()) {
             case FULL, COMPLEX -> Logging.DebugLevel();
             default -> Logging.InfoLevel();

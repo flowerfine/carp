@@ -30,7 +30,7 @@ public class QuartzTriggerListener implements TriggerListener {
 
     @Override
     public String getName() {
-        return "";
+        return "name";
     }
 
     @Override

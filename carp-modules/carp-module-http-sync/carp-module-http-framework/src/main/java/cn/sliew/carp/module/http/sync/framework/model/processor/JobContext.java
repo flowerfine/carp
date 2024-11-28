@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.http.sync.framework.model.processor;
 
+import cn.sliew.carp.module.http.sync.framework.model.JobSetting;
 import cn.sliew.carp.module.http.sync.framework.model.job.JobInfo;
 import cn.sliew.carp.module.http.sync.framework.model.job.JobLogLevel;
 import cn.sliew.carp.module.http.sync.framework.model.manager.LockManager;
@@ -29,6 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
 public interface JobContext {
+
+    JobSetting jobSetting();
 
     JobInfo jobInfo();
 

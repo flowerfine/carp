@@ -28,33 +28,30 @@ import java.util.concurrent.CompletionStage;
 
 public abstract class AbstractAroundJob implements Job {
 
-    protected JobContext context;
-
     @Override
     public void process(String param) {
-        buildJobContext(param);
-        execute(param);
+        execute(buildJobContext(param), param);
     }
 
-    private void execute(Object param) {
-        if (doExecuteBefore(param)) {
-            Pair<UniqueKillSwitch, CompletionStage<Done>> pair = doExecuteAsync(param);
-            pair.second().toCompletableFuture().whenCompleteAsync((unused, throwable) -> doExecuteAfter(param));
-            handleAsyncResult(param, pair);
+    private void execute(JobContext context, Object param) {
+        if (doExecuteBefore(context, param)) {
+            Pair<UniqueKillSwitch, CompletionStage<Done>> pair = doExecuteAsync(context, param);
+            pair.second().toCompletableFuture().whenCompleteAsync((unused, throwable) -> doExecuteAfter(context, param));
+            handleAsyncResult(context, param, pair);
         }
     }
 
-    protected boolean doExecuteBefore(Object param) {
+    protected boolean doExecuteBefore(JobContext context, Object param) {
         return true;
     }
 
-    protected abstract Pair<UniqueKillSwitch, CompletionStage<Done>> doExecuteAsync(Object param);
+    protected abstract Pair<UniqueKillSwitch, CompletionStage<Done>> doExecuteAsync(JobContext context, Object param);
 
-    protected void doExecuteAfter(Object param) {
+    protected void doExecuteAfter(JobContext context, Object param) {
 
     }
 
-    protected abstract void handleAsyncResult(Object param, Pair<UniqueKillSwitch, CompletionStage<Done>> pair);
+    protected abstract void handleAsyncResult(JobContext context, Object param, Pair<UniqueKillSwitch, CompletionStage<Done>> pair);
 
     protected abstract DefaultJobContext buildJobContext(String param);
 }

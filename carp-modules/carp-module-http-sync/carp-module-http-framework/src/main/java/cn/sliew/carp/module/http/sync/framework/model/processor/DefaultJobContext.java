@@ -51,6 +51,11 @@ public class DefaultJobContext implements JobContext {
     private Function<JobSetting, LockManager> lockManagerSupplier;
 
     @Override
+    public JobSetting jobSetting() {
+        return setting;
+    }
+
+    @Override
     public JobInfo jobInfo() {
         return setting.getJobInfo();
     }

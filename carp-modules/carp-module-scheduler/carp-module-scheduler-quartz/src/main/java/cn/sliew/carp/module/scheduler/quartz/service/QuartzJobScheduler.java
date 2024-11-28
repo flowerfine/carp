@@ -51,7 +51,7 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
         ListenerManager listenerManager = scheduler.getListenerManager();
         listenerManager.addSchedulerListener(schedulerListener);
         listenerManager.addJobListener(jobListener, EverythingMatcher.allJobs());
-        listenerManager.addTriggerListener(triggerListener);
+        listenerManager.addTriggerListener(triggerListener, EverythingMatcher.allTriggers());
     }
 
     @Override
