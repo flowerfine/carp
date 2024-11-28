@@ -16,21 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-import cn.sliew.carp.module.http.sync.framework.model.internal.ProcessResult;
-
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface JobProcessor<Context extends JobContext, Root extends RootTask, Sub extends SubTask> {
+public interface SubTask<Context extends JobContext, Root extends RootTask> {
 
-    Context getContext();
+    Long getIdentifier();
 
-    List<Sub> map(Root rootTask);
+    Root getRootTask();
 
-    CompletableFuture<ProcessResult> process(Sub subTask);
+    String getStartSyncOffset();
 
-    ProcessResult reduce(ProcessResult result);
+    String getEndSyncOffset();
 
+    CompletableFuture<Result> execute(Context context);
 }

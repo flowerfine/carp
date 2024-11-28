@@ -16,11 +16,19 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-public interface LockManager {
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-    boolean lock(JobContext context, RootTask rootTask);
+public interface JobProcessor<Context extends JobContext, Root extends RootTask, Sub extends SubTask> {
 
-    boolean unlock(JobContext context, RootTask rootTask);
+    Context getContext();
+
+    List<Sub> map(Root rootTask);
+
+    CompletableFuture<Result> process(Sub subTask);
+
+    Result reduce(Result result);
+
 }

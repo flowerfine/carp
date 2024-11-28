@@ -18,9 +18,11 @@
 
 package cn.sliew.carp.module.http.sync.job.jst.order;
 
-import cn.sliew.carp.module.http.sync.framework.model.SplitManager;
-import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetManager;
-import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
+import cn.sliew.carp.module.http.sync.framework.model.JobSetting;
+import cn.sliew.carp.module.http.sync.framework.model.manager.LockManager;
+import cn.sliew.carp.module.http.sync.framework.repository.mapper.JobSyncOffsetMapper;
 import cn.sliew.carp.module.http.sync.job.enums.JstJob;
 import cn.sliew.carp.module.http.sync.job.jst.AbstractJstJob;
 import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
@@ -29,34 +31,35 @@ import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstAuthMapper;
 import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstOrderMapper;
 import cn.sliew.carp.module.http.sync.job.task.jst.AbstractJstRootTask;
 import cn.sliew.carp.module.http.sync.job.task.jst.order.JstOrderRootTask;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;
 import org.springframework.stereotype.Component;
+
+import static cn.sliew.milky.common.check.Ensures.checkNotNull;
 
 @Component
 public class JstOrderJob extends AbstractJstJob {
 
     private final JstOrderMapper jstOrderMapper;
 
-    public JstOrderJob(ActorSystem<SpawnProtocol.Command> actorSystem, SyncOffsetManager syncOffsetManager, SplitManager splitManager, JstRemoteService jstRemoteService, JstAuthMapper jstAuthMapper, JstOrderMapper jstOrderMapper) {
-        super(actorSystem, syncOffsetManager, splitManager, jstRemoteService, jstAuthMapper);
-        this.jstOrderMapper = jstOrderMapper;
+    public JstOrderJob(ActorSystem<SpawnProtocol.Command> actorSystem, MeterRegistry meterRegistry, JobSyncOffsetMapper jobSyncOffsetMapper, LockManager lockManager, JstRemoteService jstRemoteService, JstAuthMapper jstAuthMapper, JstOrderMapper jstOrderMapper) {
+        super(actorSystem, meterRegistry, jobSyncOffsetMapper, lockManager, jstRemoteService, jstAuthMapper);
+        this.jstOrderMapper = checkNotNull(jstOrderMapper);
     }
 
     @Override
     protected JstJob getJstJob() {
         return JstJob.NORMAL_ORDERS_SINGLE_QUERY;
     }
-
+    
     @Override
-    protected SimpleJobContext buildJobContext() {
-        SimpleJobContext jobContext = super.buildJobContext();
-        jobContext.setInitialSyncOffset("2024-01-01 00:00:00");
-        jobContext.setFinalSyncOffset("2024-11-11 00:00:00");
-
-        jobContext.setSubTaskParallelism(2);
-        jobContext.setSubTaskBatchSize(1);
-        return jobContext;
+    public JobSetting getSetting(String param) {
+        return JobSetting.builder()
+                .jobInfo(getJobInfo(param))
+                .initSyncOffset("2024-01-01 00:00:00")
+                .finalSyncOffset(DateUtil.format(DateUtil.date(), DatePattern.NORM_DATETIME_PATTERN))
+                .build();
     }
 
     @Override

@@ -20,5 +20,7 @@ package cn.sliew.carp.module.http.sync.framework.model;
 
 public interface Job {
 
+    JobSetting getSetting(String param);
+
     void process(String param);
 }

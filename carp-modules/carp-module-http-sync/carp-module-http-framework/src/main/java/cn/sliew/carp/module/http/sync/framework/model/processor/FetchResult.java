@@ -16,23 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-import org.apache.pekko.actor.typed.ActorSystem;
+import lombok.Getter;
 
-import java.util.Optional;
+@Getter
+public class FetchResult<Request, Response> {
 
-public interface JobContext {
+    private final Request request;
+    private final Response response;
 
-    String getGroup();
-
-    String getJob();
-
-    Optional<String> getSubJob();
-
-    Optional<String> getAccount();
-
-    Optional<String> getSubAccount();
-
-    ActorSystem getActorSystem();
+    public FetchResult(Request request, Response response) {
+        this.request = request;
+        this.response = response;
+    }
 }

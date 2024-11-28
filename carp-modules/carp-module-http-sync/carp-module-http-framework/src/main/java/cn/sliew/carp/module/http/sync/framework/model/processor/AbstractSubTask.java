@@ -16,10 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-import cn.sliew.carp.module.http.sync.framework.model.internal.ProcessResult;
-import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
 import org.apache.pekko.Done;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.stream.ActorAttributes;
@@ -29,7 +27,7 @@ import org.apache.pekko.stream.javadsl.Source;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-public abstract class AbstractSubTask<Root extends AbstractRootTask, Request, Response> implements SubTask<SimpleJobContext, Root> {
+public abstract class AbstractSubTask<Root extends AbstractRootTask, Request, Response> implements SubTask<DefaultJobContext, Root> {
 
     private final Long subTaskId;
     private final Root rootTask;
@@ -65,22 +63,22 @@ public abstract class AbstractSubTask<Root extends AbstractRootTask, Request, Re
     }
 
     @Override
-    public CompletableFuture<ProcessResult> execute(SimpleJobContext context) {
+    public CompletableFuture<Result> execute(DefaultJobContext context) {
         ActorSystem actorSystem = context.getActorSystem();
         Sink<FetchResult<Request, Response>, CompletionStage<Done>> sink = Sink.foreachParallel(10, data -> persistData(context, data.getRequest(), data.getResponse()), actorSystem.executionContext());
         Source<FetchResult<Request, Response>, ?> source = fetch(context);
         CompletionStage completionStage = source
                 // 指定 dispatcher
-//                .withAttributes(ActorAttributes.dispatcher("akka.actor.job-sink-dispatcher"))
+                .withAttributes(ActorAttributes.dispatcher(context.dispatcher()))
                 .runWith(sink, actorSystem);
         return completionStage.thenApply(done -> ProcessResult.success(this)).toCompletableFuture();
     }
 
-    protected abstract Source<FetchResult<Request, Response>, ?> fetch(SimpleJobContext context);
+    protected abstract Source<FetchResult<Request, Response>, ?> fetch(DefaultJobContext context);
 
-    protected abstract Request buildFirstRequest(SimpleJobContext context);
+    protected abstract Request buildFirstRequest(DefaultJobContext context);
 
-    protected abstract Response requestRemote(SimpleJobContext context, Request request);
+    protected abstract Response requestRemote(DefaultJobContext context, Request request);
 
-    protected abstract void persistData(SimpleJobContext context, Request request, Response response);
+    protected abstract void persistData(DefaultJobContext context, Request request, Response response);
 }

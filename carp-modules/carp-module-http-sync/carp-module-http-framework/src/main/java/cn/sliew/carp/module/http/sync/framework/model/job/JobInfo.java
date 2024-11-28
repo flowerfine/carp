@@ -16,18 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model.internal;
+package cn.sliew.carp.module.http.sync.framework.model.job;
 
-import cn.sliew.carp.module.http.sync.framework.model.SplitManager;
-import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetJobContext;
-import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetManager;
-import lombok.Setter;
-import org.apache.pekko.actor.typed.ActorSystem;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Optional;
 
-@Setter
-public class SimpleJobContext implements SyncOffsetJobContext {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class JobInfo {
 
     private String group;
     private String job;
@@ -35,63 +37,23 @@ public class SimpleJobContext implements SyncOffsetJobContext {
     private String account;
     private String subAccount;
 
-    private ActorSystem actorSystem;
-
-    private int subTaskParallelism = 2;
-    private int subTaskBatchSize = 1;
-    private SplitManager splitManager;
-
-    private SyncOffsetManager syncOffsetManager;
-    private String initialSyncOffset;
-    private String finalSyncOffset;
-
-    @Override
     public String getGroup() {
         return group;
     }
 
-    @Override
     public String getJob() {
         return job;
     }
 
-    @Override
     public Optional<String> getSubJob() {
         return Optional.ofNullable(subJob);
     }
 
-    @Override
     public Optional<String> getAccount() {
         return Optional.ofNullable(account);
     }
 
-    @Override
     public Optional<String> getSubAccount() {
         return Optional.ofNullable(subAccount);
-    }
-
-    @Override
-    public ActorSystem getActorSystem() {
-        return actorSystem;
-    }
-
-    @Override
-    public SplitManager getSplitManager() {
-        return splitManager;
-    }
-
-    @Override
-    public SyncOffsetManager getSyncOffsetManager() {
-        return syncOffsetManager;
-    }
-
-    @Override
-    public String getInitialSyncOffset() {
-        return initialSyncOffset;
-    }
-
-    @Override
-    public String getFinalSyncOffset() {
-        return finalSyncOffset;
     }
 }

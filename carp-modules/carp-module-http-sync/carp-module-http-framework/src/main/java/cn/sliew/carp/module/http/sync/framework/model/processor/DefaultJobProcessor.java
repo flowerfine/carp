@@ -16,18 +16,20 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-import cn.sliew.carp.module.http.sync.framework.model.internal.ProcessResult;
+import cn.sliew.carp.module.http.sync.framework.model.job.JobInfo;
+import cn.sliew.carp.module.http.sync.framework.model.job.JobLogLevel;
 import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.event.Level;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public class DefaultJobProcessor<Context extends SyncOffsetJobContext, Root extends RootTask, Sub extends SubTask>
+public class DefaultJobProcessor<Context extends JobContext, Root extends RootTask, Sub extends SubTask>
         implements JobProcessor<Context, Root, Sub> {
 
     private final Context context;
@@ -47,27 +49,36 @@ public class DefaultJobProcessor<Context extends SyncOffsetJobContext, Root exte
     }
 
     @Override
-    public CompletableFuture<ProcessResult> process(Sub subTask) {
+    public CompletableFuture<Result> process(Sub subTask) {
         return subTask.execute(context);
     }
 
     @Override
-    public ProcessResult reduce(ProcessResult result) {
+    public Result reduce(Result result) {
+        JobInfo jobInfo = context.jobInfo();
+        SubTask subTask = result.getSubTask();
         if (result.isSuccess() == false) {
-            log.error("group: {}, job: {}, subJob: {}, 子任务处理失败: {}!",
-                    context.getGroup(), context.getJob(), context.getSubJob().orElse(null),
-                    result.getMessage(), result.getThrowable());
+            if (context.logLevel() == JobLogLevel.SIMPLE
+                    || context.logLevel() == JobLogLevel.COMPLEX
+                    || context.logLevel() == JobLogLevel.FULL) {
+                context.log(log, Level.ERROR, "{}-{}, 子任务处理失败, 子任务详情: {}, 失败信息: {}",
+                        subTask.getRootTask().getIdentifier(), subTask.getIdentifier(),
+                        JacksonUtil.toJsonString(subTask),
+                        result.getMessage(), result.getThrowable());
+            }
             if (result.getThrowable() != null) {
                 Rethrower.throwAs(result.getThrowable());
             }
             throw new RuntimeException(result.getMessage());
         }
-        SubTask subTask = result.getSubTask();
-        log.debug("group: {}, job: {}, subJob: {}, {}-{}, 子任务处理成功! 子任务详情: {}",
-                context.getGroup(), context.getJob(), context.getSubJob().orElse(null),
-                subTask.getRootTask().getIdentifier(), subTask.getIdentifier(),
-                JacksonUtil.toJsonString(subTask));
-        context.getSyncOffsetManager().updateSyncOffset(context, subTask.getEndSyncOffset());
+
+        if (context.logLevel() == JobLogLevel.COMPLEX
+                || context.logLevel() == JobLogLevel.FULL) {
+            context.log(log, Level.DEBUG, "{}-{}, 子任务处理成功, 子任务详情: {}",
+                    subTask.getRootTask().getIdentifier(), subTask.getIdentifier(),
+                    JacksonUtil.toJsonString(subTask));
+        }
+        context.syncOffsetManager().updateSyncOffset(context, subTask.getEndSyncOffset());
         return ProcessResult.success(result.getSubTask());
     }
 }

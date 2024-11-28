@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.http.sync.job.task.jst;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractSubTask;
+import cn.sliew.carp.module.http.sync.framework.model.processor.AbstractSubTask;
 
 public abstract class AbstractJstSubTask<Root extends AbstractJstRootTask, Request, Response> extends AbstractSubTask<Root, Request, Response> {
 

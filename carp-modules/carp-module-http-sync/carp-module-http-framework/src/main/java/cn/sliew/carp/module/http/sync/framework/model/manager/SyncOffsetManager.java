@@ -16,18 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.manager;
 
-import lombok.Getter;
+import cn.sliew.carp.module.http.sync.framework.model.processor.JobContext;
+import cn.sliew.carp.module.http.sync.framework.repository.entity.JobSyncOffset;
 
-@Getter
-public class FetchResult<Request, Response> {
+public interface SyncOffsetManager<Context extends JobContext> {
 
-    private final Request request;
-    private final Response response;
+    String initSyncOffset();
 
-    public FetchResult(Request request, Response response) {
-        this.request = request;
-        this.response = response;
-    }
+    String finalSyncOffset();
+
+    JobSyncOffset getSyncOffset(Context context);
+
+    void initSyncOffset(Context context);
+
+    void updateSyncOffset(Context context, String syncOffset);
+
+    boolean needResetSyncOffset(JobSyncOffset syncOffset);
+
+    void resetSyncOffset(Context context);
 }

@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-public interface Result {
+import java.util.List;
 
-    boolean isSuccess();
+public interface RootTask<Context extends JobContext, Sub extends SubTask> {
 
-    String getMessage();
+    Long getIdentifier();
 
-    Throwable getThrowable();
+    List<Sub> split(Context context);
 
-    SubTask getSubTask();
+    Sub build(Long subTaskId, String startSyncOffset, String endSyncOffset);
 }

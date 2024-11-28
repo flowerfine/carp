@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.manager;
 
-import java.util.List;
+import cn.sliew.carp.module.http.sync.framework.model.job.JobInfo;
 
-public interface RootTask<Context extends SyncOffsetJobContext, Sub extends SubTask> {
+public interface LockManager {
 
-    Long getIdentifier();
+    Long lockReleaseTime(JobInfo jobInfo);
 
-    List<Sub> split(Context context);
+    boolean lock(JobInfo jobInfo);
 
-    Sub build(Long subTaskId, String startSyncOffset, String endSyncOffset);
+    boolean unlock(JobInfo jobInfo);
 }

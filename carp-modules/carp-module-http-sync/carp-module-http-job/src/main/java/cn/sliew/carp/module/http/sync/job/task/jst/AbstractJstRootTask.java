@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.http.sync.job.task.jst;
 
-import cn.sliew.carp.module.http.sync.framework.model.AbstractRootTask;
+import cn.sliew.carp.module.http.sync.framework.model.processor.AbstractRootTask;
 import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
 import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
 import lombok.Getter;

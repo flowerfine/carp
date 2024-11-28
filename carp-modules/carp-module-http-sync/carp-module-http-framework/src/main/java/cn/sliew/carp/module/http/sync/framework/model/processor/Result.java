@@ -16,17 +16,15 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-public interface ParallelJobContext<Root extends RootTask, Sub extends SubTask> extends JobContext {
+public interface Result {
 
-    default int getSubTaskParallelism() {
-        return 10;
-    }
+    boolean isSuccess();
 
-    default int getSubTaskBatchSize() {
-        return 20;
-    }
+    String getMessage();
 
-    SplitManager getSplitManager();
+    Throwable getThrowable();
+
+    SubTask getSubTask();
 }

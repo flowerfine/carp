@@ -16,13 +16,24 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.manager;
 
-public interface SyncOffsetJobContext extends ParallelJobContext {
+import org.apache.pekko.japi.Pair;
 
-    SyncOffsetManager getSyncOffsetManager();
+import java.time.Duration;
+import java.util.List;
 
-    String getInitialSyncOffset();
+public interface SplitManager {
 
-    String getFinalSyncOffset();
+    Duration getMinGradient();
+
+    boolean forceMinGradient();
+
+    List<Duration> getGradients();
+
+    Integer getMaxSplitSize();
+
+    boolean supportSplit(String startSyncOffset, String endSyncOffset, Duration gradient);
+
+    List<Pair<String, String>> split(String startSyncOffset, String endSyncOffset, Duration gradient);
 }

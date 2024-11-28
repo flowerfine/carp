@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
+import cn.sliew.carp.module.http.sync.framework.model.manager.SplitManager;
+import cn.sliew.carp.module.http.sync.framework.model.manager.SyncOffsetManager;
 import cn.sliew.carp.module.http.sync.framework.repository.entity.JobSyncOffset;
 import org.apache.pekko.japi.Pair;
 
@@ -28,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractRootTask<Sub extends AbstractSubTask> implements RootTask<SimpleJobContext, Sub> {
+public abstract class AbstractRootTask<Sub extends AbstractSubTask> implements RootTask<DefaultJobContext, Sub> {
 
     private Long rootTaskId;
 
@@ -42,19 +43,19 @@ public abstract class AbstractRootTask<Sub extends AbstractSubTask> implements R
     }
 
     @Override
-    public List<Sub> split(SimpleJobContext context) {
-        SyncOffsetManager syncOffsetManager = context.getSyncOffsetManager();
+    public List<Sub> split(DefaultJobContext context) {
+        SyncOffsetManager syncOffsetManager = context.syncOffsetManager();
         JobSyncOffset syncOffset = syncOffsetManager.getSyncOffset(context);
 
-        SplitManager splitManager = context.getSplitManager();
+        SplitManager splitManager = context.splitManager();
         Optional<Duration> optional = splitManager.getGradients().stream()
-                .filter(gradient -> splitManager.supportSplit(syncOffset.getSyncOffset(), context.getFinalSyncOffset(), gradient))
+                .filter(gradient -> splitManager.supportSplit(syncOffset.getSyncOffset(), syncOffsetManager.finalSyncOffset(), gradient))
                 .findFirst();
         Duration gradient = null;
         if (optional.isEmpty()) {
-            boolean backupSupport = splitManager.supportSplit(syncOffset.getSyncOffset(), context.getFinalSyncOffset(), splitManager.getBackoffGradient());
-            if (backupSupport) {
-                gradient = splitManager.getBackoffGradient();
+            // 强制使用最小的 或 最小的满足
+            if (splitManager.forceMinGradient() || splitManager.supportSplit(syncOffset.getSyncOffset(), syncOffsetManager.finalSyncOffset(), splitManager.getMinGradient())) {
+                gradient = splitManager.getMinGradient();
             }
         } else {
             gradient = optional.get();
@@ -62,7 +63,7 @@ public abstract class AbstractRootTask<Sub extends AbstractSubTask> implements R
         if (gradient == null) {
             return Collections.emptyList();
         }
-        List<Pair<String, String>> splits = context.getSplitManager().split(syncOffset.getSyncOffset(), context.getFinalSyncOffset(), gradient, context.getSubTaskBatchSize());
+        List<Pair<String, String>> splits = splitManager.split(syncOffset.getSyncOffset(), syncOffsetManager.finalSyncOffset(), gradient);
 
         List<Sub> subs = new ArrayList<>();
         for (int i = 0; i < splits.size(); i++) {

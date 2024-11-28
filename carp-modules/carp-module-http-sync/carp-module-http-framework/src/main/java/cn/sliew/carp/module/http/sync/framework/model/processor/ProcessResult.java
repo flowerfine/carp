@@ -16,10 +16,8 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model.internal;
+package cn.sliew.carp.module.http.sync.framework.model.processor;
 
-import cn.sliew.carp.module.http.sync.framework.model.Result;
-import cn.sliew.carp.module.http.sync.framework.model.SubTask;
 import lombok.Getter;
 import lombok.Setter;
 

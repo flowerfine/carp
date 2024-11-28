@@ -19,10 +19,11 @@
 package cn.sliew.carp.module.http.sync.job.jst;
 
 import cn.sliew.carp.module.http.sync.framework.model.AbstractJob;
-import cn.sliew.carp.module.http.sync.framework.model.RootTask;
-import cn.sliew.carp.module.http.sync.framework.model.SplitManager;
-import cn.sliew.carp.module.http.sync.framework.model.SyncOffsetManager;
-import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
+import cn.sliew.carp.module.http.sync.framework.model.JobSetting;
+import cn.sliew.carp.module.http.sync.framework.model.job.JobInfo;
+import cn.sliew.carp.module.http.sync.framework.model.manager.LockManager;
+import cn.sliew.carp.module.http.sync.framework.model.processor.RootTask;
+import cn.sliew.carp.module.http.sync.framework.repository.mapper.JobSyncOffsetMapper;
 import cn.sliew.carp.module.http.sync.job.enums.JstJob;
 import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
 import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstAuth;
@@ -31,6 +32,7 @@ import cn.sliew.carp.module.http.sync.job.task.jst.AbstractJstRootTask;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;
 
@@ -41,25 +43,10 @@ public abstract class AbstractJstJob extends AbstractJob {
     protected final JstRemoteService jstRemoteService;
     private final JstAuthMapper jstAuthMapper;
 
-    public AbstractJstJob(ActorSystem<SpawnProtocol.Command> actorSystem, SyncOffsetManager syncOffsetManager, SplitManager splitManager, JstRemoteService jstRemoteService, JstAuthMapper jstAuthMapper) {
-        super(actorSystem, syncOffsetManager, splitManager);
+    public AbstractJstJob(ActorSystem<SpawnProtocol.Command> actorSystem, MeterRegistry meterRegistry, JobSyncOffsetMapper jobSyncOffsetMapper, LockManager lockManager, JstRemoteService jstRemoteService, JstAuthMapper jstAuthMapper) {
+        super(actorSystem, meterRegistry, jobSyncOffsetMapper, lockManager);
         this.jstRemoteService = jstRemoteService;
         this.jstAuthMapper = jstAuthMapper;
-    }
-
-    @Override
-    public String getJobName() {
-        return String.format("%s.%s.%s", getJstJob().getGroup().getGroup(), getJstJob().getApi().getApi(), getJstJob().getType().getType());
-    }
-
-    @Override
-    protected SimpleJobContext buildJobContext() {
-        SimpleJobContext jobContext = super.buildJobContext();
-        JstJob jstJob = getJstJob();
-        jobContext.setGroup(jstJob.getGroup().getGroup());
-        jobContext.setJob(jstJob.getApi().getApi());
-        jobContext.setSubJob(jstJob.getType().getType());
-        return jobContext;
     }
 
     @Override
@@ -73,6 +60,17 @@ public abstract class AbstractJstJob extends AbstractJob {
         checkState(jstAuth != null);
 
         return buildJstRootTask(jstAuth);
+    }
+
+    protected JobInfo getJobInfo(String param) {
+        JstJobParam jstJobParam = JacksonUtil.parseJsonString(param, JstJobParam.class);
+        return JobInfo.builder()
+                .group(getJstJob().getGroup().getGroup())
+                .job(getJstJob().getApi().getApi())
+                .subJob(getJstJob().getType().getType())
+                .account(jstJobParam.getAppKey())
+                .subAccount(jstJobParam.getCompany())
+                .build();
     }
 
     protected abstract JstJob getJstJob();

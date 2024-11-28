@@ -22,7 +22,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.carp.framework.exception.SliewException;
-import cn.sliew.carp.module.http.sync.framework.model.FetchResult;
+import cn.sliew.carp.module.http.sync.framework.model.processor.FetchResult;
 import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
 import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
 import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstOrder;

@@ -18,98 +18,34 @@
 
 package cn.sliew.carp.module.http.sync.framework.model;
 
-import cn.sliew.carp.module.http.sync.framework.model.internal.ProcessResult;
-import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
-import cn.sliew.milky.common.exception.Rethrower;
-import cn.sliew.milky.common.util.JacksonUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.pekko.Done;
-import org.apache.pekko.NotUsed;
+import cn.sliew.carp.module.http.sync.framework.model.manager.DefaultSyncOffsetManager;
+import cn.sliew.carp.module.http.sync.framework.model.manager.LockManager;
+import cn.sliew.carp.module.http.sync.framework.model.manager.SyncOffsetManager;
+import cn.sliew.carp.module.http.sync.framework.repository.mapper.JobSyncOffsetMapper;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;
-import org.apache.pekko.japi.Pair;
-import org.apache.pekko.stream.*;
-import org.apache.pekko.stream.javadsl.*;
 
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
+import static cn.sliew.milky.common.check.Ensures.checkNotNull;
 
-@Slf4j
-public abstract class AbstractJob implements Job {
+public abstract class AbstractJob extends AbstractLockJob {
 
-    protected ActorSystem<SpawnProtocol.Command> actorSystem;
-    protected SyncOffsetManager syncOffsetManager;
-    protected SplitManager splitManager;
+    private final JobSyncOffsetMapper jobSyncOffsetMapper;
+    private final LockManager lockManager;
 
-    public AbstractJob(ActorSystem<SpawnProtocol.Command> actorSystem, SyncOffsetManager syncOffsetManager, SplitManager splitManager) {
-        this.actorSystem = actorSystem;
-        this.syncOffsetManager = syncOffsetManager;
-        this.splitManager = splitManager;
+    public AbstractJob(ActorSystem<SpawnProtocol.Command> actorSystem, MeterRegistry meterRegistry, JobSyncOffsetMapper jobSyncOffsetMapper, LockManager lockManager) {
+        super(actorSystem, meterRegistry);
+        this.jobSyncOffsetMapper = checkNotNull(jobSyncOffsetMapper);
+        this.lockManager = checkNotNull(lockManager);
     }
 
     @Override
-    public void process(String param) {
-        doExecute(param);
+    protected SyncOffsetManager buildSyncOffsetManager(JobSetting setting) {
+        return new DefaultSyncOffsetManager(setting, jobSyncOffsetMapper);
     }
 
-    protected void doExecute(Object param) {
-        SimpleJobContext context = buildJobContext();
-        JobProcessor processor = buildJobProcessor(context);
-        RootTask rootTask = buildRootTask(param);
-
-        Source<SubTask, UniqueKillSwitch> source = Source.single(rootTask)
-                .mapConcat(root -> processor.map(root))
-                .viaMat(KillSwitches.single(), Keep.right());
-
-        Flow<SubTask, ProcessResult, NotUsed> process = Flow.<SubTask>create()
-                .map(subTask -> processor.process(subTask)).mapAsync(1, future -> future);
-
-        Flow<SubTask, ProcessResult, NotUsed> subTasks =
-                Flow.fromGraph(
-                        GraphDSL.create(
-                                b -> {
-                                    int concurrency = context.getSubTaskParallelism();
-                                    UniformFanOutShape<SubTask, SubTask> partition =
-                                            b.add(Partition.create(concurrency, subTask -> Math.toIntExact(subTask.getIdentifier()) % concurrency));
-                                    UniformFanInShape<ProcessResult, ProcessResult> merge =
-                                            b.add(MergeSequence.create(concurrency, result -> result.getSubTask().getIdentifier()));
-
-                                    for (int i = 0; i < concurrency; i++) {
-                                        b.from(partition.out(i))
-                                                .via(b.add(process.async()))
-                                                .viaFanIn(merge);
-                                    }
-
-                                    return FlowShape.of(partition.in(), merge.out());
-                                }));
-
-        Pair<UniqueKillSwitch, CompletionStage<Done>> pair = source.via(subTasks)
-                .log(getJobName())
-                .toMat(Sink.foreach(result -> processor.reduce(result)), Keep.both())
-                .run(actorSystem);
-        UniqueKillSwitch killSwitch = pair.first();
-        try {
-            pair.second().toCompletableFuture().get(1, TimeUnit.HOURS);
-        } catch (Exception e) {
-            log.error("job 执行异常, job: {}, param: {}", getJobName(), JacksonUtil.toJsonString(param));
-            killSwitch.abort(e);
-            Rethrower.throwAs(e);
-        }
+    @Override
+    protected LockManager buildLockManager(JobSetting setting) {
+        return lockManager;
     }
-
-    public abstract String getJobName();
-
-    protected SimpleJobContext buildJobContext() {
-        SimpleJobContext jobContext = new SimpleJobContext();
-        jobContext.setActorSystem(actorSystem);
-        jobContext.setSyncOffsetManager(syncOffsetManager);
-        jobContext.setSplitManager(splitManager);
-        return jobContext;
-    }
-
-    protected JobProcessor buildJobProcessor(SimpleJobContext context) {
-        return new DefaultJobProcessor(context);
-    }
-
-    protected abstract RootTask buildRootTask(Object param);
 }

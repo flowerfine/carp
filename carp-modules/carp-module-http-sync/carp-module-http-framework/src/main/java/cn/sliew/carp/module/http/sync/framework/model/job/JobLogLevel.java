@@ -16,17 +16,9 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.job;
 
-import cn.sliew.carp.module.http.sync.framework.repository.entity.JobSyncOffset;
+public enum JobLogLevel {
 
-public interface SyncOffsetManager<Context extends SyncOffsetJobContext> {
-
-    JobSyncOffset getSyncOffset(Context context);
-
-    void initSyncOffset(Context context);
-
-    void updateSyncOffset(Context context, String syncOffset);
-
-    void resetSyncOffset(Context context);
+    NONE, SIMPLE, COMPLEX, FULL;
 }

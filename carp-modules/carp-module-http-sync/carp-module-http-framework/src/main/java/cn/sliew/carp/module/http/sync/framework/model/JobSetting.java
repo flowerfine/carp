@@ -18,17 +18,38 @@
 
 package cn.sliew.carp.module.http.sync.framework.model;
 
+import cn.sliew.carp.module.http.sync.framework.model.job.JobInfo;
+import cn.sliew.carp.module.http.sync.framework.model.job.JobLogLevel;
 import cn.sliew.carp.module.http.sync.framework.util.GradientUtil;
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
 
-@Component
-public class DefaultSplitManager implements SplitManager {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class JobSetting {
 
-    @Override
-    public List<Duration> getGradients() {
-        return GradientUtil.getDefaultGradients();
-    }
+    private JobInfo jobInfo;
+    private JobLogLevel logLevel = JobLogLevel.SIMPLE;
+    // pekko default-dispatcher
+    private String dispatcher = "default-dispatcher";
+
+    private Integer parallelism = 2;
+    private Integer batchSize = 1;
+
+    private Duration minGradient = GradientUtil.MIN_GRADIENT;
+    private Boolean forceMinGradient = true;
+    private List<Duration> gradients = GradientUtil.getDefaultGradients();
+
+    private String initSyncOffset;
+    private String finalSyncOffset;
+
+    private Properties properties;
 }

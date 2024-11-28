@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.http.sync.framework.model;
+package cn.sliew.carp.module.http.sync.framework.model.manager;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import cn.sliew.carp.module.http.sync.framework.util.GradientUtil;
+import cn.sliew.carp.module.http.sync.framework.model.JobSetting;
 import cn.sliew.carp.module.http.sync.framework.util.SyncOffsetHelper;
 import org.apache.pekko.japi.Pair;
 
@@ -30,25 +30,50 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface SplitManager {
+import static cn.sliew.milky.common.check.Ensures.checkNotNull;
 
-    List<Duration> getGradients();
+public class DefaultSplitManager implements SplitManager {
 
-    default boolean supportSplit(String startSyncOffset, String endSyncOffset, Duration gradient) {
+    private final JobSetting setting;
+
+    public DefaultSplitManager(JobSetting setting) {
+        this.setting = checkNotNull(setting);
+    }
+
+    @Override
+    public Duration getMinGradient() {
+        return setting.getMinGradient();
+    }
+
+    @Override
+    public boolean forceMinGradient() {
+        return setting.getForceMinGradient();
+    }
+
+    @Override
+    public Integer getMaxSplitSize() {
+        return setting.getBatchSize();
+    }
+
+    @Override
+    public List<Duration> getGradients() {
+        return setting.getGradients();
+    }
+
+    @Override
+    public boolean supportSplit(String startSyncOffset, String endSyncOffset, Duration gradient) {
         LocalDateTime startTime = LocalDateTime.parse(startSyncOffset, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
         LocalDateTime endTime = LocalDateTime.parse(endSyncOffset, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
         return SyncOffsetHelper.supportSplit(startTime, endTime, gradient);
     }
 
-    default List<Pair<String, String>> split(String startSyncOffset, String endSyncOffset, Duration gradient, int total) {
+    @Override
+    public List<Pair<String, String>> split(String startSyncOffset, String endSyncOffset, Duration gradient) {
         LocalDateTime startTime = LocalDateTime.parse(startSyncOffset, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
         LocalDateTime endTime = LocalDateTime.parse(endSyncOffset, DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN));
-        return SyncOffsetHelper.split(startTime, endTime, gradient, total).stream().map(pair -> {
+        return SyncOffsetHelper.split(startTime, endTime, gradient, getMaxSplitSize()).stream().map(pair -> {
             return Pair.create(DateUtil.format(pair.first(), DatePattern.NORM_DATETIME_PATTERN), DateUtil.format(pair.first(), DatePattern.NORM_DATETIME_PATTERN));
         }).collect(Collectors.toUnmodifiableList());
     }
 
-    default Duration getBackoffGradient() {
-        return GradientUtil.MIN_GRADIENT;
-    }
 }
