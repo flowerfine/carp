@@ -19,7 +19,6 @@
 package cn.sliew.carp.module.http.sync.job.jst;
 
 import cn.sliew.carp.module.http.sync.framework.model.AbstractJob;
-import cn.sliew.carp.module.http.sync.framework.model.JobSetting;
 import cn.sliew.carp.module.http.sync.framework.model.job.JobInfo;
 import cn.sliew.carp.module.http.sync.framework.model.manager.LockManager;
 import cn.sliew.carp.module.http.sync.framework.model.processor.RootTask;
