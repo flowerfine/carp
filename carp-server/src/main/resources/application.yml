@@ -85,6 +85,15 @@ management:
 logging:
   level:
     root: info
+    cn:
+      sliew:
+        carp:
+          module:
+            http:
+              sync:
+                framework:
+                  repository:
+                    mapper: debug
 
 springdoc:
   swagger-ui:

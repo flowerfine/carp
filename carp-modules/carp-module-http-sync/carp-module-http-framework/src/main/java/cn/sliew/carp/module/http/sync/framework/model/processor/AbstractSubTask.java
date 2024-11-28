@@ -18,6 +18,8 @@
 
 package cn.sliew.carp.module.http.sync.framework.model.processor;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import org.apache.pekko.Done;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.stream.ActorAttributes;
@@ -65,6 +67,12 @@ public abstract class AbstractSubTask<Root extends AbstractRootTask, Request, Re
     @Override
     public CompletableFuture<Result> execute(DefaultJobContext context) {
         ActorSystem actorSystem = context.getActorSystem();
+        Config config = ConfigFactory.load().getConfig("pekko");
+
+//        System.out.println();
+        System.out.println(config.toString());
+//        System.out.println();
+
         Sink<FetchResult<Request, Response>, CompletionStage<Done>> sink = Sink.foreachParallel(10, data -> persistData(context, data.getRequest(), data.getResponse()), actorSystem.executionContext());
         Source<FetchResult<Request, Response>, ?> source = fetch(context);
         CompletionStage completionStage = source

@@ -63,14 +63,6 @@
             <groupId>org.apache.pekko</groupId>
             <artifactId>pekko-persistence-jdbc_${scala.binary.version}</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.pekko</groupId>
-            <artifactId>pekko-http_${scala.binary.version}</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.pekko</groupId>
-            <artifactId>pekko-http-jackson_${scala.binary.version}</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.mysql</groupId>
