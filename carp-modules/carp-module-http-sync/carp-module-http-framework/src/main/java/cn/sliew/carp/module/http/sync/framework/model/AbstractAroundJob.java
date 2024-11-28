@@ -18,6 +18,8 @@
 
 package cn.sliew.carp.module.http.sync.framework.model;
 
+import cn.sliew.carp.module.http.sync.framework.model.processor.DefaultJobContext;
+import cn.sliew.carp.module.http.sync.framework.model.processor.JobContext;
 import org.apache.pekko.Done;
 import org.apache.pekko.japi.Pair;
 import org.apache.pekko.stream.UniqueKillSwitch;
@@ -26,8 +28,11 @@ import java.util.concurrent.CompletionStage;
 
 public abstract class AbstractAroundJob implements Job {
 
+    protected JobContext context;
+
     @Override
     public void process(String param) {
+        buildJobContext(param);
         execute(param);
     }
 
@@ -51,4 +56,5 @@ public abstract class AbstractAroundJob implements Job {
 
     protected abstract void handleAsyncResult(Object param, Pair<UniqueKillSwitch, CompletionStage<Done>> pair);
 
+    protected abstract DefaultJobContext buildJobContext(String param);
 }

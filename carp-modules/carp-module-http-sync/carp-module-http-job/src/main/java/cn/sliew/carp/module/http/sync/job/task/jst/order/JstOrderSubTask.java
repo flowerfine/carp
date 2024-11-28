@@ -22,8 +22,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.carp.framework.exception.SliewException;
+import cn.sliew.carp.module.http.sync.framework.model.job.JobLogLevel;
+import cn.sliew.carp.module.http.sync.framework.model.processor.DefaultJobContext;
 import cn.sliew.carp.module.http.sync.framework.model.processor.FetchResult;
-import cn.sliew.carp.module.http.sync.framework.model.internal.SimpleJobContext;
 import cn.sliew.carp.module.http.sync.job.remote.JstRemoteService;
 import cn.sliew.carp.module.http.sync.job.repository.entity.jst.JstOrder;
 import cn.sliew.carp.module.http.sync.job.repository.mapper.jst.JstOrderMapper;
@@ -41,6 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.pekko.japi.Pair;
 import org.apache.pekko.stream.javadsl.Source;
+import org.slf4j.event.Level;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -59,7 +61,7 @@ public class JstOrderSubTask extends AbstractJstSubTask<JstOrderRootTask, Orders
     }
 
     @Override
-    protected Source<FetchResult<OrdersSingleQuery, JstOrdersResult>, ?> fetch(SimpleJobContext context) {
+    protected Source<FetchResult<OrdersSingleQuery, JstOrdersResult>, ?> fetch(DefaultJobContext context) {
         OrdersSingleQuery first = buildFirstRequest(context);
         return Source.unfoldAsync(first, key -> {
             if (key == null) {
@@ -77,7 +79,7 @@ public class JstOrderSubTask extends AbstractJstSubTask<JstOrderRootTask, Orders
     }
 
     @Override
-    protected OrdersSingleQuery buildFirstRequest(SimpleJobContext context) {
+    protected OrdersSingleQuery buildFirstRequest(DefaultJobContext context) {
         OrdersSingleQuery query = new OrdersSingleQuery();
         query.setModifiedBegin(getStartSyncOffset());
         query.setModifiedEnd(getEndSyncOffset());
@@ -87,22 +89,28 @@ public class JstOrderSubTask extends AbstractJstSubTask<JstOrderRootTask, Orders
     }
 
     @Override
-    protected JstOrdersResult requestRemote(SimpleJobContext context, OrdersSingleQuery request) {
+    protected JstOrdersResult requestRemote(DefaultJobContext context, OrdersSingleQuery request) {
         JstNewResult<JstOrdersResult> jstNewResult = remoteService.getOrders(getRootTask().getJstAuth(), request);
         if (jstNewResult.isSuccess()) {
             JstOrdersResult jstResult = jstNewResult.getData();
             JstResultWrapper jstResultWrapper = JstUtil.convertResult(jstResult, OrdersSingleDO::getOId);
-            log.debug("请求聚水潭接口返回结果, {}, request: {}, result: {}",
-                    context.getGroup(), JacksonUtil.toJsonString(request), JacksonUtil.toJsonString(jstResultWrapper));
+            if (context.logLevel() == JobLogLevel.COMPLEX
+                    || context.logLevel() == JobLogLevel.FULL) {
+                context.log(log, Level.DEBUG, "请求聚水潭接口成功, request: {}, result: {}",
+                        JacksonUtil.toJsonString(request), JacksonUtil.toJsonString(jstResultWrapper));
+            }
             return jstResult;
         }
-        log.error("请求聚水潭接口失败! method: {}, code: {}, msg: {}, query: {}",
-                context.getGroup(), jstNewResult.getCode(), jstNewResult.getMsg(), JacksonUtil.toJsonString(request));
+        if (context.logLevel() == JobLogLevel.COMPLEX
+                || context.logLevel() == JobLogLevel.FULL) {
+            context.log(log, Level.ERROR, "请求聚水潭接口失败, code: {}, msg: {}, query: {}",
+                    jstNewResult.getCode(), jstNewResult.getMsg(), JacksonUtil.toJsonString(request));
+        }
         throw new SliewException(Objects.toString(jstNewResult.getCode()), jstNewResult.getMsg());
     }
 
     @Override
-    protected void persistData(SimpleJobContext context, OrdersSingleQuery request, JstOrdersResult response) {
+    protected void persistData(DefaultJobContext context, OrdersSingleQuery request, JstOrdersResult response) {
         if (CollectionUtils.isEmpty(response.getDatas())) {
             return;
         }

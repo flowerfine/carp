@@ -41,12 +41,9 @@ public abstract class AbstractProcessJob extends AbstractAroundJob {
     protected final ActorSystem<SpawnProtocol.Command> actorSystem;
     protected final MeterRegistry meterRegistry;
 
-    protected final JobContext context;
-
     public AbstractProcessJob(ActorSystem<SpawnProtocol.Command> actorSystem, MeterRegistry meterRegistry) {
         this.actorSystem = actorSystem;
         this.meterRegistry = meterRegistry;
-        this.context = buildJobContext();
     }
 
     @Override
@@ -108,9 +105,10 @@ public abstract class AbstractProcessJob extends AbstractAroundJob {
         };
     }
 
-    private DefaultJobContext buildJobContext() {
+    @Override
+    protected DefaultJobContext buildJobContext(String param) {
         return DefaultJobContext.builder()
-                .setting(getSetting())
+                .setting(getSetting(param))
                 .actorSystem(actorSystem)
                 .meterRegistry(meterRegistry)
                 .splitManagerSupplier(setting -> buildSplitManager(setting))
