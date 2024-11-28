@@ -41,7 +41,7 @@ public class JobSetting {
     private JobLogLevel logLevel = JobLogLevel.SIMPLE;
     // pekko default-dispatcher
     @Builder.Default
-    private String dispatcher = "default-dispatcher";
+    private String dispatcher = "http-job-dispatcher";
 
     @Builder.Default
     private Integer parallelism = 2;

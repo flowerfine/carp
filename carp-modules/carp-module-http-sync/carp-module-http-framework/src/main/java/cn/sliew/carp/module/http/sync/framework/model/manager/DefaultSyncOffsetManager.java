@@ -57,13 +57,14 @@ public class DefaultSyncOffsetManager implements SyncOffsetManager<DefaultJobCon
         if (Objects.nonNull(syncOffset)) {
             if (needResetSyncOffset(syncOffset)) {
                 resetSyncOffset(context);
+                return getSyncOffset(context);
             } else {
                 return syncOffset;
             }
+        } else {
+            initSyncOffset(context);
+            return getSyncOffset(context);
         }
-        initSyncOffset(context);
-
-        return getSyncOffset(context);
     }
 
     @Override

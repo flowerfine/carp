@@ -59,9 +59,9 @@ public class JstOrderJob extends AbstractJstJob {
     @Override
     public JobSetting getSetting(String param) {
         // 一月之前
-        Date initSyncOffset = DateUtil.offsetMonth(DateUtil.date(), 1);
+        Date initSyncOffset = DateUtil.offsetMonth(DateUtil.date(), -1);
         // 一小时之前
-        Date finalSyncOffset = DateUtil.offsetHour(DateUtil.date(), 1);
+        Date finalSyncOffset = DateUtil.offsetHour(DateUtil.date(), -1);
         return JobSetting.builder()
                 .jobInfo(getJobInfo(param))
                 .logLevel(JobLogLevel.COMPLEX)
