@@ -38,10 +38,10 @@ public class JobSetting {
 
     private JobInfo jobInfo;
     @Builder.Default
-    private JobLogLevel logLevel = JobLogLevel.SIMPLE;
-    // pekko default-dispatcher
+    private JobLogLevel logLevel = JobLogLevel.COMPLEX;
+    // pekko default-dispatcher，必须是全路径
     @Builder.Default
-    private String dispatcher = "http-job-dispatcher";
+    private String dispatcher = "pekko.actor.default-dispatcher";
 
     @Builder.Default
     private Integer parallelism = 2;
