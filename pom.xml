@@ -74,7 +74,6 @@
 
     <modules>
         <module>carp-dist</module>
-        <module>carp-examples</module>
         <module>carp-framework</module>
         <module>carp-modules</module>
         <module>carp-plugins</module>

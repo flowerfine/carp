@@ -57,7 +57,7 @@ body:
     attributes:
       label: Are you willing to submit a PR?
       description: >
-        Scaleph appreciates community-driven contribution and we love to bring new contributors in.
+        Carp appreciates community-driven contribution and we love to bring new contributors in.
       options:
         - label: Yes, I am willing to submit a PR!
 
