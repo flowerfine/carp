@@ -67,17 +67,11 @@ public abstract class AbstractSubTask<Root extends AbstractRootTask, Request, Re
     @Override
     public CompletableFuture<Result> execute(DefaultJobContext context) {
         ActorSystem actorSystem = context.getActorSystem();
-        Config config = ConfigFactory.load().getConfig("pekko");
-
-//        System.out.println();
-        System.out.println(config.toString());
-//        System.out.println();
-
         Sink<FetchResult<Request, Response>, CompletionStage<Done>> sink = Sink.foreachParallel(10, data -> persistData(context, data.getRequest(), data.getResponse()), actorSystem.executionContext());
         Source<FetchResult<Request, Response>, ?> source = fetch(context);
         CompletionStage completionStage = source
-                // 指定 dispatcher
-                .withAttributes(ActorAttributes.dispatcher(context.dispatcher()))
+                // fixme 指定 dispatcher，pekko 有问题
+//                .withAttributes(ActorAttributes.dispatcher(context.dispatcher()))
                 .runWith(sink, actorSystem);
         return completionStage.thenApply(done -> ProcessResult.success(this)).toCompletableFuture();
     }
