@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-plugin-schedule</artifactId>
-        <version>0.0.18</version>
+        <version>0.0.19</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-schedule-quartz</artifactId>
