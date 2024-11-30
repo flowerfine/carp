@@ -63,12 +63,12 @@
         <snapshotRepository>
             <id>sonatype-nexus</id>
             <name>Sonatype Nexus Snapshots</name>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+            <url>https://central.sonatype.org</url>
         </snapshotRepository>
         <repository>
             <id>sonatype-nexus</id>
             <name>Sonatype Nexus Release</name>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>https://central.sonatype.org</url>
         </repository>
     </distributionManagement>
 
@@ -310,17 +310,6 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.7.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>sonatype-nexus</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -395,6 +384,18 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.6.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <!-- sonatype-nexus 和 github workflow，distributionManagement 都是一一对应的，勿改-->
+                            <publishingServerId>sonatype-nexus</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                            <waitUntil>uploaded</waitUntil>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
