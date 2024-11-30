@@ -23,22 +23,22 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-module-application</artifactId>
-        <version>0.0.16-SNAPSHOT</version>
+        <version>0.0.17</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-application-vela</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
+            <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-redis</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
+            <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-mybatis</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
+            <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-web</artifactId>
         </dependency>
 

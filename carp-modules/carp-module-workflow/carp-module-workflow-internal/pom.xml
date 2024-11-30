@@ -23,12 +23,17 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-module-workflow</artifactId>
-        <version>0.0.16-SNAPSHOT</version>
+        <version>0.0.17</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-workflow-internal</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-redis</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-api</artifactId>
@@ -41,10 +46,6 @@
         <dependency>
             <groupId>com.alibaba.cola</groupId>
             <artifactId>cola-component-statemachine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

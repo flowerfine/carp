@@ -23,19 +23,20 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-module-queue</artifactId>
-        <version>0.0.16-SNAPSHOT</version>
+        <version>0.0.17</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-queue-redis</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-queue-api</artifactId>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-framework-redis</artifactId>
+            <artifactId>carp-module-queue-api</artifactId>
         </dependency>
     </dependencies>
 
