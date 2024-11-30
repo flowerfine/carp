@@ -33,7 +33,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
+            <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-web</artifactId>
         </dependency>
         <dependency>
@@ -46,10 +46,6 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-http-job</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-scheduler-quartz</artifactId>
         </dependency>
         <dependency>
@@ -59,10 +55,6 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-kubernetes</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
