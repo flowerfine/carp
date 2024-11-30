@@ -30,7 +30,6 @@ import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.logging.slf4j.Slf4jImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -42,23 +41,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
-        basePackages = {
-                CarpDataSourceConfig.MAPPER_FRAMEWORK_DAG_PACKAGE,
-                CarpDataSourceConfig.MAPPER_MODULE_EXCEL_PACKAGE,
-                CarpDataSourceConfig.MAPPER_MODULE_KUBERNETES_PACKAGE,
-                CarpDataSourceConfig.MAPPER_MODULE_PLUGIN_PACKAGE,
-                CarpDataSourceConfig.MAPPER_MODULE_SCHEDULER_PACKAGE
-        })
 public class CarpDataSourceConfig {
-
-    public static final String MAPPER_FRAMEWORK_DAG_PACKAGE = "cn.sliew.carp.framework.dag.repository.mapper";
-
-    public static final String MAPPER_MODULE_EXCEL_PACKAGE = "cn.sliew.carp.module.excel.repository.mapper";
-    public static final String MAPPER_MODULE_KUBERNETES_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
-    public static final String MAPPER_MODULE_PLUGIN_PACKAGE = "cn.sliew.carp.module.plugin.repository.mapper";
-    public static final String MAPPER_MODULE_SCHEDULER_PACKAGE = "cn.sliew.carp.module.scheduler.repository.mapper";
-
 
     @Autowired
     private MybatisPlusInterceptor mybatisPlusInterceptor;
