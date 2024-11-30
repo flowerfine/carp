@@ -85,6 +85,7 @@ management:
 logging:
   level:
     root: info
+    org.zalando.logbook.Logbook: trace
 
 springdoc:
   swagger-ui:
