@@ -154,3 +154,70 @@ create table carp_sec_user_role
 
 insert into carp_sec_user_role (id, user_id, role_id, creator, editor)
 values (1, 1, 1, 'sys', 'sys');
+
+/* 部门表 */
+drop table if exists carp_sec_dept;
+create table carp_sec_dept
+(
+    id          bigint      not null auto_increment comment '部门id',
+    code        varchar(32) not null comment '部门编号',
+    name        varchar(64) not null comment '部门名称',
+    pid         bigint      not null default '0' comment '上级部门',
+    status      varchar(1)  not null default '1' comment '部门状态',
+    remark      varchar(256) comment '备注',
+    creator     varchar(32) comment '创建人',
+    create_time datetime    not null default current_timestamp comment '创建时间',
+    editor      varchar(32) comment '修改人',
+    update_time datetime    not null default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique (pid, code),
+    unique (pid, dept_name)
+) engine = innodb comment = 'security dept';
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (1, 'scaleph', '水母文化', 0, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (2, 'develop', '数据开发团队', 1, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (3, 'data', '数据治理团队', 1, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (4, 'application', '数据应用团队', 1, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (5, 'integration', '数据集成', 2, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (6, 'compute', '计算组', 2, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (7, 'scheduler', '调度组', 2, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (8, 'meta', '元数据', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (9, 'lineage', '数据血缘', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (10, 'quality', '数据质量', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (11, 'standard', '数据标准', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (12, 'model', '数据建模', 3, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (13, 'index', '指标系统', 4, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (14, 'analysis', '数据分析', 4, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (15, 'ad-hoc', 'Ad-hoc', 4, '1', 'sys', 'sys');
+INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+VALUES (16, 'service', '数据服务', 4, '1', 'sys', 'sys');
+
+/*用户和部门关联表 */
+drop table if exists carp_sec_user_dept;
+create table carp_sec_user_dept
+(
+    id          bigint     not null auto_increment comment '自增主键',
+    user_id     bigint     not null comment '用户id',
+    dept_id     bigint     not null comment '部门id',
+    is_leader   varchar(4) not null comment '是否部门领导',
+    creator     varchar(32) comment '创建人',
+    create_time datetime   not null default current_timestamp comment '创建时间',
+    editor      varchar(32) comment '修改人',
+    update_time datetime   not null default current_timestamp on update current_timestamp comment '修改时间',
+    primary key (id),
+    unique key (dept_id, user_id)
+) engine = innodb comment = 'security dept and user relation';
