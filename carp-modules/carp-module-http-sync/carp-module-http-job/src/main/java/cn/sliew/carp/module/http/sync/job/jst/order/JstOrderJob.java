@@ -67,6 +67,12 @@ public class JstOrderJob extends AbstractJstJob {
                 .logLevel(JobLogLevel.COMPLEX)
                 .initSyncOffset(DateUtil.format(initSyncOffset, DatePattern.NORM_DATETIME_PATTERN))
                 .finalSyncOffset(DateUtil.format(finalSyncOffset, DatePattern.NORM_DATETIME_PATTERN))
+                // 使用专用的 dispatcher，演示如何使用专用 dispatcher
+                // 整个任务有很多环节，只有请求第三方接口、数据落库环节使用指定的 dispatcher，如更新同步位点用的是默认的 dispatcher
+                // pekko 的 actor 很强大，如果不是写了很多的阻塞，把 pekko 的 dispatcher 内的线程都阻塞了
+                // 不会影响其他任务。这里的阻塞常见的是请求第三方接口时设置的限流，如果是网络io如请求三方接口、
+                // 数据落库，影响很小。当觉得线程池被阻塞的很厉害的时候，用 arthas 看一下线程状态就了解了
+                .dispatcher("pekko.actor.http-job-dispatcher")
                 .parallelism(2)
                 .batchSize(100)
                 .build();
