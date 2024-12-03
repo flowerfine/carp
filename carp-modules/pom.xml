@@ -32,6 +32,7 @@
     <modules>
         <module>carp-module-alert</module>
         <module>carp-module-datasource</module>
+        <module>carp-module-http-sync</module>
         <module>carp-module-plugin</module>
         <module>carp-module-queue</module>
         <module>carp-module-scheduler</module>
