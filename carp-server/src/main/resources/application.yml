@@ -85,7 +85,8 @@ management:
 logging:
   level:
     root: info
-    org.zalando.logbook.Logbook: trace
+    cn.sliew.carp.module.http.sync: debug
+#    org.zalando.logbook.Logbook: trace
 
 springdoc:
   swagger-ui:
