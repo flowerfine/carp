@@ -22,51 +22,39 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-module-http-remote</artifactId>
         <version>0.0.20</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-server</artifactId>
-
-    <properties>
-        <maven.deploy.skip>false</maven.deploy.skip>
-    </properties>
+    <artifactId>carp-module-http-remote-feign</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-web</artifactId>
+            <artifactId>carp-framework-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-alert</artifactId>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-datasource</artifactId>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jackson</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-http-job</artifactId>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-micrometer</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-scheduler-quartz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-security-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-system</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-workflow-internal</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

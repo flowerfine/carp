@@ -22,52 +22,34 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-module-http-sync</artifactId>
         <version>0.0.20</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-server</artifactId>
-
-    <properties>
-        <maven.deploy.skip>false</maven.deploy.skip>
-    </properties>
+    <artifactId>carp-module-http-job</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-exception</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-alert</artifactId>
+            <artifactId>carp-module-http-framework</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-http-remote-feign</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-datasource</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-http-job</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-scheduler-quartz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-security-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-system</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-workflow-internal</artifactId>
+            <artifactId>carp-module-http-remote-jst</artifactId>
         </dependency>
     </dependencies>
-
 </project>

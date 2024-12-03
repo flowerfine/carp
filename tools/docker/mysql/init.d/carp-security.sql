@@ -170,40 +170,40 @@ create table carp_sec_dept
     editor      varchar(32) comment '修改人',
     update_time datetime    not null default current_timestamp on update current_timestamp comment '修改时间',
     primary key (id),
-    unique (pid, code),
-    unique (pid, dept_name)
+    unique (pid, `code`),
+    unique (pid, `name`)
 ) engine = innodb comment = 'security dept';
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (1, 'scaleph', '水母文化', 0, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (2, 'develop', '数据开发团队', 1, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (3, 'data', '数据治理团队', 1, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (4, 'application', '数据应用团队', 1, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (5, 'integration', '数据集成', 2, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (6, 'compute', '计算组', 2, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (7, 'scheduler', '调度组', 2, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (8, 'meta', '元数据', 3, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (9, 'lineage', '数据血缘', 3, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (10, 'quality', '数据质量', 3, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (11, 'standard', '数据标准', 3, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (12, 'model', '数据建模', 3, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (13, 'index', '指标系统', 4, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (14, 'analysis', '数据分析', 4, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (15, 'ad-hoc', 'Ad-hoc', 4, '1', 'sys', 'sys');
-INSERT INTO `sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
+INSERT INTO `carp_sec_dept`(`id`, `code`, `name`, `pid`, `status`, `creator`, `editor`)
 VALUES (16, 'service', '数据服务', 4, '1', 'sys', 'sys');
 
 /*用户和部门关联表 */
