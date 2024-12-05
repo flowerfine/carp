@@ -5,7 +5,7 @@ import pages from './zh-CN/pages';
 import pwa from './zh-CN/pwa';
 import settingDrawer from './zh-CN/settingDrawer';
 import settings from './zh-CN/settings';
-import pages2 from './zh-CN/pages/pages2';
+import pages2 from './zh-CN/pages/pages';
 
 
 export default {

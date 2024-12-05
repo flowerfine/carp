@@ -8,6 +8,7 @@ import dataSource from "./dataSource";
 import metadata from "./metadata";
 import oam from "./oam";
 import stdata from "./stdata";
+import common from "./common";
 export default {
   ...base,
   ...user,
@@ -19,4 +20,5 @@ export default {
   ...metadata,
   ...oam,
   ...stdata,
+  ...common,
 };
