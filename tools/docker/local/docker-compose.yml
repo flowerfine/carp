@@ -66,7 +66,7 @@ services:
       - carp
 
   gravitino:
-    image: apache/gravitino:0.6.0-incubating
+    image: apache/gravitino:0.7.0-incubating
     container_name: gravitino
     depends_on:
       mysql:

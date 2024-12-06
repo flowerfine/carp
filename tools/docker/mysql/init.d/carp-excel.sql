@@ -22,6 +22,5 @@ create table `carp_file_import`
     `editor`       varchar(32) comment '修改人',
     `update_time`  datetime     not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (`id`),
-     key `idx_key` (`namespace`,`app`,`env`,`tenant`),
-     key `idx_file_name` (`namespace`,`app`,`env`,`tenant`, `file_name`)
+     key `idx_file_name` (`namespace`, `file_name`)
 ) engine = innodb comment='文件上传';
