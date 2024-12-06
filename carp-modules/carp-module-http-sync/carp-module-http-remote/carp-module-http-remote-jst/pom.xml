@@ -34,8 +34,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-http-remote-feign</artifactId>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-feign</artifactId>
         </dependency>
     </dependencies>
 </project>

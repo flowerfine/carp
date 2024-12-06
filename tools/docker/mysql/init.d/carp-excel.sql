@@ -6,9 +6,6 @@ create table `carp_file_import`
 (
     `id`           bigint       not null auto_increment comment '自增主键',
     `namespace`    varchar(64)  not null default 'default' comment '命名空间',
-    `app`          varchar(64)  not null default 'default' comment '应用',
-    `env`          varchar(64)  not null default 'default' comment '环境',
-    `tenant`       varchar(64)  not null default 'default' comment '租户',
     `biz_code`     varchar(64)  not null comment '业务编码',
     `sub_biz_code` varchar(64) comment '子业务编码',
     `type`         varchar(64)  not null comment '导入类型。excel, csv, json 等',

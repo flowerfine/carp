@@ -30,7 +30,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>carp-module-http-remote-feign</module>
         <module>carp-module-http-remote-jst</module>
     </modules>
 

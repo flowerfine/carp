@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.http.sync.job.config;
 
-import cn.sliew.carp.module.http.sync.remote.feign.JacksonQueryMapEncoder;
+import cn.sliew.carp.framework.feign.JacksonQueryMapEncoder;
 import feign.Capability;
 import feign.QueryMapEncoder;
 import feign.codec.Decoder;
