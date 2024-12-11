@@ -5,5 +5,11 @@ export default function access(initialState: { currentUser?: API.CurrentUser } |
   const { currentUser } = initialState ?? {};
   return {
     canAdmin: currentUser && currentUser.access === 'admin',
+    canAccess: (code: string) => {
+      return true
+    },
+    normalRouteFilter: (route: any) => {
+      return true;
+    },
   };
 }
