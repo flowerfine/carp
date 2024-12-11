@@ -73,10 +73,10 @@ services:
         condition: service_healthy
     ports:
       - 8090:8090
-    volumes:
+#    volumes:
 #      - ../gravitino/conf/gravitino.conf:/root/gravitino/conf/gravitino.conf
 #      - /path/to/mysql.jar:/root/gravitino/libs/mysql.jar
-      - /Users/xinxuan/Documents/software/jdbc-driver/mysql-connector-j-8.2.0.jar:/root/gravitino/catalogs/jdbc-mysql/libs/mysql.jar
+#      - /Users/xinxuan/Documents/software/jdbc-driver/mysql-connector-j-8.2.0.jar:/root/gravitino/catalogs/jdbc-mysql/libs/mysql.jar
 #      - /path/to/mysql.jar:/root/gravitino/catalogs/jdbc-doris/libs/mysql.jar
     networks:
       - carp

@@ -23,8 +23,8 @@ export default [
         path: '/user/login',
         layout: false,
         name: 'login',
-        // component: './Common/Login',
-        component: './user/login',
+        component: './Common/Login',
+        // component: './user/login',
       },
       {
         name: 'register-result',

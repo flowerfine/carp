@@ -1,27 +1,30 @@
-import React, {useEffect, useState} from "react";
-import {FormattedMessage, useIntl} from "@umijs/max";
+import React, {useEffect} from "react";
+import {FormattedMessage, useIntl, useModel} from "@umijs/max";
 import {ProFormText} from '@ant-design/pro-components';
 import {LockOutlined, SafetyCertificateOutlined, UserOutlined} from '@ant-design/icons';
 import {Col, Form, Input, Row} from 'antd';
-import {AdminSecurityAPI} from "@/services/admin/security/typings";
 import {AuthenticationService} from "@/services/admin/security/authentication.service";
 
 const AccountLoginWeb: React.FC = () => {
   const intl = useIntl();
-  const [authCode, setAuthCode] = useState<AdminSecurityAPI.AuthCode>();
+  const {authCode, setAuthCode} = useModel('Common.Login.model');
 
   useEffect(() => {
     refreshAuthCode();
   }, []);
 
   const refreshAuthCode = async () => {
-    AuthenticationService.getAuthImage().then((response) => setAuthCode(response.data))
+    AuthenticationService.getAuthImage().then((response) => {
+      if (response.data) {
+        setAuthCode(response.data)
+      }
+    })
   };
 
   return (
     <>
       <ProFormText
-        name="username"
+        name="userName"
         placeholder={intl.formatMessage({id: 'pages.common.login.accountLogin.userName.placeholder'})}
         fieldProps={{size: 'large', prefix: <UserOutlined/>}}
         rules={[

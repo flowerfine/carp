@@ -1,13 +1,14 @@
-import {Footer} from '@/components';
-import {login} from '@/services/ant-design-pro/api';
-import {LoginForm, ProFormCheckbox,} from '@ant-design/pro-components';
-import {FormattedMessage, Helmet, SelectLang, useIntl, useModel} from '@umijs/max';
-import {Alert, message} from 'antd';
-import {createStyles} from 'antd-style';
 import React, {useState} from 'react';
 import {flushSync} from 'react-dom';
+import {Alert, Form, message} from 'antd';
+import {createStyles} from 'antd-style';
+import {LoginForm, ProFormCheckbox,} from '@ant-design/pro-components';
+import {FormattedMessage, Helmet, SelectLang, useIntl, useModel} from '@umijs/max';
+import {Footer} from '@/components';
 import Settings from '../../../../config/defaultSettings';
 import AccountLoginWeb from "@/pages/Common/Login/AccountLogin";
+import {AdminSecurityAPI} from "@/services/admin/security/typings";
+import {AuthenticationService} from "@/services/admin/security/authentication.service";
 
 const useStyles = createStyles(({token}) => {
   return {
@@ -62,6 +63,8 @@ const Login: React.FC = () => {
   const {initialState, setInitialState} = useModel('@@initialState');
   const [type, setType] = useState<string>('account');
   const {styles} = useStyles();
+  const [form] = Form.useForm()
+  const {authCode, setAuthCode} = useModel('Common.Login.model');
 
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const {status, type: loginType} = userLoginState;
@@ -78,23 +81,24 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: AdminSecurityAPI.LoginInfo) => {
     try {
-      // 登录
-      const msg = await login({...values, type});
-      if (msg.status === 'ok') {
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        const urlParams = new URL(window.location.href).searchParams;
-        window.location.href = urlParams.get('redirect') || '/';
-        return;
-      }
-      // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      AuthenticationService.login({...values, uuid: authCode.uuid}).then(async (response) => {
+        if (response.success) {
+          const defaultLoginSuccessMessage = intl.formatMessage({
+            id: 'pages.login.success',
+            defaultMessage: '登录成功！',
+          });
+          message.success(defaultLoginSuccessMessage);
+          console.log('AuthenticationService', response.data)
+          await fetchUserInfo();
+          const urlParams = new URL(window.location.href).searchParams;
+          window.location.href = urlParams.get('redirect') || '/';
+          return;
+        } else {
+          form.resetFields()
+        }
+      })
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
@@ -126,11 +130,13 @@ const Login: React.FC = () => {
           logo={<img alt="logo" src="/logo.svg"/>}
           title={Settings.title}
           subTitle={intl.formatMessage({id: 'pages.common.login.subTitle'})}
+          form={form}
           initialValues={{
             autoLogin: true,
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            console.log('values', values)
+            await handleSubmit(values as AdminSecurityAPI.LoginInfo);
           }}
         >
 

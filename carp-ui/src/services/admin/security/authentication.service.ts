@@ -19,7 +19,6 @@ export const AuthenticationService = {
         });
     },
 
-
     storeSession: async (userInfo: AdminSecurityAPI.OnlineUserInfo) => {
         localStorage.setItem(USER_AUTH.userInfo, JSON.stringify(userInfo));
         let pCodes: string[] = [];
