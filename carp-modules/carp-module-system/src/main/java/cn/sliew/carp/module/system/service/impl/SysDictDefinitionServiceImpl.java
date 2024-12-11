@@ -23,6 +23,7 @@ import cn.sliew.carp.framework.common.dict.EnumDictRegistry;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.system.service.SysDictDefinitionService;
 import cn.sliew.carp.module.system.service.param.SysDictDefinitionParam;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -57,6 +58,7 @@ public class SysDictDefinitionServiceImpl implements SysDictDefinitionService {
             result.setRecords(Collections.emptyList());
             return result;
         }
+
 
         result.setRecords(filteredDictTypes.subList(from.intValue(), to.intValue() < filteredDictTypes.size() ? to.intValue() : filteredDictTypes.size() - 1));
         return result;

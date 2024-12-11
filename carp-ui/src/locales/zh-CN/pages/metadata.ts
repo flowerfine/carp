@@ -135,4 +135,6 @@ export default {
 
   'pages.metadata.dataSource.step.props.http.method': 'Method',
   'pages.metadata.dataSource.step.props.http.url': 'URL',
+
+  'pages.metadata.gravitino.metalake.name': '名称',
 }

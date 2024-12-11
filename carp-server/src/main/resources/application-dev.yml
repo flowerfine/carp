@@ -59,3 +59,8 @@ spring:
     host: ${REDIS_HOST:127.0.0.1}
     port: ${REDIS_PORT:6379}
     password: ${REDIS_PASSWORD:123456}
+
+gravitino:
+  url: ${GRAVITINO_URL:http://127.0.0.1:8090}
+  metalake: ${spring.application.name}
+  user: ${spring.application.name}

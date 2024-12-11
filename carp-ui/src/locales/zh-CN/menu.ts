@@ -29,6 +29,12 @@ export default {
   'menu.list.search-list.articles': '搜索列表（文章）',
   'menu.list.search-list.projects': '搜索列表（项目）',
   'menu.list.search-list.applications': '搜索列表（应用）',
+
+  'menu.metadata': '元数据',
+  'menu.metadata.gravitino.metalake': 'Gravitino',
+  'menu.metadata.gravitino.metalake.catalog': 'Catalog',
+  'menu.metadata.gravitino.metalake.schema': 'Schema',
+  'menu.metadata.gravitino.metalake.table': 'Schema',
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',
