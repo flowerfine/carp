@@ -166,24 +166,17 @@ export default [
         redirect: '/metadata/gravitino/metalake'
       },
       {
-        name: 'gravitino.metalake',
-        path: '/metadata/gravitino/metalake',
-        component: './Metadata/Gravitino/Metalake',
+        name: 'gravitino',
+        path: '/metadata/gravitino',
         routes: [
           {
-            name: 'catalog',
+            name: 'metalake',
+            path: '/metadata/gravitino/metalake',
+            component: './Metadata/Gravitino/Metalake',
+          },
+          {
             path: '/metadata/gravitino/metalake/catalog',
             component: './Metadata/Gravitino/Metalake/Catalog',
-          },
-          {
-            name: 'schema',
-            path: '/metadata/gravitino/metalake/schema',
-            component: './Metadata/Gravitino/Metalake/Schema',
-          },
-          {
-            name: 'table',
-            path: '/metadata/gravitino/metalake/table',
-            component: './Metadata/Gravitino/Metalake/Table',
           }
         ]
       }

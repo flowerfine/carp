@@ -1,7 +1,8 @@
 import React, {useRef, useState} from 'react';
-import {useAccess, useIntl} from "@umijs/max";
-import {Table} from "antd";
+import {useAccess, useIntl, history} from "@umijs/max";
+import {Button, Space, Table, Tooltip} from "antd";
 import {ActionType, PageContainer, ProColumns, ProTable} from "@ant-design/pro-components";
+import {EditOutlined} from "@ant-design/icons";
 import {MetalakeService} from "@/services/metadata/gravitino/metalake.service";
 
 const MetadataGravitinoMetalakeWeb: React.FC = () => {
@@ -40,6 +41,20 @@ const MetadataGravitinoMetalakeWeb: React.FC = () => {
             align: 'center',
             width: 120,
             fixed: 'right',
+            render: (_, record) => (
+                <Space>
+                    <Tooltip title={intl.formatMessage({id: 'app.common.operate.more.label'})}>
+                        <Button
+                            shape="default"
+                            type="link"
+                            icon={<EditOutlined/>}
+                            onClick={() => {
+                                history.push('/metadata/gravitino/metalake/catalog', record);
+                            }}
+                        />
+                    </Tooltip>
+                </Space>
+            ),
         },
     ];
 

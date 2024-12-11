@@ -31,10 +31,8 @@ export default {
   'menu.list.search-list.applications': '搜索列表（应用）',
 
   'menu.metadata': '元数据',
-  'menu.metadata.gravitino.metalake': 'Gravitino',
-  'menu.metadata.gravitino.metalake.catalog': 'Catalog',
-  'menu.metadata.gravitino.metalake.schema': 'Schema',
-  'menu.metadata.gravitino.metalake.table': 'Schema',
+  'menu.metadata.gravitino': 'Gravitino',
+  'menu.metadata.gravitino.metalake': 'Metalake',
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',
