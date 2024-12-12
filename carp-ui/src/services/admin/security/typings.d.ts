@@ -22,10 +22,12 @@ declare namespace AdminSecurityAPI {
     status?: string;
     userName?: string;
     nickName?: string;
+    avatar?: string;
+    email?: string;
+    phone?: string;
     roles?: Array<SecRole>;
     resourceWebs?: Array<SecResourceWeb>;
 
-    email?: string;
     privileges?: string[];
     roles?: string[];
     expireTime?: bigint;

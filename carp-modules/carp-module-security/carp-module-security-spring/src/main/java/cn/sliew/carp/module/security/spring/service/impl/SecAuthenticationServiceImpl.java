@@ -88,6 +88,9 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
             onlineUserVO.setUserId(secUserDTO.getId());
             onlineUserVO.setUserName(secUserDTO.getUserName());
             onlineUserVO.setNickName(secUserDTO.getNickName());
+            onlineUserVO.setAvatar(secUserDTO.getAvatar());
+            onlineUserVO.setEmail(secUserDTO.getEmail());
+            onlineUserVO.setPhone(secUserDTO.getPhone());
             onlineUserVO.setType(secUserDTO.getType().getValue());
             onlineUserVO.setStatus(secUserDTO.getStatus().getValue());
 
@@ -139,6 +142,9 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
         onlineUserVO.setUserId(secUserDTO.getId());
         onlineUserVO.setUserName(secUserDTO.getUserName());
         onlineUserVO.setNickName(secUserDTO.getNickName());
+        onlineUserVO.setAvatar(secUserDTO.getAvatar());
+        onlineUserVO.setEmail(secUserDTO.getEmail());
+        onlineUserVO.setPhone(secUserDTO.getPhone());
         onlineUserVO.setType(secUserDTO.getType().getValue());
         onlineUserVO.setStatus(secUserDTO.getStatus().getValue());
 

@@ -31,6 +31,9 @@ public class OnlineUserVO {
     private String type;
     private String userName;
     private String nickName;
+    private String avatar;
+    private String email;
+    private String phone;
     private String status;
 
     private List<SecRoleDTO> roles;
