@@ -50,6 +50,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-scheduler-quartz</artifactId>
         </dependency>
         <dependency>

@@ -131,7 +131,11 @@
                 <artifactId>carp-module-http-job</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-plugin</artifactId>

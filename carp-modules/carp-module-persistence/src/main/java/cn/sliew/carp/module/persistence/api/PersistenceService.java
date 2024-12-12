@@ -15,31 +15,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package cn.sliew.carp.module.datasource.service;
+package cn.sliew.carp.module.persistence.api;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoCatalogDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoMetalakeDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoSchemaDTO;
+import cn.sliew.carp.module.persistence.api.selectors.Selector;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
-public interface CarpGravitinoMetalakeService {
+public interface PersistenceService<ID, R> {
 
-    PageResult<GravitinoMetalakeDTO> page(PageParam param);
+    Iterable<R> select(Selector selector);
 
-    List<GravitinoCatalogDTO> listCatalogs(String metalakeName);
+    PageResult<R> page(PageParam param, Selector selector);
 
-    List<GravitinoSchemaDTO> listSchema(String metalakeName, String catalogName);
+    Optional<R> get(ID id);
 
-    void tryAddMetalake(String metalakeName);
+    default R getOrThrow(ID id) {
+        return get(id).orElseThrow(() -> new IllegalStateException("resource not found"));
+    }
 
-    void tryAddCatalog(String metalakeName, DsInfoDTO dto);
+    R add(R resource);
 
-    void tryUpdateCatalog(String metalakeName, DsInfoDTO dto);
+    R update(ID id, Function<R, R> updateFn);
 
-    void tryDeleteCatalog(String metalakeName, DsInfoDTO dto);
+    Optional<R> delete(ID id);
+
+    void addListener(PersistenceListener<R> listener);
 }

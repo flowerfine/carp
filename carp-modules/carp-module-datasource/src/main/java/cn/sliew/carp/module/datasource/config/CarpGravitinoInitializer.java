@@ -18,12 +18,15 @@
 
 package cn.sliew.carp.module.datasource.config;
 
-import org.apache.gravitino.client.GravitinoAdminClient;
+import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
+import cn.sliew.carp.module.datasource.service.CarpGravitinoMetalakeService;
+import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
+import java.util.List;
 
 @Component
 public class CarpGravitinoInitializer implements InitializingBean {
@@ -31,7 +34,9 @@ public class CarpGravitinoInitializer implements InitializingBean {
     @Autowired
     private CarpGravitinoProperties properties;
     @Autowired
-    private GravitinoAdminClient adminClient;
+    private CarpDsInfoService carpDsInfoService;
+    @Autowired
+    private CarpGravitinoMetalakeService gravitinoMetalakeService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -41,11 +46,24 @@ public class CarpGravitinoInitializer implements InitializingBean {
     private void initialize() {
         // 初始化 metalake
         initMetalake(properties.getMetalake());
+        // 初始化 catalog
+        initDataSource(properties.getMetalake(), DataSourceType.MYSQL);
+        initDataSource(properties.getMetalake(), DataSourceType.POSTGRESQL);
+        initDataSource(properties.getMetalake(), DataSourceType.HIVE);
+        initDataSource(properties.getMetalake(), DataSourceType.ICEBERG);
+        initDataSource(properties.getMetalake(), DataSourceType.DORIS);
+        initDataSource(properties.getMetalake(), DataSourceType.KAFKA);
+        initDataSource(properties.getMetalake(), DataSourceType.HDFS);
     }
 
     private void initMetalake(String metalakeName) {
-        if (adminClient.metalakeExists(metalakeName) == false) {
-            adminClient.createMetalake(metalakeName, "init metalake by system", Collections.emptyMap());
+        gravitinoMetalakeService.tryAddMetalake(metalakeName);
+    }
+
+    private void initDataSource(String metalakeName, DataSourceType type) {
+        List<DsInfoDTO> dsInfoDTOS = carpDsInfoService.listByType(type);
+        for (DsInfoDTO dsInfoDTO : dsInfoDTOS) {
+            gravitinoMetalakeService.tryAddCatalog(metalakeName, dsInfoDTO);
         }
     }
 }
