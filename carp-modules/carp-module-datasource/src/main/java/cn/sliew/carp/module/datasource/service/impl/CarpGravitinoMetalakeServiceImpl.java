@@ -19,6 +19,7 @@ package cn.sliew.carp.module.datasource.service.impl;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.spring.util.PageUtil;
 import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
 import cn.sliew.carp.module.datasource.modal.jdbc.MySQLDataSourceProperties;
 import cn.sliew.carp.module.datasource.service.CarpGravitinoMetalakeService;
@@ -28,7 +29,6 @@ import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import cn.sliew.carp.module.datasource.service.dto.GravitinoCatalogDTO;
 import cn.sliew.carp.module.datasource.service.dto.GravitinoMetalakeDTO;
 import cn.sliew.carp.module.datasource.service.dto.GravitinoSchemaDTO;
-import cn.sliew.carp.module.datasource.util.PageUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.apache.gravitino.Catalog;
 import org.apache.gravitino.Schema;
