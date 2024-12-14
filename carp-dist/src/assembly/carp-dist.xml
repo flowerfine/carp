@@ -70,22 +70,9 @@
             <fileMode>0644</fileMode>
         </fileSet>
 
-        <!-- Schedule plugins -->
+        <!-- Jdbc plugins -->
         <fileSet>
-            <directory>../carp-plugins/carp-plugin-schedule/carp-plugin-schedule-quartz/target
-            </directory>
-            <includes>
-                <!-- !!! VERY IMPORTANT -->
-                <include>*-all.jar</include>
-                <include>dependencies/*.jar</include>
-            </includes>
-            <outputDirectory>plugins</outputDirectory>
-            <fileMode>0644</fileMode>
-        </fileSet>
-
-        <!-- Test plugins -->
-        <fileSet>
-            <directory>../carp-plugins/carp-plugin-test/carp-plugin-test-1/target
+            <directory>../carp-plugins/carp-plugin-jdbc/carp-plugin-jdbc-1/target
             </directory>
             <includes>
                 <!-- !!! VERY IMPORTANT -->

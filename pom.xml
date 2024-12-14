@@ -22,7 +22,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-spring-boot-parent</artifactId>
-        <version>0.0.20</version>
+        <version>0.0.21</version>
     </parent>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>
@@ -187,6 +187,11 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-plugin-jdbc-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-plugin-test-api</artifactId>

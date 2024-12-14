@@ -22,16 +22,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-plugins</artifactId>
         <version>0.0.21</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-plugins</artifactId>
+    <artifactId>carp-plugin-jdbc</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>carp-plugin-jdbc</module>
-        <module>carp-plugin-test</module>
+        <module>carp-plugin-jdbc-api</module>
+        <module>carp-plugin-jdbc-driver-base</module>
     </modules>
 
 </project>

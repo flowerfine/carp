@@ -22,16 +22,26 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-plugin-jdbc</artifactId>
         <version>0.0.21</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-plugins</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-plugin-jdbc-driver-base</artifactId>
 
-    <modules>
-        <module>carp-plugin-jdbc</module>
-        <module>carp-plugin-test</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-plugin-jdbc-api</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+        </dependency>
+    </dependencies>
 </project>
