@@ -1,7 +1,9 @@
 import React from "react";
-import {useAccess, useIntl} from "@umijs/max";
-import {EditorLayout} from '@ant-design/pro-editor';
-import {Tabs} from "antd";
+import { useAccess, useIntl } from "@umijs/max";
+import { EditorLayout } from '@ant-design/pro-editor';
+import { Tabs } from "antd";
+import EditableTabs from "@/components/Editor/EditableTabs/EditableTabs";
+import { FileAddOutlined, FileDoneOutlined } from "@ant-design/icons";
 
 const MetadataGravitinoEditorWeb: React.FC = () => {
     const intl = useIntl();
@@ -16,7 +18,27 @@ const MetadataGravitinoEditorWeb: React.FC = () => {
             type={"Left&Right"}
             header={{
                 iconConfig: false,
-                children: <div>tab控制台</div>
+                children: (
+                    <EditableTabs
+                        items={[
+                            {
+                                key: '1',
+                                label: 'Tab 1',
+                                icon: <FileDoneOutlined />
+                            },
+                            {
+                                key: '2',
+                                label: 'Tab 2',
+                                icon: <FileDoneOutlined />
+                            },
+                            {
+                                key: '3',
+                                label: 'Tab 3',
+                                icon: <FileAddOutlined />
+                            },
+                        ]}
+                    />
+                )
             }}
             footer={false}
             leftPannel={{
@@ -27,20 +49,7 @@ const MetadataGravitinoEditorWeb: React.FC = () => {
                 children: <div>查询历史等功能</div>
             }}
             centerPannel={{
-                tabs: {
-                    type: "editable-card",
-                    items: [
-                        {label: 'Tab 1', children: 'Content of Tab 1', key: '1'},
-                        {label: 'Tab 2', children: 'Content of Tab 2', key: '2'},
-                    ]
-                },
-                children: (<Tabs
-                    type={"editable-card"}
-                    items={[
-                        {label: 'Tab 1', children: 'Content of Tab 1', key: '1'},
-                        {label: 'Tab 2', children: 'Content of Tab 2', key: '2'},
-                    ]}
-                />)
+                children: <div>查询页面</div>
             }}
             bottomPannel={{
                 children: <div>输出控制台</div>

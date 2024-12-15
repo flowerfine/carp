@@ -8,6 +8,7 @@ import dataSource from "./dataSource";
 import metadata from "./metadata";
 import oam from "./oam";
 import stdata from "./stdata";
+import editor from "./editor";
 import common from "./common";
 export default {
   ...base,
@@ -20,5 +21,6 @@ export default {
   ...metadata,
   ...oam,
   ...stdata,
+  ...editor,
   ...common,
 };
