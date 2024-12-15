@@ -1,9 +1,9 @@
 import React from "react";
-import { useAccess, useIntl } from "@umijs/max";
-import { EditorLayout } from '@ant-design/pro-editor';
-import { Tabs } from "antd";
+import {FileAddOutlined, FileDoneOutlined} from "@ant-design/icons";
+import {useAccess, useIntl} from "@umijs/max";
+import {EditorLayout} from '@ant-design/pro-editor';
 import EditableTabs from "@/components/Editor/EditableTabs/EditableTabs";
-import { FileAddOutlined, FileDoneOutlined } from "@ant-design/icons";
+import QueryEditor from "@/components/Editor/QueryEditor";
 
 const MetadataGravitinoEditorWeb: React.FC = () => {
     const intl = useIntl();
@@ -49,7 +49,9 @@ const MetadataGravitinoEditorWeb: React.FC = () => {
                 children: <div>查询历史等功能</div>
             }}
             centerPannel={{
-                children: <div>查询页面</div>
+                children: (
+                    <QueryEditor/>
+                )
             }}
             bottomPannel={{
                 children: <div>输出控制台</div>

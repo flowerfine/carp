@@ -3,6 +3,7 @@ import { Tabs } from "antd";
 import { FileAddOutlined } from "@ant-design/icons";
 import { useAccess, useIntl } from "@umijs/max";
 import EditableTabContextMenu from "./EditableTabContextMenu";
+import EditableTabDropDown from "./EditableTabDropDown";
 
 export type TabItem = {
   key: string;
@@ -83,7 +84,7 @@ const EditableTabs: React.FC<EditableTabsProps> = (props) => {
   const buildContextMenu = (item: TabItem): TabItem & { label: React.ReactNode } => {
     return {
       ...item,
-      label: <EditableTabContextMenu tabItem={item} />,
+      label: <EditableTabDropDown tabItem={item} />,
     };
   };
 
