@@ -183,6 +183,40 @@ export default [
     ]
   },
   {
+    path: '/workspace',
+    name: 'workspace',
+    icon: 'profile',
+    routes: [
+      {
+        path: '/workspace',
+        redirect: '/workspace/schedule',
+      },
+      {
+        path: '/workspace/schedule',
+        name: 'schedule',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/schedule',
+            redirect: '/workspace/schedule/group',
+          },
+          {
+            path: '/workspace/schedule/group',
+            name: 'group',
+            icon: 'profile',
+            component: './Workspace/Schedule/Group'
+          },
+          {
+            path: '/workspace/schedule/config',
+            name: 'config',
+            icon: 'profile',
+            component: './Workspace/Schedule/Config'
+          },
+        ]
+      },
+    ]
+  },
+  {
     path: '/profile',
     name: 'profile',
     icon: 'profile',

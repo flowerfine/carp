@@ -1,26 +1,29 @@
 import base from './base';
+import common from "./common";
 import admin from './admin';
 import user from './user';
 import studio from './studio';
 import project from './project';
 import resource from './resource';
 import dataSource from "./dataSource";
-import metadata from "./metadata";
 import oam from "./oam";
 import stdata from "./stdata";
 import editor from "./editor";
-import common from "./common";
+import metadata from "./metadata";
+import workspace from "./workspace";
+
 export default {
   ...base,
-  ...user,
+  ...common,
   ...admin,
+  ...user,
   ...studio,
   ...project,
   ...resource,
   ...dataSource,
-  ...metadata,
   ...oam,
   ...stdata,
   ...editor,
-  ...common,
+  ...metadata,
+  ...workspace,
 };

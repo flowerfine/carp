@@ -70,7 +70,6 @@ export type ModalProps<T> = {
 export type ModalFormProps<T> = {
     data: T;
     visible: boolean;
-    onVisibleChange?: (visible: boolean) => void;
-    onCancel: () => void;
-    onOK?: (values: any) => void;
+    onCancel?: () => void;
+    onFinish?: (values: any) => void;
 };

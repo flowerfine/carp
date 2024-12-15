@@ -1,8 +1,8 @@
 import React, {useRef, useState} from 'react';
-import {history, useAccess, useIntl} from "@umijs/max";
 import {Button, Space, Table, Tooltip} from "antd";
-import {ActionType, PageContainer, ProColumns, ProTable} from "@ant-design/pro-components";
 import {FileSearchOutlined} from "@ant-design/icons";
+import {ActionType, PageContainer, ProColumns, ProTable} from "@ant-design/pro-components";
+import {history, useAccess, useIntl} from "@umijs/max";
 import {MetalakeService} from "@/services/metadata/gravitino/metalake.service";
 
 const MetadataGravitinoMetalakeWeb: React.FC = () => {
@@ -11,17 +11,17 @@ const MetadataGravitinoMetalakeWeb: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRows, setSelectedRows] = useState<MetadataGravitinoAPI.Metalake[]>([]);
 
-  const onDetailClick = (record: API.RuleListItem) => {
+  const onDetailClick = (record: MetadataGravitinoAPI.Metalake) => {
     history.push('/metadata/gravitino/metalake/catalog', record);
   };
 
-  const columns: ProColumns<API.RuleListItem>[] = [
+  const columns: ProColumns<MetadataGravitinoAPI.Metalake>[] = [
     {
       title: intl.formatMessage({id: 'pages.metadata.gravitino.metalake.name'}),
       dataIndex: 'name',
-      renderText: (_dom, record) => (
+      renderText: (dom, record) => (
         <Space>
-          <a onClick={() => onDetailClick(record)}>{record.name}</a>
+          <a onClick={() => onDetailClick(record)}>{dom}</a>
         </Space>
       ),
     },
@@ -66,7 +66,7 @@ const MetadataGravitinoMetalakeWeb: React.FC = () => {
   ];
 
   return (
-    <PageContainer content={intl.formatMessage({id: 'pages.metadata.gravitino.metalake.description'})}>
+    <PageContainer content={intl.formatMessage({id: 'menu.metadata.gravitino.metalake.desc'})}>
       <ProTable<MetadataGravitinoAPI.Metalake>
         search={{
           labelWidth: 'auto',
@@ -74,7 +74,6 @@ const MetadataGravitinoMetalakeWeb: React.FC = () => {
         }}
         rowKey="name"
         actionRef={actionRef}
-        options={false}
         columns={columns}
         pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         rowSelection={{
