@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.dataservice.controller;
 
+import cn.sliew.carp.framework.common.model.IdParam;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.dataservice.service.CarpDataServiceExecutorService;
 import cn.sliew.carp.module.dataservice.service.param.ExecuteParam;
@@ -25,7 +26,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @ApiResponseWrapper
@@ -36,16 +40,16 @@ public class CarpDataServiceExecutorController {
     @Autowired
     private CarpDataServiceExecutorService carpDataServiceExecutorService;
 
-    @PostMapping("deploy/{id}")
+    @PostMapping("deploy")
     @Operation(summary = "部署", description = "部署")
-    public void deploy(@Valid @PathVariable("id") Long id) {
-        carpDataServiceExecutorService.deploy(id);
+    public void deploy(@Valid @RequestBody IdParam param) {
+        carpDataServiceExecutorService.deploy(param.getId());
     }
 
-    @PostMapping("stop/{id}")
+    @PostMapping("stop")
     @Operation(summary = "下线", description = "下线")
-    public void stop(@Valid @PathVariable("id") Long id) {
-        carpDataServiceExecutorService.stop(id);
+    public void stop(@Valid @RequestBody IdParam param) {
+        carpDataServiceExecutorService.stop(param.getId());
     }
 
     @PostMapping("execute")

@@ -48,6 +48,5 @@ INSERT INTO `carp_data_service_config` (`id`, `group_id`, `type`, `name`, `http_
                                         `query_page_enabled`, `query_result_type`, `status`, `remark`, `creator`,
                                         `editor`)
 VALUES (1, 1, 'sql', 'demo', '/api/data-service/default/default', 'GET', 'application/json', 2, 'SELECT',
-        'select *\nfrom carp_data_service_config as a\n<where>\n    <if test=\"name != null and name != \'test\'\">\n        AND name = #{name}\n    </if>\n</where>',
+        'select *\nfrom sample_data_e_commerce as a\n<where>\n    <if test=\"invoiceNo != null and invoiceNo != \'\'\">\n        AND invoice_no = #{invoiceNo}\n    </if>\n</where>',
         '0', 'array', '0', NULL, 'sys', 'sys');
-
