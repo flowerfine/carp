@@ -53,8 +53,8 @@ import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.scripting.defaults.RawSqlSource;
 import org.apache.ibatis.scripting.xmltags.*;
 import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
 
@@ -62,10 +62,12 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.stream.Collectors.toList;
 
 @Component
@@ -74,10 +76,7 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor {
     private ConcurrentMap<Long, SqlSessionFactory> configurationRegistry = new ConcurrentHashMap<>();
     private MybatisConfiguration defaultConfiguration = new MybatisConfiguration();
 
-    @Autowired
-    private JdbcExecutor jdbcExecutor;
-
-    private Configuration getConfiguration(DsInfoDTO dsInfoDTO) {
+    private SqlSessionFactory getSqlSessionFactory(DsInfoDTO dsInfoDTO) {
         return configurationRegistry.computeIfAbsent(dsInfoDTO.getId(), k -> {
             try {
                 AbstractDataSourceProperties dataSourceProperties = JacksonUtil.toObject(JacksonUtil.toJsonNode(dsInfoDTO.getProps()), AbstractDataSourceProperties.class);
@@ -114,7 +113,11 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor {
                 Rethrower.throwAs(e);
                 return null;
             }
-        }).getConfiguration();
+        });
+    }
+
+    private Configuration getConfiguration(DsInfoDTO dsInfoDTO) {
+        return getSqlSessionFactory(dsInfoDTO).getConfiguration();
     }
 
     @Override
@@ -323,8 +326,21 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor {
 
     @Override
     public Object execute(String id, String sqlScript, Map<String, Object> params, DsInfoDTO dsInfoDTO) {
-        // 数据源管理
-        return jdbcExecutor.selectOne(dsInfoDTO, sqlScript, params);
+        Configuration configuration = getConfiguration(dsInfoDTO);
+        checkState(configuration.hasStatement(id), "MappedStatement not found for id: " + id);
+        return doExecute(dsInfoDTO, jdbcExecutor -> jdbcExecutor.selectOne(dsInfoDTO, sqlScript, params));
+    }
+
+    private Object doExecute(DsInfoDTO dsInfoDTO, Function<JdbcExecutor, Object> function) {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory(dsInfoDTO);
+        try (SqlSession sqlSession = sqlSessionFactory.openSession(false)) {
+            MybatisMapper mapper = sqlSession.getMapper(MybatisMapper.class);
+            JdbcExecutor jdbcExecutor = new JdbcExecutor(mapper);
+            return function.apply(jdbcExecutor);
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
     }
 
     private MappedStatement buildMappedStatement(String id, String sqlScript) {

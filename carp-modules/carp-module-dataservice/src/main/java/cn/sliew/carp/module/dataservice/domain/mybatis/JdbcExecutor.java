@@ -20,8 +20,6 @@ package cn.sliew.carp.module.dataservice.domain.mybatis;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.dataservice.domain.mybatis.mapper.MybatisMapper;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,8 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-@Slf4j
-@Component
 public class JdbcExecutor {
 
     private static final Integer PAGE_NUM = 1;
