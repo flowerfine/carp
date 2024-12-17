@@ -15,28 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain;
+package cn.sliew.carp.module.dataservice.service.param;
 
 import cn.sliew.carp.framework.common.model.PageParam;
-import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-import java.util.List;
-import java.util.Map;
+@Data
+public class CarpDataServiceConfigPageParam extends PageParam {
 
-public interface DataServiceExecutor {
+    @NotNull
+    @Schema(description = "分组id")
+    private Long groupId;
 
-    PageResult<String> page(PageParam param);
+    @Schema(description = "类型")
+    private String type;
 
-    List<String> listAll();
-
-    void register(String id, String sqlScript);
-
-    void unregister(String id);
-
-    List parseParams(String sqlScript);
-
-    String parseSql(String id, String sqlScript, Map<String, Object> params);
-
-    Object execute(String id, String sqlScript, Map<String, Object> params, DsInfoDTO dsInfoDTO);
+    @Schema(description = "name")
+    private String name;
 }

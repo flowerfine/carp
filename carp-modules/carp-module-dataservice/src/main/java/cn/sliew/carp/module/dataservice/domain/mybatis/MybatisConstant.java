@@ -15,28 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain;
+package cn.sliew.carp.module.dataservice.domain.mybatis;
 
-import cn.sliew.carp.framework.common.model.PageParam;
-import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
+public enum MybatisConstant {
+    ;
 
-import java.util.List;
-import java.util.Map;
-
-public interface DataServiceExecutor {
-
-    PageResult<String> page(PageParam param);
-
-    List<String> listAll();
-
-    void register(String id, String sqlScript);
-
-    void unregister(String id);
-
-    List parseParams(String sqlScript);
-
-    String parseSql(String id, String sqlScript, Map<String, Object> params);
-
-    Object execute(String id, String sqlScript, Map<String, Object> params, DsInfoDTO dsInfoDTO);
+    public final static String SQL_SCRIPT = "_@_CARP_SQL_SCRIPT_@_";
 }

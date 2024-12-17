@@ -21,9 +21,11 @@ import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
+import cn.sliew.carp.framework.spring.util.PageUtil;
 import cn.sliew.carp.module.dataservice.domain.DataServiceExecutor;
 import cn.sliew.carp.module.dataservice.domain.mybatis.entity.MybatisDynamicParamDTO;
 import cn.sliew.carp.module.dataservice.domain.mybatis.entity.ParamType;
+import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -59,6 +61,9 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor, Initiali
     @Qualifier(DataSourceConstants.SQL_SESSION_FACTORY)
     private SqlSessionFactory sqlSessionFactory;
 
+    @Autowired
+    private JdbcExecutor jdbcExecutor;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         configuration = sqlSessionFactory.getConfiguration();
@@ -66,12 +71,12 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor, Initiali
 
     @Override
     public PageResult<String> page(PageParam param) {
-        return null;
+        return PageUtil.buildPage(param, listAll());
     }
 
     @Override
     public List<String> listAll() {
-        return null;
+        return configuration.getMappedStatementNames().stream().toList();
     }
 
     @Override
@@ -269,9 +274,8 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor, Initiali
     }
 
     @Override
-    public Object execute(String id, String sqlScript, Map<String, Object> params) {
-        // todo 执行
-        return null;
+    public Object execute(String id, String sqlScript, Map<String, Object> params, DsInfoDTO dsInfoDTO) {
+        return jdbcExecutor.selectOne(dsInfoDTO, sqlScript, params);
     }
 
     private MappedStatement buildMappedStatement(String id, String sqlScript) {

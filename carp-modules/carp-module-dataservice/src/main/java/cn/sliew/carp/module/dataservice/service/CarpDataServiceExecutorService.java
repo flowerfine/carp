@@ -15,28 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain;
 
-import cn.sliew.carp.framework.common.model.PageParam;
-import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
+package cn.sliew.carp.module.dataservice.service;
 
-import java.util.List;
-import java.util.Map;
+import cn.sliew.carp.module.dataservice.service.param.ExecuteParam;
 
-public interface DataServiceExecutor {
+public interface CarpDataServiceExecutorService {
 
-    PageResult<String> page(PageParam param);
+    void deploy(Long configId);
 
-    List<String> listAll();
+    void stop(Long configId);
 
-    void register(String id, String sqlScript);
-
-    void unregister(String id);
-
-    List parseParams(String sqlScript);
-
-    String parseSql(String id, String sqlScript, Map<String, Object> params);
-
-    Object execute(String id, String sqlScript, Map<String, Object> params, DsInfoDTO dsInfoDTO);
+    Object execute(ExecuteParam param);
 }

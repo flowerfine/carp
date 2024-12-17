@@ -17,9 +17,30 @@
  */
 package cn.sliew.carp.module.dataservice.service;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.dataservice.repository.entity.CarpDataServiceGroup;
+import cn.sliew.carp.module.dataservice.service.dto.CarpDataServiceGroupDTO;
+import cn.sliew.carp.module.dataservice.service.param.CarpDataServiceGroupAddParam;
+import cn.sliew.carp.module.dataservice.service.param.CarpDataServiceGroupPageParam;
+import cn.sliew.carp.module.dataservice.service.param.CarpDataServiceGroupUpdateParam;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface CarpDataServiceGroupService extends IService<CarpDataServiceGroup> {
 
+    PageResult<CarpDataServiceGroupDTO> page(CarpDataServiceGroupPageParam param);
+
+    List<CarpDataServiceGroupDTO> list(CarpDataServiceGroupPageParam param);
+
+    CarpDataServiceGroupDTO get(Long id);
+
+    boolean add(CarpDataServiceGroupAddParam param);
+
+    boolean update(CarpDataServiceGroupUpdateParam param);
+
+    boolean delete(Long id);
+
+    boolean deleteBatch(Collection<Long> ids);
 }

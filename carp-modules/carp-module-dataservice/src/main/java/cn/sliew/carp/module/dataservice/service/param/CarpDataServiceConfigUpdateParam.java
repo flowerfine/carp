@@ -15,15 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.service.impl;
+package cn.sliew.carp.module.dataservice.service.param;
 
-import cn.sliew.carp.module.dataservice.repository.entity.CarpDataServiceConfig;
-import cn.sliew.carp.module.dataservice.repository.mapper.CarpDataServiceConfigMapper;
-import cn.sliew.carp.module.dataservice.service.CarpDataServiceConfigService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-@Service
-public class CarpDataServiceConfigServiceImp extends ServiceImpl<CarpDataServiceConfigMapper, CarpDataServiceConfig> implements CarpDataServiceConfigService {
+@Data
+public class CarpDataServiceConfigUpdateParam extends CarpDataServiceConfigAddParam {
 
+    @NotNull
+    @Schema(description = "id")
+    private Long id;
 }

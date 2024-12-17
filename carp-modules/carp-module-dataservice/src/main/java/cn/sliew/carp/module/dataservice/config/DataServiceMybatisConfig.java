@@ -24,8 +24,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
-        basePackages = {DataServiceMybatisConfig.MAPPER_MODULE_DATASERVICE_PACKAGE})
+        basePackages = {DataServiceMybatisConfig.MAPPER_MODULE_DATASERVICE_PACKAGE, DataServiceMybatisConfig.MAPPER_MODULE_DATASERVICE_MYBATIS_PACKAGE})
 public class DataServiceMybatisConfig {
 
     public static final String MAPPER_MODULE_DATASERVICE_PACKAGE = "cn.sliew.carp.module.dataservice.repository.mapper";
+    // fixme 临时解决方案，后面需换成动态 dataSource
+    public static final String MAPPER_MODULE_DATASERVICE_MYBATIS_PACKAGE = "cn.sliew.carp.module.dataservice.domain.mybatis.mapper";
 }

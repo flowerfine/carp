@@ -15,15 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.service.impl;
+package cn.sliew.carp.module.dataservice.service.param;
 
-import cn.sliew.carp.module.dataservice.repository.entity.CarpDataServiceGroup;
-import cn.sliew.carp.module.dataservice.repository.mapper.CarpDataServiceGroupMapper;
-import cn.sliew.carp.module.dataservice.service.CarpDataServiceGroupService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-@Service
-public class CarpDataServiceGroupServiceImp extends ServiceImpl<CarpDataServiceGroupMapper, CarpDataServiceGroup> implements CarpDataServiceGroupService {
+@Data
+public class CarpDataServiceGroupPageParam extends PageParam {
 
+    @Schema(description = "命名空间")
+    private String namespace;
+
+    @Schema(description = "名称")
+    private String name;
+
+    @Schema(description = "编码")
+    private String code;
 }
