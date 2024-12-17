@@ -17,9 +17,9 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.sliew.quoll.repository.crabc.system.mapper.CarpDataServiceGroupMapper">
+<mapper namespace="cn.sliew.carp.module.dataservice.repository.mapper.CarpDataServiceGroupMapper">
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.sliew.quoll.repository.crabc.system.entity.CarpDataServiceGroup">
+    <resultMap id="BaseResultMap" type="cn.sliew.carp.module.dataservice.repository.entity.CarpDataServiceGroup">
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
         <result column="create_time" property="createTime"/>

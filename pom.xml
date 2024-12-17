@@ -113,6 +113,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-dataservice</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-datasource</artifactId>
                 <version>${project.version}</version>
             </dependency>

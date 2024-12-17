@@ -28,7 +28,7 @@ public class DataServiceOpenAPIConfig {
     @Bean
     public GroupedOpenApi carpDataServiceOpenApi() {
         return GroupedOpenApi.builder().group("数据服务模块")
-                .pathsToMatch("/api/carp/dataservice/**")
+                .pathsToMatch("/api/carp/data-service/**")
                 .packagesToScan("cn.sliew.carp.module.dataservice").build();
     }
 
