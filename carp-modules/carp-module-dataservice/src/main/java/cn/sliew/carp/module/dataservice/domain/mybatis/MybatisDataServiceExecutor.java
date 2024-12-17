@@ -26,6 +26,8 @@ import cn.sliew.carp.framework.spring.util.PageUtil;
 import cn.sliew.carp.module.dataservice.domain.DataServiceExecutor;
 import cn.sliew.carp.module.dataservice.domain.mybatis.entity.MybatisDynamicParamDTO;
 import cn.sliew.carp.module.dataservice.domain.mybatis.entity.ParamType;
+import cn.sliew.carp.module.dataservice.domain.mybatis.mapper.MybatisMapper;
+import cn.sliew.carp.module.dataservice.domain.mybatis.mapper.SqlWrapperProvider;
 import cn.sliew.carp.module.datasource.modal.AbstractDataSourceProperties;
 import cn.sliew.carp.module.datasource.modal.jdbc.MySQLDataSourceProperties;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
@@ -81,8 +83,7 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor {
                 AbstractDataSourceProperties dataSourceProperties = JacksonUtil.toObject(JacksonUtil.toJsonNode(dsInfoDTO.getProps()), AbstractDataSourceProperties.class);
                 MySQLDataSourceProperties mySQLDataSourceProperties = (MySQLDataSourceProperties) dataSourceProperties;
 
-                HikariDataSource dataSource = DataSourceBuilder.create().type(HikariDataSource.class)
-                        .build();
+                HikariDataSource dataSource = DataSourceBuilder.create().type(HikariDataSource.class).build();
                 dataSource.setPoolName(dsInfoDTO.getName());
                 dataSource.setDriverClassName(mySQLDataSourceProperties.getDriverClassName());
                 dataSource.setJdbcUrl(mySQLDataSourceProperties.getUrl());
@@ -100,6 +101,8 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor {
                 factoryBean.setMapperLocations(props.resolveMapperLocations());
 
                 MybatisConfiguration configuration = new MybatisConfiguration();
+                configuration.addMapper(MybatisMapper.class);
+                configuration.addMapper(SqlWrapperProvider.class);
                 configuration.setDefaultEnumTypeHandler(MybatisEnumTypeHandler.class);
                 configuration.setMapUnderscoreToCamelCase(true);
                 configuration.setLogImpl(Slf4jImpl.class);
