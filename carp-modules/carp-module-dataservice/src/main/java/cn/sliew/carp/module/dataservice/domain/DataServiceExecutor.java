@@ -26,13 +26,13 @@ import java.util.Map;
 
 public interface DataServiceExecutor {
 
-    PageResult<String> page(PageParam param);
+    PageResult<String> page(DsInfoDTO dsInfoDTO, PageParam param);
 
-    List<String> listAll();
+    List<String> listAll(DsInfoDTO dsInfoDTO);
 
-    void register(String id, String sqlScript);
+    void register(String id, String sqlScript, DsInfoDTO dsInfoDTO);
 
-    void unregister(String id);
+    void unregister(String id, DsInfoDTO dsInfoDTO);
 
     List parseParams(String sqlScript);
 

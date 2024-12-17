@@ -44,7 +44,7 @@ public class CarpDataServiceExecutorServiceImpl implements CarpDataServiceExecut
         CarpDataServiceConfigDTO carpDataServiceConfigDTO = dataServiceConfigService.get(configId);
         DsInfoDTO dsInfoDTO = carpDsInfoService.selectOne(carpDataServiceConfigDTO.getDsId(), true);
         DataServiceExecutor dataServiceExecutor = registry.get(dsInfoDTO.getDsType().getType());
-        dataServiceExecutor.register(configId.toString(), carpDataServiceConfigDTO.getQueryScript());
+        dataServiceExecutor.register(configId.toString(), carpDataServiceConfigDTO.getQueryScript(), dsInfoDTO);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class CarpDataServiceExecutorServiceImpl implements CarpDataServiceExecut
         CarpDataServiceConfigDTO carpDataServiceConfigDTO = dataServiceConfigService.get(configId);
         DsInfoDTO dsInfoDTO = carpDsInfoService.selectOne(carpDataServiceConfigDTO.getDsId(), true);
         DataServiceExecutor dataServiceExecutor = registry.get(dsInfoDTO.getDsType().getType());
-        dataServiceExecutor.unregister(configId.toString());
+        dataServiceExecutor.unregister(configId.toString(), dsInfoDTO);
     }
 
     @Override

@@ -21,13 +21,26 @@ import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
+import cn.sliew.carp.framework.mybatis.config.CarpMybatisConfig;
 import cn.sliew.carp.framework.spring.util.PageUtil;
 import cn.sliew.carp.module.dataservice.domain.DataServiceExecutor;
 import cn.sliew.carp.module.dataservice.domain.mybatis.entity.MybatisDynamicParamDTO;
 import cn.sliew.carp.module.dataservice.domain.mybatis.entity.ParamType;
+import cn.sliew.carp.module.datasource.modal.AbstractDataSourceProperties;
+import cn.sliew.carp.module.datasource.modal.jdbc.MySQLDataSourceProperties;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
+import cn.sliew.milky.common.exception.Rethrower;
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
+import com.baomidou.mybatisplus.core.toolkit.GlobalConfigUtils;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.ibatis.builder.StaticSqlSource;
+import org.apache.ibatis.logging.slf4j.Slf4jImpl;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.SqlCommandType;
@@ -39,13 +52,14 @@ import org.apache.ibatis.scripting.defaults.RawSqlSource;
 import org.apache.ibatis.scripting.xmltags.*;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -53,40 +67,71 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public class MybatisDataServiceExecutor implements DataServiceExecutor, InitializingBean {
+public class MybatisDataServiceExecutor implements DataServiceExecutor {
 
-    private Configuration configuration;
-
-    @Autowired
-    @Qualifier(DataSourceConstants.SQL_SESSION_FACTORY)
-    private SqlSessionFactory sqlSessionFactory;
+    private ConcurrentMap<Long, SqlSessionFactory> configurationRegistry = new ConcurrentHashMap<>();
+    private MybatisConfiguration defaultConfiguration = new MybatisConfiguration();
 
     @Autowired
     private JdbcExecutor jdbcExecutor;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        configuration = sqlSessionFactory.getConfiguration();
+    private Configuration getConfiguration(DsInfoDTO dsInfoDTO) {
+        return configurationRegistry.computeIfAbsent(dsInfoDTO.getId(), k -> {
+            try {
+                AbstractDataSourceProperties dataSourceProperties = JacksonUtil.toObject(JacksonUtil.toJsonNode(dsInfoDTO.getProps()), AbstractDataSourceProperties.class);
+                MySQLDataSourceProperties mySQLDataSourceProperties = (MySQLDataSourceProperties) dataSourceProperties;
+
+                HikariDataSource dataSource = DataSourceBuilder.create().type(HikariDataSource.class)
+                        .build();
+                dataSource.setPoolName(dsInfoDTO.getName());
+                dataSource.setDriverClassName(mySQLDataSourceProperties.getDriverClassName());
+                dataSource.setJdbcUrl(mySQLDataSourceProperties.getUrl());
+                dataSource.setUsername(mySQLDataSourceProperties.getUser());
+                dataSource.setPassword(mySQLDataSourceProperties.getPassword());
+                dataSource.setMinimumIdle(1);
+                dataSource.setMaximumPoolSize(5);
+
+                MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
+                GlobalConfig globalConfig = GlobalConfigUtils.defaults();
+                globalConfig.setMetaObjectHandler(new CarpMybatisConfig.CarpMetaHandler());
+
+                MybatisPlusProperties props = new MybatisPlusProperties();
+                props.setMapperLocations(new String[]{DataSourceConstants.MAPPER_XML_PATH});
+                factoryBean.setMapperLocations(props.resolveMapperLocations());
+
+                MybatisConfiguration configuration = new MybatisConfiguration();
+                configuration.setDefaultEnumTypeHandler(MybatisEnumTypeHandler.class);
+                configuration.setMapUnderscoreToCamelCase(true);
+                configuration.setLogImpl(Slf4jImpl.class);
+                factoryBean.setConfiguration(configuration);
+                factoryBean.setGlobalConfig(globalConfig);
+                factoryBean.setDataSource(dataSource);
+                return factoryBean.getObject();
+            } catch (Exception e) {
+                Rethrower.throwAs(e);
+                return null;
+            }
+        }).getConfiguration();
     }
 
     @Override
-    public PageResult<String> page(PageParam param) {
-        return PageUtil.buildPage(param, listAll());
+    public PageResult<String> page(DsInfoDTO dsInfoDTO, PageParam param) {
+        return PageUtil.buildPage(param, listAll(dsInfoDTO));
     }
 
     @Override
-    public List<String> listAll() {
-        return configuration.getMappedStatementNames().stream().toList();
+    public List<String> listAll(DsInfoDTO dsInfoDTO) {
+        return getConfiguration(dsInfoDTO).getMappedStatementNames().stream().toList();
     }
 
     @Override
-    public void register(String id, String sqlScript) {
-        configuration.addMappedStatement(buildMappedStatement(id, sqlScript));
+    public void register(String id, String sqlScript, DsInfoDTO dsInfoDTO) {
+        getConfiguration(dsInfoDTO).addMappedStatement(buildMappedStatement(id, sqlScript));
     }
 
     @Override
-    public void unregister(String id) {
-        Map<String, MappedStatement> mappedStatements = readField(configuration, "mappedStatements");
+    public void unregister(String id, DsInfoDTO dsInfoDTO) {
+        Map<String, MappedStatement> mappedStatements = readField(getConfiguration(dsInfoDTO), "mappedStatements");
         mappedStatements.remove(id);
     }
 
@@ -275,14 +320,15 @@ public class MybatisDataServiceExecutor implements DataServiceExecutor, Initiali
 
     @Override
     public Object execute(String id, String sqlScript, Map<String, Object> params, DsInfoDTO dsInfoDTO) {
+        // 数据源管理
         return jdbcExecutor.selectOne(dsInfoDTO, sqlScript, params);
     }
 
     private MappedStatement buildMappedStatement(String id, String sqlScript) {
-        LanguageDriver languageDriver = configuration.getDefaultScriptingLanguageInstance();
-        SqlSource sqlSource = languageDriver.createSqlSource(configuration, sqlScript, null);
+        LanguageDriver languageDriver = defaultConfiguration.getDefaultScriptingLanguageInstance();
+        SqlSource sqlSource = languageDriver.createSqlSource(defaultConfiguration, sqlScript, null);
         // fixme sql 类型 select, insert, update, delete
-        MappedStatement.Builder builder = new MappedStatement.Builder(configuration, id, sqlSource, SqlCommandType.UNKNOWN);
+        MappedStatement.Builder builder = new MappedStatement.Builder(defaultConfiguration, id, sqlSource, SqlCommandType.UNKNOWN);
         return builder.build();
     }
 
