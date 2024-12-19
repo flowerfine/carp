@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain.mybatis;
+package cn.sliew.carp.module.dataservice.domain.dao.mybatis;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
@@ -23,11 +23,11 @@ import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.config.CarpMybatisConfig;
 import cn.sliew.carp.framework.spring.util.PageUtil;
-import cn.sliew.carp.module.dataservice.domain.DataServiceExecutor;
-import cn.sliew.carp.module.dataservice.domain.mybatis.entity.MybatisDynamicParamDTO;
-import cn.sliew.carp.module.dataservice.domain.mybatis.entity.ParamType;
-import cn.sliew.carp.module.dataservice.domain.mybatis.mapper.MybatisMapper;
-import cn.sliew.carp.module.dataservice.domain.mybatis.mapper.SqlWrapperProvider;
+import cn.sliew.carp.module.dataservice.domain.dao.DaoExecutor;
+import cn.sliew.carp.module.dataservice.domain.dao.mybatis.entity.MybatisDynamicParamDTO;
+import cn.sliew.carp.module.dataservice.domain.dao.mybatis.entity.ParamType;
+import cn.sliew.carp.module.dataservice.domain.dao.mybatis.mapper.MybatisMapper;
+import cn.sliew.carp.module.dataservice.domain.dao.mybatis.mapper.SqlWrapperProvider;
 import cn.sliew.carp.module.datasource.modal.AbstractDataSourceProperties;
 import cn.sliew.carp.module.datasource.modal.jdbc.MySQLDataSourceProperties;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
@@ -71,7 +71,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public class MybatisDataServiceExecutor implements DataServiceExecutor {
+public class MybatisDaoExecutor implements DaoExecutor {
 
     private ConcurrentMap<Long, SqlSessionFactory> configurationRegistry = new ConcurrentHashMap<>();
     private MybatisConfiguration defaultConfiguration = new MybatisConfiguration();

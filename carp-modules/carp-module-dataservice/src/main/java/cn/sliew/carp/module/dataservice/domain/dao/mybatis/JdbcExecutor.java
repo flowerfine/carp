@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain.mybatis;
+package cn.sliew.carp.module.dataservice.domain.dao.mybatis;
 
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.module.dataservice.domain.mybatis.mapper.MybatisMapper;
+import cn.sliew.carp.module.dataservice.domain.dao.mybatis.mapper.MybatisMapper;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 
 import java.util.Collections;

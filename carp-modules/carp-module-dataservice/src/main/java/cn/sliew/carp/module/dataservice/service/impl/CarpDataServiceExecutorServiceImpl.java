@@ -18,8 +18,9 @@
 
 package cn.sliew.carp.module.dataservice.service.impl;
 
-import cn.sliew.carp.module.dataservice.domain.DataServiceExecutor;
-import cn.sliew.carp.module.dataservice.domain.DataServiceExecutorRegistry;
+import cn.sliew.carp.module.dataservice.domain.controller.ControllerExecutor;
+import cn.sliew.carp.module.dataservice.domain.dao.DaoExecutor;
+import cn.sliew.carp.module.dataservice.domain.dao.DaoExecutorRegistry;
 import cn.sliew.carp.module.dataservice.service.CarpDataServiceConfigService;
 import cn.sliew.carp.module.dataservice.service.CarpDataServiceExecutorService;
 import cn.sliew.carp.module.dataservice.service.dto.CarpDataServiceConfigDTO;
@@ -33,7 +34,9 @@ import org.springframework.stereotype.Service;
 public class CarpDataServiceExecutorServiceImpl implements CarpDataServiceExecutorService {
 
     @Autowired
-    private DataServiceExecutorRegistry registry;
+    private ControllerExecutor controllerExecutor;
+    @Autowired
+    private DaoExecutorRegistry registry;
     @Autowired
     private CarpDataServiceConfigService dataServiceConfigService;
     @Autowired
@@ -43,23 +46,25 @@ public class CarpDataServiceExecutorServiceImpl implements CarpDataServiceExecut
     public void deploy(Long configId) {
         CarpDataServiceConfigDTO carpDataServiceConfigDTO = dataServiceConfigService.get(configId);
         DsInfoDTO dsInfoDTO = carpDsInfoService.selectOne(carpDataServiceConfigDTO.getDsId(), true);
-        DataServiceExecutor dataServiceExecutor = registry.get(dsInfoDTO.getDsType().getType());
-        dataServiceExecutor.register(configId.toString(), carpDataServiceConfigDTO.getQueryScript(), dsInfoDTO);
+        DaoExecutor daoExecutor = registry.get(dsInfoDTO.getDsType().getType());
+        daoExecutor.register(configId.toString(), carpDataServiceConfigDTO.getQueryScript(), dsInfoDTO);
+        controllerExecutor.register(configId.toString(), carpDataServiceConfigDTO.getHttpPath());
     }
 
     @Override
     public void stop(Long configId) {
         CarpDataServiceConfigDTO carpDataServiceConfigDTO = dataServiceConfigService.get(configId);
         DsInfoDTO dsInfoDTO = carpDsInfoService.selectOne(carpDataServiceConfigDTO.getDsId(), true);
-        DataServiceExecutor dataServiceExecutor = registry.get(dsInfoDTO.getDsType().getType());
-        dataServiceExecutor.unregister(configId.toString(), dsInfoDTO);
+        DaoExecutor daoExecutor = registry.get(dsInfoDTO.getDsType().getType());
+        daoExecutor.unregister(configId.toString(), dsInfoDTO);
+        controllerExecutor.unregister(configId.toString());
     }
 
     @Override
     public Object execute(ExecuteParam param) {
         CarpDataServiceConfigDTO carpDataServiceConfigDTO = dataServiceConfigService.get(param.getId());
         DsInfoDTO dsInfoDTO = carpDsInfoService.selectOne(carpDataServiceConfigDTO.getDsId(), true);
-        DataServiceExecutor dataServiceExecutor = registry.get(dsInfoDTO.getDsType().getType());
-        return dataServiceExecutor.execute(param.getId().toString(), carpDataServiceConfigDTO.getQueryScript(), param.getParams(), dsInfoDTO);
+        DaoExecutor daoExecutor = registry.get(dsInfoDTO.getDsType().getType());
+        return daoExecutor.execute(param.getId().toString(), carpDataServiceConfigDTO.getQueryScript(), param.getParams(), dsInfoDTO);
     }
 }

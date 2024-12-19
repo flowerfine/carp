@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.dataservice.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.dataservice.service.CarpDataServiceConfigService;
 import cn.sliew.carp.module.dataservice.service.dto.CarpDataServiceConfigDTO;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AnonymousAccess
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/data-service/config")

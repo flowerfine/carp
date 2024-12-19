@@ -105,5 +105,7 @@ knife4j:
     enable-debug: true
     enable-open-api: true
     enable-host: false
+    enable-dynamic-parameter: true
+    enable-version: true
   basic.enable: false
   cors: true

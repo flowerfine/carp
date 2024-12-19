@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain;
+package cn.sliew.carp.module.dataservice.domain.dao;
 
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
-import cn.sliew.carp.module.dataservice.domain.mybatis.MybatisDataServiceExecutor;
+import cn.sliew.carp.module.dataservice.domain.dao.mybatis.MybatisDaoExecutor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,25 +27,24 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Component
-public class DataServiceExecutorRegistry implements InitializingBean {
+public class DaoExecutorRegistry implements InitializingBean {
 
-    private ConcurrentMap<DataSourceType, DataServiceExecutor> registry = new ConcurrentHashMap<>();
-
+    private ConcurrentMap<DataSourceType, DaoExecutor> registry = new ConcurrentHashMap<>();
 
     @Autowired
-    private MybatisDataServiceExecutor mybatisDataServiceExecutor;
+    private MybatisDaoExecutor mybatisDataServiceExecutor;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         register(DataSourceType.MYSQL, mybatisDataServiceExecutor);
     }
 
-    public DataServiceExecutor get(DataSourceType dataSourceType) {
+    public DaoExecutor get(DataSourceType dataSourceType) {
         return registry.get(dataSourceType);
     }
 
-    public void register(DataSourceType dataSourceType, DataServiceExecutor dataServiceExecutor) {
-        registry.put(dataSourceType, dataServiceExecutor);
+    public void register(DataSourceType dataSourceType, DaoExecutor daoExecutor) {
+        registry.put(dataSourceType, daoExecutor);
     }
 
     public void unregister(DataSourceType dataSourceType) {

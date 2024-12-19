@@ -15,28 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain;
+package cn.sliew.carp.module.dataservice.domain.dao.mybatis.mapper;
 
-import cn.sliew.carp.framework.common.model.PageParam;
-import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import java.util.List;
 import java.util.Map;
 
-public interface DataServiceExecutor {
+@Mapper
+public interface MybatisMapper {
 
-    PageResult<String> page(DsInfoDTO dsInfoDTO, PageParam param);
+    @SelectProvider(type = SqlWrapperProvider.class, method = "wrapSelect")
+    List<Map<String, Object>> select(Map<String, Object> params);
 
-    List<String> listAll(DsInfoDTO dsInfoDTO);
+    @InsertProvider(type = SqlWrapperProvider.class, method = "wrapInsert")
+    Integer insert(Map<String, Object> params);
 
-    void register(String id, String sqlScript, DsInfoDTO dsInfoDTO);
+    @UpdateProvider(type = SqlWrapperProvider.class, method = "wrapUpdate")
+    Integer update(Map<String, Object> params);
 
-    void unregister(String id, DsInfoDTO dsInfoDTO);
-
-    List parseParams(String sqlScript);
-
-    String parseSql(String id, String sqlScript, Map<String, Object> params);
-
-    Object execute(String id, String sqlScript, Map<String, Object> params, DsInfoDTO dsInfoDTO);
+    @UpdateProvider(type = SqlWrapperProvider.class, method = "wrapDelete")
+    Integer delete(Map<String, Object> params);
 }

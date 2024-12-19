@@ -16,47 +16,30 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.dataservice.controller;
+package cn.sliew.carp.module.dataservice.domain.controller.spring;
 
-import cn.sliew.carp.framework.common.model.IdParam;
-import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.dataservice.service.CarpDataServiceExecutorService;
 import cn.sliew.carp.module.dataservice.service.param.ExecuteParam;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@AnonymousAccess
 @RestController
+@RequestMapping(SpringDynamicRouteController.PATH_REFIX)
 @ApiResponseWrapper
-@RequestMapping("/api/carp/data-service/executor")
-@Tag(name = "数据服务模块-服务管理")
-public class CarpDataServiceExecutorController {
+public class SpringDynamicRouteController {
+
+    public static final String PATH_REFIX = "/api/carp/data-service/route/";
 
     @Autowired
     private CarpDataServiceExecutorService carpDataServiceExecutorService;
 
-    @PostMapping("deploy")
-    @Operation(summary = "部署", description = "部署")
-    public void deploy(@Valid @RequestBody IdParam param) {
-        carpDataServiceExecutorService.deploy(param.getId());
-    }
-
-    @PostMapping("stop")
-    @Operation(summary = "下线", description = "下线")
-    public void stop(@Valid @RequestBody IdParam param) {
-        carpDataServiceExecutorService.stop(param.getId());
-    }
-
-    @PostMapping("execute")
-    @Operation(summary = "执行", description = "执行")
-    public Object execute(@Valid @RequestBody ExecuteParam param) {
+    @ApiResponseWrapper
+    public Object execute(HttpServletRequest request, @Valid @RequestBody ExecuteParam param) {
         return carpDataServiceExecutorService.execute(param);
     }
 }

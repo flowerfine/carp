@@ -15,19 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain.mybatis.entity;
+package cn.sliew.carp.module.dataservice.domain.controller;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public interface ControllerExecutor {
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class MybatisDynamicParamDTO {
+    void register(String id, String path);
 
-    private String name;
-    private ParamType paramType;
-    private String source;
-    private boolean required;
+    void unregister(String id);
 }

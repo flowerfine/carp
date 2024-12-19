@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dataservice.domain.mybatis.entity;
+package cn.sliew.carp.module.dataservice.domain.dao.mybatis.entity;
 
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import cn.sliew.carp.framework.common.dict.alert.AlertStatus;
