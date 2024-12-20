@@ -9,7 +9,7 @@ import ScheduleGroupForm from "@/pages/Workspace/Schedule/Group/components/Sched
 
 export type ScheduleGroupState = {
   visiable: boolean;
-  data?: WorkspaceScheduleAPI.ScheduleGroup;
+  data?: WorkspaceScheduleAPI.ScheduleGroup | null;
 }
 
 const WorkspaceScheduleGroup: React.FC = () => {

@@ -27,11 +27,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("carp_schedule_job_config")
+@TableName(value = "carp_schedule_job_config", resultMap = "ScheduleJobConfigMap")
 public class ScheduleJobConfig extends BaseAuditDO {
 
     @TableField("job_group_id")
     private Long jobGroupId;
+
+    @TableField(value = "job_group", exist = false)
+    private ScheduleJobGroup jobGroup;
 
     @TableField("`type`")
     private ScheduleType type;

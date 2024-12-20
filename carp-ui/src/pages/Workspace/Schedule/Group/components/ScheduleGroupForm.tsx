@@ -3,11 +3,10 @@ import {Form, message} from 'antd';
 import {ModalForm, ProFormDigit, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
 import {useIntl} from '@umijs/max';
 import {ModalFormProps} from "@/typings";
-import {ScheduleGroupState} from "@/pages/Workspace/Schedule/Group";
 import {WorkspaceScheduleAPI} from "@/services/workspace/schedule/typings";
 import {ScheduleGroupService} from "@/services/workspace/schedule/group.service";
 
-export default (props: ModalFormProps<ScheduleGroupState>) => {
+export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleGroup>) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const {visible, data, onCancel, onFinish} = props;

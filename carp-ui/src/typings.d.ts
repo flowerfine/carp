@@ -68,7 +68,7 @@ export type ModalProps<T> = {
 };
 
 export type ModalFormProps<T> = {
-    data: T;
+    data: T | null | undefined;
     visible: boolean;
     onCancel?: () => void;
     onFinish?: (values: any) => void;

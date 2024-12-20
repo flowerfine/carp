@@ -20,6 +20,12 @@ export const ScheduleGroupService = {
     });
   },
 
+  list: async () => {
+    return request<ResponseBody<Array<WorkspaceScheduleAPI.ScheduleGroup>>>(`${ScheduleGroupService.url}`, {
+      method: 'GET',
+    });
+  },
+
   add: async (row: WorkspaceScheduleAPI.ScheduleGroupAddParam) => {
     return request<ResponseBody<any>>(`${ScheduleGroupService.url}`, {
       method: 'PUT',
