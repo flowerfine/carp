@@ -15,14 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.plugin.config;
 
 import cn.sliew.carp.module.plugin.plugin.CustomPluginManager;
-import org.pf4j.DefaultPluginManager;
 import org.pf4j.PluginManager;
-import org.pf4j.PluginWrapper;
-import org.pf4j.RuntimeMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

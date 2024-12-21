@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.http.sync.job.config;
 
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;

@@ -30,6 +30,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.mqttsnet.thinglinks</groupId>
+            <artifactId>open-exp-plugin-depend</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-plugin-test-api</artifactId>
             <!-- !!! VERY IMPORTANT -->
@@ -52,6 +57,44 @@
             </resource>
         </resources>
         <plugins>
+            <!-- maven-shade-plugin: 用于打包项目并移除重复的依赖 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <filters>
+                        <filter>
+                            <includes>
+                                <!-- 确保特定的依赖项被打包到最终的 JAR 文件中 , pom 中新添加的依赖必须在此处声明 -->
+                                <include>com.mqttsnet.thinglinks:open-exp-plugin-depend</include>
+                                <include>cn.sliew:carp-plugin-test-api</include>
+                                <!-- 三方依赖 -->
+                            </includes>
+                        </filter>
+                        <filter>
+                            <!-- 所有依赖参与过滤 -->
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <!-- 排除所有依赖下的这些文件 -->
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                    <!-- 生成精简后的 POM 文件，避免下游项目出现重复依赖 -->
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- !!! VERY IMPORTANT -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -78,6 +121,11 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assembly/dist.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

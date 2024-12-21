@@ -15,11 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.http.sync.remote.jst.response.logistics;
 
 import cn.sliew.carp.module.http.sync.remote.jst.response.JstResult;
-import cn.sliew.carp.module.http.sync.remote.jst.response.logistics.LogisticDO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;

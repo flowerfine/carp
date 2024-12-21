@@ -15,14 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowExecuteType;
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowExecutionGraph;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.api.service.convert.WorkflowExecutionGraphConvert;

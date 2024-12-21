@@ -15,12 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package cn.sliew.carp.plugin.test.exp;
 
-package cn.sliew.carp.plugin.test.api;
+import cn.sliew.carp.plugin.test.api.exp.UserService;
+import lombok.extern.slf4j.Slf4j;
 
-import org.pf4j.ExtensionPoint;
+@Slf4j
+public class HelloUserServiceImpl implements UserService {
 
-public interface Greeting extends ExtensionPoint {
+    @Override
+    public void createUserExt() {
+        log.info("create user ext hello");
+    }
 
-    String getGreeting();
+    @Override
+    public String getName() {
+        return HelloUserServiceImpl.class.getName();
+    }
 }

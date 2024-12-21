@@ -109,3 +109,8 @@ knife4j:
     enable-version: true
   basic.enable: false
   cors: true
+
+exp_enable: true
+plugins_path: plugins
+plugins_work_dir: exp-workdir
+plugins_spring_url_replace_enable: true

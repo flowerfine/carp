@@ -15,12 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.scheduler.service.param;
 
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.system.service.impl;
 
 import cn.sliew.carp.framework.common.dict.DictDefinition;
@@ -23,7 +22,6 @@ import cn.sliew.carp.framework.common.dict.EnumDictRegistry;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.system.service.SysDictDefinitionService;
 import cn.sliew.carp.module.system.service.param.SysDictDefinitionParam;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

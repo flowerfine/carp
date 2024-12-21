@@ -56,5 +56,11 @@
             <groupId>org.pf4j</groupId>
             <artifactId>pf4j</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.mqttsnet.thinglinks</groupId>
+            <artifactId>exp-plugin-manager-springboot-starter</artifactId>
+            <version>1.0.6</version>
+        </dependency>
     </dependencies>
 </project>

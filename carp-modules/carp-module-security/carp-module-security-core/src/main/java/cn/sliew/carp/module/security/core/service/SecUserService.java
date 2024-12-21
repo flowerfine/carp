@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.security.core.service;
 
 import cn.sliew.carp.framework.common.model.PageResult;
@@ -24,7 +23,6 @@ import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.core.service.param.SecUserAddParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserUpdateParam;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Collection;

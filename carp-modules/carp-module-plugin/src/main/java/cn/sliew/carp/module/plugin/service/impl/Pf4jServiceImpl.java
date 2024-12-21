@@ -15,13 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.plugin.service.impl;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.plugin.service.Pf4jService;
-import cn.sliew.carp.plugin.test.api.Greeting;
+import cn.sliew.carp.plugin.test.api.pf4j.Greeting;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.PluginDescriptor;
 import org.pf4j.PluginManager;

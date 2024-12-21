@@ -15,36 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package cn.sliew.carp.plugin.test.exp;
 
-package cn.sliew.carp.plugin.test;
+import com.mqttsnet.thinglinks.open.exp.plugin.depend.AbstractBoot;
 
-import cn.sliew.carp.plugin.test.api.DemoPlugin;
-import cn.sliew.carp.plugin.test.api.Greeting;
-import org.pf4j.Extension;
-import org.pf4j.PluginWrapper;
+public class WelcomeBoot extends AbstractBoot {
 
-public class HelloPlugin extends DemoPlugin {
 
-    public HelloPlugin(PluginWrapper wrapper) {
-        super(wrapper);
-    }
-
-    @Override
-    public void start() {
-        log.info("HelloPlugin.start()");
-    }
-
-    @Override
-    public void stop() {
-        log.info("HelloPlugin.stop()");
-    }
-
-    @Extension(ordinal = 1)
-    public static class HelloGreeting implements Greeting {
-
-        @Override
-        public String getGreeting() {
-            return "Hello";
-        }
-    }
 }

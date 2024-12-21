@@ -15,15 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package cn.sliew.carp.module.plugin.service;
 
-package cn.sliew.carp.plugin.test.api;
+import cn.sliew.carp.framework.common.model.PageParam;
+import cn.sliew.carp.framework.common.model.PageResult;
+import com.mqttsnet.thinglinks.open.exp.client.Plugin;
 
-import org.pf4j.Plugin;
-import org.pf4j.PluginWrapper;
+import java.util.List;
 
-public abstract class DemoPlugin extends Plugin {
+public interface ExpService {
 
-    public DemoPlugin(PluginWrapper wrapper) {
-        super(wrapper);
-    }
+    PageResult<String> page(PageParam param);
+
+    List<String> list();
+
+    Plugin preload(String url);
+
+    Plugin install(String url) throws Throwable;
+
+    void uninstall(String pluginId) throws Throwable;
+
 }

@@ -15,10 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.plugin.test;
 
-import cn.sliew.carp.plugin.test.api.Greeting;
+import cn.sliew.carp.plugin.test.api.pf4j.Greeting;
 import com.google.auto.service.AutoService;
 
 /**

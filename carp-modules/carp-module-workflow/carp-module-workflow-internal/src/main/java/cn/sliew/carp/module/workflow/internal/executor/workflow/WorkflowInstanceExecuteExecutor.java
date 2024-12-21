@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.workflow.internal.executor.workflow;
 
 import cn.sliew.carp.framework.common.dict.workflow.WorkflowExecuteType;
@@ -29,7 +28,6 @@ import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
 

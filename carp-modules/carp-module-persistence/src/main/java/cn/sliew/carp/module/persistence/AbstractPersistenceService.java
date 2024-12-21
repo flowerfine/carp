@@ -20,7 +20,6 @@ package cn.sliew.carp.module.persistence;
 import cn.sliew.carp.module.persistence.api.PersistenceListener;
 import cn.sliew.carp.module.persistence.api.PersistenceService;
 import com.google.common.collect.Lists;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.Optional;

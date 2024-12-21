@@ -15,37 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package cn.sliew.carp.plugin.test.exp;
 
-package cn.sliew.carp.plugin.test;
+import cn.sliew.carp.plugin.test.api.exp.UserService;
+import lombok.extern.slf4j.Slf4j;
 
-import cn.sliew.carp.plugin.test.api.DemoPlugin;
-import cn.sliew.carp.plugin.test.api.Greeting;
-import org.pf4j.Extension;
-import org.pf4j.PluginWrapper;
+@Slf4j
+public class WelcomeUserServiceImpl implements UserService {
 
-public class WelcomePlugin extends DemoPlugin {
-
-    public WelcomePlugin(PluginWrapper wrapper) {
-        super(wrapper);
+    @Override
+    public void createUserExt() {
+        log.info("create user ext welcome");
     }
 
     @Override
-    public void start() {
-        log.info("WelcomePlugin.start()");
+    public String getName() {
+        return WelcomeUserServiceImpl.class.getName();
     }
 
-    @Override
-    public void stop() {
-        log.info("WelcomePlugin.stop()");
-    }
-
-    @Extension
-    public static class WelcomeGreeting implements Greeting {
-
-        @Override
-        public String getGreeting() {
-            return "Welcome";
-        }
-
-    }
 }
