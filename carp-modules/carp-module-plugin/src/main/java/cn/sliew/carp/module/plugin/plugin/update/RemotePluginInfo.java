@@ -15,31 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.plugin.plugin;
+package cn.sliew.carp.module.plugin.plugin.update;
 
-import org.pf4j.DefaultPluginManager;
-import org.pf4j.PluginRepository;
-import org.pf4j.PluginStatusProvider;
+import lombok.Data;
+import org.apache.commons.lang3.compare.ObjectToStringComparator;
 
-public class CustomPluginManager extends DefaultPluginManager {
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
-    private PluginRepository pluginRepository;
-    private PluginStatusProvider pluginStatusProvider;
+@Data
+public class RemotePluginInfo implements Comparable<RemotePluginInfo>, Serializable {
 
-    public CustomPluginManager(PluginRepository pluginRepository, PluginStatusProvider pluginStatusProvider) {
-        this.pluginRepository = pluginRepository;
-        this.pluginStatusProvider = pluginStatusProvider;
-        // 需要再次初始化
-        initialize();
-    }
-
-    @Override
-    protected PluginRepository createPluginRepository() {
-        return pluginRepository;
-    }
+    private String id;
+    private String projectUrl;
+    private String name;
+    private String remark;
+    private String provider;
+    private List<PluginRelease> releases;
 
     @Override
-    protected PluginStatusProvider createPluginStatusProvider() {
-        return pluginStatusProvider;
+    public int compareTo(RemotePluginInfo other) {
+        return Objects.compare(this, other, ObjectToStringComparator.INSTANCE);
     }
 }

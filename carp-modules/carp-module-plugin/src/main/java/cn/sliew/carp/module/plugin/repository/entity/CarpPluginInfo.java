@@ -17,44 +17,41 @@
  */
 package cn.sliew.carp.module.plugin.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
 import cn.sliew.carp.framework.common.dict.plugin.PluginType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 @Data
-@EqualsAndHashCode
-@TableName("carp_plugin")
-@Schema(name = "CarpPlugin", description = "plugin")
-public class CarpPlugin extends BaseAuditDO {
+@TableName(value = "carp_plugin_info", resultMap = "CarpPluginInfoMap")
+public class CarpPluginInfo extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "type")
     @TableField("`type`")
     private PluginType type;
 
-    @Schema(description = "名称")
+    @TableField("provider")
+    private String provider;
+
     @TableField("`name`")
     private String name;
 
-    @Schema(description = "链接")
-    @TableField("url")
-    private String url;
+    @TableField("clazz")
+    private String clazz;
 
-    @Schema(description = "状态")
-    @TableField("`status`")
-    private YesOrNo status;
+    @TableField("license")
+    private String license;
 
-    @Schema(description = "pf4j pluginId")
-    @TableField("`plugin_id`")
-    private String pluginId;
+    @TableField("dependency")
+    private String dependency;
 
-    @Schema(description = "备注")
     @TableField("remark")
     private String remark;
+
+    @TableField(value = "releases", exist = false)
+    private List<CarpPluginRelease> releases;
 }

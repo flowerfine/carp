@@ -15,46 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.plugin.repository.entity;
+package cn.sliew.carp.module.plugin.service.param;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
 import cn.sliew.carp.framework.common.dict.plugin.PluginType;
-import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode
-@TableName("carp_plugin")
-@Schema(name = "CarpPlugin", description = "plugin")
-public class CarpPlugin extends BaseAuditDO {
-
-    private static final long serialVersionUID = 1L;
+@EqualsAndHashCode(callSuper = true)
+public class CarpPluginInfoPageParam extends PageParam {
 
     @Schema(description = "type")
-    @TableField("`type`")
     private PluginType type;
 
+    @Schema(description = "提供者")
+    private String provider;
+
     @Schema(description = "名称")
-    @TableField("`name`")
     private String name;
-
-    @Schema(description = "链接")
-    @TableField("url")
-    private String url;
-
-    @Schema(description = "状态")
-    @TableField("`status`")
-    private YesOrNo status;
-
-    @Schema(description = "pf4j pluginId")
-    @TableField("`plugin_id`")
-    private String pluginId;
-
-    @Schema(description = "备注")
-    @TableField("remark")
-    private String remark;
 }

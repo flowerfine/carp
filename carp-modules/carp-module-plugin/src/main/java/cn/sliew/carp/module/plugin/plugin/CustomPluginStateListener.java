@@ -15,31 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package cn.sliew.carp.module.plugin.plugin;
 
-import org.pf4j.DefaultPluginManager;
-import org.pf4j.PluginRepository;
-import org.pf4j.PluginStatusProvider;
+import cn.sliew.carp.module.plugin.service.CarpPluginStatusService;
+import lombok.AllArgsConstructor;
+import org.pf4j.PluginStateEvent;
+import org.pf4j.PluginStateListener;
+import org.pf4j.PluginWrapper;
 
-public class CustomPluginManager extends DefaultPluginManager {
+/**
+ * fixme pluginId 如何匹配成 carp_plugin_release 的 uuid 字段
+ */
+@AllArgsConstructor
+public class CustomPluginStateListener implements PluginStateListener {
 
-    private PluginRepository pluginRepository;
-    private PluginStatusProvider pluginStatusProvider;
-
-    public CustomPluginManager(PluginRepository pluginRepository, PluginStatusProvider pluginStatusProvider) {
-        this.pluginRepository = pluginRepository;
-        this.pluginStatusProvider = pluginStatusProvider;
-        // 需要再次初始化
-        initialize();
-    }
+    private CarpPluginStatusService carpPluginStatusService;
 
     @Override
-    protected PluginRepository createPluginRepository() {
-        return pluginRepository;
-    }
-
-    @Override
-    protected PluginStatusProvider createPluginStatusProvider() {
-        return pluginStatusProvider;
+    public void pluginStateChanged(PluginStateEvent event) {
+        PluginWrapper plugin = event.getPlugin();
+        carpPluginStatusService.upsert(plugin.getPluginId(), plugin.getPluginState());
     }
 }

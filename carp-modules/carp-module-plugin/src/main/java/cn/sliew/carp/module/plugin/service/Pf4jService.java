@@ -20,12 +20,22 @@ package cn.sliew.carp.module.plugin.service;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.plugin.plugin.update.PluginRepositoryInfo;
+import cn.sliew.carp.module.plugin.plugin.update.RemotePluginInfo;
+import cn.sliew.carp.module.plugin.service.param.CarpPluginInfoPageParam;
+import cn.sliew.carp.module.plugin.service.param.CarpRemotePluginInfoPageParam;
 import org.pf4j.PluginDescriptor;
 
 import java.nio.file.Path;
 import java.util.List;
 
 public interface Pf4jService {
+
+    List<PluginRepositoryInfo> listRemoteRepository();
+
+    PageResult<RemotePluginInfo> pageRemotePluginInfo(CarpRemotePluginInfoPageParam param);
+
+    List<RemotePluginInfo> listRemotePluginInfo(CarpRemotePluginInfoPageParam param);
 
     PageResult<PluginDescriptor> page(PageParam param);
 

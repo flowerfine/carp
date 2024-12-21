@@ -16,34 +16,23 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.plugin.plugin;
+package cn.sliew.carp.module.plugin.service;
 
-import cn.sliew.carp.module.plugin.service.CarpPluginStatusService;
+import cn.sliew.carp.module.plugin.repository.entity.CarpPluginStatus;
 import cn.sliew.carp.module.plugin.service.dto.CarpPluginStatusDTO;
-import lombok.AllArgsConstructor;
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.pf4j.PluginState;
-import org.pf4j.PluginStatusProvider;
 
+import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-public class CustomPluginStatusProvider implements PluginStatusProvider {
+public interface CarpPluginStatusService extends IService<CarpPluginStatus> {
 
-    private CarpPluginStatusService carpPluginStatusService;
+    List<CarpPluginStatusDTO> list(PluginState state);
 
-    @Override
-    public boolean isPluginDisabled(String pluginId) {
-        Optional<CarpPluginStatusDTO> optional = carpPluginStatusService.get(pluginId);
-        return optional.filter(status -> status.getStatus() == PluginState.DISABLED).isPresent();
-    }
+    Optional<CarpPluginStatusDTO> get(String pluginUuid);
 
-    @Override
-    public void disablePlugin(String pluginId) {
-        carpPluginStatusService.upsert(pluginId, PluginState.DISABLED);
-    }
+    boolean upsert(String pluginUuid, PluginState state);
 
-    @Override
-    public void enablePlugin(String pluginId) {
-        carpPluginStatusService.upsert(pluginId, PluginState.STARTED);
-    }
+    boolean delete(String pluginUuid);
 }

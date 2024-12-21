@@ -18,49 +18,58 @@
 
 package cn.sliew.carp.module.plugin.plugin;
 
-import cn.hutool.extra.spring.SpringUtil;
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
 import cn.sliew.carp.framework.common.nio.FileUtil;
-import cn.sliew.carp.module.plugin.service.PluginService;
-import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
-import cn.sliew.carp.module.plugin.service.param.CarpPluginListParam;
+import cn.sliew.carp.module.plugin.service.CarpPluginReleaseService;
+import cn.sliew.carp.module.plugin.service.CarpPluginStatusService;
+import cn.sliew.carp.module.plugin.service.dto.CarpPluginReleaseDTO;
+import cn.sliew.carp.module.plugin.service.dto.CarpPluginStatusDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.PluginRepository;
+import org.pf4j.PluginState;
+import org.springframework.util.CollectionUtils;
 
 import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * todo 从数据库配置读取插件加载地址
+ * todo 读取内置的插件仓库
  */
 @Slf4j
 public class CustomPluginRepository implements PluginRepository {
 
+    private CarpPluginReleaseService carpPluginReleaseService;
+    private CarpPluginStatusService carpPluginStatusService;
+
     protected FileFilter filter;
 
-    public CustomPluginRepository() {
-        this(null);
+    public CustomPluginRepository(CarpPluginReleaseService carpPluginReleaseService, CarpPluginStatusService carpPluginStatusService) {
+        this(carpPluginReleaseService, carpPluginStatusService, null);
     }
 
-    public CustomPluginRepository(FileFilter filter) {
+    public CustomPluginRepository(CarpPluginReleaseService carpPluginReleaseService, CarpPluginStatusService carpPluginStatusService, FileFilter filter) {
+        this.carpPluginReleaseService = carpPluginReleaseService;
+        this.carpPluginStatusService = carpPluginStatusService;
         this.filter = filter;
     }
 
     @Override
     public List<Path> getPluginPaths() {
+        List<CarpPluginStatusDTO> startedPlugins = carpPluginStatusService.list(PluginState.STARTED);
+        if (CollectionUtils.isEmpty(startedPlugins)) {
+            return Collections.emptyList();
+        }
         // 读取数据库中启用的插件，然后下载，然后更新
-        PluginService pluginService = SpringUtil.getBean(PluginService.class);
-        CarpPluginListParam listParam = new CarpPluginListParam();
-        listParam.setStatus(YesOrNo.YES.getValue());
-        List<CarpPluginDTO> carpPluginDTOS = pluginService.listAll(listParam);
         List<Path> paths = new ArrayList<>();
-        for (CarpPluginDTO dto : carpPluginDTOS) {
+        for (CarpPluginStatusDTO statusDTO : startedPlugins) {
+            CarpPluginReleaseDTO releaseDTO = carpPluginReleaseService.getByUuid(statusDTO.getPluginUuid());
             try {
-                Path path = pluginService.internalDownloadPlugin(dto);
-                if (filter == null || filter.accept(path.toFile())) {
+                Path path = carpPluginReleaseService.internalDownloadPlugin(releaseDTO);
+                if (Objects.isNull(filter) || filter.accept(path.toFile())) {
                     paths.add(path);
                 }
             } catch (IOException e) {

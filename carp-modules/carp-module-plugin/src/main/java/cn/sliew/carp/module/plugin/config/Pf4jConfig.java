@@ -19,19 +19,46 @@
 package cn.sliew.carp.module.plugin.config;
 
 import cn.sliew.carp.module.plugin.plugin.CustomPluginManager;
-import org.pf4j.DefaultPluginManager;
+import cn.sliew.carp.module.plugin.plugin.CustomPluginRepository;
+import cn.sliew.carp.module.plugin.plugin.CustomPluginStateListener;
+import cn.sliew.carp.module.plugin.plugin.CustomPluginStatusProvider;
+import cn.sliew.carp.module.plugin.service.CarpPluginReleaseService;
+import cn.sliew.carp.module.plugin.service.CarpPluginStatusService;
 import org.pf4j.PluginManager;
-import org.pf4j.PluginWrapper;
-import org.pf4j.RuntimeMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Pf4jConfig {
 
+    @Autowired
+    private CarpPluginReleaseService carpPluginReleaseService;
+    @Autowired
+    private CarpPluginStatusService carpPluginStatusService;
+
+    @Bean
+    public CustomPluginRepository customPluginRepository() {
+        return new CustomPluginRepository(carpPluginReleaseService, carpPluginStatusService);
+    }
+
+    @Bean
+    public CustomPluginStatusProvider customPluginStatusProvider() {
+        return new CustomPluginStatusProvider(carpPluginStatusService);
+    }
+
+    @Bean
+    public CustomPluginStateListener customPluginStateListener() {
+        return new CustomPluginStateListener(carpPluginStatusService);
+    }
+
     @Bean
     public PluginManager pluginManager() {
-        PluginManager pluginManager = new CustomPluginManager();
+        PluginManager pluginManager = new CustomPluginManager(
+                customPluginRepository(),
+                customPluginStatusProvider());
+        pluginManager.addPluginStateListener(customPluginStateListener());
+
         pluginManager.loadPlugins();
         pluginManager.startPlugins();
         return pluginManager;

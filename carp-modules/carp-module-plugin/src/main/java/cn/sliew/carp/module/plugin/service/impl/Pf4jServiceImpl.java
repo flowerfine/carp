@@ -20,7 +20,11 @@ package cn.sliew.carp.module.plugin.service.impl;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.plugin.plugin.update.PluginRepositoryInfo;
+import cn.sliew.carp.module.plugin.plugin.update.RemotePluginInfo;
+import cn.sliew.carp.module.plugin.plugin.update.RemotePluginRepository;
 import cn.sliew.carp.module.plugin.service.Pf4jService;
+import cn.sliew.carp.module.plugin.service.param.CarpRemotePluginInfoPageParam;
 import cn.sliew.carp.plugin.test.api.Greeting;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.PluginDescriptor;
@@ -28,10 +32,13 @@ import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,6 +47,36 @@ public class Pf4jServiceImpl implements Pf4jService {
 
     @Autowired
     private PluginManager pluginManager;
+    @Autowired
+    private List<RemotePluginRepository> repositories;
+
+    @Override
+    public List<PluginRepositoryInfo> listRemoteRepository() {
+        if (CollectionUtils.isEmpty(repositories)) {
+            return Collections.emptyList();
+        }
+        return repositories.stream().map(RemotePluginRepository::getInfo).collect(Collectors.toList());
+    }
+
+    @Override
+    public PageResult<RemotePluginInfo> pageRemotePluginInfo(CarpRemotePluginInfoPageParam param) {
+        if (CollectionUtils.isEmpty(repositories)) {
+            return new PageResult<>(param.getCurrent(), param.getPageSize(), 0L);
+        }
+        return repositories.stream().filter(repository -> Objects.equals(repository.getId(), param.getRepositoryId()))
+                .map(repository -> repository.page(param))
+                .findFirst().orElseThrow();
+    }
+
+    @Override
+    public List<RemotePluginInfo> listRemotePluginInfo(CarpRemotePluginInfoPageParam param) {
+        if (CollectionUtils.isEmpty(repositories)) {
+            return Collections.emptyList();
+        }
+        return repositories.stream().filter(repository -> Objects.equals(repository.getId(), param.getRepositoryId()))
+                .map(repository -> repository.getAll())
+                .findFirst().orElseThrow();
+    }
 
     @Override
     public PageResult<PluginDescriptor> page(PageParam param) {

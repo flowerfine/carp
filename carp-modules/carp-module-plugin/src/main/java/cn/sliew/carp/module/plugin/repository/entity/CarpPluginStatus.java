@@ -17,44 +17,21 @@
  */
 package cn.sliew.carp.module.plugin.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
-import cn.sliew.carp.framework.common.dict.plugin.PluginType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.pf4j.PluginState;
 
 @Data
-@EqualsAndHashCode
-@TableName("carp_plugin")
-@Schema(name = "CarpPlugin", description = "plugin")
-public class CarpPlugin extends BaseAuditDO {
+@TableName("carp_plugin_status")
+public class CarpPluginStatus extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "type")
-    @TableField("`type`")
-    private PluginType type;
+    @TableField("plugin_uuid")
+    private String pluginUuid;
 
-    @Schema(description = "名称")
-    @TableField("`name`")
-    private String name;
-
-    @Schema(description = "链接")
-    @TableField("url")
-    private String url;
-
-    @Schema(description = "状态")
     @TableField("`status`")
-    private YesOrNo status;
-
-    @Schema(description = "pf4j pluginId")
-    @TableField("`plugin_id`")
-    private String pluginId;
-
-    @Schema(description = "备注")
-    @TableField("remark")
-    private String remark;
+    private PluginState status;
 }

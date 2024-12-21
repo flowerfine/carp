@@ -15,46 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.plugin.repository.entity;
+package cn.sliew.carp.module.plugin.service.dto;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
-import cn.sliew.carp.framework.common.dict.plugin.PluginType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode
-@TableName("carp_plugin")
-@Schema(name = "CarpPlugin", description = "plugin")
-public class CarpPlugin extends BaseAuditDO {
+@Schema(name = "CarpPluginRelease", description = "plugin release")
+public class CarpPluginReleaseDTO extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "type")
-    @TableField("`type`")
-    private PluginType type;
+    @Schema(description = "插件ID")
+    private Long pluginId;
 
-    @Schema(description = "名称")
-    @TableField("`name`")
-    private String name;
+    @Schema(description = "uuid")
+    private String uuid;
+
+    @Schema(description = "版本")
+    private String version;
 
     @Schema(description = "链接")
-    @TableField("url")
     private String url;
-
-    @Schema(description = "状态")
-    @TableField("`status`")
-    private YesOrNo status;
-
-    @Schema(description = "pf4j pluginId")
-    @TableField("`plugin_id`")
-    private String pluginId;
-
-    @Schema(description = "备注")
-    @TableField("remark")
-    private String remark;
 }
