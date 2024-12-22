@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-module-scheduler</artifactId>
-        <version>0.0.23</version>
+        <version>0.0.24</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-scheduler-api</artifactId>
