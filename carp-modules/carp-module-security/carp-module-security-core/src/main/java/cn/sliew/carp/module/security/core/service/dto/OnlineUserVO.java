@@ -20,7 +20,7 @@ package cn.sliew.carp.module.security.core.service.dto;
 
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class OnlineUserVO {
@@ -36,6 +36,6 @@ public class OnlineUserVO {
     private String phone;
     private String status;
 
-    private List<SecRoleDTO> roles;
-    private List<SecResourceWebDTO> resourceWebs;
+    private Set<SecRoleDTO> roles;
+    private Set<SecResourceWebDTO> resourceWebs;
 }

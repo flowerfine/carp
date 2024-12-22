@@ -151,7 +151,7 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
         // 查询 roles
         SecRoleListByUserParam userParam = new SecRoleListByUserParam();
         userParam.setUserId(secUserDTO.getId());
-        onlineUserVO.setRoles(secAuthorizationService.listAllAuthorizedRolesByUserId(userParam));
+        onlineUserVO.setRoles(new HashSet<>(secAuthorizationService.listAllAuthorizedRolesByUserId(userParam)));
         // 查询权限
         Set<SecResourceWebDTO> resourceWebs = new HashSet<>();
         for (SecRoleDTO secRoleDTO : onlineUserVO.getRoles()) {
@@ -159,7 +159,7 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
             roleParam.setRoleId(secRoleDTO.getId());
             resourceWebs.addAll(secAuthorizationService.listAuthorizedResourceWebsByRoleId(roleParam));
         }
-        onlineUserVO.setResourceWebs(new ArrayList<>(resourceWebs));
+        onlineUserVO.setResourceWebs(resourceWebs);
         return onlineUserVO;
     }
 }

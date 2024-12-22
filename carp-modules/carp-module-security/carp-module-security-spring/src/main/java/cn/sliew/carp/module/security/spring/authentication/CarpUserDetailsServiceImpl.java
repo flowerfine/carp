@@ -37,10 +37,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -78,7 +75,7 @@ public class CarpUserDetailsServiceImpl implements UserDetailsService {
         return user;
     }
 
-    private List<GrantedAuthority> roles2GrantedAuthority(List<SecRoleDTO> roles) {
+    private List<GrantedAuthority> roles2GrantedAuthority(Set<SecRoleDTO> roles) {
         if (CollectionUtils.isEmpty(roles)) {
             return Collections.emptyList();
         }
@@ -88,12 +85,12 @@ public class CarpUserDetailsServiceImpl implements UserDetailsService {
         return AuthorityUtils.createAuthorityList(roleAuthrities);
     }
 
-    private List<GrantedAuthority> resourceWebs2GrantedAuthority(List<SecResourceWebDTO> resourceWebList) {
+    private List<GrantedAuthority> resourceWebs2GrantedAuthority(Set<SecResourceWebDTO> resourceWebList) {
         if (CollectionUtils.isEmpty(resourceWebList)) {
             return Collections.emptyList();
         }
         String[] resourceWebAuthrities = resourceWebList.stream()
-                .map(SecResourceWebDTO::getValue)
+                .map(resource -> SecurityConstants.ROLE_AUTHORITY_PREFIX + resource.getValue())
                 .toArray(length -> new String[length]);
         return AuthorityUtils.createAuthorityList(resourceWebAuthrities);
     }

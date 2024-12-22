@@ -8,9 +8,17 @@ export default function access(initialState: { currentUser?: AdminSecurityAPI.On
   return {
     canAdmin: currentUser && currentUser.roles?.find(item => item.code === 'sys_user_admin' || item.code === 'sys_admin' ) != undefined,
     canAccess: (code: string) => {
+      if (!currentUser) {
+        return false
+      }
+      console.log('canAccess', route, currentUser)
       return true
     },
     normalRouteFilter: (route: any) => {
+      if (!currentUser) {
+        return false
+      }
+      console.log('normalRouteFilter', route, currentUser)
       return true;
     },
   };

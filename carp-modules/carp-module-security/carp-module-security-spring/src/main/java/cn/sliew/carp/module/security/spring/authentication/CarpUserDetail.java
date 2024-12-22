@@ -30,15 +30,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 public class CarpUserDetail implements UserDetails, CredentialsContainer {
 
     private SecUserDTO user;
-    private List<SecRoleDTO> roles;
+    private Set<SecRoleDTO> roles;
     // 懒加载
-    private List<SecResourceWebDTO> resourceWebs;
+    private Set<SecResourceWebDTO> resourceWebs;
     private List<GrantedAuthority> authorities;
 
     @Override
