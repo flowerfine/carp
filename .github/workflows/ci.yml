@@ -19,8 +19,7 @@ name: CI
 on:
   push:
     paths-ignore: [ 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
-    branches:
-      - '*'
+    tags-ignore: ['*']
   pull_request:
     paths-ignore: [ 'docs/**', '**/*.md', '**/*.drawio', '**/*.svg' ]
   schedule:
