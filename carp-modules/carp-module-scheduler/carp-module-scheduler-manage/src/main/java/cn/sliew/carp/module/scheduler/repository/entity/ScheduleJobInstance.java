@@ -21,6 +21,7 @@ package cn.sliew.carp.module.scheduler.repository.entity;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
 import java.util.Date;
@@ -48,7 +49,7 @@ public class ScheduleJobInstance extends BaseAuditDO {
     private Date endTime;
 
     @TableField("props")
-    private String props;
+    private JsonNode props;
 
     @TableField("params")
     private String params;
