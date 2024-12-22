@@ -1,15 +1,45 @@
 import {ResponseBody} from '@/typings';
-import {request} from '@umijs/max';
+import {request, matchPath, history} from '@umijs/max';
 import {AdminSecurityAPI} from "@/services/admin/security/typings";
 import {USER_AUTH} from "@/constants/constant";
 
 export const AuthenticationService = {
     url: '/api/carp/security/authentication',
+    loginPath: '/user/login',
+    registerPath: '/user/register',
+    registerResult: '/user/register-result',
 
     getAuthImage: async () => {
         return request<ResponseBody<AdminSecurityAPI.AuthCode>>(`${AuthenticationService.url}/captcha`, {
             method: 'GET'
         });
+    },
+
+    isLoginPath: () => {
+        return matchPath(
+            {
+              path: AuthenticationService.loginPath,
+            },
+            history.location.pathname,
+          );
+    },
+
+    isRegisterPath: () => {
+        return matchPath(
+            {
+              path: AuthenticationService.registerPath,
+            },
+            history.location.pathname,
+          );
+    },
+
+    isRegisterResultPath: () => {
+        return matchPath(
+            {
+              path: AuthenticationService.registerResult,
+            },
+            history.location.pathname,
+          );
     },
 
     login: async (loginInfo: AdminSecurityAPI.LoginInfo) => {

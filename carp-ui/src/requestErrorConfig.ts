@@ -1,6 +1,7 @@
 ﻿import type { RequestOptions } from '@@/plugin-request/request';
-import type { RequestConfig } from '@umijs/max';
+import { getLocale, history, type RequestConfig } from '@umijs/max';
 import { message, notification } from 'antd';
+import { AuthenticationService } from './services/admin/security/authentication.service';
 
 // 错误处理方案： 错误类型
 enum ErrorShowType {
@@ -72,6 +73,19 @@ export const errorConfig: RequestConfig = {
       } else if (error.response) {
         // Axios 的错误
         // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+        switch(error.response.status) {
+          case 401:
+            history.push(AuthenticationService.loginPath);
+            break
+          case 403:
+            history.push("/403");
+            break;
+          case 502:
+          case 503:
+          case 504:
+          default:
+            notification.error({message: `请求错误`, description: `服务暂时不可用，请稍后重试！`});
+        }
         message.error(`Response status:${error.response.status}`);
       } else if (error.request) {
         // 请求已经成功发起，但没有收到响应
@@ -89,8 +103,13 @@ export const errorConfig: RequestConfig = {
   requestInterceptors: [
     (config: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123');
-      return { ...config, url };
+
+      const headers = {
+        ...config.headers,
+        "Accept-Language": getLocale()
+        // u_token 放在 cookie 里面了
+      };
+      return { ...config, headers: headers };
     },
   ],
 

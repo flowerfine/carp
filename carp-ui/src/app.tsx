@@ -4,6 +4,7 @@ import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import {SettingDrawer} from '@ant-design/pro-components';
 import type {RequestConfig, RunTimeLayoutConfig} from '@umijs/max';
 import {history, Link} from '@umijs/max';
+import queryString from 'query-string';
 import defaultSettings from '../config/defaultSettings';
 import {errorConfig} from './requestErrorConfig';
 import {AdminSecurityAPI} from "@/services/admin/security/typings";
@@ -11,6 +12,33 @@ import {AuthenticationService} from "@/services/admin/security/authentication.se
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+
+const login = () => {
+  const query = queryString.parse(history.location.search);
+  const { redirect_uri } = query as { redirect_uri: string };
+  history.replace({
+    pathname: AuthenticationService.loginPath,
+    search:
+      redirect_uri &&
+      queryString.stringify({
+        redirect_uri: redirect_uri,
+      }),
+  });
+};
+
+const fetchUserInfo = async () => {
+  try {
+    const response = await AuthenticationService.getOnlineUserInfo();
+    if (response.success && response.data) {
+      return response.data;
+    } else {
+      login()
+    }
+  } catch (error) {
+    login()
+  }
+  return undefined;
+};
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -21,31 +49,10 @@ export async function getInitialState(): Promise<{
   loading?: boolean;
   fetchUserInfo?: () => Promise<AdminSecurityAPI.OnlineUserInfo | undefined>;
 }> {
-  const fetchUserInfo = async () => {
-    try {
-      const response = await AuthenticationService.getOnlineUserInfo();
-      if (response.success && response.data) {
-        return response.data;
-      } else {
-        history.push(loginPath);
-      }
-    } catch (error) {
-      history.push(loginPath);
-    }
-    return undefined;
-  };
-  // 如果不是登录页面，执行
-  const {location} = history;
-  if (![loginPath, '/user/register', '/user/register-result'].includes(location.pathname)) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      settings: defaultSettings as Partial<LayoutSettings>,
-    };
-  }
   return {
     fetchUserInfo,
+    // 如果不是登录页面，执行
+    currentUser: AuthenticationService.isLoginPath() || AuthenticationService.isRegisterPath() || AuthenticationService.isRegisterResultPath() ? undefined : await fetchUserInfo(),
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
@@ -68,8 +75,8 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     onPageChange: () => {
       const {location} = history;
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
+      if ((!initialState || !initialState?.currentUser) && location.pathname !== AuthenticationService.loginPath) {
+        history.push(AuthenticationService.loginPath);
       }
     },
     bgLayoutImgList: [
