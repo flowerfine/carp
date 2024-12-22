@@ -22,10 +22,6 @@ import cn.sliew.carp.module.dataservice.domain.controller.ControllerExecutor;
 import cn.sliew.carp.module.dataservice.service.param.ExecuteParam;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.springdoc.core.service.OpenAPIService;
-import org.springdoc.core.service.OperationService;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -36,20 +32,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Component
-public class SpringControllerExecutor implements ControllerExecutor, InitializingBean {
+public class SpringControllerExecutor implements ControllerExecutor {
 
     private ConcurrentMap<String, RequestMappingInfo> registry = new ConcurrentHashMap<>();
-
-    @Autowired
-    private OpenAPIService openAPIService;
-    @Autowired
-    private OperationService operationService;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("OpenAPIService: " + openAPIService);
-        System.out.println("OperationService: " + operationService);
-    }
 
     @Override
     public void register(String id, String path) {
