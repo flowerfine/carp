@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.service;
 
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleStatus;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstance;
 import cn.sliew.carp.module.scheduler.service.param.ScheduleJobInstanceListParam;
@@ -42,7 +43,7 @@ public interface ScheduleJobInstanceService extends IService<ScheduleJobInstance
 
     boolean update(ScheduleJobInstanceUpdateParam param);
 
-    boolean updateStatus(Long id, String status);
+    boolean updateStatus(Long id, ScheduleStatus status);
 
     boolean delete(Long id);
 

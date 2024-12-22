@@ -156,6 +156,6 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
     }
 
     private void updateScheduelStatus(Long id, ScheduleStatus status) {
-        scheduleJobInstanceService.updateStatus(id, status.getValue());
+        scheduleJobInstanceService.updateStatus(id, status);
     }
 }

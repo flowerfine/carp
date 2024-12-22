@@ -18,6 +18,8 @@
 
 package cn.sliew.carp.module.scheduler.service.impl;
 
+import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleStatus;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstance;
@@ -82,6 +84,7 @@ public class ScheduleJobInstanceServiceImpl extends ServiceImpl<ScheduleJobInsta
     public boolean add(ScheduleJobInstanceAddParam param) {
         ScheduleJobInstance entity = new ScheduleJobInstance();
         BeanUtils.copyProperties(param, entity);
+        entity.setStatus(ScheduleStatus.RUNNING);
         return save(entity);
     }
 
@@ -93,7 +96,7 @@ public class ScheduleJobInstanceServiceImpl extends ServiceImpl<ScheduleJobInsta
     }
 
     @Override
-    public boolean updateStatus(Long id, String status) {
+    public boolean updateStatus(Long id, ScheduleStatus status) {
         ScheduleJobInstance entity = new ScheduleJobInstance();
         entity.setId(id);
         entity.setStatus(status);
