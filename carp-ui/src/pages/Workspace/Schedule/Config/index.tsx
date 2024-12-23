@@ -25,7 +25,7 @@ const WorkspaceScheduleConfig: React.FC = () => {
   const [jobGroupId, setJobGroupId] = useState<number>();
 
   useEffect(() => {
-    if (scheduleGroups) {
+    if (scheduleGroups && scheduleGroups.length > 0) {
       setJobGroupId(scheduleGroups[0].id)
       formRef.current?.setFieldValue("jobGroupId", scheduleGroups[0].id)
       formRef.current?.submit()
@@ -198,6 +198,7 @@ const WorkspaceScheduleConfig: React.FC = () => {
             <Button
               key="new"
               type="primary"
+              disabled={jobGroupId ? false : true}
               onClick={() => {
                 setScheduleConfigFormData({ visiable: true, data: null });
               }}

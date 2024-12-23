@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.security.core.controller;
 
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
+import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.security.core.service.SecAuthenticationService;
 import cn.sliew.carp.module.security.core.service.SecCaptchaService;
@@ -33,6 +34,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@WebLog
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/security/authentication")

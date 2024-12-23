@@ -20,6 +20,7 @@ package cn.sliew.carp.module.dataservice.controller;
 
 import cn.sliew.carp.framework.common.model.IdParam;
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
+import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.dataservice.service.CarpDataServiceExecutorService;
 import cn.sliew.carp.module.dataservice.service.param.ExecuteParam;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@WebLog
 @AnonymousAccess
 @RestController
 @ApiResponseWrapper

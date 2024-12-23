@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {history, useAccess, useIntl} from "@umijs/max";
+import {history, useIntl} from "@umijs/max";
 import {Button, message, Modal, Space, Table, Tooltip} from "antd";
 import {ActionType, PageContainer, ProColumns, ProTable} from "@ant-design/pro-components";
 import {DeleteOutlined, EditOutlined, FileSearchOutlined} from "@ant-design/icons";
@@ -14,7 +14,6 @@ export type ScheduleGroupState = {
 
 const WorkspaceScheduleGroup: React.FC = () => {
   const intl = useIntl();
-  const access = useAccess();
   const actionRef = useRef<ActionType>();
   const [selectedRows, setSelectedRows] = useState<WorkspaceScheduleAPI.ScheduleGroup[]>([]);
   const [scheduleGroupFormData, setScheduleGroupFormData] = useState<ScheduleGroupState>({visiable: false, data: null});

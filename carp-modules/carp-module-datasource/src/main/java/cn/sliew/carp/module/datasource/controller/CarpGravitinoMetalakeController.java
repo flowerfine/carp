@@ -20,7 +20,7 @@ package cn.sliew.carp.module.datasource.controller;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
+import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.datasource.service.CarpGravitinoMetalakeService;
 import cn.sliew.carp.module.datasource.service.dto.GravitinoCatalogDTO;
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@AnonymousAccess
+@WebLog
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/datasource/gravitino/metalake")

@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.workflow.api.controller;
 
+import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
@@ -26,6 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@WebLog
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/workflow/definition")

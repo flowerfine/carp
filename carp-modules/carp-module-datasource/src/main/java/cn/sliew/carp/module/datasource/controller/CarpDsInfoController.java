@@ -20,6 +20,7 @@ package cn.sliew.carp.module.datasource.controller;
 
 import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
 import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@WebLog
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/datasource/info")

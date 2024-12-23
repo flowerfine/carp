@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.scheduler.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.scheduler.api.scheduler.JobScheduler;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobInstanceService;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@WebLog
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/schedule/instance")
