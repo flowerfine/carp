@@ -61,7 +61,6 @@ public class QuartzJobHandler extends QuartzJobBean {
         }
         triggerParam.setFireTime(context.getFireTime());
         triggerParam.setTriggerTime(context.getScheduledFireTime());
-        triggerParam.setRunTime(context.getJobRunTime());
         ScheduleResponse response = jobExecutor.execute(triggerParam);
     }
 }
