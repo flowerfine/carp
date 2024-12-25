@@ -2,6 +2,7 @@ package cn.sliew.carp.module.scheduler.api.executor.handler.bean;
 
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.executor.AbstractJobHandlerFactory;
 import cn.sliew.carp.module.scheduler.api.executor.JobHandler;
 import cn.sliew.carp.module.scheduler.api.executor.JobHandlerFactory;
@@ -13,7 +14,7 @@ public class BeanJobHandlerFactory extends AbstractJobHandlerFactory implements 
 
     @Override
     public String getType() {
-        return "bean";
+        return ScheduleExecuteType.BEAN.getValue();
     }
 
     @Override

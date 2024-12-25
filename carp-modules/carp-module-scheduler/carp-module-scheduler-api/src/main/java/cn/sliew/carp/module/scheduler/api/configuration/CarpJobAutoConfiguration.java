@@ -34,6 +34,7 @@ public class CarpJobAutoConfiguration {
 
     @Bean
     public JobHandlerFactoryRegistry jobHandlerFactoryRegistry(MethodJobhandlerFactory methodJobhandlerFactory, BeanJobHandlerFactory beanJobHandlerFactory) {
+        // fixme 不能注册
         JobHandlerFactoryRegistry registry = new JobHandlerFactoryRegistry();
 
         registry.replace(methodJobhandlerFactory.getType(), methodJobhandlerFactory);

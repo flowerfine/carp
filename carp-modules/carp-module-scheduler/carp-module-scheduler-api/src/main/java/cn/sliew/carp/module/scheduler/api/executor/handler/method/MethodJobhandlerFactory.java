@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.scheduler.api.executor.handler.method;
 
 import cn.hutool.extra.spring.SpringUtil;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.annotation.CarpJob;
 import cn.sliew.carp.module.scheduler.api.annotation.CarpJobHandler;
 import cn.sliew.carp.module.scheduler.api.executor.AbstractJobHandlerFactory;
@@ -49,7 +50,7 @@ public class MethodJobhandlerFactory extends AbstractJobHandlerFactory implement
 
     @Override
     public String getType() {
-        return "method";
+        return ScheduleExecuteType.METHOD.getValue();
     }
 
     @Override

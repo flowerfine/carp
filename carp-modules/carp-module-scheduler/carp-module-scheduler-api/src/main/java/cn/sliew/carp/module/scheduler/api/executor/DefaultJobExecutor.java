@@ -37,8 +37,8 @@ public class DefaultJobExecutor implements JobExecutor {
 
     @Override
     public ScheduleResponse execute(TriggerParam param) {
-        if (jobHandlerFactoryRegistry.exist(param.getJobType()) == false) {
-            return new ScheduleResponse("-1", "unknown job type: " + param.getJobType());
+        if (jobHandlerFactoryRegistry.exist(param.getExecuteType()) == false) {
+            return new ScheduleResponse("-1", "unknown execute type: " + param.getExecuteType());
         }
         JobHandlerFactory jobHandlerFactory = jobHandlerFactoryRegistry.find(param.getJobType()).get();
 
