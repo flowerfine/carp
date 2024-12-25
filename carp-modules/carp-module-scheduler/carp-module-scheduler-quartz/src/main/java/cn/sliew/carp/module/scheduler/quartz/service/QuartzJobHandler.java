@@ -19,8 +19,10 @@
 package cn.sliew.carp.module.scheduler.quartz.service;
 
 import cn.sliew.carp.module.scheduler.api.executor.JobExecutor;
+import cn.sliew.carp.module.scheduler.api.executor.entity.ScheduleResponse;
 import cn.sliew.carp.module.scheduler.api.executor.entity.trigger.TriggerParam;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobInstanceService;
+import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobConfigDTO;
 import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -45,19 +47,21 @@ public class QuartzJobHandler extends QuartzJobBean {
         Long jobInstanceId = dataMap.getLong(QuartzUtil.JOB_INSTANCE_ATTR);
 
         ScheduleJobInstanceDTO scheduleJobInstanceDTO = scheduleJobInstanceService.get(jobInstanceId);
+        ScheduleJobConfigDTO scheduleJobConfigDTO = scheduleJobInstanceDTO.getJobConfig();
 
         TriggerParam triggerParam = new TriggerParam();
-        triggerParam.setJobId(scheduleJobInstanceDTO.getJobConfig().getId().toString());
+        triggerParam.setJobId(scheduleJobConfigDTO.getId().toString());
+        // jobInstanceId
         triggerParam.setJobInstanceId(scheduleJobInstanceDTO.getId().toString());
-
-        // todo jobType & jobHandler
-
+        triggerParam.setJobType(scheduleJobConfigDTO.getJobType().getValue());
+        triggerParam.setExecuteType(scheduleJobConfigDTO.getExecuteType().getValue());
+        triggerParam.setJobHandler(scheduleJobConfigDTO.getHandler());
         if (StringUtils.hasText(scheduleJobInstanceDTO.getParams())) {
             triggerParam.setParams(JacksonUtil.toMap(JacksonUtil.toJsonNode(scheduleJobInstanceDTO.getParams())));
         }
         triggerParam.setFireTime(context.getFireTime());
         triggerParam.setTriggerTime(context.getScheduledFireTime());
-        System.out.println("triggerParam: "+JacksonUtil.toJsonString(triggerParam));
-        jobExecutor.execute(triggerParam);
+        triggerParam.setRunTime(context.getJobRunTime());
+        ScheduleResponse response = jobExecutor.execute(triggerParam);
     }
 }

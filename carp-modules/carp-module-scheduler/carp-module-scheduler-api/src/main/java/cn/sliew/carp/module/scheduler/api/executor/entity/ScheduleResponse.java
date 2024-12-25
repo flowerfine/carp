@@ -22,6 +22,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,4 +34,8 @@ public class ScheduleResponse {
 
     private String code;
     private String message;
+
+    public boolean isSuccess() {
+        return Objects.equals("0", code);
+    }
 }

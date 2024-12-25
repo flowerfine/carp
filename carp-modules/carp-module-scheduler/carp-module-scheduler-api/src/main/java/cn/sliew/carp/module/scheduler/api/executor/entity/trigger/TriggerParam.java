@@ -31,6 +31,7 @@ public class TriggerParam {
     private String jobId;
     private String jobInstanceId;
     private String jobType;
+    private String executeType;
     private String jobHandler;
     private Map<String, Object> params;
     @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
