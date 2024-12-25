@@ -63,4 +63,28 @@ declare namespace WorkspaceScheduleAPI {
   type ScheduleConfigUpdateParam = ScheduleConfigAddParam & {
     id: number;
   };
+
+
+  export type ScheduleInstance = {
+    id: number;
+    jobConfig?: ScheduleConfig;
+    name: string;
+    cron: string;
+    timezone: string;
+    startTime: string;
+    endTime: string;
+    props?: Record<string, any>;
+    params?: string;
+    timeout: string;
+    status?: string;
+    remark?: string;
+    createTime?: Date;
+    updateTime?: Date;
+  };
+
+  export type ScheduleInstanceParam = QueryParam & {
+    jobConfigId: number;
+    name?: string;
+    status?: string;
+  };
 }

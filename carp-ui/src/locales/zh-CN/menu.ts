@@ -41,6 +41,8 @@ export default {
   'menu.workspace.schedule.group.desc': '根据业务需要，对调度任务进行分组管理',
   'menu.workspace.schedule.config': '任务管理',
   'menu.workspace.schedule.config.desc': '调度任务配置',
+  'menu.workspace.schedule.instance': '任务实例',
+  'menu.workspace.schedule.instance.desc': '调度任务实例信息',
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',

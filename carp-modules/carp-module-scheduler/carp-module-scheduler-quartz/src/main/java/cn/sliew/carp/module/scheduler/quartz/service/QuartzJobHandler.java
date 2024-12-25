@@ -58,6 +58,6 @@ public class QuartzJobHandler extends QuartzJobBean {
         triggerParam.setFireTime(context.getFireTime());
         triggerParam.setTriggerTime(context.getScheduledFireTime());
         System.out.println("triggerParam: "+JacksonUtil.toJsonString(triggerParam));
-//        jobExecutor.execute(triggerParam);
+        jobExecutor.execute(triggerParam);
     }
 }

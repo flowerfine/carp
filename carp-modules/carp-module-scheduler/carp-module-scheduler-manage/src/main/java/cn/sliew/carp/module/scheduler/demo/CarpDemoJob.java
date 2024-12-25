@@ -16,13 +16,18 @@
  * limitations under the License.
  */
 
-package cn.sliew.carp.module.scheduler.config;
+package cn.sliew.carp.module.scheduler.demo;
 
-import cn.sliew.carp.module.scheduler.api.annotation.EnableCarpJob;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.carp.module.scheduler.api.annotation.CarpJob;
+import cn.sliew.carp.module.scheduler.api.annotation.CarpJobHandler;
+import lombok.extern.slf4j.Slf4j;
 
-@Configuration
-@EnableCarpJob(basePackages = "cn.sliew.carp.module.scheduler.demo")
-public class CarpSchedulerConfig {
+@Slf4j
+@CarpJob
+public class CarpDemoJob {
 
+    @CarpJobHandler(value = "execute")
+    public void execute() {
+        log.info("carp demo job execute()");
+    }
 }

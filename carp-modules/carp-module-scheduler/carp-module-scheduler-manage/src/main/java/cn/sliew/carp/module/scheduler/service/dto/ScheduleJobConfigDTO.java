@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.scheduler.service.dto;
 
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
@@ -40,6 +41,9 @@ public class ScheduleJobConfigDTO extends BaseDTO {
 
     @Schema(description = "任务类型")
     private ScheduleJobType jobType;
+
+    @Schema(description = "执行方式")
+    private ScheduleExecuteType executeType;
 
     @Schema(description = "任务名称")
     private String name;

@@ -30,6 +30,7 @@
         <result column="type" property="type" />
         <result column="engine_type" property="engineType" />
         <result column="job_type" property="jobType" />
+        <result column="execute_type" property="executeType" />
         <result column="name" property="name" />
         <result column="handler" property="handler" />
         <result column="remark" property="remark" />
@@ -47,7 +48,7 @@
         create_time,
         editor,
         update_time,
-        job_group_id, `type`, `engine_type`, `job_type`, `name`, `handler`, remark
+        job_group_id, `type`, `engine_type`, `job_type`, `execute_type`, `name`, `handler`, remark
     </sql>
 
     <select id="get" resultMap="ScheduleJobConfigMap">

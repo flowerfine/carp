@@ -24,8 +24,10 @@ import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzJobListener;
 import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzSchedulerListener;
 import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzTriggerListener;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobInstanceService;
+import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobConfigDTO;
 import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
 import cn.sliew.milky.common.exception.Rethrower;
+import org.apache.commons.lang3.ClassUtils;
 import org.quartz.*;
 import org.quartz.impl.matchers.EverythingMatcher;
 import org.springframework.beans.factory.InitializingBean;
@@ -75,7 +77,7 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
                 return;
             }
             JobDataMap dataMap = QuartzUtil.buildDataMap(jobInstanceDTO);
-            JobDetail job = JobBuilder.newJob(QuartzJobHandler.class)
+            JobDetail job = JobBuilder.newJob(findJobHandler(jobInstanceDTO))
                     .withIdentity(jobKey)
                     .usingJobData(dataMap)
                     .storeDurably()
@@ -97,7 +99,7 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
                 return;
             }
             JobDataMap dataMap = QuartzUtil.buildDataMap(jobInstanceDTO);
-            JobDetail job = JobBuilder.newJob(QuartzJobHandler.class)
+            JobDetail job = JobBuilder.newJob(findJobHandler(jobInstanceDTO))
                     .withIdentity(jobKey)
                     .usingJobData(dataMap)
                     .storeDurably()
@@ -157,5 +159,23 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
 
     private void updateScheduelStatus(Long id, ScheduleStatus status) {
         scheduleJobInstanceService.updateStatus(id, status);
+    }
+
+    private Class findJobHandler(ScheduleJobInstanceDTO jobInstanceDTO) {
+        ScheduleJobConfigDTO jobConfig = jobInstanceDTO.getJobConfig();
+        try {
+            switch (jobConfig.getExecuteType()) {
+                case BEAN:
+                    return ClassUtils.getClass(jobConfig.getHandler());
+                case METHOD:
+                case NATIVE:
+                    return QuartzJobHandler.class;
+                default:
+                    throw new IllegalArgumentException("unsupported execute type: " + jobConfig.getExecuteType());
+            }
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
     }
 }

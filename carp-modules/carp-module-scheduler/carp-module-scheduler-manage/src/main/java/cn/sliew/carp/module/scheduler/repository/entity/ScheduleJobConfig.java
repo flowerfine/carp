@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.scheduler.repository.entity;
 
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
@@ -44,6 +45,9 @@ public class ScheduleJobConfig extends BaseAuditDO {
 
     @TableField("`job_type`")
     private ScheduleJobType jobType;
+
+    @TableField("`execute_type`")
+    private ScheduleExecuteType executeType;
 
     @TableField("`name`")
     private String name;
