@@ -13,8 +13,8 @@ import java.util.Map;
 public class BeanJobHandlerFactory extends AbstractJobHandlerFactory implements JobHandlerFactory {
 
     @Override
-    public String getType() {
-        return ScheduleExecuteType.BEAN.getValue();
+    public ScheduleExecuteType getType() {
+        return ScheduleExecuteType.BEAN;
     }
 
     @Override

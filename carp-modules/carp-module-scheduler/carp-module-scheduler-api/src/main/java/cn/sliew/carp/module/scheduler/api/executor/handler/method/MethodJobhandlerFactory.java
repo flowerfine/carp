@@ -49,8 +49,8 @@ public class MethodJobhandlerFactory extends AbstractJobHandlerFactory implement
     private ConcurrentMap<String, CarpJobMethod> registry = new ConcurrentHashMap<>();
 
     @Override
-    public String getType() {
-        return ScheduleExecuteType.METHOD.getValue();
+    public ScheduleExecuteType getType() {
+        return ScheduleExecuteType.METHOD;
     }
 
     @Override

@@ -19,10 +19,22 @@
 package cn.sliew.carp.module.scheduler.api.executor;
 
 import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
+import cn.sliew.milky.registry.AbstractRegistry;
 
-public interface JobHandlerFactory {
+public class InMemoryJobHandlerFactoryRegistry extends AbstractRegistry<JobHandlerFactory, Void> implements JobHandlerFactoryRegistry {
 
-    ScheduleExecuteType getType();
+    @Override
+    public JobHandlerFactory get(ScheduleExecuteType jobType) {
+        return find(jobType.getValue()).orElseThrow();
+    }
 
-    JobHandler newInstance(String jobHandler);
+    @Override
+    public void put(ScheduleExecuteType jobType, JobHandlerFactory jobHandlerFactory) {
+        computeIfAbsent(jobType.getValue(), () -> jobHandlerFactory);
+    }
+
+    @Override
+    public Void getDefaultConfig() {
+        return null;
+    }
 }

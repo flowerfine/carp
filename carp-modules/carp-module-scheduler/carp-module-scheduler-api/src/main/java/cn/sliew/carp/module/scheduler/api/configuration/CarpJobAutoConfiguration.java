@@ -19,10 +19,7 @@
 package cn.sliew.carp.module.scheduler.api.configuration;
 
 import cn.sliew.carp.module.scheduler.api.annotation.CarpJob;
-import cn.sliew.carp.module.scheduler.api.executor.DefaultJobExecutor;
-import cn.sliew.carp.module.scheduler.api.executor.DefaultJobThreadRepository;
-import cn.sliew.carp.module.scheduler.api.executor.JobExecutor;
-import cn.sliew.carp.module.scheduler.api.executor.JobHandlerFactoryRegistry;
+import cn.sliew.carp.module.scheduler.api.executor.*;
 import cn.sliew.carp.module.scheduler.api.executor.handler.bean.BeanJobHandlerFactory;
 import cn.sliew.carp.module.scheduler.api.executor.handler.method.MethodJobhandlerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -34,11 +31,9 @@ public class CarpJobAutoConfiguration {
 
     @Bean
     public JobHandlerFactoryRegistry jobHandlerFactoryRegistry(MethodJobhandlerFactory methodJobhandlerFactory, BeanJobHandlerFactory beanJobHandlerFactory) {
-        // fixme 不能注册
-        JobHandlerFactoryRegistry registry = new JobHandlerFactoryRegistry();
-
-        registry.replace(methodJobhandlerFactory.getType(), methodJobhandlerFactory);
-        registry.replace(beanJobHandlerFactory.getType(), beanJobHandlerFactory);
+        JobHandlerFactoryRegistry registry = new InMemoryJobHandlerFactoryRegistry();
+        registry.put(methodJobhandlerFactory.getType(), methodJobhandlerFactory);
+        registry.put(beanJobHandlerFactory.getType(), beanJobHandlerFactory);
         return registry;
     }
 
@@ -54,7 +49,7 @@ public class CarpJobAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(JobExecutor.class)
-    public JobExecutor defaultJobExecutor(JobHandlerFactoryRegistry jobHandlerFactoryRegistry) {
+    public JobExecutor defaultJobExecutor(InMemoryJobHandlerFactoryRegistry jobHandlerFactoryRegistry) {
         return new DefaultJobExecutor(jobHandlerFactoryRegistry, new DefaultJobThreadRepository());
     }
 
