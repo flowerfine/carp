@@ -20,6 +20,8 @@ package cn.sliew.carp.module.scheduler.demo;
 
 import cn.sliew.carp.module.scheduler.api.annotation.CarpJob;
 import cn.sliew.carp.module.scheduler.api.annotation.CarpJobHandler;
+import cn.sliew.carp.module.scheduler.api.executor.JobContext;
+import cn.sliew.carp.module.scheduler.api.executor.entity.job.JobExecutionResult;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,7 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 public class CarpDemoJob {
 
     @CarpJobHandler(value = "execute")
-    public void execute() {
+    public JobExecutionResult execute(JobContext context) {
         log.info("carp demo job execute()");
+        return JobExecutionResult.SUCCESS;
     }
 }

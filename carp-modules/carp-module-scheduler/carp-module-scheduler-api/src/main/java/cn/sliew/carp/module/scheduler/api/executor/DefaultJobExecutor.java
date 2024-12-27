@@ -19,12 +19,15 @@
 package cn.sliew.carp.module.scheduler.api.executor;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.executor.entity.ScheduleResponse;
 import cn.sliew.carp.module.scheduler.api.executor.entity.trigger.TriggerParam;
 import cn.sliew.milky.common.exception.Rethrower;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 public class DefaultJobExecutor implements JobExecutor {
 
     private JobHandlerFactoryRegistry jobHandlerFactoryRegistry;
@@ -40,7 +43,7 @@ public class DefaultJobExecutor implements JobExecutor {
         if (jobHandlerFactoryRegistry.exist(param.getExecuteType()) == false) {
             return new ScheduleResponse("-1", "unknown execute type: " + param.getExecuteType());
         }
-        JobHandlerFactory jobHandlerFactory = jobHandlerFactoryRegistry.find(param.getJobType()).get();
+        JobHandlerFactory jobHandlerFactory = jobHandlerFactoryRegistry.get(ScheduleExecuteType.of(param.getExecuteType()));
 
         JobHandler jobHandler = jobHandlerFactory.newInstance(param.getJobHandler());
         JobContext context = BeanUtil.copyProperties(param, JobContext.class);
@@ -58,6 +61,11 @@ public class DefaultJobExecutor implements JobExecutor {
                     }
                 })
                 .whenComplete(((result, throwable) -> {
+                    if (throwable != null) {
+                        log.error(throwable.getMessage(), throwable);
+                    } else {
+                        log.info("{}", result);
+                    }
                     jobThreadRepository.remove(jobThread.getJobId(), jobThread.getJobInstanceId());
                 }));
 

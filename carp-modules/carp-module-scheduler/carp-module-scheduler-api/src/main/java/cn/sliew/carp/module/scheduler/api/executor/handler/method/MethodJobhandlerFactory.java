@@ -64,6 +64,7 @@ public class MethodJobhandlerFactory extends AbstractJobHandlerFactory implement
         CarpJobHandler carpJobHandler = carpJobMethod.getCarpJobHandler();
 
         // todo 校验方法的返回参数是否是 JobExecutionResult
+        // todo 校验方法的参数是否是 JobContext
         Method initMethod = ReflectionUtils.findMethod(bean.getClass(), carpJobHandler.initMethod(), JobContext.class);
         if (Objects.nonNull(initMethod)) {
             ReflectionUtils.makeAccessible(initMethod);
