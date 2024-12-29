@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service.param.authorize;
 
-import cn.sliew.carp.framework.common.dict.security.SecUserStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecUserStatus;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -32,7 +32,7 @@ public class SecUserListByRoleParam extends PageParam {
     private Long roleId;
 
     @Schema(description = "用户状态")
-    private SecUserStatus status;
+    private CarpSecUserStatus status;
 
     @Schema(description = "用户名称。支持搜索")
     private String userName;

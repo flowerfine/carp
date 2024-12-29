@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.modal.olap;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.modal.AbstractDataSourceProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -47,6 +47,6 @@ public class StarRocksDataSourceProperties extends AbstractDataSourceProperties 
 
     @Override
     public String getType() {
-        return DataSourceType.STARROCKS.getValue();
+        return CarpDataSourceType.STARROCKS.getValue();
     }
 }

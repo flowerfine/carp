@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.quartz.service;
 
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleStatus;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
 import cn.sliew.carp.module.scheduler.api.scheduler.JobScheduler;
 import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzJobListener;
 import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzSchedulerListener;
@@ -84,7 +84,7 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
                     .build();
             Trigger trigger = QuartzUtil.getTriggerOnce(jobInstanceDTO);
             scheduler.scheduleJob(job, trigger);
-            updateScheduelStatus(jobInstanceId, ScheduleStatus.RUNNING);
+            updateScheduelStatus(jobInstanceId, CarpScheduleStatus.RUNNING);
         } catch (SchedulerException e) {
             Rethrower.throwAs(e);
         }
@@ -106,7 +106,7 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
                     .build();
             Trigger trigger = QuartzUtil.getTrigger(jobInstanceDTO);
             scheduler.scheduleJob(job, trigger);
-            updateScheduelStatus(jobInstanceId, ScheduleStatus.RUNNING);
+            updateScheduelStatus(jobInstanceId, CarpScheduleStatus.RUNNING);
         } catch (SchedulerException e) {
             Rethrower.throwAs(e);
         }
@@ -121,7 +121,7 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
                 return;
             }
             scheduler.deleteJob(jobKey);
-            updateScheduelStatus(jobInstanceId, ScheduleStatus.STOP);
+            updateScheduelStatus(jobInstanceId, CarpScheduleStatus.STOP);
         } catch (SchedulerException e) {
             Rethrower.throwAs(e);
         }
@@ -136,7 +136,7 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
                 return;
             }
             scheduler.pauseJob(jobKey);
-            updateScheduelStatus(jobInstanceId, ScheduleStatus.STOP);
+            updateScheduelStatus(jobInstanceId, CarpScheduleStatus.STOP);
         } catch (SchedulerException e) {
             Rethrower.throwAs(e);
         }
@@ -151,13 +151,13 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
                 return;
             }
             scheduler.resumeJob(jobKey);
-            updateScheduelStatus(jobInstanceId, ScheduleStatus.STOP);
+            updateScheduelStatus(jobInstanceId, CarpScheduleStatus.STOP);
         } catch (SchedulerException e) {
             Rethrower.throwAs(e);
         }
     }
 
-    private void updateScheduelStatus(Long id, ScheduleStatus status) {
+    private void updateScheduelStatus(Long id, CarpScheduleStatus status) {
         scheduleJobInstanceService.updateStatus(id, status);
     }
 

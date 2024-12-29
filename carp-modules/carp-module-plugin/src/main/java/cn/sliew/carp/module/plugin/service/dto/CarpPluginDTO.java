@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.plugin.service.dto;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
-import cn.sliew.carp.framework.common.dict.plugin.PluginType;
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
+import cn.sliew.carp.framework.common.dict.plugin.CarpPluginType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -33,7 +33,7 @@ public class CarpPluginDTO extends BaseDTO {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "type")
-    private PluginType type;
+    private CarpPluginType type;
 
     @Schema(description = "名称")
     private String name;
@@ -42,7 +42,7 @@ public class CarpPluginDTO extends BaseDTO {
     private String url;
 
     @Schema(description = "状态")
-    private YesOrNo status;
+    private CarpYesOrNo status;
 
     @Schema(description = "pf4j pluginId")
     private String pluginId;

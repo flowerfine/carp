@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.modal.jdbc;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,6 +28,6 @@ public class GBase8aDataSourceProperties extends JdbcDataSourceProperties {
 
     @Override
     public String getType() {
-        return DataSourceType.GBASE8A.getValue();
+        return CarpDataSourceType.GBASE8A.getValue();
     }
 }

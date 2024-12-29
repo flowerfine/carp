@@ -18,14 +18,14 @@
 
 package cn.sliew.carp.module.scheduler.service;
 
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleStatus;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstance;
+import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
+import cn.sliew.carp.module.scheduler.service.param.ScheduleJobInstanceAddParam;
 import cn.sliew.carp.module.scheduler.service.param.ScheduleJobInstanceListParam;
 import cn.sliew.carp.module.scheduler.service.param.ScheduleJobInstancePageParam;
 import cn.sliew.carp.module.scheduler.service.param.ScheduleJobInstanceUpdateParam;
-import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
-import cn.sliew.carp.module.scheduler.service.param.ScheduleJobInstanceAddParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Collection;
@@ -43,7 +43,7 @@ public interface ScheduleJobInstanceService extends IService<ScheduleJobInstance
 
     boolean update(ScheduleJobInstanceUpdateParam param);
 
-    boolean updateStatus(Long id, ScheduleStatus status);
+    boolean updateStatus(Long id, CarpScheduleStatus status);
 
     boolean delete(Long id);
 

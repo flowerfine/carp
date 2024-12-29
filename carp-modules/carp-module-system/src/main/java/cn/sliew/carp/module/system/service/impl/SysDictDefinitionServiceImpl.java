@@ -18,17 +18,16 @@
 
 package cn.sliew.carp.module.system.service.impl;
 
+import cn.sliew.carp.framework.common.dict.CarpEnumDictRegistry;
 import cn.sliew.carp.framework.common.dict.DictDefinition;
-import cn.sliew.carp.framework.common.dict.EnumDictRegistry;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.spring.util.PageUtil;
 import cn.sliew.carp.module.system.service.SysDictDefinitionService;
 import cn.sliew.carp.module.system.service.param.SysDictDefinitionParam;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,26 +50,16 @@ public class SysDictDefinitionServiceImpl implements SysDictDefinitionService {
             return true;
         }).collect(Collectors.toList());
 
-        PageResult<DictDefinition> result = new PageResult<>(param.getCurrent(), param.getPageSize(), Long.valueOf(filteredDictTypes.size()));
-        Long from = (param.getCurrent() - 1) * param.getPageSize();
-        Long to = from + param.getPageSize();
-        if (from >= filteredDictTypes.size()) {
-            result.setRecords(Collections.emptyList());
-            return result;
-        }
-
-
-        result.setRecords(filteredDictTypes.subList(from.intValue(), to.intValue() < filteredDictTypes.size() ? to.intValue() : filteredDictTypes.size() - 1));
-        return result;
+        return PageUtil.buildPage(param, filteredDictTypes);
     }
 
     @Override
     public Optional<DictDefinition> getByCode(String code) {
-        return EnumDictRegistry.INSTANCE.getDictDefinition(code);
+        return CarpEnumDictRegistry.INSTANCE.getDictDefinition(code);
     }
 
     @Override
     public Collection<DictDefinition> selectAll() {
-        return EnumDictRegistry.INSTANCE.getAllDefinitions();
+        return CarpEnumDictRegistry.INSTANCE.getAllDefinitions();
     }
 }

@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.dataservice.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -57,13 +57,13 @@ public class CarpDataServiceConfig extends BaseAuditDO {
     private String queryScript;
 
     @TableField("query_page_enabled")
-    private YesOrNo queryPageEnabled;
+    private CarpYesOrNo queryPageEnabled;
 
     @TableField("query_result_type")
     private String queryResultType;
 
     @TableField("`status`")
-    private YesOrNo status;
+    private CarpYesOrNo status;
 
     @TableField("remark")
     private String remark;

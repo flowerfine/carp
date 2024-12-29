@@ -18,12 +18,12 @@
 
 package cn.sliew.carp.module.workflow.api.engine.dispatch.handler;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 
 public interface WorkflowInstanceEventHandler {
 
-    WorkflowInstanceEvent getType();
+    CarpWorkflowInstanceEvent getType();
 
     void handle(WorkflowInstanceStatusEvent event);
 }

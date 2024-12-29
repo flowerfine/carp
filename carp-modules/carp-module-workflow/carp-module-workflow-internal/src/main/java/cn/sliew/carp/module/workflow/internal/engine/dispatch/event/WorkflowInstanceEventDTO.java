@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 import lombok.Getter;
 
@@ -30,17 +30,17 @@ public class WorkflowInstanceEventDTO implements WorkflowInstanceStatusEvent, Se
 
     private static final long serialVersionUID = 1L;
 
-    private final WorkflowInstanceState state;
-    private final WorkflowInstanceState nextState;
-    private final WorkflowInstanceEvent event;
+    private final CarpWorkflowInstanceState state;
+    private final CarpWorkflowInstanceState nextState;
+    private final CarpWorkflowInstanceEvent event;
     private final Long workflowInstanceId;
     private final Throwable throwable;
 
-    public WorkflowInstanceEventDTO(WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId) {
+    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, Long workflowInstanceId) {
         this(state, nextState, event, workflowInstanceId, null);
     }
 
-    public WorkflowInstanceEventDTO(WorkflowInstanceState state, WorkflowInstanceState nextState, WorkflowInstanceEvent event, Long workflowInstanceId, Throwable throwable) {
+    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, Long workflowInstanceId, Throwable throwable) {
         this.state = state;
         this.nextState = nextState;
         this.event = event;
@@ -49,7 +49,7 @@ public class WorkflowInstanceEventDTO implements WorkflowInstanceStatusEvent, Se
     }
 
     @Override
-    public WorkflowInstanceEvent getEvent() {
+    public CarpWorkflowInstanceEvent getEvent() {
         return event;
     }
 }

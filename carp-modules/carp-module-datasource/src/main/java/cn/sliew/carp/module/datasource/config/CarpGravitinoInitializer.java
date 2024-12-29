@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.config;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
 import cn.sliew.carp.module.datasource.service.CarpGravitinoMetalakeService;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
@@ -47,20 +47,20 @@ public class CarpGravitinoInitializer implements InitializingBean {
         // 初始化 metalake
         initMetalake(properties.getMetalake());
         // 初始化 catalog
-        initDataSource(properties.getMetalake(), DataSourceType.MYSQL);
-        initDataSource(properties.getMetalake(), DataSourceType.POSTGRESQL);
-        initDataSource(properties.getMetalake(), DataSourceType.HIVE);
-        initDataSource(properties.getMetalake(), DataSourceType.ICEBERG);
-        initDataSource(properties.getMetalake(), DataSourceType.DORIS);
-        initDataSource(properties.getMetalake(), DataSourceType.KAFKA);
-        initDataSource(properties.getMetalake(), DataSourceType.HDFS);
+        initDataSource(properties.getMetalake(), CarpDataSourceType.MYSQL);
+        initDataSource(properties.getMetalake(), CarpDataSourceType.POSTGRESQL);
+        initDataSource(properties.getMetalake(), CarpDataSourceType.HIVE);
+        initDataSource(properties.getMetalake(), CarpDataSourceType.ICEBERG);
+        initDataSource(properties.getMetalake(), CarpDataSourceType.DORIS);
+        initDataSource(properties.getMetalake(), CarpDataSourceType.KAFKA);
+        initDataSource(properties.getMetalake(), CarpDataSourceType.HDFS);
     }
 
     private void initMetalake(String metalakeName) {
         gravitinoMetalakeService.tryAddMetalake(metalakeName);
     }
 
-    private void initDataSource(String metalakeName, DataSourceType type) {
+    private void initDataSource(String metalakeName, CarpDataSourceType type) {
         List<DsInfoDTO> dsInfoDTOS = carpDsInfoService.listByType(type);
         for (DsInfoDTO dsInfoDTO : dsInfoDTOS) {
             gravitinoMetalakeService.tryAddCatalog(metalakeName, dsInfoDTO);

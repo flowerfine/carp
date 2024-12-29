@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.dataservice.domain.dao.mybatis.entity;
 
 import cn.sliew.carp.framework.common.dict.DictInstance;
-import cn.sliew.carp.framework.common.dict.alert.AlertStatus;
+import cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -43,7 +43,7 @@ public enum ParamType implements DictInstance {
         return Arrays.stream(values()).filter((instance) -> {
             return instance.getValue().equals(value);
         }).findAny().orElseThrow(() -> {
-            return new EnumConstantNotPresentException(AlertStatus.class, value);
+            return new EnumConstantNotPresentException(ParamType.class, value);
         });
     }
 

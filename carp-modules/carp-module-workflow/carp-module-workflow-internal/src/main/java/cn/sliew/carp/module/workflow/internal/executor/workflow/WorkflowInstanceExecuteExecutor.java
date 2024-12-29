@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.workflow.internal.executor.workflow;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowExecuteType;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.algorithm.DagUtil;
 import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
@@ -29,7 +29,6 @@ import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
 
@@ -40,8 +39,8 @@ public class WorkflowInstanceExecuteExecutor implements WorkflowInstanceExecutor
     private WorkflowTaskInstanceManager workflowTaskInstanceManager;
 
     @Override
-    public WorkflowExecuteType getExecuteType() {
-        return WorkflowExecuteType.EXECUTE;
+    public CarpWorkflowExecuteType getExecuteType() {
+        return CarpWorkflowExecuteType.EXECUTE;
     }
 
     @Override
@@ -56,7 +55,7 @@ public class WorkflowInstanceExecuteExecutor implements WorkflowInstanceExecutor
 
     @Override
     public boolean checkTask(WorkflowInstance instance, DAG<WorkflowTaskInstance> dag, WorkflowTaskInstance task) {
-        return task.getStatus() == WorkflowTaskInstanceStage.PENDING;
+        return task.getStatus() == CarpWorkflowTaskInstanceStage.PENDING;
     }
 
     @Override

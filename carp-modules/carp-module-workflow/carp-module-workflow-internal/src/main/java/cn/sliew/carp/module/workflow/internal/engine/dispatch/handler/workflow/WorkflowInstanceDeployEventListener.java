@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowExecuteType;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
@@ -43,8 +43,8 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
     private WorkflowInstanceExecutorManager workflowInstanceExecutorManager;
 
     @Override
-    public WorkflowInstanceEvent getType() {
-        return WorkflowInstanceEvent.COMMAND_DEPLOY;
+    public CarpWorkflowInstanceEvent getType() {
+        return CarpWorkflowInstanceEvent.COMMAND_DEPLOY;
     }
 
     @Override
@@ -69,6 +69,6 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
             stateMachine.onSuccess(workflowInstance);
             return;
         }
-        workflowInstanceExecutorManager.execute(WorkflowExecuteType.EXECUTE, workflowInstance, dag);
+        workflowInstanceExecutorManager.execute(CarpWorkflowExecuteType.EXECUTE, workflowInstance, dag);
     }
 }

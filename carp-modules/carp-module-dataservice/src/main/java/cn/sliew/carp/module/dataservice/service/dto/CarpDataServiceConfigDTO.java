@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.dataservice.service.dto;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -56,13 +56,13 @@ public class CarpDataServiceConfigDTO extends BaseDTO {
     private String queryScript;
 
     @Schema(description = "query page enabled")
-    private YesOrNo queryPageEnabled;
+    private CarpYesOrNo queryPageEnabled;
 
     @Schema(description = "object、array")
     private String queryResultType;
 
     @Schema(description = "status, disabled or enabled")
-    private YesOrNo status;
+    private CarpYesOrNo status;
 
     @Schema(description = "备注")
     private String remark;

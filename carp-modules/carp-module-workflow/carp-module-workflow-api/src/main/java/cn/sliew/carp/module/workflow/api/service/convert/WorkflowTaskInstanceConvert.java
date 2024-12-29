@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.workflow.api.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import org.mapstruct.Mapper;
@@ -46,7 +46,7 @@ public interface WorkflowTaskInstanceConvert extends BaseConvert<DagStepDTO, Wor
             dto.setNode(WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(entity.getDagConfigStep()));
         }
         if (StringUtils.hasText(entity.getStatus())) {
-            dto.setStatus(WorkflowTaskInstanceStage.of(entity.getStatus()));
+            dto.setStatus(CarpWorkflowTaskInstanceStage.of(entity.getStatus()));
         }
         return dto;
     }

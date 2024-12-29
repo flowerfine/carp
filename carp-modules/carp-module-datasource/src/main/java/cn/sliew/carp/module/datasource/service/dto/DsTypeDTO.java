@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.service.dto;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -32,7 +32,7 @@ public class DsTypeDTO extends BaseDTO {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "name")
-    private DataSourceType type;
+    private CarpDataSourceType type;
 
     @Schema(description = "logo")
     private String logo;

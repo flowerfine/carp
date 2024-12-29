@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.modal.nosql;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.modal.AbstractDataSourceProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -41,6 +41,6 @@ public class ElasticsearchDataSourceProperties extends AbstractDataSourcePropert
 
     @Override
     public String getType() {
-        return DataSourceType.ELASTICSEARCH.getValue();
+        return CarpDataSourceType.ELASTICSEARCH.getValue();
     }
 }

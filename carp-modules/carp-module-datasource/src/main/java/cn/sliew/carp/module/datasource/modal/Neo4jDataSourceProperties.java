@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.modal;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -46,6 +46,6 @@ public class Neo4jDataSourceProperties extends AbstractDataSourceProperties {
 
     @Override
     public String getType() {
-        return DataSourceType.NEO4J.getValue();
+        return CarpDataSourceType.NEO4J.getValue();
     }
 }

@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service.param.authorize;
 
-import cn.sliew.carp.framework.common.dict.security.SecRoleStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleStatus;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -32,7 +32,7 @@ public class SecRoleListByResourceWebParam extends PageParam {
     private Long resourceWebId;
 
     @Schema(description = "角色状态")
-    private SecRoleStatus status;
+    private CarpSecRoleStatus status;
 
     @Schema(description = "角色名称。支持搜索")
     private String name;

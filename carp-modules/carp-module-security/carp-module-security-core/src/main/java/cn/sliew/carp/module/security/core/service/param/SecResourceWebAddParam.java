@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.service.param;
 
-import cn.sliew.carp.framework.common.dict.security.SecResourceStatus;
-import cn.sliew.carp.framework.common.dict.security.SecResourceWebType;
+import cn.sliew.carp.framework.common.dict.security.CarpSecResourceStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecResourceWebType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +30,7 @@ public class SecResourceWebAddParam {
 
     @NotNull
     @Schema(description = "资源类型")
-    private SecResourceWebType type;
+    private CarpSecResourceWebType type;
 
     @NotNull
     @Schema(description = "上级资源id")
@@ -53,7 +53,7 @@ public class SecResourceWebAddParam {
 
     @NotNull
     @Schema(description = "资源状态")
-    private SecResourceStatus status;
+    private CarpSecResourceStatus status;
 
     @Schema(description = "备注")
     private String remark;

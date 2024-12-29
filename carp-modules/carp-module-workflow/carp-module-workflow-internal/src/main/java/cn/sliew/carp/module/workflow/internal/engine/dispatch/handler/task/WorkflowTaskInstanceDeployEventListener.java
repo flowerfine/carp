@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 import org.springframework.stereotype.Component;
@@ -30,8 +30,8 @@ import java.util.concurrent.CompletableFuture;
 public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTaskInstanceEventListener {
 
     @Override
-    public WorkflowTaskInstanceEvent getType() {
-        return WorkflowTaskInstanceEvent.COMMAND_DEPLOY;
+    public CarpWorkflowTaskInstanceEvent getType() {
+        return CarpWorkflowTaskInstanceEvent.COMMAND_DEPLOY;
     }
 
     @Override

@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.dataservice.domain.dao;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.dataservice.domain.dao.mybatis.MybatisDaoExecutor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,25 +29,25 @@ import java.util.concurrent.ConcurrentMap;
 @Component
 public class DaoExecutorRegistry implements InitializingBean {
 
-    private ConcurrentMap<DataSourceType, DaoExecutor> registry = new ConcurrentHashMap<>();
+    private ConcurrentMap<CarpDataSourceType, DaoExecutor> registry = new ConcurrentHashMap<>();
 
     @Autowired
     private MybatisDaoExecutor mybatisDataServiceExecutor;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        register(DataSourceType.MYSQL, mybatisDataServiceExecutor);
+        register(CarpDataSourceType.MYSQL, mybatisDataServiceExecutor);
     }
 
-    public DaoExecutor get(DataSourceType dataSourceType) {
+    public DaoExecutor get(CarpDataSourceType dataSourceType) {
         return registry.get(dataSourceType);
     }
 
-    public void register(DataSourceType dataSourceType, DaoExecutor daoExecutor) {
+    public void register(CarpDataSourceType dataSourceType, DaoExecutor daoExecutor) {
         registry.put(dataSourceType, daoExecutor);
     }
 
-    public void unregister(DataSourceType dataSourceType) {
+    public void unregister(CarpDataSourceType dataSourceType) {
         registry.remove(dataSourceType);
     }
 }

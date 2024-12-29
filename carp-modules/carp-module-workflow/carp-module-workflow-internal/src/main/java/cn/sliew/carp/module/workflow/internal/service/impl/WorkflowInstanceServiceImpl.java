@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.module.workflow.internal.service.impl;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowStepType;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
@@ -75,9 +75,9 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
         dto.setGraph(graph);
 
         List<WorkflowTaskInstance> allNodes = WorkflowTaskInstanceConvert.INSTANCE.toDto(complexDTO.getSteps());
-        WorkflowTaskInstance preNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == WorkflowStepType.PRE).findFirst().orElse(null);
-        WorkflowTaskInstance postNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == WorkflowStepType.POST).findFirst().orElse(null);
-        List<WorkflowTaskInstance> normalNodes = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == WorkflowStepType.NORMAL).collect(Collectors.toList());
+        WorkflowTaskInstance preNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.PRE).findFirst().orElse(null);
+        WorkflowTaskInstance postNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.POST).findFirst().orElse(null);
+        List<WorkflowTaskInstance> normalNodes = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.NORMAL).collect(Collectors.toList());
         graph.setPreTask(preNode);
         graph.setPostTask(postNode);
         graph.setTasks(normalNodes);
@@ -97,10 +97,10 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     @Override
     public Long simpleInitialize(Long workflowDefinitionId) {
         Long workflowInstanceId = dagInstanceComplexService.initialize(workflowDefinitionId);
-        dagInstanceService.updateStatus(workflowInstanceId, null, WorkflowInstanceState.PENDING.getValue());
+        dagInstanceService.updateStatus(workflowInstanceId, null, CarpWorkflowInstanceState.PENDING.getValue());
         List<DagStepDTO> dagStepDTOS = dagStepService.listSteps(workflowInstanceId);
         for (DagStepDTO dagStepDTO : dagStepDTOS) {
-            dagStepService.updateStatus(dagStepDTO.getId(), null, WorkflowTaskInstanceStage.PENDING.getValue());
+            dagStepService.updateStatus(dagStepDTO.getId(), null, CarpWorkflowTaskInstanceStage.PENDING.getValue());
         }
         return workflowInstanceId;
     }

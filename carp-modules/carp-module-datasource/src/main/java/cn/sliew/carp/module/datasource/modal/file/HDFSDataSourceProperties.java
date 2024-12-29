@@ -19,7 +19,7 @@
 
 package cn.sliew.carp.module.datasource.modal.file;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.modal.AbstractDataSourceProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -39,6 +39,6 @@ public class HDFSDataSourceProperties extends AbstractDataSourceProperties {
 
     @Override
     public String getType() {
-        return DataSourceType.HDFS.getValue();
+        return CarpDataSourceType.HDFS.getValue();
     }
 }

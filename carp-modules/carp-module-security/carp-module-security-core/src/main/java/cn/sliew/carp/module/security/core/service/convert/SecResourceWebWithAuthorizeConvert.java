@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.security.core.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebVO;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebWithAuthorizeDTO;
 import org.mapstruct.Mapper;
@@ -39,7 +39,7 @@ public interface SecResourceWebWithAuthorizeConvert extends BaseConvert<SecResou
     default SecResourceWebWithAuthorizeDTO toDto(SecResourceWebVO entity) {
         SecResourceWebWithAuthorizeDTO dto = new SecResourceWebWithAuthorizeDTO();
         BeanUtils.copyProperties(SecResourceWebConvert.INSTANCE.toDto(entity), dto);
-        dto.setAuthorized(entity.getRoleId() != null ? YesOrNo.YES : YesOrNo.NO);
+        dto.setAuthorized(entity.getRoleId() != null ? CarpYesOrNo.YES : CarpYesOrNo.NO);
         return dto;
     }
 }

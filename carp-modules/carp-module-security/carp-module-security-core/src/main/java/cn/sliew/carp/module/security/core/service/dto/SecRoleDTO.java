@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.service.dto;
 
-import cn.sliew.carp.framework.common.dict.security.SecRoleStatus;
-import cn.sliew.carp.framework.common.dict.security.SecRoleType;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -32,7 +32,7 @@ import lombok.EqualsAndHashCode;
 public class SecRoleDTO extends BaseDTO {
 
     @Schema(description = "type")
-    private SecRoleType type;
+    private CarpSecRoleType type;
 
     @NotBlank
     @Schema(description = "角色编码")
@@ -46,7 +46,7 @@ public class SecRoleDTO extends BaseDTO {
     private Integer order;
 
     @Schema(description = "角色状态")
-    private SecRoleStatus status;
+    private CarpSecRoleStatus status;
 
     @Schema(description = "角色备注")
     private String remark;

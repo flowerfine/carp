@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.module.system.service.impl;
 
+import cn.sliew.carp.framework.common.dict.CarpEnumDictRegistry;
 import cn.sliew.carp.framework.common.dict.DictDefinition;
 import cn.sliew.carp.framework.common.dict.DictInstance;
-import cn.sliew.carp.framework.common.dict.EnumDictRegistry;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.system.service.SysDictDefinitionService;
 import cn.sliew.carp.module.system.service.SysDictInstanceService;
@@ -45,7 +45,7 @@ public class SysDictInstanceServiceImpl implements SysDictInstanceService {
     public Collection<DictInstance> selectByDefinition(String code) {
         Optional<DictDefinition> optional = sysDictDefinitionService.getByCode(code);
         if (optional.isPresent()) {
-            return EnumDictRegistry.INSTANCE.getDictInstance(optional.get());
+            return CarpEnumDictRegistry.INSTANCE.getDictInstance(optional.get());
         }
         return Collections.emptyList();
     }
@@ -84,6 +84,6 @@ public class SysDictInstanceServiceImpl implements SysDictInstanceService {
 
     @Override
     public Collection<DictInstance> selectAll() {
-        return EnumDictRegistry.INSTANCE.getAllInstances();
+        return CarpEnumDictRegistry.INSTANCE.getAllInstances();
     }
 }

@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -33,7 +33,7 @@ public class DsType extends BaseAuditDO {
     private static final long serialVersionUID = 1L;
 
     @TableField("`type`")
-    private DataSourceType type;
+    private CarpDataSourceType type;
 
     @TableField("logo")
     private String logo;

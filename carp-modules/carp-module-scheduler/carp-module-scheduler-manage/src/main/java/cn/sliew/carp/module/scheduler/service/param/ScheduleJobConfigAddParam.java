@@ -18,9 +18,8 @@
 
 package cn.sliew.carp.module.scheduler.service.param;
 
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,11 +34,11 @@ public class ScheduleJobConfigAddParam {
 
     @NotNull
     @Schema(description = "引擎类型")
-    private ScheduleEngineType engineType;
+    private CarpScheduleEngineType engineType;
 
     @NotNull
     @Schema(description = "任务类型")
-    private ScheduleJobType jobType;
+    private CarpScheduleJobType jobType;
 
     @NotBlank
     @Schema(description = "任务名称")

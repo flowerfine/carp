@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
@@ -33,8 +33,8 @@ import java.util.concurrent.CompletableFuture;
 public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTaskInstanceEventListener {
 
     @Override
-    public WorkflowTaskInstanceEvent getType() {
-        return WorkflowTaskInstanceEvent.PROCESS_SUCCESS;
+    public CarpWorkflowTaskInstanceEvent getType() {
+        return CarpWorkflowTaskInstanceEvent.PROCESS_SUCCESS;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTa
         public void run() {
             DagStepDTO dagStepUpdateParam = new DagStepDTO();
             dagStepUpdateParam.setId(workflowTaskInstanceId);
-            dagStepUpdateParam.setStatus(WorkflowTaskInstanceStage.SUCCESS.getValue());
+            dagStepUpdateParam.setStatus(CarpWorkflowTaskInstanceStage.SUCCESS.getValue());
             dagStepUpdateParam.setEndTime(new Date());
             dagStepService.update(dagStepUpdateParam);
 

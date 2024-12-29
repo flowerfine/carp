@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.controller;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
@@ -52,7 +52,7 @@ public class CarpDsInfoController {
 
     @GetMapping("{type}")
     @Operation(summary = "查询所有", description = "查询指定数据源类型下所有数据源")
-    public List<DsInfoDTO> listByType(@PathVariable("type") DataSourceType type) {
+    public List<DsInfoDTO> listByType(@PathVariable("type") CarpDataSourceType type) {
         return carpDsInfoService.listByType(type);
     }
 

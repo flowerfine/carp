@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.modal.mq;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.modal.AbstractDataSourceProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -35,6 +35,6 @@ public class KafkaDataSourceProperties extends AbstractDataSourceProperties {
 
     @Override
     public String getType() {
-        return DataSourceType.KAFKA.getValue();
+        return CarpDataSourceType.KAFKA.getValue();
     }
 }

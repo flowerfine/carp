@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +29,8 @@ import org.springframework.stereotype.Component;
 public class WorkflowInstanceSuspendEventListener implements WorkflowInstanceEventListener {
 
     @Override
-    public WorkflowInstanceEvent getType() {
-        return WorkflowInstanceEvent.COMMAND_SUSPEND;
+    public CarpWorkflowInstanceEvent getType() {
+        return CarpWorkflowInstanceEvent.COMMAND_SUSPEND;
     }
 
     @Override

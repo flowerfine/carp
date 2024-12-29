@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import lombok.Getter;
 
@@ -30,17 +30,17 @@ public class WorkflowTaskInstanceEventDTO implements WorkflowTaskInstanceStatusE
 
     private static final long serialVersionUID = 1L;
 
-    private final WorkflowTaskInstanceStage state;
-    private final WorkflowTaskInstanceStage nextState;
-    private final WorkflowTaskInstanceEvent event;
+    private final CarpWorkflowTaskInstanceStage state;
+    private final CarpWorkflowTaskInstanceStage nextState;
+    private final CarpWorkflowTaskInstanceEvent event;
     private final Long workflowTaskInstanceId;
     private final Throwable throwable;
 
-    public WorkflowTaskInstanceEventDTO(WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId) {
+    public WorkflowTaskInstanceEventDTO(CarpWorkflowTaskInstanceStage state, CarpWorkflowTaskInstanceStage nextState, CarpWorkflowTaskInstanceEvent event, Long workflowTaskInstanceId) {
         this(state, nextState, event, workflowTaskInstanceId, null);
     }
 
-    public WorkflowTaskInstanceEventDTO(WorkflowTaskInstanceStage state, WorkflowTaskInstanceStage nextState, WorkflowTaskInstanceEvent event, Long workflowTaskInstanceId, Throwable throwable) {
+    public WorkflowTaskInstanceEventDTO(CarpWorkflowTaskInstanceStage state, CarpWorkflowTaskInstanceStage nextState, CarpWorkflowTaskInstanceEvent event, Long workflowTaskInstanceId, Throwable throwable) {
         this.state = state;
         this.nextState = nextState;
         this.event = event;
@@ -49,7 +49,7 @@ public class WorkflowTaskInstanceEventDTO implements WorkflowTaskInstanceStatusE
     }
 
     @Override
-    public WorkflowTaskInstanceEvent getEvent() {
+    public CarpWorkflowTaskInstanceEvent getEvent() {
         return event;
     }
 }

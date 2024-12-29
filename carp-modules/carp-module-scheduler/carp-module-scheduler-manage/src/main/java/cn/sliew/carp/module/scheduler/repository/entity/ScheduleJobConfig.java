@@ -18,11 +18,11 @@
 
 package cn.sliew.carp.module.scheduler.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
+import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -38,16 +38,16 @@ public class ScheduleJobConfig extends BaseAuditDO {
     private ScheduleJobGroup jobGroup;
 
     @TableField("`type`")
-    private ScheduleType type;
+    private CarpScheduleType type;
 
     @TableField("`engine_type`")
-    private ScheduleEngineType engineType;
+    private CarpScheduleEngineType engineType;
 
     @TableField("`job_type`")
-    private ScheduleJobType jobType;
+    private CarpScheduleJobType jobType;
 
     @TableField("`execute_type`")
-    private ScheduleExecuteType executeType;
+    private CarpScheduleExecuteType executeType;
 
     @TableField("`name`")
     private String name;

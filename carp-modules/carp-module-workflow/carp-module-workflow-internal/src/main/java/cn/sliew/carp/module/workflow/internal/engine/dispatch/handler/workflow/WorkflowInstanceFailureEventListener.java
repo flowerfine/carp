@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
@@ -38,8 +38,8 @@ public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstan
     private DagInstanceService dagInstanceService;
 
     @Override
-    public WorkflowInstanceEvent getType() {
-        return WorkflowInstanceEvent.PROCESS_FAILURE;
+    public CarpWorkflowInstanceEvent getType() {
+        return CarpWorkflowInstanceEvent.PROCESS_FAILURE;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstan
         public void run() {
             DagInstanceDTO dagInstanceUpdateParam = new DagInstanceDTO();
             dagInstanceUpdateParam.setId(workflowInstanceId);
-            dagInstanceUpdateParam.setStatus(WorkflowInstanceState.FAILURE.getValue());
+            dagInstanceUpdateParam.setStatus(CarpWorkflowInstanceState.FAILURE.getValue());
             dagInstanceUpdateParam.setEndTime(new Date());
             dagInstanceService.update(dagInstanceUpdateParam);
         }

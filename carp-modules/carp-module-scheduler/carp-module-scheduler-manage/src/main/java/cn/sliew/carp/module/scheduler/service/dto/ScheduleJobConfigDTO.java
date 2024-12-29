@@ -18,11 +18,11 @@
 
 package cn.sliew.carp.module.scheduler.service.dto;
 
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleEngineType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleJobType;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -34,16 +34,16 @@ public class ScheduleJobConfigDTO extends BaseDTO {
     private ScheduleJobGroupDTO jobGroup;
 
     @Schema(description = "类型")
-    private ScheduleType type;
+    private CarpScheduleType type;
 
     @Schema(description = "引擎类型")
-    private ScheduleEngineType engineType;
+    private CarpScheduleEngineType engineType;
 
     @Schema(description = "任务类型")
-    private ScheduleJobType jobType;
+    private CarpScheduleJobType jobType;
 
     @Schema(description = "执行方式")
-    private ScheduleExecuteType executeType;
+    private CarpScheduleExecuteType executeType;
 
     @Schema(description = "任务名称")
     private String name;

@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleStatus;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -58,7 +58,7 @@ public class ScheduleJobInstance extends BaseAuditDO {
     private Long timeout;
 
     @TableField("`status`")
-    private ScheduleStatus status;
+    private CarpScheduleStatus status;
 
     @TableField("remark")
     private String remark;

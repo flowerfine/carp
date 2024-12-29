@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.module.security.core.service.dto;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
-import cn.sliew.carp.framework.common.dict.security.SecResourceStatus;
-import cn.sliew.carp.framework.common.dict.security.SecResourceWebType;
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
+import cn.sliew.carp.framework.common.dict.security.CarpSecResourceStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecResourceWebType;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -35,7 +35,7 @@ import java.util.List;
 public class SecResourceWebWithAuthorizeDTO extends BaseDTO {
 
     @Schema(description = "资源类型。导航，菜单，页面，按钮")
-    private SecResourceWebType type;
+    private CarpSecResourceWebType type;
 
     @Schema(description = "上级资源id")
     private Long pid;
@@ -53,7 +53,7 @@ public class SecResourceWebWithAuthorizeDTO extends BaseDTO {
     private Integer order;
 
     @Schema(description = "资源状态")
-    private SecResourceStatus status;
+    private CarpSecResourceStatus status;
 
     @Schema(description = "备注")
     private String remark;
@@ -62,5 +62,5 @@ public class SecResourceWebWithAuthorizeDTO extends BaseDTO {
     private List<SecResourceWebWithAuthorizeDTO> children;
 
     @Schema(description = "授权状态")
-    private YesOrNo authorized;
+    private CarpYesOrNo authorized;
 }

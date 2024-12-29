@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.service.param;
 
-import cn.sliew.carp.framework.common.dict.security.SecRoleStatus;
-import cn.sliew.carp.framework.common.dict.security.SecRoleType;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleType;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -30,11 +30,11 @@ import lombok.EqualsAndHashCode;
 public class SecRoleListParam extends PageParam {
 
     @Schema(description = "type")
-    private SecRoleType type;
+    private CarpSecRoleType type;
 
     @Schema(description = "角色名称")
     private String name;
 
     @Schema(description = "角色状态")
-    private SecRoleStatus status;
+    private CarpSecRoleStatus status;
 }

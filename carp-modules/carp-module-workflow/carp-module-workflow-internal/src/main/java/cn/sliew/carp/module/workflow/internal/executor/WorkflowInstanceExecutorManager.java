@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.workflow.internal.executor;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowExecuteType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
@@ -42,7 +42,7 @@ public class WorkflowInstanceExecutorManager implements InitializingBean, Dispos
     @Autowired
     private List<WorkflowInstanceExecutor> executors;
 
-    private Map<WorkflowExecuteType, WorkflowInstanceExecutor> registry = new HashMap<>();
+    private Map<CarpWorkflowExecuteType, WorkflowInstanceExecutor> registry = new HashMap<>();
     private ThreadPoolTaskExecutor taskExecutor;
 
     @Override
@@ -65,7 +65,7 @@ public class WorkflowInstanceExecutorManager implements InitializingBean, Dispos
         }
     }
 
-    public CompletableFuture execute(WorkflowExecuteType executeType, WorkflowInstance instance, DAG<WorkflowTaskInstance> dag) {
+    public CompletableFuture execute(CarpWorkflowExecuteType executeType, WorkflowInstance instance, DAG<WorkflowTaskInstance> dag) {
         if (registry.containsKey(executeType) == false) {
             throw new RuntimeException("unknown workflow instance execute type: "
                     + executeType.getLabel() + "[" + executeType.getValue() + "]");

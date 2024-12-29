@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.workflow.internal.executor;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowExecuteType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
@@ -28,7 +28,7 @@ import java.util.Set;
 
 public interface WorkflowInstanceExecutor {
 
-    WorkflowExecuteType getExecuteType();
+    CarpWorkflowExecuteType getExecuteType();
 
     void execute(WorkflowInstance instance, DAG<WorkflowTaskInstance> dag);
 

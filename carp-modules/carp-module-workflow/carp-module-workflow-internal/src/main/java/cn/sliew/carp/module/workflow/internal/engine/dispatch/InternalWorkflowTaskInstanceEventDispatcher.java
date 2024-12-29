@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.workflow.internal.engine.dispatch;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.module.queue.api.Message;
@@ -51,7 +51,7 @@ public class InternalWorkflowTaskInstanceEventDispatcher implements WorkflowTask
     @Autowired
     private List<WorkflowTaskInstanceEventHandler> handlers;
 
-    private Map<WorkflowTaskInstanceEvent, WorkflowTaskInstanceEventHandler> registry = new HashMap<>();
+    private Map<CarpWorkflowTaskInstanceEvent, WorkflowTaskInstanceEventHandler> registry = new HashMap<>();
     private ThreadPoolTaskExecutor taskExecutor;
 
     @Override

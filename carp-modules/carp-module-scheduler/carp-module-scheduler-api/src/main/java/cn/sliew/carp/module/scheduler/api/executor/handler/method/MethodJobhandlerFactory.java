@@ -19,9 +19,9 @@
 package cn.sliew.carp.module.scheduler.api.executor.handler.method;
 
 import cn.hutool.extra.spring.SpringUtil;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.annotation.CarpJob;
 import cn.sliew.carp.module.scheduler.api.annotation.CarpJobHandler;
+import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.executor.AbstractJobHandlerFactory;
 import cn.sliew.carp.module.scheduler.api.executor.JobContext;
 import cn.sliew.carp.module.scheduler.api.executor.JobHandler;
@@ -49,8 +49,8 @@ public class MethodJobhandlerFactory extends AbstractJobHandlerFactory implement
     private ConcurrentMap<String, CarpJobMethod> registry = new ConcurrentHashMap<>();
 
     @Override
-    public ScheduleExecuteType getType() {
-        return ScheduleExecuteType.METHOD;
+    public CarpScheduleExecuteType getType() {
+        return CarpScheduleExecuteType.METHOD;
     }
 
     @Override

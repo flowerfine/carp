@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.alert.model;
 
-import cn.sliew.carp.framework.common.dict.alert.AlertStatus;
+import cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -27,7 +27,7 @@ import java.util.Map;
 @Data
 public class Alert {
 
-    private AlertStatus status;
+    private CarpAlertStatus status;
     private Map<String, String> labels;
     private Map<String, String> annotations;
     private LocalDateTime startsAt;

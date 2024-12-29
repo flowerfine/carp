@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.security.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.sliew.carp.framework.common.dict.security.SecRoleType;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecRole;
@@ -78,7 +78,7 @@ public class SecRoleServiceImpl extends ServiceImpl<SecRoleMapper, SecRole> impl
     @Override
     public boolean add(SecRoleAddParam param) {
         SecRole entity = BeanUtil.copyProperties(param, SecRole.class);
-        entity.setType(SecRoleType.CUSTOM);
+        entity.setType(CarpSecRoleType.CUSTOM);
         return save(entity);
     }
 

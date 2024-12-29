@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.modal;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.common.jackson.polymorphic.Polymorphic;
 import cn.sliew.carp.framework.common.jackson.polymorphic.PolymorphicResolver;
 import cn.sliew.carp.module.datasource.modal.file.*;
@@ -45,49 +45,49 @@ public abstract class AbstractDataSourceProperties implements Polymorphic<String
     @Override
     public abstract String getType();
 
-    public static final class DataSourceResolver extends PolymorphicResolver<DataSourceType> {
+    public static final class DataSourceResolver extends PolymorphicResolver<CarpDataSourceType> {
         public DataSourceResolver() {
             bindDefault(MySQLDataSourceProperties.class);
 
-            bind(DataSourceType.MYSQL, MySQLDataSourceProperties.class);
-            bind(DataSourceType.ORACLE, OracleDataSourceProperties.class);
-            bind(DataSourceType.POSTGRESQL, PostgreSQLDataSourceProperties.class);
-            bind(DataSourceType.SQLSERVER, SQLServerDataSourceProperties.class);
-            bind(DataSourceType.DMDB, DmDBDataSourceProperties.class);
-            bind(DataSourceType.GBASE8A, GBase8aDataSourceProperties.class);
-            bind(DataSourceType.GREENPLUM, GreenplumDataSourceProperties.class);
-            bind(DataSourceType.PHOENIX, PhoenixDataSourceProperties.class);
+            bind(CarpDataSourceType.MYSQL, MySQLDataSourceProperties.class);
+            bind(CarpDataSourceType.ORACLE, OracleDataSourceProperties.class);
+            bind(CarpDataSourceType.POSTGRESQL, PostgreSQLDataSourceProperties.class);
+            bind(CarpDataSourceType.SQLSERVER, SQLServerDataSourceProperties.class);
+            bind(CarpDataSourceType.DMDB, DmDBDataSourceProperties.class);
+            bind(CarpDataSourceType.GBASE8A, GBase8aDataSourceProperties.class);
+            bind(CarpDataSourceType.GREENPLUM, GreenplumDataSourceProperties.class);
+            bind(CarpDataSourceType.PHOENIX, PhoenixDataSourceProperties.class);
 
-            bind(DataSourceType.REDIS, RedisDataSourceProperties.class);
-            bind(DataSourceType.ELASTICSEARCH, ElasticsearchDataSourceProperties.class);
-            bind(DataSourceType.MONGODB, MongoDBDataSourceProperties.class);
-            bind(DataSourceType.CASSANDRA, CassandraDataSourceProperties.class);
+            bind(CarpDataSourceType.REDIS, RedisDataSourceProperties.class);
+            bind(CarpDataSourceType.ELASTICSEARCH, ElasticsearchDataSourceProperties.class);
+            bind(CarpDataSourceType.MONGODB, MongoDBDataSourceProperties.class);
+            bind(CarpDataSourceType.CASSANDRA, CassandraDataSourceProperties.class);
 
-            bind(DataSourceType.KAFKA, KafkaDataSourceProperties.class);
-            bind(DataSourceType.PULSAR, PulsarDataSourceProperties.class);
-            bind(DataSourceType.DATAHUB, DataHubDataSourceProperties.class);
+            bind(CarpDataSourceType.KAFKA, KafkaDataSourceProperties.class);
+            bind(CarpDataSourceType.PULSAR, PulsarDataSourceProperties.class);
+            bind(CarpDataSourceType.DATAHUB, DataHubDataSourceProperties.class);
 
-            bind(DataSourceType.FTP, FtpDataSourceProperties.class);
-            bind(DataSourceType.SFTP, SftpDataSourceProperties.class);
-            bind(DataSourceType.OSS, OSSDataSourceProperties.class);
-            bind(DataSourceType.OSSJINDO, OSSJindoDataSourceProperties.class);
-            bind(DataSourceType.S3, S3DataSourceProperties.class);
-            bind(DataSourceType.HDFS, HDFSDataSourceProperties.class);
+            bind(CarpDataSourceType.FTP, FtpDataSourceProperties.class);
+            bind(CarpDataSourceType.SFTP, SftpDataSourceProperties.class);
+            bind(CarpDataSourceType.OSS, OSSDataSourceProperties.class);
+            bind(CarpDataSourceType.OSSJINDO, OSSJindoDataSourceProperties.class);
+            bind(CarpDataSourceType.S3, S3DataSourceProperties.class);
+            bind(CarpDataSourceType.HDFS, HDFSDataSourceProperties.class);
 
-            bind(DataSourceType.HIVE, HiveDataSourceProperties.class);
+            bind(CarpDataSourceType.HIVE, HiveDataSourceProperties.class);
 
-            bind(DataSourceType.CLICKHOUSE, ClickHouseDataSourceProperties.class);
-            bind(DataSourceType.KUDU, KuduDataSourceProperties.class);
-            bind(DataSourceType.DORIS, DorisDataSourceProperties.class);
-            bind(DataSourceType.STARROCKS, StarRocksDataSourceProperties.class);
-            bind(DataSourceType.MAXCOMPUTE, MaxComputeDataSourceProperties.class);
+            bind(CarpDataSourceType.CLICKHOUSE, ClickHouseDataSourceProperties.class);
+            bind(CarpDataSourceType.KUDU, KuduDataSourceProperties.class);
+            bind(CarpDataSourceType.DORIS, DorisDataSourceProperties.class);
+            bind(CarpDataSourceType.STARROCKS, StarRocksDataSourceProperties.class);
+            bind(CarpDataSourceType.MAXCOMPUTE, MaxComputeDataSourceProperties.class);
 
-            bind(DataSourceType.IOTDB, IoTDBDataSourceProperties.class);
-            bind(DataSourceType.NEO4J, Neo4jDataSourceProperties.class);
+            bind(CarpDataSourceType.IOTDB, IoTDBDataSourceProperties.class);
+            bind(CarpDataSourceType.NEO4J, Neo4jDataSourceProperties.class);
 
-            bind(DataSourceType.SOCKET, SocketDataSourceProperties.class);
-            bind(DataSourceType.HTTP, HttpDataSourceProperties.class);
-            bind(DataSourceType.INFLUXDB, InfluxDBDataSourceProperties.class);
+            bind(CarpDataSourceType.SOCKET, SocketDataSourceProperties.class);
+            bind(CarpDataSourceType.HTTP, HttpDataSourceProperties.class);
+            bind(CarpDataSourceType.INFLUXDB, InfluxDBDataSourceProperties.class);
         }
 
         @Override
@@ -97,7 +97,7 @@ public abstract class AbstractDataSourceProperties implements Polymorphic<String
 
         @Override
         protected Class<?> subTypeFromType(String id) {
-            Class<?> subType = subTypes.get(DataSourceType.of(id));
+            Class<?> subType = subTypes.get(CarpDataSourceType.of(id));
             return subType != null ? subType : defaultClass;
         }
     }

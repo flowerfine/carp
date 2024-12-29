@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.service.param;
 
-import cn.sliew.carp.framework.common.dict.security.SecUserStatus;
-import cn.sliew.carp.framework.common.dict.security.SecUserType;
+import cn.sliew.carp.framework.common.dict.security.CarpSecUserStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecUserType;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -42,8 +42,8 @@ public class SecUserListParam extends PageParam {
     private String phone;
 
     @Schema(description = "用户类型")
-    private SecUserType type;
+    private CarpSecUserType type;
 
     @Schema(description = "用户状态")
-    private SecUserStatus status;
+    private CarpSecUserStatus status;
 }

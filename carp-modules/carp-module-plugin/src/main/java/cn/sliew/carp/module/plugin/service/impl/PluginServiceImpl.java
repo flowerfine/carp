@@ -20,8 +20,8 @@ package cn.sliew.carp.module.plugin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpUtil;
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
-import cn.sliew.carp.framework.common.dict.plugin.PluginType;
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
+import cn.sliew.carp.framework.common.dict.plugin.CarpPluginType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.nio.FileUtil;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
@@ -102,21 +102,21 @@ public class PluginServiceImpl extends ServiceImpl<CarpPluginMapper, CarpPlugin>
     @Override
     public boolean add(CarpPluginAddParam param) {
         CarpPlugin entity = BeanUtil.copyProperties(param, CarpPlugin.class);
-        entity.setType(PluginType.INTERNAL);
-        entity.setStatus(YesOrNo.NO);
+        entity.setType(CarpPluginType.INTERNAL);
+        entity.setStatus(CarpYesOrNo.NO);
         return save(entity);
     }
 
     @Override
     public boolean update(CarpPluginUpdateParam param) {
         CarpPluginDTO dto = get(param.getId());
-        checkState(dto.getStatus() == YesOrNo.NO, () -> "plugin already enabled, please disable it firstly");
+        checkState(dto.getStatus() == CarpYesOrNo.NO, () -> "plugin already enabled, please disable it firstly");
         CarpPlugin entity = BeanUtil.copyProperties(param, CarpPlugin.class);
         return updateById(entity);
     }
 
     @Override
-    public boolean updateStatus(String pluginId, YesOrNo status) {
+    public boolean updateStatus(String pluginId, CarpYesOrNo status) {
         LambdaUpdateWrapper<CarpPlugin> updateWrapper = Wrappers.lambdaUpdate(CarpPlugin.class)
                 .eq(CarpPlugin::getPluginId, pluginId)
                 .set(CarpPlugin::getStatus, status);

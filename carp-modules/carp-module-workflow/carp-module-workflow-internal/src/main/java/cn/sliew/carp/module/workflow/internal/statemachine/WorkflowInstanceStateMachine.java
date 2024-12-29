@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.workflow.internal.statemachine;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
@@ -43,63 +43,63 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
     @Autowired
     private WorkflowInstanceEventPublisher publisher;
 
-    private StateMachine<WorkflowInstanceState, WorkflowInstanceEvent, Pair<Long, Throwable>> stateMachine;
+    private StateMachine<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<Long, Throwable>> stateMachine;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        StateMachineBuilder<WorkflowInstanceState, WorkflowInstanceEvent, Pair<Long, Throwable>> builder = StateMachineBuilderFactory.create();
+        StateMachineBuilder<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<Long, Throwable>> builder = StateMachineBuilderFactory.create();
 
         builder.externalTransition()
-                .from(WorkflowInstanceState.PENDING)
-                .to(WorkflowInstanceState.RUNNING)
-                .on(WorkflowInstanceEvent.COMMAND_DEPLOY)
+                .from(CarpWorkflowInstanceState.PENDING)
+                .to(CarpWorkflowInstanceState.RUNNING)
+                .on(CarpWorkflowInstanceEvent.COMMAND_DEPLOY)
                 .perform(doPerform());
         builder.externalTransition()
-                .from(WorkflowInstanceState.PENDING)
-                .to(WorkflowInstanceState.SUCCESS)
-                .on(WorkflowInstanceEvent.PROCESS_SUCCESS)
+                .from(CarpWorkflowInstanceState.PENDING)
+                .to(CarpWorkflowInstanceState.SUCCESS)
+                .on(CarpWorkflowInstanceEvent.PROCESS_SUCCESS)
                 .perform(doPerform());
 
         builder.internalTransition()
-                .within(WorkflowInstanceState.RUNNING)
-                .on(WorkflowInstanceEvent.PROCESS_TASK_CHANGE)
+                .within(CarpWorkflowInstanceState.RUNNING)
+                .on(CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE)
                 .perform(doPerform());
         builder.externalTransition()
-                .from(WorkflowInstanceState.RUNNING)
-                .to(WorkflowInstanceState.SUCCESS)
-                .on(WorkflowInstanceEvent.PROCESS_SUCCESS)
+                .from(CarpWorkflowInstanceState.RUNNING)
+                .to(CarpWorkflowInstanceState.SUCCESS)
+                .on(CarpWorkflowInstanceEvent.PROCESS_SUCCESS)
                 .perform(doPerform());
         builder.externalTransition()
-                .from(WorkflowInstanceState.RUNNING)
-                .to(WorkflowInstanceState.FAILURE)
-                .on(WorkflowInstanceEvent.PROCESS_FAILURE)
+                .from(CarpWorkflowInstanceState.RUNNING)
+                .to(CarpWorkflowInstanceState.FAILURE)
+                .on(CarpWorkflowInstanceEvent.PROCESS_FAILURE)
                 .perform(doPerform());
         builder.externalTransition()
-                .from(WorkflowInstanceState.RUNNING)
-                .to(WorkflowInstanceState.SUSPEND)
-                .on(WorkflowInstanceEvent.COMMAND_SUSPEND)
+                .from(CarpWorkflowInstanceState.RUNNING)
+                .to(CarpWorkflowInstanceState.SUSPEND)
+                .on(CarpWorkflowInstanceEvent.COMMAND_SUSPEND)
                 .perform(doPerform());
         builder.externalTransition()
-                .from(WorkflowInstanceState.RUNNING)
-                .to(WorkflowInstanceState.TERMINATED)
-                .on(WorkflowInstanceEvent.COMMAND_SHUTDOWN)
+                .from(CarpWorkflowInstanceState.RUNNING)
+                .to(CarpWorkflowInstanceState.TERMINATED)
+                .on(CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
 
         builder.externalTransition()
-                .from(WorkflowInstanceState.SUSPEND)
-                .to(WorkflowInstanceState.RUNNING)
-                .on(WorkflowInstanceEvent.COMMAND_RESUME)
+                .from(CarpWorkflowInstanceState.SUSPEND)
+                .to(CarpWorkflowInstanceState.RUNNING)
+                .on(CarpWorkflowInstanceEvent.COMMAND_RESUME)
                 .perform(doPerform());
         builder.externalTransition()
-                .from(WorkflowInstanceState.SUSPEND)
-                .to(WorkflowInstanceState.TERMINATED)
-                .on(WorkflowInstanceEvent.COMMAND_SHUTDOWN)
+                .from(CarpWorkflowInstanceState.SUSPEND)
+                .to(CarpWorkflowInstanceState.TERMINATED)
+                .on(CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
 
         this.stateMachine = builder.build(CONSUMER_GROUP);
     }
 
-    private Action<WorkflowInstanceState, WorkflowInstanceEvent, Pair<Long, Throwable>> doPerform() {
+    private Action<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<Long, Throwable>> doPerform() {
         return (fromState, toState, eventEnum, pair) -> {
             WorkflowInstanceEventDTO eventDTO = new WorkflowInstanceEventDTO(fromState, toState, eventEnum, pair.getLeft(), pair.getRight());
             publisher.publish(eventDTO);
@@ -108,30 +108,30 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
 
 
     public void deploy(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), WorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(instance.getId(), null));
     }
 
     public void shutdown(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), WorkflowInstanceEvent.COMMAND_SHUTDOWN, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN, Pair.of(instance.getId(), null));
     }
 
     public void suspend(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), WorkflowInstanceEvent.COMMAND_SUSPEND, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.COMMAND_SUSPEND, Pair.of(instance.getId(), null));
     }
 
     public void resume(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), WorkflowInstanceEvent.COMMAND_RESUME, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.COMMAND_RESUME, Pair.of(instance.getId(), null));
     }
 
     public void onTaskChange(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), WorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(instance.getId(), null));
     }
 
     public void onSuccess(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), WorkflowInstanceEvent.PROCESS_SUCCESS, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.PROCESS_SUCCESS, Pair.of(instance.getId(), null));
     }
 
     public void onFailure(WorkflowInstance instance, Throwable throwable) {
-        stateMachine.fireEvent(instance.getStatus(), WorkflowInstanceEvent.PROCESS_FAILURE, Pair.of(instance.getId(), throwable));
+        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.PROCESS_FAILURE, Pair.of(instance.getId(), throwable));
     }
 }

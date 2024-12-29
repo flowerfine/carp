@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.alert.model;
 
-import cn.sliew.carp.framework.common.dict.alert.AlertStatus;
+import cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus;
 import lombok.Data;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class AlertList {
     private String version;
     private String receiver;
     // 外层状态不能作为内部列表的状态，要用内部列表的状态
-    private AlertStatus status;
+    private CarpAlertStatus status;
     private List<Alert> alerts;
     private Map<String, String> groupLabels;
     private Map<String, String> commonLabels;

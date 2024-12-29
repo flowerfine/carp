@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.datasource.service.impl;
 
 import cn.sliew.carp.framework.common.codec.CodecUtil;
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.datasource.config.CarpGravitinoProperties;
@@ -64,7 +64,7 @@ public class CarpDsInfoServiceImpl extends ServiceImpl<DsInfoMapper, DsInfo> imp
     }
 
     @Override
-    public List<DsInfoDTO> listByType(DataSourceType type) {
+    public List<DsInfoDTO> listByType(CarpDataSourceType type) {
         List<DsInfoVO> dsInfoVOS = baseMapper.listByTypes(type);
         return DsInfoVOConvert.INSTANCE.toDto(dsInfoVOS);
     }

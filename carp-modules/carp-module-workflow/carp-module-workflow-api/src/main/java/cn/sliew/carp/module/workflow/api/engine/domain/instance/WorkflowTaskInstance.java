@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.workflow.api.engine.domain.instance;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphNode;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -39,7 +39,7 @@ public class WorkflowTaskInstance extends BaseDTO {
 
     private JsonNode ouputs;
 
-    private WorkflowTaskInstanceStage status;
+    private CarpWorkflowTaskInstanceStage status;
 
     private Date startTime;
 

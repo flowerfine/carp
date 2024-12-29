@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.workflow.api.engine.domain.definition;
 
-import cn.sliew.carp.framework.common.dict.data.DataType;
+import cn.sliew.carp.framework.common.dict.data.CarpDataType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +32,6 @@ public class WorkflowParamOption {
 
     private String name;
     private Object value;
-    private DataType type;
+    private CarpDataType type;
     private Boolean isOverWrite;
 }

@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.datasource.modal;
 
 import cn.sliew.carp.framework.common.collection.PropValuePair;
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
 import cn.sliew.carp.module.datasource.service.dto.DsTypeDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
@@ -59,7 +59,7 @@ public class DataSourceInfo {
         BeanUtils.copyProperties(this, dto);
         DsTypeDTO dsType = new DsTypeDTO();
         dsType.setId(getDsTypeId());
-        dsType.setType(DataSourceType.of(props.getType()));
+        dsType.setType(CarpDataSourceType.of(props.getType()));
         dto.setDsType(dsType);
         dto.setProps(JacksonUtil.toMap(JacksonUtil.toJsonNode(props)));
         return dto;

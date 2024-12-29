@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.repository.mapper;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.repository.entity.DsInfo;
 import cn.sliew.carp.module.datasource.repository.entity.DsInfoVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -31,9 +31,9 @@ import java.util.List;
 @Repository
 public interface DsInfoMapper extends BaseMapper<DsInfo> {
 
-    Page<DsInfoVO> list(Page<DsInfo> page, @Param("dsType") DataSourceType dsType, @Param("name") String name);
+    Page<DsInfoVO> list(Page<DsInfo> page, @Param("dsType") CarpDataSourceType dsType, @Param("name") String name);
 
-    List<DsInfoVO> listByTypes(@Param("type") DataSourceType type);
+    List<DsInfoVO> listByTypes(@Param("type") CarpDataSourceType type);
 
     DsInfoVO getById(@Param("id") Long id);
 

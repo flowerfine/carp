@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.service;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
 import cn.sliew.carp.module.datasource.repository.entity.DsInfo;
@@ -33,7 +33,7 @@ public interface CarpDsInfoService extends IService<DsInfo> {
 
     PageResult<DsInfoDTO> list(DsInfoListParam param);
 
-    List<DsInfoDTO> listByType(DataSourceType type);
+    List<DsInfoDTO> listByType(CarpDataSourceType type);
 
     DsInfoDTO selectOne(Long id, boolean decrypt);
 

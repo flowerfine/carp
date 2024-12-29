@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.plugin.service;
 
-import cn.sliew.carp.framework.common.dict.common.YesOrNo;
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.plugin.repository.entity.CarpPlugin;
 import cn.sliew.carp.module.plugin.service.dto.CarpPluginDTO;
@@ -48,7 +48,7 @@ public interface PluginService extends IService<CarpPlugin> {
 
     boolean update(CarpPluginUpdateParam param);
 
-    boolean updateStatus(String pluginId, YesOrNo status);
+    boolean updateStatus(String pluginId, CarpYesOrNo status);
 
     boolean delete(Long id);
 

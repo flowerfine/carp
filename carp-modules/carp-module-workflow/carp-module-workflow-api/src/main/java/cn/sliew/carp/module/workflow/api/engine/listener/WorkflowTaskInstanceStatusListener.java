@@ -18,12 +18,12 @@
 
 package cn.sliew.carp.module.workflow.api.engine.listener;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskInstanceStage;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 
 public interface WorkflowTaskInstanceStatusListener {
 
-    WorkflowTaskInstanceStage getStage();
+    CarpWorkflowTaskInstanceStage getStage();
 
     void onEvent(WorkflowTaskInstanceStatusEvent event);
 }

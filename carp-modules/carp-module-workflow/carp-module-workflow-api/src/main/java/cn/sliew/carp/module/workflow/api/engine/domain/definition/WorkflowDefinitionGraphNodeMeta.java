@@ -18,16 +18,16 @@
 
 package cn.sliew.carp.module.workflow.api.engine.domain.definition;
 
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowStepType;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowTaskType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskType;
 import lombok.Data;
 
 @Data
 public class WorkflowDefinitionGraphNodeMeta {
 
-    private WorkflowStepType stepType;
+    private CarpWorkflowStepType stepType;
 
-    private WorkflowTaskType taskType;
+    private CarpWorkflowTaskType taskType;
 
     /**
      * 当为 sub_workflow 时，有值

@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.security.core.repository.mapper;
 
-import cn.sliew.carp.framework.common.dict.security.SecRoleStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleStatus;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebRole;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWebVO;
@@ -38,7 +38,7 @@ public interface SecResourceWebRoleMapper extends BaseMapper<SecResourceWebRole>
      */
     Page<SecRole> selectRelatedRolesByWebResource(Page page,
                                                   @Param("resourceWebId") Long resourceWebId,
-                                                  @Param("status") SecRoleStatus status,
+                                                  @Param("status") CarpSecRoleStatus status,
                                                   @Param("name") String name);
 
     /**
@@ -46,7 +46,7 @@ public interface SecResourceWebRoleMapper extends BaseMapper<SecResourceWebRole>
      */
     Page<SecRole> selectUnrelatedRolesByWebResource(Page page,
                                                     @Param("resourceWebId") Long resourceWebId,
-                                                    @Param("status") SecRoleStatus status,
+                                                    @Param("status") CarpSecRoleStatus status,
                                                     @Param("name") String name);
 
     /**

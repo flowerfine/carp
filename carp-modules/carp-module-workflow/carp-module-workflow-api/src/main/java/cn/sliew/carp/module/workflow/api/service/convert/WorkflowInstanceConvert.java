@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.workflow.api.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
-import cn.sliew.carp.framework.common.dict.workflow.WorkflowInstanceState;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
 import org.mapstruct.Mapper;
@@ -45,7 +45,7 @@ public interface WorkflowInstanceConvert extends BaseConvert<DagInstanceDTO, Wor
             dto.setDefinition(WorkflowDefinitionConvert.INSTANCE.toDto(entity.getDagConfig()));
         }
         if (StringUtils.hasText(entity.getStatus())) {
-            dto.setStatus(WorkflowInstanceState.of(entity.getStatus()));
+            dto.setStatus(CarpWorkflowInstanceState.of(entity.getStatus()));
         }
         return dto;
     }

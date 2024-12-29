@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.plugin.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.plugin.PluginType;
+import cn.sliew.carp.framework.common.dict.plugin.CarpPluginType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -32,7 +32,7 @@ public class CarpPluginInfo extends BaseAuditDO {
     private static final long serialVersionUID = 1L;
 
     @TableField("`type`")
-    private PluginType type;
+    private CarpPluginType type;
 
     @TableField("provider")
     private String provider;

@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.datasource.modal.nosql;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
-import cn.sliew.carp.framework.common.dict.datasource.RedisMode;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpRedisMode;
 import cn.sliew.carp.module.datasource.modal.AbstractDataSourceProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -48,14 +48,14 @@ public class RedisDataSourceProperties extends AbstractDataSourceProperties {
     private String password;
 
     @Schema(description = "redis mode, single or cluster")
-    private RedisMode mode;
+    private CarpRedisMode mode;
 
     @Schema(description = "redis nodes information, used in cluster mode")
     private List<Node> nodes;
 
     @Override
     public String getType() {
-        return DataSourceType.REDIS.getValue();
+        return CarpDataSourceType.REDIS.getValue();
     }
 
     @Data

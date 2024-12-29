@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.security.SecApplicationStatus;
-import cn.sliew.carp.framework.common.dict.security.SecApplicationType;
+import cn.sliew.carp.framework.common.dict.security.CarpSecApplicationStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecApplicationType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -35,7 +35,7 @@ public class SecApplication extends BaseAuditDO {
 
     @Schema(description = "用户类型。系统，用户自定义")
     @TableField("`type`")
-    private SecApplicationType type;
+    private CarpSecApplicationType type;
 
     @Schema(description = "应用标识")
     @TableField("`code`")
@@ -59,7 +59,7 @@ public class SecApplication extends BaseAuditDO {
 
     @Schema(description = "用户状态。启用，禁用")
     @TableField("`status`")
-    private SecApplicationStatus status;
+    private CarpSecApplicationStatus status;
 
     @Schema(description = "备注")
     @TableField("remark")

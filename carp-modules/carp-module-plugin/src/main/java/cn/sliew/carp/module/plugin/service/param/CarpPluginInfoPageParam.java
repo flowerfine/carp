@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.plugin.service.param;
 
-import cn.sliew.carp.framework.common.dict.plugin.PluginType;
+import cn.sliew.carp.framework.common.dict.plugin.CarpPluginType;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -28,7 +28,7 @@ import lombok.EqualsAndHashCode;
 public class CarpPluginInfoPageParam extends PageParam {
 
     @Schema(description = "type")
-    private PluginType type;
+    private CarpPluginType type;
 
     @Schema(description = "提供者")
     private String provider;

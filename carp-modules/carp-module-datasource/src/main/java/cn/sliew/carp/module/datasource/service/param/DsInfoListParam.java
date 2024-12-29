@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.datasource.service.param;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -29,7 +29,7 @@ import lombok.EqualsAndHashCode;
 public class DsInfoListParam extends PageParam {
 
     @Schema(description = "data source type")
-    private DataSourceType dsType;
+    private CarpDataSourceType dsType;
 
     @Schema(description = "name")
     private String name;

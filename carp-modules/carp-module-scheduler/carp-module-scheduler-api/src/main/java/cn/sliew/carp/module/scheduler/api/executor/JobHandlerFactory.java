@@ -18,11 +18,11 @@
 
 package cn.sliew.carp.module.scheduler.api.executor;
 
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
+import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 
 public interface JobHandlerFactory {
 
-    ScheduleExecuteType getType();
+    CarpScheduleExecuteType getType();
 
     JobHandler newInstance(String jobHandler);
 }

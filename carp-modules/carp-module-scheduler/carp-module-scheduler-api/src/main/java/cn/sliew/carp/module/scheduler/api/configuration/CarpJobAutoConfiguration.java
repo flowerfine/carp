@@ -23,19 +23,12 @@ import cn.sliew.carp.module.scheduler.api.executor.*;
 import cn.sliew.carp.module.scheduler.api.executor.handler.bean.BeanJobHandlerFactory;
 import cn.sliew.carp.module.scheduler.api.executor.handler.method.MethodJobhandlerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+
+import java.util.List;
 
 @ConditionalOnClass(CarpJob.class)
 public class CarpJobAutoConfiguration {
-
-    @Bean
-    public JobHandlerFactoryRegistry jobHandlerFactoryRegistry(MethodJobhandlerFactory methodJobhandlerFactory, BeanJobHandlerFactory beanJobHandlerFactory) {
-        JobHandlerFactoryRegistry registry = new InMemoryJobHandlerFactoryRegistry();
-        registry.put(methodJobhandlerFactory.getType(), methodJobhandlerFactory);
-        registry.put(beanJobHandlerFactory.getType(), beanJobHandlerFactory);
-        return registry;
-    }
 
     @Bean
     public MethodJobhandlerFactory methodJobhandlerFactory() {
@@ -48,9 +41,21 @@ public class CarpJobAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(JobExecutor.class)
-    public JobExecutor defaultJobExecutor(InMemoryJobHandlerFactoryRegistry jobHandlerFactoryRegistry) {
-        return new DefaultJobExecutor(jobHandlerFactoryRegistry, new DefaultJobThreadRepository());
+    public JobHandlerFactoryRegistry jobHandlerFactoryRegistry(MethodJobhandlerFactory methodJobhandlerFactory, BeanJobHandlerFactory beanJobHandlerFactory) {
+        JobHandlerFactoryRegistry registry = new InMemoryJobHandlerFactoryRegistry();
+        registry.put(methodJobhandlerFactory.getType(), methodJobhandlerFactory);
+        registry.put(beanJobHandlerFactory.getType(), beanJobHandlerFactory);
+        return registry;
+    }
+
+    @Bean
+    public JobExecutor javaJobExecutor(InMemoryJobHandlerFactoryRegistry jobHandlerFactoryRegistry) {
+        return new JavaJobExecutor(jobHandlerFactoryRegistry, new DefaultJobThreadRepository());
+    }
+
+    @Bean
+    public JobExecutorManager jobExecutorManager(List<JobExecutor> executors) {
+        return new DefaultJobexecutorManager(executors);
     }
 
 }

@@ -19,23 +19,36 @@
 package cn.sliew.carp.module.scheduler.api.executor;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleExecuteType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
+import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.executor.entity.ScheduleResponse;
 import cn.sliew.carp.module.scheduler.api.executor.entity.trigger.TriggerParam;
 import cn.sliew.milky.common.exception.Rethrower;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public class DefaultJobExecutor implements JobExecutor {
+public class JavaJobExecutor implements JobExecutor {
 
     private JobHandlerFactoryRegistry jobHandlerFactoryRegistry;
     private JobThreadRepository jobThreadRepository;
 
-    public DefaultJobExecutor(JobHandlerFactoryRegistry jobHandlerFactoryRegistry, JobThreadRepository jobThreadRepository) {
+    public JavaJobExecutor(JobHandlerFactoryRegistry jobHandlerFactoryRegistry, JobThreadRepository jobThreadRepository) {
         this.jobHandlerFactoryRegistry = jobHandlerFactoryRegistry;
         this.jobThreadRepository = jobThreadRepository;
+    }
+
+    @Override
+    public CarpScheduleJobType getType() {
+        return CarpScheduleJobType.NORMAL;
+    }
+
+    @Override
+    public List<CarpScheduleExecuteType> getSupportExecuteTypes() {
+        return Arrays.asList(CarpScheduleExecuteType.BEAN, CarpScheduleExecuteType.METHOD);
     }
 
     @Override
@@ -43,7 +56,7 @@ public class DefaultJobExecutor implements JobExecutor {
         if (jobHandlerFactoryRegistry.exist(param.getExecuteType()) == false) {
             return new ScheduleResponse("-1", "unknown execute type: " + param.getExecuteType());
         }
-        JobHandlerFactory jobHandlerFactory = jobHandlerFactoryRegistry.get(ScheduleExecuteType.of(param.getExecuteType()));
+        JobHandlerFactory jobHandlerFactory = jobHandlerFactoryRegistry.get(CarpScheduleExecuteType.of(param.getExecuteType()));
 
         JobHandler jobHandler = jobHandlerFactory.newInstance(param.getJobHandler());
         JobContext context = BeanUtil.copyProperties(param, JobContext.class);

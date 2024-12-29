@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.service.impl;
 
-import cn.sliew.carp.framework.common.dict.schedule.ScheduleType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobConfig;
@@ -88,7 +88,7 @@ public class ScheduleJobConfigServiceImpl extends ServiceImpl<ScheduleJobConfigM
     public boolean add(ScheduleJobConfigAddParam param) {
         ScheduleJobConfig entity = new ScheduleJobConfig();
         BeanUtils.copyProperties(param, entity);
-        entity.setType(ScheduleType.USER);
+        entity.setType(CarpScheduleType.USER);
         return save(entity);
     }
 

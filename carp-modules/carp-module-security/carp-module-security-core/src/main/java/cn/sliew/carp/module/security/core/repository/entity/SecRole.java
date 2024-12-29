@@ -18,8 +18,8 @@
 
 package cn.sliew.carp.module.security.core.repository.entity;
 
-import cn.sliew.carp.framework.common.dict.security.SecRoleStatus;
-import cn.sliew.carp.framework.common.dict.security.SecRoleType;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleStatus;
+import cn.sliew.carp.framework.common.dict.security.CarpSecRoleType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -32,7 +32,7 @@ public class SecRole extends BaseAuditDO {
     private static final long serialVersionUID = 2621684597930016649L;
 
     @TableField("type")
-    private SecRoleType type;
+    private CarpSecRoleType type;
 
     @TableField("`code`")
     private String code;
@@ -44,7 +44,7 @@ public class SecRole extends BaseAuditDO {
     private Integer order;
 
     @TableField("`status`")
-    private SecRoleStatus status;
+    private CarpSecRoleStatus status;
 
     @TableField("remark")
     private String remark;
