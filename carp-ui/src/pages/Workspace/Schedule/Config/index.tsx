@@ -1,12 +1,14 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Button, message, Modal, Space, Table, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined, FileSearchOutlined} from "@ant-design/icons";
-import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {history, useIntl} from "@umijs/max";
-import {WorkspaceScheduleAPI} from "@/services/workspace/schedule/typings";
-import {ScheduleConfigService} from "@/services/workspace/schedule/config.service";
-import {ScheduleGroupService} from "@/services/workspace/schedule/group.service";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, message, Modal, Space, Table, Tooltip } from "antd";
+import { DeleteOutlined, EditOutlined, FileSearchOutlined } from "@ant-design/icons";
+import { ActionType, PageContainer, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
+import { history, useIntl } from "@umijs/max";
+import { WorkspaceScheduleAPI } from "@/services/workspace/schedule/typings";
+import { ScheduleConfigService } from "@/services/workspace/schedule/config.service";
+import { ScheduleGroupService } from "@/services/workspace/schedule/group.service";
 import ScheduleConfigForm from "./components/ScheduleConfigForm";
+import { DictService } from "@/services/admin/system/dict.service";
+import { DICT_TYPE } from "@/constants/dictType";
 
 export type ScheduleConfigState = {
   visiable: boolean;
@@ -33,7 +35,7 @@ const WorkspaceScheduleConfig: React.FC = () => {
   }, [scheduleGroups]);
 
   const onDetailClick = (record: WorkspaceScheduleAPI.ScheduleConfig) => {
-    history.push('/workspace/schedule/config', record);
+    history.push('/workspace/schedule/instance', record);
   };
 
   const columns: ProColumns<WorkspaceScheduleAPI.ScheduleConfig>[] = [
@@ -68,6 +70,9 @@ const WorkspaceScheduleConfig: React.FC = () => {
       render: (dom, record, index) => {
         return record.type.label
       },
+      request: (params, props) => {
+        return DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleType)
+      }
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.schedule.config.name' }),
@@ -84,6 +89,9 @@ const WorkspaceScheduleConfig: React.FC = () => {
       render: (dom, record, index) => {
         return record.engineType.label
       },
+      request: (params, props) => {
+        return DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleEngineType)
+      }
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.schedule.config.jobType' }),
@@ -91,6 +99,19 @@ const WorkspaceScheduleConfig: React.FC = () => {
       render: (dom, record, index) => {
         return record.jobType.label
       },
+      request: (params, props) => {
+        return DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleJobType)
+      }
+    },
+    {
+      title: intl.formatMessage({ id: 'pages.workspace.schedule.config.executeType' }),
+      dataIndex: 'executeType',
+      render: (dom, record, index) => {
+        return record.executeType.label
+      },
+      request: (params, props) => {
+        return DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleExecuteType)
+      }
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.schedule.config.handler' }),

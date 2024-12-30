@@ -1,11 +1,13 @@
 import React from 'react';
-import {Form, message} from 'antd';
-import {ModalForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
-import {useIntl} from '@umijs/max';
-import {ModalFormProps} from "@/typings";
-import {WorkspaceScheduleAPI} from "@/services/workspace/schedule/typings";
-import {ScheduleConfigService} from '@/services/workspace/schedule/config.service';
+import { Form, message } from 'antd';
+import { ModalForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import { useIntl } from '@umijs/max';
+import { ModalFormProps } from "@/typings";
+import { WorkspaceScheduleAPI } from "@/services/workspace/schedule/typings";
+import { ScheduleConfigService } from '@/services/workspace/schedule/config.service';
 import { ScheduleGroupService } from '@/services/workspace/schedule/group.service';
+import { DictService } from '@/services/admin/system/dict.service';
+import { DICT_TYPE } from '@/constants/dictType';
 
 export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleConfig>) => {
   const intl = useIntl();
@@ -42,6 +44,7 @@ export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleConfig>) => {
         name: data?.name,
         engineType: data?.engineType.value,
         jobType: data?.jobType.value,
+        executeType: data?.executeType.value,
         handler: data?.handler,
         remark: data?.remark,
       }}
@@ -53,6 +56,7 @@ export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleConfig>) => {
           name: values.name,
           engineType: values.engineType,
           jobType: values.jobType,
+          executeType: values.executeType,
           handler: values.handler,
           remark: values.remark
         };
@@ -88,7 +92,7 @@ export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleConfig>) => {
           return ScheduleGroupService.list().then((response) => {
             if (response.data) {
               return response.data?.map((item) => {
-                return {label: item.name, value: item.id, item: item};
+                return { label: item.name, value: item.id, item: item };
               });
             }
             return []
@@ -99,6 +103,35 @@ export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleConfig>) => {
         name="name"
         label={intl.formatMessage({ id: 'pages.workspace.schedule.config.name' })}
         rules={[{ required: true }, { max: 32 }]}
+      />
+      <ProFormSelect
+        name="engineType"
+        label={intl.formatMessage({ id: 'pages.workspace.schedule.config.engineType' })}
+        rules={[{ required: true }]}
+        allowClear={false}
+        disabled={data?.id ? true : false}
+        request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleEngineType)}
+      />
+      <ProFormSelect
+        name="jobType"
+        label={intl.formatMessage({ id: 'pages.workspace.schedule.config.jobType' })}
+        rules={[{ required: true }]}
+        allowClear={false}
+        disabled={data?.id ? true : false}
+        request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleJobType)}
+      />
+      <ProFormSelect
+        name="executeType"
+        label={intl.formatMessage({ id: 'pages.workspace.schedule.config.executeType' })}
+        rules={[{ required: true }]}
+        allowClear={false}
+        disabled={data?.id ? true : false}
+        request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleExecuteType)}
+      />
+      <ProFormText
+        name="handler"
+        label={intl.formatMessage({ id: 'pages.workspace.schedule.config.handler' })}
+        rules={[{ required: true }]}
       />
       <ProFormTextArea
         name="remark"

@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.service.param;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -34,5 +35,5 @@ public class ScheduleJobInstancePageParam extends PageParam {
     private String name;
 
     @Schema(description = "状态")
-    private String status;
+    private CarpScheduleStatus status;
 }

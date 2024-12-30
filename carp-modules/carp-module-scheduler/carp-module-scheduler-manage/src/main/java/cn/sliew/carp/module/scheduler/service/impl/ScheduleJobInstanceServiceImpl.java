@@ -22,7 +22,6 @@ import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstance;
-import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstanceVO;
 import cn.sliew.carp.module.scheduler.repository.mapper.ScheduleJobInstanceMapper;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobInstanceService;
 import cn.sliew.carp.module.scheduler.service.convert.ScheduleJobInstanceConvert;
@@ -42,8 +41,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.util.Objects;
 
 @Service
 public class ScheduleJobInstanceServiceImpl extends ServiceImpl<ScheduleJobInstanceMapper, ScheduleJobInstance> implements ScheduleJobInstanceService {
@@ -54,7 +52,7 @@ public class ScheduleJobInstanceServiceImpl extends ServiceImpl<ScheduleJobInsta
         LambdaQueryWrapper<ScheduleJobInstance> queryChainWrapper = Wrappers.lambdaQuery(ScheduleJobInstance.class)
                 .eq(ScheduleJobInstance::getJobConfigId, param.getJobConfigId())
                 .like(StringUtils.hasText(param.getName()), ScheduleJobInstance::getName, param.getName())
-                .eq(StringUtils.hasText(param.getStatus()), ScheduleJobInstance::getStatus, param.getStatus())
+                .eq(Objects.nonNull(param.getStatus()), ScheduleJobInstance::getStatus, param.getStatus())
                 .orderByAsc(ScheduleJobInstance::getId);
         Page<ScheduleJobInstance> scheduleJobInstancePage = page(page, queryChainWrapper);
         PageResult<ScheduleJobInstanceDTO> pageResult = new PageResult<>(scheduleJobInstancePage.getCurrent(), scheduleJobInstancePage.getSize(), scheduleJobInstancePage.getTotal());
@@ -66,7 +64,7 @@ public class ScheduleJobInstanceServiceImpl extends ServiceImpl<ScheduleJobInsta
     public List<ScheduleJobInstanceDTO> listAll(ScheduleJobInstanceListParam param) {
         LambdaQueryWrapper<ScheduleJobInstance> queryChainWrapper = Wrappers.lambdaQuery(ScheduleJobInstance.class)
                 .eq(ScheduleJobInstance::getJobConfigId, param.getJobConfigId())
-                .eq(StringUtils.hasText(param.getStatus()), ScheduleJobInstance::getStatus, param.getStatus())
+                .eq(Objects.nonNull(param.getStatus()), ScheduleJobInstance::getStatus, param.getStatus())
                 .orderByAsc(ScheduleJobInstance::getId);
         List<ScheduleJobInstance> list = list(queryChainWrapper);
         return ScheduleJobInstanceConvert.INSTANCE.toDto(list);
@@ -74,8 +72,7 @@ public class ScheduleJobInstanceServiceImpl extends ServiceImpl<ScheduleJobInsta
 
     @Override
     public ScheduleJobInstanceDTO get(Long id) {
-        ScheduleJobInstanceVO entity = baseMapper.get(id);
-        checkNotNull(entity, "schedule job instance not exists for id: " + id);
+        ScheduleJobInstance entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("schedule job instance not exists for id: " + id));
         return ScheduleJobInstanceConvert.INSTANCE.toDto(entity);
     }
 
@@ -83,7 +80,7 @@ public class ScheduleJobInstanceServiceImpl extends ServiceImpl<ScheduleJobInsta
     public boolean add(ScheduleJobInstanceAddParam param) {
         ScheduleJobInstance entity = new ScheduleJobInstance();
         BeanUtils.copyProperties(param, entity);
-        entity.setStatus(CarpScheduleStatus.RUNNING);
+        entity.setStatus(CarpScheduleStatus.STOP);
         return save(entity);
     }
 

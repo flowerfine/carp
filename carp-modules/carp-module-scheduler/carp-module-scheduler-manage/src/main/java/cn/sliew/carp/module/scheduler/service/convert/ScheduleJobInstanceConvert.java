@@ -20,13 +20,14 @@ package cn.sliew.carp.module.scheduler.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstance;
-import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstanceVO;
 import cn.sliew.carp.module.scheduler.service.dto.ScheduleJobInstanceDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.Objects;
 
 @Mapper
 public interface ScheduleJobInstanceConvert extends BaseConvert<ScheduleJobInstance, ScheduleJobInstanceDTO> {
@@ -39,9 +40,8 @@ public interface ScheduleJobInstanceConvert extends BaseConvert<ScheduleJobInsta
         if (StringUtils.hasText(entity.getProps())) {
             dto.setProps(JacksonUtil.toJsonNode(entity.getProps()));
         }
-        if (entity instanceof ScheduleJobInstanceVO) {
-            ScheduleJobInstanceVO instanceVO = (ScheduleJobInstanceVO) entity;
-            dto.setJobConfig(ScheduleJobConfigConvert.INSTANCE.toDto(instanceVO.getJobConfig()));
+        if (Objects.nonNull(entity.getJobConfig())) {
+            dto.setJobConfig(ScheduleJobConfigConvert.INSTANCE.toDto(entity.getJobConfig()));
         }
         return dto;
     }
@@ -52,6 +52,9 @@ public interface ScheduleJobInstanceConvert extends BaseConvert<ScheduleJobInsta
         BeanUtils.copyProperties(dto, entity);
         if (dto.getProps() != null) {
             entity.setProps(dto.getProps().toString());
+        }
+        if (Objects.nonNull(dto.getJobConfig())) {
+            entity.setJobConfigId(dto.getJobConfig().getId());
         }
         return entity;
     }

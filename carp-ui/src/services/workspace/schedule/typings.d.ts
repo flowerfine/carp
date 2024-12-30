@@ -35,6 +35,7 @@ declare namespace WorkspaceScheduleAPI {
     type: Dict;
     engineType: Dict;
     jobType: Dict;
+    executeType: Dict;
     name: string;
     handler: string;
     remark?: string;
@@ -67,7 +68,7 @@ declare namespace WorkspaceScheduleAPI {
 
   export type ScheduleInstance = {
     id: number;
-    jobConfig?: ScheduleConfig;
+    jobConfig: ScheduleConfig;
     name: string;
     cron: string;
     timezone: string;
@@ -76,7 +77,7 @@ declare namespace WorkspaceScheduleAPI {
     props?: Record<string, any>;
     params?: string;
     timeout: string;
-    status?: string;
+    status: Dict;
     remark?: string;
     createTime?: Date;
     updateTime?: Date;

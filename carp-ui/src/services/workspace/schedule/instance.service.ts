@@ -20,14 +20,14 @@ export const ScheduleInstanceService = {
     });
   },
 
-  add: async (row: WorkspaceScheduleAPI.ScheduleInstance) => {
+  add: async (row: Record<string, any>) => {
     return request<ResponseBody<any>>(`${ScheduleInstanceService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
 
-  update: async (row: WorkspaceScheduleAPI.ScheduleInstance) => {
+  update: async (row: Record<string, any>) => {
     return request<ResponseBody<any>>(`${ScheduleInstanceService.url}`, {
       method: 'POST',
       data: row,
@@ -45,6 +45,20 @@ export const ScheduleInstanceService = {
     return request<ResponseBody<any>>(`${ScheduleInstanceService.url}/batch`, {
       method: 'DELETE',
       data: params,
+    });
+  },
+
+  schedule: async (id: number) => {
+    return request<ResponseBody<any>>(`${ScheduleInstanceService.url}/manage/schedule`, {
+      method: 'POST',
+      data: {jobInstanceId: id},
+    });
+  },
+
+  unschedule: async (id: number) => {
+    return request<ResponseBody<any>>(`${ScheduleInstanceService.url}/manage/unschedule`, {
+      method: 'POST',
+      data: {jobInstanceId: id},
     });
   },
 

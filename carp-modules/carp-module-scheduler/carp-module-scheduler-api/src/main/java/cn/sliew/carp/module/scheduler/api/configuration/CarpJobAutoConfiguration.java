@@ -49,7 +49,7 @@ public class CarpJobAutoConfiguration {
     }
 
     @Bean
-    public JobExecutor javaJobExecutor(InMemoryJobHandlerFactoryRegistry jobHandlerFactoryRegistry) {
+    public JobExecutor javaJobExecutor(JobHandlerFactoryRegistry jobHandlerFactoryRegistry) {
         return new JavaJobExecutor(jobHandlerFactoryRegistry, new DefaultJobThreadRepository());
     }
 

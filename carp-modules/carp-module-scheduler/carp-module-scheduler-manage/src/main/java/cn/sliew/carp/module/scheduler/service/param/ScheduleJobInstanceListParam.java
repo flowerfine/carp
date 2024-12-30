@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.service.param;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -30,5 +31,5 @@ public class ScheduleJobInstanceListParam {
     private Long jobConfigId;
 
     @Schema(description = "状态")
-    private String status;
+    private CarpScheduleStatus status;
 }

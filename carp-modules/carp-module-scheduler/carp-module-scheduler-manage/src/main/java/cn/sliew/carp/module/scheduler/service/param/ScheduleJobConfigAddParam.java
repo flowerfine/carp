@@ -20,6 +20,7 @@ package cn.sliew.carp.module.scheduler.service.param;
 
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
+import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +40,10 @@ public class ScheduleJobConfigAddParam {
     @NotNull
     @Schema(description = "任务类型")
     private CarpScheduleJobType jobType;
+
+    @NotNull
+    @Schema(description = "执行类型")
+    private CarpScheduleExecuteType executeType;
 
     @NotBlank
     @Schema(description = "任务名称")

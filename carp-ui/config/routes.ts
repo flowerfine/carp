@@ -214,7 +214,6 @@ export default [
           },
           {
             path: '/workspace/schedule/instance',
-            icon: 'profile',
             component: './Workspace/Schedule/Instance'
           },
         ]

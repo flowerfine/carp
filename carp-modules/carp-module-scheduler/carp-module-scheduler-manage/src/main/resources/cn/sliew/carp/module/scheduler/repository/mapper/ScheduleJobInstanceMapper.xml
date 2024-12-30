@@ -37,9 +37,6 @@
         <result column="timeout" property="timeout" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
-    </resultMap>
-
-    <resultMap id="ScheduleJobInstanceVOMap" extends="BaseResultMap" type="cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstanceVO">
         <association column="job_config_id" property="jobConfig"
                      select="cn.sliew.carp.module.scheduler.repository.mapper.ScheduleJobConfigMapper.get"/>
     </resultMap>
@@ -53,12 +50,5 @@
         update_time,
         job_config_id, `name`, cron, timezone, start_time, end_time, props, params, timeout, `status`, remark
     </sql>
-
-    <select id="get" resultMap="ScheduleJobInstanceVOMap">
-        select
-        <include refid="Base_Column_List"/>
-        from carp_schedule_job_instance
-        where id = #{id}
-    </select>
 
 </mapper>

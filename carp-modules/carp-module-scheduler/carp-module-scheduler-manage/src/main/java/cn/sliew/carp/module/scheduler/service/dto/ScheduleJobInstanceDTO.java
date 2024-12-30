@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.service.dto;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -57,7 +58,7 @@ public class ScheduleJobInstanceDTO extends BaseDTO {
     private Long timeout;
 
     @Schema(description = "状态")
-    private String status;
+    private CarpScheduleStatus status;
 
     @Schema(description = "remark")
     private String remark;

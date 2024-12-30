@@ -18,14 +18,11 @@
 
 package cn.sliew.carp.module.scheduler.repository.mapper;
 
-import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstanceVO;
 import cn.sliew.carp.module.scheduler.repository.entity.ScheduleJobInstance;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ScheduleJobInstanceMapper extends BaseMapper<ScheduleJobInstance> {
 
-    ScheduleJobInstanceVO get(@Param("id") Long id);
 }
