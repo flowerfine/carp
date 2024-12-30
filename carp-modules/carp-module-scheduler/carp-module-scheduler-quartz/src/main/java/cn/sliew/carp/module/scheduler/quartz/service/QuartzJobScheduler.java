@@ -165,10 +165,10 @@ public class QuartzJobScheduler implements JobScheduler, InitializingBean {
         ScheduleJobConfigDTO jobConfig = jobInstanceDTO.getJobConfig();
         try {
             switch (jobConfig.getExecuteType()) {
-                case BEAN:
+                case NATIVE:
                     return ClassUtils.getClass(jobConfig.getHandler());
                 case METHOD:
-                case NATIVE:
+                case BEAN:
                     return QuartzJobHandler.class;
                 default:
                     throw new IllegalArgumentException("unsupported execute type: " + jobConfig.getExecuteType());

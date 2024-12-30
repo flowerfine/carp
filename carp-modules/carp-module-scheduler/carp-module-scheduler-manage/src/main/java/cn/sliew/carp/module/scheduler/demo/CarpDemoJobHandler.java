@@ -21,25 +21,27 @@ package cn.sliew.carp.module.scheduler.demo;
 import cn.sliew.carp.module.scheduler.api.executor.JobContext;
 import cn.sliew.carp.module.scheduler.api.executor.JobHandler;
 import cn.sliew.carp.module.scheduler.api.executor.entity.job.JobExecutionResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class CarpDemoJobHandler implements JobHandler {
 
     @Override
     public JobExecutionResult init(JobContext context) {
-        System.out.println("init");
+        log.info("init");
         return null;
     }
 
     @Override
     public JobExecutionResult execute(JobContext context) {
-        System.out.println("execute");
-        return null;
+        log.info("execute");
+        return JobExecutionResult.SUCCESS;
     }
 
     @Override
     public void destroy(JobContext context) {
-        System.out.println("destroy");
+        log.info("destroy");
     }
 }

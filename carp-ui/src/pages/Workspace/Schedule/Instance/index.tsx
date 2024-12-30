@@ -33,7 +33,7 @@ const WorkspaceScheduleInstance: React.FC = () => {
     }, []);
 
     const onDetailClick = (record: WorkspaceScheduleAPI.ScheduleInstance) => {
-        history.push('/workspace/schedule/config', record);
+        // history.push('/workspace/schedule/config', record);
     };
 
     const onScheduleSwith = (value: boolean, record: WorkspaceScheduleAPI.ScheduleInstance) => {
