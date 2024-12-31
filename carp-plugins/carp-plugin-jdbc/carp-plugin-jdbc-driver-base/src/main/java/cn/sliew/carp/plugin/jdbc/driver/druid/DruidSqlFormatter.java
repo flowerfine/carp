@@ -19,7 +19,7 @@
 
 package cn.sliew.carp.plugin.jdbc.driver.druid;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.plguin.jdbc.api.SqlFormatter;
 import cn.sliew.carp.plugin.jdbc.driver.druid.util.DruidUtil;
 import com.alibaba.druid.sql.SQLUtils;
@@ -27,7 +27,7 @@ import com.alibaba.druid.sql.SQLUtils;
 public class DruidSqlFormatter implements SqlFormatter {
 
     @Override
-    public String format(String sql, DataSourceType dataSourceType) {
+    public String format(String sql, CarpDataSourceType dataSourceType) {
         return SQLUtils.format(sql, DruidUtil.convert(dataSourceType), SQLUtils.DEFAULT_FORMAT_OPTION);
     }
 }

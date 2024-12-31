@@ -19,7 +19,7 @@
 
 package cn.sliew.carp.plugin.jdbc.driver.druid.util;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.modal.jdbc.JdbcDataSourceProperties;
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.pool.DruidDataSource;
@@ -64,7 +64,7 @@ public enum DruidUtil {
         }
     }
 
-    public static DbType convert(DataSourceType jdbcEnum) {
+    public static DbType convert(CarpDataSourceType jdbcEnum) {
         switch (jdbcEnum) {
             case MYSQL:
                 return DbType.mysql;

@@ -19,9 +19,9 @@
 
 package cn.sliew.carp.plguin.jdbc.api;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 
 public interface SqlFormatter {
 
-    String format(String sql, DataSourceType dataSourceType);
+    String format(String sql, CarpDataSourceType dataSourceType);
 }
