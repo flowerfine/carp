@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.api.executor;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.executor.entity.ScheduleResponse;
@@ -26,6 +27,8 @@ import cn.sliew.carp.module.scheduler.api.executor.entity.trigger.TriggerParam;
 import java.util.List;
 
 public interface JobExecutor {
+
+    List<CarpScheduleEngineType> getEngines();
 
     CarpScheduleJobType getType();
 

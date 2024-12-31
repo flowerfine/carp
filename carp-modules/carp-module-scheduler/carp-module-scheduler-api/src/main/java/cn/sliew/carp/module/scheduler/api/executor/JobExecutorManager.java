@@ -17,16 +17,20 @@
  */
 package cn.sliew.carp.module.scheduler.api.executor;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 
 import java.util.List;
+import java.util.Set;
 
 public interface JobExecutorManager {
 
-    List<CarpScheduleJobType> listTypes();
+    List<CarpScheduleEngineType> listEngines();
 
-    List<CarpScheduleExecuteType> listExecutorTypes(CarpScheduleJobType jobType);
+    Set<CarpScheduleJobType> listTypes(CarpScheduleEngineType engineType);
 
-    JobExecutor getExecutor(CarpScheduleJobType jobType);
+    List<CarpScheduleExecuteType> listExecutorTypes(CarpScheduleEngineType engineType, CarpScheduleJobType jobType);
+
+    JobExecutor getExecutor(CarpScheduleEngineType engineType, CarpScheduleJobType jobType);
 }

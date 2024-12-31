@@ -19,6 +19,7 @@
 package cn.sliew.carp.module.scheduler.api.executor;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.executor.entity.ScheduleResponse;
@@ -27,6 +28,7 @@ import cn.sliew.milky.common.exception.Rethrower;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -39,6 +41,11 @@ public class JavaJobExecutor implements JobExecutor {
     public JavaJobExecutor(JobHandlerFactoryRegistry jobHandlerFactoryRegistry, JobThreadRepository jobThreadRepository) {
         this.jobHandlerFactoryRegistry = jobHandlerFactoryRegistry;
         this.jobThreadRepository = jobThreadRepository;
+    }
+
+    @Override
+    public List<CarpScheduleEngineType> getEngines() {
+        return Collections.singletonList(CarpScheduleEngineType.INTERNAL);
     }
 
     @Override

@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.controller;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
@@ -27,10 +28,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @WebLog
 @RestController
@@ -42,16 +45,22 @@ public class CarpJobExecutorController {
     @Autowired
     private ScheduleJobExecutorService scheduleJobExecutorService;
 
-    @GetMapping("types")
-    @Operation(summary = "类型", description = "类型")
-    public List<CarpScheduleJobType> getTypes() {
-        return scheduleJobExecutorService.getTypes();
+    @GetMapping("engines")
+    @Operation(summary = "引擎", description = "引擎")
+    public List<CarpScheduleEngineType> getEngines() {
+        return scheduleJobExecutorService.getEngines();
     }
 
-    @GetMapping("executorTypes")
+    @GetMapping("{engine}/types")
+    @Operation(summary = "类型", description = "类型")
+    public Set<CarpScheduleJobType> getTypes(@PathVariable("engine") CarpScheduleEngineType engineType) {
+        return scheduleJobExecutorService.getTypes(engineType);
+    }
+
+    @GetMapping("{engine}/{type}/executors")
     @Operation(summary = "执行器", description = "执行器")
-    public List<CarpScheduleExecuteType> getExecutorTypes(CarpScheduleJobType jobType) {
-        return scheduleJobExecutorService.getExecutorTypes(jobType);
+    public List<CarpScheduleExecuteType> getExecutorTypes(@PathVariable("engine") CarpScheduleEngineType engineType, @PathVariable("type") CarpScheduleJobType jobType) {
+        return scheduleJobExecutorService.getExecutorTypes(engineType, jobType);
     }
 
 }

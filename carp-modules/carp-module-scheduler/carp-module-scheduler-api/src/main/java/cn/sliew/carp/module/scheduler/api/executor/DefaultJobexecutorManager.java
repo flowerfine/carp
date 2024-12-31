@@ -17,13 +17,12 @@
  */
 package cn.sliew.carp.module.scheduler.api.executor;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -38,20 +37,28 @@ public class DefaultJobexecutorManager implements JobExecutorManager {
     }
 
     @Override
-    public List<CarpScheduleJobType> listTypes() {
-        return executors.stream().map(JobExecutor::getType).collect(Collectors.toList());
+    public List<CarpScheduleEngineType> listEngines() {
+        return Arrays.asList(CarpScheduleEngineType.values());
     }
 
     @Override
-    public List<CarpScheduleExecuteType> listExecutorTypes(CarpScheduleJobType jobType) {
-        return Optional.of(getExecutor(jobType))
+    public Set<CarpScheduleJobType> listTypes(CarpScheduleEngineType engineType) {
+        return executors.stream()
+                .filter(executor -> CollectionUtils.containsAny(executor.getEngines(), engineType))
+                .map(JobExecutor::getType).collect(Collectors.toSet());
+    }
+
+    @Override
+    public List<CarpScheduleExecuteType> listExecutorTypes(CarpScheduleEngineType engineType, CarpScheduleJobType jobType) {
+        return Optional.of(getExecutor(engineType, jobType))
                 .map(JobExecutor::getSupportExecuteTypes)
                 .orElseThrow();
     }
 
     @Override
-    public JobExecutor getExecutor(CarpScheduleJobType jobType) {
+    public JobExecutor getExecutor(CarpScheduleEngineType engineType, CarpScheduleJobType jobType) {
         return executors.stream()
+                .filter(executor -> CollectionUtils.containsAny(executor.getEngines(), engineType))
                 .filter(executor -> Objects.equals(executor.getType(), jobType))
                 .findFirst().orElseThrow();
     }

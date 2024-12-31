@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.scheduler.service.impl;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.api.executor.JobExecutorManager;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ScheduleJobExecutorServiceImpl implements ScheduleJobExecutorService {
@@ -33,12 +35,17 @@ public class ScheduleJobExecutorServiceImpl implements ScheduleJobExecutorServic
     private JobExecutorManager jobExecutorManager;
 
     @Override
-    public List<CarpScheduleJobType> getTypes() {
-        return jobExecutorManager.listTypes();
+    public List<CarpScheduleEngineType> getEngines() {
+        return jobExecutorManager.listEngines();
     }
 
     @Override
-    public List<CarpScheduleExecuteType> getExecutorTypes(CarpScheduleJobType jobType) {
-        return jobExecutorManager.listExecutorTypes(jobType);
+    public Set<CarpScheduleJobType> getTypes(CarpScheduleEngineType engineType) {
+        return jobExecutorManager.listTypes(engineType);
+    }
+
+    @Override
+    public List<CarpScheduleExecuteType> getExecutorTypes(CarpScheduleEngineType engineType, CarpScheduleJobType jobType) {
+        return jobExecutorManager.listExecutorTypes(engineType, jobType);
     }
 }
