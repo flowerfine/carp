@@ -19,8 +19,8 @@ package cn.sliew.carp.module.scheduler.service.impl;
 
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
-import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
-import cn.sliew.carp.module.scheduler.api.executor.JobExecutorManager;
+import cn.sliew.carp.module.scheduler.executor.api.dict.CarpScheduleExecuteType;
+import cn.sliew.carp.module.scheduler.executor.api.executor.JobExecutorManager;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobExecutorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

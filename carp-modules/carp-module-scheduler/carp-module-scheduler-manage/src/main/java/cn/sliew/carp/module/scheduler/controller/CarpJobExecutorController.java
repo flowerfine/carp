@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
+import cn.sliew.carp.module.scheduler.executor.api.dict.CarpScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.service.ScheduleJobExecutorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

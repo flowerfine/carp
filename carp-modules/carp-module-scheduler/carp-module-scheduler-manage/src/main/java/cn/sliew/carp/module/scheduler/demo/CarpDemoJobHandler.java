@@ -18,9 +18,9 @@
 
 package cn.sliew.carp.module.scheduler.demo;
 
-import cn.sliew.carp.module.scheduler.api.executor.JobContext;
-import cn.sliew.carp.module.scheduler.api.executor.JobHandler;
-import cn.sliew.carp.module.scheduler.api.executor.entity.job.JobExecutionResult;
+import cn.sliew.carp.module.scheduler.executor.api.executor.JobContext;
+import cn.sliew.carp.module.scheduler.executor.api.executor.JobHandler;
+import cn.sliew.carp.module.scheduler.executor.api.executor.entity.job.JobExecutionResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

@@ -18,10 +18,10 @@
 
 package cn.sliew.carp.module.scheduler.demo;
 
-import cn.sliew.carp.module.scheduler.api.annotation.CarpJob;
-import cn.sliew.carp.module.scheduler.api.annotation.CarpJobHandler;
-import cn.sliew.carp.module.scheduler.api.executor.JobContext;
-import cn.sliew.carp.module.scheduler.api.executor.entity.job.JobExecutionResult;
+import cn.sliew.carp.module.scheduler.executor.api.executor.JobContext;
+import cn.sliew.carp.module.scheduler.executor.api.executor.entity.job.JobExecutionResult;
+import cn.sliew.carp.module.scheduler.executor.java.annotation.CarpJob;
+import cn.sliew.carp.module.scheduler.executor.java.annotation.CarpJobHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

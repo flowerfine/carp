@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.scheduler.config;
 
-import cn.sliew.carp.module.scheduler.api.annotation.EnableCarpJob;
+import cn.sliew.carp.module.scheduler.executor.java.annotation.EnableCarpJob;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

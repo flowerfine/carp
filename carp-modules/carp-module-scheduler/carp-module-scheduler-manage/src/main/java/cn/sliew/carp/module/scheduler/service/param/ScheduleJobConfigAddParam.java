@@ -20,7 +20,7 @@ package cn.sliew.carp.module.scheduler.service.param;
 
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
-import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
+import cn.sliew.carp.module.scheduler.executor.api.dict.CarpScheduleExecuteType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

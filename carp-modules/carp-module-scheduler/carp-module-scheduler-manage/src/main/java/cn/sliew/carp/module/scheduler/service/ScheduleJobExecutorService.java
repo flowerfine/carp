@@ -20,7 +20,7 @@ package cn.sliew.carp.module.scheduler.service;
 
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
-import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
+import cn.sliew.carp.module.scheduler.executor.api.dict.CarpScheduleExecuteType;
 
 import java.util.List;
 import java.util.Set;

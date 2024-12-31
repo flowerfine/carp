@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleType;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import cn.sliew.carp.module.scheduler.api.dict.CarpScheduleExecuteType;
+import cn.sliew.carp.module.scheduler.executor.api.dict.CarpScheduleExecuteType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

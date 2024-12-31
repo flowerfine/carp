@@ -40,7 +40,7 @@
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-scheduler-api</artifactId>
+            <artifactId>carp-module-scheduler-executor-java</artifactId>
         </dependency>
     </dependencies>
 

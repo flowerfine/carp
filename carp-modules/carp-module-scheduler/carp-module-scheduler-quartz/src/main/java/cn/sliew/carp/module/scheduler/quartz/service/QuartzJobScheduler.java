@@ -19,7 +19,7 @@
 package cn.sliew.carp.module.scheduler.quartz.service;
 
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
-import cn.sliew.carp.module.scheduler.api.scheduler.JobScheduler;
+import cn.sliew.carp.module.scheduler.executor.api.scheduler.JobScheduler;
 import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzJobListener;
 import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzSchedulerListener;
 import cn.sliew.carp.module.scheduler.quartz.service.listener.QuartzTriggerListener;
