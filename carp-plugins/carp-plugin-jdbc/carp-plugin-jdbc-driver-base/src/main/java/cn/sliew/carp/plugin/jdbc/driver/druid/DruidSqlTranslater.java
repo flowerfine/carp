@@ -19,14 +19,14 @@
 
 package cn.sliew.carp.plugin.jdbc.driver.druid;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.plguin.jdbc.api.SqlTranslater;
 import com.alibaba.druid.sql.SQLUtils;
 
 public class DruidSqlTranslater implements SqlTranslater {
 
     @Override
-    public String translate(String sql, DataSourceType source, DataSourceType target) {
+    public String translate(String sql, CarpDataSourceType source, CarpDataSourceType target) {
         switch (source) {
             case ORACLE:
                 return translateOracle(sql, target);
@@ -35,7 +35,7 @@ public class DruidSqlTranslater implements SqlTranslater {
         }
     }
 
-    private String translateOracle(String sql, DataSourceType target) {
+    private String translateOracle(String sql, CarpDataSourceType target) {
         switch (target) {
             case MYSQL:
                 return SQLUtils.translateOracleToMySql(sql);

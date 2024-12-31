@@ -19,9 +19,9 @@
 
 package cn.sliew.carp.plguin.jdbc.api;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 
 public interface SqlTranslater {
 
-    String translate(String sql, DataSourceType source, DataSourceType target);
+    String translate(String sql, CarpDataSourceType source, CarpDataSourceType target);
 }

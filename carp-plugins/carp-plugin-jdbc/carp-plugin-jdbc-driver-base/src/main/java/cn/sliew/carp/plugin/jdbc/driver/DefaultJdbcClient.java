@@ -19,7 +19,7 @@
 
 package cn.sliew.carp.plugin.jdbc.driver;
 
-import cn.sliew.carp.framework.common.dict.datasource.DataSourceType;
+import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.module.datasource.modal.jdbc.JdbcDataSourceProperties;
 import cn.sliew.carp.plguin.jdbc.api.*;
 import cn.sliew.carp.plugin.jdbc.driver.druid.DruidSqlFormatter;
@@ -51,8 +51,8 @@ public class DefaultJdbcClient implements JdbcClient {
     }
 
     @Override
-    public DataSourceType getType() {
-        return DataSourceType.of(properties.getType());
+    public CarpDataSourceType getType() {
+        return CarpDataSourceType.of(properties.getType());
     }
 
     @Override
