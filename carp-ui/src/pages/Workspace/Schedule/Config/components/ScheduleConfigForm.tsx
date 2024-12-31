@@ -6,8 +6,7 @@ import { ModalFormProps } from "@/typings";
 import { WorkspaceScheduleAPI } from "@/services/workspace/schedule/typings";
 import { ScheduleConfigService } from '@/services/workspace/schedule/config.service';
 import { ScheduleGroupService } from '@/services/workspace/schedule/group.service';
-import { DictService } from '@/services/admin/system/dict.service';
-import { DICT_TYPE } from '@/constants/dictType';
+import { ScheduleExecutorService } from '@/services/workspace/schedule/executor.service';
 
 export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleConfig>) => {
   const intl = useIntl();
@@ -110,15 +109,32 @@ export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleConfig>) => {
         rules={[{ required: true }]}
         allowClear={false}
         disabled={data?.id ? true : false}
-        request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleEngineType)}
+        request={() => ScheduleExecutorService.getEngines().then(response => {
+          if (response.data) {
+            return response.data
+          }
+          return []
+        })}
       />
+
       <ProFormSelect
         name="jobType"
         label={intl.formatMessage({ id: 'pages.workspace.schedule.config.jobType' })}
         rules={[{ required: true }]}
         allowClear={false}
         disabled={data?.id ? true : false}
-        request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleJobType)}
+        dependencies={["engineType"]}
+        request={(params, props) => {
+          if (!params.engineType) {
+            return Promise.reject()
+          }
+          return ScheduleExecutorService.getTypes(params.engineType).then(response => {
+            if (response.data) {
+              return response.data
+            }
+            return []
+          })
+        }}
       />
       <ProFormSelect
         name="executeType"
@@ -126,7 +142,18 @@ export default (props: ModalFormProps<WorkspaceScheduleAPI.ScheduleConfig>) => {
         rules={[{ required: true }]}
         allowClear={false}
         disabled={data?.id ? true : false}
-        request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpScheduleExecuteType)}
+        dependencies={["engineType", "jobType"]}
+        request={(params, props) => {
+          if (!params.engineType || !params.jobType) {
+            return Promise.reject()
+          }
+          return ScheduleExecutorService.getExecutors(params.engineType, params.jobType).then(response => {
+            if (response.data) {
+              return response.data
+            }
+            return []
+          })
+        }}
       />
       <ProFormText
         name="handler"

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, message, Modal, Space, Table, Tooltip } from "antd";
 import { DeleteOutlined, EditOutlined, FileSearchOutlined } from "@ant-design/icons";
 import { ActionType, PageContainer, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
-import { history, useIntl } from "@umijs/max";
+import { history, useIntl, useLocation } from "@umijs/max";
 import { WorkspaceScheduleAPI } from "@/services/workspace/schedule/typings";
 import { ScheduleConfigService } from "@/services/workspace/schedule/config.service";
 import { ScheduleGroupService } from "@/services/workspace/schedule/group.service";
@@ -20,6 +20,9 @@ const WorkspaceScheduleConfig: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
 
+  const urlParams = useLocation();
+  const scheduleGroup = urlParams.state as WorkspaceScheduleAPI.ScheduleGroup;
+
   const [selectedRows, setSelectedRows] = useState<WorkspaceScheduleAPI.ScheduleConfig[]>([]);
   const [scheduleConfigFormData, setScheduleConfigFormData] = useState<ScheduleConfigState>({ visiable: false, data: null });
 
@@ -27,12 +30,19 @@ const WorkspaceScheduleConfig: React.FC = () => {
   const [jobGroupId, setJobGroupId] = useState<number>();
 
   useEffect(() => {
-    if (scheduleGroups && scheduleGroups.length > 0) {
-      setJobGroupId(scheduleGroups[0].id)
-      formRef.current?.setFieldValue("jobGroupId", scheduleGroups[0].id)
-      formRef.current?.submit()
+    if (scheduleGroup) {
+      onScheduleGroupChange(scheduleGroup)
+    } else if (scheduleGroups && scheduleGroups.length > 0) {
+      onScheduleGroupChange(scheduleGroups[0])
     }
-  }, [scheduleGroups]);
+  }, [scheduleGroup, scheduleGroups]);
+
+  const onScheduleGroupChange = (value: WorkspaceScheduleAPI.ScheduleGroup) => {
+    setJobGroupId(value.id)
+    formRef.current?.setFieldValue("jobGroupId", value.id)
+    formRef.current?.submit()
+    actionRef.current?.reload()
+  };
 
   const onDetailClick = (record: WorkspaceScheduleAPI.ScheduleConfig) => {
     history.push('/workspace/schedule/instance', record);

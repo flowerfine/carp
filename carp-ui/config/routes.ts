@@ -210,7 +210,7 @@ export default [
             path: '/workspace/schedule/config',
             name: 'config',
             icon: 'profile',
-            component: './Workspace/Schedule/Config'
+            component: './Workspace/Schedule/Config',
           },
           {
             path: '/workspace/schedule/instance',
