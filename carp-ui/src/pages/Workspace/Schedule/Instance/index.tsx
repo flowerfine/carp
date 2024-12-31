@@ -189,7 +189,11 @@ const WorkspaceScheduleInstance: React.FC = () => {
     ];
 
     return (
-        <PageContainer content={intl.formatMessage({ id: 'menu.workspace.schedule.instance.desc' })}>
+        <PageContainer
+          title={intl.formatMessage({ id: 'menu.workspace.schedule.instance' })}
+          content={intl.formatMessage({ id: 'menu.workspace.schedule.instance.desc' })}
+          onBack={() => history.back()}
+        >
             <ProTable<WorkspaceScheduleAPI.ScheduleInstance>
                 search={{
                     labelWidth: 'auto',
