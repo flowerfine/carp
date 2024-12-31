@@ -52,6 +52,8 @@
     - [ ] 授权管理
     - [ ] 同步任务管理
 * 数据服务
+  * [x] 模板管理
+  * [ ] 接口管理
 * 调度管理
   * 通用管理。
     * [x] 分组管理
@@ -74,7 +76,10 @@
   - [ ] 加解密。数据在数据库中加密存储，访问时自动解密
   - [ ] 格式化
 * 插件
-  - [ ] 动态插件
+  - [x] 动态插件
+  - [ ] 插件管理
+  - [ ] 插件接入 spring
+  - [ ] 内部接入
 * 监控告警。集成 prometheus 技术栈，集成 alert-manager 和 grafana
   * [ozhera](https://github.com/XiaoMi/ozhera)
   * [应用实时监控服务ARMS](https://help.aliyun.com/zh/arms/)。阿里云产品
