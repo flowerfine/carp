@@ -40,14 +40,14 @@ const WorkspaceScheduleInstance: React.FC = () => {
         if (value) {
             ScheduleInstanceService.schedule(record.id).then((response) => {
                 if (response.success) {
-                    message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
+                    message.success(intl.formatMessage({ id: 'app.common.operate.enable.success' }));
                     actionRef.current?.reload();
                 }
             });
         } else {
             ScheduleInstanceService.unschedule(record.id).then((response) => {
                 if (response.success) {
-                    message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
+                    message.success(intl.formatMessage({ id: 'app.common.operate.disable.success' }));
                     actionRef.current?.reload();
                 }
             });
