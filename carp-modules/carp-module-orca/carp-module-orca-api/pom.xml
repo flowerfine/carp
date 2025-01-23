@@ -22,14 +22,30 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-module-orca</artifactId>
         <version>0.0.25</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-server</artifactId>
+    <artifactId>carp-module-orca-api</artifactId>
 
     <properties>
-        <maven.deploy.skip>false</maven.deploy.skip>
+        <ulid.version>8.3.0</ulid.version>
+        <rxjava.version>3.1.10</rxjava.version>
+        <shedlock.version>6.2.0</shedlock.version>
+        <vavr.version>0.10.5</vavr.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.javacrumbs.shedlock</groupId>
+                <artifactId>shedlock-bom</artifactId>
+                <version>${shedlock.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -37,48 +53,33 @@
             <artifactId>carp-framework-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-alert</artifactId>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-dag</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.huxhorn.sulky</groupId>
+            <artifactId>de.huxhorn.sulky.ulid</artifactId>
+            <version>${ulid.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-dataservice</artifactId>
+            <groupId>io.reactivex.rxjava3</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>${rxjava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-spring</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-datasource</artifactId>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-provider-jdbc-template</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-http-job</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-orca-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-persistence</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-scheduler-quartz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-security-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-system</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-workflow-internal</artifactId>
+            <groupId>org.pf4j</groupId>
+            <artifactId>pf4j</artifactId>
         </dependency>
     </dependencies>
 

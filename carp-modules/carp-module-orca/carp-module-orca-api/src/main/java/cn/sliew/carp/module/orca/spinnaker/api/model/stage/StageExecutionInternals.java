@@ -1,0 +1,83 @@
+package cn.sliew.carp.module.orca.spinnaker.api.model.stage;
+
+import cn.sliew.carp.module.orca.spinnaker.api.model.SyntheticStageOwner;
+import com.google.common.collect.ImmutableList;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+
+/** Internal helper methods for {@link StageExecution}. */
+class StageExecutionInternals {
+
+  /**
+   * Worker method to get the list of all ancestors (parents and, optionally, prerequisite stages)
+   * of the current stage.
+   *
+   * @param visited list of visited nodes
+   * @param directParentOnly true to only include direct parents of the stage, false to also include
+   *     stages this stage depends on (via requisiteRefIds)
+   * @return list of ancestor stages
+   */
+  static List<StageExecution> getAncestorsImpl(
+      StageExecution stage, Set<String> visited, boolean directParentOnly) {
+    visited.add(stage.getRefId());
+
+    if (!stage.getRequisiteStageRefIds().isEmpty() && !directParentOnly) {
+      // Get stages this stage depends on via requisiteStageRefIds:
+      List<StageExecution> previousStages =
+          stage.getPipelineExecution().getStages().stream()
+              .filter(it -> stage.getRequisiteStageRefIds().contains(it.getRefId()))
+              .filter(it -> !visited.contains(it.getRefId()))
+              .collect(toList());
+      List<StageExecution> syntheticStages =
+          stage.getPipelineExecution().getStages().stream()
+              .filter(
+                  s ->
+                      previousStages.stream()
+                          .map(StageExecution::getId)
+                          .anyMatch(id -> id.equals(s.getParentStageId())))
+              .collect(toList());
+      return ImmutableList.<StageExecution>builder()
+          .addAll(previousStages)
+          .addAll(syntheticStages)
+          .addAll(
+              previousStages.stream()
+                  .flatMap(it -> getAncestorsImpl(it, visited, directParentOnly).stream())
+                  .collect(toList()))
+          .build();
+    } else if (stage.getParentStageId() != null && !visited.contains(stage.getParentStageId())) {
+      // Get parent stages, but exclude already visited ones:
+
+      List<StageExecution> ancestors = new ArrayList<>();
+      if (stage.getSyntheticStageOwner() == SyntheticStageOwner.STAGE_AFTER) {
+        ancestors.addAll(
+            stage.getPipelineExecution().getStages().stream()
+                .filter(
+                    it ->
+                        stage.getParentStageId().equals(it.getParentStageId())
+                            && it.getSyntheticStageOwner() == SyntheticStageOwner.STAGE_BEFORE)
+                .collect(toList()));
+      }
+
+      ancestors.addAll(
+          stage.getPipelineExecution().getStages().stream()
+              .filter(it -> it.getId().equals(stage.getParentStageId()))
+              .findFirst()
+              .<List<StageExecution>>map(
+                  parent ->
+                      ImmutableList.<StageExecution>builder()
+                          .add(parent)
+                          .addAll(getAncestorsImpl(parent, visited, directParentOnly))
+                          .build())
+              .orElse(emptyList()));
+
+      return ancestors;
+    } else {
+      return emptyList();
+    }
+  }
+}
