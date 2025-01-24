@@ -22,7 +22,10 @@ import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionType;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecutionImpl;
 import cn.sliew.carp.module.orca.spinnaker.api.model.trigger.Trigger;
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.huxhorn.sulky.ulid.ULID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -71,7 +74,6 @@ public class PipelineExecutionImpl implements PipelineExecution, Serializable {
     private Map<String, Object> templateVariables = null;
     private String partition = null;
     private ExecutionStatus status = ExecutionStatus.NOT_STARTED;
-    @JsonManagedReference
     private List<StageExecution> stages = new ArrayList<>();
 
     @JsonCreator
@@ -82,7 +84,7 @@ public class PipelineExecutionImpl implements PipelineExecution, Serializable {
         this.name = name;
     }
 
-    @JsonIgnoreProperties(value = "execution")
+    @JsonIgnoreProperties(value = "pipelineExecution")
     public List<StageExecution> getStages() {
         return stages;
     }

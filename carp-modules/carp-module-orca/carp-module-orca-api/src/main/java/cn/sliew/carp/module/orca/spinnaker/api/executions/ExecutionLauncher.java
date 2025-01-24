@@ -175,7 +175,8 @@ public class ExecutionLauncher {
 
     private PipelineExecution parsePipeline(Map<String, Object> config) {
         // TODO: can we not just annotate the class properly to avoid all this?
-        return new PipelineBuilder(getString(config, "namespace"))
+        return new PipelineBuilder(getString(config, "name"))
+                .withNamespace(getString(config, "namespace"))
                 .withName(getString(config, "name"))
                 .withPipelineConfigId(getString(config, "id"))
                 .withTrigger(objectMapper.convertValue(config.get("trigger"), Trigger.class))
@@ -234,7 +235,8 @@ public class ExecutionLauncher {
      */
     private void persistExecution(PipelineExecution execution) {
         applicationEventPublisher.publishEvent(new BeforeInitialExecutionPersist(this, execution));
-        executionRepository.store(execution);
+        Long id = executionRepository.store(execution);
+        ((PipelineExecutionImpl) execution).setId(id);
     }
 
     private static boolean getBoolean(Map<String, ?> map, String key) {

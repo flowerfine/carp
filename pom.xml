@@ -22,7 +22,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-spring-boot-parent</artifactId>
-        <version>0.0.37</version>
+        <version>0.0.38</version>
     </parent>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>

@@ -19,9 +19,8 @@ package cn.sliew.carp.module.orca.config;
 
 import cn.sliew.carp.module.orca.spinnaker.api.executions.ExecutionRunner;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.StageDefinitionBuilder;
+import cn.sliew.carp.module.orca.spinnaker.api.model.jackson.OrcaModule;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.Task;
-import cn.sliew.carp.module.orca.spinnaker.api.persistence.ExecutionRepository;
-import cn.sliew.carp.module.orca.spinnaker.api.persistence.InMemoryExecutionRepository;
 import cn.sliew.carp.module.orca.spinnaker.api.resolver.*;
 import cn.sliew.carp.module.orca.spinnaker.keiko.core.Queue;
 import cn.sliew.carp.module.orca.spinnaker.kork.expressions.ExpressionFunctionProvider;
@@ -30,7 +29,10 @@ import cn.sliew.carp.module.orca.spinnaker.orca.core.pipeline.util.ContextParame
 import cn.sliew.carp.module.orca.spinnaker.orca.queue.QueueExecutionRunner;
 import cn.sliew.carp.module.orca.spinnaker.orca.queue.pending.InMemoryPendingExecutionService;
 import cn.sliew.carp.module.orca.spinnaker.orca.queue.pending.PendingExecutionService;
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,16 +43,22 @@ import java.util.List;
 
 @Slf4j
 @Configuration
-public class SpinnakerOrcaConfig {
+public class SpinnakerOrcaConfig implements InitializingBean {
 
     public static final String IN_MEMORY_EXECUTION_REPOSITORY = "in-memory-execution-repository";
     public static final String QUEUE_EVENT_PUBLISHER = "queueEventPublisher";
     public static final String CANCELLABLE_STAGE_EXECUTOR = "cancellable-stage-executor";
 
-    @Bean(IN_MEMORY_EXECUTION_REPOSITORY)
-    public ExecutionRepository inMemoryExecutionRepository() {
-        return new InMemoryExecutionRepository();
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        ObjectMapper mapper = JacksonUtil.getMapper();
+        mapper.registerModule(new OrcaModule());
     }
+
+    //    @Bean(IN_MEMORY_EXECUTION_REPOSITORY)
+//    public ExecutionRepository inMemoryExecutionRepository() {
+//        return new InMemoryExecutionRepository();
+//    }
 
     @Bean
     public DefaultStageResolver defaultStageResolver(

@@ -34,6 +34,11 @@ public class PipelineBuilder {
         pipeline = PipelineExecutionImpl.newPipeline(name);
     }
 
+    public PipelineBuilder withNamespace(String namespace) {
+        pipeline.setNamespace(namespace);
+        return this;
+    }
+
     public PipelineBuilder withName(String name) {
         pipeline.setName(name);
         return this;

@@ -31,11 +31,11 @@ public interface ExecutionRepository {
 
     Observable<PipelineExecution> retrieve(ExecutionType type);
 
-    void store(PipelineExecution execution);
+    Long store(PipelineExecution execution);
 
-    void storeStage(StageExecution stage);
+    Long storeStage(StageExecution stage);
 
-    void addStage(StageExecution stage);
+    Long addStage(StageExecution stage);
 
     void removeStage(PipelineExecution execution, Long stageId);
 

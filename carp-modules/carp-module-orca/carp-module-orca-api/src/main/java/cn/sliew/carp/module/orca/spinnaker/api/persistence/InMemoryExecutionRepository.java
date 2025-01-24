@@ -53,7 +53,7 @@ public class InMemoryExecutionRepository implements ExecutionRepository {
     }
 
     @Override
-    public void store(PipelineExecution execution) {
+    public Long store(PipelineExecution execution) {
         Map<Long, PipelineExecution> map = storageFor(execution.getType());
         if (Objects.isNull(execution.getId())) {
             ((PipelineExecutionImpl) execution).setId(COUNTER.incrementAndGet());
@@ -64,16 +64,17 @@ public class InMemoryExecutionRepository implements ExecutionRepository {
             });
         }
         map.put(execution.getId(), execution);
+        return execution.getId();
     }
 
     @Override
-    public void storeStage(StageExecution stage) {
-
+    public Long storeStage(StageExecution stage) {
+        return stage.getId();
     }
 
     @Override
-    public void addStage(StageExecution stage) {
-
+    public Long addStage(StageExecution stage) {
+        return stage.getId();
     }
 
     @Override
