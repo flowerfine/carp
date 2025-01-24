@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.orca.core.persistence.sql;
 
-import cn.sliew.carp.framework.dag.service.CarpDagOrcaPipelineService;
+import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.orca.CarpDagOrcaPipelineDTO;
 import cn.sliew.carp.framework.dag.service.param.orca.CarpDagOrcaPipelineAddParam;
 import cn.sliew.carp.framework.dag.service.param.orca.CarpDagOrcaPipelineStageAddParam;
@@ -41,6 +41,10 @@ import java.util.Optional;
 public class SqlExecutionRepository implements ExecutionRepository {
 
     private CarpDagOrcaPipelineService carpDagOrcaPipelineService;
+    private DagConfigService dagConfigService;
+    private DagConfigStepService dagConfigStepService;
+    private DagConfigLinkService dagConfigLinkService;
+
 
     public SqlExecutionRepository(CarpDagOrcaPipelineService carpDagOrcaPipelineService) {
         this.carpDagOrcaPipelineService = carpDagOrcaPipelineService;

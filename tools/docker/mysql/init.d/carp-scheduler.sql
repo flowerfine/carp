@@ -49,6 +49,9 @@ INSERT INTO `carp_schedule_job_config` (`id`, `job_group_id`, `type`, `engine_ty
                                         `name`, `handler`, `remark`, `creator`, `editor`)
 VALUES (2, 1, '0', 'internal', '0', 'bean', 'demo-bean', 'cn.sliew.carp.module.scheduler.demo.CarpDemoJobHandler',
         NULL, 'sys', 'sys');
+INSERT INTO `carp_schedule_job_config` (`id`, `job_group_id`, `type`, `engine_type`, `job_type`, `execute_type`, `name`,
+                                        `handler`, `remark`, `creator`, `editor`)
+VALUES (3, 2, '1', 'orca', '1', 'native', 'demo-orca', 'sss', NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS `carp_schedule_job_instance`;
 CREATE TABLE `carp_schedule_job_instance`

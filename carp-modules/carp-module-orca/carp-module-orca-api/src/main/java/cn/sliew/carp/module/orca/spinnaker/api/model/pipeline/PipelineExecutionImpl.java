@@ -56,7 +56,7 @@ public class PipelineExecutionImpl implements PipelineExecution, Serializable {
     private String name;
     private String remark;
     private String origin;
-    private String pipelineConfigId;
+    private Long pipelineConfigId;
     private boolean limitConcurrent = false;
     private int maxConcurrentExecutions = 0;
     private boolean keepWaitingPipelines = false;

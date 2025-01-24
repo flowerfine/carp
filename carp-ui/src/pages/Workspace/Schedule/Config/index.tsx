@@ -70,7 +70,7 @@ const WorkspaceScheduleConfig: React.FC = () => {
       fieldProps: (form, config) => {
         return {
           allowClear: false,
-          onChange: (value: WorkspaceScheduleAPI.ScheduleGroup) => setJobGroupId(value.id)
+          onChange: (value: number) => setJobGroupId(value)
         }
       }
     },

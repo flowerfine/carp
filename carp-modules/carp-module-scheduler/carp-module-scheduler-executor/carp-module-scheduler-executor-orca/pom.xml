@@ -22,17 +22,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-module-scheduler</artifactId>
+        <artifactId>carp-module-scheduler-executor</artifactId>
         <version>0.0.26</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-scheduler-executor</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-scheduler-executor-orca</artifactId>
 
-    <modules>
-        <module>carp-module-scheduler-executor-api</module>
-        <module>carp-module-scheduler-executor-java</module>
-        <module>carp-module-scheduler-executor-orca</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-scheduler-executor-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-orca-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

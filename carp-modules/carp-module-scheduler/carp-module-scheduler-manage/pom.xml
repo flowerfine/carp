@@ -42,6 +42,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-scheduler-executor-java</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-scheduler-executor-orca</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
