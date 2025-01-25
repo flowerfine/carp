@@ -91,7 +91,7 @@ public class RestartStageHandler extends AbstractOrcaMessageHandler<Messages.Res
                     }
                     ((PipelineExecutionImpl) topStage.getPipelineExecution()).setStatus(ExecutionStatus.NOT_STARTED);
                     getRepository().updateStatus(topStage.getPipelineExecution());
-                    String pipelineConfigId = stage.getPipelineExecution().getPipelineConfigId();
+                    Long pipelineConfigId = stage.getPipelineExecution().getPipelineConfigId();
                     if (pipelineConfigId != null) {
                         log.info("Queueing restart of {} {} {}",
                                 stage.getPipelineExecution().getNamespace(),

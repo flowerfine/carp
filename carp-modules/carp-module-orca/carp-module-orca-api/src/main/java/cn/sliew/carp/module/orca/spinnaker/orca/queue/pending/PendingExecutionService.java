@@ -24,15 +24,15 @@ import java.util.function.Consumer;
 
 public interface PendingExecutionService {
 
-    void enqueue(String pipelineConfigId, Message message);
+    void enqueue(Long pipelineConfigId, Message message);
 
-    Message popOldest(String pipelineConfigId);
+    Message popOldest(Long pipelineConfigId);
 
-    Message popNewest(String pipelineConfigId);
+    Message popNewest(Long pipelineConfigId);
 
-    void purge(String pipelineConfigId, Consumer<Message> callback);
+    void purge(Long pipelineConfigId, Consumer<Message> callback);
 
-    int depth(String pipelineConfigId);
+    int depth(Long pipelineConfigId);
 
-    List<String> pendingIds();
+    List<Long> pendingIds();
 }

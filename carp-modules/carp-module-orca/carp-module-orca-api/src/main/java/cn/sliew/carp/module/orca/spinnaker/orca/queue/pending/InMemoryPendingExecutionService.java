@@ -29,15 +29,15 @@ import java.util.function.Consumer;
 
 public class InMemoryPendingExecutionService implements PendingExecutionService {
 
-    private final Map<String, Deque<Message>> pending = new ConcurrentHashMap<>();
+    private final Map<Long, Deque<Message>> pending = new ConcurrentHashMap<>();
 
     @Override
-    public void enqueue(String pipelineConfigId, Message message) {
+    public void enqueue(Long pipelineConfigId, Message message) {
         pendingFor(pipelineConfigId).addLast(message);
     }
 
     @Override
-    public Message popOldest(String pipelineConfigId) {
+    public Message popOldest(Long pipelineConfigId) {
         Deque<Message> deque = pendingFor(pipelineConfigId);
         if (CollectionUtils.isEmpty(deque)) {
             return null;
@@ -47,7 +47,7 @@ public class InMemoryPendingExecutionService implements PendingExecutionService 
     }
 
     @Override
-    public Message popNewest(String pipelineConfigId) {
+    public Message popNewest(Long pipelineConfigId) {
         Deque<Message> deque = pendingFor(pipelineConfigId);
         if (CollectionUtils.isEmpty(deque)) {
             return null;
@@ -57,7 +57,7 @@ public class InMemoryPendingExecutionService implements PendingExecutionService 
     }
 
     @Override
-    public void purge(String pipelineConfigId, Consumer<Message> callback) {
+    public void purge(Long pipelineConfigId, Consumer<Message> callback) {
         Deque<Message> deque = pendingFor(pipelineConfigId);
         while (CollectionUtils.isNotEmpty(deque)) {
             callback.accept(deque.removeFirst());
@@ -65,16 +65,16 @@ public class InMemoryPendingExecutionService implements PendingExecutionService 
     }
 
     @Override
-    public int depth(String pipelineConfigId) {
+    public int depth(Long pipelineConfigId) {
         return pendingFor(pipelineConfigId).size();
     }
 
     @Override
-    public List<String> pendingIds() {
+    public List<Long> pendingIds() {
         return pending.keySet().stream().toList();
     }
 
-    private Deque<Message> pendingFor(String pipelineConfigId) {
+    private Deque<Message> pendingFor(Long pipelineConfigId) {
         return pending.computeIfAbsent(pipelineConfigId, key -> new LinkedList<>());
     }
 }

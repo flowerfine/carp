@@ -178,7 +178,7 @@ public class ExecutionLauncher {
         return new PipelineBuilder(getString(config, "name"))
                 .withNamespace(getString(config, "namespace"))
                 .withName(getString(config, "name"))
-                .withPipelineConfigId(getString(config, "id"))
+                .withPipelineConfigId(Long.parseLong(getString(config, "id")))
                 .withTrigger(objectMapper.convertValue(config.get("trigger"), Trigger.class))
                 .withStages(getList(config, "stages"))
                 .withLimitConcurrent(getBoolean(config, "limitConcurrent"))

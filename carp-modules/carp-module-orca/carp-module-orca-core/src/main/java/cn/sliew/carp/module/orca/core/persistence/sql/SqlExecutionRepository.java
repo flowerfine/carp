@@ -72,7 +72,7 @@ public class SqlExecutionRepository implements ExecutionRepository {
             updateParam.setUuid(execution.getUuid());
             updateParam.setNamespace(execution.getNamespace());
             updateParam.setType(execution.getType().name());
-            updateParam.setConfigId(execution.getPipelineConfigId());
+//            updateParam.setConfigId(execution.getPipelineConfigId());
             updateParam.setName(execution.getName());
             updateParam.setStatus(execution.getStatus().name());
             updateParam.setBuildTime(execution.getBuildTime().toEpochMilli());
@@ -88,7 +88,7 @@ public class SqlExecutionRepository implements ExecutionRepository {
             addParam.setUuid(execution.getUuid());
             addParam.setNamespace(execution.getNamespace());
             addParam.setType(execution.getType().name());
-            addParam.setConfigId(execution.getPipelineConfigId());
+//            addParam.setConfigId(execution.getPipelineConfigId());
             addParam.setName(execution.getName());
             addParam.setBody(JacksonUtil.toJsonNode(execution));
             addParam.setRemark(execution.getRemark());

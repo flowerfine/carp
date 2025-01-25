@@ -83,7 +83,7 @@ public class CompleteExecutionHandler extends AbstractOrcaMessageHandler<Message
                     execution.getId(), execution.getStatus(), execution.isLimitConcurrent());
 
             if (execution.getStatus() != ExecutionStatus.RUNNING) {
-                String configId = execution.getPipelineConfigId();
+                Long configId = execution.getPipelineConfigId();
                 if (configId != null) {
                     getQueue().push(new Messages.StartWaitingExecutions(
                             configId,

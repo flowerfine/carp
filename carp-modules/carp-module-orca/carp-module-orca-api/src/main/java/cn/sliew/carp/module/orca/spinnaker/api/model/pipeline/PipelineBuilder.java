@@ -49,7 +49,7 @@ public class PipelineBuilder {
         return this;
     }
 
-    public PipelineBuilder withPipelineConfigId(String id) {
+    public PipelineBuilder withPipelineConfigId(Long id) {
         pipeline.setPipelineConfigId(id);
         return this;
     }

@@ -145,7 +145,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("startWaitingExecutions")
     public static class StartWaitingExecutions extends Message {
-        private String pipelineConfigId;
+        private Long pipelineConfigId;
         private Boolean purgeQueue;
     }
 

@@ -64,7 +64,7 @@ public class StartExecutionHandler extends AbstractOrcaMessageHandler<Messages.S
             if (execution.getStatus() == ExecutionStatus.NOT_STARTED
                     || execution.isCanceled() == false) {
                 if (shouldQueue(execution)) {
-                    if (StringUtils.hasText(execution.getPipelineConfigId())) {
+                    if (execution.getPipelineConfigId() != null) {
                         log.info("Queueing {} {} {}", execution.getNamespace(), execution.getName(), execution.getId());
                         pendingExecutionService.enqueue(execution.getPipelineConfigId(), message);
                     }
@@ -102,7 +102,7 @@ public class StartExecutionHandler extends AbstractOrcaMessageHandler<Messages.S
     private void terminate(PipelineExecution execution) {
         if (execution.getStatus() == ExecutionStatus.CANCELED || execution.isCanceled()) {
             publisher.publishEvent(new ExecutionComplete(this, execution));
-            String pipelineConfigId = execution.getPipelineConfigId();
+            Long pipelineConfigId = execution.getPipelineConfigId();
             if (pipelineConfigId != null) {
                 getQueue().push(new Messages.StartWaitingExecutions(pipelineConfigId, !execution.isKeepWaitingPipelines()));
             }

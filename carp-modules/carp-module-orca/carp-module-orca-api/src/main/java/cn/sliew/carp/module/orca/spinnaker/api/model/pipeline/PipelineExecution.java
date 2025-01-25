@@ -47,7 +47,7 @@ public interface PipelineExecution {
 
     String getOrigin();
 
-    String getPipelineConfigId();
+    Long getPipelineConfigId();
 
     boolean isLimitConcurrent();
 
