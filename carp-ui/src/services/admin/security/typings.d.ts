@@ -33,6 +33,24 @@ declare namespace AdminSecurityAPI {
     expireTime?: bigint;
   };
 
+  type SecDept = {
+    id?: number;
+    code: string;
+    name: string;
+    pid: number;
+    status: Dict;
+    remark?: string;
+    createTime?: Date;
+    updateTime?: Date;
+  };
+
+  type SecDeptParam = QueryParam & {
+    code?: string;
+    name?: string;
+    pid?: string;
+    status?: string;
+  };
+
   type SecUser = {
     id?: number;
     type?: Dict;

@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.security.core.service.param;
 
+import cn.sliew.carp.framework.common.dict.security.CarpSecDeptStatus;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -35,4 +36,7 @@ public class SecDeptListParam extends PageParam {
 
     @Schema(description = "上级部门id")
     private Long pid;
+
+    @Schema(description = "状态")
+    private CarpSecDeptStatus status;
 }

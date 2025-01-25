@@ -333,6 +333,16 @@ export default [
         icon: 'apartment',
         routes: [
           {
+            path: '/admin/security',
+            redirect: '/admin/security/dept',
+          },
+          {
+            name: 'dept',
+            path: '/admin/security/dept',
+            icon: 'apartment',
+            component: './Admin/Security/Dept',
+          },
+          {
             name: 'user',
             path: '/admin/security/user',
             icon: 'user',

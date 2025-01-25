@@ -1,64 +1,49 @@
-import React, { useRef, useState } from 'react';
-import { Button, message, Modal, Space, Table, Tag, Tooltip } from "antd";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { ActionType, PageContainer, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
-import { history, useAccess, useIntl } from "@umijs/max";
-import { AdminSecurityAPI } from "@/services/admin/security/typings";
-import { ResourceWebService } from '@/services/admin/security/resourceWeb.service';
-import SecurityResourceWebForm from './components/SecurityResourceWebForm';
-import { isEmpty } from 'lodash';
+import React, {useRef, useState} from 'react';
+import {Button, message, Modal, Space, Table, Tag, Tooltip} from "antd";
+import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {history, useAccess, useIntl} from "@umijs/max";
+import {AdminSecurityAPI} from "@/services/admin/security/typings";
+import {DictService} from "@/services/admin/system/dict.service";
+import {DICT_TYPE} from "@/constants/dictType";
+import {DeptService} from '@/services/admin/security/dept.service';
+import SecurityDeptForm from './components/SecurityDeptForm';
 
-export type SecurityResourceWebState = {
+export type SecurityDeptState = {
   visiable: boolean;
-  data?: AdminSecurityAPI.SecResourceWeb | null;
-  parent?: AdminSecurityAPI.SecResourceWeb | null;
+  data?: AdminSecurityAPI.SecDept | null;
+  parent?: AdminSecurityAPI.SecDept | null;
 }
 
-const AdminSecurityResourceWebWeb: React.FC = () => {
+const AdminSecurityDeptWeb: React.FC = () => {
   const intl = useIntl();
   const access = useAccess();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<AdminSecurityAPI.SecResourceWeb[]>([]);
-  const [resourceWebFormData, setResourceWebFormData] = useState<SecurityResourceWebState>({ visiable: false, data: null, parent: null });
+  const [selectedRows, setSelectedRows] = useState<AdminSecurityAPI.SecDept[]>([]);
+  const [deptFormData, setDeptFormData] = useState<SecurityDeptState>({ visiable: false, data: null, parent: null });
 
-  const columns: ProColumns<AdminSecurityAPI.SecResourceWeb>[] = [
+  const columns: ProColumns<AdminSecurityAPI.SecDept>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.admin.security.resource.web.type' }),
-      dataIndex: 'type',
-      render: (dom, entity) => {
-        return <Tag>{entity.type?.label}</Tag>;
-      },
-      fixed: 'left',
-      hideInSearch: true,
+      title: intl.formatMessage({ id: 'pages.admin.security.dept.name' }),
+      dataIndex: 'name',
+      width: 200,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.security.resource.web.value' }),
-      dataIndex: 'value',
-      hideInSearch: true,
+      title: intl.formatMessage({ id: 'pages.admin.security.dept.code' }),
+      dataIndex: 'code',
+      width: 200,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.security.resource.web.label' }),
-      dataIndex: 'label',
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.resource.web.path' }),
-      dataIndex: 'path',
-      hideInSearch: true,
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.resource.web.order' }),
-      dataIndex: 'order',
-      hideInSearch: true,
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.resource.web.status' }),
+      title: intl.formatMessage({ id: 'pages.admin.security.dept.status' }),
       dataIndex: 'status',
-      width: 120,
       render: (dom, entity) => {
         return <Tag>{entity.status?.label}</Tag>;
       },
-      hideInSearch: true,
+      request: (params, props) => {
+        return DictService.listInstanceByDefinition(DICT_TYPE.carpSecDeptStatus)
+      },
+      width: 200,
     },
     {
       title: intl.formatMessage({ id: 'app.common.data.remark' }),
@@ -93,7 +78,7 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
               type="link"
               icon={<PlusOutlined />}
               onClick={() =>
-                setResourceWebFormData({ visiable: true, parent: record, data: null })
+                setDeptFormData({ visiable: true, parent: record, data: null })
               }
             />
           </Tooltip>
@@ -102,9 +87,8 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
               shape="default"
               type="link"
               icon={<EditOutlined />}
-              disabled={record.type?.value == '01'}
               onClick={() => {
-                setResourceWebFormData({ visiable: true, data: record });
+                setDeptFormData({ visiable: true, data: record });
               }}
             />
           </Tooltip>
@@ -114,7 +98,6 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
               type="link"
               danger
               icon={<DeleteOutlined />}
-              disabled={record.type?.value == '01'}
               onClick={() => {
                 Modal.confirm({
                   title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
@@ -123,7 +106,7 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
                   okButtonProps: { danger: true },
                   cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                   onOk() {
-                    ResourceWebService.delete(record).then((response) => {
+                    DeptService.delete(record).then((response) => {
                       if (response.success) {
                         message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
                         actionRef.current?.reload();
@@ -140,8 +123,8 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
   ];
 
   return (
-    <PageContainer content={intl.formatMessage({ id: 'menu.admin.security.resource.web.desc' })}>
-      <ProTable<AdminSecurityAPI.SecResourceWeb>
+    <PageContainer content={intl.formatMessage({ id: 'menu.admin.security.dept.desc' })}>
+      <ProTable<AdminSecurityAPI.SecDept>
         search={{
           labelWidth: 'auto',
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
@@ -159,7 +142,7 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
           },
         }}
         request={(params, sorter, filter) => {
-          return ResourceWebService.page(params);
+          return DeptService.page(params);
         }}
         toolbar={{
           actions: [
@@ -167,7 +150,7 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                setResourceWebFormData({ visiable: true, data: null });
+                setDeptFormData({ visiable: true, data: null, parent: null });
               }}
             >
               {intl.formatMessage({ id: 'app.common.operate.new.label' })}
@@ -186,7 +169,7 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
                   okButtonProps: { danger: true },
                   cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
                   onOk() {
-                    ResourceWebService.deleteBatch(selectedRows).then((response) => {
+                    DeptService.deleteBatch(selectedRows).then((response) => {
                       if (response.success) {
                         message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
                         actionRef.current?.reload();
@@ -202,16 +185,16 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
         }}
       />
 
-      {resourceWebFormData.visiable ? (
-        <SecurityResourceWebForm
-          visible={resourceWebFormData.visiable}
-          data={resourceWebFormData.data}
-          parent={resourceWebFormData.parent}
+      {deptFormData.visiable ? (
+        <SecurityDeptForm
+          visible={deptFormData.visiable}
+          data={deptFormData.data}
+          parent={deptFormData.parent}
           onCancel={() => {
-            setResourceWebFormData({ visiable: false, data: null });
+            setDeptFormData({ visiable: false, data: null });
           }}
           onFinish={(values) => {
-            setResourceWebFormData({ visiable: false, data: null });
+            setDeptFormData({ visiable: false, data: null });
             actionRef.current?.reload();
           }}
         />
@@ -222,4 +205,4 @@ const AdminSecurityResourceWebWeb: React.FC = () => {
   );
 }
 
-export default AdminSecurityResourceWebWeb;
+export default AdminSecurityDeptWeb;

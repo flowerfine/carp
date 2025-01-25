@@ -25,7 +25,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("sec_dept")
+@TableName("carp_sec_dept")
 public class SecDept extends BaseAuditDO {
 
     private static final long serialVersionUID = -6268620152048177679L;

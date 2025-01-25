@@ -97,6 +97,7 @@ public class SecDeptServiceImpl extends ServiceImpl<SecDeptMapper, SecDept> impl
 
     @Override
     public boolean delete(Long id) {
+        // fixme 删除操作需同步处理子级资源，还有关联的信息
         return removeById(id);
     }
 

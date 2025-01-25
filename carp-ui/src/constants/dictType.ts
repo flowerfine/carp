@@ -2,6 +2,7 @@ export const DICT_TYPE = {
   yesNo: 'carp_yes_or_no',
   carpSecApplicationType: "carp_sec_application_type",
   carpSecApplicationStatus: "carp_sec_application_status",
+  carpSecDeptStatus: "carp_sec_dept_status",
   carpSecUserType: "carp_sec_user_type",
   carpSecUserStatus: "carp_sec_user_status",
   carpSecRoleType: "carp_sec_role_type",

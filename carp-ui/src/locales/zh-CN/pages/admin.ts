@@ -1,4 +1,11 @@
 export default {
+  
+  'pages.admin.security.dept': '部门',
+  'pages.admin.security.dept.name': '名称',
+  'pages.admin.security.dept.code': '部门标识',
+  'pages.admin.security.dept.status': '状态',
+  'pages.admin.security.dept.pid': '父级部门',
+
   'pages.admin.security.user': '用户',
   'pages.admin.security.user.type': '用户类型',
   'pages.admin.security.user.userName': '用户名',
@@ -61,11 +68,7 @@ export default {
   'pages.admin.security.authorization.resourceWeb2Roles.authorized': '已授权角色',
   'pages.admin.security.authorization.resourceWeb2Roles.unauthorized': '未授权角色',
 
-  'pages.admin.dept': '部门管理',
-  'pages.admin.dept.deptName': '名称',
-  'pages.admin.dept.deptCode': '部门标识',
-  'pages.admin.dept.deptStatus': '状态',
-  'pages.admin.dept.pid': '父级部门',
+
 
   'pages.admin.user.role': '角色',
   'pages.admin.user.role.roleCode': '角色编码',

@@ -66,9 +66,10 @@ export default {
 
   'menu.admin': '系统管理',
   'menu.admin.security': '系统安全',
+  'menu.admin.security.dept': '部门管理',
+  'menu.admin.security.dept.desc': '对部门进行管理',
   'menu.admin.security.user': '用户管理',
   'menu.admin.security.user.desc': '对用户进行管理',
-  'menu.admin.security.dept': '部门管理',
   'menu.admin.security.role': '角色管理',
   'menu.admin.security.role.desc': '对角色进行管理',
   'menu.admin.security.resource': '资源管理',
