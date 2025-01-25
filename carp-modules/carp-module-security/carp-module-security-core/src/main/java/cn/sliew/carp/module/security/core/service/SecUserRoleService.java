@@ -56,6 +56,8 @@ public interface SecUserRoleService extends IService<SecUserRole> {
      */
     void unauthorize(SecUserBatchAuthorizeForRoleParam param);
 
+    void deleteByRoleId(Long roleId);
+
     // -------------------------------------------------------------------------------------------
     // user -> role
     // -------------------------------------------------------------------------------------------
@@ -84,4 +86,6 @@ public interface SecUserRoleService extends IService<SecUserRole> {
      * 批量为用户解除角色绑定
      */
     void unauthorize(SecRoleBatchAuthorizeForUserParam param);
+
+    void deleteByUserId(Long userId);
 }

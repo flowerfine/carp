@@ -33,6 +33,7 @@ import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleListByU
 import cn.sliew.carp.module.security.core.service.param.authorize.SecUserBatchAuthorizeForRoleParam;
 import cn.sliew.carp.module.security.core.service.param.authorize.SecUserListByRoleParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -87,6 +88,13 @@ public class SecUserRoleServiceImpl extends ServiceImpl<SecUserRoleMapper, SecUs
     }
 
     @Override
+    public void deleteByRoleId(Long roleId) {
+        LambdaUpdateWrapper<SecUserRole> updateWrapper = Wrappers.lambdaUpdate(SecUserRole.class)
+                .eq(SecUserRole::getRoleId, roleId);
+        baseMapper.delete(updateWrapper);
+    }
+
+    @Override
     public List<SecRoleDTO> listAllAuthorizedRolesByUserId(SecRoleListByUserParam param) {
         List<SecRole> secRoleList = baseMapper.selectRelatedRolesByUser(param.getUserId(), null, param.getName());
         return SecRoleConvert.INSTANCE.toDto(secRoleList);
@@ -132,5 +140,12 @@ public class SecUserRoleServiceImpl extends ServiceImpl<SecUserRoleMapper, SecUs
                     .eq(SecUserRole::getRoleId, roleId);
             baseMapper.delete(queryWrapper);
         }
+    }
+
+    @Override
+    public void deleteByUserId(Long userId) {
+        LambdaUpdateWrapper<SecUserRole> updateWrapper = Wrappers.lambdaUpdate(SecUserRole.class)
+                .eq(SecUserRole::getUserId, userId);
+        baseMapper.delete(updateWrapper);
     }
 }

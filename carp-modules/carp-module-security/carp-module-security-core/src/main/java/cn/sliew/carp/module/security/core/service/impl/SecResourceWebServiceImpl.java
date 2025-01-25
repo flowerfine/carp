@@ -22,6 +22,7 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecResourceWeb;
 import cn.sliew.carp.module.security.core.repository.mapper.SecResourceWebMapper;
+import cn.sliew.carp.module.security.core.service.SecResourceWebRoleService;
 import cn.sliew.carp.module.security.core.service.SecResourceWebService;
 import cn.sliew.carp.module.security.core.service.convert.SecResourceWebConvert;
 import cn.sliew.carp.module.security.core.service.dto.SecResourceWebDTO;
@@ -32,6 +33,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -42,6 +44,9 @@ import java.util.List;
 
 @Service
 public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper, SecResourceWeb> implements SecResourceWebService {
+
+    @Autowired
+    private SecResourceWebRoleService secResourceWebRoleService;
 
     @Override
     public PageResult<SecResourceWebDTO> page(SecResourceWebListParam param) {
@@ -102,14 +107,26 @@ public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper,
         return saveOrUpdate(entity);
     }
 
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean delete(Long id) {
+        SecResourceWebListParam param = new SecResourceWebListParam();
+        param.setPid(id);
+        List<SecResourceWebDTO> children = listAll(param);
+        if (CollectionUtils.isEmpty(children) == false) {
+            children.forEach(child -> delete(child.getId()));
+        }
+        // 处理关联资源
+        secResourceWebRoleService.deleteByResourceWebId(id);
         return removeById(id);
     }
 
     @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean deleteBatch(Collection<Long> ids) {
-        return removeByIds(ids);
+        if (CollectionUtils.isEmpty(ids) == false) {
+            ids.forEach(this::delete);
+        }
+        return true;
     }
 }

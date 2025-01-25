@@ -36,6 +36,7 @@ import cn.sliew.carp.module.security.core.service.param.authorize.SecResourceWeb
 import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleBatchAuthorizeForResourceWebParam;
 import cn.sliew.carp.module.security.core.service.param.authorize.SecRoleListByResourceWebParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -88,6 +89,13 @@ public class SecResourceWebRoleServiceImpl extends ServiceImpl<SecResourceWebRol
     }
 
     @Override
+    public void deleteByResourceWebId(Long resourceWebId) {
+        LambdaUpdateWrapper<SecResourceWebRole> updateWrapper = Wrappers.lambdaUpdate(SecResourceWebRole.class)
+                .eq(SecResourceWebRole::getResourceWebId, resourceWebId);
+        baseMapper.delete(updateWrapper);
+    }
+
+    @Override
     public List<SecResourceWebWithAuthorizeDTO> listResourceWebsByRoleId(SecResourceWebListByRoleParam param) {
         List<SecResourceWebVO> secResourceWebVOS = baseMapper.selectAllResourceWebWithAuthorizeStatus(param.getRoleId(), 0L);
         List<SecResourceWebWithAuthorizeDTO> result = SecResourceWebWithAuthorizeConvert.INSTANCE.toDto(secResourceWebVOS);
@@ -132,5 +140,12 @@ public class SecResourceWebRoleServiceImpl extends ServiceImpl<SecResourceWebRol
                     .eq(SecResourceWebRole::getRoleId, param.getRoleId());
             baseMapper.delete(queryWrapper);
         }
+    }
+
+    @Override
+    public void deleteByRoleId(Long roleId) {
+        LambdaUpdateWrapper<SecResourceWebRole> updateWrapper = Wrappers.lambdaUpdate(SecResourceWebRole.class)
+                .eq(SecResourceWebRole::getRoleId, roleId);
+        baseMapper.delete(updateWrapper);
     }
 }

@@ -24,7 +24,9 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecRole;
 import cn.sliew.carp.module.security.core.repository.mapper.SecRoleMapper;
+import cn.sliew.carp.module.security.core.service.SecResourceWebRoleService;
 import cn.sliew.carp.module.security.core.service.SecRoleService;
+import cn.sliew.carp.module.security.core.service.SecUserRoleService;
 import cn.sliew.carp.module.security.core.service.convert.SecRoleConvert;
 import cn.sliew.carp.module.security.core.service.dto.SecRoleDTO;
 import cn.sliew.carp.module.security.core.service.param.SecRoleAddParam;
@@ -34,8 +36,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -43,6 +47,11 @@ import java.util.List;
 
 @Service
 public class SecRoleServiceImpl extends ServiceImpl<SecRoleMapper, SecRole> implements SecRoleService {
+
+    @Autowired
+    private SecResourceWebRoleService secResourceWebRoleService;
+    @Autowired
+    private SecUserRoleService secUserRoleService;
 
     @Override
     public PageResult<SecRoleDTO> list(SecRoleListParam param) {
@@ -88,14 +97,20 @@ public class SecRoleServiceImpl extends ServiceImpl<SecRoleMapper, SecRole> impl
         return updateById(entity);
     }
 
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean delete(Long id) {
+        secResourceWebRoleService.deleteByRoleId(id);
+        secUserRoleService.deleteByRoleId(id);
         return removeById(id);
     }
 
     @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean deleteBatch(Collection<Long> ids) {
-        return removeByIds(ids);
+        if (CollectionUtils.isEmpty(ids) == false) {
+            ids.forEach(this::delete);
+        }
+        return true;
     }
 }

@@ -24,6 +24,7 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
 import cn.sliew.carp.module.security.core.repository.mapper.SecUserMapper;
+import cn.sliew.carp.module.security.core.service.SecUserRoleService;
 import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.convert.SecUserConvert;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
@@ -36,8 +37,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -46,6 +49,9 @@ import java.util.Optional;
 
 @Service
 public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> implements SecUserService {
+
+    @Autowired
+    private SecUserRoleService secUserRoleService;
 
     @Override
     public PageResult<SecUserDTO> list(SecUserListParam param) {
@@ -109,14 +115,20 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
         return saveOrUpdate(entity);
     }
 
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean delete(Long id) {
+        secUserRoleService.deleteByUserId(id);
+        // todo 关联部门
         return removeById(id);
     }
 
     @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean deleteBatch(Collection<Long> ids) {
-        return removeByIds(ids);
+        if (CollectionUtils.isEmpty(ids) == false) {
+            ids.forEach(this::delete);
+        }
+        return true;
     }
 }

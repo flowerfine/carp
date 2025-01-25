@@ -95,15 +95,25 @@ public class SecDeptServiceImpl extends ServiceImpl<SecDeptMapper, SecDept> impl
         return updateById(entity);
     }
 
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean delete(Long id) {
-        // fixme 删除操作需同步处理子级资源，还有关联的信息
+        SecDeptListParam param = new SecDeptListParam();
+        param.setPid(id);
+        List<SecDeptDTO> children = listAll(param);
+        if (CollectionUtils.isEmpty(children) == false) {
+            children.forEach(child -> delete(child.getId()));
+        }
+        // fixme 处理关联资源
         return removeById(id);
     }
 
     @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean deleteBatch(Collection<Long> ids) {
-        return removeByIds(ids);
+        if (CollectionUtils.isEmpty(ids) == false) {
+            ids.forEach(this::delete);
+        }
+        return true;
     }
 }

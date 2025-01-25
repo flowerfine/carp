@@ -57,6 +57,8 @@ public interface SecResourceWebRoleService extends IService<SecResourceWebRole> 
      */
     void unauthorize(SecRoleBatchAuthorizeForResourceWebParam param);
 
+    void deleteByResourceWebId(Long resourceWebId);
+
     // -------------------------------------------------------------------------------------------
     // role -> resource-web
     // -------------------------------------------------------------------------------------------
@@ -80,4 +82,6 @@ public interface SecResourceWebRoleService extends IService<SecResourceWebRole> 
      * 批量为角色解除 资源-web 绑定
      */
     void unauthorize(SecResourceWebBatchAuthorizeForRoleParam param);
+
+    void deleteByRoleId(Long roleId);
 }
