@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.security.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -45,11 +44,11 @@ import java.util.List;
 public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper, SecResourceWeb> implements SecResourceWebService {
 
     @Override
-    public PageResult<SecResourceWebDTO> list(SecResourceWebListParam param) {
+    public PageResult<SecResourceWebDTO> page(SecResourceWebListParam param) {
         Page<SecResourceWeb> page = new Page<>(param.getCurrent(), param.getPageSize());
         LambdaQueryWrapper<SecResourceWeb> queryChainWrapper = Wrappers.lambdaQuery(SecResourceWeb.class)
-                .eq(param.getPid() != null, SecResourceWeb::getPid, param.getPid())
-                .like(param.getLabel() != null, SecResourceWeb::getLabel, param.getLabel())
+                .eq(SecResourceWeb::getPid, param.getPid() != null ? param.getPid() : 0L)
+                .like(StringUtils.hasText(param.getLabel()), SecResourceWeb::getLabel, param.getLabel())
                 .orderByAsc(SecResourceWeb::getOrder, SecResourceWeb::getId);
         Page<SecResourceWeb> secResourceWebPage = page(page, queryChainWrapper);
         PageResult<SecResourceWebDTO> pageResult = new PageResult<>(secResourceWebPage.getCurrent(), secResourceWebPage.getSize(), secResourceWebPage.getTotal());
@@ -70,7 +69,7 @@ public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper,
     public List<SecResourceWebDTO> listAll(SecResourceWebListParam param) {
         LambdaQueryWrapper<SecResourceWeb> queryChainWrapper = Wrappers.lambdaQuery(SecResourceWeb.class)
                 .eq(param.getPid() != null, SecResourceWeb::getPid, param.getPid())
-                .like(param.getLabel() != null, SecResourceWeb::getLabel, param.getLabel())
+                .like(StringUtils.hasText(param.getLabel()), SecResourceWeb::getLabel, param.getLabel())
                 .orderByAsc(SecResourceWeb::getOrder, SecResourceWeb::getId);
         List<SecResourceWeb> entities = list(queryChainWrapper);
         return SecResourceWebConvert.INSTANCE.toDto(entities);

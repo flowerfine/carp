@@ -88,8 +88,8 @@ declare namespace AdminSecurityAPI {
     authorized?: Dict
   };
   type SecResourceWebParam = QueryParam & {
-    pid: number;
-    name?: string;
+    pid?: number;
+    label?: string;
   };
   type SecResourceWebAddParam = {
     type: string;

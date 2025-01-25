@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.security.core.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
@@ -47,8 +46,8 @@ public class SecResourceWebController {
 
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
-    public PageResult<SecResourceWebDTO> list(@Valid SecResourceWebListParam param) {
-        return secResourceWebService.list(param);
+    public PageResult<SecResourceWebDTO> page(@Valid SecResourceWebListParam param) {
+        return secResourceWebService.page(param);
     }
 
     @GetMapping

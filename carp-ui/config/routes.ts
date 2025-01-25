@@ -319,6 +319,49 @@ export default [
     ],
   },
   {
+    name: 'admin',
+    path: '/admin',
+    icon: 'setting',
+    routes: [
+      {
+        path: '/admin',
+        redirect: '/admin/security',
+      },
+      {
+        name: 'security',
+        path: '/admin/security',
+        icon: 'apartment',
+        routes: [
+          {
+            name: 'user',
+            path: '/admin/security/user',
+            icon: 'user',
+            component: './Admin/Security/User',
+          },
+          {
+            name: 'role',
+            path: '/admin/security/role',
+            icon: 'safety',
+            component: './Admin/Security/Role',
+          },
+          {
+            name: 'resource',
+            path: '/admin/security/resource',
+            icon: 'team',
+            routes: [
+              {
+                name: 'web',
+                path: '/admin/security/resource/web',
+                icon: 'team',
+                component: './Admin/Security/Resource/Web',
+              }
+            ]
+          },
+        ]
+      }
+    ],
+  },
+  {
     path: '/',
     redirect: '/dashboard/analysis',
   },
@@ -326,4 +369,5 @@ export default [
     component: '404',
     path: '/*',
   },
+
 ];

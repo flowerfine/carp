@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.security.core.service;
 
 import cn.sliew.carp.framework.common.model.PageResult;
@@ -31,7 +30,7 @@ import java.util.List;
 
 public interface SecResourceWebService extends IService<SecResourceWeb> {
 
-    PageResult<SecResourceWebDTO> list(SecResourceWebListParam param);
+    PageResult<SecResourceWebDTO> page(SecResourceWebListParam param);
 
     List<SecResourceWebDTO> listAll(SecResourceWebListParam param);
 

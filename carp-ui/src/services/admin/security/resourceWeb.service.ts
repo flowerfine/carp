@@ -1,12 +1,12 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
-import {SecResourceWeb, SecResourceWebAddParam, SecResourceWebParam, SecResourceWebUpdateParam} from '../typings';
+import { AdminSecurityAPI } from './typings';
 
 export const ResourceWebService = {
   url: '/api/carp/security/resource/web',
 
-  listByPage: async (param: SecResourceWebParam) => {
-    return request<ResponseBody<PageResponse<SecResourceWeb>>>(`${ResourceWebService.url}/page`, {
+  page: async (param: AdminSecurityAPI.SecResourceWebParam) => {
+    return request<ResponseBody<PageResponse<AdminSecurityAPI.SecResourceWeb>>>(`${ResourceWebService.url}/page`, {
       method: 'GET',
       params: param,
     }).then((res) => {
@@ -20,27 +20,34 @@ export const ResourceWebService = {
     });
   },
 
-  add: async (row: SecResourceWebAddParam) => {
+  listAll: async (param: AdminSecurityAPI.SecResourceWebParam) => {
+    return request<ResponseBody<AdminSecurityAPI.SecResourceWeb[]>>(`${ResourceWebService.url}`, {
+      method: 'GET',
+      params: param,
+    });
+  },
+
+  add: async (row: AdminSecurityAPI.SecResourceWebAddParam) => {
     return request<ResponseBody<any>>(`${ResourceWebService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
 
-  update: async (row: SecResourceWebUpdateParam) => {
+  update: async (row: AdminSecurityAPI.SecResourceWebUpdateParam) => {
     return request<ResponseBody<any>>(`${ResourceWebService.url}`, {
       method: 'POST',
       data: row,
     });
   },
 
-  deleteOne: async (row: SecResourceWeb) => {
+  delete: async (row: AdminSecurityAPI.SecResourceWeb) => {
     return request<ResponseBody<any>>(`${ResourceWebService.url}/${row.id}`, {
       method: 'DELETE',
     });
   },
 
-  deleteBatch: async (rows: SecResourceWeb[]) => {
+  deleteBatch: async (rows: AdminSecurityAPI.SecResourceWeb[]) => {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${ResourceWebService.url}/batch`, {
       method: 'DELETE',

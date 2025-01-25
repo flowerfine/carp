@@ -1,12 +1,12 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
-import {SecRole, SecRoleParam} from '../typings';
+import { AdminSecurityAPI } from './typings';
 
 export const RoleService = {
   url: '/api/carp/security/role',
 
-  listByPage: async (param: SecRoleParam) => {
-    return request<ResponseBody<PageResponse<SecRole>>>(`${RoleService.url}/page`, {
+  page: async (param: AdminSecurityAPI.SecRoleParam) => {
+    return request<ResponseBody<PageResponse<AdminSecurityAPI.SecRole>>>(`${RoleService.url}/page`, {
       method: 'GET',
       params: param,
     }).then((res) => {
@@ -21,31 +21,31 @@ export const RoleService = {
   },
 
   listAllRole: async () => {
-    return request<SecRole[]>(`${RoleService.url}`, {
+    return request<AdminSecurityAPI.SecRole[]>(`${RoleService.url}`, {
       method: 'GET',
     });
   },
 
-  addRole: async (row: SecRole) => {
+  add: async (row: AdminSecurityAPI.SecRole) => {
     return request<ResponseBody<any>>(`${RoleService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
-  updateRole: async (row: SecRole) => {
+  update: async (row: AdminSecurityAPI.SecRole) => {
     return request<ResponseBody<any>>(`${RoleService.url}`, {
       method: 'POST',
       data: row,
     });
   },
 
-  deleteRole: async (row: SecRole) => {
+  delete: async (row: AdminSecurityAPI.SecRole) => {
     return request<ResponseBody<any>>(`${RoleService.url}/${row.id}`, {
       method: 'DELETE',
     });
   },
 
-  deleteBatch: async (rows: SecRole[]) => {
+  deleteBatch: async (rows: AdminSecurityAPI.SecRole[]) => {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${RoleService.url}/batch`, {
       method: 'DELETE',
@@ -62,14 +62,14 @@ export const RoleService = {
   },
 
   listRoleByDept: async (deptId: string) => {
-    return request<SecRole[]>(`${RoleService.url}/dept`, {
+    return request<AdminSecurityAPI.SecRole[]>(`${RoleService.url}/dept`, {
       method: 'GET',
       params: {grant: 1, deptId: deptId},
     });
   },
 
   listGrantRoleByDept: async (deptId: string) => {
-    return request<SecRole[]>(`${RoleService.url}/dept`, {
+    return request<AdminSecurityAPI.SecRole[]>(`${RoleService.url}/dept`, {
       method: 'GET',
       params: {deptId: deptId},
     });
