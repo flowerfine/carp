@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.orca.controller;
 
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
+import cn.sliew.carp.framework.id.config.CosIdConfig;
 import cn.sliew.carp.module.orca.spinnaker.api.executions.ExecutionLauncher;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionType;
 import cn.sliew.carp.module.orca.spinnaker.api.model.SyntheticStageOwner;
@@ -30,7 +31,12 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import me.ahoo.cosid.IdGenerator;
+import me.ahoo.cosid.provider.DefaultIdGeneratorProvider;
+import me.ahoo.cosid.segment.SegmentId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,8 +51,13 @@ import java.util.*;
 @Tag(name = "编排模块-Orca测试")
 public class OrcaExecutionController {
 
+    private static final IdGenerator ID_GENERATOR = DefaultIdGeneratorProvider.INSTANCE.getShare();
     private static final ULID ULID_GENERATOR = new ULID();
 
+    @Lazy
+    @Autowired
+    @Qualifier(CosIdConfig.SEGMENT_ID_BEAN)
+    private SegmentId segmentId;
     @Autowired
     private ExecutionRepository executionRepository;
     @Autowired
@@ -68,7 +79,7 @@ public class OrcaExecutionController {
     private Map<String, Object> buildPipelineMap() {
         Map<String, Object> result = new HashMap<>();
         // id 没用
-//        result.put("id", COUNTER.incrementAndGet());
+        result.put("id", segmentId.generate());
 //        result.put("executionId", ID_GENERATOR.nextULID());
         result.put("namespace", "quoll-pipeline-example");
         result.put("name", "pipeline-test");
@@ -86,7 +97,7 @@ public class OrcaExecutionController {
     private Map<String, Object> buildWaitStageMap(String id, List<String> requisiteStageRefIds) {
         Map<String, Object> stage = new HashMap<>();
         // 没用，id 系统内部会自动生成，无法设置
-//        stage.put("id", COUNTER.incrementAndGet());
+        stage.put("id", segmentId.generate());
         stage.put("refId", id);
         stage.put("type", WaitStage.STAGE_TYPE);
         stage.put("name", "wait");
@@ -99,7 +110,7 @@ public class OrcaExecutionController {
     private Map<String, Object> buildLogStageMap(String id, List<String> requisiteStageRefIds, SyntheticStageOwner syntheticStageOwner) {
         Map<String, Object> stage = new HashMap<>();
         // 没用，id 系统内部会自动生成，无法设置
-//        stage.put("id", COUNTER.incrementAndGet());
+        stage.put("id", segmentId.generate());
         stage.put("refId", id);
         stage.put("type", LogStage.STAGE_TYPE);
         stage.put("name", "log");

@@ -30,6 +30,8 @@ import de.huxhorn.sulky.ulid.ULID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import me.ahoo.cosid.IdGenerator;
+import me.ahoo.cosid.provider.DefaultIdGeneratorProvider;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -45,14 +47,15 @@ import static java.util.stream.Collectors.toMap;
 public class PipelineExecutionImpl implements PipelineExecution, Serializable {
 
     public static final Trigger NO_TRIGGER = Trigger.builder().type("none").build();
-    private static final ULID ID_GENERATOR = new ULID();
+    private static final IdGenerator ID_GENERATOR = DefaultIdGeneratorProvider.INSTANCE.getShare();
+    private static final ULID ULID_GENERATOR = new ULID();
 
     private final Map<String, Object> initialConfig = new HashMap<>();
 
     private String namespace;
     private ExecutionType type;
-    private Long id;
-    private String uuid = ID_GENERATOR.nextULID();
+    private Long id = ID_GENERATOR.generate();
+    private String uuid = ULID_GENERATOR.nextULID();
     private String name;
     private String remark;
     private String origin;

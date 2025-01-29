@@ -17,7 +17,10 @@
  */
 package cn.sliew.carp.module.orca.core.persistence.sql;
 
-import cn.sliew.carp.framework.dag.service.*;
+import cn.sliew.carp.framework.dag.service.CarpDagOrcaPipelineService;
+import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
+import cn.sliew.carp.framework.dag.service.DagConfigService;
+import cn.sliew.carp.framework.dag.service.DagConfigStepService;
 import cn.sliew.carp.framework.dag.service.dto.orca.CarpDagOrcaPipelineDTO;
 import cn.sliew.carp.framework.dag.service.param.orca.CarpDagOrcaPipelineAddParam;
 import cn.sliew.carp.framework.dag.service.param.orca.CarpDagOrcaPipelineStageAddParam;
@@ -33,9 +36,9 @@ import cn.sliew.carp.module.orca.spinnaker.api.persistence.ExecutionNotFoundExce
 import cn.sliew.carp.module.orca.spinnaker.api.persistence.ExecutionRepository;
 import cn.sliew.milky.common.util.JacksonUtil;
 import io.reactivex.rxjava3.core.Observable;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class SqlExecutionRepository implements ExecutionRepository {
@@ -53,7 +56,9 @@ public class SqlExecutionRepository implements ExecutionRepository {
     public PipelineExecution retrieve(ExecutionType type, Long id) throws ExecutionNotFoundException {
         CarpDagOrcaPipelineDTO carpDagOrcaPipelineDTO = carpDagOrcaPipelineService.get(id);
         PipelineExecution execution = JacksonUtil.toObject(carpDagOrcaPipelineDTO.getBody(), PipelineExecution.class);
-        ((PipelineExecutionImpl) execution).setId(id);
+        if (CollectionUtils.isEmpty(execution.getStages()) == false) {
+            execution.getStages().forEach(stage -> ((StageExecutionImpl) stage).setPipelineExecution(execution));
+        }
         return execution;
     }
 
@@ -65,32 +70,35 @@ public class SqlExecutionRepository implements ExecutionRepository {
     @Override
     public Long store(PipelineExecution execution) {
         // upsert PipelineExecution -> CarpDagOrcaPipelineDTO
-        if (Objects.nonNull(execution.getId())) {
-            CarpDagOrcaPipelineUpdateParam updateParam = new CarpDagOrcaPipelineUpdateParam();
-            updateParam.setId(execution.getId());
-            updateParam.setUuid(execution.getUuid());
-            updateParam.setNamespace(execution.getNamespace());
-            updateParam.setType(execution.getType().name());
-//            updateParam.setConfigId(execution.getPipelineConfigId());
-            updateParam.setName(execution.getName());
-            updateParam.setStatus(execution.getStatus().name());
-            updateParam.setBuildTime(execution.getBuildTime().toEpochMilli());
+        try {
+            carpDagOrcaPipelineService.get(execution.getId());
+            CarpDagOrcaPipelineUpdateParam updateParam = CarpDagOrcaPipelineUpdateParam.builder()
+                    .id(execution.getId())
+                    .uuid(execution.getUuid())
+                    .namespace(execution.getNamespace())
+                    .type(execution.getType().name())
+                    .name(execution.getName())
+                    .status(execution.getStatus().name())
+                    .buildTime(execution.getBuildTime().toEpochMilli())
+                    .canceled(execution.isCanceled())
+                    .body(JacksonUtil.toJsonNode(execution))
+                    .remark(execution.getRemark())
+                    .build();
             Optional.ofNullable(execution.getStartTime()).ifPresent(startTime -> updateParam.setStartTime(startTime.toEpochMilli()));
             Optional.ofNullable(execution.getEndTime()).ifPresent(endTime -> updateParam.setEndTime(endTime.toEpochMilli()));
-            updateParam.setCanceled(execution.isCanceled());
-            updateParam.setBody(JacksonUtil.toJsonNode(execution));
-            updateParam.setRemark(execution.getRemark());
+
             carpDagOrcaPipelineService.update(updateParam);
             return execution.getId();
-        } else {
-            CarpDagOrcaPipelineAddParam addParam = new CarpDagOrcaPipelineAddParam();
-            addParam.setUuid(execution.getUuid());
-            addParam.setNamespace(execution.getNamespace());
-            addParam.setType(execution.getType().name());
-//            addParam.setConfigId(execution.getPipelineConfigId());
-            addParam.setName(execution.getName());
-            addParam.setBody(JacksonUtil.toJsonNode(execution));
-            addParam.setRemark(execution.getRemark());
+        } catch (NullPointerException ignored) {
+            CarpDagOrcaPipelineAddParam addParam = CarpDagOrcaPipelineAddParam.builder()
+                    .id(execution.getId())
+                    .uuid(execution.getUuid())
+                    .namespace(execution.getNamespace())
+                    .type(execution.getType().name())
+                    .name(execution.getName())
+                    .body(JacksonUtil.toJsonNode(execution))
+                    .remark(execution.getRemark())
+                    .build();
             return carpDagOrcaPipelineService.add(addParam);
         }
     }
@@ -116,13 +124,13 @@ public class SqlExecutionRepository implements ExecutionRepository {
 
     @Override
     public Long addStage(StageExecution stage) {
-        CarpDagOrcaPipelineStageAddParam addParam = new CarpDagOrcaPipelineStageAddParam();
-        addParam.setPipelineId(stage.getPipelineExecution().getId());
-        addParam.setStatus(stage.getStatus().name());
-        addParam.setBody(JacksonUtil.toJsonNode(stage));
-        Long id = carpDagOrcaPipelineService.addStage(addParam);
-        ((StageExecutionImpl) stage).setId(id);
-        return id;
+        CarpDagOrcaPipelineStageAddParam addParam = CarpDagOrcaPipelineStageAddParam.builder()
+                .uuid(stage.getUuid())
+                .pipelineId(stage.getPipelineExecution().getId())
+                .status(stage.getStatus().name())
+                .body(JacksonUtil.toJsonNode(stage))
+                .build();
+        return carpDagOrcaPipelineService.addStage(addParam);
     }
 
     @Override

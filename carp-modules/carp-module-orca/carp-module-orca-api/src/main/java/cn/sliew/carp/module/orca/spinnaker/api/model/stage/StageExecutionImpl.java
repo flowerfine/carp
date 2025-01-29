@@ -40,6 +40,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.ahoo.cosid.IdGenerator;
+import me.ahoo.cosid.provider.DefaultIdGeneratorProvider;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -64,10 +66,11 @@ import static java.util.stream.Collectors.toList;
 public class StageExecutionImpl implements StageExecution, Serializable {
 
     public static final String STAGE_TIMEOUT_OVERRIDE_KEY = "stageTimeoutMs";
-    private static final ULID ID_GENERATOR = new ULID();
+    private static final IdGenerator ID_GENERATOR = DefaultIdGeneratorProvider.INSTANCE.getShare();
+    private static final ULID ULID_GENERATOR = new ULID();
 
-    private Long id;
-    private String uuid = ID_GENERATOR.nextULID();
+    private Long id = ID_GENERATOR.generate();
+    private String uuid = ULID_GENERATOR.nextULID();
     private String refId;
     private String type;
     private String name;
