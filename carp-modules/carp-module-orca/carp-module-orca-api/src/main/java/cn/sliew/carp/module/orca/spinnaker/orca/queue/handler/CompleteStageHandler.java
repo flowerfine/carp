@@ -250,7 +250,7 @@ public class CompleteStageHandler extends AbstractOrcaMessageHandler<Messages.Co
         } else if (afterStageStatuses.contains(ExecutionStatus.NOT_STARTED)) {
             return ExecutionStatus.RUNNING; // 后置阶段已计划但尚未运行
         } else {
-            log.error("Unhandled condition for stage {} of {}, marking as TERMINAL. " +
+            log.error("Unhandled condition for stage (id={}) of pipeline (id={}), marking as TERMINAL. " +
                             "syntheticStatuses={}, taskStatuses={}, planningStatus={}, afterStageStatuses={}",
                     stage.getId(),
                     stage.getPipelineExecution().getId(),
