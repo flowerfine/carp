@@ -45,7 +45,6 @@ public class SqlExecutionRepository implements ExecutionRepository {
     private DagConfigStepService dagConfigStepService;
     private DagConfigLinkService dagConfigLinkService;
 
-
     public SqlExecutionRepository(CarpDagOrcaPipelineService carpDagOrcaPipelineService) {
         this.carpDagOrcaPipelineService = carpDagOrcaPipelineService;
     }

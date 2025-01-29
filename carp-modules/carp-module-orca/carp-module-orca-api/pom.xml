@@ -56,6 +56,10 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-dag</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-id</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>de.huxhorn.sulky</groupId>

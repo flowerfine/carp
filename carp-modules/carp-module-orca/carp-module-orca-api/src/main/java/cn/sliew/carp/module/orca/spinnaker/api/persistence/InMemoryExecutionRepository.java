@@ -22,18 +22,13 @@ import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionType;
 import cn.sliew.carp.module.orca.spinnaker.api.model.pipeline.PipelineExecution;
 import cn.sliew.carp.module.orca.spinnaker.api.model.pipeline.PipelineExecutionImpl;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecutionImpl;
 import io.reactivex.rxjava3.core.Observable;
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.time.Clock;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryExecutionRepository implements ExecutionRepository {
-
-    private static final AtomicLong COUNTER = new AtomicLong(0L);
 
     private final Map<Long, PipelineExecution> pipelines = new ConcurrentHashMap<>();
     private final Map<Long, PipelineExecution> orchestrations = new ConcurrentHashMap<>();
@@ -55,14 +50,6 @@ public class InMemoryExecutionRepository implements ExecutionRepository {
     @Override
     public Long store(PipelineExecution execution) {
         Map<Long, PipelineExecution> map = storageFor(execution.getType());
-        if (Objects.isNull(execution.getId())) {
-            ((PipelineExecutionImpl) execution).setId(COUNTER.incrementAndGet());
-        }
-        if (CollectionUtils.isNotEmpty(execution.getStages())) {
-            execution.getStages().forEach(stage -> {
-                ((StageExecutionImpl) stage).setId(COUNTER.incrementAndGet());
-            });
-        }
         map.put(execution.getId(), execution);
         return execution.getId();
     }
