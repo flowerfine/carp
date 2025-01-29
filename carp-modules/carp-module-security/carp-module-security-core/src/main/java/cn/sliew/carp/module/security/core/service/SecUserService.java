@@ -33,7 +33,7 @@ import java.util.Optional;
 
 public interface SecUserService extends IService<SecUser> {
 
-    PageResult<SecUserDTO> list(SecUserListParam param);
+    PageResult<SecUserDTO> page(SecUserListParam param);
 
     List<SecUserDTO> listAll(SecUserListParam param);
 

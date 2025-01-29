@@ -19,10 +19,18 @@
 package cn.sliew.carp.module.security.core.repository.mapper;
 
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
+import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface SecUserMapper extends BaseMapper<SecUser> {
 
+    Page<SecUser> list(Page<SecUser> page, @Param("param") SecUserListParam param, @Param("childDeptIds") List<Long> childDeptIds);
+
+    List<SecUser> list(@Param("param") SecUserListParam param);
 }

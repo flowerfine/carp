@@ -21,11 +21,15 @@ package cn.sliew.carp.module.security.core.service.param;
 import cn.sliew.carp.framework.common.dict.security.CarpSecDeptStatus;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import lombok.extern.jackson.Jacksonized;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Jacksonized
 public class SecDeptListParam extends PageParam {
 
     @Schema(description = "部门编号")

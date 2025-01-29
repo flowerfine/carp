@@ -46,8 +46,8 @@ public class SecUserController {
 
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
-    public PageResult<SecUserDTO> list(@Valid SecUserListParam param) {
-        return secUserService.list(param);
+    public PageResult<SecUserDTO> page(@Valid SecUserListParam param) {
+        return secUserService.page(param);
     }
 
     @GetMapping

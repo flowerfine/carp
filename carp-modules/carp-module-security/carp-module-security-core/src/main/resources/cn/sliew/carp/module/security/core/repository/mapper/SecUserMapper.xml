@@ -45,4 +45,40 @@
         `password`, salt, `order`, `status`, remark
     </sql>
 
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+            t1.*
+        FROM
+            carp_sec_user t1
+                LEFT JOIN carp_sec_user_dept t2 ON t1.id = t2.user_id
+                LEFT JOIN carp_sec_dept t3 ON t2.dept_id = t3.id
+        <where>
+            <if test="param.type != null and param.type != ''">
+                AND t1.`type` = #{param.type}
+            </if>
+            <if test="param.status != null and param.status != ''">
+                AND t1.`status` = #{param.status}
+            </if>
+            <if test="param.userName != null and param.userName != ''">
+                AND t1.user_name LIKE CONCAT('%', #{param.userName}, '%')
+            </if>
+            <if test="param.nickName != null and param.nickName != ''">
+                AND t1.nick_name LIKE CONCAT('%', #{param.nickName}, '%')
+            </if>
+            <if test="param.email != null and param.email != ''">
+                AND t1.`email` = #{param.email}
+            </if>
+            <if test="param.phone != null and param.phone != ''">
+                AND t1.`phone` = #{param.phone}
+            </if>
+            <if test="childDeptIds != null and childDeptIds.size() > 0">
+                AND t2.`dept_id` IN
+                <foreach collection="childDeptIds" item="deptId" open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY t1.order, t1.id
+    </select>
+
 </mapper>

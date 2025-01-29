@@ -46,4 +46,7 @@ public class SecUserListParam extends PageParam {
 
     @Schema(description = "用户状态")
     private CarpSecUserStatus status;
+
+    @Schema(description = "部门 ID")
+    private Long deptId;
 }

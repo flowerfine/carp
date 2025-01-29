@@ -48,4 +48,7 @@ public class SecDeptDTO extends BaseDTO {
 
     @Schema(description = "children")
     private List<SecDeptDTO> children;
+
+    @Schema(description = "是否为叶子节点")
+    private Boolean isLeaf;
 }

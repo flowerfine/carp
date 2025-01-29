@@ -58,4 +58,7 @@ public class SecResourceWebDTO extends BaseDTO {
 
     @Schema(description = "下级资源")
     private List<SecResourceWebDTO> children;
+
+    @Schema(description = "是否为叶子节点")
+    private Boolean isLeaf;
 }

@@ -62,7 +62,10 @@ public class SecDeptServiceImpl extends ServiceImpl<SecDeptMapper, SecDept> impl
         List<SecDeptDTO> children = listAll(copyParam);
         if (CollectionUtils.isEmpty(children) == false) {
             secDeptDTO.setChildren(children);
+            secDeptDTO.setIsLeaf(false);
             children.forEach(child -> recurse(child, param));
+        } else {
+            secDeptDTO.setIsLeaf(true);
         }
     }
 

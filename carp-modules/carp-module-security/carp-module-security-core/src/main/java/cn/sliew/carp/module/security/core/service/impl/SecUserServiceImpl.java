@@ -19,15 +19,19 @@
 package cn.sliew.carp.module.security.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.sliew.carp.framework.common.dict.security.CarpSecDeptStatus;
 import cn.sliew.carp.framework.common.dict.security.CarpSecUserType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
 import cn.sliew.carp.module.security.core.repository.mapper.SecUserMapper;
+import cn.sliew.carp.module.security.core.service.SecDeptService;
 import cn.sliew.carp.module.security.core.service.SecUserRoleService;
 import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.convert.SecUserConvert;
+import cn.sliew.carp.module.security.core.service.dto.SecDeptDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
+import cn.sliew.carp.module.security.core.service.param.SecDeptListParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserAddParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
 import cn.sliew.carp.module.security.core.service.param.SecUserUpdateParam;
@@ -36,51 +40,54 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> implements SecUserService {
 
     @Autowired
     private SecUserRoleService secUserRoleService;
+    @Autowired
+    private SecDeptService secDeptService;
 
     @Override
-    public PageResult<SecUserDTO> list(SecUserListParam param) {
+    public PageResult<SecUserDTO> page(SecUserListParam param) {
         Page<SecUser> page = new Page<>(param.getCurrent(), param.getPageSize());
-        LambdaQueryWrapper<SecUser> queryChainWrapper = Wrappers.lambdaQuery(SecUser.class)
-                .like(StringUtils.hasText(param.getUserName()), SecUser::getUserName, param.getUserName())
-                .like(StringUtils.hasText(param.getNickName()), SecUser::getNickName, param.getNickName())
-                .eq(StringUtils.hasText(param.getEmail()), SecUser::getEmail, param.getEmail())
-                .eq(StringUtils.hasText(param.getPhone()), SecUser::getPhone, param.getPhone())
-                .eq(param.getType() != null, SecUser::getType, param.getType())
-                .eq(param.getStatus() != null, SecUser::getStatus, param.getStatus())
-                .orderByAsc(SecUser::getOrder, SecUser::getId);
-        Page<SecUser> secUserPage = page(page, queryChainWrapper);
+        List<Long> childDeptIds = recurse(param.getDeptId());
+        Page<SecUser> secUserPage = baseMapper.list(page, param, childDeptIds);
         PageResult<SecUserDTO> pageResult = new PageResult<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
         pageResult.setRecords(SecUserConvert.INSTANCE.toDto(secUserPage.getRecords()));
         return pageResult;
     }
 
+    private List<Long> recurse(Long pid) {
+        SecDeptListParam secDeptListParam = SecDeptListParam.builder()
+                .pid(pid)
+                .status(CarpSecDeptStatus.ENABLED)
+                .build();
+        List<Long> deptIds = Lists.newArrayList();
+        deptIds.add(pid);
+        List<SecDeptDTO> secDeptDTOS = secDeptService.listAll(secDeptListParam);
+        secDeptDTOS.stream().map(SecDeptDTO::getId)
+                .flatMap(childDeptId -> recurse(childDeptId).stream())
+                .forEach(deptIds::add);
+        return deptIds;
+    }
+
     @Override
     public List<SecUserDTO> listAll(SecUserListParam param) {
-        LambdaQueryWrapper<SecUser> queryChainWrapper = Wrappers.lambdaQuery(SecUser.class)
-                .like(StringUtils.hasText(param.getUserName()), SecUser::getUserName, param.getUserName())
-                .like(StringUtils.hasText(param.getNickName()), SecUser::getNickName, param.getNickName())
-                .eq(StringUtils.hasText(param.getEmail()), SecUser::getEmail, param.getEmail())
-                .eq(StringUtils.hasText(param.getPhone()), SecUser::getPhone, param.getPhone())
-                .eq(param.getType() != null, SecUser::getType, param.getType())
-                .eq(param.getStatus() != null, SecUser::getStatus, param.getStatus())
-                .orderByAsc(SecUser::getOrder, SecUser::getId);
-        List<SecUser> entities = list(queryChainWrapper);
+
+        List<SecUser> entities = baseMapper.list(param);
         return SecUserConvert.INSTANCE.toDto(entities);
     }
 

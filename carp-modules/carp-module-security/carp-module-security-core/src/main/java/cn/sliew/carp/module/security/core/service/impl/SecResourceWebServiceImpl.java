@@ -66,7 +66,10 @@ public class SecResourceWebServiceImpl extends ServiceImpl<SecResourceWebMapper,
         List<SecResourceWebDTO> children = listByPid(resourceWebDTO.getId(), label);
         if (CollectionUtils.isEmpty(children) == false) {
             resourceWebDTO.setChildren(children);
+            resourceWebDTO.setIsLeaf(false);
             children.forEach(child -> recurse(child, label));
+        } else {
+            resourceWebDTO.setIsLeaf(true);
         }
     }
 

@@ -1,13 +1,15 @@
-import React, {useRef, useState} from 'react';
-import {Button, message, Modal, Space, Table, Tag, Tooltip} from "antd";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {history, useAccess, useIntl} from "@umijs/max";
-import {AdminSecurityAPI} from "@/services/admin/security/typings";
-import {DictService} from "@/services/admin/system/dict.service";
-import {DICT_TYPE} from "@/constants/dictType";
-import {UserService} from '@/services/admin/security/user.service';
-import SecurityUserForm from './components/SecurityUserForm';
+import React, { useRef, useState } from 'react';
+import { Button, Col, message, Modal, Row, Space, Table, Tag, Tooltip } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { ActionType, PageContainer, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
+import { history, useAccess, useIntl } from "@umijs/max";
+import { AdminSecurityAPI } from "@/services/admin/security/typings";
+import { DictService } from "@/services/admin/system/dict.service";
+import { DICT_TYPE } from "@/constants/dictType";
+import { UserService } from '@/services/admin/security/user.service';
+import SecurityUserForm from './components/User/SecurityUserForm';
+import AdminSecurityUserRightWeb from './components/User';
+import AdminSecurityUserLeftDeptWeb from './components/Dept';
 
 export type SecurityUserState = {
   visiable: boolean;
@@ -22,196 +24,29 @@ const AdminSecurityUserWeb: React.FC = () => {
   const [selectedRows, setSelectedRows] = useState<AdminSecurityAPI.SecUser[]>([]);
   const [userFormData, setUserFormData] = useState<SecurityUserState>({ visiable: false, data: null });
 
-  const onDetailClick = (record: AdminSecurityAPI.SecUser) => {
-    history.push('/metadata/gravitino/metalake/catalog', record);
+  const [dept, setDept] = useState<AdminSecurityAPI.SecDept>(null);
+
+  const treeOnSelect = (data: AdminSecurityAPI.SecDept) => {
+    setDept(data);
   };
 
-  const columns: ProColumns<AdminSecurityAPI.SecUser>[] = [
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.user.type' }),
-      dataIndex: 'type',
-      render: (dom, entity) => {
-        return (<Tag>{entity.type?.label}</Tag>)
-      },
-      request: (params, props) => {
-        return DictService.listInstanceByDefinition(DICT_TYPE.carpSecUserType)
-      }
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.user.userName' }),
-      dataIndex: 'userName',
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.user.nickName' }),
-      dataIndex: 'nickName',
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.user.email' }),
-      dataIndex: 'email',
-      hideInSearch: true
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.user.phone' }),
-      dataIndex: 'phone',
-      hideInSearch: true
-    },
-    {
-      title: intl.formatMessage({ id: 'pages.admin.security.user.status' }),
-      dataIndex: 'status',
-      render: (text, record, index) => {
-        return (<Tag>{record.status?.label}</Tag>)
-      },
-      request: (params, props) => {
-        return DictService.listInstanceByDefinition(DICT_TYPE.carpSecUserStatus)
-      }
-    },
-    {
-      title: intl.formatMessage({ id: 'app.common.data.remark' }),
-      dataIndex: 'remark',
-      valueType: 'textarea',
-      hideInSearch: true
-    },
-    {
-      title: intl.formatMessage({ id: 'app.common.data.createTime' }),
-      dataIndex: 'createTime',
-      hideInSearch: true,
-      width: 180,
-    },
-    {
-      title: intl.formatMessage({ id: 'app.common.data.updateTime' }),
-      dataIndex: 'updateTime',
-      hideInSearch: true,
-      width: 180,
-    },
-    {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
-      dataIndex: 'actions',
-      valueType: 'option',
-      align: 'center',
-      width: 120,
-      fixed: 'right',
-      render: (_, record) => (
-        <Space>
-          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
-            <Button
-              shape="default"
-              type="link"
-              icon={<EditOutlined />}
-              disabled={record.type?.value == '0' || record.status?.value == '2'}
-              onClick={() => {
-                setUserFormData({ visiable: true, data: record });
-              }}
-            />
-          </Tooltip>
-          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
-            <Button
-              shape="default"
-              type="link"
-              danger
-              icon={<DeleteOutlined />}
-              disabled={record.type?.value == '0' || record.status?.value == '2'}
-              onClick={() => {
-                Modal.confirm({
-                  title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                  content: intl.formatMessage({ id: 'app.common.operate.delete.confirm.content' }),
-                  okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                  okButtonProps: { danger: true },
-                  cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                  onOk() {
-                    UserService.delete(record).then((response) => {
-                      if (response.success) {
-                        message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
-                        actionRef.current?.reload();
-                      }
-                    });
-                  },
-                });
-              }}
-            />
-          </Tooltip>
-        </Space>
-      ),
-    },
-  ];
+  /**左侧布局*/
+  const leftLayout = { xxl: 5, lg: 6, md: 24, sm: 24, xs: 24 };
+  /**右侧布局*/
+  const rightLayout = { xxl: 19, lg: 18, md: 24, sm: 24, xs: 24 };
 
   return (
     <PageContainer content={intl.formatMessage({ id: 'menu.admin.security.user.desc' })}>
-      <ProTable<AdminSecurityAPI.SecUser>
-        search={{
-          labelWidth: 'auto',
-          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
-        }}
-        rowKey="id"
-        actionRef={actionRef}
-        formRef={formRef}
-        columns={columns}
-        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
-        rowSelection={{
-          selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT, Table.SELECTION_NONE],
-          fixed: true,
-          onChange(_, selectedRows, info) {
-            setSelectedRows(selectedRows);
-          },
-        }}
-        request={(params, sorter, filter) => {
-          return UserService.page(params);
-        }}
-        toolbar={{
-          actions: [
-            <Button
-              key="new"
-              type="primary"
-              onClick={() => {
-                setUserFormData({ visiable: true, data: null });
-              }}
-            >
-              {intl.formatMessage({ id: 'app.common.operate.new.label' })}
-            </Button>,
-
-            <Button
-              key="del"
-              type="default"
-              danger
-              disabled={selectedRows.length < 1}
-              onClick={() => {
-                Modal.confirm({
-                  title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                  content: intl.formatMessage({ id: 'app.common.operate.delete.confirm.content' }),
-                  okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                  okButtonProps: { danger: true },
-                  cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
-                  onOk() {
-                    UserService.deleteBatch(selectedRows).then((response) => {
-                      if (response.success) {
-                        message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
-                        actionRef.current?.reload();
-                      }
-                    });
-                  },
-                });
-              }}
-            >
-              {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
-            </Button>
-          ],
-        }}
-      />
-
-      {userFormData.visiable ? (
-        <SecurityUserForm
-          visible={userFormData.visiable}
-          data={userFormData.data}
-          onCancel={() => {
-            setUserFormData({ visiable: false, data: null });
-          }}
-          onFinish={(values) => {
-            setUserFormData({ visiable: false, data: null });
-            actionRef.current?.reload();
-          }}
-        />
-      ) : null}
-
-    </PageContainer>
+      <Row gutter={[16, 16]}>
+        <Col {...leftLayout} style={{ minHeight: '100%', overflow: 'auto' }}>
+          <AdminSecurityUserLeftDeptWeb onSelect={treeOnSelect}/>
+        </Col>
+        <Col {...rightLayout} style={{ minHeight: '100%', overflow: 'auto' }}>
+          {/* <UserList organization={organization} /> */}
+          <AdminSecurityUserRightWeb dept={dept}/>
+        </Col>
+      </Row>
+    </PageContainer >
   );
 }
 
