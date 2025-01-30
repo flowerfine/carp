@@ -26,49 +26,24 @@ on:
       jdk:
         required: true
         type: string
-    outputs:
-      dist_name:
-        description: "carp-dist output name"
-        value: ${{ jobs.build_maven.outputs.dist_name }}
 
 jobs:
+
   build_maven:
-    if: github.repository == 'flowerfine/carp'
-#    strategy:
-#      matrix:
-#        os: [ ubuntu-latest, macos-latest, windows-latest ]
-#        jdk: [ 17 ]
+    uses: ./.github/workflows/ci-maven-snippet.yml
+    with:
+      os: ${{ inputs.os }}
+      jdk: ${{ inputs.jdk }}
+
+  output_test:
+    if: ${{ inputs.os }} == 'ubuntu-latest'
     runs-on: ${{ inputs.os }}
-    outputs:
-      dist_name: ${{ steps.output-dist-name.outputs.dist_name }}
+    needs: build_maven
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
+      - name: Test output
+        id: output-test-step1
+        run: echo ${{ needs.build_maven.outputs.dist_name }}
+      - name: Download dist
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 1
-      - name: Setup Java JDK ${{ inputs.jdk }}
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ inputs.jdk }}
-          distribution: temurin
-          cache: maven
-      - name: Build with Maven
-        timeout-minutes: 360
-        run: ./mvnw -B -U -T 4C clean package -Pdist -Dfast
-      - name: Upload dist
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-${{ inputs.os }}-${{ inputs.jdk }}
-          path: |
-            carp-dist/target/carp-*.tar.gz
-      - name: Output dist name
-        id: output-dist-name
-        run: echo "dist_name=dist-${{ inputs.os }}-${{ inputs.jdk }}" >> $GITHUB_OUTPUT
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./**/target/site/jacoco/jacoco.xml
-          verbose: true
-      
-      
+          name: ${{ needs.build_maven.outputs.dist_name }}
