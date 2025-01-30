@@ -75,6 +75,7 @@
     <modules>
         <module>carp-dist</module>
         <module>carp-modules</module>
+        <module>carp-orca</module>
         <module>carp-plugins</module>
         <module>carp-server</module>
         <module>carp-support</module>

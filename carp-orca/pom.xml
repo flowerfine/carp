@@ -26,20 +26,11 @@
         <version>0.0.34</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-modules</artifactId>
+    <artifactId>carp-module-orca</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>carp-module-alert</module>
-        <module>carp-module-dataservice</module>
-        <module>carp-module-datasource</module>
-        <module>carp-module-http-sync</module>
-        <module>carp-module-persistence</module>
-        <module>carp-module-plugin</module>
-        <module>carp-module-queue</module>
-        <module>carp-module-scheduler</module>
-        <module>carp-module-security</module>
-        <module>carp-module-system</module>
-        <module>carp-module-workflow</module>
+        <module>carp-orca-api</module>
     </modules>
+
 </project>
