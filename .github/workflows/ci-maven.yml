@@ -35,7 +35,7 @@ jobs:
       os: ${{ inputs.os }}
       jdk: ${{ inputs.jdk }}
 
-  output_test:
+  release:
     if: ${{ inputs.os }} == 'ubuntu-latest'
     runs-on: ${{ inputs.os }}
     needs: build_maven
