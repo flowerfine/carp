@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-plugin-jdbc</artifactId>
-        <version>0.0.28</version>
+        <version>0.0.29</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-jdbc-api</artifactId>
