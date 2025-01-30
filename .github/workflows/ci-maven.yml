@@ -19,6 +19,10 @@ name: CI-Maven
 on:
   workflow_dispatch:
   workflow_call:
+    outputs:
+      dist_name:
+        description: "carp-dist output name"
+        value: ${{ jobs.build.outputs.dist_name }}
 
 jobs:
   build:
@@ -28,6 +32,8 @@ jobs:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
         jdk: [ 17 ]
     runs-on: ${{ matrix.os }}
+    outputs:
+      dist_name: ${{ steps.output-dist-name.outputs.dist_name }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -42,6 +48,15 @@ jobs:
       - name: Build with Maven
         timeout-minutes: 360
         run: ./mvnw -B -U -T 4C clean package -Pdist -Dfast
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            carp-dist/target/carp-*.tar.gz
+      - name: Output dist name
+        id: output-dist-name
+        run: echo "dist_name=dist" >> $GITHUB_OUTPUT
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

@@ -22,15 +22,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-modules</artifactId>
         <version>0.0.34</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-orca</artifactId>
+    <artifactId>carp-module-orca</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>carp-orca-api</module>
+        <module>carp-module-orca-api</module>
     </modules>
 
 </project>

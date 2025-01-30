@@ -34,6 +34,7 @@
         <module>carp-module-dataservice</module>
         <module>carp-module-datasource</module>
         <module>carp-module-http-sync</module>
+        <module>carp-module-orca</module>
         <module>carp-module-persistence</module>
         <module>carp-module-plugin</module>
         <module>carp-module-queue</module>
