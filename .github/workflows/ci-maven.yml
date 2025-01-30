@@ -40,9 +40,6 @@ jobs:
     runs-on: ${{ inputs.os }}
     needs: build_maven
     steps:
-      - name: Test output
-        id: output-test-step1
-        run: echo ${{ needs.build_maven.outputs.dist_name }}
       - name: Download dist
         uses: actions/download-artifact@v4
         with:
