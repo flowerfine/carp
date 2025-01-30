@@ -31,7 +31,6 @@
 
     <modules>
         <module>carp-module-orca-api</module>
-        <module>carp-module-orca-core</module>
     </modules>
 
 </project>
