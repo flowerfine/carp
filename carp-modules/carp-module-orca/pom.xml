@@ -29,4 +29,8 @@
     <artifactId>carp-module-orca</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>carp-module-orca-api</module>
+    </modules>
+
 </project>
