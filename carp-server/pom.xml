@@ -54,6 +54,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-orca-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-persistence</artifactId>
         </dependency>
         <dependency>
