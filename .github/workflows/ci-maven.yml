@@ -29,10 +29,10 @@ on:
     outputs:
       dist_name:
         description: "carp-dist output name"
-        value: ${{ jobs.build.outputs.dist_name }}
+        value: ${{ jobs.build_maven.outputs.dist_name }}
 
 jobs:
-  build:
+  build_maven:
     if: github.repository == 'flowerfine/carp'
 #    strategy:
 #      matrix:
