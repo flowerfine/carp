@@ -15,14 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.plugin.service;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.module.plugin.plugin.update.PluginRepositoryInfo;
 import cn.sliew.carp.module.plugin.plugin.update.RemotePluginInfo;
-import cn.sliew.carp.module.plugin.service.param.CarpPluginInfoPageParam;
 import cn.sliew.carp.module.plugin.service.param.CarpRemotePluginInfoPageParam;
 import org.pf4j.PluginDescriptor;
 

@@ -15,17 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.security.spring.util;
 
 import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
-import com.google.common.net.HttpHeaders;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.ResponseCookie;
 
 @Slf4j
 public enum CookieUtil {

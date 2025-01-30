@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.http.sync.job.task.jst.order;
 
 import cn.hutool.core.bean.BeanUtil;

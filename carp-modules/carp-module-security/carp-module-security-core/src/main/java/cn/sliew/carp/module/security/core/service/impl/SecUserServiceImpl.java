@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.security.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -50,7 +49,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> implements SecUserService {

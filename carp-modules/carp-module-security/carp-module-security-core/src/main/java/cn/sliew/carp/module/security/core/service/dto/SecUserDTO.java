@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package cn.sliew.carp.module.security.core.service.dto;
 
 import cn.sliew.carp.framework.common.dict.security.CarpSecUserStatus;

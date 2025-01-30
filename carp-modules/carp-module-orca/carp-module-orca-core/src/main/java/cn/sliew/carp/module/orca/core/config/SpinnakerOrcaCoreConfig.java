@@ -20,7 +20,6 @@ package cn.sliew.carp.module.orca.core.config;
 import cn.sliew.carp.framework.dag.service.CarpDagOrcaPipelineService;
 import cn.sliew.carp.module.orca.core.persistence.sql.SqlExecutionRepository;
 import cn.sliew.carp.module.orca.spinnaker.api.persistence.ExecutionRepository;
-import cn.sliew.carp.module.orca.spinnaker.api.persistence.InMemoryExecutionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

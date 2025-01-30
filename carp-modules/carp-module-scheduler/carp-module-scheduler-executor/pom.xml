@@ -23,7 +23,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-module-scheduler</artifactId>
-        <version>0.0.27</version>
+        <version>0.0.28</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-scheduler-executor</artifactId>
@@ -32,7 +32,6 @@
     <modules>
         <module>carp-module-scheduler-executor-api</module>
         <module>carp-module-scheduler-executor-java</module>
-        <module>carp-module-scheduler-executor-orca</module>
     </modules>
 
 </project>

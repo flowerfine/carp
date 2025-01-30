@@ -21,10 +21,8 @@ import cn.sliew.carp.framework.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.Collection;
 import java.util.Map;
 
-import static java.util.Collections.emptySet;
 
 /**
  * dag orca pipeline stage config

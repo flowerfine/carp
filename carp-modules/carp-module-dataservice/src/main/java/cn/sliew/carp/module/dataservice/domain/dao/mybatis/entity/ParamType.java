@@ -18,7 +18,6 @@
 package cn.sliew.carp.module.dataservice.domain.dao.mybatis.entity;
 
 import cn.sliew.carp.framework.common.dict.DictInstance;
-import cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;

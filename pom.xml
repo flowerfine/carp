@@ -26,7 +26,7 @@
     </parent>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>
-    <version>0.0.27</version>
+    <version>0.0.28</version>
     <packaging>pom</packaging>
     <name>carp</name>
     <description>Carp Framwork</description>
@@ -163,11 +163,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-scheduler-executor-java</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>carp-module-scheduler-executor-orca</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

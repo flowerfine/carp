@@ -14,9 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-
 package cn.sliew.carp.plugin.jdbc.driver.druid.util;
 
 import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
