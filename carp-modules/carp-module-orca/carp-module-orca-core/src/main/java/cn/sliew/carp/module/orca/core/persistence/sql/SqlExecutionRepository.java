@@ -18,15 +18,9 @@
 package cn.sliew.carp.module.orca.core.persistence.sql;
 
 import cn.sliew.carp.framework.dag.service.CarpDagOrcaPipelineService;
-import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
-import cn.sliew.carp.framework.dag.service.DagConfigService;
-import cn.sliew.carp.framework.dag.service.DagConfigStepService;
 import cn.sliew.carp.framework.dag.service.dto.orca.CarpDagOrcaPipelineDTO;
 import cn.sliew.carp.framework.dag.service.dto.orca.CarpDagOrcaPipelineStageDTO;
-import cn.sliew.carp.framework.dag.service.param.orca.CarpDagOrcaPipelineAddParam;
-import cn.sliew.carp.framework.dag.service.param.orca.CarpDagOrcaPipelineStageAddParam;
-import cn.sliew.carp.framework.dag.service.param.orca.CarpDagOrcaPipelineStageUpdateParam;
-import cn.sliew.carp.framework.dag.service.param.orca.CarpDagOrcaPipelineUpdateParam;
+import cn.sliew.carp.framework.dag.service.param.orca.*;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionStatus;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionType;
 import cn.sliew.carp.module.orca.spinnaker.api.model.pipeline.PipelineExecution;
@@ -39,6 +33,7 @@ import cn.sliew.milky.common.util.JacksonUtil;
 import io.reactivex.rxjava3.core.Observable;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -47,9 +42,6 @@ import java.util.stream.Collectors;
 public class SqlExecutionRepository implements ExecutionRepository {
 
     private CarpDagOrcaPipelineService carpDagOrcaPipelineService;
-    private DagConfigService dagConfigService;
-    private DagConfigStepService dagConfigStepService;
-    private DagConfigLinkService dagConfigLinkService;
 
     public SqlExecutionRepository(CarpDagOrcaPipelineService carpDagOrcaPipelineService) {
         this.carpDagOrcaPipelineService = carpDagOrcaPipelineService;
@@ -59,23 +51,32 @@ public class SqlExecutionRepository implements ExecutionRepository {
     public PipelineExecution retrieve(ExecutionType type, Long id) throws ExecutionNotFoundException {
         Optional<CarpDagOrcaPipelineDTO> optional = carpDagOrcaPipelineService.get(id);
         CarpDagOrcaPipelineDTO carpDagOrcaPipelineDTO = optional.orElseThrow();
-        PipelineExecution execution = JacksonUtil.toObject(carpDagOrcaPipelineDTO.getBody(), PipelineExecution.class);
-        if (CollectionUtils.isEmpty(execution.getStages()) == false) {
-            List<StageExecution> stages = execution.getStages().stream().map(stage -> {
-                Optional<CarpDagOrcaPipelineStageDTO> stageOptional = carpDagOrcaPipelineService.getStage(stage.getId());
-                StageExecution stageExecution = stageOptional.map(item -> JacksonUtil.toObject(item.getBody(), StageExecution.class)).orElse(stage);
-                ((StageExecutionImpl) stageExecution).setPipelineExecution(execution);
-                return stageExecution;
-            }).collect(Collectors.toList());
-            ((PipelineExecutionImpl) execution).setStages(stages);
-        }
-
-        return execution;
+        return convert(carpDagOrcaPipelineDTO);
     }
 
     @Override
     public Observable<PipelineExecution> retrieve(ExecutionType type) {
-        return Observable.fromArray();
+        List<CarpDagOrcaPipelineDTO> list = carpDagOrcaPipelineService.listAll(new CarpDagOrcaPipelinePageParam());
+        List<PipelineExecution> pipelines = list.stream().map(this::convert).collect(Collectors.toList());
+        return Observable.fromIterable(pipelines);
+    }
+
+    private PipelineExecution convert(CarpDagOrcaPipelineDTO dto) {
+        PipelineExecution execution = JacksonUtil.toObject(dto.getBody(), PipelineExecution.class);
+
+        List<CarpDagOrcaPipelineStageDTO> stageDTOS = carpDagOrcaPipelineService.getStages(dto.getId());
+        if (CollectionUtils.isEmpty(stageDTOS) == false) {
+            List<StageExecution> stages = stageDTOS.stream().map(item -> {
+                        StageExecution stageExecution = JacksonUtil.toObject(item.getBody(), StageExecution.class);
+                        ((StageExecutionImpl) stageExecution).setPipelineExecution(execution);
+                        return stageExecution;
+                    })
+                    .collect(Collectors.toList());
+            ((PipelineExecutionImpl) execution).setStages(stages);
+        } else {
+            ((PipelineExecutionImpl) execution).setStages(Collections.emptyList());
+        }
+        return execution;
     }
 
     @Override
@@ -99,6 +100,11 @@ public class SqlExecutionRepository implements ExecutionRepository {
             Optional.ofNullable(execution.getEndTime()).ifPresent(endTime -> updateParam.setEndTime(endTime.toEpochMilli()));
 
             carpDagOrcaPipelineService.update(updateParam);
+            if (CollectionUtils.isEmpty(execution.getStages()) == false) {
+                execution.getStages().forEach(stage -> {
+                    storeStage(stage);
+                });
+            }
             return execution.getId();
         } else {
             CarpDagOrcaPipelineAddParam addParam = CarpDagOrcaPipelineAddParam.builder()
@@ -110,7 +116,13 @@ public class SqlExecutionRepository implements ExecutionRepository {
                     .body(JacksonUtil.toJsonNode(execution))
                     .remark(execution.getRemark())
                     .build();
-            return carpDagOrcaPipelineService.add(addParam);
+            Long id = carpDagOrcaPipelineService.add(addParam);
+            if (CollectionUtils.isEmpty(execution.getStages()) == false) {
+                execution.getStages().forEach(stage -> {
+                    addStage(stage);
+                });
+            }
+            return id;
         }
     }
 
