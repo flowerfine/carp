@@ -233,6 +233,10 @@ export default [
             icon: 'profile',
             component: './Workspace/Orca/Instance',
           },
+          {
+            path: '/workspace/orca/detail',
+            component: './Workspace/Orca/Detail',
+          },
         ]
       },
     ]

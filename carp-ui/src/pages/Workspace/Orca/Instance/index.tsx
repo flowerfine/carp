@@ -22,6 +22,10 @@ const WorkspaceOrcaInstance: React.FC = () => {
 
     const [selectedRows, setSelectedRows] = useState<WorkspaceOrcaAPI.OrcaPipelineExecution[]>([]);
 
+    const onDetailClick = (record: WorkspaceOrcaAPI.OrcaPipelineExecution) => {
+        history.push('/workspace/orca/detail', record);
+    };
+
     const columns: ProColumns<WorkspaceOrcaAPI.OrcaPipelineExecution>[] = [
         {
             title: intl.formatMessage({ id: 'pages.workspace.orca.instance.namespace' }),
@@ -35,6 +39,11 @@ const WorkspaceOrcaInstance: React.FC = () => {
         {
             title: intl.formatMessage({ id: 'pages.workspace.orca.instance.name' }),
             dataIndex: 'name',
+            renderText: (dom, record) => (
+                <Space>
+                    <a onClick={() => onDetailClick(record)}>{dom}</a>
+                </Space>
+            ),
         },
         {
             title: intl.formatMessage({ id: 'pages.workspace.orca.instance.type' }),
@@ -98,6 +107,7 @@ const WorkspaceOrcaInstance: React.FC = () => {
                             shape="default"
                             type="link"
                             icon={<FileSearchOutlined />}
+                            onClick={() => onDetailClick(record)}
                         />
                     </Tooltip>
                     <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
@@ -134,7 +144,6 @@ const WorkspaceOrcaInstance: React.FC = () => {
         <PageContainer
             title={intl.formatMessage({ id: 'menu.workspace.orca.instance' })}
             content={intl.formatMessage({ id: 'menu.workspace.orca.instance.desc' })}
-            onBack={() => history.back()}
         >
             <ProTable<WorkspaceOrcaAPI.OrcaPipelineExecution>
                 search={{
@@ -160,8 +169,8 @@ const WorkspaceOrcaInstance: React.FC = () => {
                             total: res.data?.length,
                             pageSize: res.data?.length,
                             current: 1
-                          };
-                          return result;
+                        };
+                        return result;
                     })
                 }}
                 toolbar={{

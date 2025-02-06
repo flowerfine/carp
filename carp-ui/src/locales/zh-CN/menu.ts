@@ -46,6 +46,8 @@ export default {
   'menu.workspace.orca': '任务编排',
   'menu.workspace.orca.instance': '实例管理',
   'menu.workspace.orca.instance.desc': '任务编排实例管理页面',
+  'menu.workspace.orca.detail': '实例详情',
+  'menu.workspace.orca.detail.desc': '任务编排实例详情页面',
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',
