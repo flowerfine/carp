@@ -2,7 +2,7 @@ export default {
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
-  
+
   'menu.admin.sub-page': '二级管理页',
   'menu.login': '登录',
   'menu.register': '注册',
@@ -43,6 +43,9 @@ export default {
   'menu.workspace.schedule.config.desc': '调度任务配置',
   'menu.workspace.schedule.instance': '任务实例',
   'menu.workspace.schedule.instance.desc': '调度任务实例信息',
+  'menu.workspace.orca': '任务编排',
+  'menu.workspace.orca.instance': '实例管理',
+  'menu.workspace.orca.instance.desc': '任务编排实例管理页面',
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',

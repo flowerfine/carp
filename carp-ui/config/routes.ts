@@ -218,6 +218,23 @@ export default [
           },
         ]
       },
+      {
+        path: '/workspace/orca',
+        name: 'orca',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/orca',
+            redirect: '/workspace/orca/instance',
+          },
+          {
+            path: '/workspace/orca/instance',
+            name: 'instance',
+            icon: 'profile',
+            component: './Workspace/Orca/Instance',
+          },
+        ]
+      },
     ]
   },
   {

@@ -19,6 +19,7 @@ package cn.sliew.carp.module.orca.controller;
 
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.id.config.CosIdConfig;
+import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.orca.spinnaker.api.executions.ExecutionLauncher;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionType;
 import cn.sliew.carp.module.orca.spinnaker.api.model.SyntheticStageOwner;
@@ -47,6 +48,7 @@ import java.util.*;
 
 @AnonymousAccess
 @RestController
+@ApiResponseWrapper
 @RequestMapping("/api/carp/orca/pipeline")
 @Tag(name = "编排模块-Orca测试")
 public class OrcaExecutionController {

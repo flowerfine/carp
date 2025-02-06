@@ -26,4 +26,15 @@ export default {
   'pages.workspace.schedule.instance.params': '参数',
   'pages.workspace.schedule.instance.timeout': '超时时间',
   'pages.workspace.schedule.instance.status': '状态',
+
+  'pages.workspace.orca': '编排管理',
+  'pages.workspace.orca.instance': '实例管理',
+  'pages.workspace.orca.instance.uuid': 'UUID',
+  'pages.workspace.orca.instance.namespace': '命名空间',
+  'pages.workspace.orca.instance.name': '名称',
+  'pages.workspace.orca.instance.type': '类型',
+  'pages.workspace.orca.instance.status': '状态',
+  'pages.workspace.orca.instance.buildTime': '构建时间',
+  'pages.workspace.orca.instance.startTime': '开始时间',
+  'pages.workspace.orca.instance.endTime': '结束时间',
 }
