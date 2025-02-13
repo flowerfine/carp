@@ -239,6 +239,23 @@ export default [
           },
         ]
       },
+      {
+        path: '/workspace/x6',
+        name: 'x6',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/x6',
+            redirect: '/workspace/x6/dag',
+          },
+          {
+            path: '/workspace/x6/dag',
+            name: 'dag',
+            icon: 'profile',
+            component: './Workspace/X6/Dag',
+          }
+        ]
+      },
     ]
   },
   {

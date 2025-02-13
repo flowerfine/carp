@@ -48,6 +48,11 @@ export default {
   'menu.workspace.orca.instance.desc': '任务编排实例管理页面',
   'menu.workspace.orca.detail': '实例详情',
   'menu.workspace.orca.detail.desc': '任务编排实例详情页面',
+
+  'menu.workspace.x6': 'X6',
+  'menu.workspace.x6.dag': 'DAG数据加工',
+  'menu.workspace.x6.dag.desc': 'X6 demo，演示如何通过 x6 实现 DAG 数据加工',
+
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',
@@ -64,6 +69,7 @@ export default {
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
+
   'menu.editor': '图形编辑器',
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',

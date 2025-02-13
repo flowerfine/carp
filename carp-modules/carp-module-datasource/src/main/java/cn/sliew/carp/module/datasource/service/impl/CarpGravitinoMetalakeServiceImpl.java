@@ -19,7 +19,7 @@ package cn.sliew.carp.module.datasource.service.impl;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.spring.util.PageUtil;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
 import cn.sliew.carp.module.datasource.modal.jdbc.MySQLDataSourceProperties;
 import cn.sliew.carp.module.datasource.service.CarpGravitinoMetalakeService;
@@ -54,7 +54,7 @@ public class CarpGravitinoMetalakeServiceImpl implements CarpGravitinoMetalakeSe
     @Override
     public PageResult<GravitinoMetalakeDTO> page(PageParam param) {
         List<GravitinoMetalakeDTO> list = GravitinoMetalakeConvert.INSTANCE.toDto(Arrays.asList(adminClient.listMetalakes()));
-        return PageUtil.buildPage(param, list);
+        return PageUtil.buildPageResult(param, list);
     }
 
     @Override

@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.config.CarpMybatisConfig;
-import cn.sliew.carp.framework.spring.util.PageUtil;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.dataservice.domain.dao.DaoExecutor;
 import cn.sliew.carp.module.dataservice.domain.dao.mybatis.entity.MybatisDynamicParamDTO;
 import cn.sliew.carp.module.dataservice.domain.dao.mybatis.entity.ParamType;
@@ -122,7 +122,7 @@ public class MybatisDaoExecutor implements DaoExecutor {
 
     @Override
     public PageResult<String> page(DsInfoDTO dsInfoDTO, PageParam param) {
-        return PageUtil.buildPage(param, listAll(dsInfoDTO));
+        return PageUtil.buildPageResult(param, listAll(dsInfoDTO));
     }
 
     @Override

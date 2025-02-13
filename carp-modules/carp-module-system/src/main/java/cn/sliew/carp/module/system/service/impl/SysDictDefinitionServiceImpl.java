@@ -20,7 +20,7 @@ package cn.sliew.carp.module.system.service.impl;
 import cn.sliew.carp.framework.common.dict.CarpEnumDictRegistry;
 import cn.sliew.carp.framework.common.dict.DictDefinition;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.spring.util.PageUtil;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.system.service.SysDictDefinitionService;
 import cn.sliew.carp.module.system.service.param.SysDictDefinitionParam;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ public class SysDictDefinitionServiceImpl implements SysDictDefinitionService {
             return true;
         }).collect(Collectors.toList());
 
-        return PageUtil.buildPage(param, filteredDictTypes);
+        return PageUtil.buildPageResult(param, filteredDictTypes);
     }
 
     @Override
