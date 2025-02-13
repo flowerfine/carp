@@ -17,14 +17,20 @@
  */
 package cn.sliew.carp.module.workflow.api.controller;
 
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
 import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @WebLog
 @RestController
@@ -35,6 +41,12 @@ public class WorkflowDefinitionController {
 
     @Autowired
     private WorkflowDefinitionService workflowDefinitionService;
+
+    @GetMapping("page")
+    @Operation(summary = "分页查询", description = "分页查询")
+    public PageResult<WorkflowDefinition> page(@Valid DagSimplePageParam param) {
+        return workflowDefinitionService.page(param);
+    }
 
     @GetMapping("{id}")
     @Operation(summary = "查询详情", description = "查询详情")
@@ -48,9 +60,4 @@ public class WorkflowDefinitionController {
         return workflowDefinitionService.getGraph(id);
     }
 
-    @PutMapping
-    @Operation(summary = "新增", description = "新增")
-    public Long add() {
-        return null;
-    }
 }

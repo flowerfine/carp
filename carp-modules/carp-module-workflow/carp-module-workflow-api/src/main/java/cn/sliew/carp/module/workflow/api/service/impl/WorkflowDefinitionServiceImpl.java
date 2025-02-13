@@ -18,9 +18,12 @@
 package cn.sliew.carp.module.workflow.api.service.impl;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
+import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraph;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraphEdge;
@@ -40,6 +43,12 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
 
     @Autowired
     private DagConfigComplexService dagConfigComplexService;
+
+    @Override
+    public PageResult<WorkflowDefinition> page(DagSimplePageParam param) {
+        PageResult<DagConfigDTO> pageResult = dagConfigComplexService.page(param);
+        return PageUtil.buildPageResult(pageResult, WorkflowDefinitionConvert.INSTANCE::toDto);
+    }
 
     @Override
     public WorkflowDefinition get(Long id) {
