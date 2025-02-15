@@ -50,8 +50,8 @@ export default {
   'menu.workspace.orca.detail.desc': '任务编排实例详情页面',
 
   'menu.workspace.x6': 'X6',
-  'menu.workspace.x6.dag': 'DAG数据加工',
-  'menu.workspace.x6.dag.desc': 'X6 demo，演示如何通过 x6 实现 DAG 数据加工',
+  'menu.workspace.x6.dag-demo': 'DAG数据加工',
+  'menu.workspace.x6.dag-demo.desc': 'X6 demo，演示如何通过 x6 实现 DAG 数据加工',
 
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',

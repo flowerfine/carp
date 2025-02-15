@@ -246,13 +246,55 @@ export default [
         routes: [
           {
             path: '/workspace/x6',
-            redirect: '/workspace/x6/dag',
+            redirect: '/workspace/x6/dag-demo',
+          },
+          {
+            path: '/workspace/x6/dag-demo',
+            name: 'dag-demo',
+            icon: 'profile',
+            component: './Workspace/X6/dag-demo',
           },
           {
             path: '/workspace/x6/dag',
             name: 'dag',
             icon: 'profile',
-            component: './Workspace/X6/Dag',
+            component: './Workspace/X6/dag',
+          },
+          {
+            path: '/workspace/x6/basic',
+            name: 'basic',
+            icon: 'profile',
+            component: './Workspace/X6/basic',
+          },
+          {
+            path: '/workspace/x6/dnd',
+            name: 'dnd',
+            icon: 'profile',
+            component: './Workspace/X6/dnd',
+          },
+          {
+            path: '/workspace/x6/diff',
+            name: 'diff',
+            icon: 'profile',
+            component: './Workspace/X6/diff',
+          },
+          {
+            path: '/workspace/x6/flow',
+            name: 'flow',
+            icon: 'profile',
+            component: './Workspace/X6/flow',
+          },
+          {
+            path: '/workspace/x6/group',
+            name: 'group',
+            icon: 'profile',
+            component: './Workspace/X6/group',
+          },
+          {
+            path: '/workspace/x6/drawing',
+            name: 'drawing',
+            icon: 'profile',
+            component: './Workspace/X6/drawing',
           }
         ]
       },
