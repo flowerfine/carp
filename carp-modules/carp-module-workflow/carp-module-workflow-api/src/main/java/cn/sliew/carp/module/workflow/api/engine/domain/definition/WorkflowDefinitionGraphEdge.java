@@ -33,10 +33,6 @@ public class WorkflowDefinitionGraphEdge extends BaseDTO {
 
     private String toStepId;
 
-    private Integer positionX;
-
-    private Integer positionY;
-
     private String shape;
 
     private String stype;

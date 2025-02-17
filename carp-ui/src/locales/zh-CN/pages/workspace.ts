@@ -37,4 +37,11 @@ export default {
   'pages.workspace.orca.instance.buildTime': '构建时间',
   'pages.workspace.orca.instance.startTime': '开始时间',
   'pages.workspace.orca.instance.endTime': '结束时间',
+
+  'pages.workspace.workflow': 'Workflow管理',
+  'pages.workspace.workflow.definition': '定义管理',
+  'pages.workspace.workflow.definition.namespace': '命名空间',
+  'pages.workspace.workflow.definition.type': '类型',
+  'pages.workspace.workflow.definition.name': '名称',
+  'pages.workspace.workflow.definition.uuid': 'UUID',
 }

@@ -22,4 +22,5 @@ import lombok.Data;
 @Data
 public class WorkflowDefinitionMeta {
 
+    private String emptyField;
 }

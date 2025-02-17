@@ -25,6 +25,8 @@ import java.util.List;
 @Data
 public class WorkflowDefinition extends BaseDTO {
 
+    private String namespace;
+
     private String type;
 
     private String name;

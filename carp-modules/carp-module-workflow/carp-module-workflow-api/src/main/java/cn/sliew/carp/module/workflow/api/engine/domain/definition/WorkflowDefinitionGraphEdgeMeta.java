@@ -22,4 +22,5 @@ import lombok.Data;
 @Data
 public class WorkflowDefinitionGraphEdgeMeta {
 
+    private String emptyField;
 }
