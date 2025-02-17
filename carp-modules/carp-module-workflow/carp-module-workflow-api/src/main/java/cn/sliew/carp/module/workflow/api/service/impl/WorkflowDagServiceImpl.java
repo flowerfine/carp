@@ -17,61 +17,98 @@
  */
 package cn.sliew.carp.module.workflow.api.service.impl;
 
-import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
-import cn.sliew.carp.framework.dag.service.DagConfigStepService;
-import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
-import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleAddParam;
-import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
+import cn.sliew.carp.framework.dag.x6.dnd.DndDTO;
+import cn.sliew.carp.framework.dag.x6.dnd.DndPortDTO;
+import cn.sliew.carp.framework.dag.x6.dnd.DndPortGroupEnum;
+import cn.sliew.carp.module.workflow.api.dag.dnd.WorkflowDefinitionNodeDndDTO;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class WorkflowDagServiceImpl implements WorkflowDagService {
 
-    @Autowired
-    private DagConfigComplexService dagConfigComplexService;
-    @Autowired
-    private DagConfigStepService dagConfigStepService;
-    @Autowired
-    private DagInstanceComplexService dagInstanceComplexService;
-
     @Override
-    public Long initialize(String name, JsonNode inputParams, String remark) {
-        DagConfigSimpleAddParam param = new DagConfigSimpleAddParam();
-        param.setType("WorkFlow");
-        param.setName(name);
-        param.setInputOptions(inputParams);
-        param.setRemark(remark);
-        return dagConfigComplexService.insert(param);
+    public List<DndDTO> getDnds() {
+        return loadWorkflowPanel();
     }
 
-    @Override
-    public void destroy(Long dagId) {
-        dagConfigComplexService.delete(dagId);
+    private List<DndDTO> loadWorkflowPanel() {
+        List<DndDTO> dnds = new ArrayList();
+        dnds.add(buildDemoDndDTO());
+        return dnds;
     }
 
-    @Override
-    public DagConfigComplexDTO getDag(Long dagId) {
-        return dagConfigComplexService.selectOne(dagId);
+    private WorkflowDefinitionNodeDndDTO buildDemoDndDTO() {
+        WorkflowDefinitionNodeDndDTO category = new WorkflowDefinitionNodeDndDTO();
+        category.setKey("demo-category-key");
+        category.setTitle("demo-category-1");
+        category.setDocString("a demo workflow node category");
+        category.setIsLeaf(false);
+        List<DndDTO> children = new ArrayList();
+
+        WorkflowDefinitionNodeDndDTO childLogDemo = new WorkflowDefinitionNodeDndDTO();;
+        childLogDemo.setCategory(category.getKey());
+        childLogDemo.setKey("demo-log-key");
+        childLogDemo.setTitle("demo-log");
+        childLogDemo.setDocString("a demo workflow log node");
+        childLogDemo.setIsLeaf(true);
+        childLogDemo.setPorts(getSourcePorts(childLogDemo.getKey()));
+        children.add(childLogDemo);
+
+        WorkflowDefinitionNodeDndDTO childWaitDemo = new WorkflowDefinitionNodeDndDTO();;
+        childWaitDemo.setCategory(category.getKey());
+        childWaitDemo.setKey("demo-wait-key");
+        childWaitDemo.setTitle("demo-wait");
+        childWaitDemo.setDocString("a demo workflow wait node");
+        childWaitDemo.setIsLeaf(true);
+        childWaitDemo.setPorts(getTransformPorts(childWaitDemo.getKey()));
+        children.add(childWaitDemo);
+
+        WorkflowDefinitionNodeDndDTO childPrintDemo = new WorkflowDefinitionNodeDndDTO();;
+        childPrintDemo.setCategory(category.getKey());
+        childPrintDemo.setKey("demo-print-key");
+        childPrintDemo.setTitle("demo-print");
+        childPrintDemo.setDocString("a demo workflow print node");
+        childPrintDemo.setIsLeaf(true);
+        childPrintDemo.setPorts(getSinkPorts(childPrintDemo.getKey()));
+        children.add(childPrintDemo);
+
+        category.setChildren(children);
+        return category;
     }
 
-    @Override
-    public DagConfigStepDTO getStep(Long stepId) {
-        return dagConfigStepService.get(stepId);
+    private List<DndPortDTO> getSourcePorts(String key) {
+        List<DndPortDTO> ports = new ArrayList<>();
+        DndPortDTO portDTO = new DndPortDTO();
+        portDTO.setId(key + "-" + DndPortGroupEnum.bottom.name());
+        portDTO.setGroup(DndPortGroupEnum.bottom.name());
+        ports.add(portDTO);
+        return ports;
     }
 
-    @Override
-    public void update(Long dagId, DagGraphVO graph) {
-        dagConfigComplexService.replace(dagId, graph);
+    private List<DndPortDTO> getSinkPorts(String key) {
+        List<DndPortDTO> ports = new ArrayList<>();
+        DndPortDTO portDTO = new DndPortDTO();
+        portDTO.setId(key + "-" + DndPortGroupEnum.top.name());
+        portDTO.setGroup(DndPortGroupEnum.top.name());
+        ports.add(portDTO);
+        return ports;
     }
 
-    @Override
-    public DagInstanceComplexDTO getDagInstance(Long dagInstanceId) {
-        return dagInstanceComplexService.selectOne(dagInstanceId);
+    private List<DndPortDTO> getTransformPorts(String key) {
+        List<DndPortDTO> ports = new ArrayList<>();
+        DndPortDTO sourcePort = new DndPortDTO();
+        sourcePort.setId(key + "-" + DndPortGroupEnum.top.name());
+        sourcePort.setGroup(DndPortGroupEnum.top.name());
+        ports.add(sourcePort);
+
+        DndPortDTO sinkPort = new DndPortDTO();
+        sinkPort.setId(key + "-" + DndPortGroupEnum.bottom.name());
+        sinkPort.setGroup(DndPortGroupEnum.bottom.name());
+        ports.add(sinkPort);
+        return ports;
     }
 }

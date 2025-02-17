@@ -19,9 +19,11 @@ package cn.sliew.carp.module.workflow.api.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
+import cn.sliew.carp.framework.dag.x6.dnd.DndDTO;
 import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,6 +34,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @WebLog
 @RestController
 @ApiResponseWrapper
@@ -41,6 +45,8 @@ public class WorkflowDefinitionController {
 
     @Autowired
     private WorkflowDefinitionService workflowDefinitionService;
+    @Autowired
+    private WorkflowDagService workflowDagService;
 
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
@@ -58,6 +64,13 @@ public class WorkflowDefinitionController {
     @Operation(summary = "查询详情-图", description = "查询详情-图")
     public WorkflowDefinition getGraph(@PathVariable("id") Long id) {
         return workflowDefinitionService.getGraph(id);
+    }
+
+
+    @GetMapping("/dag/dnd")
+    @Operation(summary = "查询DAG节点元信息", description = "后端统一返回节点信息")
+    public List<DndDTO> loadNodeMeta() {
+        return workflowDagService.getDnds();
     }
 
 }

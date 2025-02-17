@@ -15,10 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.service;
+package cn.sliew.carp.module.workflow.api.dag.dnd;
 
-import cn.sliew.carp.framework.dag.service.DagDndService;
+import cn.sliew.carp.framework.dag.x6.dnd.DndDTO;
+import lombok.Data;
 
-public interface WorkflowDagService extends DagDndService {
+@Data
+public class WorkflowDefinitionNodeDndDTO extends DndDTO {
 
 }
