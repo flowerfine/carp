@@ -119,7 +119,7 @@ register({
   shape: DAG_NODE,
   width: 180,
   height: 36,
-  component: SeaTunnelConnectorDagNode,
+  component: WorkflowDagNode,
   effect: ['data'],
   ports: {
     groups: {

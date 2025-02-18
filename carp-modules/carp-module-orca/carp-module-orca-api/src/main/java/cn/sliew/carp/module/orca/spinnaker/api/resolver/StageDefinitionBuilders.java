@@ -166,7 +166,8 @@ public enum StageDefinitionBuilders {
         if (restrictExecutionDuringTimeWindow) {
             PipelineExecution execution = stage.getPipelineExecution();
             Map<String, Object> windowContext = new HashMap<>(stage.getContext());
-            Set<String> keysToRemove = Set.of("restrictExecutionDuringTimeWindow",
+            Set<String> keysToRemove = Set.of(
+                    "restrictExecutionDuringTimeWindow",
                     "stageTimeoutMs",
                     "alias");
             keysToRemove.forEach(windowContext::remove);
