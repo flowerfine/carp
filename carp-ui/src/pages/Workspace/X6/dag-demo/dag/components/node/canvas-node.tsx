@@ -11,11 +11,11 @@ import {STEP_ATTR_TYPE} from "./steps/constant";
 
 const {Item: MenuItem, Divider} = Menu;
 
-const DAG_NODE = 'seatunnel-dag-node';
-const DAG_EDGE = 'seatunnel-dag-edge';
-const DAG_CONNECTOR = 'seatunnel-dag-connector';
+const DAG_NODE = 'workflow-dag-node';
+const DAG_EDGE = 'workflow-dag-edge';
+const DAG_CONNECTOR = 'workflow-dag-connector';
 
-const SeaTunnelConnectorDagNode = ({node}: { node: Node }) => {
+const WorkflowDagNode = ({node}: { node: Node }) => {
   const intl = getIntl(getLocale())
   const [drawerForm, setDrawerForm] = useState<{
     visible: boolean,
@@ -188,4 +188,4 @@ Graph.registerEdge(
   true,
 );
 
-export {DAG_NODE, DAG_EDGE, DAG_CONNECTOR, SeaTunnelConnectorDagNode};
+export {DAG_NODE, DAG_EDGE, DAG_CONNECTOR, WorkflowDagNode};
