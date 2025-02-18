@@ -20,4 +20,16 @@ export const WorkflowService = {
     });
   },
 
+  get: async (id: number) => {
+    return request<ResponseBody<WorkspaceWorkflowAPI.WorkflowDefinition>>(`${WorkflowService.url}/${id}/graph`, {
+      method: 'GET'
+    });
+  },
+
+  getDnds: async () => {
+    return request<ResponseBody<Array<Record<string, any>>>>(`${WorkflowService.url}/dag/dnd`, {
+      method: 'GET',
+    });
+  },
+
 };

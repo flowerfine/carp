@@ -19,7 +19,7 @@ const WorkspaceWorkflowDefinitionWeb: React.FC = () => {
   const [workflowDefinitionFormData, setWorkflowDefinitionFormData] = useState<WorkflowDefinitionState>({ visiable: false, data: null });
 
   const onDetailClick = (record: WorkspaceWorkflowAPI.WorkflowDefinition) => {
-    history.push('/workspace/schedule/instance', record);
+    history.push('/workspace/x6/dag-demo/detail', record);
   };
 
   const columns: ProColumns<WorkspaceWorkflowAPI.WorkflowDefinition>[] = [

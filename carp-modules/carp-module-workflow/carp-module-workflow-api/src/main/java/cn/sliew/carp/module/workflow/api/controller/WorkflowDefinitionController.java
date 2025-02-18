@@ -66,7 +66,6 @@ public class WorkflowDefinitionController {
         return workflowDefinitionService.getGraph(id);
     }
 
-
     @GetMapping("/dag/dnd")
     @Operation(summary = "查询DAG节点元信息", description = "后端统一返回节点信息")
     public List<DndDTO> loadNodeMeta() {

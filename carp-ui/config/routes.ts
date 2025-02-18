@@ -255,6 +255,10 @@ export default [
             component: './Workspace/X6/dag-demo',
           },
           {
+            path: '/workspace/x6/dag-demo/detail',
+            component: './Workspace/X6/dag-demo/dag'
+          },
+          {
             path: '/workspace/x6/dag',
             name: 'dag',
             icon: 'profile',
