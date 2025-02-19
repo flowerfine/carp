@@ -15,34 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.orca.spinnaker.api.model.graph;
+package cn.sliew.carp.module.dag.config;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.function.Consumer;
+@Configuration
+public class DagModuleOpenAPIConfig {
 
-/**
- * Provides a low-level API for manipulating a stage DAG.
- */
-public interface StageGraphBuilder {
-
-    void add(DagStepDTO stage);
-
-    DagStepDTO add(Consumer<DagStepDTO> init);
-
-    default void connect(DagStepDTO previous, DagStepDTO next) {
-        throw new UnsupportedOperationException();
+    @Bean
+    public GroupedOpenApi carpDagModuleOpenApi() {
+        return GroupedOpenApi.builder().group("Dag模块")
+                .pathsToMatch("/api/carp/dag/**")
+                .packagesToScan("cn.sliew.carp.module.dag").build();
     }
 
-    default DagStepDTO connect(DagStepDTO previous, Consumer<DagStepDTO> init) {
-        DagStepDTO stage = add(init);
-        connect(previous, stage);
-        return stage;
-    }
-
-    void append(DagStepDTO stage);
-
-    DagStepDTO append(Consumer<DagStepDTO> init);
-
-    Iterable<DagStepDTO> build();
 }

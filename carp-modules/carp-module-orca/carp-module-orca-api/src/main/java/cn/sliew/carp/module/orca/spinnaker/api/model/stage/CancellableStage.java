@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.stage;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -27,7 +28,7 @@ import java.util.Map;
  */
 public interface CancellableStage {
 
-    Result cancel(StageExecution stage);
+    Result cancel(DagStepDTO stage);
 
     @Getter
     @AllArgsConstructor

@@ -17,11 +17,10 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.orca.queue;
 
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionStatus;
-import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionType;
 import cn.sliew.carp.module.orca.spinnaker.api.model.SyntheticStageOwner;
-import cn.sliew.carp.module.orca.spinnaker.api.model.pipeline.PipelineExecution;
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.Task;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.TaskExecution;
 import cn.sliew.carp.module.orca.spinnaker.keiko.core.Message;
@@ -43,7 +42,7 @@ public class Messages {
 
     public interface ExecutionLevel extends NamespaceAware {
 
-        ExecutionType getExecutionType();
+        String getExecutionType();
 
         Long getExecutionId();
     }
@@ -62,12 +61,12 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("startExecution")
     public static class StartExecution extends Message implements ExecutionLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
 
-        public StartExecution(PipelineExecution source) {
-            this(source.getType(), source.getId(), source.getNamespace());
+        public StartExecution(DagInstanceDTO source) {
+            this(source.getDagConfig().getType(), source.getId(), source.getNamespace());
         }
     }
 
@@ -75,12 +74,12 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("rescheduleExecution")
     public static class RescheduleExecution extends Message implements ExecutionLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
 
-        public RescheduleExecution(PipelineExecution source) {
-            this(source.getType(), source.getId(), source.getNamespace());
+        public RescheduleExecution(DagInstanceDTO source) {
+            this(source.getDagConfig().getType(), source.getId(), source.getNamespace());
         }
     }
 
@@ -88,7 +87,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("completeExecution")
     public static class CompleteExecution extends Message implements ExecutionLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
 
@@ -96,8 +95,8 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace());
         }
 
-        public CompleteExecution(PipelineExecution source) {
-            this(source.getType(), source.getId(), source.getNamespace());
+        public CompleteExecution(DagInstanceDTO source) {
+            this(source.getDagConfig().getType(), source.getId(), source.getNamespace());
         }
     }
 
@@ -105,12 +104,12 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("resumeExecution")
     public static class ResumeExecution extends Message implements ExecutionLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
 
-        public ResumeExecution(PipelineExecution source) {
-            this(source.getType(), source.getId(), source.getNamespace());
+        public ResumeExecution(DagInstanceDTO source) {
+            this(source.getDagConfig().getType(), source.getId(), source.getNamespace());
         }
     }
 
@@ -118,7 +117,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("cancelExecution")
     public static class CancelExecution extends Message implements ExecutionLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private String user;
@@ -132,12 +131,12 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace(), user, reason);
         }
 
-        public CancelExecution(PipelineExecution source) {
+        public CancelExecution(DagInstanceDTO source) {
             this(source, null, null);
         }
 
-        public CancelExecution(PipelineExecution source, String user, String reason) {
-            this(source.getType(), source.getId(), source.getNamespace(), user, reason);
+        public CancelExecution(DagInstanceDTO source, String user, String reason) {
+            this(source.getDagConfig().getType(), source.getId(), source.getNamespace(), user, reason);
         }
     }
 
@@ -153,7 +152,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("startStage")
     public static class StartStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -166,8 +165,8 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace(), stageId);
         }
 
-        public StartStage(StageExecution source) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(), source.getPipelineExecution().getNamespace(), source.getId());
+        public StartStage(DagStepDTO source) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getDagInstance().getNamespace(), source.getId());
         }
     }
 
@@ -175,7 +174,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("continueParentStage")
     public static class ContinueParentStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -185,8 +184,8 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace(), source.getStageId(), phase);
         }
 
-        public ContinueParentStage(StageExecution source, SyntheticStageOwner phase) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(), source.getPipelineExecution().getNamespace(), source.getId(), phase);
+        public ContinueParentStage(DagStepDTO source, SyntheticStageOwner phase) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getDagInstance().getNamespace(), source.getId(), phase);
         }
     }
 
@@ -194,7 +193,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("completeStage")
     public static class CompleteStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -207,8 +206,8 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace(), stageId);
         }
 
-        public CompleteStage(StageExecution source) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(), source.getPipelineExecution().getNamespace(), source.getId());
+        public CompleteStage(DagStepDTO source) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getDagInstance().getNamespace(), source.getId());
         }
     }
 
@@ -216,7 +215,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("skipStage")
     public static class SkipStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -225,8 +224,8 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace(), source.getStageId());
         }
 
-        public SkipStage(StageExecution source) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(), source.getPipelineExecution().getNamespace(), source.getId());
+        public SkipStage(DagStepDTO source) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getDagInstance().getNamespace(), source.getId());
         }
     }
 
@@ -234,7 +233,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("abortStage")
     public static class AbortStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -243,8 +242,8 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace(), source.getStageId());
         }
 
-        public AbortStage(StageExecution source) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(), source.getPipelineExecution().getNamespace(), source.getId());
+        public AbortStage(DagStepDTO source) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getDagInstance().getNamespace(), source.getId());
         }
     }
 
@@ -252,7 +251,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("pauseStage")
     public static class PauseStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -270,18 +269,18 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("restartStage")
     public static class RestartStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
         private String user;
 
-        public RestartStage(PipelineExecution source, Long stageId, String user) {
-            this(source.getType(), source.getId(), source.getNamespace(), stageId, user);
+        public RestartStage(DagInstanceDTO source, Long stageId, String user) {
+            this(source.getDagConfig().getType(), source.getId(), source.getNamespace(), stageId, user);
         }
 
-        public RestartStage(StageExecution source, String user) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(), source.getPipelineExecution().getNamespace(), source.getId(), user);
+        public RestartStage(DagStepDTO source, String user) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getDagInstance().getNamespace(), source.getId(), user);
         }
     }
 
@@ -289,7 +288,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("resumeStage")
     public static class ResumeStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -298,8 +297,8 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace(), stageId);
         }
 
-        public ResumeStage(StageExecution source) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(), source.getPipelineExecution().getNamespace(), source.getId());
+        public ResumeStage(DagStepDTO source) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getDagInstance().getNamespace(), source.getId());
         }
     }
 
@@ -307,7 +306,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("cancelStage")
     public static class CancelStage extends Message implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -316,8 +315,8 @@ public class Messages {
             this(source.getExecutionType(), source.getExecutionId(), source.getNamespace(), source.getStageId());
         }
 
-        public CancelStage(StageExecution source) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(), source.getPipelineExecution().getNamespace(), source.getId());
+        public CancelStage(DagStepDTO source) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getDagInstance().getNamespace(), source.getId());
         }
     }
 
@@ -325,7 +324,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("startTask")
     public static class StartTask extends Message implements TaskLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -340,14 +339,14 @@ public class Messages {
             this(source, source.getStageId(), taskId);
         }
 
-        public StartTask(StageExecution source, Long taskId) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(),
-                    source.getPipelineExecution().getNamespace(), source.getId(), taskId);
+        public StartTask(DagStepDTO source, Long taskId) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(),
+                    source.getDagInstance().getNamespace(), source.getId(), taskId);
         }
 
-        public StartTask(StageExecution source, TaskExecution task) {
-            this(source.getPipelineExecution().getType(), source.getPipelineExecution().getId(),
-                    source.getPipelineExecution().getNamespace(), source.getId(), task.getId());
+        public StartTask(DagStepDTO source, TaskExecution task) {
+            this(source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(),
+                    source.getDagInstance().getNamespace(), source.getId(), task.getId());
         }
     }
 
@@ -355,7 +354,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("runTask")
     public static class RunTask extends Message implements TaskLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -387,7 +386,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("completeTask")
     public static class CompleteTask extends Message implements TaskLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -409,7 +408,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("pauseTask")
     public static class PauseTask extends Message implements TaskLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -425,7 +424,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("resumeTask")
     public static class ResumeTask extends Message implements TaskLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -445,7 +444,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("invalidExecutionId")
     public static class InvalidExecutionId extends ConfigurationError {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
 
@@ -458,7 +457,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("invalidStageId")
     public static class InvalidStageId extends ConfigurationError implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -472,7 +471,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("invalidTaskId")
     public static class InvalidTaskId extends ConfigurationError implements TaskLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -487,7 +486,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("invalidTaskType")
     public static class InvalidTaskType extends ConfigurationError implements StageLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;
@@ -502,7 +501,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("noDownstreamTasks")
     public static class NoDownstreamTasks extends ConfigurationError implements TaskLevel {
-        private final ExecutionType executionType;
+        private final String executionType;
         private final Long executionId;
         private final String namespace;
         private final Long stageId;

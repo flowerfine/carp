@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.stage;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.TaskNode;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.WaitTask;
@@ -39,7 +40,7 @@ public class WaitStage implements StageDefinitionBuilder {
     }
 
     @Override
-    public void taskGraph(@Nonnull StageExecution stage, @Nonnull TaskNode.Builder builder) {
+    public void taskGraph(@Nonnull DagStepDTO stage, @Nonnull TaskNode.Builder builder) {
         builder.withTask("wait", WaitTask.class);
     }
 

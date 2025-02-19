@@ -15,34 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.orca.spinnaker.api.model.graph;
+package cn.sliew.carp.module.dag.dispatch.event;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import java.io.Serializable;
 
-import java.util.function.Consumer;
+public class DagInstanceEventDTO implements Serializable {
 
-/**
- * Provides a low-level API for manipulating a stage DAG.
- */
-public interface StageGraphBuilder {
+    private static final long serialVersionUID = 1L;
 
-    void add(DagStepDTO stage);
 
-    DagStepDTO add(Consumer<DagStepDTO> init);
 
-    default void connect(DagStepDTO previous, DagStepDTO next) {
-        throw new UnsupportedOperationException();
-    }
-
-    default DagStepDTO connect(DagStepDTO previous, Consumer<DagStepDTO> init) {
-        DagStepDTO stage = add(init);
-        connect(previous, stage);
-        return stage;
-    }
-
-    void append(DagStepDTO stage);
-
-    DagStepDTO append(Consumer<DagStepDTO> init);
-
-    Iterable<DagStepDTO> build();
 }

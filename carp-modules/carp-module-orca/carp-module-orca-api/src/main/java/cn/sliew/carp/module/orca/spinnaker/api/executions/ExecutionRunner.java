@@ -17,25 +17,25 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.executions;
 
-import cn.sliew.carp.module.orca.spinnaker.api.model.pipeline.PipelineExecution;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 
 public interface ExecutionRunner {
 
-    void start(PipelineExecution execution);
+    void start(DagInstanceDTO execution);
 
-    default void restart(PipelineExecution execution, Long stageId) {
+    default void restart(DagInstanceDTO execution, Long stageId) {
         throw new UnsupportedOperationException();
     }
 
-    default void reschedule(PipelineExecution execution) {
+    default void reschedule(DagInstanceDTO execution) {
         throw new UnsupportedOperationException();
     }
 
-    default void unpause(PipelineExecution execution) {
+    default void unpause(DagInstanceDTO execution) {
         throw new UnsupportedOperationException();
     }
 
-    default void cancel(PipelineExecution execution, String reason) {
+    default void cancel(DagInstanceDTO execution, String reason) {
         throw new UnsupportedOperationException();
     }
 }

@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.stage;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.trigger.Trigger;
 import com.google.common.collect.ForwardingMap;
 
@@ -29,10 +30,10 @@ import static java.util.stream.Collectors.toList;
 
 public class StageContext extends ForwardingMap<String, Object> implements Map<String, Object> {
 
-    private final StageExecution stage;
+    private final DagStepDTO stage;
     private final Map<String, Object> delegate;
 
-    public StageContext(StageExecution stage) {
+    public StageContext(DagStepDTO stage) {
         this(stage, new HashMap<>());
     }
 
@@ -40,7 +41,7 @@ public class StageContext extends ForwardingMap<String, Object> implements Map<S
         this(stageContext.stage, new HashMap<>(stageContext.delegate));
     }
 
-    public StageContext(StageExecution stage, Map<String, Object> delegate) {
+    public StageContext(DagStepDTO stage, Map<String, Object> delegate) {
         this.stage = stage;
         this.delegate = delegate;
     }

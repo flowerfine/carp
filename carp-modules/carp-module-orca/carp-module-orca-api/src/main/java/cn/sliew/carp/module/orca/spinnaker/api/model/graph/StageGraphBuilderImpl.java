@@ -17,6 +17,11 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.graph;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import cn.sliew.carp.framework.dag.service.DagLinkService;
+import cn.sliew.carp.framework.dag.service.DagStepService;
+import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.SyntheticStageOwner;
 import com.google.common.graph.GraphBuilder;
@@ -64,23 +69,13 @@ public class StageGraphBuilderImpl implements StageGraphBuilder {
 
     @Override
     public void add(DagStepDTO stage) {
-        stage.setDagInstanceId(stage.getDagInstanceId());
+        stage.setDagInstance(parent.getDagInstance());
 //        stage.setParentStageId(parent.getId());
 //        stage.setSyntheticStageOwner(type);
         if (graph.addNode(stage)) {
 //            stage.setRefId(generateRefId());
         }
         lastAdded = stage;
-    }
-
-    @Override
-    public void connect(DagStepDTO previous, DagStepDTO next) {
-        add(previous);
-        add(next);
-        Set<String> requisiteStageRefIds = new HashSet<>(next.getRequisiteStageRefIds());
-        requisiteStageRefIds.add(previous.getRefId());
-        next.setRequisiteStageRefIds(requisiteStageRefIds);
-        graph.putEdge(previous, next);
     }
 
     @Override
