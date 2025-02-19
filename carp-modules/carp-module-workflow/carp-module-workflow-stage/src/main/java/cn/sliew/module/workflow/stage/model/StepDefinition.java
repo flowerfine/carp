@@ -18,11 +18,11 @@
 package cn.sliew.module.workflow.stage.model;
 
 import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
-import cn.sliew.module.workflow.stage.model.param.StageInputParam;
+import cn.sliew.module.workflow.stage.model.param.StepInputParam;
 
 import java.util.List;
 
-public interface StageDefinition extends CarpExtensionPoint {
+public interface StepDefinition extends CarpExtensionPoint {
 
     String getCategory();
 
@@ -34,7 +34,7 @@ public interface StageDefinition extends CarpExtensionPoint {
 
     String getRemark();
 
-    List<StageInputParam> getInputParams();
+    List<StepInputParam> getInputParams();
 
     List<TaskDefinition> getTasks();
 }

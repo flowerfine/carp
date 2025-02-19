@@ -15,15 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.module.workflow.stage.model.graph;
 
-import cn.sliew.module.workflow.stage.model.StepDefinition;
+public interface StageDefinitionBuilder {
 
-public interface StageResolver {
 
-    default StepDefinition getStageDefinition(String type) {
-        return getStageDefinition(type, null);
-    }
-
-    StepDefinition getStageDefinition(String type, String alias);
 }

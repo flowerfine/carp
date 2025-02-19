@@ -17,10 +17,10 @@
  */
 package cn.sliew.carp.module.workflow.api.stage.log;
 
-import cn.sliew.module.workflow.stage.model.StageDefinition;
+import cn.sliew.module.workflow.stage.model.StepDefinition;
 import cn.sliew.module.workflow.stage.model.TaskDefinition;
 import cn.sliew.module.workflow.stage.model.param.ParamDataType;
-import cn.sliew.module.workflow.stage.model.param.StageInputParam;
+import cn.sliew.module.workflow.stage.model.param.StepInputParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,9 +29,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class LogStageDefinition implements StageDefinition {
+public class LogStepDefinition implements StepDefinition {
 
-    public static final String STAGE_TYPE = "log";
+    public static final String STEP_TYPE = "log";
 
     @Autowired
     private LogTaskDefinition logTaskDefinition;
@@ -43,7 +43,7 @@ public class LogStageDefinition implements StageDefinition {
 
     @Override
     public String getType() {
-        return STAGE_TYPE;
+        return STEP_TYPE;
     }
 
     @Override
@@ -62,10 +62,10 @@ public class LogStageDefinition implements StageDefinition {
     }
 
     @Override
-    public List<StageInputParam> getInputParams() {
+    public List<StepInputParam> getInputParams() {
         return Arrays.asList(
-                StageInputParam.builder().name("stage-input-param-1").alias("stage-input-param-1").value("stage-input-param-1").type(ParamDataType.STRING).build(),
-                StageInputParam.builder().name("stage-input-param-2").alias("stage-input-param-2").value("stage-input-param-2").type(ParamDataType.STRING).build()
+                StepInputParam.builder().name("stage-input-param-1").alias("stage-input-param-1").value("stage-input-param-1").type(ParamDataType.STRING).build(),
+                StepInputParam.builder().name("stage-input-param-2").alias("stage-input-param-2").value("stage-input-param-2").type(ParamDataType.STRING).build()
         );
     }
 

@@ -32,7 +32,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StageInputParam {
+public class StepInputParam {
 
     private String name;
     private String alias;
@@ -82,8 +82,8 @@ public class StageInputParam {
         value();
     }
 
-    public static void check(List<StageInputParam> inputParamList) throws Exception {
-        for (StageInputParam inputParam : inputParamList) {
+    public static void check(List<StepInputParam> inputParamList) throws Exception {
+        for (StepInputParam inputParam : inputParamList) {
             inputParam.check();
         }
     }

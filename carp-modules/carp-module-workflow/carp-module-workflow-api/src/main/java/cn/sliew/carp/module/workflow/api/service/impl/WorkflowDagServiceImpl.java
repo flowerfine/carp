@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.dag.x6.dnd.DndPortDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.DndPortGroupEnum;
 import cn.sliew.carp.module.workflow.api.dag.dnd.WorkflowDefinitionNodeDndDTO;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
-import cn.sliew.module.workflow.stage.model.StageDefinition;
+import cn.sliew.module.workflow.stage.model.StepDefinition;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class WorkflowDagServiceImpl implements WorkflowDagService {
 
     @Autowired
-    private List<StageDefinition> stageDefinitions;
+    private List<StepDefinition> stepDefinitions;
 
     @Override
     public List<DndDTO> getDnds() {
@@ -44,14 +44,14 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     }
 
     private List<DndDTO> loadWorkflowPanel() {
-        Map<String, List<StageDefinition>> categoryMap = stageDefinitions.stream()
-                .collect(Collectors.groupingBy(StageDefinition::getCategory));
+        Map<String, List<StepDefinition>> categoryMap = stepDefinitions.stream()
+                .collect(Collectors.groupingBy(StepDefinition::getCategory));
         return categoryMap.entrySet().stream()
                 .map(entry -> buildDemoDndDTO(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
     }
 
-    private WorkflowDefinitionNodeDndDTO buildDemoDndDTO(String category, List<StageDefinition> stageDefinitions) {
+    private WorkflowDefinitionNodeDndDTO buildDemoDndDTO(String category, List<StepDefinition> stepDefinitions) {
         WorkflowDefinitionNodeDndDTO categoryDTO = new WorkflowDefinitionNodeDndDTO();
         categoryDTO.setKey(category);
         categoryDTO.setTitle(category);
@@ -59,12 +59,12 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
         categoryDTO.setIsLeaf(false);
         categoryDTO.setChildren(Lists.newArrayList());
 
-        for (StageDefinition stageDefinition : stageDefinitions) {
+        for (StepDefinition stepDefinition : stepDefinitions) {
             WorkflowDefinitionNodeDndDTO child = new WorkflowDefinitionNodeDndDTO();
             child.setCategory(categoryDTO.getKey());
-            child.setKey(stageDefinition.getType());
-            child.setTitle(stageDefinition.getType());
-            child.setDocString(stageDefinition.getRemark());
+            child.setKey(stepDefinition.getType());
+            child.setTitle(stepDefinition.getType());
+            child.setDocString(stepDefinition.getRemark());
             child.setIsLeaf(true);
             child.setPorts(getSourcePorts(child.getKey()));
             categoryDTO.getChildren().add(child);

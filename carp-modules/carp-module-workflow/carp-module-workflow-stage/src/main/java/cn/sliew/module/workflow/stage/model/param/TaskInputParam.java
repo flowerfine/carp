@@ -48,8 +48,8 @@ public class TaskInputParam extends TaskParam {
     private ParamFromType fromType = ParamFromType.CONSTANT;
     private String from;
 
-    public StageInputParam toStageInputParam() {
-        return StageInputParam.builder()
+    public StepInputParam toStepInputParam() {
+        return StepInputParam.builder()
                 .name(name)
                 .alias(alias)
                 .value(value)
