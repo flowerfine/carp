@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.task;
 
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,54 +39,55 @@ import java.util.concurrent.TimeUnit;
  */
 public interface TaskExecutionInterceptor {
 
-  /**
-   * hook that is called to program the collective maximum backoff of all TaskExecutionInterceptors.
-   * A retryable task has a backoff period which is configured by defaults and then constrained by
-   * the minimum backoff configured by all registered interceptors.
-   *
-   * @return long
-   */
-  default long maxTaskBackoff() {
-    return TimeUnit.MINUTES.toMillis(2);
-  }
+    /**
+     * hook that is called to program the collective maximum backoff of all TaskExecutionInterceptors.
+     * A retryable task has a backoff period which is configured by defaults and then constrained by
+     * the minimum backoff configured by all registered interceptors.
+     *
+     * @return long
+     */
+    default long maxTaskBackoff() {
+        return TimeUnit.MINUTES.toMillis(2);
+    }
 
-  /**
-   * hook that is called before a task executes.
-   *
-   * @param task The task that is being handled.
-   * @param stage The stage for the task execution.
-   * @return stage The stage for the task execution.
-   */
-  default StageExecution beforeTaskExecution(Task task, StageExecution stage) {
-    return stage;
-  }
+    /**
+     * hook that is called before a task executes.
+     *
+     * @param task  The task that is being handled.
+     * @param stage The stage for the task execution.
+     * @return stage The stage for the task execution.
+     */
+    default DagStepDTO beforeTaskExecution(Task task, DagStepDTO stage) {
+        return stage;
+    }
 
-  /**
-   * hook that is called after a task executes successfully.
-   *
-   * <p>As an example you can modify the taskResult here before it gets propagated.
-   *
-   * @param task The task that is being handled.
-   * @param stage The stage for the task execution.
-   * @param taskResult The result of executing the task.
-   * @return taskResult The result of executing the task.
-   */
-  default TaskResult afterTaskExecution(Task task, StageExecution stage, TaskResult taskResult) {
-    return taskResult;
-  }
+    /**
+     * hook that is called after a task executes successfully.
+     *
+     * <p>As an example you can modify the taskResult here before it gets propagated.
+     *
+     * @param task       The task that is being handled.
+     * @param stage      The stage for the task execution.
+     * @param taskResult The result of executing the task.
+     * @return taskResult The result of executing the task.
+     */
+    default TaskResult afterTaskExecution(Task task, DagStepDTO stage, TaskResult taskResult) {
+        return taskResult;
+    }
 
-  /**
-   * hook that is guaranteed to be called, even when a task throws an exception which will cause
-   * afterTaskExecution to not be called.
-   *
-   * <p>As an example you can clear the security context here if you set it in the
-   * beforeTaskExecution hook.
-   *
-   * @param task The task that is being handled.
-   * @param stage The stage for the task execution.
-   * @param taskResult Will be null if the task failed with an exception.
-   * @param e Will be not null if the task failed with an exception.
-   */
-  default void finallyAfterTaskExecution(
-          Task task, StageExecution stage, TaskResult taskResult, Exception e) {}
+    /**
+     * hook that is guaranteed to be called, even when a task throws an exception which will cause
+     * afterTaskExecution to not be called.
+     *
+     * <p>As an example you can clear the security context here if you set it in the
+     * beforeTaskExecution hook.
+     *
+     * @param task       The task that is being handled.
+     * @param stage      The stage for the task execution.
+     * @param taskResult Will be null if the task failed with an exception.
+     * @param e          Will be not null if the task failed with an exception.
+     */
+    default void finallyAfterTaskExecution(
+            Task task, DagStepDTO stage, TaskResult taskResult, Exception e) {
+    }
 }

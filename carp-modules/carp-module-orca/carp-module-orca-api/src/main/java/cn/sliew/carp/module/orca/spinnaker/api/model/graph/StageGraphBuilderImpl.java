@@ -17,9 +17,8 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.graph;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.SyntheticStageOwner;
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecutionImpl;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 
@@ -31,63 +30,61 @@ import java.util.function.Consumer;
 
 public class StageGraphBuilderImpl implements StageGraphBuilder {
 
-    private final StageExecution parent;
+    private final DagStepDTO parent;
     private final SyntheticStageOwner type;
-    private final MutableGraph<StageExecution> graph = GraphBuilder.directed().build();
-    private final Optional<StageExecution> requiredPrefix;
-    private StageExecution lastAdded = null;
+    private final MutableGraph<DagStepDTO> graph = GraphBuilder.directed().build();
+    private final Optional<DagStepDTO> requiredPrefix;
+    private DagStepDTO lastAdded = null;
 
-    private StageGraphBuilderImpl(StageExecution parent, SyntheticStageOwner type, Optional<StageExecution> requiredPrefix) {
+    private StageGraphBuilderImpl(DagStepDTO parent, SyntheticStageOwner type, Optional<DagStepDTO> requiredPrefix) {
         this.parent = parent;
         this.type = type;
         this.requiredPrefix = requiredPrefix;
         this.requiredPrefix.ifPresent(this::add);
     }
 
-    public static StageGraphBuilderImpl beforeStages(StageExecution parent) {
+    public static StageGraphBuilderImpl beforeStages(DagStepDTO parent) {
         return new StageGraphBuilderImpl(parent, SyntheticStageOwner.STAGE_BEFORE, Optional.empty());
     }
 
-    public static StageGraphBuilderImpl beforeStages(StageExecution parent, StageExecution requiredPrefix) {
+    public static StageGraphBuilderImpl beforeStages(DagStepDTO parent, DagStepDTO requiredPrefix) {
         return new StageGraphBuilderImpl(parent, SyntheticStageOwner.STAGE_BEFORE, Optional.ofNullable(requiredPrefix));
     }
 
-    public static StageGraphBuilderImpl afterStages(StageExecution parent) {
+    public static StageGraphBuilderImpl afterStages(DagStepDTO parent) {
         return new StageGraphBuilderImpl(parent, SyntheticStageOwner.STAGE_AFTER, Optional.empty());
     }
 
     @Override
-    public StageExecution add(Consumer<StageExecution> init) {
-        StageExecution stage = newStage(init);
+    public DagStepDTO add(Consumer<DagStepDTO> init) {
+        DagStepDTO stage = newStage(init);
         add(stage);
         return stage;
     }
 
     @Override
-    public void add(StageExecution stage) {
-        StageExecutionImpl stageImpl = (StageExecutionImpl) stage;
-        stageImpl.setPipelineExecution(parent.getPipelineExecution());
-        stageImpl.setParentStageId(parent.getId());
-        stageImpl.setSyntheticStageOwner(type);
+    public void add(DagStepDTO stage) {
+        stage.setDagInstanceId(stage.getDagInstanceId());
+//        stage.setParentStageId(parent.getId());
+//        stage.setSyntheticStageOwner(type);
         if (graph.addNode(stage)) {
-            stageImpl.setRefId(generateRefId());
+//            stage.setRefId(generateRefId());
         }
         lastAdded = stage;
     }
 
     @Override
-    public void connect(StageExecution previous, StageExecution next) {
-        StageExecutionImpl nextStageImpl = (StageExecutionImpl) next;
+    public void connect(DagStepDTO previous, DagStepDTO next) {
         add(previous);
         add(next);
         Set<String> requisiteStageRefIds = new HashSet<>(next.getRequisiteStageRefIds());
         requisiteStageRefIds.add(previous.getRefId());
-        nextStageImpl.setRequisiteStageRefIds(requisiteStageRefIds);
+        next.setRequisiteStageRefIds(requisiteStageRefIds);
         graph.putEdge(previous, next);
     }
 
     @Override
-    public StageExecution append(Consumer<StageExecution> init) {
+    public DagStepDTO append(Consumer<DagStepDTO> init) {
         if (Objects.isNull(lastAdded)) {
             return add(init);
         } else {
@@ -96,7 +93,7 @@ public class StageGraphBuilderImpl implements StageGraphBuilder {
     }
 
     @Override
-    public void append(StageExecution stage) {
+    public void append(DagStepDTO stage) {
         if (Objects.isNull(lastAdded)) {
             add(stage);
         } else {
@@ -105,7 +102,7 @@ public class StageGraphBuilderImpl implements StageGraphBuilder {
     }
 
     @Override
-    public Iterable<StageExecution> build() {
+    public Iterable<DagStepDTO> build() {
         requiredPrefix.ifPresent(
                 prefix ->
                         graph
@@ -133,8 +130,8 @@ public class StageGraphBuilderImpl implements StageGraphBuilder {
                 parent.getRefId(), type == SyntheticStageOwner.STAGE_BEFORE ? "<" : ">", offset + graph.nodes().size());
     }
 
-    private StageExecution newStage(Consumer<StageExecution> init) {
-        StageExecution stage = new StageExecutionImpl();
+    private DagStepDTO newStage(Consumer<DagStepDTO> init) {
+        DagStepDTO stage = new DagStepDTO();
         init.accept(stage);
         return stage;
     }

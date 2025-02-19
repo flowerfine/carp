@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.graph;
 
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 
 import java.util.function.Consumer;
 
@@ -26,21 +26,21 @@ import java.util.function.Consumer;
  */
 public interface StageGraphBuilder {
 
-    void add(StageExecution stage);
+    void add(DagStepDTO stage);
 
-    StageExecution add(Consumer<StageExecution> init);
+    DagStepDTO add(Consumer<DagStepDTO> init);
 
-    void connect(StageExecution previous, StageExecution next);
+    void connect(DagStepDTO previous, DagStepDTO next);
 
-    default StageExecution connect(StageExecution previous, Consumer<StageExecution> init) {
-        StageExecution stage = add(init);
+    default DagStepDTO connect(DagStepDTO previous, Consumer<DagStepDTO> init) {
+        DagStepDTO stage = add(init);
         connect(previous, stage);
         return stage;
     }
 
-    void append(StageExecution stage);
+    void append(DagStepDTO stage);
 
-    StageExecution append(Consumer<StageExecution> init);
+    DagStepDTO append(Consumer<DagStepDTO> init);
 
-    Iterable<StageExecution> build();
+    Iterable<DagStepDTO> build();
 }

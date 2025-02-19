@@ -17,11 +17,12 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.log.pipeline;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.StageGraphBuilder;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.TaskNode;
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
 import cn.sliew.carp.module.orca.spinnaker.log.tasks.LogTask;
+import cn.sliew.milky.common.util.JacksonUtil;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -43,23 +44,23 @@ public class LogStage implements StageDefinitionBuilder {
     }
 
     @Override
-    public void beforeStages(@NotNull StageExecution parent, @NotNull StageGraphBuilder graph) {
-        log.info("build before, parent: {}={}", parent.getName(), parent.getType());
+    public void beforeStages(@NotNull DagStepDTO parent, @NotNull StageGraphBuilder graph) {
+        log.info("build before, parent: {}={}", parent.getDagConfigStep().getStepName(), parent.getDagConfigStep().getStepName());
     }
 
     @Override
-    public void taskGraph(@NotNull StageExecution stage, @NotNull TaskNode.Builder builder) {
-        log.info("build task: " + stage.mapTo(StageData.class));
+    public void taskGraph(@NotNull DagStepDTO stage, @NotNull TaskNode.Builder builder) {
+        log.info("build task: {}", JacksonUtil.toObject(stage.getInputs(), StageData.class));
         builder.withTask("log", LogTask.class);
     }
 
     @Override
-    public void afterStages(@NotNull StageExecution parent, @NotNull StageGraphBuilder graph) {
-        log.info("build after, parent: {}={}", parent.getName(), parent.getType());
+    public void afterStages(@NotNull DagStepDTO parent, @NotNull StageGraphBuilder graph) {
+        log.info("build after, parent: {}={}", parent.getDagConfigStep().getStepName(), parent.getDagConfigStep().getStepName());
     }
 
     @Override
-    public void onFailureStages(@NotNull StageExecution stage, @NotNull StageGraphBuilder graph) {
+    public void onFailureStages(@NotNull DagStepDTO stage, @NotNull StageGraphBuilder graph) {
 
     }
 

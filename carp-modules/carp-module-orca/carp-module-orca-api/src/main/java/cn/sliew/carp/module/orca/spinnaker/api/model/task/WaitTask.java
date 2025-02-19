@@ -17,8 +17,9 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.task;
 
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.WaitStage;
+import cn.sliew.milky.common.util.JacksonUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -36,15 +37,15 @@ public class WaitTask implements RetryableTask {
     }
 
     @Override
-    public @Nonnull TaskResult execute(@Nonnull StageExecution stage) {
-        WaitStage.WaitStageContext context = stage.mapTo(WaitStage.WaitStageContext.class);
+    public @Nonnull TaskResult execute(@Nonnull DagStepDTO stage) {
+        WaitStage.WaitStageContext context = JacksonUtil.toObject(stage.getInputs(), WaitStage.WaitStageContext.class);
 
         Instant now = clock.instant();
 
         if (context.isSkipRemainingWait()) {
             return TaskResult.SUCCEEDED;
         } else if (stage.getStartTime() != null
-                && stage.getStartTime()
+                && stage.getStartTime().toInstant()
                 .plus(context.getWaitDuration())
                 .isBefore(now)) {
             return TaskResult.SUCCEEDED;
@@ -59,8 +60,8 @@ public class WaitTask implements RetryableTask {
     }
 
     @Override
-    public Duration getDynamicBackoffPeriod(StageExecution stage, Duration taskDuration) {
-        WaitStage.WaitStageContext context = stage.mapTo(WaitStage.WaitStageContext.class);
+    public Duration getDynamicBackoffPeriod(DagStepDTO stage, Duration taskDuration) {
+        WaitStage.WaitStageContext context = JacksonUtil.toObject(stage.getInputs(), WaitStage.WaitStageContext.class);
 
         if (context.isSkipRemainingWait()) {
             return Duration.ZERO;
@@ -70,7 +71,7 @@ public class WaitTask implements RetryableTask {
         if (stage.getStartTime() != null) {
             Instant now = clock.instant();
             Instant completion =
-                    stage.getStartTime().plus(context.getWaitDuration());
+                    stage.getStartTime().toInstant().plus(context.getWaitDuration());
 
             if (completion.isAfter(now)) {
                 return Duration.between(completion, now);

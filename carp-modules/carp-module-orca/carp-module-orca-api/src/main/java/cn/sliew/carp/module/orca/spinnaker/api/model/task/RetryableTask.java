@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.task;
 
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 
 import java.time.Duration;
 
@@ -31,7 +31,7 @@ public interface RetryableTask extends Task {
 
     Duration getTimeout();
 
-    default Duration getDynamicTimeout(StageExecution stage) {
+    default Duration getDynamicTimeout(DagStepDTO stage) {
         return getTimeout();
     }
 
@@ -39,7 +39,7 @@ public interface RetryableTask extends Task {
         return getBackoffPeriod();
     }
 
-    default Duration getDynamicBackoffPeriod(StageExecution stage, Duration taskDuration) {
+    default Duration getDynamicBackoffPeriod(DagStepDTO stage, Duration taskDuration) {
         return getDynamicBackoffPeriod(taskDuration);
     }
 }

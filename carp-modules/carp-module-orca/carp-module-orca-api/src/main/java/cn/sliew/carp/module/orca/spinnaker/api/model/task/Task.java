@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.task;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionStatus;
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
 import cn.sliew.carp.module.orca.spinnaker.kork.plugins.api.internal.SpinnakerExtensionPoint;
 
 import java.lang.annotation.ElementType;
@@ -39,7 +39,7 @@ public interface Task extends SpinnakerExtensionPoint {
      * @param stage The running stage execution stage
      * @return The result of this Task's execution
      */
-    TaskResult execute(StageExecution stage);
+    TaskResult execute(DagStepDTO stage);
 
     /**
      * Behavior to be called on Task timeout.
@@ -49,7 +49,7 @@ public interface Task extends SpinnakerExtensionPoint {
      *
      * @param stage The running state execution state
      */
-    default TaskResult onTimeout(StageExecution stage) {
+    default TaskResult onTimeout(DagStepDTO stage) {
         return null;
     }
 
@@ -65,7 +65,7 @@ public interface Task extends SpinnakerExtensionPoint {
      *
      * @param stage The running state execution state
      */
-    default TaskResult onCancelWithResult(StageExecution stage) {
+    default TaskResult onCancelWithResult(DagStepDTO stage) {
         return null;
     }
 

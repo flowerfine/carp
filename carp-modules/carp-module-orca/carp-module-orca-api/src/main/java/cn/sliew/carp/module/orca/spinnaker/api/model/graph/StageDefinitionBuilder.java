@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.model.graph;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
 
 import java.lang.annotation.ElementType;
@@ -37,7 +38,7 @@ import java.util.Collections;
  */
 public interface StageDefinitionBuilder {
 
-    default TaskNode.TaskGraph buildTaskGraph(StageExecution stage) {
+    default TaskNode.TaskGraph buildTaskGraph(DagStepDTO stage) {
         TaskNode.Builder graphBuilder = TaskNode.Builder(TaskNode.GraphType.FULL);
         taskGraph(stage, graphBuilder);
         return graphBuilder.build();
@@ -49,7 +50,7 @@ public interface StageDefinitionBuilder {
      * @param stage   The execution runtime of the stage
      * @param builder The task graph builder
      */
-    default void taskGraph(StageExecution stage, TaskNode.Builder builder) {
+    default void taskGraph(DagStepDTO stage, TaskNode.Builder builder) {
     }
 
     /**
@@ -60,7 +61,7 @@ public interface StageDefinitionBuilder {
      *               herein)
      * @param graph  The stage graph builder
      */
-    default void beforeStages(StageExecution parent, StageGraphBuilder graph) {
+    default void beforeStages(DagStepDTO parent, StageGraphBuilder graph) {
     }
 
     /**
@@ -71,7 +72,7 @@ public interface StageDefinitionBuilder {
      *               herein)
      * @param graph  The stage graph builder
      */
-    default void afterStages(StageExecution parent, StageGraphBuilder graph) {
+    default void afterStages(DagStepDTO parent, StageGraphBuilder graph) {
     }
 
     /**
@@ -81,7 +82,7 @@ public interface StageDefinitionBuilder {
      * @param stage The execution runtime of the stage
      * @param graph The stage graph builder
      */
-    default void onFailureStages(StageExecution stage, StageGraphBuilder graph) {
+    default void onFailureStages(DagStepDTO stage, StageGraphBuilder graph) {
     }
 
     /**
@@ -97,7 +98,7 @@ public interface StageDefinitionBuilder {
      *
      * @param stage The execution runtime of the stage
      */
-    default void prepareStageForRestart(StageExecution stage) {
+    default void prepareStageForRestart(DagStepDTO stage) {
     }
 
     /**

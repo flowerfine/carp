@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.log.tasks;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionStatus;
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.RetryableTask;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.TaskResult;
 import jakarta.validation.constraints.NotNull;
@@ -47,7 +47,7 @@ public class LogTask implements RetryableTask {
      * 获取之前节点的输出
      */
     @Override
-    public @NotNull TaskResult execute(@NotNull StageExecution stageExecution) {
+    public @NotNull TaskResult execute(@NotNull DagStepDTO stageExecution) {
         log.info("log task execute");
         Map<String, Object> context = new HashMap<>();
         context.put("log-task-context", "log-task-context");
