@@ -22,13 +22,21 @@ import cn.sliew.carp.framework.dag.x6.dnd.DndPortDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.DndPortGroupEnum;
 import cn.sliew.carp.module.workflow.api.dag.dnd.WorkflowDefinitionNodeDndDTO;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
+import cn.sliew.module.workflow.stage.model.StageDefinition;
+import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkflowDagServiceImpl implements WorkflowDagService {
+
+    @Autowired
+    private List<StageDefinition> stageDefinitions;
 
     @Override
     public List<DndDTO> getDnds() {
@@ -36,48 +44,32 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     }
 
     private List<DndDTO> loadWorkflowPanel() {
-        List<DndDTO> dnds = new ArrayList();
-        dnds.add(buildDemoDndDTO());
-        return dnds;
+        Map<String, List<StageDefinition>> categoryMap = stageDefinitions.stream()
+                .collect(Collectors.groupingBy(StageDefinition::getCategory));
+        return categoryMap.entrySet().stream()
+                .map(entry -> buildDemoDndDTO(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
     }
 
-    private WorkflowDefinitionNodeDndDTO buildDemoDndDTO() {
-        WorkflowDefinitionNodeDndDTO category = new WorkflowDefinitionNodeDndDTO();
-        category.setKey("demo-category-key");
-        category.setTitle("demo-category-1");
-        category.setDocString("a demo workflow node category");
-        category.setIsLeaf(false);
-        List<DndDTO> children = new ArrayList();
+    private WorkflowDefinitionNodeDndDTO buildDemoDndDTO(String category, List<StageDefinition> stageDefinitions) {
+        WorkflowDefinitionNodeDndDTO categoryDTO = new WorkflowDefinitionNodeDndDTO();
+        categoryDTO.setKey(category);
+        categoryDTO.setTitle(category);
+        categoryDTO.setDocString(category);
+        categoryDTO.setIsLeaf(false);
+        categoryDTO.setChildren(Lists.newArrayList());
 
-        WorkflowDefinitionNodeDndDTO childLogDemo = new WorkflowDefinitionNodeDndDTO();;
-        childLogDemo.setCategory(category.getKey());
-        childLogDemo.setKey("demo-log-key");
-        childLogDemo.setTitle("demo-log");
-        childLogDemo.setDocString("a demo workflow log node");
-        childLogDemo.setIsLeaf(true);
-        childLogDemo.setPorts(getSourcePorts(childLogDemo.getKey()));
-        children.add(childLogDemo);
-
-        WorkflowDefinitionNodeDndDTO childWaitDemo = new WorkflowDefinitionNodeDndDTO();;
-        childWaitDemo.setCategory(category.getKey());
-        childWaitDemo.setKey("demo-wait-key");
-        childWaitDemo.setTitle("demo-wait");
-        childWaitDemo.setDocString("a demo workflow wait node");
-        childWaitDemo.setIsLeaf(true);
-        childWaitDemo.setPorts(getTransformPorts(childWaitDemo.getKey()));
-        children.add(childWaitDemo);
-
-        WorkflowDefinitionNodeDndDTO childPrintDemo = new WorkflowDefinitionNodeDndDTO();;
-        childPrintDemo.setCategory(category.getKey());
-        childPrintDemo.setKey("demo-print-key");
-        childPrintDemo.setTitle("demo-print");
-        childPrintDemo.setDocString("a demo workflow print node");
-        childPrintDemo.setIsLeaf(true);
-        childPrintDemo.setPorts(getSinkPorts(childPrintDemo.getKey()));
-        children.add(childPrintDemo);
-
-        category.setChildren(children);
-        return category;
+        for (StageDefinition stageDefinition : stageDefinitions) {
+            WorkflowDefinitionNodeDndDTO child = new WorkflowDefinitionNodeDndDTO();
+            child.setCategory(categoryDTO.getKey());
+            child.setKey(stageDefinition.getType());
+            child.setTitle(stageDefinition.getType());
+            child.setDocString(stageDefinition.getRemark());
+            child.setIsLeaf(true);
+            child.setPorts(getSourcePorts(child.getKey()));
+            categoryDTO.getChildren().add(child);
+        }
+        return categoryDTO;
     }
 
     private List<DndPortDTO> getSourcePorts(String key) {

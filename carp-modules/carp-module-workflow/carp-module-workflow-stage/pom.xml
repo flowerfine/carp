@@ -26,21 +26,15 @@
         <version>0.0.34</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-workflow-api</artifactId>
+    <artifactId>carp-module-workflow-stage</artifactId>
+
+    <properties>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-dag</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-workflow-stage</artifactId>
+            <artifactId>carp-framework-pf4j</artifactId>
         </dependency>
     </dependencies>
 
