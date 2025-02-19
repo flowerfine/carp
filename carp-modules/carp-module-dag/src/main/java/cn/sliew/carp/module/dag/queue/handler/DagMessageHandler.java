@@ -23,7 +23,6 @@ import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
-import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public interface MessageHandler<M extends Message> {
+public interface DagMessageHandler<M> {
 
     Class<M> getMessageType();
 
@@ -41,7 +40,7 @@ public interface MessageHandler<M extends Message> {
         return LoggerFactory.getLogger(getClass());
     }
 
-    Queue getQueue();
+    void push(Object message);
 
     default void withDag(Messages.DagLevel dagLevel, Consumer<DagInstanceDTO> block) {
         try {
@@ -49,7 +48,7 @@ public interface MessageHandler<M extends Message> {
             DagInstanceDTO execution = dagInstanceComplexService.selectSimpleOne(dagLevel.getDagId());
             block.accept(execution);
         } catch (Exception e) {
-            getQueue().push(new Messages.InvalidExecutionId(dagLevel));
+            push(new Messages.InvalidExecutionId(dagLevel));
         }
     }
 
@@ -62,7 +61,7 @@ public interface MessageHandler<M extends Message> {
                 block.accept(stepDTO);
             } catch (IllegalArgumentException e) {
                 getLog().error("Failed to locate stage with id: {}", stepLevel.getStepId(), e);
-                getQueue().push(new Messages.InvalidStageId(stepLevel));
+                push(new Messages.InvalidStageId(stepLevel));
             }
         });
     }
@@ -76,7 +75,7 @@ public interface MessageHandler<M extends Message> {
                         taskLevel.getTaskId(),
                         JacksonUtil.toJsonString(step),
                         taskLevel);
-                getQueue().push(new Messages.InvalidTaskId(taskLevel));
+                push(new Messages.InvalidTaskId(taskLevel));
             } else {
                 block.accept(step, task);
             }

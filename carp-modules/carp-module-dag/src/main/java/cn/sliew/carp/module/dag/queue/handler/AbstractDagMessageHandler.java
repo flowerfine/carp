@@ -17,6 +17,12 @@
  */
 package cn.sliew.carp.module.dag.queue.handler;
 
+import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
+import cn.sliew.carp.module.dag.dispatch.InternalDagInstanceDispatcher;
+import cn.sliew.carp.module.queue.api.Message;
+import cn.sliew.carp.module.queue.api.Queue;
+import cn.sliew.carp.module.queue.api.QueueFactory;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.WorkerOptions;
@@ -26,13 +32,15 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractMessageHandler implements MessageHandler, InitializingBean, BeanFactoryAware {
+public abstract class AbstractDagMessageHandler implements DagMessageHandler, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;
 
     @Autowired
     private RedissonClient redissonClient;
+    @Autowired
+    private QueueFactory queueFactory;
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -43,5 +51,16 @@ public abstract class AbstractMessageHandler implements MessageHandler, Initiali
     public void afterPropertiesSet() throws Exception {
         executorService = redissonClient.getExecutorService("dag-message-handler");
         executorService.registerWorkers(WorkerOptions.defaults().workers(20).beanFactory(beanFactory));
+    }
+
+    @Override
+    public void push(Object event) {
+        Queue queue = queueFactory.get(InternalDagInstanceDispatcher.TOPIC);
+        SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
+        Message message = Message.builder()
+                .topic(queue.getName())
+                .body(serDer.serialize(event))
+                .build();
+        queue.push(message);
     }
 }
