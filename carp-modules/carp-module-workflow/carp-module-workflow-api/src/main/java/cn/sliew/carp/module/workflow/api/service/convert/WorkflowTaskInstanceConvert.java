@@ -40,7 +40,7 @@ public interface WorkflowTaskInstanceConvert extends BaseConvert<DagStepDTO, Wor
     default WorkflowTaskInstance toDto(DagStepDTO entity) {
         WorkflowTaskInstance dto = new WorkflowTaskInstance();
         BeanUtils.copyProperties(entity, dto);
-        dto.setWorkflowInstanceId(entity.getDagInstanceId());
+        dto.setWorkflowInstanceId(entity.getDagInstance().getId());
         if (entity.getDagConfigStep() != null) {
             dto.setNode(WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(entity.getDagConfigStep()));
         }
