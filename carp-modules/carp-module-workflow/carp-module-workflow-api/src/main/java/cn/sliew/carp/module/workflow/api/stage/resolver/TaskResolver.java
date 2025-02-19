@@ -15,17 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.orca.spinnaker.api.resolver;
+package cn.sliew.carp.module.workflow.api.stage.resolver;
 
-import cn.sliew.carp.module.orca.spinnaker.api.model.graph.TaskNode;
-import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
+import cn.sliew.module.workflow.stage.model.TaskDefinition;
 
-/**
- * Resolves the task implementation for a given task node.
- */
-public interface TaskImplementationResolver {
+public interface TaskResolver {
 
-    default TaskNode.DefinedTask resolve(StageExecution stage, TaskNode.DefinedTask taskNode) {
-        return taskNode;
-    }
+    TaskDefinition getTaskDefinition(String type);
 }
