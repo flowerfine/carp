@@ -50,6 +50,7 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         dagStepUpdateParam.setStatus(event.getNextState().getValue());
         dagStepUpdateParam.setStartTime(new Date());
         dagStepService.update(dagStepUpdateParam);
+        // todo run task
         stateMachine.onSuccess(workflowInstanceService.getTask(event.getWorkflowTaskInstanceId()));
     }
 }
