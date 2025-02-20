@@ -43,7 +43,7 @@ public class InternalDagInstanceDispatcher implements DagInstanceDispatcher, Mes
     public static final String TOPIC = "TOPIC_CARP_INTERNAL_DAG_INSTANCE_EVENT";
     public static final String CONSUMER_GROUP = "CONSUMER_GROUP_CARP_INTERNAL_DAG_INSTANCE_EVENT";
 
-    @Autowired
+    @Autowired(required = false)
     private List<DagMessageHandler> handlers;
 
     private Map<Class, DagMessageHandler> registry = new HashMap<>();

@@ -15,18 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.service;
+package cn.sliew.carp.module.dag.model;
 
-import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
-import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 
-public interface WorkflowDefinitionService {
+public interface DagRunner {
 
-    PageResult<WorkflowDefinition> page(DagConfigSimplePageParam param);
-
-    WorkflowDefinition get(Long id);
-
-    WorkflowDefinition getGraph(Long id);
-
+    void start(DagConfigDTO dagConfigDTO);
 }

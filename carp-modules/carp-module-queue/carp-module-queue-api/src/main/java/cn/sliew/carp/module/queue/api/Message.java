@@ -52,8 +52,10 @@ public final class Message extends EventObject {
     private String id;
     private String topic;
 
-    private Integer retry;
-    private Integer maxRetry;
+    @Builder.Default
+    private Integer retry = 0;
+    @Builder.Default
+    private Integer maxRetry = 3;
     private Integer backoffMills = 0;
 
     private Map<String, Object> headers;

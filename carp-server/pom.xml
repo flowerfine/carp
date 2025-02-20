@@ -42,6 +42,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-dag</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-dataservice</artifactId>
         </dependency>
         <dependency>
@@ -52,10 +56,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-http-job</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-orca-core</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-persistence</artifactId>

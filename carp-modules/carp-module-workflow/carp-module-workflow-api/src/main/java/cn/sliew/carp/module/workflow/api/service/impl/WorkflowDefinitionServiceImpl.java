@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
-import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraph;
@@ -45,7 +45,7 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
     private DagConfigComplexService dagConfigComplexService;
 
     @Override
-    public PageResult<WorkflowDefinition> page(DagSimplePageParam param) {
+    public PageResult<WorkflowDefinition> page(DagConfigSimplePageParam param) {
         PageResult<DagConfigDTO> pageResult = dagConfigComplexService.page(param);
         return PageUtil.buildPageResult(pageResult, WorkflowDefinitionConvert.INSTANCE::toDto);
     }

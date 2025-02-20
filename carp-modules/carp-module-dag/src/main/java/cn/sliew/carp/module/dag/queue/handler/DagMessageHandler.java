@@ -66,20 +66,20 @@ public interface DagMessageHandler<M> {
         });
     }
 
-    default void withTask(Messages.TaskLevel taskLevel, BiConsumer<DagStepDTO, TaskExecution> block) {
-        withStep(taskLevel, step -> {
-
-            TaskExecution task = step.taskById(taskLevel.getTaskId());
-            if (task == null) {
-                getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",
-                        taskLevel.getTaskId(),
-                        JacksonUtil.toJsonString(step),
-                        taskLevel);
-                push(new Messages.InvalidTaskId(taskLevel));
-            } else {
-                block.accept(step, task);
-            }
-        });
-    }
+//    default void withTask(Messages.TaskLevel taskLevel, BiConsumer<DagStepDTO, TaskExecution> block) {
+//        withStep(taskLevel, step -> {
+//
+//            TaskExecution task = step.taskById(taskLevel.getTaskId());
+//            if (task == null) {
+//                getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",
+//                        taskLevel.getTaskId(),
+//                        JacksonUtil.toJsonString(step),
+//                        taskLevel);
+//                push(new Messages.InvalidTaskId(taskLevel));
+//            } else {
+//                block.accept(step, task);
+//            }
+//        });
+//    }
 
 }

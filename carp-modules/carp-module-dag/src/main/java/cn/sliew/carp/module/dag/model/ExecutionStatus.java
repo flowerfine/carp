@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dag.module;
+package cn.sliew.carp.module.dag.model;
 
 import java.util.Arrays;
 import java.util.Collection;
