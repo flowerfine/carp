@@ -57,26 +57,26 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("InitExecution")
-    public static class InitExecution implements NamespaceAware, Serializable {
+    @JsonTypeName("initDag")
+    public static class InitDag implements NamespaceAware, Serializable {
         private final String namespace;
         private final String type;
         private final Long dagConfigId;
 
-        public InitExecution(DagConfigDTO source) {
+        public InitDag(DagConfigDTO source) {
             this(source.getNamespace(), source.getType(), source.getId());
         }
     }
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("startExecution")
-    public static class StartExecution implements DagLevel, Serializable {
+    @JsonTypeName("startDag")
+    public static class StartDag implements DagLevel, Serializable {
         private final String namespace;
         private final String type;
         private final Long dagId;
 
-        public StartExecution(DagInstanceDTO source) {
+        public StartDag(DagInstanceDTO source) {
             this(source.getNamespace(), source.getDagConfig().getType(), source.getId());
         }
     }

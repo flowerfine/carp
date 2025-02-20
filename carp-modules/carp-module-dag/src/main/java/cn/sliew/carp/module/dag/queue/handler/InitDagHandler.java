@@ -30,7 +30,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 @Component
-public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitExecution> {
+public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitDag> {
 
     @Autowired
     private DagConfigComplexService dagConfigComplexService;
@@ -40,16 +40,14 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitExecu
     private DagStepService dagStepService;
     @Autowired
     private DagLinkService dagLinkService;
-    @Autowired
-    private DagInstanceComplexService dagInstanceComplexService;
 
     @Override
     public Class getMessageType() {
-        return Messages.InitExecution.class;
+        return Messages.InitDag.class;
     }
 
     @Override
-    public void handle(Messages.InitExecution message) {
+    public void handle(Messages.InitDag message) {
         // inputs 处理
         DagConfigComplexDTO dagConfigComplexDTO = dagConfigComplexService.selectOne(message.getDagConfigId());
         List<DagConfigStepDTO> steps = dagConfigComplexDTO.getSteps();
@@ -97,6 +95,6 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitExecu
             }
         }
 
-        push(new Messages.StartExecution(dagInstanceDTO));
+        push(new Messages.StartDag(dagInstanceDTO));
     }
 }
