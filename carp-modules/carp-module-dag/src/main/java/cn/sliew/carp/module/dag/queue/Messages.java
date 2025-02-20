@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.dag.queue;
 
 import cn.hutool.cron.task.Task;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.model.ExecutionStatus;
@@ -52,6 +53,19 @@ public class Messages {
     public interface TaskLevel extends StepLevel {
 
         Long getTaskId();
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @JsonTypeName("InitExecution")
+    public static class InitExecution implements NamespaceAware, Serializable {
+        private final String namespace;
+        private final String type;
+        private final Long dagConfigId;
+
+        public InitExecution(DagConfigDTO source) {
+            this(source.getNamespace(), source.getType(), source.getId());
+        }
     }
 
     @Getter

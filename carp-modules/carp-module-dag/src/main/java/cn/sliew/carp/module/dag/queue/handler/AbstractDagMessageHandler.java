@@ -32,7 +32,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractDagMessageHandler implements DagMessageHandler, InitializingBean, BeanFactoryAware {
+public abstract class AbstractDagMessageHandler<M> implements DagMessageHandler<M>, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;

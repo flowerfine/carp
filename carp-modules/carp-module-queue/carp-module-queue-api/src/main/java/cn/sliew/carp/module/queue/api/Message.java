@@ -19,6 +19,7 @@ package cn.sliew.carp.module.queue.api;
 
 import lombok.Builder;
 import lombok.Data;
+import com.github.f4b6a3.uuid.UuidCreator;
 
 import java.util.EventObject;
 import java.util.Map;
@@ -49,11 +50,12 @@ public final class Message extends EventObject {
         this.body = body;
     }
 
-    private String id;
+    @Builder.Default
+    private String id = UuidCreator.getTimeOrderedEpoch().toString();
     private String topic;
 
     @Builder.Default
-    private Integer retry = 0;
+    private Integer retry = 1;
     @Builder.Default
     private Integer maxRetry = 3;
     private Integer backoffMills = 0;
