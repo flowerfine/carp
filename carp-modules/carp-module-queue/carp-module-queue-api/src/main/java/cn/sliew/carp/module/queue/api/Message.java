@@ -19,6 +19,7 @@ package cn.sliew.carp.module.queue.api;
 
 import lombok.Builder;
 import lombok.Data;
+import com.github.f4b6a3.uuid.UuidCreator;
 
 import java.util.EventObject;
 import java.util.Map;

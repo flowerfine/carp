@@ -22,7 +22,7 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-spring-boot-parent</artifactId>
-        <version>0.0.45</version>
+        <version>0.0.46</version>
     </parent>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>
@@ -108,6 +108,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-alert</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-dag</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

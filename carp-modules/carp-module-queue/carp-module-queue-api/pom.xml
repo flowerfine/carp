@@ -28,6 +28,10 @@
     </parent>
     <artifactId>carp-module-queue-api</artifactId>
 
+    <properties>
+        <uuid-creator.version>6.0.0</uuid-creator.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
@@ -42,6 +46,12 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.f4b6a3</groupId>
+            <artifactId>uuid-creator</artifactId>
+            <version>${uuid-creator.version}</version>
         </dependency>
     </dependencies>
 </project>
