@@ -59,6 +59,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("initDag")
     public static class InitDag implements NamespaceAware, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagConfigId;
@@ -72,6 +73,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("startDag")
     public static class StartDag implements DagLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -85,6 +87,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("rescheduleExecution")
     public static class RescheduleExecution implements DagLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -97,7 +100,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("completeExecution")
-    public static class CompleteExecution implements DagLevel {
+    public static class CompleteExecution implements DagLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -114,7 +118,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("resumeExecution")
-    public static class ResumeExecution implements DagLevel {
+    public static class ResumeExecution implements DagLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -127,7 +132,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("cancelExecution")
-    public static class CancelExecution implements DagLevel {
+    public static class CancelExecution implements DagLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -154,7 +160,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("startWaitingExecutions")
-    public static class StartWaitingExecutions {
+    public static class StartWaitingExecutions implements Serializable {
+        private static final long serialVersionUID = 1L;
         private Long pipelineConfigId;
         private Boolean purgeQueue;
     }
@@ -162,7 +169,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("startStage")
-    public static class StartStage implements StepLevel {
+    public static class StartStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -184,7 +192,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("continueParentStage")
-    public static class ContinueParentStage implements StepLevel {
+    public static class ContinueParentStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -202,7 +211,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("completeStage")
-    public static class CompleteStage implements StepLevel {
+    public static class CompleteStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -224,7 +234,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("skipStage")
-    public static class SkipStage implements StepLevel {
+    public static class SkipStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -242,7 +253,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("abortStage")
-    public static class AbortStage implements StepLevel {
+    public static class AbortStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -260,7 +272,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("pauseStage")
-    public static class PauseStage implements StepLevel {
+    public static class PauseStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -278,7 +291,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("restartStage")
-    public static class RestartStage implements StepLevel {
+    public static class RestartStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -297,7 +311,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("resumeStage")
-    public static class ResumeStage implements StepLevel {
+    public static class ResumeStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -315,7 +330,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("cancelStage")
-    public static class CancelStage implements StepLevel {
+    public static class CancelStage implements StepLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -333,7 +349,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("startTask")
-    public static class StartTask implements TaskLevel {
+    public static class StartTask implements TaskLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -363,7 +380,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("runTask")
-    public static class RunTask implements TaskLevel {
+    public static class RunTask implements TaskLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -390,7 +408,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("completeTask")
-    public static class CompleteTask implements TaskLevel {
+    public static class CompleteTask implements TaskLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -412,7 +431,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("pauseTask")
-    public static class PauseTask implements TaskLevel {
+    public static class PauseTask implements TaskLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -428,7 +448,8 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("resumeTask")
-    public static class ResumeTask implements TaskLevel {
+    public static class ResumeTask implements TaskLevel, Serializable {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -441,7 +462,7 @@ public class Messages {
         }
     }
 
-    public static abstract class ConfigurationError implements DagLevel {
+    public static abstract class ConfigurationError implements DagLevel, Serializable {
 
     }
 
@@ -449,6 +470,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("invalidExecutionId")
     public static class InvalidExecutionId extends ConfigurationError {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -462,6 +484,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("invalidStageId")
     public static class InvalidStageId extends ConfigurationError implements StepLevel {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -476,6 +499,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("invalidTaskId")
     public static class InvalidTaskId extends ConfigurationError implements TaskLevel {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -491,6 +515,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("invalidTaskType")
     public static class InvalidTaskType extends ConfigurationError implements StepLevel {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
@@ -506,6 +531,7 @@ public class Messages {
     @AllArgsConstructor
     @JsonTypeName("noDownstreamTasks")
     public static class NoDownstreamTasks extends ConfigurationError implements TaskLevel {
+        private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;

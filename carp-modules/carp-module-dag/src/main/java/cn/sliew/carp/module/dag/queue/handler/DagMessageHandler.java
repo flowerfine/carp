@@ -47,7 +47,7 @@ public interface DagMessageHandler<M> {
             DagInstanceComplexService dagInstanceComplexService = SpringUtil.getBean(DagInstanceComplexService.class);
             DagInstanceDTO execution = dagInstanceComplexService.selectSimpleOne(dagLevel.getDagId());
             block.accept(execution);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) { // todo 增加 not found exception
             push(new Messages.InvalidExecutionId(dagLevel));
         }
     }

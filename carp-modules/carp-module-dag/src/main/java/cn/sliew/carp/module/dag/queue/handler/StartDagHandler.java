@@ -17,7 +17,11 @@
  */
 package cn.sliew.carp.module.dag.queue.handler;
 
+import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.framework.dag.algorithm.DagUtil;
+import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.model.ExecutionStatus;
@@ -28,12 +32,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartDag> {
 
+    @Autowired
+    private DagInstanceComplexService dagInstanceComplexService;
     @Autowired
     private DagInstanceService dagInstanceService;
 
@@ -62,6 +67,7 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartDag
         });
     }
 
+    // todo 提升至接口层
     private boolean isCanceled(DagInstanceDTO dagInstanceDTO) {
         return false;
     }
@@ -74,12 +80,15 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartDag
     private void start(DagInstanceDTO dagInstanceDTO) {
         if (isAfterStartTimeExpiry(dagInstanceDTO)) {
             getLog().warn("Dag Instance (namespace: {}, type {}, id {}) start was canceled because start time would be after defined start time expiry (now: {}, expiry: {})",
-                    dagInstanceDTO.getNamespace(), dagInstanceDTO.getDagConfig().getType(), dagInstanceDTO.getId(), Instant.now(), dagInstanceDTO.getStartTimeExpiry());
+                    dagInstanceDTO.getNamespace(), dagInstanceDTO.getDagConfig().getType(), dagInstanceDTO.getId(), Instant.now(),
+//                    dagInstanceDTO.getStartTimeExpiry()
+                    null
+            );
             push(new Messages.CancelExecution(dagInstanceDTO, "system", "Could not begin execution before start time expiry"));
         } else {
-
-//            List<DagStepDTO> initialSteps = PipelineExecutionUtil.initialStages(dagInstanceDTO);
-            List<DagStepDTO> initialSteps = Collections.emptyList();
+            DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(dagInstanceDTO.getId());
+            DAG<DagStepDTO> dag = DagUtil.buildDag(dagInstanceComplexDTO);
+            Set<DagStepDTO> initialSteps = dag.getSources();
             if (CollectionUtils.isEmpty(initialSteps)) {
                 getLog().warn("Dag Instance found no initial steps (dagInstanceId: {})", dagInstanceDTO.getId());
                 dagInstanceService.updateStatus(dagInstanceDTO.getId(), dagInstanceDTO.getStatus(), ExecutionStatus.TERMINAL.name());
