@@ -17,6 +17,9 @@
 -- under the License.
 --
 
+create database if not exists gravitino default character set utf8mb4 collate utf8mb4_unicode_ci;
+use gravitino;
+
 CREATE TABLE IF NOT EXISTS `metalake_meta` (
     `metalake_id` BIGINT(20) UNSIGNED NOT NULL COMMENT 'metalake id',
     `metalake_name` VARCHAR(128) NOT NULL COMMENT 'metalake name',

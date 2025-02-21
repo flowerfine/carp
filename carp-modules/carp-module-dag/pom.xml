@@ -22,26 +22,34 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-modules</artifactId>
         <version>0.0.34</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-modules</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-dag</artifactId>
 
-    <modules>
-        <module>carp-module-alert</module>
-        <module>carp-module-dag</module>
-        <module>carp-module-dataservice</module>
-        <module>carp-module-datasource</module>
-        <module>carp-module-http-sync</module>
-        <module>carp-module-orca</module>
-        <module>carp-module-persistence</module>
-        <module>carp-module-plugin</module>
-        <module>carp-module-queue</module>
-        <module>carp-module-scheduler</module>
-        <module>carp-module-security</module>
-        <module>carp-module-system</module>
-        <module>carp-module-workflow</module>
-    </modules>
+    <properties>
+        <uuid-creator.version>6.0.0</uuid-creator.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-dag</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-queue-api</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
