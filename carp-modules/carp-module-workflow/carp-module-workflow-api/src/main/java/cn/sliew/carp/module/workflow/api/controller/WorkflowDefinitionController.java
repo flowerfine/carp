@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.api.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.dag.x6.dnd.DndDTO;
 import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
@@ -50,7 +50,7 @@ public class WorkflowDefinitionController {
 
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")
-    public PageResult<WorkflowDefinition> page(@Valid DagSimplePageParam param) {
+    public PageResult<WorkflowDefinition> page(@Valid DagConfigSimplePageParam param) {
         return workflowDefinitionService.page(param);
     }
 
