@@ -23,6 +23,7 @@ import cn.sliew.carp.module.dag.model.ExecutionStatus;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.EnumSet;
+import java.util.Objects;
 
 public enum DagExecutionUtil {
     ;
@@ -40,14 +41,18 @@ public enum DagExecutionUtil {
     );
 
     public static boolean anyUpstreamStepsFailed(DAG<DagStepDTO> dag, DagStepDTO dagStepDTO) {
-        return dag.inDegreeOf(dagStepDTO).stream()
+        return dag.inDegreeOf(findNode(dag, dagStepDTO)).stream()
                 .anyMatch(s -> STAGE_FAILED_STATUS.contains(s.getStatus())
                         || (StringUtils.equalsIgnoreCase(s.getStatus(), ExecutionStatus.NOT_STARTED.name()) && anyUpstreamStepsFailed(dag, s)));
     }
 
     public static boolean allUpstreamStepsComplete(DAG<DagStepDTO> dag, DagStepDTO dagStepDTO) {
-        return dag.inDegreeOf(dagStepDTO).stream()
+        return dag.inDegreeOf(findNode(dag, dagStepDTO)).stream()
                 .allMatch(s -> STAGE_COMPLETE_STATUS.contains(s.getStatus())
                         && allUpstreamStepsComplete(dag, s));
+    }
+
+    private static DagStepDTO findNode(DAG<DagStepDTO> dag, DagStepDTO dagStepDTO) {
+        return dag.nodes().stream().filter(s -> Objects.equals(s.getId(), dagStepDTO.getId())).findFirst().orElseThrow();
     }
 }

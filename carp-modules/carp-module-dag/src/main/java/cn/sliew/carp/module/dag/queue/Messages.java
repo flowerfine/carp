@@ -17,11 +17,11 @@
  */
 package cn.sliew.carp.module.dag.queue;
 
-import cn.hutool.cron.task.Task;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.model.ExecutionStatus;
+import cn.sliew.carp.module.dag.model.task.Task;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

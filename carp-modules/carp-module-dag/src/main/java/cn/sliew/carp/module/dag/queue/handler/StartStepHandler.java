@@ -76,7 +76,6 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
                         push(new Messages.SkipStep(dagStepDTO));
                     } else {
                         try {
-
                             LambdaUpdateWrapper<DagStep> updateWrapper = Wrappers.lambdaUpdate(DagStep.class)
                                     .eq(DagStep::getId, dagStepDTO.getId())
                                     .set(DagStep::getStatus, ExecutionStatus.RUNNING.name())
@@ -85,7 +84,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
                             // todo 创建 tasks
 //                            plan(dagStepDTO);
 
-                            start(dagStepDTO);
+                            start(message, dagStepDTO);
                         } catch (Exception e) {
                             handlePlanningException(message, dagStepDTO, e);
                         }
@@ -109,7 +108,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
         return false;
     }
 
-    private void start(DagStepDTO dagStepDTO) {
+    private void start(Messages.StartStep message, DagStepDTO dagStepDTO) {
         // orca 的处理逻辑：before-stages -> tasks[0] -> after-stages
         // orca 在执行时不会依赖 pipeline-template，stage 执行时可以动态新增新的 before & after stage，
         // 而 carp 的数据结构是强 config -> instance，动态新增 step 时会因为 step instance 缺少 step config
@@ -118,7 +117,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
         // 或者说无论是 dag 或 step 的 before & after 节点都必须是在 canvas 提前创建好的。执行即可
         // 按照 task 的定义顺序，挨个执行 tasks。
         // todo 实现 task 处理逻辑
-        push(new Messages.StartTask(dagStepDTO, 1L));
+        push(new Messages.StartTask(message, 1L));
     }
 
     private void handlePlanningException(Messages.StartStep message, DagStepDTO dagStepDTO, Exception e) {

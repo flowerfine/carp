@@ -23,11 +23,14 @@ import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
+import cn.sliew.carp.module.dag.model.task.TaskExecution;
 import cn.sliew.carp.module.dag.queue.Messages;
+import cn.sliew.milky.common.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public interface DagMessageHandler<M> {
@@ -68,21 +71,23 @@ public interface DagMessageHandler<M> {
         });
     }
 
-//    default void withTask(Messages.TaskLevel taskLevel, BiConsumer<DagStepDTO, TaskExecution> block) {
-//        withStep(taskLevel, step -> {
-//
+    default void withTask(Messages.TaskLevel taskLevel, BiConsumer<DagStepDTO, TaskExecution> block) {
+        withStep(taskLevel, step -> {
+
+            // todo 解析 task
 //            TaskExecution task = step.taskById(taskLevel.getTaskId());
-//            if (task == null) {
-//                getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",
-//                        taskLevel.getTaskId(),
-//                        JacksonUtil.toJsonString(step),
-//                        taskLevel);
-//                push(new Messages.InvalidTaskId(taskLevel));
-//            } else {
-//                block.accept(step, task);
-//            }
-//        });
-//    }
+            TaskExecution task = null;
+            if (task == null) {
+                getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",
+                        taskLevel.getTaskId(),
+                        JacksonUtil.toJsonString(step),
+                        taskLevel);
+                push(new Messages.InvalidTaskId(taskLevel));
+            } else {
+                block.accept(step, task);
+            }
+        });
+    }
 
     default Logger getLog() {
         return LoggerFactory.getLogger(getClass());
