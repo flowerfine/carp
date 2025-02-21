@@ -99,18 +99,18 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("completeExecution")
-    public static class CompleteExecution implements DagLevel, Serializable {
+    @JsonTypeName("completeDag")
+    public static class CompleteDag implements DagLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
 
-        public CompleteExecution(DagLevel source) {
+        public CompleteDag(DagLevel source) {
             this(source.getNamespace(), source.getType(), source.getDagId());
         }
 
-        public CompleteExecution(DagInstanceDTO source) {
+        public CompleteDag(DagInstanceDTO source) {
             this(source.getNamespace(), source.getDagConfig().getType(), source.getId());
         }
     }
@@ -168,23 +168,23 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("startStage")
-    public static class StartStage implements StepLevel, Serializable {
+    @JsonTypeName("startStep")
+    public static class StartStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public StartStage(StepLevel source) {
+        public StartStep(StepLevel source) {
             this(source, source.getStepId());
         }
 
-        public StartStage(DagLevel source, Long stepId) {
+        public StartStep(DagLevel source, Long stepId) {
             this(source.getNamespace(), source.getType(), source.getDagId(), stepId);
         }
 
-        public StartStage(DagStepDTO source) {
+        public StartStep(DagStepDTO source) {
             this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
         }
     }
@@ -233,19 +233,19 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("skipStage")
-    public static class SkipStage implements StepLevel, Serializable {
+    @JsonTypeName("skipStep")
+    public static class SkipStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public SkipStage(StepLevel source) {
+        public SkipStep(StepLevel source) {
             this(source.getNamespace(), source.getType(), source.getDagId(), source.getStepId());
         }
 
-        public SkipStage(DagStepDTO source) {
+        public SkipStep(DagStepDTO source) {
             this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
         }
     }

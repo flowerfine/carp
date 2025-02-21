@@ -193,6 +193,7 @@ public class StartStageHandler extends AbstractOrcaMessageHandler<Messages.Start
                     afterStages.forEach(s -> getQueue().push(new Messages.StartStage(s)));
                 }
             } else {
+                // task 是有序的。。。
                 getQueue().push(new Messages.StartTask(stage, task.getId()));
             }
         } else {

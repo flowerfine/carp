@@ -19,6 +19,8 @@ package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
+import cn.sliew.carp.framework.exception.ExceptionHandler;
+import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.dispatch.InternalDagInstanceDispatcher;
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.Queue;
@@ -32,6 +34,9 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.Duration;
+import java.util.List;
+
 public abstract class AbstractDagMessageHandler<M> implements DagMessageHandler<M>, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
@@ -41,6 +46,8 @@ public abstract class AbstractDagMessageHandler<M> implements DagMessageHandler<
     private RedissonClient redissonClient;
     @Autowired
     private QueueFactory queueFactory;
+    @Autowired(required = false)
+    private List<ExceptionHandler> exceptionHandlers;
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -54,13 +61,22 @@ public abstract class AbstractDagMessageHandler<M> implements DagMessageHandler<
     }
 
     @Override
-    public void push(Object event) {
+    public void push(Object event, Duration delay) {
         Queue queue = queueFactory.get(InternalDagInstanceDispatcher.TOPIC);
         SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
         Message message = Message.builder()
                 .topic(queue.getName())
                 .body(serDer.serialize(event))
                 .build();
-        queue.push(message);
+        queue.push(message, delay);
+    }
+
+    @Override
+    public ExceptionVO handleException(String name, Exception e) {
+        return exceptionHandlers.stream()
+                .filter(handler -> handler.support(e))
+                .findFirst()
+                .map(handler -> handler.handle(name != null ? name : "unspecified", e))
+                .orElse(null);
     }
 }

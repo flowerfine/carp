@@ -22,12 +22,12 @@ import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
-import cn.sliew.milky.common.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.BiConsumer;
+import java.time.Duration;
 import java.util.function.Consumer;
 
 public interface DagMessageHandler<M> {
@@ -36,11 +36,12 @@ public interface DagMessageHandler<M> {
 
     void handle(M message);
 
-    default Logger getLog() {
-        return LoggerFactory.getLogger(getClass());
+    default void push(Object message) {
+        push(message, Duration.ZERO);
     }
+    void push(Object message, Duration delay);
 
-    void push(Object message);
+    ExceptionVO handleException(String name, Exception e);
 
     default void withDag(Messages.DagLevel dagLevel, Consumer<DagInstanceDTO> block) {
         try {
@@ -60,7 +61,8 @@ public interface DagMessageHandler<M> {
                 DagStepDTO stepDTO = dagStepService.get(stepLevel.getStepId());
                 block.accept(stepDTO);
             } catch (IllegalArgumentException e) {
-                getLog().error("Failed to locate stage with id: {}", stepLevel.getStepId(), e);
+                getLog().error("Failed to locate step with id: {}, dagInstanceId: {}",
+                        stepLevel.getStepId(), stepLevel.getDagId(), e);
                 push(new Messages.InvalidStageId(stepLevel));
             }
         });
@@ -81,5 +83,9 @@ public interface DagMessageHandler<M> {
 //            }
 //        });
 //    }
+
+    default Logger getLog() {
+        return LoggerFactory.getLogger(getClass());
+    }
 
 }
