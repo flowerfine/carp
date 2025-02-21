@@ -70,11 +70,6 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartDag
         });
     }
 
-    // todo 提升至接口层
-    private boolean isCanceled(DagInstanceDTO dagInstanceDTO) {
-        return false;
-    }
-
     private boolean shouldLimit(DagInstanceDTO dagInstanceDTO) {
         // 并发和速率限流
         return false;

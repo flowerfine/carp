@@ -91,6 +91,22 @@ public interface DagMessageHandler<M> {
         });
     }
 
+    default boolean isCanceled(DagInstanceDTO dagInstanceDTO) {
+        return false;
+    }
+
+    default boolean isComplete(DagInstanceDTO dagInstanceDTO) {
+        return false;
+    }
+
+    default boolean isSkipped(DagStepDTO dagStepDTO) {
+        return false;
+    }
+
+    default boolean isManuallySkipped(DagStepDTO dagStepDTO) {
+        return false;
+    }
+
     default Logger getLog() {
         return LoggerFactory.getLogger(getClass());
     }
