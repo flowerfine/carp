@@ -38,7 +38,7 @@ public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartT
             TaskExecutionImpl taskImpl = (TaskExecutionImpl) task;
             if (isTaskEnabled(dagStepDTO, task)) {
 //                push(new Messages.RunTask(message, taskImpl.getId(), getTaskType(taskImpl)));
-                push(new Messages.RunTask(message, taskImpl.getId(), null));
+                push(new Messages.RunTask(message, task.getId(), null));
             } else {
                 push(new Messages.CompleteTask(message, ExecutionStatus.SKIPPED));
             }
