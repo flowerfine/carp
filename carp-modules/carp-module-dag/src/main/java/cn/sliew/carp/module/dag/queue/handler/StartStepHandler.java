@@ -133,7 +133,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
 //            stage.getContext().put("beforeStagePlanningFailed", true);
 //            getRepository().storeStage(stage);
 
-            push(new Messages.CompleteStage(message));
+            push(new Messages.CompleteStep(message));
         }
     }
 
@@ -146,6 +146,6 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
 //        stage.getContext().put("beforeStagePlanningFailed", true);
 
 //        getRepository().storeStage(stage);
-        push(new Messages.CompleteStage(message));
+        push(new Messages.CompleteStep(message));
     }
 }

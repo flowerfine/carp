@@ -210,23 +210,23 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("completeStage")
-    public static class CompleteStage implements StepLevel, Serializable {
+    @JsonTypeName("completeStep")
+    public static class CompleteStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public CompleteStage(StepLevel source) {
+        public CompleteStep(StepLevel source) {
             this(source, source.getStepId());
         }
 
-        public CompleteStage(DagLevel source, Long stepId) {
+        public CompleteStep(DagLevel source, Long stepId) {
             this(source.getNamespace(), source.getType(), source.getDagId(), stepId);
         }
 
-        public CompleteStage(DagStepDTO source) {
+        public CompleteStep(DagStepDTO source) {
             this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
         }
     }

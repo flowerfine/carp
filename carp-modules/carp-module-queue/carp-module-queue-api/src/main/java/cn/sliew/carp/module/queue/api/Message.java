@@ -50,11 +50,14 @@ public final class Message extends EventObject {
         this.body = body;
     }
 
-    private String id;
+    @Builder.Default
+    private String id = UuidCreator.getShortPrefixComb().toString();
     private String topic;
 
-    private Integer retry;
-    private Integer maxRetry;
+    @Builder.Default
+    private Integer retry = 1;
+    @Builder.Default
+    private Integer maxRetry = 3;
     private Integer backoffMills = 0;
 
     private Map<String, Object> headers;
