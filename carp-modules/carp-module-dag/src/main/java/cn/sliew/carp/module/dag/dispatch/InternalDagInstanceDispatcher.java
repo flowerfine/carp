@@ -83,10 +83,18 @@ public class InternalDagInstanceDispatcher implements DagInstanceDispatcher, Mes
 
     @Override
     public void dispatch(Object event) {
-        if (registry.containsKey(event.getClass()) == false) {
-            throw new RuntimeException("unknown workflow instance event: " + event.getClass().getSimpleName());
+        DagMessageHandler handler;
+        if (registry.containsKey(event.getClass())) {
+            handler = registry.get(event.getClass());
+
+        } else {
+            handler = registry.entrySet().stream()
+                    .filter(entry -> entry.getKey().isAssignableFrom(event.getClass()))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("unknown workflow instance event: " + event.getClass().getSimpleName()))
+                    .getValue();
         }
-        DagMessageHandler handler = registry.get(event.getClass());
+
         CompletableFuture.runAsync(() -> handler.handle(event), taskExecutor)
                 .whenComplete((unused, throwable) -> {
                     if (throwable != null) {

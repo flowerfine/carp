@@ -20,6 +20,9 @@ package cn.sliew.carp.module.workflow.stage.model.task;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import com.github.f4b6a3.uuid.UuidCreator;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -28,9 +31,12 @@ import java.util.Map;
 /**
  * A "task" is a component piece of a stage
  */
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class TaskExecutionImpl implements TaskExecution {
 
+    @EqualsAndHashCode.Include
     private Long id;
     private String uuid = UuidCreator.getShortPrefixComb().toString();
     private String name;

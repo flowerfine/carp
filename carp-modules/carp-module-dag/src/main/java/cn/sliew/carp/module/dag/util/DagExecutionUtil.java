@@ -22,8 +22,8 @@ import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.task.*;
 import jakarta.annotation.Nullable;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -46,13 +46,13 @@ public enum DagExecutionUtil {
     );
 
     public static boolean anyUpstreamStepsFailed(DAG<DagStepDTO> dag, DagStepDTO dagStepDTO) {
-        return dag.inDegreeOf(findNode(dag, dagStepDTO)).stream()
+        return dag.inDegreeOf(dagStepDTO).stream()
                 .anyMatch(s -> STAGE_FAILED_STATUS.contains(s.getStatus())
                         || (StringUtils.equalsIgnoreCase(s.getStatus(), ExecutionStatus.NOT_STARTED.name()) && anyUpstreamStepsFailed(dag, s)));
     }
 
     public static boolean allUpstreamStepsComplete(DAG<DagStepDTO> dag, DagStepDTO dagStepDTO) {
-        return dag.inDegreeOf(findNode(dag, dagStepDTO)).stream()
+        return dag.inDegreeOf(dagStepDTO).stream()
                 .allMatch(s -> STAGE_COMPLETE_STATUS.contains(s.getStatus())
                         && allUpstreamStepsComplete(dag, s));
     }
@@ -97,7 +97,11 @@ public enum DagExecutionUtil {
         }
         List<TaskExecution> tasks = getTasks(dagStepDTO);
         int index = tasks.indexOf(task);
-        return tasks.get(index + 1);
+
+        if (index == tasks.size() - 1) {
+            return null;
+        }
+        return CollectionUtils.get(tasks, index + 1);
     }
 
     public static DagStepDTO beforeTask(List<TaskExecutionInterceptor> interceptors, DagStepDTO dagStepDTO, Task task) {
@@ -111,7 +115,7 @@ public enum DagExecutionUtil {
     }
 
     public static TaskResult afterTask(List<TaskExecutionInterceptor> interceptors,
-                                   DagStepDTO dagStepDTO, Task task, TaskResult taskResult) {
+                                       DagStepDTO dagStepDTO, Task task, TaskResult taskResult) {
         if (CollectionUtils.isEmpty(interceptors)) {
             return taskResult;
         }
