@@ -18,10 +18,10 @@
 package cn.sliew.carp.module.workflow.api.stage.log;
 
 import cn.sliew.carp.framework.common.util.UUIDUtil;
-import cn.sliew.module.workflow.stage.model.TaskDefinition;
-import cn.sliew.module.workflow.stage.model.param.ParamDataType;
-import cn.sliew.module.workflow.stage.model.param.TaskInputParam;
-import cn.sliew.module.workflow.stage.model.param.TaskOutputParam;
+import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
+import cn.sliew.carp.module.workflow.stage.model.param.ParamDataType;
+import cn.sliew.carp.module.workflow.stage.model.param.TaskInputParam;
+import cn.sliew.carp.module.workflow.stage.model.param.TaskOutputParam;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

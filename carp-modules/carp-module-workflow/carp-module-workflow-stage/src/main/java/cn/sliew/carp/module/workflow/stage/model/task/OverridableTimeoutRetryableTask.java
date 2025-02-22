@@ -15,11 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
-
-public interface TaskResolver {
-
-    TaskDefinition getTaskDefinition(String type);
+/**
+ * A retryable task whose timeout is taken from the top level stage if that value has been
+ * overridden. {@see com.netflix.spinnaker.orca.q.handler.RunTaskHandler} for the way this interface
+ * is used.
+ *
+ * <p>These are typically wait/monitor stages
+ */
+public interface OverridableTimeoutRetryableTask extends RetryableTask {
 }

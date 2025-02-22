@@ -25,8 +25,8 @@ import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.module.workflow.stage.model.task.TaskExecution;
-import cn.sliew.module.workflow.stage.model.task.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.task.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +79,7 @@ public interface DagMessageHandler<M> {
 //            TaskExecution task = step.taskById(taskLevel.getTaskId());
             TaskExecutionImpl task = new TaskExecutionImpl();
             task.setId(taskLevel.getTaskId());
-            task.setImplementingClass("cn.sliew.module.workflow.stage.internal.log.LogTask");
+            task.setImplementingClass("cn.sliew.carp.module.workflow.stage.internal.log.LogStepTask");
 
             if (task == null) {
                 getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",

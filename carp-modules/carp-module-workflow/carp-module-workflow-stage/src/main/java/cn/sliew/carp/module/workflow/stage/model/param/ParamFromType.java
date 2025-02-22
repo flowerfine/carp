@@ -15,11 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.carp.module.workflow.stage.model.param;
 
-import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
+public enum ParamFromType {
 
-public interface TaskResolver {
-
-    TaskDefinition getTaskDefinition(String type);
+    GLOBAL_VARIABLE,PARENT, CONSTANT
 }

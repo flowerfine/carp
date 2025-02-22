@@ -15,11 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.carp.module.workflow.stage.model;
 
-import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
+import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
+import cn.sliew.carp.module.workflow.stage.model.param.StepInputParam;
 
-public interface TaskResolver {
+import java.util.List;
 
-    TaskDefinition getTaskDefinition(String type);
+public interface StepDefinition extends CarpExtensionPoint {
+
+    String getCategory();
+
+    String getType();
+
+    String getVersion();
+
+    String getProvider();
+
+    String getRemark();
+
+    List<StepInputParam> getInputParams();
+
+    List<TaskDefinition> getTasks();
 }

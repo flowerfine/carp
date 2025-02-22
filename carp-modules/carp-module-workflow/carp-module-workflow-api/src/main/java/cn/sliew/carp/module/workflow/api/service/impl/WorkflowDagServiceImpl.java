@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.dag.x6.dnd.DndPortDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.DndPortGroupEnum;
 import cn.sliew.carp.module.workflow.api.dag.dnd.WorkflowDefinitionNodeDndDTO;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
-import cn.sliew.module.workflow.stage.model.StepDefinition;
+import cn.sliew.carp.module.workflow.stage.model.StepDefinition;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

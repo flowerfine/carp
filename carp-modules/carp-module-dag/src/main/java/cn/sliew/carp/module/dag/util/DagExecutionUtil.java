@@ -19,7 +19,7 @@ package cn.sliew.carp.module.dag.util;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.EnumSet;

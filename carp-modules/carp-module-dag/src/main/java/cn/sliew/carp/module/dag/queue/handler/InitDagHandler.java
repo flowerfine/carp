@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

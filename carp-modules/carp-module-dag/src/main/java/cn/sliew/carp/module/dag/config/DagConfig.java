@@ -17,28 +17,28 @@
  */
 package cn.sliew.carp.module.dag.config;
 
-import cn.sliew.module.workflow.stage.model.graph.StageDefinitionBuilder;
-import cn.sliew.module.workflow.stage.model.resolver.DefaultStepResolver;
-import cn.sliew.module.workflow.stage.model.resolver.DefaultTaskResolver;
-import cn.sliew.module.workflow.stage.model.resolver.StepResolver;
-import cn.sliew.module.workflow.stage.model.resolver.TaskResolver;
-import cn.sliew.module.workflow.stage.model.task.Task;
-import org.springframework.beans.factory.ObjectProvider;
+import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
+import cn.sliew.carp.module.workflow.stage.model.resolver.DefaultStepResolver;
+import cn.sliew.carp.module.workflow.stage.model.resolver.DefaultTaskResolver;
+import cn.sliew.carp.module.workflow.stage.model.resolver.StepResolver;
+import cn.sliew.carp.module.workflow.stage.model.resolver.TaskResolver;
+import cn.sliew.carp.module.workflow.stage.model.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Collection;
+import java.util.List;
 
 @Configuration
 public class DagConfig {
 
     @Bean
-    public StepResolver carpStepResolver(ObjectProvider<Collection<StageDefinitionBuilder>> stageDefinitionBuilders) {
+    public StepResolver carpStepResolver(List<StageDefinitionBuilder> stageDefinitionBuilders) {
         return new DefaultStepResolver(stageDefinitionBuilders);
     }
 
     @Bean
-    public TaskResolver carpTaskResolver(ObjectProvider<Collection<Task>> tasks) {
+    public TaskResolver carpTaskResolver(@Autowired List<Task> tasks) {
         return new DefaultTaskResolver(tasks, true);
     }
 }

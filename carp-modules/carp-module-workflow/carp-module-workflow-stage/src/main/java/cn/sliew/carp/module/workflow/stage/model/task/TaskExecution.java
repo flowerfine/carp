@@ -15,11 +15,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
+import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 
-public interface TaskResolver {
+import java.time.Instant;
+import java.util.Map;
 
-    TaskDefinition getTaskDefinition(String type);
+/**
+ * The runtime execution state of a task.
+ */
+public interface TaskExecution {
+
+    Long getId();
+
+    String getUuid();
+
+    String getName();
+
+    String getImplementingClass();
+
+    Instant getStartTime();
+
+    Instant getEndTime();
+
+    ExecutionStatus getStatus();
+
+    boolean isStageStart();
+
+    boolean isStageEnd();
+
+    boolean isLoopStart();
+
+    boolean isLoopEnd();
+
+    Map<String, Object> getTaskExceptionDetails();
 }

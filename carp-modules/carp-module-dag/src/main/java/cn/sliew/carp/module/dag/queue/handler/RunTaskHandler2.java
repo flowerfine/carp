@@ -24,9 +24,11 @@ import cn.sliew.carp.module.dag.exceptions.StepTimeoutException;
 import cn.sliew.carp.module.dag.lock.RetriableLock;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
+import cn.sliew.carp.module.workflow.stage.model.task.*;
 import cn.sliew.milky.common.util.JacksonUtil;
-import cn.sliew.module.workflow.stage.model.ExecutionStatus;
-import cn.sliew.module.workflow.stage.model.task.*;
+import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.resolver.NoSuchTaskException;
+import cn.sliew.carp.module.workflow.stage.model.resolver.TaskResolver;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.MapUtils;
@@ -49,6 +51,8 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
     @Autowired
     @Qualifier("carpRetriableLock")
     private RetriableLock retriableLock;
+    @Autowired
+    private TaskResolver taskResolver;
 
     @Override
     public Class<Messages.RunTask> getMessageType() {
@@ -110,10 +114,9 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
     private void withTask(Messages.RunTask message, Consumer3<DagStepDTO, TaskExecution, Task> consumer) {
         withTask(message, (stage, taskExecution) -> {
             try {
-//                Task task = taskResolver.getTask(taskExecution.getImplementingClass());
-                consumer.accept(stage, taskExecution, null);
-//            } catch (TaskResolver.NoSuchTaskException e) {
-            } catch (Exception e) {
+                Task task = taskResolver.getTask(taskExecution.getImplementingClass());
+                consumer.accept(stage, taskExecution, task);
+            } catch (NoSuchTaskException e) {
                 push(new Messages.InvalidTaskType(message, message.getTaskType().getName()));
             }
         });
@@ -375,7 +378,7 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
                     message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), message.getTaskType().getSimpleName());
             push(message, getBackoffPeriod(task, taskModel, dagStepDTO));
 //            trackResult(stage, startTimeMs, taskModel, ExecutionStatus.RUNNING);
-        } else if (e instanceof StepTimeoutException ){
+        } else if (e instanceof StepTimeoutException) {
 //                && Boolean.TRUE.equals(dagStepDTO.getContext().get("markSuccessfulOnTimeout"))) {
 //            trackResult(stage, startTimeMs, taskModel, ExecutionStatus.SUCCEEDED);
             push(new Messages.CompleteTask(message, ExecutionStatus.SUCCEEDED));

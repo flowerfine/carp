@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.api.stage.resolver;
 
-import cn.sliew.module.workflow.stage.model.StepDefinition;
+import cn.sliew.carp.module.workflow.stage.model.StepDefinition;
 
 public interface StageResolver {
 

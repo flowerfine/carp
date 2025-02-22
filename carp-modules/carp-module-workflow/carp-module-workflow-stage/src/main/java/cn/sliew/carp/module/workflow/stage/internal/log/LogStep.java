@@ -15,11 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.carp.module.workflow.stage.internal.log;
 
-import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
+import cn.sliew.carp.module.workflow.stage.model.graph.TaskNode;
+import org.springframework.stereotype.Component;
 
-public interface TaskResolver {
+@Component
+public class LogStep implements StageDefinitionBuilder {
 
-    TaskDefinition getTaskDefinition(String type);
+    public static final String STEP_TYPE = "log";
+
+    @Override
+    public String getType() {
+        return STEP_TYPE;
+    }
+
+    @Override
+    public void taskGraph(DagStepDTO step, TaskNode.Builder builder) {
+        builder.withTask("log-1", LogStepTask.class);
+        builder.withTask("log-2", LogStepTask.class);
+        builder.withTask("log-3", LogStepTask.class);
+    }
 }

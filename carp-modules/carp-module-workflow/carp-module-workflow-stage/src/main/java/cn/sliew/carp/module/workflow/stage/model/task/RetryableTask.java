@@ -15,11 +15,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 
-public interface TaskResolver {
+import java.time.Duration;
 
-    TaskDefinition getTaskDefinition(String type);
+/**
+ * A retryable task defines its backoff period (the period between delays) and its timeout (the
+ * total period of the task)
+ */
+public interface RetryableTask extends Task {
+
+    Duration getBackoffPeriod();
+
+    Duration getTimeout();
+
+    default Duration getDynamicTimeout(DagStepDTO step) {
+        return getTimeout();
+    }
+
+    default Duration getDynamicBackoffPeriod(Duration taskDuration) {
+        return getBackoffPeriod();
+    }
+
+    default Duration getDynamicBackoffPeriod(DagStepDTO step, Duration taskDuration) {
+        return getDynamicBackoffPeriod(taskDuration);
+    }
 }

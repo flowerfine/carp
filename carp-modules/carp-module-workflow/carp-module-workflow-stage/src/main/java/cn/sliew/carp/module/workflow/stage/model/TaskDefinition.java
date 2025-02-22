@@ -15,11 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.carp.module.workflow.stage.model;
 
-import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
+import cn.sliew.carp.module.workflow.stage.model.param.TaskInputParam;
+import cn.sliew.carp.module.workflow.stage.model.param.TaskOutputParam;
 
-public interface TaskResolver {
+import java.util.List;
 
-    TaskDefinition getTaskDefinition(String type);
+public interface TaskDefinition {
+
+    String getType();
+
+    String getName();
+
+    List<TaskInputParam> getInputParams();
+
+    List<TaskOutputParam> getOutputParams();
 }

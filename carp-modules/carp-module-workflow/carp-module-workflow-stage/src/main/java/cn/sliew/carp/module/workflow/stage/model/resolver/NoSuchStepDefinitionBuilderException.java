@@ -15,11 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.stage.resolver;
+package cn.sliew.carp.module.workflow.stage.model.resolver;
 
-import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
+import java.util.Collection;
 
-public interface TaskResolver {
-
-    TaskDefinition getTaskDefinition(String type);
+public class NoSuchStepDefinitionBuilderException extends IllegalArgumentException {
+    NoSuchStepDefinitionBuilderException(String type, String alias, Collection<String> knownTypes) {
+        super(String.format(
+                        "No StageDefinitionBuilder implementation for %s(alias: %s) found (knownTypes: %s)",
+                        type, alias, String.join(",", knownTypes)));
+    }
 }
