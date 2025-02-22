@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dag.model.task;
+package cn.sliew.module.workflow.stage.model.task;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
-import cn.sliew.carp.module.dag.model.ExecutionStatus;
+import cn.sliew.module.workflow.stage.model.ExecutionStatus;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

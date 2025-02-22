@@ -15,9 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dag.model.task;
-
-import cn.sliew.carp.module.dag.queue.handler.StartTaskHandler2;
+package cn.sliew.module.workflow.stage.model.task;
 
 /**
  * A skippable task can be configured via properties to go directly from NOT_STARTED to SKIPPED. By
@@ -31,7 +29,7 @@ import cn.sliew.carp.module.dag.queue.handler.StartTaskHandler2;
  *
  * <p>tasks.dummySkippableTask.enabled
  *
- * @see StartTaskHandler2
+ * @see StartTaskHandler
  */
 public interface SkippableTask extends Task {
 

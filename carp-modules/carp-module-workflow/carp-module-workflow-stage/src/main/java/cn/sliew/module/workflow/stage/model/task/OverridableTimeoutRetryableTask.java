@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dag.model.task;
+package cn.sliew.module.workflow.stage.model.task;
 
 /**
  * A retryable task whose timeout is taken from the top level stage if that value has been

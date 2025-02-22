@@ -21,17 +21,19 @@ import cn.hutool.core.lang.func.Consumer3;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.exceptions.StepTimeoutException;
-import cn.sliew.carp.module.dag.model.ExecutionStatus;
-import cn.sliew.carp.module.dag.model.task.*;
+import cn.sliew.carp.module.dag.lock.RetriableLock;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.module.workflow.stage.model.task.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -44,6 +46,9 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
 
     @Autowired(required = false)
     private List<TaskExecutionInterceptor> taskExecutionInterceptors;
+    @Autowired
+    @Qualifier("carpRetriableLock")
+    private RetriableLock retriableLock;
 
     @Override
     public Class<Messages.RunTask> getMessageType() {
@@ -90,11 +95,14 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
     }
 
     private void withLocking(Messages.RunTask message, Runnable action) {
-//        RetriableLock.RetriableLockOptions lockOptions = new RetriableLock.RetriableLockOptions(message.getStageId().toString());
-        Boolean lockAcquired = true;
+        RetriableLock.RetriableLockOptions lockOptions = new RetriableLock.RetriableLockOptions(
+                String.format("carp:dag:%s:%s:%d:%d",
+                        message.getNamespace(), message.getType(), message.getDagId(), message.getStepId()));
+        Boolean lockAcquired = retriableLock.lock(lockOptions, action);
         if (!lockAcquired) {
             getLog().warn("Dag Step (namespace: {}, type: {}, dagId: {}, stepId: {}) fail to obtain lock for task. Pushing original message back to queue",
                     message.getNamespace(), message.getType(), message.getDagId(), message.getStepId());
+            // fixme 需增加重试次数，不然会无限重试下去
             push(message);
         }
     }

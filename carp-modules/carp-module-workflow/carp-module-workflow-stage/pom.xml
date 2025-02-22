@@ -40,6 +40,11 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-pf4j</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.f4b6a3</groupId>
+            <artifactId>uuid-creator</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -15,32 +15,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dag.model.task;
+package cn.sliew.module.workflow.stage.model.task;
 
-import cn.sliew.carp.module.dag.model.ExecutionStatus;
-import com.github.f4b6a3.uuid.UuidCreator;
-import lombok.Data;
+import cn.sliew.module.workflow.stage.model.ExecutionStatus;
 
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A "task" is a component piece of a stage
+ * The runtime execution state of a task.
  */
-@Data
-public class TaskExecutionImpl implements TaskExecution {
+public interface TaskExecution {
 
-    private Long id;
-    private String uuid = UuidCreator.getShortPrefixComb().toString();
-    private String name;
-    private String implementingClass;
-    private Instant startTime;
-    private Instant endTime;
-    private ExecutionStatus status = ExecutionStatus.NOT_STARTED;
-    private boolean stageStart;
-    private boolean stageEnd;
-    private boolean loopStart;
-    private boolean loopEnd;
-    private Map<String, Object> taskExceptionDetails = new HashMap<>();
+    Long getId();
+
+    String getUuid();
+
+    String getName();
+
+    String getImplementingClass();
+
+    Instant getStartTime();
+
+    Instant getEndTime();
+
+    ExecutionStatus getStatus();
+
+    boolean isStageStart();
+
+    boolean isStageEnd();
+
+    boolean isLoopStart();
+
+    boolean isLoopEnd();
+
+    Map<String, Object> getTaskExceptionDetails();
 }

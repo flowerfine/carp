@@ -18,10 +18,10 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.dag.model.ExecutionStatus;
-import cn.sliew.carp.module.dag.model.task.TaskExecution;
-import cn.sliew.carp.module.dag.model.task.TaskExecutionImpl;
 import cn.sliew.carp.module.dag.queue.Messages;
+import cn.sliew.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.module.workflow.stage.model.task.TaskExecution;
+import cn.sliew.module.workflow.stage.model.task.TaskExecutionImpl;
 import org.springframework.stereotype.Component;
 
 @Component

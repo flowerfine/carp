@@ -17,7 +17,69 @@
  */
 package cn.sliew.module.workflow.stage.model.graph;
 
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
+/**
+ * todo before、after、onFailure
+ */
 public interface StageDefinitionBuilder {
 
+    /**
+     * Returns the stage type this builder handles.
+     */
+    @SuppressWarnings("unchecked")
+    default String getType() {
+        return null;
+    }
 
+    /**
+     * A collection of known aliases.
+     */
+    default Collection<String> aliases() {
+        if (this.getClass().isAnnotationPresent(Aliases.class)) {
+            return Arrays.asList(getClass().getAnnotation(Aliases.class).value());
+        }
+
+        return Collections.emptyList();
+    }
+
+    default TaskNode.TaskGraph buildTaskGraph(DagStepDTO step) {
+        TaskNode.Builder graphBuilder = TaskNode.Builder(TaskNode.GraphType.FULL);
+        taskGraph(step, graphBuilder);
+        return graphBuilder.build();
+    }
+
+    /**
+     * Implement this method to define any tasks that should run as part of this stage's workflow.
+     *
+     * @param step   The execution runtime of the step
+     * @param builder The task graph builder
+     */
+    default void taskGraph(DagStepDTO step, TaskNode.Builder builder) {
+    }
+
+    /**
+     * Implementations can override this if they need any special cleanup on restart.
+     *
+     * @param step The execution runtime of the step
+     */
+    default void prepareStageForRestart(DagStepDTO step) {
+    }
+
+    /**
+     * Allows backwards compatibility of a stage's "type", even through class renames / refactors.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    @interface Aliases {
+        String[] value() default {};
+    }
 }

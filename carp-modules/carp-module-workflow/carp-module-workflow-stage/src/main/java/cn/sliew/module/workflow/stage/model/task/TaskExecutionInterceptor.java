@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.dag.model.task;
+package cn.sliew.module.workflow.stage.model.task;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 

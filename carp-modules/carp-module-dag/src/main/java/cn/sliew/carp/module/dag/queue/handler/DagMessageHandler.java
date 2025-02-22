@@ -23,10 +23,10 @@ import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
-import cn.sliew.carp.module.dag.model.task.TaskExecution;
-import cn.sliew.carp.module.dag.model.task.TaskExecutionImpl;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.milky.common.util.JacksonUtil;
+import cn.sliew.module.workflow.stage.model.task.TaskExecution;
+import cn.sliew.module.workflow.stage.model.task.TaskExecutionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
