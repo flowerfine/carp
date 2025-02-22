@@ -17,6 +17,37 @@
  */
 package cn.sliew.module.workflow.stage.model.resolver;
 
+import cn.sliew.module.workflow.stage.model.task.Task;
+
+/**
+ * {@code TaskResolver} allows for {@code Task} retrieval via class name or alias.
+ *
+ * <p>Aliases represent the previous class names of a {@code Task}.
+ */
 public interface TaskResolver {
 
+    /**
+     * Fetch a {@code Task} by {@code taskTypeIdentifier}.
+     *
+     * @param taskTypeIdentifier Task identifier (class name or alias)
+     * @return the Task matching {@code taskTypeIdentifier}
+     * @throws NoSuchTaskException if Task does not exist
+     */
+    Task getTask(String taskTypeIdentifier);
+
+    /**
+     * Fetch a {@code Task} by {@code Class type}.
+     *
+     * @param taskType Task type (class of task)
+     * @return the Task matching {@code taskType}
+     * @throws NoSuchTaskException if Task does not exist
+     */
+    Task getTask(Class<? extends Task> taskType);
+
+    /**
+     * @param taskTypeIdentifier Task identifier (class name or alias)
+     * @return Task Class
+     * @throws NoSuchTaskException if task does not exist
+     */
+    Class<? extends Task> getTaskClass(String taskTypeIdentifier);
 }

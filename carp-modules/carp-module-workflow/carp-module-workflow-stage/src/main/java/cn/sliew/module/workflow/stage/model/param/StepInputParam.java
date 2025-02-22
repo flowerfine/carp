@@ -17,6 +17,7 @@
  */
 package cn.sliew.module.workflow.stage.model.param;
 
+import cn.hutool.core.convert.Convert;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -59,7 +60,11 @@ public class StepInputParam {
         try {
             switch (type) {
                 case STRING:
-                    return JacksonUtil.getMapper().convertValue(value, String.class);
+                    return Convert.convert(String.class, value);
+                    // jackson
+//                    return JacksonUtil.getMapper().convertValue(value, String.class);
+                    // fastjson
+//                    return TypeUtils.castToJavaBean(value, String.class);
                 case LONG:
                     return JacksonUtil.getMapper().convertValue(value, Long.class);
                 case DOUBLE:
