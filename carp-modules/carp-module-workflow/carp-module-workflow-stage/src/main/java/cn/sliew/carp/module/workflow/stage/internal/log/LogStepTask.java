@@ -44,7 +44,7 @@ public class LogStepTask implements RetryableTask, SkippableTask {
     @Override
     public TaskResult execute(DagStepDTO step) {
         log.info("Dag Step (namespace: {}, id: {}, stepId: {}, stepName: {}) log task execute",
-                step.getDagInstance().getNamespace(), step.getDagInstance().getId(), step.getId(), step.getDagConfigStep().getStepName());
+                step.getNamespace(), step.getDagInstance().getId(), step.getId(), step.getDagConfigStep().getStepName());
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
                 .output("log-task-1", "log-task-1")
                 .output("log-task-2", "log-task-2")

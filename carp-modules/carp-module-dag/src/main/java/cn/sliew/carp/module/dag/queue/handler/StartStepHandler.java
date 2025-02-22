@@ -117,7 +117,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
         // 或者说无论是 dag 或 step 的 before & after 节点都必须是在 canvas 提前创建好的。执行即可
         // 按照 task 的定义顺序，挨个执行 tasks。
         // todo 实现 task 处理逻辑
-        push(new Messages.StartTask(message, 1L));
+        push(new Messages.StartTask(message, 0L));
     }
 
     private void handlePlanningException(Messages.StartStep message, DagStepDTO dagStepDTO, Exception e) {

@@ -24,6 +24,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
+import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskExecution;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
@@ -74,13 +75,7 @@ public interface DagMessageHandler<M> {
 
     default void withTask(Messages.TaskLevel taskLevel, BiConsumer<DagStepDTO, TaskExecution> block) {
         withStep(taskLevel, step -> {
-
-            // todo 解析 task
-//            TaskExecution task = step.taskById(taskLevel.getTaskId());
-            TaskExecutionImpl task = new TaskExecutionImpl();
-            task.setId(taskLevel.getTaskId());
-            task.setImplementingClass("cn.sliew.carp.module.workflow.stage.internal.log.LogStepTask");
-
+            TaskExecution task = DagExecutionUtil.getTasks(step, taskLevel.getTaskId());
             if (task == null) {
                 getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",
                         taskLevel.getTaskId(),

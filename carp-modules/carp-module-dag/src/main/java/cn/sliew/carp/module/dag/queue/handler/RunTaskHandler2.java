@@ -69,9 +69,7 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
                     Exception taskException = null;
 
                     try {
-                        for (TaskExecutionInterceptor interceptor : taskExecutionInterceptors) {
-                            dagStepDTO = interceptor.beforeTaskExecution(task, dagStepDTO);
-                        }
+                        dagStepDTO = DagExecutionUtil.beforeTask(taskExecutionInterceptors, dagStepDTO, task);
 
                         if (isCanceled(dagStepDTO.getDagInstance())) {
                             handleCanceledExecution(message, dagStepDTO, taskModel, task);
@@ -89,9 +87,7 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
                         taskException = e;
                         handleTaskException(message, dagStepDTO, taskModel, task, e, thisInvocationStartTimeMs);
                     } finally {
-                        for (TaskExecutionInterceptor interceptor : taskExecutionInterceptors) {
-                            interceptor.finallyAfterTaskExecution(task, dagStepDTO, taskResult, taskException);
-                        }
+                        DagExecutionUtil.finallyTask(taskExecutionInterceptors, dagStepDTO, task, taskResult, taskException);
                     }
                 });
             });
@@ -201,9 +197,7 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
 
 //        TaskResult result = task.execute(withMergedContext(stage));
         TaskResult result = task.execute(dagStepDTO);
-        for (TaskExecutionInterceptor interceptor : taskExecutionInterceptors) {
-            result = interceptor.afterTaskExecution(task, dagStepDTO, result);
-        }
+        result = DagExecutionUtil.afterTask(taskExecutionInterceptors, dagStepDTO, task, result);
         return result;
     }
 
