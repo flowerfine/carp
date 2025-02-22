@@ -19,10 +19,12 @@ package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.hutool.core.lang.func.Consumer3;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.exceptions.StepTimeoutException;
 import cn.sliew.carp.module.dag.model.ExecutionStatus;
 import cn.sliew.carp.module.dag.model.task.*;
 import cn.sliew.carp.module.dag.queue.Messages;
+import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
@@ -34,10 +36,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 
 @Component
@@ -94,7 +93,8 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
 //        RetriableLock.RetriableLockOptions lockOptions = new RetriableLock.RetriableLockOptions(message.getStageId().toString());
         Boolean lockAcquired = true;
         if (!lockAcquired) {
-            getLog().warn("Failed to obtain lock for stage: {}. Pushing original message back to queue");
+            getLog().warn("Dag Step (namespace: {}, type: {}, dagId: {}, stepId: {}) fail to obtain lock for task. Pushing original message back to queue",
+                    message.getNamespace(), message.getType(), message.getDagId(), message.getStepId());
             push(message);
         }
     }
@@ -180,7 +180,9 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
             }
             EnumSet<ExecutionStatus> set = EnumSet.of(ExecutionStatus.TERMINAL, ExecutionStatus.FAILED_CONTINUE);
             if (set.contains(timeoutResult.getStatus())) {
-                getLog().error("Task {} returned invalid status ({}) for onTimeout", task.getClass().getName(), timeoutResult.getStatus());
+                getLog().error("Dag Task (namespace: {}, type: {}, dagId: {}, stepId: {}, task: {}) return invalid status ({}) for onTimeout",
+                        message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(),
+                        task.getClass().getName(), timeoutResult.getStatus());
                 throw e;
             }
             return timeoutResult;
@@ -289,13 +291,13 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
                 push(new Messages.CompleteTask(message, result.getStatus()));
                 break;
             case CANCELED:
-                processTaskOutput(stage, mergeOutputs(result, task.onCancelWithResult(stage)));
-                ExecutionStatus finalStatus = StageExecutionUtil.failureStatus(stage, result.getStatus());
+                processTaskOutput(dagStepDTO, mergeOutputs(result, task.onCancelWithResult(dagStepDTO)));
+                ExecutionStatus finalStatus = DagExecutionUtil.failureStatus(dagStepDTO, result.getStatus());
                 push(new Messages.CompleteTask(message, finalStatus, result.getStatus()));
                 break;
             case TERMINAL:
                 processTaskOutput(dagStepDTO, result);
-                ExecutionStatus status = StageExecutionUtil.failureStatus(stage, result.getStatus());
+                ExecutionStatus status = DagExecutionUtil.failureStatus(dagStepDTO, result.getStatus());
                 push(new Messages.CompleteTask(message, status, result.getStatus()));
                 break;
             default:
@@ -304,6 +306,91 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
         }
 
 //        trackResult(stage, startTimeMs, taskModel, result.getStatus());
+    }
+
+
+    private Duration getBackoffPeriod(Task task, TaskExecution taskModel, DagStepDTO dagStepDTO) {
+        if (task instanceof RetryableTask retryableTask) {
+            return Duration.ofMillis(
+                    Math.min(
+                            retryableBackOffPeriod(retryableTask, taskModel, dagStepDTO),
+                            getMaxTaskBackoff()
+                    )
+            );
+        }
+        return Duration.ofMillis(1000);
+    }
+
+    private Long retryableBackOffPeriod(RetryableTask task, TaskExecution taskModel, DagStepDTO dagStepDTO) {
+        return task.getDynamicBackoffPeriod(
+                dagStepDTO,
+                Duration.ofMillis(System.currentTimeMillis() - (taskModel.getStartTime() != null ? taskModel.getStartTime().toEpochMilli() : 0L))
+        ).toMillis();
+    }
+
+
+    private long getMaxTaskBackoff() {
+        return taskExecutionInterceptors.stream()
+                .mapToLong(TaskExecutionInterceptor::maxTaskBackoff)
+                .min()
+                .orElse(Long.MAX_VALUE);
+    }
+
+
+    private TaskResult mergeOutputs(TaskResult result, TaskResult newResult) {
+        if (newResult == null) {
+            return result;
+        }
+
+        Map outputs = new HashMap(result.getOutputs());
+        outputs.putAll(newResult.getOutputs());
+
+        Map context = new HashMap(result.getContext());
+        context.putAll(newResult.getContext());
+
+        return TaskResult.builder(result.getStatus())
+                .outputs(outputs)
+                .context(context)
+                .build();
+    }
+
+
+    private void handleTaskException(Messages.RunTask message,
+                                     DagStepDTO dagStepDTO,
+                                     TaskExecution taskModel,
+                                     Task task,
+                                     Exception e,
+                                     long startTimeMs) {
+        ExceptionVO exceptionVO = handleException(taskModel.getName(), e);
+        if (exceptionVO != null && exceptionVO.isRetryable()) {
+            getLog().warn("Dag Task (namespace: {}, type: {}, dagId: {}, stepId: {}, task: {}) run error, retry",
+                    message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), message.getTaskType().getSimpleName());
+            push(message, getBackoffPeriod(task, taskModel, dagStepDTO));
+//            trackResult(stage, startTimeMs, taskModel, ExecutionStatus.RUNNING);
+        } else if (e instanceof StepTimeoutException ){
+//                && Boolean.TRUE.equals(dagStepDTO.getContext().get("markSuccessfulOnTimeout"))) {
+//            trackResult(stage, startTimeMs, taskModel, ExecutionStatus.SUCCEEDED);
+            push(new Messages.CompleteTask(message, ExecutionStatus.SUCCEEDED));
+        } else {
+            if (!(e instanceof StepTimeoutException)) {
+//                if (e instanceof UserException) {
+//                    log.warn("{} for {}[{}] failed, likely due to user error",
+//                            message.getTaskType().getSimpleName(),
+//                            message.getExecutionType(),
+//                            message.getExecutionId(),
+//                            e);
+//                } else {
+                getLog().error("Dag Task (namespace: {}, type: {}, dagId: {}, stepId: {}, task: {}) run error, terminal",
+                        message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), message.getTaskType().getSimpleName());
+            }
+
+            ExecutionStatus status = DagExecutionUtil.failureStatus(dagStepDTO, ExecutionStatus.TERMINAL);
+//            dagStepDTO.getContext().put("exception", exceptionDetails);
+//            taskModel.getTaskExceptionDetails().put("exception", exceptionDetails);
+//            getRepository().storeStage(stage);
+            push(new Messages.CompleteTask(message, status, ExecutionStatus.TERMINAL));
+//            trackResult(stage, startTimeMs, taskModel, status);
+        }
     }
 
 

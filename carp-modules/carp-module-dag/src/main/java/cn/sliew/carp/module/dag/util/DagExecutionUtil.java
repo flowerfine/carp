@@ -55,4 +55,20 @@ public enum DagExecutionUtil {
     private static DagStepDTO findNode(DAG<DagStepDTO> dag, DagStepDTO dagStepDTO) {
         return dag.nodes().stream().filter(s -> Objects.equals(s.getId(), dagStepDTO.getId())).findFirst().orElseThrow();
     }
+
+    public static ExecutionStatus failureStatus(DagStepDTO dagStepDTO, ExecutionStatus defaultStatus) {
+        if (Objects.isNull(defaultStatus)) {
+            defaultStatus = ExecutionStatus.TERMINAL;
+        }
+//        if (stage.getContinuePipelineOnFailure()) {
+//            return ExecutionStatus.FAILED_CONTINUE;
+//        }
+        return shouldFailPipeline(dagStepDTO) ? defaultStatus : ExecutionStatus.STOPPED;
+    }
+
+    public static boolean shouldFailPipeline(DagStepDTO stage) {
+//        Object failPipeline = stage.getContext().get("failPipeline");
+//        return failPipeline == null || Boolean.TRUE.equals(failPipeline);
+        return false;
+    }
 }
