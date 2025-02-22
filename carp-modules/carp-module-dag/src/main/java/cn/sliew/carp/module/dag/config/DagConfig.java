@@ -33,12 +33,12 @@ import java.util.Collection;
 public class DagConfig {
 
     @Bean
-    public StepResolver stepResolver(ObjectProvider<Collection<StageDefinitionBuilder>> stageDefinitionBuilders) {
+    public StepResolver carpStepResolver(ObjectProvider<Collection<StageDefinitionBuilder>> stageDefinitionBuilders) {
         return new DefaultStepResolver(stageDefinitionBuilders);
     }
 
     @Bean
-    public TaskResolver taskResolver(ObjectProvider<Collection<Task>> tasks) {
+    public TaskResolver carpTaskResolver(ObjectProvider<Collection<Task>> tasks) {
         return new DefaultTaskResolver(tasks, true);
     }
 }

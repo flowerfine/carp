@@ -20,12 +20,19 @@ package cn.sliew.carp.module.dag.queue.handler;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.module.workflow.stage.model.resolver.TaskResolver;
+import cn.sliew.module.workflow.stage.model.task.SkippableTask;
+import cn.sliew.module.workflow.stage.model.task.Task;
 import cn.sliew.module.workflow.stage.model.task.TaskExecution;
 import cn.sliew.module.workflow.stage.model.task.TaskExecutionImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartTask> {
+
+    @Autowired
+    private TaskResolver taskResolver;
 
     @Override
     public Class<Messages.StartTask> getMessageType() {
@@ -37,8 +44,7 @@ public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartT
         withTask(message, (dagStepDTO, task) -> {
             TaskExecutionImpl taskImpl = (TaskExecutionImpl) task;
             if (isTaskEnabled(dagStepDTO, task)) {
-//                push(new Messages.RunTask(message, taskImpl.getId(), getTaskType(taskImpl)));
-                push(new Messages.RunTask(message, task.getId(), null));
+                push(new Messages.RunTask(message, taskImpl.getId(), getTaskType(taskImpl)));
             } else {
                 push(new Messages.CompleteTask(message, ExecutionStatus.SKIPPED));
             }
@@ -47,8 +53,8 @@ public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartT
 
 
     private boolean isTaskEnabled(DagStepDTO dagStepDTO, TaskExecution task) {
-//        Object taskInstance = getTaskInstance(task);
-//        if (taskInstance instanceof SkippableTask skippableTask) {
+        Object taskInstance = getTaskInstance(task);
+        if (taskInstance instanceof SkippableTask skippableTask) {
 //            boolean enabled = environment.getProperty(
 //                    skippableTask.getIsEnabledPropertyName(),
 //                    Boolean.class,
@@ -61,7 +67,15 @@ public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartT
 //                );
 //            }
 //            return enabled;
-//        }
+        }
         return true;
+    }
+
+    private Class<? extends Task> getTaskType(TaskExecution task) {
+        return taskResolver.getTaskClass(task.getImplementingClass());
+    }
+
+    private Object getTaskInstance(TaskExecution task) {
+        return taskResolver.getTask(task.getImplementingClass());
     }
 }

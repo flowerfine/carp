@@ -17,8 +17,8 @@
  */
 package cn.sliew.module.workflow.stage.model.graph;
 
-import cn.hutool.cron.task.Task;
 import cn.sliew.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.module.workflow.stage.model.task.Task;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;

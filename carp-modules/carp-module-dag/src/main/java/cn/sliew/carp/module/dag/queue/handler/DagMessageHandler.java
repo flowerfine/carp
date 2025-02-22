@@ -79,6 +79,8 @@ public interface DagMessageHandler<M> {
 //            TaskExecution task = step.taskById(taskLevel.getTaskId());
             TaskExecutionImpl task = new TaskExecutionImpl();
             task.setId(taskLevel.getTaskId());
+            task.setImplementingClass("cn.sliew.module.workflow.stage.internal.log.LogTask");
+
             if (task == null) {
                 getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",
                         taskLevel.getTaskId(),
