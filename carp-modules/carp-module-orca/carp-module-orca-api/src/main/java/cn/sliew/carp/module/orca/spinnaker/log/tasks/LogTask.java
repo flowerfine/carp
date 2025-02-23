@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.log.tasks;
 
+import cn.hutool.core.thread.ThreadUtil;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionStatus;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.RetryableTask;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -51,6 +53,7 @@ public class LogTask implements RetryableTask {
         log.info("log task execute");
         Map<String, Object> context = new HashMap<>();
         context.put("log-task-context", "log-task-context");
+        ThreadUtil.sleep(10, TimeUnit.SECONDS);
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
                 .output("log-task-output", "log-task-output-data")
                 .context(context)

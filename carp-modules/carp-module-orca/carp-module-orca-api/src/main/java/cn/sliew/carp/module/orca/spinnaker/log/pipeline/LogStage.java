@@ -50,7 +50,8 @@ public class LogStage implements StageDefinitionBuilder {
     @Override
     public void taskGraph(@NotNull StageExecution stage, @NotNull TaskNode.Builder builder) {
         log.info("build task: " + stage.mapTo(StageData.class));
-        builder.withTask("log", LogTask.class);
+        builder.withTask("log1", LogTask.class);
+        builder.withTask("log2", LogTask.class);
     }
 
     @Override
