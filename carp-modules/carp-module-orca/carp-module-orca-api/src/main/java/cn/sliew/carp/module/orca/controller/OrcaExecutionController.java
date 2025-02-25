@@ -78,6 +78,11 @@ public class OrcaExecutionController {
         return executionLauncher.start(ExecutionType.PIPELINE, buildPipelineMap());
     }
 
+    @GetMapping("addLog")
+    public PipelineExecution addLog() {
+        return executionLauncher.start(ExecutionType.PIPELINE, buildLogPipelineMap());
+    }
+
     private Map<String, Object> buildPipelineMap() {
         Map<String, Object> result = new HashMap<>();
         // id 没用
@@ -92,6 +97,20 @@ public class OrcaExecutionController {
         stages.add(buildWaitStageMap(waitId, Collections.singletonList(log1Id)));
         String log2Id = ULID_GENERATOR.nextULID();
         stages.add(buildLogStageMap(log2Id, Collections.singletonList(waitId), SyntheticStageOwner.STAGE_AFTER));
+        result.put("stages", stages);
+        return result;
+    }
+
+    private Map<String, Object> buildLogPipelineMap() {
+        Map<String, Object> result = new HashMap<>();
+        // id 没用
+        result.put("id", segmentId.generate());
+//        result.put("executionId", ID_GENERATOR.nextULID());
+        result.put("namespace", "quoll-pipeline-example");
+        result.put("name", "pipeline-test");
+        List<Map<String, Object>> stages = new ArrayList<>();
+        String log1Id = ULID_GENERATOR.nextULID();
+        stages.add(buildLogStageMap(log1Id, Collections.emptyList(), SyntheticStageOwner.STAGE_BEFORE));
         result.put("stages", stages);
         return result;
     }

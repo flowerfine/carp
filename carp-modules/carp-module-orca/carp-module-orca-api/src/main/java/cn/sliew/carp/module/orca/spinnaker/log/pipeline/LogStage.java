@@ -17,17 +17,22 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.log.pipeline;
 
+import cn.sliew.carp.module.orca.spinnaker.api.model.SyntheticStageOwner;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.StageGraphBuilder;
 import cn.sliew.carp.module.orca.spinnaker.api.model.graph.TaskNode;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
+import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecutionFactory;
+import cn.sliew.carp.module.orca.spinnaker.log.tasks.LogRedirectTask;
 import cn.sliew.carp.module.orca.spinnaker.log.tasks.LogTask;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -44,24 +49,48 @@ public class LogStage implements StageDefinitionBuilder {
 
     @Override
     public void beforeStages(@NotNull StageExecution parent, @NotNull StageGraphBuilder graph) {
-        log.info("build before, parent: {}={}", parent.getName(), parent.getType());
+        log.info("build before, parent name: {}, type: {}", parent.getName(), parent.getType());
+        if (isTopLevelStage(parent)) {
+            StageExecution logBefore1 = StageExecutionFactory.newStage(parent.getPipelineExecution(), "log", "log-before-1", Collections.emptyMap(), parent, SyntheticStageOwner.STAGE_BEFORE);
+            StageExecution logBefore2 = StageExecutionFactory.newStage(parent.getPipelineExecution(), "log", "log-before-2", Collections.emptyMap(), parent, SyntheticStageOwner.STAGE_BEFORE);
+            graph.connect(logBefore1, logBefore2);
+        }
     }
 
     @Override
     public void taskGraph(@NotNull StageExecution stage, @NotNull TaskNode.Builder builder) {
-        log.info("build task: " + stage.mapTo(StageData.class));
-        builder.withTask("log1", LogTask.class);
-        builder.withTask("log2", LogTask.class);
+        log.info("build task, stage: {}, context: {}", stage.getName(), stage.mapTo(StageData.class));
+        if (isTopLevelStage(stage)) {
+            // getPipelinesFromArtifact -> subGraph -> savePipelinesCompleteTask
+            // subGraph 会在 getPipelinesFromArtifact 之后运行，savePipelinesCompleteTask 之前运行，即按照添加位置执行
+            // 当 subGraph 中任务返回 REDIRECT 时，subGraph 中的 5 个任务会一起重复执行
+            builder.withTask("getPipelinesFromArtifact", LogTask.class)
+                    .withLoop(
+                            subGraph -> {
+                                subGraph.withTask("preparePipelineToSaveTask", LogTask.class);
+                                subGraph.withTask("savePipeline", LogTask.class);
+                                subGraph.withTask("waitForPipelineSave", LogTask.class);
+                                subGraph.withTask("checkPipelineResults", LogRedirectTask.class);
+                                subGraph.withTask("checkForRemainingPipelines", LogTask.class);
+                            })
+                    .withTask("savePipelinesCompleteTask", LogTask.class);
+        }
+        builder.withTask("log-all-1", LogTask.class);
+        builder.withTask("log-all-2", LogTask.class);
     }
 
     @Override
     public void afterStages(@NotNull StageExecution parent, @NotNull StageGraphBuilder graph) {
-        log.info("build after, parent: {}={}", parent.getName(), parent.getType());
+        log.info("build after, parent name: {}, type: {}", parent.getName(), parent.getType());
     }
 
     @Override
     public void onFailureStages(@NotNull StageExecution stage, @NotNull StageGraphBuilder graph) {
 
+    }
+
+    private boolean isTopLevelStage(StageExecution stage) {
+        return Objects.isNull(stage.getParentStageId());
     }
 
     @Data

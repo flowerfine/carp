@@ -17,19 +17,21 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.log.tasks;
 
-import cn.hutool.core.thread.ThreadUtil;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionStatus;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecution;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.RetryableTask;
+import cn.sliew.carp.module.orca.spinnaker.api.model.task.TaskExecution;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.TaskResult;
+import cn.sliew.milky.common.util.JacksonUtil;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -50,13 +52,44 @@ public class LogTask implements RetryableTask {
      */
     @Override
     public @NotNull TaskResult execute(@NotNull StageExecution stageExecution) {
-        log.info("log task execute");
+        log.info("log task execute, stage: {}, currentTask: {}, tasks: {}",
+                stageExecution.getName(), JacksonUtil.toJsonString(currentTask(stageExecution.getTasks())), mapTask(stageExecution.getTasks()));
         Map<String, Object> context = new HashMap<>();
         context.put("log-task-context", "log-task-context");
-        ThreadUtil.sleep(10, TimeUnit.SECONDS);
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
                 .output("log-task-output", "log-task-output-data")
                 .context(context)
                 .build();
+    }
+
+
+    public static List<Map> mapTask(List<TaskExecution> tasks) {
+        return tasks.stream().map(task -> {
+            return Map.of(
+                    "id", task.getId(),
+                    "name", task.getName(),
+                    "status", task.getStatus(),
+                    "stageStart", task.isStageStart(),
+                    "stageEnd", task.isStageEnd(),
+                    "loopStart", task.isLoopStart(),
+                    "loopEnd", task.isLoopEnd()
+            );
+        }).collect(Collectors.toUnmodifiableList());
+    }
+
+    public static Map currentTask(List<TaskExecution> tasks) {
+        return tasks.stream().filter(task -> task.getStatus() == ExecutionStatus.RUNNING)
+                .findFirst()
+                .map(task -> {
+                    return Map.of(
+                            "id", task.getId(),
+                            "name", task.getName(),
+                            "status", task.getStatus(),
+                            "stageStart", task.isStageStart(),
+                            "stageEnd", task.isStageEnd(),
+                            "loopStart", task.isLoopStart(),
+                            "loopEnd", task.isLoopEnd()
+                    );
+                }).orElse(null);
     }
 }
