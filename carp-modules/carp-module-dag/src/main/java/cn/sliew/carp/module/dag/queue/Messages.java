@@ -330,19 +330,19 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("cancelStage")
-    public static class CancelStage implements StepLevel, Serializable {
+    @JsonTypeName("cancelStep")
+    public static class CancelStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public CancelStage(StepLevel source) {
+        public CancelStep(StepLevel source) {
             this(source.getNamespace(), source.getType(), source.getDagId(), source.getStepId());
         }
 
-        public CancelStage(DagStepDTO source) {
+        public CancelStep(DagStepDTO source) {
             this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
         }
     }

@@ -27,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,7 +55,7 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
 
                 if (isManuallySkipped(dagStepDTO)) {
 //                   push(new Messages.SkipStep(stage.getTopLevelStage()));
-                   push(new Messages.SkipStep(dagStepDTO));
+                    push(new Messages.SkipStep(dagStepDTO));
                 } else if (shouldCompleteStage(task, message.getStatus(), message.getOriginalStatus())) {
                     push(new Messages.CompleteStep(message));
                 } else {
