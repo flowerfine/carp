@@ -86,13 +86,14 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
                         push(new Messages.SkipStep(dagStepDTO));
                     } else {
                         try {
+                            plan(dagStepDTO);
+
                             LambdaUpdateWrapper<DagStep> updateWrapper = Wrappers.lambdaUpdate(DagStep.class)
                                     .eq(DagStep::getId, dagStepDTO.getId())
                                     .set(DagStep::getStatus, ExecutionStatus.RUNNING.name())
-                                    .set(DagStep::getStartTime, new Date());
+                                    .set(DagStep::getStartTime, new Date())
+                                    .set(DagStep::getBody, Objects.isNull(dagStepDTO.getBody()) ? null : dagStepDTO.getBody().toString());
                             dagStepService.update(updateWrapper);
-                            // todo 创建 tasks
-                            plan(dagStepDTO);
 
                             start(message, dagStepDTO);
                         } catch (Exception e) {

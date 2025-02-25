@@ -22,6 +22,7 @@ import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ListIterator;
 import java.util.Objects;
@@ -32,10 +33,7 @@ public enum StageDefinitionBuilderUtil {
     /**
      * Build and append the tasks for stage.
      */
-    public static void buildTasks(
-            StageDefinitionBuilder stageDefinitionBuilder,
-            DagStepDTO step) {
-
+    public static void buildTasks(StageDefinitionBuilder stageDefinitionBuilder, DagStepDTO step) {
         ListIterator<TaskNode> iterator = stageDefinitionBuilder.buildTaskGraph(step).listIterator();
         Iterators.forEachWithMetadata(
                 iterator,
@@ -77,15 +75,23 @@ public enum StageDefinitionBuilderUtil {
     }
 
     private static JsonNode addTasks(JsonNode body, Object task) {
-        if (Objects.isNull(body) || body.isNull()) {
-            body = JacksonUtil.createObjectNode();
+        ObjectNode objectNode;
+        if (Objects.isNull(body) || body.isNull() || body.isEmpty()) {
+            objectNode = JacksonUtil.createObjectNode();
+        } else {
+            objectNode = (ObjectNode) body;
         }
-        JsonNode tasksNode = body.path("tasks");
-        if (tasksNode.isNull() == false && tasksNode.isArray()) {
-            ArrayNode arrayNode = (ArrayNode) tasksNode;
-            arrayNode.add(JacksonUtil.toJsonNode(task));
+        JsonNode tasksNode = objectNode.path("tasks");
+        ArrayNode arrayNode;
+        if (tasksNode.isNull() || tasksNode.isEmpty()) {
+            arrayNode = JacksonUtil.createArrayNode();
+            objectNode.set("tasks", arrayNode);
+        } else {
+            arrayNode = (ArrayNode) tasksNode;
         }
-        return body;
+        arrayNode.add(JacksonUtil.toJsonNode(task));
+
+        return objectNode;
     }
 
     private static int getTaskSize(JsonNode body) {
