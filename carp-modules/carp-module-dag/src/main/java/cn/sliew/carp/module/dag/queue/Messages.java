@@ -22,6 +22,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.task.Task;
+import cn.sliew.carp.module.workflow.stage.model.task.TaskExecution;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -371,10 +372,10 @@ public class Messages {
                     source.getDagInstance().getId(), source.getId(), taskId);
         }
 
-//        public StartTask(DagStepDTO source, TaskExecution task) {
-//            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(),
-//                    source.getDagInstance().getId(), source.getId(), task.getId());
-//        }
+        public StartTask(DagStepDTO source, TaskExecution task) {
+            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(),
+                    source.getDagInstance().getId(), source.getId(), task.getId());
+        }
     }
 
     @Getter

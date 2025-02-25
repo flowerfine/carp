@@ -88,7 +88,7 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
     }
 
     private void handleRedirect(Messages.CompleteTask message, DagStepDTO dagStepDTO) {
-        List<TaskExecution> tasks = DagExecutionUtil.getTasks(dagStepDTO);
+        List<TaskExecutionImpl> tasks = DagExecutionUtil.getTasks(dagStepDTO);
         int start = -1;
         int end = -1;
 

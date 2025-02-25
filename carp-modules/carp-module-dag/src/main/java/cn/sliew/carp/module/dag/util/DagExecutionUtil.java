@@ -21,6 +21,10 @@ import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.task.*;
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import jakarta.annotation.Nullable;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -77,17 +81,28 @@ public enum DagExecutionUtil {
         return false;
     }
 
-    public static List<TaskExecution> getTasks(DagStepDTO dagStepDTO) {
-        // todo 待实现
-//        return Collections.emptyList();
-        TaskExecutionImpl task = new TaskExecutionImpl();
-        task.setId(0L);
-        task.setImplementingClass("cn.sliew.carp.module.workflow.stage.internal.log.LogStepTask");
-        return Collections.singletonList(task);
+    public static List<TaskExecutionImpl> getTasks(DagStepDTO dagStepDTO) {
+        if (Objects.isNull(dagStepDTO.getBody())
+                || dagStepDTO.getBody().isNull()
+                || dagStepDTO.getBody().isEmpty()) {
+            return Collections.emptyList();
+        }
+        JsonNode tasks = dagStepDTO.getBody().path("tasks");
+        if (tasks.isNull() || tasks.isEmpty() || tasks.isArray() == false) {
+            return Collections.emptyList();
+        }
+
+        return JacksonUtil.toObject(dagStepDTO.getBody().path("tasks"), new TypeReference<List<TaskExecutionImpl>>() {
+        });
     }
 
     public static TaskExecution getTasks(DagStepDTO dagStepDTO, Long taskId) {
         return getTasks(dagStepDTO).get(taskId.intValue());
+    }
+
+    public static TaskExecutionImpl firstTask(DagStepDTO step) {
+        List<TaskExecutionImpl> tasks = getTasks(step);
+        return tasks.isEmpty() ? null : tasks.get(0);
     }
 
     @Nullable
@@ -95,7 +110,7 @@ public enum DagExecutionUtil {
         if (task.isStageEnd()) {
             return null;
         }
-        List<TaskExecution> tasks = getTasks(dagStepDTO);
+        List<TaskExecutionImpl> tasks = getTasks(dagStepDTO);
         int index = tasks.indexOf(task);
 
         if (index == tasks.size() - 1) {

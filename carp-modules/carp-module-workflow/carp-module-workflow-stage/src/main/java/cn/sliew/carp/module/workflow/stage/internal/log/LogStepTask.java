@@ -58,7 +58,7 @@ public class LogStepTask implements RetryableTask, SkippableTask {
     }
 
     public static List<TaskExecutionImpl> getTasks(DagStepDTO step) {
-        if (Objects.isNull(step.getBody()) || step.getBody().isNull()) {
+        if (Objects.isNull(step.getBody()) || step.getBody().isNull() || step.getBody().isEmpty()) {
             return Collections.emptyList();
         }
 
