@@ -196,7 +196,7 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
         }
 
 //        TaskResult result = task.execute(withMergedContext(stage));
-        TaskResult result = task.execute(dagStepDTO);
+        TaskResult result = task.execute(dagStepDTO, taskModel);
         result = DagExecutionUtil.afterTask(taskExecutionInterceptors, dagStepDTO, task, result);
         return result;
     }

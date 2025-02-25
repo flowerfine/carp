@@ -17,7 +17,9 @@
  */
 package cn.sliew.carp.module.dag.config;
 
+import cn.sliew.carp.module.workflow.stage.model.graph.DefaultStageDefinitionBuilderFactory;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
+import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
 import cn.sliew.carp.module.workflow.stage.model.resolver.DefaultStepResolver;
 import cn.sliew.carp.module.workflow.stage.model.resolver.DefaultTaskResolver;
 import cn.sliew.carp.module.workflow.stage.model.resolver.StepResolver;
@@ -40,5 +42,10 @@ public class DagConfig {
     @Bean
     public TaskResolver carpTaskResolver(@Autowired List<Task> tasks) {
         return new DefaultTaskResolver(tasks, true);
+    }
+
+    @Bean
+    public StageDefinitionBuilderFactory carpStageDefinitionBuilderFactory(StepResolver stepResolver) {
+        return new DefaultStageDefinitionBuilderFactory(stepResolver);
     }
 }

@@ -20,8 +20,10 @@ package cn.sliew.carp.module.workflow.stage.internal.log;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.TaskNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class LogStep implements StageDefinitionBuilder {
 
@@ -34,8 +36,21 @@ public class LogStep implements StageDefinitionBuilder {
 
     @Override
     public void taskGraph(DagStepDTO step, TaskNode.Builder builder) {
-        builder.withTask("log-1", LogStepTask.class);
-        builder.withTask("log-2", LogStepTask.class);
-        builder.withTask("log-3", LogStepTask.class);
+        log.info("build task, step: {}", step.getDagConfigStep().getStepName());
+        // getPipelinesFromArtifact -> subGraph -> savePipelinesCompleteTask
+        // subGraph 会在 getPipelinesFromArtifact 之后运行，savePipelinesCompleteTask 之前运行，即按照添加位置执行
+        // 当 subGraph 中任务返回 REDIRECT 时，subGraph 中的 5 个任务会一起重复执行
+        builder.withTask("getPipelinesFromArtifact", LogStepTask.class)
+                .withLoop(
+                        subGraph -> {
+                            subGraph.withTask("preparePipelineToSaveTask", LogStepTask.class);
+                            subGraph.withTask("savePipeline", LogStepTask.class);
+                            subGraph.withTask("waitForPipelineSave", LogStepTask.class);
+//                            subGraph.withTask("checkPipelineResults", LogRedirectTask.class);
+                            subGraph.withTask("checkForRemainingPipelines", LogStepTask.class);
+                        })
+                .withTask("savePipelinesCompleteTask", LogStepTask.class)
+                .withTask("log-all-1", LogStepTask.class)
+                .withTask("log-all-2", LogStepTask.class);
     }
 }

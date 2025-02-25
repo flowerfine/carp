@@ -19,13 +19,18 @@ package cn.sliew.carp.module.workflow.stage.internal.log;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import cn.sliew.carp.module.workflow.stage.model.task.RetryableTask;
-import cn.sliew.carp.module.workflow.stage.model.task.SkippableTask;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskResult;
+import cn.sliew.carp.module.workflow.stage.model.task.*;
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -42,12 +47,52 @@ public class LogStepTask implements RetryableTask, SkippableTask {
     }
 
     @Override
-    public TaskResult execute(DagStepDTO step) {
-        log.info("Dag Step (namespace: {}, id: {}, stepId: {}, stepName: {}) log task execute",
-                step.getNamespace(), step.getDagInstance().getId(), step.getId(), step.getDagConfigStep().getStepName());
+    public TaskResult execute(DagStepDTO step, TaskExecution task) {
+        log.info("Dag Step (namespace: {}, id: {}, stepId: {}, stepName: {}) log task: {} (taskId: {}) execute, currentTask: {}, tasks: {}",
+                step.getNamespace(), step.getDagInstance().getId(), step.getId(), step.getDagConfigStep().getStepName(),
+                task.getName(), task.getId(), JacksonUtil.toJsonString(task), JacksonUtil.toJsonString(mapTask(getTasks(step))));
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
                 .output("log-task-1", "log-task-1")
                 .output("log-task-2", "log-task-2")
                 .build();
+    }
+
+    public static List<TaskExecutionImpl> getTasks(DagStepDTO step) {
+        if (Objects.isNull(step.getBody()) || step.getBody().isNull()) {
+            return Collections.emptyList();
+        }
+
+        return JacksonUtil.toObject(step.getBody().path("tasks"), new TypeReference<List<TaskExecutionImpl>>() {
+        });
+    }
+
+    public static List<Map> mapTask(List<TaskExecutionImpl> tasks) {
+        return tasks.stream().map(task -> {
+            return Map.of(
+                    "id", task.getId(),
+                    "name", task.getName(),
+                    "status", task.getStatus(),
+                    "stageStart", task.isStageStart(),
+                    "stageEnd", task.isStageEnd(),
+                    "loopStart", task.isLoopStart(),
+                    "loopEnd", task.isLoopEnd()
+            );
+        }).collect(Collectors.toUnmodifiableList());
+    }
+
+    public static Map currentTask(List<TaskExecutionImpl> tasks) {
+        return tasks.stream().filter(task -> task.getStatus() == ExecutionStatus.RUNNING)
+                .findFirst()
+                .map(task -> {
+                    return Map.of(
+                            "id", task.getId(),
+                            "name", task.getName(),
+                            "status", task.getStatus(),
+                            "stageStart", task.isStageStart(),
+                            "stageEnd", task.isStageEnd(),
+                            "loopStart", task.isLoopStart(),
+                            "loopEnd", task.isLoopEnd()
+                    );
+                }).orElse(null);
     }
 }

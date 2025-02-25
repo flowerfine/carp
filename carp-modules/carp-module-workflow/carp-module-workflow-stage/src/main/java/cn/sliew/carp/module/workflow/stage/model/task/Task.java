@@ -37,9 +37,10 @@ public interface Task extends CarpExtensionPoint {
      * Execute the business logic of the task, using the provided step execution state.
      *
      * @param step The running step execution
+     * @param task The running task execution
      * @return The result of this Task's execution
      */
-    TaskResult execute(DagStepDTO step);
+    TaskResult execute(DagStepDTO step, TaskExecution task);
 
     /**
      * Behavior to be called on Task timeout.

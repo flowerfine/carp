@@ -25,9 +25,8 @@ import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskExecution;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
+import cn.sliew.milky.common.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +43,7 @@ public interface DagMessageHandler<M> {
     default void push(Object message) {
         push(message, Duration.ZERO);
     }
+
     void push(Object message, Duration delay);
 
     ExceptionVO handleException(String name, Exception e);
@@ -63,7 +63,7 @@ public interface DagMessageHandler<M> {
         withDag(stepLevel, dagInstanceDTO -> {
             try {
                 DagStepService dagStepService = SpringUtil.getBean(DagStepService.class);
-                DagStepDTO stepDTO = dagStepService.get(stepLevel.getStepId());
+                DagStepDTO stepDTO = dagStepService.getWithConfig(stepLevel.getStepId());
                 block.accept(stepDTO);
             } catch (IllegalArgumentException e) {
                 getLog().error("Failed to locate step with id: {}, dagInstanceId: {}",

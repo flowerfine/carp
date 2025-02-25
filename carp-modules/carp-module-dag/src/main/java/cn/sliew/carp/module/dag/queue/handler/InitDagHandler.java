@@ -60,7 +60,7 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitDag> 
         dagInstanceDTO.setNamespace(dagConfigComplexDTO.getNamespace());
         dagInstanceDTO.setDagConfig(dagConfigComplexDTO);
         dagInstanceDTO.setUuid(UUIDUtil.randomUUId());
-        dagInstanceDTO.setBody(JacksonUtil.toJsonNode(dagConfigComplexDTO));
+//        dagInstanceDTO.setBody(JacksonUtil.toJsonNode(dagConfigComplexDTO));
         dagInstanceDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
         Long dagInstanceId = dagInstanceService.add(dagInstanceDTO);
         dagInstanceDTO.setId(dagInstanceId);
@@ -72,7 +72,7 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitDag> 
                 dagStepDTO.setDagInstance(dagInstanceDTO);
                 dagStepDTO.setDagConfigStep(dagConfigStepDTO);
                 dagStepDTO.setUuid(UUIDUtil.randomUUId());
-                dagStepDTO.setBody(JacksonUtil.toJsonNode(dagConfigStepDTO));
+//                dagStepDTO.setBody(JacksonUtil.toJsonNode(dagConfigStepDTO));
                 dagStepDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
                 dagStepService.add(dagStepDTO);
             }
@@ -86,7 +86,7 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitDag> 
                 dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
                 dagLinkDTO.setUuid(UUIDUtil.randomUUId());
                 dagLinkDTO.setInputs(dagConfigLinkDTO.getLinkAttrs());
-                dagLinkDTO.setBody(JacksonUtil.toJsonNode(dagConfigLinkDTO));
+//                dagLinkDTO.setBody(JacksonUtil.toJsonNode(dagConfigLinkDTO));
                 dagLinkDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
                 dagLinkService.add(dagLinkDTO);
             }

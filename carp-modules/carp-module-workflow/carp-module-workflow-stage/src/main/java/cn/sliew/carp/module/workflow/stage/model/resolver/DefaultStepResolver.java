@@ -21,6 +21,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -62,11 +63,11 @@ public class DefaultStepResolver implements StepResolver {
      */
     private StageDefinitionBuilder getOrDefault(@Nonnull String type, String typeAlias) {
         StageDefinitionBuilder stageDefinitionBuilder = null;
-        if (typeAlias == null) {
+        if (StringUtils.isBlank(typeAlias)) {
             stageDefinitionBuilder = stageDefinitionBuilderByAlias.get(type);
         }
 
-        if (stageDefinitionBuilder == null && typeAlias != null) {
+        if (stageDefinitionBuilder == null && StringUtils.isNotBlank(typeAlias)) {
             stageDefinitionBuilder = stageDefinitionBuilderByAlias.get(typeAlias);
         }
 

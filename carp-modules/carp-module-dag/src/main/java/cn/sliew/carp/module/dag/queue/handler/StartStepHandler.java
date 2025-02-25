@@ -28,6 +28,9 @@ import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
+import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
+import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
@@ -39,10 +42,12 @@ import java.util.Date;
 import java.util.Objects;
 
 @Component
-public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartStep> {
+public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartStep> implements StepBuilderAware {
 
     private static final Duration RETRY_DELAY = Duration.ofSeconds(15);
 
+    @Autowired
+    private StageDefinitionBuilderFactory stageDefinitionBuilderFactory;
     @Autowired
     private DagInstanceComplexService dagInstanceComplexService;
     @Autowired
@@ -51,6 +56,11 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
     @Override
     public Class<Messages.StartStep> getMessageType() {
         return Messages.StartStep.class;
+    }
+
+    @Override
+    public StageDefinitionBuilderFactory getStageDefinitionBuilderFactory() {
+        return stageDefinitionBuilderFactory;
     }
 
     @Override
@@ -82,7 +92,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
                                     .set(DagStep::getStartTime, new Date());
                             dagStepService.update(updateWrapper);
                             // todo 创建 tasks
-//                            plan(dagStepDTO);
+                            plan(dagStepDTO);
 
                             start(message, dagStepDTO);
                         } catch (Exception e) {
@@ -106,6 +116,11 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
 
     private boolean isAfterStartTimeExpiry(DagStepDTO dagStepDTO) {
         return false;
+    }
+
+    private void plan(DagStepDTO dagStepDTO) {
+        StageDefinitionBuilder builder = builder(dagStepDTO);
+        StageDefinitionBuilderUtil.buildTasks(builder, dagStepDTO);
     }
 
     private void start(Messages.StartStep message, DagStepDTO dagStepDTO) {
