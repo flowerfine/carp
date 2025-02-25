@@ -24,7 +24,6 @@ import cn.sliew.carp.module.workflow.stage.model.task.*;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import jakarta.annotation.Nullable;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -97,7 +96,7 @@ public enum DagExecutionUtil {
     }
 
     public static TaskExecution getTasks(DagStepDTO dagStepDTO, Long taskId) {
-        return getTasks(dagStepDTO).get(taskId.intValue());
+        return getTasks(dagStepDTO).stream().filter(it -> Objects.equals(it.getId(), taskId)).findFirst().orElse(null);
     }
 
     public static TaskExecutionImpl firstTask(DagStepDTO step) {

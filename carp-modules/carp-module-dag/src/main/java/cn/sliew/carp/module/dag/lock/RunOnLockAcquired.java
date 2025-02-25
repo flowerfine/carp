@@ -96,7 +96,7 @@ public interface RunOnLockAcquired {
                 return new RunOnLockResult<>(true, true);
             } catch (Exception e) {
                 log.error("An exception was thrown while executing action with no locking for key: {}", keyName);
-                log.error(e.getMessage());
+                log.error(e.getMessage(), e);
                 return new RunOnLockResult<>(false, e);
             }
         }

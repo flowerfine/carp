@@ -26,6 +26,8 @@ import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,15 +42,16 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
     @Override
     public void handle(Messages.CompleteTask message) {
         withTask(message, (dagStepDTO, task) -> {
-//            TaskExecutionImpl taskImpl = (TaskExecutionImpl) task;
-//            taskImpl.setStatus(message.getStatus());
-//            taskImpl.setEndTime(clock.instant());
+            TaskExecutionImpl taskImpl = (TaskExecutionImpl) task;
+            taskImpl.setStatus(message.getStatus());
+            taskImpl.setEndTime(Instant.now());
 //            StageExecution mergedContextStage = withMergedContext(stage);
 
             if (StringUtils.equalsIgnoreCase(message.getStatus(), ExecutionStatus.REDIRECT.name())) {
 //                handleRedirect(mergedContextStage);
                 handleRedirect(message, dagStepDTO);
             } else {
+                // todo 存储 task 信息
 //                getRepository().storeStage(mergedContextStage);
 
                 if (isManuallySkipped(dagStepDTO)) {
