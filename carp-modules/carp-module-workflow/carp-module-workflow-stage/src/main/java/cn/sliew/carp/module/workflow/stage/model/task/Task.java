@@ -17,10 +17,10 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -41,7 +41,7 @@ public interface Task extends CarpExtensionPoint {
      * @param task The running task execution
      * @return The result of this Task's execution
      */
-    TaskResult execute(DagStepDTO step, TaskExecution task);
+    TaskResult execute(WorkflowStepInstance step, TaskExecution task);
 
     /**
      * Behavior to be called on Task timeout.
@@ -51,7 +51,7 @@ public interface Task extends CarpExtensionPoint {
      *
      * @param step The running step execution
      */
-    default TaskResult onTimeout(DagStepDTO step) {
+    default TaskResult onTimeout(WorkflowStepInstance step) {
         return null;
     }
 
@@ -67,7 +67,7 @@ public interface Task extends CarpExtensionPoint {
      *
      * @param step The running step execution
      */
-    default TaskResult onCancelWithResult(DagStepDTO step) {
+    default TaskResult onCancelWithResult(WorkflowStepInstance step) {
         return null;
     }
 

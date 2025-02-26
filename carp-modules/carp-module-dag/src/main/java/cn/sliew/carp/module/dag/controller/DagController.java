@@ -27,6 +27,8 @@ import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.dag.model.DagRunner;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowDefinitionConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -51,7 +53,8 @@ public class DagController {
     @Operation(summary = "新增", description = "新增")
     public void add(@RequestParam("dagConfigId") Long dagConfigId) {
         DagConfigDTO dagConfigDTO = dagConfigComplexService.selectSimpleOne(dagConfigId);
-        dagRunner.start(dagConfigDTO);
+        WorkflowDefinition workflowDefinition = WorkflowDefinitionConvert.INSTANCE.toDto(dagConfigDTO);
+        dagRunner.start(workflowDefinition);
     }
 
     @GetMapping("configs")

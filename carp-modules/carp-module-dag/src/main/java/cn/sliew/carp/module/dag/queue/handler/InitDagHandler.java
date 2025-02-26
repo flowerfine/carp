@@ -18,11 +18,14 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.common.util.UUIDUtil;
-import cn.sliew.carp.framework.dag.service.*;
+import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
+import cn.sliew.carp.framework.dag.service.DagInstanceService;
+import cn.sliew.carp.framework.dag.service.DagLinkService;
+import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.*;
 import cn.sliew.carp.module.dag.queue.Messages;
-import cn.sliew.milky.common.util.JacksonUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowInstanceConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -30,7 +33,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 @Component
-public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitDag> {
+public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitWorkflow> {
 
     @Autowired
     private DagConfigComplexService dagConfigComplexService;
@@ -43,11 +46,11 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitDag> 
 
     @Override
     public Class getMessageType() {
-        return Messages.InitDag.class;
+        return Messages.InitWorkflow.class;
     }
 
     @Override
-    public void handle(Messages.InitDag message) {
+    public void handle(Messages.InitWorkflow message) {
         // inputs 处理
         DagConfigComplexDTO dagConfigComplexDTO = dagConfigComplexService.selectOne(message.getDagConfigId());
         List<DagConfigStepDTO> steps = dagConfigComplexDTO.getSteps();
@@ -92,6 +95,7 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitDag> 
             }
         }
 
-        push(new Messages.StartDag(dagInstanceDTO));
+        DagInstanceDTO newDagInstanceDTO = dagInstanceService.get(dagInstanceId);
+        push(new Messages.StartWorkflow(WorkflowInstanceConvert.INSTANCE.toDto(newDagInstanceDTO)));
     }
 }

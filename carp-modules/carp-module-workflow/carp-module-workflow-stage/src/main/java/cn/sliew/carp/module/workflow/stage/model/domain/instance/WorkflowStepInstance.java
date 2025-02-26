@@ -20,16 +20,20 @@ package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNode;
 import com.fasterxml.jackson.databind.JsonNode;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class WorkflowStepInstance extends BaseDTO {
 
     private String namespace;
 
-    private Long workflowInstanceId;
+    private WorkflowInstance workflowInstance;
 
     private WorkflowDefinitionGraphNode node;
 

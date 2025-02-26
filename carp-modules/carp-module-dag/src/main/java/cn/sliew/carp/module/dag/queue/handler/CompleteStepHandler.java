@@ -18,14 +18,14 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.algorithm.DagUtil;
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.CompleteStep>{
+public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.CompleteStep> {
 
     @Autowired
     private DagInstanceComplexService dagInstanceComplexService;
@@ -49,10 +49,10 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
 
     @Override
     public void handle(Messages.CompleteStep message) {
-        withStep(message, dagStepDTO -> {
+        withStep(message, stepInstance -> {
             Set<String> statuses = Set.of(ExecutionStatus.RUNNING.name(), ExecutionStatus.NOT_STARTED.name());
-            if (statuses.contains(dagStepDTO.getStatus())) {
-                ExecutionStatus status = determineStatus(dagStepDTO);
+            if (statuses.contains(stepInstance.getStatus())) {
+                ExecutionStatus status = determineStatus(stepInstance);
 //                if (shouldFailOnFailedExpressionEvaluation(stage)) {
 //                    log.warn(
 //                            "Stage {} ({}) of {} is set to fail because of failed expressions.",
@@ -64,7 +64,7 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
 //                }
 
                 try {
-                    if (statuses.contains(dagStepDTO.getStatus()) || (status.isComplete() && !status.isHalt())) {
+                    if (statuses.contains(stepInstance.getStatus()) || (status.isComplete() && !status.isHalt())) {
                         // 检查此阶段是否有任何未计划的合成后置阶段
 //                        List<StageExecution> afterStages = StageExecutionUtil.firstAfterStages(stage);
 //                        if (CollectionUtils.isEmpty(afterStages)) {
@@ -85,8 +85,8 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
 
                         if (status == ExecutionStatus.NOT_STARTED) {
                             // 阶段没有合成阶段或任务，这很奇怪但无论如何
-                            log.warn("Stage {} ({}) of {} had no tasks or synthetic stages!",
-                                    dagStepDTO.getId(), dagStepDTO.getDagConfigStep().getStepName(), dagStepDTO.getDagInstance().getId());
+                            log.warn("Step {} ({}) of {} had no tasks or synthetic stages!",
+                                    stepInstance.getId(), stepInstance.getNode().getStepName(), stepInstance.getWorkflowInstance().getId());
                             status = ExecutionStatus.SKIPPED;
                         }
                     } else if (status.isFailure()) {
@@ -98,18 +98,18 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
 //                        }
                     }
 
-                    dagStepDTO.setStatus(status.name());
+                    stepInstance.setStatus(status.name());
                     if (status == ExecutionStatus.FAILED_CONTINUE) {
-                        handleFailedContinue(dagStepDTO);
+                        handleFailedContinue(stepInstance);
                     }
-                    dagStepDTO.setEndTime(new Date());
+                    stepInstance.setEndTime(new Date());
                 } catch (Exception e) {
-                    log.error("Failed to construct after stages for {} {}", dagStepDTO.getDagConfigStep().getStepName(), dagStepDTO.getId(), e);
+                    log.error("Failed to construct after stages for {} {}", stepInstance.getNode().getStepName(), stepInstance.getId(), e);
 
 //                    ExceptionVO exceptionVO = handleException(dagStepDTO.getDagConfigStep().getStepName() + ":ConstructAfterStages", e);
 //                    stage.getContext().put("exception", exceptionDetails);
-                    dagStepDTO.setStatus(ExecutionStatus.TERMINAL.name());
-                    dagStepDTO.setEndTime(new Date());
+                    stepInstance.setStatus(ExecutionStatus.TERMINAL.name());
+                    stepInstance.setEndTime(new Date());
                 }
 
 //                includeExpressionEvaluationSummary(stage);
@@ -118,17 +118,17 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
                 EnumSet<ExecutionStatus> set = EnumSet.of(ExecutionStatus.SUCCEEDED, ExecutionStatus.FAILED_CONTINUE, ExecutionStatus.SKIPPED);
                 // 当合成阶段以 FAILED_CONTINUE 结束时，将该状态传播到阶段的父级
                 // 这样父级的其他合成子阶段就不会运行
-                if (StringUtils.equalsIgnoreCase(dagStepDTO.getStatus(), ExecutionStatus.FAILED_CONTINUE)
+                if (StringUtils.equalsIgnoreCase(stepInstance.getStatus(), ExecutionStatus.FAILED_CONTINUE)
 //                        && stage.getSyntheticStageOwner() != null
 //                        && !stage.getAllowSiblingStagesToContinueOnFailure()
                 ) {
 //                    Messages.CompleteStep copyMessage = new Messages.CompleteStep(message, dagStepDTO.getParentStageId());
 //                    push(copyMessage);
-                } else if (set.contains(dagStepDTO.getStatus())) {
-                    startNext(dagStepDTO);
+                } else if (set.contains(stepInstance.getStatus())) {
+                    startNext(stepInstance);
                 } else {
                     push(new Messages.CancelStep(message));
-                    push(new Messages.CompleteDag(message));
+                    push(new Messages.CompleteWorkflow(message));
 //                    if (dagStepDTO.getSyntheticStageOwner() == null) {
 //                        log.debug("Stage has no synthetic owner and status is {}, completing execution (original message: {})",
 //                                dagStepDTO.getStatus(), message);
@@ -145,7 +145,7 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
     }
 
 
-    private ExecutionStatus determineStatus(DagStepDTO step) {
+    private ExecutionStatus determineStatus(WorkflowStepInstance step) {
 //        List<ExecutionStatus> syntheticStatuses = DagExecutionUtil.syntheticStages(step).stream()
 //                .map(DagStepDTO::getStatus)
 //                .collect(Collectors.toList());
@@ -185,7 +185,7 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
             log.error("Unhandled condition for stage (id={}) of pipeline (id={}), marking as TERMINAL. " +
                             "syntheticStatuses={}, taskStatuses={}, planningStatus={}, afterStageStatuses={}",
                     step.getId(),
-                    step.getDagInstance().getId(),
+                    step.getWorkflowInstance().getId(),
 //                    syntheticStatuses,
                     null,
                     taskStatuses,
@@ -200,7 +200,7 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
     }
 
 
-    private void handleFailedContinue(DagStepDTO step) {
+    private void handleFailedContinue(WorkflowStepInstance step) {
 //        @SuppressWarnings("unchecked")
 //        Map<String, Object> exception = (Map<String, Object>) step.getContext().get("exception");
 //        if (exception != null) {
@@ -238,14 +238,14 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
     }
 
 
-    private void startNext(DagStepDTO step) {
-        DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(step.getDagInstance().getId());
-        DAG<DagStepDTO> dag = DagUtil.buildDag(dagInstanceComplexDTO);
-        Set<DagStepDTO> downstreamSteps = dag.outDegreeOf(step);
+    private void startNext(WorkflowStepInstance step) {
+        DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(step.getWorkflowInstance().getId());
+        DAG<WorkflowStepInstance> dag = WorkflowUtil.buildDag(dagInstanceComplexDTO);
+        Set<WorkflowStepInstance> downstreamSteps = dag.outDegreeOf(step);
         if (CollectionUtils.isNotEmpty(downstreamSteps)) {
             downstreamSteps.forEach(s -> push(new Messages.StartStep(s)));
         } else {
-            push(new Messages.CompleteDag(dagInstanceComplexDTO));
+            push(new Messages.CompleteWorkflow(dagInstanceComplexDTO));
         }
 
 //        PipelineExecution execution = step.getPipelineExecution();

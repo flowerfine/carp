@@ -17,14 +17,14 @@
  */
 package cn.sliew.carp.module.dag.queue.handler;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.resolver.TaskResolver;
 import cn.sliew.carp.module.workflow.stage.model.task.SkippableTask;
 import cn.sliew.carp.module.workflow.stage.model.task.Task;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,9 +41,9 @@ public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartT
 
     @Override
     public void handle(Messages.StartTask message) {
-        withTask(message, (dagStepDTO, task) -> {
+        withTask(message, (stepInstance, task) -> {
             TaskExecutionImpl taskImpl = (TaskExecutionImpl) task;
-            if (isTaskEnabled(dagStepDTO, task)) {
+            if (isTaskEnabled(stepInstance, task)) {
                 push(new Messages.RunTask(message, taskImpl.getId(), getTaskType(taskImpl)));
             } else {
                 push(new Messages.CompleteTask(message, ExecutionStatus.SKIPPED));
@@ -52,7 +52,7 @@ public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartT
     }
 
 
-    private boolean isTaskEnabled(DagStepDTO dagStepDTO, TaskExecution task) {
+    private boolean isTaskEnabled(WorkflowStepInstance stepInstance, TaskExecution task) {
         Object taskInstance = getTaskInstance(task);
         if (taskInstance instanceof SkippableTask skippableTask) {
 //            boolean enabled = environment.getProperty(

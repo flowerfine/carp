@@ -25,7 +25,11 @@ import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowInstanceConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowStepInstanceConvert;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,59 +52,61 @@ public interface DagMessageHandler<M> {
 
     ExceptionVO handleException(String name, Exception e);
 
-    default void withDag(Messages.DagLevel dagLevel, Consumer<DagInstanceDTO> block) {
+    default void withWorkflow(Messages.WorkflowLevel workflowLevel, Consumer<WorkflowInstance> block) {
         try {
             DagInstanceComplexService dagInstanceComplexService = SpringUtil.getBean(DagInstanceComplexService.class);
-            DagInstanceDTO execution = dagInstanceComplexService.selectSimpleOne(dagLevel.getDagId());
-            block.accept(execution);
+            DagInstanceDTO dagInstanceDTO = dagInstanceComplexService.selectSimpleOne(workflowLevel.getDagId());
+            WorkflowInstance workflowInstance = WorkflowInstanceConvert.INSTANCE.toDto(dagInstanceDTO);
+            block.accept(workflowInstance);
         } catch (IllegalArgumentException e) { // todo 增加 not found exception
-            push(new Messages.InvalidExecutionId(dagLevel));
+            push(new Messages.InvalidWorkflowId(workflowLevel));
         }
     }
 
 
-    default void withStep(Messages.StepLevel stepLevel, Consumer<DagStepDTO> block) {
-        withDag(stepLevel, dagInstanceDTO -> {
+    default void withStep(Messages.StepLevel stepLevel, Consumer<WorkflowStepInstance> block) {
+        withWorkflow(stepLevel, dagInstanceDTO -> {
             try {
                 DagStepService dagStepService = SpringUtil.getBean(DagStepService.class);
                 DagStepDTO stepDTO = dagStepService.getWithConfig(stepLevel.getStepId());
-                block.accept(stepDTO);
-            } catch (IllegalArgumentException e) {
-                getLog().error("Failed to locate step with id: {}, dagInstanceId: {}",
+                WorkflowStepInstance stepInstance = WorkflowStepInstanceConvert.INSTANCE.toDto(stepDTO);
+                block.accept(stepInstance);
+            } catch (IllegalArgumentException e) { // todo 增加 not found exception
+                getLog().error("Failed to locate step with id: {}, workflowInstanceId: {}",
                         stepLevel.getStepId(), stepLevel.getDagId(), e);
-                push(new Messages.InvalidStageId(stepLevel));
+                push(new Messages.InvalidStepId(stepLevel));
             }
         });
     }
 
-    default void withTask(Messages.TaskLevel taskLevel, BiConsumer<DagStepDTO, TaskExecution> block) {
-        withStep(taskLevel, step -> {
-            TaskExecution task = DagExecutionUtil.getTasks(step, taskLevel.getTaskId());
+    default void withTask(Messages.TaskLevel taskLevel, BiConsumer<WorkflowStepInstance, TaskExecution> block) {
+        withStep(taskLevel, stepInstance -> {
+            TaskExecution task = DagExecutionUtil.getTasks(stepInstance, taskLevel.getTaskId());
             if (task == null) {
                 getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",
                         taskLevel.getTaskId(),
-                        JacksonUtil.toJsonString(step),
+                        JacksonUtil.toJsonString(stepInstance),
                         taskLevel);
                 push(new Messages.InvalidTaskId(taskLevel));
             } else {
-                block.accept(step, task);
+                block.accept(stepInstance, task);
             }
         });
     }
 
-    default boolean isCanceled(DagInstanceDTO dagInstanceDTO) {
+    default boolean isCanceled(WorkflowInstance workflowInstance) {
         return false;
     }
 
-    default boolean isComplete(DagInstanceDTO dagInstanceDTO) {
+    default boolean isComplete(WorkflowInstance workflowInstance) {
         return false;
     }
 
-    default boolean isSkipped(DagStepDTO dagStepDTO) {
+    default boolean isSkipped(WorkflowStepInstance stepInstance) {
         return false;
     }
 
-    default boolean isManuallySkipped(DagStepDTO dagStepDTO) {
+    default boolean isManuallySkipped(WorkflowStepInstance stepInstance) {
         return false;
     }
 

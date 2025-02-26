@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 
 import java.time.Duration;
 
@@ -31,7 +31,7 @@ public interface RetryableTask extends Task {
 
     Duration getTimeout();
 
-    default Duration getDynamicTimeout(DagStepDTO step) {
+    default Duration getDynamicTimeout(WorkflowStepInstance step) {
         return getTimeout();
     }
 
@@ -39,7 +39,7 @@ public interface RetryableTask extends Task {
         return getBackoffPeriod();
     }
 
-    default Duration getDynamicBackoffPeriod(DagStepDTO step, Duration taskDuration) {
+    default Duration getDynamicBackoffPeriod(WorkflowStepInstance step, Duration taskDuration) {
         return getDynamicBackoffPeriod(taskDuration);
     }
 }

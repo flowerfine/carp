@@ -19,12 +19,12 @@ package cn.sliew.carp.module.dag.queue;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.module.dag.dispatch.InternalDagInstanceDispatcher;
 import cn.sliew.carp.module.dag.model.DagRunner;
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.Queue;
 import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,12 +35,12 @@ public class QueueDagRunner implements DagRunner {
     private QueueFactory queueFactory;
 
     @Override
-    public void start(DagConfigDTO dagConfigDTO) {
+    public void start(WorkflowDefinition workflowDefinition) {
         Queue queue = queueFactory.get(InternalDagInstanceDispatcher.TOPIC);
         SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
         Message message = Message.builder()
                 .topic(queue.getName())
-                .body(serDer.serialize(new Messages.InitDag(dagConfigDTO)))
+                .body(serDer.serialize(new Messages.InitWorkflow(workflowDefinition)))
                 .build();
         queue.push(message);
     }

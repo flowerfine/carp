@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 
 import java.util.concurrent.TimeUnit;
 
@@ -53,12 +53,12 @@ public interface TaskExecutionInterceptor {
     /**
      * hook that is called before a task executes.
      *
-     * @param task The task that is being handled.
-     * @param step The step for the task execution.
+     * @param task         The task that is being handled.
+     * @param stepInstance The step for the task execution.
      * @return step The step for the task execution.
      */
-    default DagStepDTO beforeTaskExecution(Task task, DagStepDTO step) {
-        return step;
+    default WorkflowStepInstance beforeTaskExecution(Task task, WorkflowStepInstance stepInstance) {
+        return stepInstance;
     }
 
     /**
@@ -66,12 +66,12 @@ public interface TaskExecutionInterceptor {
      *
      * <p>As an example you can modify the taskResult here before it gets propagated.
      *
-     * @param task       The task that is being handled.
-     * @param step       The step for the task execution.
-     * @param taskResult The result of executing the task.
+     * @param task         The task that is being handled.
+     * @param stepInstance The step for the task execution.
+     * @param taskResult   The result of executing the task.
      * @return taskResult The result of executing the task.
      */
-    default TaskResult afterTaskExecution(Task task, DagStepDTO step, TaskResult taskResult) {
+    default TaskResult afterTaskExecution(Task task, WorkflowStepInstance stepInstance, TaskResult taskResult) {
         return taskResult;
     }
 
@@ -82,12 +82,12 @@ public interface TaskExecutionInterceptor {
      * <p>As an example you can clear the security context here if you set it in the
      * beforeTaskExecution hook.
      *
-     * @param task       The task that is being handled.
-     * @param step       The step for the task execution.
-     * @param taskResult Will be null if the task failed with an exception.
-     * @param e          Will be not null if the task failed with an exception.
+     * @param task         The task that is being handled.
+     * @param stepInstance The step for the task execution.
+     * @param taskResult   Will be null if the task failed with an exception.
+     * @param e            Will be not null if the task failed with an exception.
      */
     default void finallyAfterTaskExecution(
-            Task task, DagStepDTO step, TaskResult taskResult, Exception e) {
+            Task task, WorkflowStepInstance stepInstance, TaskResult taskResult, Exception e) {
     }
 }

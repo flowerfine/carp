@@ -29,6 +29,7 @@ import java.util.Map;
 
 /**
  * A "task" is a component piece of a stage
+ * fixme 换成 TaskExecution，TaskExecution 变更为 dto
  */
 @Getter
 @Setter

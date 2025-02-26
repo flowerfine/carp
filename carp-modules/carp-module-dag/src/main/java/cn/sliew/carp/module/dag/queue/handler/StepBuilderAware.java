@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
 
@@ -25,7 +26,7 @@ public interface StepBuilderAware {
 
     StageDefinitionBuilderFactory getStageDefinitionBuilderFactory();
 
-    default StageDefinitionBuilder builder(DagStepDTO step) {
+    default StageDefinitionBuilder builder(WorkflowStepInstance step) {
         return getStageDefinitionBuilderFactory().builderFor(step);
     }
 

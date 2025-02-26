@@ -17,11 +17,13 @@
  */
 package cn.sliew.carp.module.workflow.stage.internal.log;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
-import cn.sliew.carp.module.workflow.stage.model.task.*;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.stage.model.task.RetryableTask;
+import cn.sliew.carp.module.workflow.stage.model.task.SkippableTask;
+import cn.sliew.carp.module.workflow.stage.model.task.TaskResult;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
@@ -49,9 +51,9 @@ public class LogStepTask implements RetryableTask, SkippableTask {
     }
 
     @Override
-    public TaskResult execute(DagStepDTO step, TaskExecution task) {
-        log.info("Dag Step (namespace: {}, id: {}, stepId: {}, stepName: {}) log task: {} (taskId: {}) execute, currentTask: {}, tasks: {}",
-                step.getNamespace(), step.getDagInstance().getId(), step.getId(), step.getDagConfigStep().getStepName(),
+    public TaskResult execute(WorkflowStepInstance step, TaskExecution task) {
+        log.info("Workflow Step (namespace: {}, id: {}, stepId: {}, stepName: {}) log task: {} (taskId: {}) execute, currentTask: {}, tasks: {}",
+                step.getNamespace(), step.getWorkflowInstance().getId(), step.getId(), step.getNode().getStepName(),
                 task.getName(), task.getId(), JacksonUtil.toJsonString(task), JacksonUtil.toJsonString(mapTask(getTasks(step))));
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
                 .output("log-task-1", "log-task-1")
@@ -59,7 +61,7 @@ public class LogStepTask implements RetryableTask, SkippableTask {
                 .build();
     }
 
-    public static List<TaskExecutionImpl> getTasks(DagStepDTO step) {
+    public static List<TaskExecutionImpl> getTasks(WorkflowStepInstance step) {
         if (Objects.isNull(step.getBody()) || step.getBody().isNull() || step.getBody().isEmpty()) {
             return Collections.emptyList();
         }

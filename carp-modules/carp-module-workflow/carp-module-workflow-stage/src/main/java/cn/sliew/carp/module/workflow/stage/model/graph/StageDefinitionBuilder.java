@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -51,7 +51,7 @@ public interface StageDefinitionBuilder {
         return Collections.emptyList();
     }
 
-    default TaskNode.TaskGraph buildTaskGraph(DagStepDTO step) {
+    default TaskNode.TaskGraph buildTaskGraph(WorkflowStepInstance step) {
         TaskNode.Builder graphBuilder = TaskNode.Builder(TaskNode.GraphType.FULL);
         taskGraph(step, graphBuilder);
         return graphBuilder.build();
@@ -60,10 +60,10 @@ public interface StageDefinitionBuilder {
     /**
      * Implement this method to define any tasks that should run as part of this stage's workflow.
      *
-     * @param step   The execution runtime of the step
+     * @param step    The execution runtime of the step
      * @param builder The task graph builder
      */
-    default void taskGraph(DagStepDTO step, TaskNode.Builder builder) {
+    default void taskGraph(WorkflowStepInstance step, TaskNode.Builder builder) {
     }
 
     /**
@@ -71,7 +71,7 @@ public interface StageDefinitionBuilder {
      *
      * @param step The execution runtime of the step
      */
-    default void prepareStageForRestart(DagStepDTO step) {
+    default void prepareStageForRestart(WorkflowStepInstance step) {
     }
 
     /**

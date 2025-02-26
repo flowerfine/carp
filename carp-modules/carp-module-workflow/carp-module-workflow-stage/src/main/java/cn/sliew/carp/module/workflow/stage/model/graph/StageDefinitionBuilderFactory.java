@@ -17,13 +17,13 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import jakarta.annotation.Nonnull;
 
 @FunctionalInterface
 public interface StageDefinitionBuilderFactory {
 
     @Nonnull
-    StageDefinitionBuilder builderFor(@Nonnull DagStepDTO step);
+    StageDefinitionBuilder builderFor(@Nonnull WorkflowStepInstance step);
 
 }

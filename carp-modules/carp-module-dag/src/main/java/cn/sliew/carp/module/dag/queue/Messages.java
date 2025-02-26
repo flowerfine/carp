@@ -17,12 +17,14 @@
  */
 package cn.sliew.carp.module.dag.queue;
 
-import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import cn.sliew.carp.module.workflow.stage.model.task.Task;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.stage.model.task.Task;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,14 +41,14 @@ public class Messages {
         String getNamespace();
     }
 
-    public interface DagLevel extends NamespaceAware {
+    public interface WorkflowLevel extends NamespaceAware {
 
         String getType();
 
         Long getDagId();
     }
 
-    public interface StepLevel extends DagLevel {
+    public interface StepLevel extends WorkflowLevel {
 
         Long getStepId();
     }
@@ -58,36 +60,36 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("initDag")
-    public static class InitDag implements NamespaceAware, Serializable {
+    @JsonTypeName("initWorkflow")
+    public static class InitWorkflow implements NamespaceAware, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagConfigId;
 
-        public InitDag(DagConfigDTO source) {
+        public InitWorkflow(WorkflowDefinition source) {
             this(source.getNamespace(), source.getType(), source.getId());
         }
     }
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("startDag")
-    public static class StartDag implements DagLevel, Serializable {
+    @JsonTypeName("startWorkflow")
+    public static class StartWorkflow implements WorkflowLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
 
-        public StartDag(DagInstanceDTO source) {
-            this(source.getNamespace(), source.getDagConfig().getType(), source.getId());
+        public StartWorkflow(WorkflowInstance source) {
+            this(source.getNamespace(), source.getDefinition().getType(), source.getId());
         }
     }
 
     @Getter
     @AllArgsConstructor
     @JsonTypeName("rescheduleExecution")
-    public static class RescheduleExecution implements DagLevel, Serializable {
+    public static class RescheduleExecution implements WorkflowLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
@@ -101,17 +103,17 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("completeDag")
-    public static class CompleteDag implements DagLevel, Serializable {
+    public static class CompleteWorkflow implements WorkflowLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
 
-        public CompleteDag(DagLevel source) {
+        public CompleteWorkflow(WorkflowLevel source) {
             this(source.getNamespace(), source.getType(), source.getDagId());
         }
 
-        public CompleteDag(DagInstanceDTO source) {
+        public CompleteWorkflow(DagInstanceDTO source) {
             this(source.getNamespace(), source.getDagConfig().getType(), source.getId());
         }
     }
@@ -119,7 +121,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("resumeExecution")
-    public static class ResumeExecution implements DagLevel, Serializable {
+    public static class ResumeExecution implements WorkflowLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
@@ -132,8 +134,8 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("cancelExecution")
-    public static class CancelExecution implements DagLevel, Serializable {
+    @JsonTypeName("cancelWorkflow")
+    public static class CancelWorkflow implements WorkflowLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
@@ -141,20 +143,20 @@ public class Messages {
         private String user;
         private String reason;
 
-        public CancelExecution(DagLevel source) {
+        public CancelWorkflow(WorkflowLevel source) {
             this(source, null, null);
         }
 
-        public CancelExecution(DagLevel source, String user, String reason) {
+        public CancelWorkflow(WorkflowLevel source, String user, String reason) {
             this(source.getNamespace(), source.getType(), source.getDagId(), user, reason);
         }
 
-        public CancelExecution(DagInstanceDTO source) {
+        public CancelWorkflow(WorkflowInstance source) {
             this(source, null, null);
         }
 
-        public CancelExecution(DagInstanceDTO source, String user, String reason) {
-            this(source.getNamespace(), source.getDagConfig().getType(), source.getId(), user, reason);
+        public CancelWorkflow(WorkflowInstance source, String user, String reason) {
+            this(source.getNamespace(), source.getDefinition().getType(), source.getId(), user, reason);
         }
     }
 
@@ -181,12 +183,12 @@ public class Messages {
             this(source, source.getStepId());
         }
 
-        public StartStep(DagLevel source, Long stepId) {
+        public StartStep(WorkflowLevel source, Long stepId) {
             this(source.getNamespace(), source.getType(), source.getDagId(), stepId);
         }
 
-        public StartStep(DagStepDTO source) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
+        public StartStep(WorkflowStepInstance source) {
+            this(source.getWorkflowInstance().getNamespace(), source.getWorkflowInstance().getDefinition().getType(), source.getWorkflowInstance().getId(), source.getId());
         }
     }
 
@@ -223,12 +225,12 @@ public class Messages {
             this(source, source.getStepId());
         }
 
-        public CompleteStep(DagLevel source, Long stepId) {
+        public CompleteStep(WorkflowLevel source, Long stepId) {
             this(source.getNamespace(), source.getType(), source.getDagId(), stepId);
         }
 
-        public CompleteStep(DagStepDTO source) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
+        public CompleteStep(WorkflowStepInstance source) {
+            this(source.getWorkflowInstance().getNamespace(), source.getWorkflowInstance().getDefinition().getType(), source.getWorkflowInstance().getId(), source.getId());
         }
     }
 
@@ -246,8 +248,8 @@ public class Messages {
             this(source.getNamespace(), source.getType(), source.getDagId(), source.getStepId());
         }
 
-        public SkipStep(DagStepDTO source) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
+        public SkipStep(WorkflowStepInstance source) {
+            this(source.getWorkflowInstance().getNamespace(), source.getWorkflowInstance().getDefinition().getType(), source.getWorkflowInstance().getId(), source.getId());
         }
     }
 
@@ -284,7 +286,7 @@ public class Messages {
             this(source, source.getStepId());
         }
 
-        public PauseStage(DagLevel source, Long stepId) {
+        public PauseStage(WorkflowLevel source, Long stepId) {
             this(source.getNamespace(), source.getType(), source.getDagId(), stepId);
         }
     }
@@ -319,7 +321,7 @@ public class Messages {
         private final Long dagId;
         private final Long stepId;
 
-        public ResumeStage(DagLevel source, Long stageId) {
+        public ResumeStage(WorkflowLevel source, Long stageId) {
             this(source.getNamespace(), source.getType(), source.getDagId(), stageId);
         }
 
@@ -358,7 +360,7 @@ public class Messages {
         private final Long stepId;
         private final Long taskId;
 
-        public StartTask(DagLevel source, Long stepId, Long taskId) {
+        public StartTask(WorkflowLevel source, Long stepId, Long taskId) {
             this(source.getNamespace(), source.getType(), source.getDagId(),
                     stepId, taskId);
         }
@@ -367,14 +369,14 @@ public class Messages {
             this(source, source.getStepId(), taskId);
         }
 
-        public StartTask(DagStepDTO source, Long taskId) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(),
-                    source.getDagInstance().getId(), source.getId(), taskId);
+        public StartTask(WorkflowStepInstance source, Long taskId) {
+            this(source.getWorkflowInstance().getNamespace(), source.getWorkflowInstance().getDefinition().getType(),
+                    source.getWorkflowInstance().getId(), source.getId(), taskId);
         }
 
-        public StartTask(DagStepDTO source, TaskExecution task) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(),
-                    source.getDagInstance().getId(), source.getId(), task.getId());
+        public StartTask(WorkflowStepInstance source, TaskExecution task) {
+            this(source.getWorkflowInstance().getNamespace(), source.getWorkflowInstance().getDefinition().getType(),
+                    source.getWorkflowInstance().getId(), source.getId(), task.getId());
         }
     }
 
@@ -400,7 +402,7 @@ public class Messages {
                     source.getStepId(), taskId, taskType);
         }
 
-        public RunTask(DagLevel source, Long stepId, Long taskId, Class<? extends Task> taskType) {
+        public RunTask(WorkflowLevel source, Long stepId, Long taskId, Class<? extends Task> taskType) {
             this(source.getNamespace(), source.getType(), source.getDagId(),
                     stepId, taskId, taskType);
         }
@@ -463,35 +465,35 @@ public class Messages {
         }
     }
 
-    public static abstract class ConfigurationError implements DagLevel, Serializable {
+    public static abstract class ConfigurationError implements WorkflowLevel, Serializable {
 
     }
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("invalidExecutionId")
-    public static class InvalidExecutionId extends ConfigurationError {
+    @JsonTypeName("invalidWorkflowId")
+    public static class InvalidWorkflowId extends ConfigurationError {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
 
-        public InvalidExecutionId(DagLevel source) {
+        public InvalidWorkflowId(WorkflowLevel source) {
             this(source.getNamespace(), source.getType(), source.getDagId());
         }
     }
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("invalidStageId")
-    public static class InvalidStageId extends ConfigurationError implements StepLevel {
+    @JsonTypeName("invalidStepId")
+    public static class InvalidStepId extends ConfigurationError implements StepLevel {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public InvalidStageId(StepLevel source) {
+        public InvalidStepId(StepLevel source) {
             this(source.getNamespace(), source.getType(), source.getDagId(), source.getStepId());
         }
     }

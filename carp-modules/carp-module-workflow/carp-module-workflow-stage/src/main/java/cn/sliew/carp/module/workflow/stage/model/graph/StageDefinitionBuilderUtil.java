@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -33,7 +33,7 @@ public enum StageDefinitionBuilderUtil {
     /**
      * Build and append the tasks for stage.
      */
-    public static void buildTasks(StageDefinitionBuilder stageDefinitionBuilder, DagStepDTO step) {
+    public static void buildTasks(StageDefinitionBuilder stageDefinitionBuilder, WorkflowStepInstance step) {
         ListIterator<TaskNode> iterator = stageDefinitionBuilder.buildTaskGraph(step).listIterator();
         Iterators.forEachWithMetadata(
                 iterator,
@@ -41,7 +41,7 @@ public enum StageDefinitionBuilderUtil {
     }
 
     private static void processTaskNode(
-            DagStepDTO step,
+            WorkflowStepInstance step,
             Iterators.IteratorElement<TaskNode> element,
             boolean isSubGraph) {
 
@@ -66,7 +66,7 @@ public enum StageDefinitionBuilderUtil {
         }
     }
 
-    private static TaskExecutionImpl buildTaskExecution(DagStepDTO step, TaskNode.DefinedTask taskNode) {
+    private static TaskExecutionImpl buildTaskExecution(WorkflowStepInstance step, TaskNode.DefinedTask taskNode) {
         TaskExecutionImpl taskExecution = new TaskExecutionImpl();
         taskExecution.setId(getTaskSize(step.getBody()) + 1L);
         taskExecution.setName(taskNode.getName());

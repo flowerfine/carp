@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public interface CancellableStage {
 
-    Result cancel(DagStepDTO step);
+    Result cancel(WorkflowStepInstance step);
 
     @Getter
     @AllArgsConstructor

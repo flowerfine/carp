@@ -17,9 +17,9 @@
  */
 package cn.sliew.carp.module.dag.model;
 
-import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 
 public interface DagRunner {
 
-    void start(DagConfigDTO dagConfigDTO);
+    void start(WorkflowDefinition workflowDefinition);
 }

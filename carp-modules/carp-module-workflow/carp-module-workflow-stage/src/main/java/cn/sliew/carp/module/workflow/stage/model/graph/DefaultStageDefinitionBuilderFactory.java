@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
-import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNodeMeta;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.resolver.StepResolver;
 import jakarta.annotation.Nonnull;
 
@@ -32,10 +32,8 @@ public class DefaultStageDefinitionBuilderFactory implements StageDefinitionBuil
 
     @Nonnull
     @Override
-    public StageDefinitionBuilder builderFor(@Nonnull DagStepDTO step) {
-        DagConfigStepDTO dagConfigStep = step.getDagConfigStep();
-        String type = dagConfigStep.getStepMeta().path("type").asText();
-        String alias = dagConfigStep.getStepMeta().path("alias").asText();
-        return stepResolver.getStageDefinitionBuilder(type, alias);
+    public StageDefinitionBuilder builderFor(@Nonnull WorkflowStepInstance step) {
+        WorkflowDefinitionGraphNodeMeta meta = step.getNode().getMeta();
+        return stepResolver.getStageDefinitionBuilder(meta.getType(), meta.getAlias());
     }
 }

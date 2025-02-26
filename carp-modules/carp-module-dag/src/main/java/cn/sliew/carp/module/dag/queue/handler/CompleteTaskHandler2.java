@@ -17,12 +17,12 @@
  */
 package cn.sliew.carp.module.dag.queue.handler;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,7 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
 
     @Override
     public void handle(Messages.CompleteTask message) {
-        withTask(message, (dagStepDTO, task) -> {
+        withTask(message, (stepInstance, task) -> {
             TaskExecutionImpl taskImpl = (TaskExecutionImpl) task;
             taskImpl.setStatus(message.getStatus());
             taskImpl.setEndTime(Instant.now());
@@ -48,19 +48,19 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
 
             if (StringUtils.equalsIgnoreCase(message.getStatus(), ExecutionStatus.REDIRECT.name())) {
 //                handleRedirect(mergedContextStage);
-                handleRedirect(message, dagStepDTO);
+                handleRedirect(message, stepInstance);
             } else {
                 // todo 存储 task 信息
 //                getRepository().storeStage(mergedContextStage);
 
-                if (isManuallySkipped(dagStepDTO)) {
+                if (isManuallySkipped(stepInstance)) {
 //                   push(new Messages.SkipStep(stage.getTopLevelStage()));
-                    push(new Messages.SkipStep(dagStepDTO));
+                    push(new Messages.SkipStep(stepInstance));
                 } else if (shouldCompleteStage(task, message.getStatus(), message.getOriginalStatus())) {
                     push(new Messages.CompleteStep(message));
                 } else {
 //                    TaskExecution nextTask = DagExecutionUtil.nextTask(mergedContextStage, task);
-                    TaskExecution nextTask = DagExecutionUtil.nextTask(dagStepDTO, task);
+                    TaskExecution nextTask = DagExecutionUtil.nextTask(stepInstance, task);
                     if (nextTask == null) {
                         push(new Messages.NoDownstreamTasks(message));
                     } else {
@@ -89,8 +89,8 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
         return status.isHalt();
     }
 
-    private void handleRedirect(Messages.CompleteTask message, DagStepDTO dagStepDTO) {
-        List<TaskExecutionImpl> tasks = DagExecutionUtil.getTasks(dagStepDTO);
+    private void handleRedirect(Messages.CompleteTask message, WorkflowStepInstance stepInstance) {
+        List<TaskExecutionImpl> tasks = DagExecutionUtil.getTasks(stepInstance);
         int start = -1;
         int end = -1;
 
@@ -105,7 +105,7 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
         }
 
         for (int i = start; i <= end; i++) {
-            TaskExecutionImpl task = (TaskExecutionImpl) tasks.get(i);
+            TaskExecutionImpl task = tasks.get(i);
             task.setEndTime(null);
             task.setStatus(ExecutionStatus.NOT_STARTED);
         }

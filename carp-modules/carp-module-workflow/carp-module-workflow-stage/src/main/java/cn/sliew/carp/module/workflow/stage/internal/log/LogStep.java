@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.internal.log;
 
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.TaskNode;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +35,8 @@ public class LogStep implements StageDefinitionBuilder {
     }
 
     @Override
-    public void taskGraph(DagStepDTO step, TaskNode.Builder builder) {
-        log.info("build task, step: {}", step.getDagConfigStep().getStepName());
+    public void taskGraph(WorkflowStepInstance step, TaskNode.Builder builder) {
+        log.info("build task, step: {}", step.getNode().getStepName());
         // getPipelinesFromArtifact -> subGraph -> savePipelinesCompleteTask
         // subGraph 会在 getPipelinesFromArtifact 之后运行，savePipelinesCompleteTask 之前运行，即按照添加位置执行
         // 当 subGraph 中任务返回 REDIRECT 时，subGraph 中的 5 个任务会一起重复执行

@@ -52,13 +52,13 @@ public class CancelStepHandler extends AbstractDagMessageHandler<Messages.Cancel
 
     @Override
     public void handle(Messages.CancelStep message) {
-        withStep(message, dagStepDTO -> {
+        withStep(message, stepInstance -> {
             // 当执行以非 SUCCEEDED 状态结束时，仍在运行的阶段
             // 保持在 RUNNING 状态，直到它们的运行任务被出队到 RunTaskHandler。
             // 对于使用 getDynamicBackoffPeriod() 的任务，阶段可能会错误地
             // 报告为 RUNNING 相当长的时间，除非我们短路它们的回退时间。
-            if (StringUtils.equalsIgnoreCase(dagStepDTO.getStatus(), ExecutionStatus.RUNNING.name())) {
-                DagExecutionUtil.getTasks(dagStepDTO).stream()
+            if (StringUtils.equalsIgnoreCase(stepInstance.getStatus(), ExecutionStatus.RUNNING.name())) {
+                DagExecutionUtil.getTasks(stepInstance).stream()
                         .filter(task -> StringUtils.equalsIgnoreCase(task.getStatus(), ExecutionStatus.RUNNING.name()))
                         .forEach(task -> {
 //                            getQueue().reschedule(new Messages.RunTask(
@@ -72,13 +72,13 @@ public class CancelStepHandler extends AbstractDagMessageHandler<Messages.Cancel
                         });
             }
 
-            if (ExecutionStatus.valueOf(dagStepDTO.getStatus()).isHalt()) {
-                StageDefinitionBuilder builder = builder(dagStepDTO);
+            if (ExecutionStatus.valueOf(stepInstance.getStatus()).isHalt()) {
+                StageDefinitionBuilder builder = builder(stepInstance);
                 if (builder instanceof CancellableStage) {
                     // 暂时将其作为离线线程执行，因为某些取消例程
                     // 可能运行足够长的时间导致消息确认超时
                     Runnable cancellationClosure = () -> {
-                        ((CancellableStage) builder).cancel(dagStepDTO);
+                        ((CancellableStage) builder).cancel(stepInstance);
 
                         // PipelineStage 的特殊情况，确保及时取消
                         // 子管道和部署策略，而不考虑任务回退

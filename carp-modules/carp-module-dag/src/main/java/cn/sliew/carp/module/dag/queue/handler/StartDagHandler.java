@@ -18,15 +18,15 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.algorithm.DagUtil;
 import cn.sliew.carp.framework.dag.repository.entity.DagInstance;
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Component
-public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartDag> {
+public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWorkflow> {
 
     @Autowired
     private DagInstanceComplexService dagInstanceComplexService;
@@ -47,54 +47,54 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartDag
     private DagInstanceService dagInstanceService;
 
     @Override
-    public Class<Messages.StartDag> getMessageType() {
-        return Messages.StartDag.class;
+    public Class<Messages.StartWorkflow> getMessageType() {
+        return Messages.StartWorkflow.class;
     }
 
     @Override
-    public void handle(Messages.StartDag message) {
-        withDag(message, dagInstanceDTO -> {
-            if (StringUtils.equalsIgnoreCase(dagInstanceDTO.getStatus(), ExecutionStatus.NOT_STARTED.name())
-                    || isCanceled(dagInstanceDTO) == false) {
-                if (shouldLimit(dagInstanceDTO)) {
-                    getLog().info("Dag Instance (namespace: {}, type {}, id {}) execution limit and queue",
+    public void handle(Messages.StartWorkflow message) {
+        withWorkflow(message, workflowInstance -> {
+            if (StringUtils.equalsIgnoreCase(workflowInstance.getStatus(), ExecutionStatus.NOT_STARTED.name())
+                    || isCanceled(workflowInstance) == false) {
+                if (shouldLimit(workflowInstance)) {
+                    getLog().info("Workflow Instance (namespace: {}, type {}, id {}) execution limit and queue",
                             message.getNamespace(), message.getType(), message.getDagId());
                     // todo pending execution
 //                    pendingExecutionService.enqueue(execution.getPipelineConfigId(), message);
                 } else {
-                    start(dagInstanceDTO);
+                    start(workflowInstance);
                 }
             } else {
-                terminate(dagInstanceDTO);
+                terminate(workflowInstance);
             }
         });
     }
 
-    private boolean shouldLimit(DagInstanceDTO dagInstanceDTO) {
+    private boolean shouldLimit(WorkflowInstance workflowInstance) {
         // 并发和速率限流
         return false;
     }
 
-    private void start(DagInstanceDTO dagInstanceDTO) {
-        if (isAfterStartTimeExpiry(dagInstanceDTO)) {
-            getLog().warn("Dag Instance (namespace: {}, type {}, id {}) start was canceled because start time would be after defined start time expiry (now: {}, expiry: {})",
-                    dagInstanceDTO.getNamespace(), dagInstanceDTO.getDagConfig().getType(), dagInstanceDTO.getId(), Instant.now(),
+    private void start(WorkflowInstance workflowInstance) {
+        if (isAfterStartTimeExpiry(workflowInstance)) {
+            getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) start was canceled because start time would be after defined start time expiry (now: {}, expiry: {})",
+                    workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId(), Instant.now(),
 //                    dagInstanceDTO.getStartTimeExpiry()
                     null
             );
-            push(new Messages.CancelExecution(dagInstanceDTO, "system", "Could not begin execution before start time expiry"));
+            push(new Messages.CancelWorkflow(workflowInstance, "system", "Could not begin workflow before start time expiry"));
         } else {
-            DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(dagInstanceDTO.getId());
-            DAG<DagStepDTO> dag = DagUtil.buildDag(dagInstanceComplexDTO);
-            Set<DagStepDTO> initialSteps = dag.getSources();
+            DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(workflowInstance.getId());
+            DAG<WorkflowStepInstance> dag = WorkflowUtil.buildDag(dagInstanceComplexDTO);
+            Set<WorkflowStepInstance> initialSteps = dag.getSources();
             if (CollectionUtils.isEmpty(initialSteps)) {
-                getLog().warn("Dag Instance (namespace: {}, type {}, id {}) found no initial steps",
-                        dagInstanceDTO.getNamespace(), dagInstanceDTO.getDagConfig().getType(), dagInstanceDTO.getId());
-                dagInstanceService.updateStatus(dagInstanceDTO.getId(), dagInstanceDTO.getStatus(), ExecutionStatus.TERMINAL.name());
+                getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) found no initial steps",
+                        workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId());
+                dagInstanceService.updateStatus(workflowInstance.getId(), workflowInstance.getStatus(), ExecutionStatus.TERMINAL.name());
             } else {
                 LambdaUpdateWrapper<DagInstance> updateWrapper = Wrappers.lambdaUpdate(DagInstance.class)
-                        .eq(DagInstance::getId, dagInstanceDTO.getId())
-                        .eq(DagInstance::getStatus, dagInstanceDTO.getStatus())
+                        .eq(DagInstance::getId, workflowInstance.getId())
+                        .eq(DagInstance::getStatus, workflowInstance.getStatus())
                         .set(DagInstance::getStatus, ExecutionStatus.RUNNING.name())
                         .set(DagInstance::getStartTime, new Date());
                 dagInstanceService.update(updateWrapper);
@@ -103,17 +103,17 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartDag
         }
     }
 
-    private void terminate(DagInstanceDTO dagInstanceDTO) {
-        if (StringUtils.equalsIgnoreCase(dagInstanceDTO.getStatus(), ExecutionStatus.CANCELED.name())
-                || isCanceled(dagInstanceDTO)) {
+    private void terminate(WorkflowInstance workflowInstance) {
+        if (StringUtils.equalsIgnoreCase(workflowInstance.getStatus(), ExecutionStatus.CANCELED.name())
+                || isCanceled(workflowInstance)) {
 //            push(new Messages.StartWaitingExecutions(dagInstanceDTO.getDagConfig().getId(), !dagInstanceDTO.isKeepWaitingPipelines()));
         } else {
-            getLog().warn("Dag Instance (namespace: {}, type: {}, id: {}, status: {}) cannot be started unless state is NOT_STARTED. Ignoring StartDag message.",
-                    dagInstanceDTO.getNamespace(), dagInstanceDTO.getDagConfig().getType(), dagInstanceDTO.getId(), dagInstanceDTO.getStatus(), dagInstanceDTO.getNamespace());
+            getLog().warn("Workflow Instance (namespace: {}, type: {}, id: {}, status: {}) cannot be started unless state is NOT_STARTED. Ignoring StartWorkflow message.",
+                    workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId(), workflowInstance.getStatus(), workflowInstance.getNamespace());
         }
     }
 
-    private boolean isAfterStartTimeExpiry(DagInstanceDTO dagInstanceDTO) {
+    private boolean isAfterStartTimeExpiry(WorkflowInstance workflowInstance) {
 //        return Objects.nonNull(dagInstanceDTO.getStartTimeExpiry()) && dagInstanceDTO.getStartTimeExpiry().isBefore(clock.instant());
         return false;
     }

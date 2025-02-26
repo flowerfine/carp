@@ -36,7 +36,7 @@ public class ConfigurationErrorHandler2 extends AbstractDagMessageHandler<Messag
 
     @Override
     public void handle(Messages.ConfigurationError message) {
-        if (message instanceof Messages.InvalidExecutionId invalidExecution) {
+        if (message instanceof Messages.InvalidWorkflowId invalidExecution) {
             getLog().error("No such {} {} for {}",
                     message.getType(), message.getDagId(), message.getNamespace());
         } else {

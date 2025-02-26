@@ -26,8 +26,8 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WorkflowTaskInstanceConvert extends BaseConvert<DagStepDTO, WorkflowStepInstance> {
-    WorkflowTaskInstanceConvert INSTANCE = Mappers.getMapper(WorkflowTaskInstanceConvert.class);
+public interface WorkflowStepInstanceConvert extends BaseConvert<DagStepDTO, WorkflowStepInstance> {
+    WorkflowStepInstanceConvert INSTANCE = Mappers.getMapper(WorkflowStepInstanceConvert.class);
 
     @Override
     default DagStepDTO toDo(WorkflowStepInstance dto) {
@@ -38,7 +38,9 @@ public interface WorkflowTaskInstanceConvert extends BaseConvert<DagStepDTO, Wor
     default WorkflowStepInstance toDto(DagStepDTO entity) {
         WorkflowStepInstance dto = new WorkflowStepInstance();
         BeanUtils.copyProperties(entity, dto);
-        dto.setWorkflowInstanceId(entity.getDagInstance().getId());
+        if (entity.getDagInstance() != null) {
+            dto.setWorkflowInstance(WorkflowInstanceConvert.INSTANCE.toDto(entity.getDagInstance()));
+        }
         if (entity.getDagConfigStep() != null) {
             dto.setNode(WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(entity.getDagConfigStep()));
         }
