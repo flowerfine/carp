@@ -22,21 +22,28 @@ import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
+import cn.sliew.carp.framework.dag.service.DagStepTaskService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowDefinitionGraphEdgeConvert;
 import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowInstanceConvert;
 import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowStepInstanceConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowStepTaskInstanceConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowExecutionGraph;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -48,6 +55,8 @@ public class SqlWorkflowRepository implements WorkflowRepository {
     private DagConfigLinkService dagConfigLinkService;
     @Autowired
     private DagStepService dagStepService;
+    @Autowired
+    private DagStepTaskService dagStepTaskService;
 
     @Override
     public WorkflowInstance get(Long id) {
@@ -79,5 +88,43 @@ public class SqlWorkflowRepository implements WorkflowRepository {
     public WorkflowStepInstance getStepInstance(Long stepInstanceId) {
         DagStepDTO dagStepDTO = dagStepService.getWithConfig(stepInstanceId);
         return WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
+    }
+
+    @Override
+    public List<TaskExecutionImpl> getStepTaskInstances(Long stepInstanceId) {
+        List<DagStepTaskDTO> dagStepTaskDTOS = dagStepTaskService.listTasks(stepInstanceId);
+        return WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTOS);
+    }
+
+    @Override
+    public TaskExecutionImpl getStepTaskInstance(Long stepTaskInstanceId) {
+        DagStepTaskDTO dagStepTaskDTO = dagStepTaskService.get(stepTaskInstanceId);
+        return WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTO);
+    }
+
+    @Override
+    public TaskExecutionImpl getStepTaskInstance(Long workflowInstanceId, Long stepInstanceId, Long taskId) {
+        DagStepTaskDTO dagStepTaskDTO = dagStepTaskService.get(workflowInstanceId, stepInstanceId, taskId);
+        return WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTO);
+    }
+
+    @Override
+    public void addStepTaskInstance(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
+        DagStepTaskDTO dagStepTaskDTO = new DagStepTaskDTO();
+        BeanUtils.copyProperties(taskExecution, dagStepTaskDTO);
+        dagStepTaskDTO.setId(null);
+        dagStepTaskDTO.setNamespace(stepInstance.getNamespace());
+        dagStepTaskDTO.setDagInstanceId(stepInstance.getWorkflowInstance().getId());
+        dagStepTaskDTO.setDagStepId(stepInstance.getId());
+        if (Objects.nonNull(taskExecution.getStatus())) {
+            dagStepTaskDTO.setStatus(taskExecution.getStatus().name());
+        }
+        if (Objects.nonNull(taskExecution.getStartTime())) {
+            dagStepTaskDTO.setStartTime(Date.from(taskExecution.getStartTime()));
+        }
+        if (Objects.nonNull(taskExecution.getEndTime())) {
+            dagStepTaskDTO.setEndTime(Date.from(taskExecution.getEndTime()));
+        }
+        dagStepTaskService.add(dagStepTaskDTO);
     }
 }

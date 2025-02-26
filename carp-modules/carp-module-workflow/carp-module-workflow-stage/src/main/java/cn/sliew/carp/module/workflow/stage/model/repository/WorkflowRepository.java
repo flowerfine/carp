@@ -18,8 +18,11 @@
 package cn.sliew.carp.module.workflow.stage.model.repository;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+
+import java.util.List;
 
 public interface WorkflowRepository {
 
@@ -35,5 +38,11 @@ public interface WorkflowRepository {
      */
     WorkflowStepInstance getStepInstance(Long stepInstanceId);
 
-    // todo get task
+    List<TaskExecutionImpl> getStepTaskInstances(Long stepInstanceId);
+
+    TaskExecutionImpl getStepTaskInstance(Long stepTaskInstanceId);
+
+    TaskExecutionImpl getStepTaskInstance(Long workflowInstanceId, Long stepInstanceId, Long taskId);
+
+    void addStepTaskInstance(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution);
 }

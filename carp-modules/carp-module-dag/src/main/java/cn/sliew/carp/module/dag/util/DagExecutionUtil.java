@@ -17,22 +17,20 @@
  */
 package cn.sliew.carp.module.dag.util;
 
+import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import cn.sliew.carp.module.workflow.stage.model.task.Task;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionInterceptor;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskResult;
-import cn.sliew.milky.common.util.JacksonUtil;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.annotation.Nullable;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
@@ -85,18 +83,8 @@ public enum DagExecutionUtil {
     }
 
     public static List<TaskExecutionImpl> getTasks(WorkflowStepInstance stepInstance) {
-        if (Objects.isNull(stepInstance.getBody())
-                || stepInstance.getBody().isNull()
-                || stepInstance.getBody().isEmpty()) {
-            return Collections.emptyList();
-        }
-        JsonNode tasks = stepInstance.getBody().path("tasks");
-        if (tasks.isNull() || tasks.isEmpty() || tasks.isArray() == false) {
-            return Collections.emptyList();
-        }
-
-        return JacksonUtil.toObject(stepInstance.getBody().path("tasks"), new TypeReference<List<TaskExecutionImpl>>() {
-        });
+        WorkflowRepository workflowRepository = SpringUtil.getBean(WorkflowRepository.class);
+        return workflowRepository.getStepTaskInstances(stepInstance.getId());
     }
 
     public static TaskExecution getTasks(WorkflowStepInstance stepInstance, Long taskId) {

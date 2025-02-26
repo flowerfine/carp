@@ -38,6 +38,7 @@ public class TaskExecutionImpl implements TaskExecution {
 
     @EqualsAndHashCode.Include
     private Long id;
+    private Long taskId;
     private String uuid = UuidCreator.getShortPrefixComb().toString();
     private String name;
     private String implementingClass;

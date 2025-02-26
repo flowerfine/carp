@@ -29,6 +29,8 @@ public interface TaskExecution {
 
     Long getId();
 
+    Long getTaskId();
+
     String getUuid();
 
     String getName();

@@ -17,15 +17,14 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
+import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
-import cn.sliew.milky.common.util.JacksonUtil;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
+import com.google.common.collect.Lists;
 
+import java.util.List;
 import java.util.ListIterator;
-import java.util.Objects;
 
 public enum StageDefinitionBuilderUtil {
     ;
@@ -35,19 +34,24 @@ public enum StageDefinitionBuilderUtil {
      */
     public static void buildTasks(StageDefinitionBuilder stageDefinitionBuilder, WorkflowStepInstance step) {
         ListIterator<TaskNode> iterator = stageDefinitionBuilder.buildTaskGraph(step).listIterator();
+        List<TaskExecutionImpl> tasks = Lists.newArrayList();
         Iterators.forEachWithMetadata(
                 iterator,
-                element -> processTaskNode(step, element, false));
+                element -> processTaskNode(step, element, tasks, false));
+
+        WorkflowRepository workflowRepository = SpringUtil.getBean(WorkflowRepository.class);
+        tasks.forEach(task -> workflowRepository.addStepTaskInstance(step, task));
     }
 
     private static void processTaskNode(
             WorkflowStepInstance step,
             Iterators.IteratorElement<TaskNode> element,
+            List<TaskExecutionImpl> tasks,
             boolean isSubGraph) {
 
         if (element.getValue() instanceof TaskNode.DefinedTask) {
             TaskNode.DefinedTask definedTask = (TaskNode.DefinedTask) element.getValue();
-            TaskExecutionImpl task = buildTaskExecution(step, definedTask);
+            TaskExecutionImpl task = buildTaskExecution(step, tasks, definedTask);
 
             if (isSubGraph) {
                 task.setLoopStart(element.isFirst());
@@ -56,54 +60,23 @@ public enum StageDefinitionBuilderUtil {
                 task.setStageStart(element.isFirst());
                 task.setStageEnd(element.isLast());
             }
-            step.setBody(addTasks(step.getBody(), task));
+
+            tasks.add(task);
         } else if (element.getValue() instanceof TaskNode.TaskGraph) {
             TaskNode.TaskGraph taskGraph = (TaskNode.TaskGraph) element.getValue();
             ListIterator<TaskNode> iterator = taskGraph.listIterator();
             Iterators.forEachWithMetadata(
                     iterator,
-                    item -> processTaskNode(step, item, true));
+                    item -> processTaskNode(step, item, tasks, true));
         }
     }
 
-    private static TaskExecutionImpl buildTaskExecution(WorkflowStepInstance step, TaskNode.DefinedTask taskNode) {
+    private static TaskExecutionImpl buildTaskExecution(WorkflowStepInstance step, List<TaskExecutionImpl> tasks, TaskNode.DefinedTask taskNode) {
         TaskExecutionImpl taskExecution = new TaskExecutionImpl();
-        taskExecution.setId(getTaskSize(step.getBody()) + 1L);
+        taskExecution.setTaskId(tasks.size() + 1L);
         taskExecution.setName(taskNode.getName());
         taskExecution.setImplementingClass(taskNode.getImplementingClassName());
         return taskExecution;
-    }
-
-    private static JsonNode addTasks(JsonNode body, Object task) {
-        ObjectNode objectNode;
-        if (Objects.isNull(body) || body.isNull() || body.isEmpty()) {
-            objectNode = JacksonUtil.createObjectNode();
-        } else {
-            objectNode = (ObjectNode) body;
-        }
-        JsonNode tasksNode = objectNode.path("tasks");
-        ArrayNode arrayNode;
-        if (tasksNode.isNull() || tasksNode.isEmpty()) {
-            arrayNode = JacksonUtil.createArrayNode();
-            objectNode.set("tasks", arrayNode);
-        } else {
-            arrayNode = (ArrayNode) tasksNode;
-        }
-        arrayNode.add(JacksonUtil.toJsonNode(task));
-
-        return objectNode;
-    }
-
-    private static int getTaskSize(JsonNode body) {
-        if (Objects.isNull(body) || body.isNull()) {
-            return 0;
-        }
-        JsonNode tasksNode = body.path("tasks");
-        if (tasksNode.isNull() == false && tasksNode.isArray()) {
-            ArrayNode arrayNode = (ArrayNode) tasksNode;
-            return arrayNode.size();
-        }
-        return 0;
     }
 
 }

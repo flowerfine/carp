@@ -52,9 +52,9 @@ public class LogStepTask implements RetryableTask, SkippableTask {
 
     @Override
     public TaskResult execute(WorkflowStepInstance step, TaskExecution task) {
-        log.info("Workflow Step (namespace: {}, id: {}, stepId: {}, stepName: {}) log task: {} (taskId: {}) execute, currentTask: {}, tasks: {}",
+        log.info("Workflow Step (namespace: {}, id: {}, stepId: {}, stepName: {}) log task: {} (taskId: {}-{}) execute, currentTask: {}, tasks: {}",
                 step.getNamespace(), step.getWorkflowInstance().getId(), step.getId(), step.getNode().getStepName(),
-                task.getName(), task.getId(), JacksonUtil.toJsonString(task), JacksonUtil.toJsonString(mapTask(getTasks(step))));
+                task.getName(), task.getId(), task.getTaskId(), JacksonUtil.toJsonString(task), JacksonUtil.toJsonString(mapTask(getTasks(step))));
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
                 .output("log-task-1", "log-task-1")
                 .output("log-task-2", "log-task-2")
@@ -74,6 +74,7 @@ public class LogStepTask implements RetryableTask, SkippableTask {
         return tasks.stream().map(task -> {
             return Map.of(
                     "id", task.getId(),
+                    "taskId", task.getTaskId(),
                     "name", task.getName(),
                     "status", task.getStatus(),
                     "stageStart", task.isStageStart(),
@@ -90,6 +91,7 @@ public class LogStepTask implements RetryableTask, SkippableTask {
                 .map(task -> {
                     return Map.of(
                             "id", task.getId(),
+                            "taskId", task.getTaskId(),
                             "name", task.getName(),
                             "status", task.getStatus(),
                             "stageStart", task.isStageStart(),
