@@ -25,7 +25,6 @@ import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.*;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowInstanceConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -95,7 +94,6 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitWorkf
             }
         }
 
-        DagInstanceDTO newDagInstanceDTO = dagInstanceService.get(dagInstanceId);
-        push(new Messages.StartWorkflow(WorkflowInstanceConvert.INSTANCE.toDto(newDagInstanceDTO)));
+        push(new Messages.StartWorkflow(getWorkflowRepository().get(dagInstanceId)));
     }
 }

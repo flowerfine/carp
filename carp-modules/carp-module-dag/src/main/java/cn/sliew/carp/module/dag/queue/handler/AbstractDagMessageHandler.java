@@ -25,6 +25,7 @@ import cn.sliew.carp.module.dag.dispatch.InternalDagInstanceDispatcher;
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.Queue;
 import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.WorkerOptions;
@@ -42,6 +43,8 @@ public abstract class AbstractDagMessageHandler<M> implements DagMessageHandler<
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;
 
+    @Autowired
+    private WorkflowRepository workflowRepository;
     @Autowired
     private RedissonClient redissonClient;
     @Autowired
@@ -78,5 +81,10 @@ public abstract class AbstractDagMessageHandler<M> implements DagMessageHandler<
                 .findFirst()
                 .map(handler -> handler.handle(name != null ? name : "unspecified", e))
                 .orElse(null);
+    }
+
+    @Override
+    public WorkflowRepository getWorkflowRepository() {
+        return workflowRepository;
     }
 }

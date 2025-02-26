@@ -17,19 +17,13 @@
  */
 package cn.sliew.carp.module.dag.queue.handler;
 
-import cn.hutool.extra.spring.SpringUtil;
-import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
-import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowInstanceConvert;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowStepInstanceConvert;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,9 +48,7 @@ public interface DagMessageHandler<M> {
 
     default void withWorkflow(Messages.WorkflowLevel workflowLevel, Consumer<WorkflowInstance> block) {
         try {
-            DagInstanceComplexService dagInstanceComplexService = SpringUtil.getBean(DagInstanceComplexService.class);
-            DagInstanceDTO dagInstanceDTO = dagInstanceComplexService.selectSimpleOne(workflowLevel.getDagId());
-            WorkflowInstance workflowInstance = WorkflowInstanceConvert.INSTANCE.toDto(dagInstanceDTO);
+            WorkflowInstance workflowInstance = getWorkflowRepository().get(workflowLevel.getDagId());
             block.accept(workflowInstance);
         } catch (IllegalArgumentException e) { // todo 增加 not found exception
             push(new Messages.InvalidWorkflowId(workflowLevel));
@@ -67,9 +59,7 @@ public interface DagMessageHandler<M> {
     default void withStep(Messages.StepLevel stepLevel, Consumer<WorkflowStepInstance> block) {
         withWorkflow(stepLevel, dagInstanceDTO -> {
             try {
-                DagStepService dagStepService = SpringUtil.getBean(DagStepService.class);
-                DagStepDTO stepDTO = dagStepService.getWithConfig(stepLevel.getStepId());
-                WorkflowStepInstance stepInstance = WorkflowStepInstanceConvert.INSTANCE.toDto(stepDTO);
+                WorkflowStepInstance stepInstance = getWorkflowRepository().getStepInstance(stepLevel.getStepId());
                 block.accept(stepInstance);
             } catch (IllegalArgumentException e) { // todo 增加 not found exception
                 getLog().error("Failed to locate step with id: {}, workflowInstanceId: {}",
@@ -84,9 +74,7 @@ public interface DagMessageHandler<M> {
             TaskExecution task = DagExecutionUtil.getTasks(stepInstance, taskLevel.getTaskId());
             if (task == null) {
                 getLog().error("InvalidTaskId: Unable to find task {} in step '{}' while processing message {}",
-                        taskLevel.getTaskId(),
-                        JacksonUtil.toJsonString(stepInstance),
-                        taskLevel);
+                        taskLevel.getTaskId(), JacksonUtil.toJsonString(stepInstance), taskLevel);
                 push(new Messages.InvalidTaskId(taskLevel));
             } else {
                 block.accept(stepInstance, task);
@@ -113,5 +101,7 @@ public interface DagMessageHandler<M> {
     default Logger getLog() {
         return LoggerFactory.getLogger(getClass());
     }
+
+    WorkflowRepository getWorkflowRepository();
 
 }

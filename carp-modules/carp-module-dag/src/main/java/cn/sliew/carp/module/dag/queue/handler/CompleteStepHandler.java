@@ -19,13 +19,11 @@ package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
-import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -239,13 +237,12 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
 
 
     private void startNext(WorkflowStepInstance step) {
-        DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(step.getWorkflowInstance().getId());
-        DAG<WorkflowStepInstance> dag = WorkflowUtil.buildDag(dagInstanceComplexDTO);
+        DAG<WorkflowStepInstance> dag = getWorkflowRepository().getDAG(step.getWorkflowInstance().getId());
         Set<WorkflowStepInstance> downstreamSteps = dag.outDegreeOf(step);
         if (CollectionUtils.isNotEmpty(downstreamSteps)) {
             downstreamSteps.forEach(s -> push(new Messages.StartStep(s)));
         } else {
-            push(new Messages.CompleteWorkflow(dagInstanceComplexDTO));
+            push(new Messages.CompleteWorkflow(step.getWorkflowInstance()));
         }
 
 //        PipelineExecution execution = step.getPipelineExecution();

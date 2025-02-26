@@ -102,7 +102,7 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("completeDag")
+    @JsonTypeName("completeWorkflow")
     public static class CompleteWorkflow implements WorkflowLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -113,8 +113,8 @@ public class Messages {
             this(source.getNamespace(), source.getType(), source.getDagId());
         }
 
-        public CompleteWorkflow(DagInstanceDTO source) {
-            this(source.getNamespace(), source.getDagConfig().getType(), source.getId());
+        public CompleteWorkflow(WorkflowInstance source) {
+            this(source.getNamespace(), source.getDefinition().getType(), source.getId());
         }
     }
 

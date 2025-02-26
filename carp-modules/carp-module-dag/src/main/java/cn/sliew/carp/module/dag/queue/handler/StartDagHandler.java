@@ -19,14 +19,11 @@ package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.repository.entity.DagInstance;
-import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
-import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
@@ -41,8 +38,6 @@ import java.util.Set;
 @Component
 public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWorkflow> {
 
-    @Autowired
-    private DagInstanceComplexService dagInstanceComplexService;
     @Autowired
     private DagInstanceService dagInstanceService;
 
@@ -84,8 +79,7 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWor
             );
             push(new Messages.CancelWorkflow(workflowInstance, "system", "Could not begin workflow before start time expiry"));
         } else {
-            DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(workflowInstance.getId());
-            DAG<WorkflowStepInstance> dag = WorkflowUtil.buildDag(dagInstanceComplexDTO);
+            DAG<WorkflowStepInstance> dag = getWorkflowRepository().getDAG(workflowInstance.getId());
             Set<WorkflowStepInstance> initialSteps = dag.getSources();
             if (CollectionUtils.isEmpty(initialSteps)) {
                 getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) found no initial steps",

@@ -18,17 +18,14 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
-import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -51,8 +48,6 @@ public class CompleteDagHandler extends AbstractDagMessageHandler<Messages.Compl
     private DagStepService dagStepService;
     @Autowired
     private DagInstanceService dagInstanceService;
-    @Autowired
-    private DagInstanceComplexService dagInstanceComplexService;
 
     @Override
     public Class<Messages.CompleteWorkflow> getMessageType() {
@@ -104,8 +99,7 @@ public class CompleteDagHandler extends AbstractDagMessageHandler<Messages.Compl
 
 
     private void determineFinalStatus(Messages.CompleteWorkflow message, WorkflowInstance workflowInstance, Consumer<ExecutionStatus> block) {
-        DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(workflowInstance.getId());
-        DAG<WorkflowStepInstance> dag = WorkflowUtil.buildDag(dagInstanceComplexDTO);
+        DAG<WorkflowStepInstance> dag = getWorkflowRepository().getDAG(workflowInstance.getId());
         Set<WorkflowStepInstance> steps = dag.nodes();
         if (CollectionUtils.isNotEmpty(steps)) {
             List<WorkflowStepInstance> filterSteps = steps.stream()

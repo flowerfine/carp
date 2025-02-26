@@ -19,9 +19,7 @@ package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.repository.entity.DagStep;
-import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
@@ -31,7 +29,6 @@ import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepIns
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderUtil;
-import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
@@ -50,8 +47,6 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
     @Autowired
     private StageDefinitionBuilderFactory stageDefinitionBuilderFactory;
     @Autowired
-    private DagInstanceComplexService dagInstanceComplexService;
-    @Autowired
     private DagStepService dagStepService;
 
     @Override
@@ -68,8 +63,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
     public void handle(Messages.StartStep message) {
         withStep(message, stepInstance -> {
             try {
-                DagInstanceComplexDTO dagInstanceComplexDTO = dagInstanceComplexService.selectOne(message.getDagId());
-                DAG<WorkflowStepInstance> dag = WorkflowUtil.buildDag(dagInstanceComplexDTO);
+                DAG<WorkflowStepInstance> dag = getWorkflowRepository().getDAG(message.getDagId());
 
                 if (DagExecutionUtil.anyUpstreamStepsFailed(dag, stepInstance)) {
                     getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) try to start stepId: {} but something upstream had failed",
