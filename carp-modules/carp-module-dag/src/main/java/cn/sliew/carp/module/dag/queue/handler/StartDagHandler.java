@@ -52,7 +52,7 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWor
             if (StringUtils.equalsIgnoreCase(workflowInstance.getStatus(), ExecutionStatus.NOT_STARTED.name())
                     || isCanceled(workflowInstance) == false) {
                 if (shouldLimit(workflowInstance)) {
-                    getLog().info("Workflow Instance (namespace: {}, type {}, id {}) execution limit and queue",
+                    getLog().info("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) execution limit and queue",
                             message.getNamespace(), message.getType(), message.getDagId());
                     // todo pending execution
 //                    pendingExecutionService.enqueue(execution.getPipelineConfigId(), message);
@@ -72,7 +72,7 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWor
 
     private void start(WorkflowInstance workflowInstance) {
         if (isAfterStartTimeExpiry(workflowInstance)) {
-            getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) start was canceled because start time would be after defined start time expiry (now: {}, expiry: {})",
+            getLog().warn("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) start was canceled because start time would be after defined start time expiry (now: {}, expiry: {})",
                     workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId(), Instant.now(),
 //                    dagInstanceDTO.getStartTimeExpiry()
                     null
@@ -82,7 +82,7 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWor
             DAG<WorkflowStepInstance> dag = getWorkflowRepository().getDAG(workflowInstance.getId());
             Set<WorkflowStepInstance> initialSteps = dag.getSources();
             if (CollectionUtils.isEmpty(initialSteps)) {
-                getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) found no initial steps",
+                getLog().warn("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) found no initial steps",
                         workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId());
                 dagInstanceService.updateStatus(workflowInstance.getId(), workflowInstance.getStatus(), ExecutionStatus.TERMINAL.name());
             } else {
@@ -102,7 +102,7 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWor
                 || isCanceled(workflowInstance)) {
 //            push(new Messages.StartWaitingExecutions(dagInstanceDTO.getDagConfig().getId(), !dagInstanceDTO.isKeepWaitingPipelines()));
         } else {
-            getLog().warn("Workflow Instance (namespace: {}, type: {}, id: {}, status: {}) cannot be started unless state is NOT_STARTED. Ignoring StartWorkflow message.",
+            getLog().warn("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}, status: {}) cannot be started unless state is NOT_STARTED. Ignoring StartWorkflow message.",
                     workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId(), workflowInstance.getStatus(), workflowInstance.getNamespace());
         }
     }

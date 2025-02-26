@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.workflow.stage.model.repository;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
@@ -26,12 +27,16 @@ import java.util.List;
 
 public interface WorkflowRepository {
 
+    WorkflowDefinition getWorkflowDefinition(Long id);
+
     /**
      * todo 增加 not found exception
      */
     WorkflowInstance get(Long id);
 
     DAG<WorkflowStepInstance> getDAG(Long id);
+
+    Long addFromDefinition(Long workflowDefinitionId);
 
     /**
      * todo 增加 not found exception

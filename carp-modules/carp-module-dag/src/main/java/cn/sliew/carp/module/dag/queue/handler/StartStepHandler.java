@@ -66,17 +66,17 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
                 DAG<WorkflowStepInstance> dag = getWorkflowRepository().getDAG(message.getDagId());
 
                 if (DagExecutionUtil.anyUpstreamStepsFailed(dag, stepInstance)) {
-                    getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) try to start stepId: {} but something upstream had failed",
+                    getLog().warn("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) try to start stepInstanceId: {} but something upstream had failed",
                             message.getNamespace(), message.getType(), message.getDagId(), stepInstance.getId());
                     push(new Messages.CompleteWorkflow(message));
                 } else if (DagExecutionUtil.allUpstreamStepsComplete(dag, stepInstance)) {
                     if (StringUtils.equalsIgnoreCase(stepInstance.getStatus(), ExecutionStatus.NOT_STARTED.name()) == false) {
-                        getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) ignore start stepId: {} as already {}",
+                        getLog().warn("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) ignore start stepInstanceId: {} as already {}",
                                 message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), stepInstance.getStatus());
                     } else if (shouldSkip(stepInstance)) {
                         push(new Messages.SkipStep(message));
                     } else if (isAfterStartTimeExpiry(stepInstance)) {
-                        getLog().warn("Workflow Instance (namespace: {}, type {}, id {}) skip stepId: {} because its start time is after TTL",
+                        getLog().warn("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) skip stepInstanceId: {} because its start time is after TTL",
                                 message.getNamespace(), message.getType(), message.getDagId(), message.getStepId());
                         push(new Messages.SkipStep(stepInstance));
                     } else {
@@ -96,7 +96,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
                         }
                     }
                 } else {
-                    getLog().info("Workflow Instance (namespace: {}, type {}, id {})  requeue stepId: {} as upstream steps are not yet complete",
+                    getLog().info("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {})  requeue stepInstanceId: {} as upstream steps are not yet complete",
                             message.getNamespace(), message.getType(), message.getDagId(), message.getStepId());
                     push(message, RETRY_DELAY);
                 }
@@ -141,7 +141,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
             // todo 处理消息 retry count
             push(message, RETRY_DELAY);
         } else {
-            getLog().error("Dag Instance (namespace: {}, type {}, id {}) run error! stepId: {}",
+            getLog().error("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) run error! stepInstanceId: {}",
                     message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), e);
 //            stage.getContext().put("exception", exceptionVO);
 //            stage.getContext().put("beforeStagePlanningFailed", true);
@@ -153,7 +153,7 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
 
 
     private void handleUnexpectedException(Messages.StartStep message, WorkflowStepInstance dagStepDTO, Exception e) {
-        getLog().error("Dag Instance (namespace: {}, type {}, id {}) run error! stepId: {}",
+        getLog().error("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) run error! stepInstanceId: {}",
                 message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), e);
         ExceptionVO exceptionVO = handleException(dagStepDTO.getNode().getStepName(), e);
 //        stage.getContext().put("exception", exceptionVO);

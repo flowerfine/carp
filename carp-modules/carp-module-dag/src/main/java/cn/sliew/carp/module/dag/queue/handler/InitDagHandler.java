@@ -17,31 +17,11 @@
  */
 package cn.sliew.carp.module.dag.queue.handler;
 
-import cn.sliew.carp.framework.common.util.UUIDUtil;
-import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
-import cn.sliew.carp.framework.dag.service.DagLinkService;
-import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.framework.dag.service.dto.*;
 import cn.sliew.carp.module.dag.queue.Messages;
-import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
 
 @Component
 public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitWorkflow> {
-
-    @Autowired
-    private DagConfigComplexService dagConfigComplexService;
-    @Autowired
-    private DagInstanceService dagInstanceService;
-    @Autowired
-    private DagStepService dagStepService;
-    @Autowired
-    private DagLinkService dagLinkService;
 
     @Override
     public Class getMessageType() {
@@ -50,50 +30,7 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitWorkf
 
     @Override
     public void handle(Messages.InitWorkflow message) {
-        // inputs 处理
-        DagConfigComplexDTO dagConfigComplexDTO = dagConfigComplexService.selectOne(message.getDagConfigId());
-        List<DagConfigStepDTO> steps = dagConfigComplexDTO.getSteps();
-        List<DagConfigLinkDTO> links = dagConfigComplexDTO.getLinks();
-        dagConfigComplexDTO.setSteps(null);
-        dagConfigComplexDTO.setLinks(null);
-
-        // 插入 dag_instance
-        DagInstanceDTO dagInstanceDTO = new DagInstanceDTO();
-        dagInstanceDTO.setNamespace(dagConfigComplexDTO.getNamespace());
-        dagInstanceDTO.setDagConfig(dagConfigComplexDTO);
-        dagInstanceDTO.setUuid(UUIDUtil.randomUUId());
-//        dagInstanceDTO.setBody(JacksonUtil.toJsonNode(dagConfigComplexDTO));
-        dagInstanceDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
-        Long dagInstanceId = dagInstanceService.add(dagInstanceDTO);
-        dagInstanceDTO.setId(dagInstanceId);
-        // 插入 dag_step
-        if (CollectionUtils.isEmpty(steps) == false) {
-            for (DagConfigStepDTO dagConfigStepDTO : steps) {
-                DagStepDTO dagStepDTO = new DagStepDTO();
-                dagStepDTO.setNamespace(dagConfigComplexDTO.getNamespace());
-                dagStepDTO.setDagInstance(dagInstanceDTO);
-                dagStepDTO.setDagConfigStep(dagConfigStepDTO);
-                dagStepDTO.setUuid(UUIDUtil.randomUUId());
-//                dagStepDTO.setBody(JacksonUtil.toJsonNode(dagConfigStepDTO));
-                dagStepDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
-                dagStepService.add(dagStepDTO);
-            }
-        }
-        // 插入 dag_link
-        if (CollectionUtils.isEmpty(links) == false) {
-            for (DagConfigLinkDTO dagConfigLinkDTO : links) {
-                DagLinkDTO dagLinkDTO = new DagLinkDTO();
-                dagLinkDTO.setNamespace(dagConfigComplexDTO.getNamespace());
-                dagLinkDTO.setDagInstance(dagInstanceDTO);
-                dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
-                dagLinkDTO.setUuid(UUIDUtil.randomUUId());
-                dagLinkDTO.setInputs(dagConfigLinkDTO.getLinkAttrs());
-//                dagLinkDTO.setBody(JacksonUtil.toJsonNode(dagConfigLinkDTO));
-                dagLinkDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
-                dagLinkService.add(dagLinkDTO);
-            }
-        }
-
-        push(new Messages.StartWorkflow(getWorkflowRepository().get(dagInstanceId)));
+        Long workflowInstanceId = getWorkflowRepository().addFromDefinition(message.getDagConfigId());
+        push(new Messages.StartWorkflow(getWorkflowRepository().get(workflowInstanceId)));
     }
 }
