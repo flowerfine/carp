@@ -20,6 +20,8 @@ package cn.sliew.carp.module.dag.util;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.stage.model.task.*;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;

@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.workflow.stage.model;
 
-import cn.sliew.carp.module.workflow.stage.model.param.TaskInputParam;
-import cn.sliew.carp.module.workflow.stage.model.param.TaskOutputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.TaskInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.TaskOutputParam;
 
 import java.util.List;
 

@@ -23,8 +23,8 @@ import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.resolver.TaskResolver;
 import cn.sliew.carp.module.workflow.stage.model.task.SkippableTask;
 import cn.sliew.carp.module.workflow.stage.model.task.Task;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecution;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

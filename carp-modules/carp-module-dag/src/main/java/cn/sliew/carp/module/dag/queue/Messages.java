@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.task.Task;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

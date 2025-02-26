@@ -15,26 +15,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model;
+package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
-import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
+import com.fasterxml.jackson.databind.JsonNode;
+import lombok.Data;
 
-import java.util.List;
+import java.util.Date;
 
-public interface StepDefinition extends CarpExtensionPoint {
+@Data
+public class WorkflowInstance extends BaseDTO {
 
-    String getCategory();
+    private String namespace;
 
-    String getType();
+    private WorkflowDefinition definition;
 
-    String getVersion();
+    private String uuid;
 
-    String getProvider();
+    private JsonNode body;
 
-    String getRemark();
+    private JsonNode inputs;
 
-    List<StepInputParam> getInputParams();
+    private JsonNode ouputs;
 
-    List<TaskDefinition> getTasks();
+    private String status;
+
+    private Date startTime;
+
+    private Date endTime;
+
+    private WorkflowExecutionGraph graph;
 }

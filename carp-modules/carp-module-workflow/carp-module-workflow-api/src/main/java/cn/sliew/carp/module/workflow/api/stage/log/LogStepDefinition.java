@@ -19,8 +19,8 @@ package cn.sliew.carp.module.workflow.api.stage.log;
 
 import cn.sliew.carp.module.workflow.stage.model.StepDefinition;
 import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
-import cn.sliew.carp.module.workflow.stage.model.param.ParamDataType;
-import cn.sliew.carp.module.workflow.stage.model.param.StepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.ParamDataType;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

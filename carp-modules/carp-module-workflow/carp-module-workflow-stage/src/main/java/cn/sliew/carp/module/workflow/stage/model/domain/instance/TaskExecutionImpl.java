@@ -15,11 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model.task;
+package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import com.github.f4b6a3.uuid.UuidCreator;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

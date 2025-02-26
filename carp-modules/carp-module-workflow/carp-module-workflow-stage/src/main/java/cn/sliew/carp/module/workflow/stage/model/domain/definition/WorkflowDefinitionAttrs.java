@@ -15,9 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model.param;
+package cn.sliew.carp.module.workflow.stage.model.domain.definition;
 
-public enum ParamDataType {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
-    STRING, LONG, DOUBLE, BOOLEAN, OBJECT, ARRAY
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class WorkflowDefinitionAttrs {
+
 }

@@ -15,26 +15,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model;
+package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
-import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 
-import java.util.List;
+import java.time.Instant;
+import java.util.Map;
 
-public interface StepDefinition extends CarpExtensionPoint {
+/**
+ * The runtime execution state of a task.
+ */
+public interface TaskExecution {
 
-    String getCategory();
+    Long getId();
 
-    String getType();
+    String getUuid();
 
-    String getVersion();
+    String getName();
 
-    String getProvider();
+    String getImplementingClass();
 
-    String getRemark();
+    Instant getStartTime();
 
-    List<StepInputParam> getInputParams();
+    Instant getEndTime();
 
-    List<TaskDefinition> getTasks();
+    ExecutionStatus getStatus();
+
+    boolean isStageStart();
+
+    boolean isStageEnd();
+
+    boolean isLoopStart();
+
+    boolean isLoopEnd();
+
+    Map<String, Object> getTaskExceptionDetails();
 }

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model.param;
+package cn.sliew.carp.module.workflow.stage.model.domain.param;
 
 import cn.hutool.core.convert.Convert;
 import cn.sliew.milky.common.util.JacksonUtil;

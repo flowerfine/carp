@@ -15,39 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model.task;
+package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
-import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphEdge;
+import lombok.Data;
 
-import java.time.Instant;
-import java.util.Map;
+import java.util.List;
 
-/**
- * The runtime execution state of a task.
- */
-public interface TaskExecution {
+@Data
+public class WorkflowExecutionGraph {
 
-    Long getId();
+    private WorkflowStepInstance preTask;
 
-    String getUuid();
+    private WorkflowStepInstance postTask;
 
-    String getName();
+    private List<WorkflowStepInstance> tasks;
 
-    String getImplementingClass();
-
-    Instant getStartTime();
-
-    Instant getEndTime();
-
-    ExecutionStatus getStatus();
-
-    boolean isStageStart();
-
-    boolean isStageEnd();
-
-    boolean isLoopStart();
-
-    boolean isLoopEnd();
-
-    Map<String, Object> getTaskExceptionDetails();
+    private List<WorkflowDefinitionGraphEdge> edges;
 }

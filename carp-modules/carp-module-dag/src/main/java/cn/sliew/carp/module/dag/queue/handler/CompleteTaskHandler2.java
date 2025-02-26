@@ -21,8 +21,8 @@ import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecution;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

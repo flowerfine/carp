@@ -25,7 +25,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

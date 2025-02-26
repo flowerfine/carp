@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

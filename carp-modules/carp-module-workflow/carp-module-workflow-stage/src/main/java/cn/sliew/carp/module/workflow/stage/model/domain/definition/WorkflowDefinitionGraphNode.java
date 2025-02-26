@@ -15,9 +15,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model.param;
+package cn.sliew.carp.module.workflow.stage.model.domain.definition;
 
-public enum ParamFromType {
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import lombok.Data;
 
-    GLOBAL_VARIABLE,PARENT, CONSTANT
+@Data
+public class WorkflowDefinitionGraphNode extends BaseDTO {
+
+    private String namespace;
+
+    private Long workflowDefinitionId;
+
+    /**
+     * todo stepId -> nodeId
+     */
+    private String stepId;
+
+    /**
+     * todo stepName -> nodeName
+     */
+    private String stepName;
+
+    private Integer positionX;
+
+    private Integer positionY;
+
+    private String shape;
+
+    private String stype;
+
+    private WorkflowDefinitionGraphNodeMeta meta;
+
+    private WorkflowDefinitionGraphNodeAttrs attrs;
 }

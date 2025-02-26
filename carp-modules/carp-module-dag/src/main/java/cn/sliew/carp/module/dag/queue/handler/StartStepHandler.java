@@ -31,7 +31,7 @@ import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderUtil;
-import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;

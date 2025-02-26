@@ -15,26 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model;
+package cn.sliew.carp.module.workflow.stage.model.domain.definition;
 
-import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskType;
+import lombok.Data;
 
-import java.util.List;
+@Data
+public class WorkflowDefinitionGraphNodeMeta {
 
-public interface StepDefinition extends CarpExtensionPoint {
+    private CarpWorkflowStepType stepType;
 
-    String getCategory();
+    private CarpWorkflowTaskType taskType;
 
-    String getType();
+    private String type;
 
-    String getVersion();
+    private String alias;
 
-    String getProvider();
-
-    String getRemark();
-
-    List<StepInputParam> getInputParams();
-
-    List<TaskDefinition> getTasks();
+    /**
+     * 当为 sub_workflow 时，有值
+     */
+    private Long refWorkflowDefinitionId;
 }

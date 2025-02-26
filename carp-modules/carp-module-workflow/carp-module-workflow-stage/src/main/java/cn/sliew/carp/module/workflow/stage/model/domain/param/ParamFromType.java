@@ -15,26 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model;
+package cn.sliew.carp.module.workflow.stage.model.domain.param;
 
-import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
+public enum ParamFromType {
 
-import java.util.List;
-
-public interface StepDefinition extends CarpExtensionPoint {
-
-    String getCategory();
-
-    String getType();
-
-    String getVersion();
-
-    String getProvider();
-
-    String getRemark();
-
-    List<StepInputParam> getInputParams();
-
-    List<TaskDefinition> getTasks();
+    GLOBAL_VARIABLE,PARENT, CONSTANT
 }
