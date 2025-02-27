@@ -20,7 +20,7 @@ package cn.sliew.carp.module.workflow.api.stage.log;
 import cn.sliew.carp.module.workflow.stage.model.StepDefinition;
 import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
 import cn.sliew.carp.module.workflow.stage.model.domain.param.ParamDataType;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -62,10 +62,10 @@ public class LogStepDefinition implements StepDefinition {
     }
 
     @Override
-    public List<StepInputParam> getInputParams() {
+    public List<WorkflowParam> getInputParams() {
         return Arrays.asList(
-                StepInputParam.builder().name("stage-input-param-1").alias("stage-input-param-1").value("stage-input-param-1").type(ParamDataType.STRING).build(),
-                StepInputParam.builder().name("stage-input-param-2").alias("stage-input-param-2").value("stage-input-param-2").type(ParamDataType.STRING).build()
+                WorkflowParam.builder().name("stage-input-param-1").alias("stage-input-param-1").value("stage-input-param-1").type(ParamDataType.STRING).build(),
+                WorkflowParam.builder().name("stage-input-param-2").alias("stage-input-param-2").value("stage-input-param-2").type(ParamDataType.STRING).build()
         );
     }
 

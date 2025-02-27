@@ -19,7 +19,11 @@ package cn.sliew.carp.module.dag.model;
 
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 
+import java.util.Map;
+
 public interface DagRunner {
 
-    void start(WorkflowDefinition workflowDefinition);
+    void start(WorkflowDefinition workflowDefinition,
+               Map<String, Object> inputs,
+               Map<String, Map<String, Object>> stepInputs);
 }

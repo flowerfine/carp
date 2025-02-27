@@ -30,21 +30,21 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class TaskOutputParam extends TaskParam {
+public class WorkflowStepOutputParam extends TaskParam {
 
     private String name;
     private String alias;
     private ParamDataType type;
 
-    public static List<TaskOutputParam> toList(JsonNode outputParamArray) {
-        List<TaskOutputParam> outputParamList = new ArrayList<>();
+    public static List<WorkflowStepOutputParam> toList(JsonNode outputParamArray) {
+        List<WorkflowStepOutputParam> outputParamList = new ArrayList<>();
         if (outputParamArray.isArray()) {
             ArrayNode arrayNode = (ArrayNode) outputParamArray;
             for (JsonNode jsonNode : arrayNode) {
                 String name = jsonNode.path("name").asText();
                 String alias = jsonNode.path("alias").asText();
                 outputParamList.add(
-                        TaskOutputParam.builder()
+                        WorkflowStepOutputParam.builder()
                                 .name(name)
                                 .alias(StringUtils.isEmpty(alias) ? name : alias)
                                 .type(ParamDataType.valueOf(jsonNode.path("type").asText().toUpperCase()))

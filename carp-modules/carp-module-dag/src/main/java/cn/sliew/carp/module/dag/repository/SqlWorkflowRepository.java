@@ -34,6 +34,7 @@ import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstanc
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
+import cn.sliew.milky.common.util.JacksonUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,6 +42,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -95,7 +97,9 @@ public class SqlWorkflowRepository implements WorkflowRepository {
     }
 
     @Override
-    public Long addFromDefinition(Long workflowDefinitionId) {
+    public Long addFromDefinition(Long workflowDefinitionId,
+                                  Map<String, Object> inputs,
+                                  Map<String, Map<String, Object>> stepInputs) {
         // inputs 处理
         DagConfigComplexDTO dagConfigComplexDTO = dagConfigComplexService.selectOne(workflowDefinitionId);
         List<DagConfigStepDTO> steps = dagConfigComplexDTO.getSteps();
@@ -109,6 +113,9 @@ public class SqlWorkflowRepository implements WorkflowRepository {
         dagInstanceDTO.setDagConfig(dagConfigComplexDTO);
         dagInstanceDTO.setUuid(UUIDUtil.randomUUId());
 //        dagInstanceDTO.setBody(JacksonUtil.toJsonNode(dagConfigComplexDTO));
+        if (CollectionUtils.isEmpty(inputs) == false) {
+            dagInstanceDTO.setInputs(JacksonUtil.toJsonNode(inputs));
+        }
         dagInstanceDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
         Long dagInstanceId = dagInstanceService.add(dagInstanceDTO);
         dagInstanceDTO.setId(dagInstanceId);
@@ -121,6 +128,10 @@ public class SqlWorkflowRepository implements WorkflowRepository {
                 dagStepDTO.setDagConfigStep(dagConfigStepDTO);
                 dagStepDTO.setUuid(UUIDUtil.randomUUId());
 //                dagStepDTO.setBody(JacksonUtil.toJsonNode(dagConfigStepDTO));
+                if (CollectionUtils.isEmpty(stepInputs) == false
+                        && stepInputs.containsKey(dagConfigStepDTO.getStepId())) {
+                    dagStepDTO.setInputs(JacksonUtil.toJsonNode(stepInputs.get(dagConfigStepDTO.getStepId())));
+                }
                 dagStepDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
                 dagStepService.add(dagStepDTO);
             }
@@ -133,7 +144,6 @@ public class SqlWorkflowRepository implements WorkflowRepository {
                 dagLinkDTO.setDagInstance(dagInstanceDTO);
                 dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
                 dagLinkDTO.setUuid(UUIDUtil.randomUUId());
-                dagLinkDTO.setInputs(dagConfigLinkDTO.getLinkAttrs());
 //                dagLinkDTO.setBody(JacksonUtil.toJsonNode(dagConfigLinkDTO));
                 dagLinkDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
                 dagLinkService.add(dagLinkDTO);

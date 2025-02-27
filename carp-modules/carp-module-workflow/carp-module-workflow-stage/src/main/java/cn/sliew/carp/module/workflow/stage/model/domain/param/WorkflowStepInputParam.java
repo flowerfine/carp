@@ -34,7 +34,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class TaskInputParam extends TaskParam {
+public class WorkflowStepInputParam extends TaskParam {
 
     public static final String OUTPUT_DATA_OUTPUT_KEY = "output";
 
@@ -48,8 +48,8 @@ public class TaskInputParam extends TaskParam {
     private ParamFromType fromType = ParamFromType.CONSTANT;
     private String from;
 
-    public StepInputParam toStepInputParam() {
-        return StepInputParam.builder()
+    public WorkflowParam toWorkflowParam() {
+        return WorkflowParam.builder()
                 .name(name)
                 .alias(alias)
                 .value(value)
@@ -58,7 +58,7 @@ public class TaskInputParam extends TaskParam {
                 .build();
     }
 
-    public void setValue(JsonNode jsonObject) {
+    public void setJsonValue(JsonNode jsonObject) {
         String name = (String) this.value;
         if (StringUtils.isEmpty(name)) {
             name = this.name;
@@ -88,31 +88,31 @@ public class TaskInputParam extends TaskParam {
         }
     }
 
-    public static Map<String, Object> toMap(List<TaskInputParam> inputParamList) {
+    public static Map<String, Object> toMap(List<WorkflowStepInputParam> inputParamList) {
         Map<String, Object> map = new HashMap<>(0);
-        for (TaskInputParam inputParam : inputParamList) {
+        for (WorkflowStepInputParam inputParam : inputParamList) {
             map.put(inputParam.getName(), inputParam.getValue());
         }
         return map;
     }
 
-    public static JsonNode toJson(List<TaskInputParam> inputParamList) {
+    public static JsonNode toJson(List<WorkflowStepInputParam> inputParamList) {
         return JacksonUtil.toJsonNode(toMap(inputParamList));
     }
 
-    public static void setValue(List<TaskInputParam> inputParamList,
+    public static void setValue(List<WorkflowStepInputParam> inputParamList,
                                 JsonNode globalVariableJson,
                                 JsonNode globalResultJson) {
 
-        for (TaskInputParam inputParam : inputParamList) {
+        for (WorkflowStepInputParam inputParam : inputParamList) {
             switch (inputParam.getFromType()) {
                 case PARENT:
                     JsonNode jsonObject = globalResultJson.path(inputParam.getFrom());
                     jsonObject = jsonObject.path(OUTPUT_DATA_OUTPUT_KEY);
-                    inputParam.setValue(jsonObject);
+                    inputParam.setJsonValue(jsonObject);
                     break;
                 case GLOBAL_VARIABLE:
-                    inputParam.setValue(globalVariableJson);
+                    inputParam.setJsonValue(globalVariableJson);
                     break;
                 case CONSTANT:
                 default:
@@ -122,8 +122,8 @@ public class TaskInputParam extends TaskParam {
 
     }
 
-    public static List<TaskInputParam> toList(JsonNode inputParamArray) {
-        List<TaskInputParam> inputParamList = new ArrayList<>();
+    public static List<WorkflowStepInputParam> toList(JsonNode inputParamArray) {
+        List<WorkflowStepInputParam> inputParamList = new ArrayList<>();
         if (inputParamArray.isArray()) {
             ArrayNode arrayNode = (ArrayNode) inputParamArray;
             for (JsonNode jsonNode : arrayNode) {
@@ -137,7 +137,7 @@ public class TaskInputParam extends TaskParam {
                     type = "STRING";
                 }
                 inputParamList.add(
-                        TaskInputParam.builder()
+                        WorkflowStepInputParam.builder()
                                 .name(name)
                                 .alias(StringUtils.isEmpty(alias) ? name : alias)
                                 .value(jsonNode.path("value").asText())

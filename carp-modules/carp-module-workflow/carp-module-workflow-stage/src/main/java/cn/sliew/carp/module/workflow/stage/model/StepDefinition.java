@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.stage.model;
 
 import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowParam;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public interface StepDefinition extends CarpExtensionPoint {
 
     String getRemark();
 
-    List<StepInputParam> getInputParams();
+    List<WorkflowParam> getInputParams();
 
     List<TaskDefinition> getTasks();
 }

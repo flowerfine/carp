@@ -22,11 +22,16 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNode;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNodeAttrs;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNodeMeta;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepOutputParam;
 import cn.sliew.milky.common.util.JacksonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WorkflowDefinitionGraphNodeConvert extends BaseConvert<DagConfigStepDTO, WorkflowDefinitionGraphNode> {
@@ -42,6 +47,14 @@ public interface WorkflowDefinitionGraphNodeConvert extends BaseConvert<DagConfi
         WorkflowDefinitionGraphNode dto = new WorkflowDefinitionGraphNode();
         BeanUtils.copyProperties(entity, dto);
         dto.setWorkflowDefinitionId(entity.getDagId());
+        if (entity.getInputOptions() != null) {
+            dto.setInputOptions(JacksonUtil.toObject(entity.getInputOptions(), new TypeReference<List<WorkflowStepInputParam>>() {
+            }));
+        }
+        if (entity.getOutputOptions() != null) {
+            dto.setOutputOptions(JacksonUtil.toObject(entity.getOutputOptions(), new TypeReference<List<WorkflowStepOutputParam>>() {
+            }));
+        }
         if (entity.getStepMeta() != null) {
             dto.setMeta(JacksonUtil.toObject(entity.getStepMeta(), WorkflowDefinitionGraphNodeMeta.class));
         }

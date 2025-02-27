@@ -28,6 +28,8 @@ import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefin
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 public class QueueDagRunner implements DagRunner {
 
@@ -35,7 +37,9 @@ public class QueueDagRunner implements DagRunner {
     private QueueFactory queueFactory;
 
     @Override
-    public void start(WorkflowDefinition workflowDefinition) {
+    public void start(WorkflowDefinition workflowDefinition,
+                      Map<String, Object> inputs,
+                      Map<String, Map<String, Object>> stepInputs) {
         Queue queue = queueFactory.get(InternalDagInstanceDispatcher.TOPIC);
         SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
         Message message = Message.builder()

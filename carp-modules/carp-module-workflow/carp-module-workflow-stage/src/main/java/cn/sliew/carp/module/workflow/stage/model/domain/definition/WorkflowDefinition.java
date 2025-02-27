@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.stage.model.domain.definition;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowParam;
 import lombok.Data;
 
 import java.util.List;
@@ -40,9 +40,9 @@ public class WorkflowDefinition extends BaseDTO {
 
     private WorkflowDefinitionAttrs attrs;
 
-    private List<StepInputParam> inputOptions;
+    private List<WorkflowParam> inputOptions;
 
-    private List<StepInputParam> outputOptions;
+    private List<WorkflowParam> outputOptions;
 
     private String remark;
 }

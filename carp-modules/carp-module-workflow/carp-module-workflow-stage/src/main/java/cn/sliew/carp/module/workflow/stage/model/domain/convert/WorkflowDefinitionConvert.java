@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionAttrs;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionMeta;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.StepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowParam;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.mapstruct.Mapper;
@@ -51,12 +51,12 @@ public interface WorkflowDefinitionConvert extends BaseConvert<DagConfigDTO, Wor
         if (entity.getDagAttrs() != null) {
             dto.setAttrs(JacksonUtil.toObject(entity.getDagAttrs(), WorkflowDefinitionAttrs.class));
         }
-        if (entity.getIntputOptions() != null) {
-            dto.setInputOptions(JacksonUtil.toObject(entity.getIntputOptions(), new TypeReference<List<StepInputParam>>() {
+        if (entity.getInputOptions() != null) {
+            dto.setInputOptions(JacksonUtil.toObject(entity.getInputOptions(), new TypeReference<List<WorkflowParam>>() {
             }));
         }
         if (entity.getOutputOptions() != null) {
-            dto.setOutputOptions(JacksonUtil.toObject(entity.getOutputOptions(), new TypeReference<List<StepInputParam>>() {
+            dto.setOutputOptions(JacksonUtil.toObject(entity.getOutputOptions(), new TypeReference<List<WorkflowParam>>() {
             }));
         }
         return dto;

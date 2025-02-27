@@ -30,6 +30,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class Messages {
 
@@ -66,10 +67,17 @@ public class Messages {
         private final String namespace;
         private final String type;
         private final Long dagConfigId;
+        private Map<String, Object> inputs;
+        private Map<String, Map<String, Object>> stepInputs;
 
         public InitWorkflow(WorkflowDefinition source) {
-            this(source.getNamespace(), source.getType(), source.getId());
+            this(source.getNamespace(), source.getType(), source.getId(), null, null);
         }
+
+        public InitWorkflow(WorkflowDefinition source, Map<String, Object> inputs, Map<String, Map<String, Object>> stepInputs) {
+            this(source.getNamespace(), source.getType(), source.getId(), inputs, stepInputs);
+        }
+
     }
 
     @Getter

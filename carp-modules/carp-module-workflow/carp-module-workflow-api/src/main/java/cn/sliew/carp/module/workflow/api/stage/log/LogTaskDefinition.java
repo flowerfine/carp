@@ -20,8 +20,8 @@ package cn.sliew.carp.module.workflow.api.stage.log;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
 import cn.sliew.carp.module.workflow.stage.model.domain.param.ParamDataType;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.TaskInputParam;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.TaskOutputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepOutputParam;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -43,18 +43,18 @@ public class LogTaskDefinition implements TaskDefinition {
     }
 
     @Override
-    public List<TaskInputParam> getInputParams() {
+    public List<WorkflowStepInputParam> getInputParams() {
         return Arrays.asList(
-                TaskInputParam.builder().name("task-input-param-1").alias("task-input-param-1").value("task-input-param-1").type(ParamDataType.STRING).build(),
-                TaskInputParam.builder().name("task-input-param-2").alias("task-input-param-2").value("task-input-param-2").type(ParamDataType.STRING).build()
+                WorkflowStepInputParam.builder().name("task-input-param-1").alias("task-input-param-1").value("task-input-param-1").type(ParamDataType.STRING).build(),
+                WorkflowStepInputParam.builder().name("task-input-param-2").alias("task-input-param-2").value("task-input-param-2").type(ParamDataType.STRING).build()
         );
     }
 
     @Override
-    public List<TaskOutputParam> getOutputParams() {
+    public List<WorkflowStepOutputParam> getOutputParams() {
         return Arrays.asList(
-                TaskOutputParam.builder().name("task-output-param-1").alias("task-output-param-1").type(ParamDataType.STRING).build(),
-                TaskOutputParam.builder().name("task-output-param-2").alias("task-output-param-2").type(ParamDataType.STRING).build()
+                WorkflowStepOutputParam.builder().name("task-output-param-1").alias("task-output-param-1").type(ParamDataType.STRING).build(),
+                WorkflowStepOutputParam.builder().name("task-output-param-2").alias("task-output-param-2").type(ParamDataType.STRING).build()
         );
     }
 }

@@ -33,7 +33,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StepInputParam {
+public class WorkflowParam {
 
     private String name;
     private String alias;
@@ -41,8 +41,8 @@ public class StepInputParam {
     private ParamDataType type;
     private Boolean isOverWrite;
 
-    public TaskInputParam toTaskInputParam() {
-        return TaskInputParam.builder()
+    public WorkflowStepInputParam toWorkflowStepInputParam() {
+        return WorkflowStepInputParam.builder()
             .name(name)
             .alias(alias)
             .value(value)
@@ -87,8 +87,8 @@ public class StepInputParam {
         value();
     }
 
-    public static void check(List<StepInputParam> inputParamList) throws Exception {
-        for (StepInputParam inputParam : inputParamList) {
+    public static void check(List<WorkflowParam> inputParamList) throws Exception {
+        for (WorkflowParam inputParam : inputParamList) {
             inputParam.check();
         }
     }

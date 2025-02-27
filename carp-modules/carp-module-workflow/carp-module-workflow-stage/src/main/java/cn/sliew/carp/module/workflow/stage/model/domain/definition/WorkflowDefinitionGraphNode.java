@@ -18,7 +18,11 @@
 package cn.sliew.carp.module.workflow.stage.model.domain.definition;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepOutputParam;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class WorkflowDefinitionGraphNode extends BaseDTO {
@@ -36,6 +40,10 @@ public class WorkflowDefinitionGraphNode extends BaseDTO {
      * todo stepName -> nodeName
      */
     private String stepName;
+
+    private List<WorkflowStepInputParam> inputOptions;
+
+    private List<WorkflowStepOutputParam> outputOptions;
 
     private Integer positionX;
 

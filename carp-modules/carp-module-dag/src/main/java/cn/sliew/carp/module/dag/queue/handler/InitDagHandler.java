@@ -30,7 +30,7 @@ public class InitDagHandler extends AbstractDagMessageHandler<Messages.InitWorkf
 
     @Override
     public void handle(Messages.InitWorkflow message) {
-        Long workflowInstanceId = getWorkflowRepository().addFromDefinition(message.getDagConfigId());
+        Long workflowInstanceId = getWorkflowRepository().addFromDefinition(message.getDagConfigId(), message.getInputs(), message.getStepInputs());
         push(new Messages.StartWorkflow(getWorkflowRepository().get(workflowInstanceId)));
     }
 }

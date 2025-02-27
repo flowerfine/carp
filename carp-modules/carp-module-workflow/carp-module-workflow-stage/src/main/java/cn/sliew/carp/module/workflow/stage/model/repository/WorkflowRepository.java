@@ -24,6 +24,7 @@ import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstanc
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 
 import java.util.List;
+import java.util.Map;
 
 public interface WorkflowRepository {
 
@@ -36,7 +37,9 @@ public interface WorkflowRepository {
 
     DAG<WorkflowStepInstance> getDAG(Long id);
 
-    Long addFromDefinition(Long workflowDefinitionId);
+    Long addFromDefinition(Long workflowDefinitionId,
+                           Map<String, Object> inputs,
+                           Map<String, Map<String, Object>> stepInputs);
 
     /**
      * todo 增加 not found exception

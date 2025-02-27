@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.workflow.stage.model;
 
-import cn.sliew.carp.module.workflow.stage.model.domain.param.TaskInputParam;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.TaskOutputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepInputParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepOutputParam;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public interface TaskDefinition {
 
     String getName();
 
-    List<TaskInputParam> getInputParams();
+    List<WorkflowStepInputParam> getInputParams();
 
-    List<TaskOutputParam> getOutputParams();
+    List<WorkflowStepOutputParam> getOutputParams();
 }

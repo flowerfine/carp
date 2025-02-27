@@ -35,6 +35,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @AnonymousAccess
 @RestController
 @ApiResponseWrapper
@@ -54,7 +56,14 @@ public class DagController {
     public void add(@RequestParam("dagConfigId") Long dagConfigId) {
         DagConfigDTO dagConfigDTO = dagConfigComplexService.selectSimpleOne(dagConfigId);
         WorkflowDefinition workflowDefinition = WorkflowDefinitionConvert.INSTANCE.toDto(dagConfigDTO);
-        dagRunner.start(workflowDefinition);
+        Map<String, Object> inputs = Map.of("foo", "foo-data", "bar", "bar-data");
+        Map<String, Map<String, Object>> stepInputs = Map.of(
+                "cae1a622-6c96-4cec-81d3-883510c17702", Map.of("url", "url-data", "payload", "payload-data"),
+                "2c2cb6c8-794b-4cc1-8258-cd1898912744", Map.of("url", "url-data", "payload", "payload-data"),
+                "d82a947b-f414-4273-973a-06f20fe33f0d", Map.of("url", "url-data", "payload", "payload-data"),
+                "027db10b-9150-403d-9d11-e4a36c99e1db", Map.of("url", "url-data", "payload", "payload-data")
+        );
+        dagRunner.start(workflowDefinition, inputs, stepInputs);
     }
 
     @GetMapping("configs")
