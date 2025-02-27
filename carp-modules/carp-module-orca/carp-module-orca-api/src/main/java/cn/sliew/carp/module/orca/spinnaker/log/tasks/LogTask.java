@@ -52,8 +52,9 @@ public class LogTask implements RetryableTask {
      */
     @Override
     public @NotNull TaskResult execute(@NotNull StageExecution stageExecution) {
-        log.info("log task execute, stage: {}, currentTask: {}, tasks: {}",
-                stageExecution.getName(), JacksonUtil.toJsonString(currentTask(stageExecution.getTasks())), mapTask(stageExecution.getTasks()));
+        log.info("log task execute, stage: {}, context: {}, currentTask: {}, tasks: {}",
+                stageExecution.getName(), JacksonUtil.toJsonString(stageExecution.getContext()),
+                JacksonUtil.toJsonString(currentTask(stageExecution.getTasks())), mapTask(stageExecution.getTasks()));
         Map<String, Object> context = new HashMap<>();
         context.put("log-task-context", "log-task-context");
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
