@@ -62,10 +62,6 @@ public enum DagExecutionUtil {
                         && allUpstreamStepsComplete(dag, s));
     }
 
-    private static WorkflowStepInstance findNode(DAG<WorkflowStepInstance> dag, WorkflowStepInstance stepInstance) {
-        return dag.nodes().stream().filter(s -> Objects.equals(s.getId(), stepInstance.getId())).findFirst().orElseThrow();
-    }
-
     public static ExecutionStatus failureStatus(WorkflowStepInstance stepInstance, ExecutionStatus defaultStatus) {
         if (Objects.isNull(defaultStatus)) {
             defaultStatus = ExecutionStatus.TERMINAL;

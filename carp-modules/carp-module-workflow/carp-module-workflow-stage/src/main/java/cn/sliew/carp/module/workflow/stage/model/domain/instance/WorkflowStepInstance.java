@@ -20,11 +20,13 @@ package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNode;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.annotation.Nonnull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -41,9 +43,9 @@ public class WorkflowStepInstance extends BaseDTO {
 
     private JsonNode body;
 
-    private JsonNode inputs;
+    private Map<String, Object> inputs;
 
-    private JsonNode ouputs;
+    private Map<String, Object> outputs;
 
     private String status;
 
@@ -51,4 +53,13 @@ public class WorkflowStepInstance extends BaseDTO {
 
     private Date endTime;
 
+    private WorkflowStepContext context = new WorkflowStepContext(this);
+
+    public void setContext(@Nonnull Map<String, Object> context) {
+        if (context instanceof WorkflowStepContext stepContext) {
+            this.context = stepContext;
+        } else {
+            this.context = new WorkflowStepContext(this, context);
+        }
+    }
 }

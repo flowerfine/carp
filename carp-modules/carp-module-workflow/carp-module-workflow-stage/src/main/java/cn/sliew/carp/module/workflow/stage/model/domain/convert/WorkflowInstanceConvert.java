@@ -20,10 +20,16 @@ package cn.sliew.carp.module.workflow.stage.model.domain.convert;
 import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.Maps;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
+
+import java.util.Map;
+import java.util.Objects;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WorkflowInstanceConvert extends BaseConvert<DagInstanceDTO, WorkflowInstance> {
@@ -40,6 +46,20 @@ public interface WorkflowInstanceConvert extends BaseConvert<DagInstanceDTO, Wor
         BeanUtils.copyProperties(entity, dto);
         if (entity.getDagConfig() != null) {
             dto.setDefinition(WorkflowDefinitionConvert.INSTANCE.toDto(entity.getDagConfig()));
+        }
+        if (Objects.nonNull(entity.getInputs())
+                && entity.getInputs().isNull() == false
+                && entity.getInputs().isEmpty() == false) {
+            dto.setInputs(JacksonUtil.toObject(entity.getInputs(), new TypeReference<Map<String, Object>>() {}));
+        } else {
+            dto.setInputs(Maps.newHashMap());
+        }
+        if (Objects.nonNull(entity.getOutputs())
+                && entity.getOutputs().isNull() == false
+                && entity.getOutputs().isEmpty() == false) {
+            dto.setOutputs(JacksonUtil.toObject(entity.getOutputs(), new TypeReference<Map<String, Object>>() {}));
+        } else {
+            dto.setOutputs(Maps.newHashMap());
         }
         return dto;
     }

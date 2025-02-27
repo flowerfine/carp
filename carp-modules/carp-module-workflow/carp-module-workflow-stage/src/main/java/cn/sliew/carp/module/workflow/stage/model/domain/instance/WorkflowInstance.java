@@ -18,11 +18,19 @@
 package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowExecutionGraphConvert;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.annotation.Nonnull;
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 public class WorkflowInstance extends BaseDTO {
@@ -35,9 +43,9 @@ public class WorkflowInstance extends BaseDTO {
 
     private JsonNode body;
 
-    private JsonNode inputs;
+    private Map<String, Object> inputs;
 
-    private JsonNode ouputs;
+    private Map<String, Object> outputs;
 
     private String status;
 
@@ -46,4 +54,26 @@ public class WorkflowInstance extends BaseDTO {
     private Date endTime;
 
     private WorkflowExecutionGraph graph;
+
+    @JsonIgnore
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public @Nonnull Map<String, Object> getContext() {
+        DAG<WorkflowStepInstance> dag = WorkflowExecutionGraphConvert.INSTANCE.toDto(graph);
+        return dag.topologySort().stream()
+                .map(WorkflowStepInstance::getOutputs)
+                .map(Map::entrySet)
+                .flatMap(entrySet -> entrySet.stream())
+                .collect(
+                        Collectors.toMap(
+                                Map.Entry::getKey,
+                                Map.Entry::getValue,
+                                (o, o2) -> {
+                                    if (o instanceof Collection && o2 instanceof Collection) {
+                                        return Stream.concat(((Collection) o).stream(), ((Collection) o2).stream())
+                                                .distinct()
+                                                .collect(Collectors.toList());
+                                    }
+                                    return o2;
+                                }));
+    }
 }
