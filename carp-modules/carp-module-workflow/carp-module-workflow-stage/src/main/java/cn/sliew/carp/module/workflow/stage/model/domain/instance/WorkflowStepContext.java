@@ -20,6 +20,7 @@ package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowExecutionGraphConvert;
 import com.google.common.collect.ForwardingMap;
+import org.apache.commons.collections4.MapUtils;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -43,6 +44,10 @@ public class WorkflowStepContext extends ForwardingMap<String, Object> implement
     public WorkflowStepContext(WorkflowStepInstance stepInstance, Map<String, Object> delegate) {
         this.stepInstance = stepInstance;
         this.delegate = delegate;
+        // todo evaluate inputs
+        if (MapUtils.isNotEmpty(stepInstance.getInputs())) {
+            delegate.putAll(stepInstance.getInputs());
+        }
     }
 
     @Override

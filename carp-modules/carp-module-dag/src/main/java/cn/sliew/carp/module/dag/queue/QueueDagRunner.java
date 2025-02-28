@@ -44,7 +44,7 @@ public class QueueDagRunner implements DagRunner {
         SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
         Message message = Message.builder()
                 .topic(queue.getName())
-                .body(serDer.serialize(new Messages.InitWorkflow(workflowDefinition)))
+                .body(serDer.serialize(new Messages.InitWorkflow(workflowDefinition, inputs, stepInputs)))
                 .build();
         queue.push(message);
     }

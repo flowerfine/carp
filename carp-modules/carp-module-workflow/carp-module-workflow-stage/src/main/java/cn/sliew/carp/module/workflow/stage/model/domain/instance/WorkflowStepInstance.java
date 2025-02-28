@@ -53,7 +53,7 @@ public class WorkflowStepInstance extends BaseDTO {
 
     private Date endTime;
 
-    private WorkflowStepContext context = new WorkflowStepContext(this);
+    private WorkflowStepContext context;
 
     public void setContext(@Nonnull Map<String, Object> context) {
         if (context instanceof WorkflowStepContext stepContext) {

@@ -19,6 +19,7 @@ package cn.sliew.carp.module.workflow.stage.model.domain.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepContext;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -66,6 +67,7 @@ public interface WorkflowStepInstanceConvert extends BaseConvert<DagStepDTO, Wor
         } else {
             dto.setOutputs(Maps.newHashMap());
         }
+        dto.setContext(new WorkflowStepContext(dto));
         return dto;
     }
 }
