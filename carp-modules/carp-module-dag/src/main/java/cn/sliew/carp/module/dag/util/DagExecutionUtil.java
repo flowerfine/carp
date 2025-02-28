@@ -34,20 +34,21 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public enum DagExecutionUtil {
     ;
 
-    private static final EnumSet<ExecutionStatus> STAGE_FAILED_STATUS = EnumSet.of(
-            ExecutionStatus.TERMINAL,
-            ExecutionStatus.STOPPED,
-            ExecutionStatus.CANCELED
+    private static final Set<String> STAGE_FAILED_STATUS = Set.of(
+            ExecutionStatus.TERMINAL.name(),
+            ExecutionStatus.STOPPED.name(),
+            ExecutionStatus.CANCELED.name()
     );
 
-    private static final EnumSet<ExecutionStatus> STAGE_COMPLETE_STATUS = EnumSet.of(
-            ExecutionStatus.SUCCEEDED,
-            ExecutionStatus.FAILED_CONTINUE,
-            ExecutionStatus.SKIPPED
+    private static final Set<String> STAGE_COMPLETE_STATUS = Set.of(
+            ExecutionStatus.SUCCEEDED.name(),
+            ExecutionStatus.FAILED_CONTINUE.name(),
+            ExecutionStatus.SKIPPED.name()
     );
 
     public static boolean anyUpstreamStepsFailed(DAG<WorkflowStepInstance> dag, WorkflowStepInstance stepInstance) {

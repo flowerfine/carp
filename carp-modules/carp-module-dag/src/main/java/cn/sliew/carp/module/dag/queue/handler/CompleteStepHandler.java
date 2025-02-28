@@ -19,6 +19,7 @@ package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
+import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
@@ -104,16 +105,16 @@ public class CompleteStepHandler extends AbstractDagMessageHandler<Messages.Comp
                 } catch (Exception e) {
                     log.error("Failed to construct after stages for {} {}", stepInstance.getNode().getStepName(), stepInstance.getId(), e);
 
-//                    ExceptionVO exceptionVO = handleException(dagStepDTO.getDagConfigStep().getStepName() + ":ConstructAfterStages", e);
-//                    stage.getContext().put("exception", exceptionDetails);
+                    ExceptionVO exceptionVO = handleException(stepInstance.getNode().getStepName() + ":ConstructAfterStages", e);
+                    stepInstance.getContext().put("exception", exceptionVO);
                     stepInstance.setStatus(ExecutionStatus.TERMINAL.name());
                     stepInstance.setEndTime(new Date());
                 }
 
 //                includeExpressionEvaluationSummary(stage);
-//                getRepository().storeStage(stage);
+                getWorkflowRepository().updateStepInstance(stepInstance);
 
-                EnumSet<ExecutionStatus> set = EnumSet.of(ExecutionStatus.SUCCEEDED, ExecutionStatus.FAILED_CONTINUE, ExecutionStatus.SKIPPED);
+                Set<String> set = Set.of(ExecutionStatus.SUCCEEDED.name(), ExecutionStatus.FAILED_CONTINUE.name(), ExecutionStatus.SKIPPED.name());
                 // 当合成阶段以 FAILED_CONTINUE 结束时，将该状态传播到阶段的父级
                 // 这样父级的其他合成子阶段就不会运行
                 if (StringUtils.equalsIgnoreCase(stepInstance.getStatus(), ExecutionStatus.FAILED_CONTINUE)

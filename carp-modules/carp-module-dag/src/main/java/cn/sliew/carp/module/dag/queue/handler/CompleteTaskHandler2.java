@@ -50,8 +50,8 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
 //                handleRedirect(mergedContextStage);
                 handleRedirect(message, stepInstance);
             } else {
-                // todo 存储 task 信息
-//                getRepository().storeStage(mergedContextStage);
+//                getWorkflowRepository().updateStepTaskInstance(mergedContextStage, taskImpl);
+                getWorkflowRepository().updateStepTaskInstance(stepInstance, taskImpl);
 
                 if (isManuallySkipped(stepInstance)) {
 //                   push(new Messages.SkipStep(stage.getTopLevelStage()));
@@ -92,13 +92,15 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
     private void handleRedirect(Messages.CompleteTask message, WorkflowStepInstance stepInstance) {
         List<TaskExecutionImpl> tasks = DagExecutionUtil.getTasks(stepInstance);
         int start = -1;
-        int end = -1;
-
         for (int i = 0; i < tasks.size(); i++) {
             TaskExecution task = tasks.get(i);
             if (task.isLoopStart()) {
                 start = i;
             }
+        }
+        int end = -1;
+        for (int i = tasks.size() - 1; i >= 0; i--) {
+            TaskExecution task = tasks.get(i);
             if (task.isLoopEnd()) {
                 end = i;
             }
@@ -108,9 +110,9 @@ public class CompleteTaskHandler2 extends AbstractDagMessageHandler<Messages.Com
             TaskExecutionImpl task = tasks.get(i);
             task.setEndTime(null);
             task.setStatus(ExecutionStatus.NOT_STARTED);
+            getWorkflowRepository().updateStepTaskInstance(stepInstance, task);
         }
 
-//        getRepository().storeStage(stage);
         push(new Messages.StartTask(message, tasks.get(start).getId()));
     }
 }
