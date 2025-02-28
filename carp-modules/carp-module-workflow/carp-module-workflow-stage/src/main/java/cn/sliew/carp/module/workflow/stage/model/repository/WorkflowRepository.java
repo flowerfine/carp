@@ -41,10 +41,14 @@ public interface WorkflowRepository {
                            Map<String, Object> inputs,
                            Map<String, Map<String, Object>> stepInputs);
 
+    void update(WorkflowInstance workflowInstance);
+
     /**
      * todo 增加 not found exception
      */
     WorkflowStepInstance getStepInstance(Long stepInstanceId);
+
+    void updateStepInstance(WorkflowStepInstance stepInstance);
 
     List<TaskExecutionImpl> getStepTaskInstances(Long stepInstanceId);
 
@@ -53,4 +57,6 @@ public interface WorkflowRepository {
     TaskExecutionImpl getStepTaskInstance(Long workflowInstanceId, Long stepInstanceId, Long taskId);
 
     void addStepTaskInstance(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution);
+
+    void updateStepTaskInstance(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution);
 }

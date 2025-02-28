@@ -20,6 +20,7 @@ package cn.sliew.carp.module.dag.queue.handler;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
+import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -87,7 +89,7 @@ public interface DagMessageHandler<M> {
     }
 
     default boolean isComplete(WorkflowInstance workflowInstance) {
-        return false;
+        return ExecutionStatus.valueOf(workflowInstance.getStatus()).isComplete();
     }
 
     default boolean isSkipped(WorkflowStepInstance stepInstance) {
@@ -95,7 +97,10 @@ public interface DagMessageHandler<M> {
     }
 
     default boolean isManuallySkipped(WorkflowStepInstance stepInstance) {
-        return false;
+        Object manualSkip = stepInstance.getContext().get("manualSkip");
+//        return Boolean.TRUE.equals(manualSkip) ||
+//                (stage.getParentStageId() != null && isManuallySkipped(parent(stage)));
+        return Objects.equals(Boolean.TRUE, manualSkip);
     }
 
     default Logger getLog() {

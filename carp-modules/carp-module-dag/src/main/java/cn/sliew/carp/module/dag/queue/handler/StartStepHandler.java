@@ -18,8 +18,6 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.repository.entity.DagStep;
-import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
@@ -29,8 +27,6 @@ import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepIns
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderUtil;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,8 +42,6 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
 
     @Autowired
     private StageDefinitionBuilderFactory stageDefinitionBuilderFactory;
-    @Autowired
-    private DagStepService dagStepService;
 
     @Override
     public Class<Messages.StartStep> getMessageType() {
@@ -81,14 +75,10 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
                         push(new Messages.SkipStep(stepInstance));
                     } else {
                         try {
+                            stepInstance.setStartTime(new Date());
                             plan(stepInstance);
-
-                            LambdaUpdateWrapper<DagStep> updateWrapper = Wrappers.lambdaUpdate(DagStep.class)
-                                    .eq(DagStep::getId, stepInstance.getId())
-                                    .set(DagStep::getStatus, ExecutionStatus.RUNNING.name())
-                                    .set(DagStep::getStartTime, new Date())
-                                    .set(DagStep::getBody, Objects.isNull(stepInstance.getBody()) ? null : stepInstance.getBody().toString());
-                            dagStepService.update(updateWrapper);
+                            stepInstance.setStatus(ExecutionStatus.RUNNING.name());
+                            getWorkflowRepository().updateStepInstance(stepInstance);
 
                             start(stepInstance);
                         } catch (Exception e) {
@@ -143,23 +133,23 @@ public class StartStepHandler extends AbstractDagMessageHandler<Messages.StartSt
         } else {
             getLog().error("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) run error! stepInstanceId: {}",
                     message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), e);
-//            stage.getContext().put("exception", exceptionVO);
-//            stage.getContext().put("beforeStagePlanningFailed", true);
-//            getRepository().storeStage(stage);
+            stepInstance.getContext().put("exception", exceptionVO);
+            stepInstance.getContext().put("stepPlanningFailed", true);
+            getWorkflowRepository().updateStepInstance(stepInstance);
 
             push(new Messages.CompleteStep(message));
         }
     }
 
 
-    private void handleUnexpectedException(Messages.StartStep message, WorkflowStepInstance dagStepDTO, Exception e) {
+    private void handleUnexpectedException(Messages.StartStep message, WorkflowStepInstance stepInstance, Exception e) {
         getLog().error("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) run error! stepInstanceId: {}",
                 message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), e);
-        ExceptionVO exceptionVO = handleException(dagStepDTO.getNode().getStepName(), e);
-//        stage.getContext().put("exception", exceptionVO);
-//        stage.getContext().put("beforeStagePlanningFailed", true);
+        ExceptionVO exceptionVO = handleException(stepInstance.getNode().getStepName(), e);
+        stepInstance.getContext().put("exception", exceptionVO);
+        stepInstance.getContext().put("stepPlanningFailed", true);
+        getWorkflowRepository().updateStepInstance(stepInstance);
 
-//        getRepository().storeStage(stage);
         push(new Messages.CompleteStep(message));
     }
 }

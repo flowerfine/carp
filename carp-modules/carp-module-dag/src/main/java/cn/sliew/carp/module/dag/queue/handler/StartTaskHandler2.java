@@ -28,6 +28,8 @@ import cn.sliew.carp.module.workflow.stage.model.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+
 @Component
 public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartTask> {
 
@@ -44,8 +46,16 @@ public class StartTaskHandler2 extends AbstractDagMessageHandler<Messages.StartT
         withTask(message, (stepInstance, task) -> {
             TaskExecutionImpl taskImpl = (TaskExecutionImpl) task;
             if (isTaskEnabled(stepInstance, task)) {
+                taskImpl.setStartTime(Instant.now());
+                taskImpl.setStatus(ExecutionStatus.RUNNING);
+                // todo evaluate expression
+                getWorkflowRepository().updateStepTaskInstance(stepInstance, taskImpl);
+
                 push(new Messages.RunTask(message, taskImpl.getId(), getTaskType(taskImpl)));
             } else {
+                taskImpl.setStatus(ExecutionStatus.SKIPPED);
+                // todo evaluate expression
+                getWorkflowRepository().updateStepTaskInstance(stepInstance, taskImpl);
                 push(new Messages.CompleteTask(message, ExecutionStatus.SKIPPED));
             }
         });

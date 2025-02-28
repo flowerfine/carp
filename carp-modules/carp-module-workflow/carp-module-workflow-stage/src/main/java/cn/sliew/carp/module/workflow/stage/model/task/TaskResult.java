@@ -36,13 +36,13 @@ public final class TaskResult {
     private final ExecutionStatus status;
 
     /**
-     * Stage-scoped data.
+     * Step-scoped data.
      */
     @Singular("context")
     private final Map<String, ?> context;
 
     /**
-     * Pipeline-scoped data.
+     * Workflow-scoped data.
      */
     @Singular("output")
     private final Map<String, ?> outputs;

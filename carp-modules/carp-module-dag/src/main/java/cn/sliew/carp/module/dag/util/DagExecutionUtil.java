@@ -73,9 +73,8 @@ public enum DagExecutionUtil {
     }
 
     public static boolean shouldFailPipeline(WorkflowStepInstance stepInstance) {
-//        Object failPipeline = stage.getContext().get("failPipeline");
-//        return failPipeline == null || Boolean.TRUE.equals(failPipeline);
-        return false;
+        Object failPipeline = stepInstance.getContext().get("failPipeline");
+        return Objects.equals(Boolean. TRUE, failPipeline);
     }
 
     public static List<TaskExecutionImpl> getTasks(WorkflowStepInstance stepInstance) {

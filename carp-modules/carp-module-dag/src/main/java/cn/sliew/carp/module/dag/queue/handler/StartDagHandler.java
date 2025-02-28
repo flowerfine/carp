@@ -18,16 +18,11 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.repository.entity.DagInstance;
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -37,9 +32,6 @@ import java.util.Set;
 
 @Component
 public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWorkflow> {
-
-    @Autowired
-    private DagInstanceService dagInstanceService;
 
     @Override
     public Class<Messages.StartWorkflow> getMessageType() {
@@ -84,14 +76,18 @@ public class StartDagHandler extends AbstractDagMessageHandler<Messages.StartWor
             if (CollectionUtils.isEmpty(initialSteps)) {
                 getLog().warn("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) found no initial steps",
                         workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId());
-                dagInstanceService.updateStatus(workflowInstance.getId(), workflowInstance.getStatus(), ExecutionStatus.TERMINAL.name());
+                getWorkflowRepository().update(
+                        WorkflowInstance.builder()
+                                .id(workflowInstance.getId())
+                                .status(ExecutionStatus.TERMINAL.name())
+                                .build());
             } else {
-                LambdaUpdateWrapper<DagInstance> updateWrapper = Wrappers.lambdaUpdate(DagInstance.class)
-                        .eq(DagInstance::getId, workflowInstance.getId())
-                        .eq(DagInstance::getStatus, workflowInstance.getStatus())
-                        .set(DagInstance::getStatus, ExecutionStatus.RUNNING.name())
-                        .set(DagInstance::getStartTime, new Date());
-                dagInstanceService.update(updateWrapper);
+                getWorkflowRepository().update(
+                        WorkflowInstance.builder()
+                                .id(workflowInstance.getId())
+                                .status(ExecutionStatus.RUNNING.name())
+                                .startTime(new Date())
+                                .build());
                 initialSteps.forEach(stage -> push(new Messages.StartStep(stage)));
             }
         }

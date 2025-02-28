@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.workflow.stage.model.domain.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import cn.sliew.milky.common.util.JacksonUtil;
@@ -37,7 +38,23 @@ public interface WorkflowInstanceConvert extends BaseConvert<DagInstanceDTO, Wor
 
     @Override
     default DagInstanceDTO toDo(WorkflowInstance dto) {
-        throw new UnsupportedOperationException();
+        DagInstanceDTO entity = new DagInstanceDTO();
+        BeanUtils.copyProperties(dto, entity);
+        if (dto.getDefinition() != null) {
+            DagConfigComplexDTO dagConfigComplexDTO = new DagConfigComplexDTO();
+            dagConfigComplexDTO.setId(dto.getDefinition().getId());
+            entity.setDagConfig(dagConfigComplexDTO);
+        }
+        if (Objects.nonNull(dto.getBody())) {
+            entity.setBody(dto.getBody());
+        }
+        if (Objects.nonNull(dto.getInputs())) {
+            entity.setInputs(JacksonUtil.toJsonNode(dto.getInputs()));
+        }
+        if (Objects.nonNull(dto.getOutputs())) {
+            entity.setOutputs(JacksonUtil.toJsonNode(dto.getOutputs()));
+        }
+        return entity;
     }
 
     @Override

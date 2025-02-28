@@ -17,21 +17,26 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
+import cn.sliew.carp.framework.common.model.BaseBuilderDTO;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.annotation.Nonnull;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.Date;
 import java.util.Map;
 
 @Getter
 @Setter
+@SuperBuilder
+@Jacksonized
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
-public class WorkflowStepInstance extends BaseDTO {
+public class WorkflowStepInstance extends BaseBuilderDTO {
 
     private String namespace;
 

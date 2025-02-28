@@ -18,6 +18,8 @@
 package cn.sliew.carp.module.workflow.stage.model.domain.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepContext;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
@@ -38,7 +40,25 @@ public interface WorkflowStepInstanceConvert extends BaseConvert<DagStepDTO, Wor
 
     @Override
     default DagStepDTO toDo(WorkflowStepInstance dto) {
-        throw new UnsupportedOperationException();
+        DagStepDTO entity = new DagStepDTO();
+        BeanUtils.copyProperties(dto, entity);
+        if (dto.getWorkflowInstance() != null) {
+            DagInstanceDTO dagInstanceDTO = new DagInstanceDTO();
+            dagInstanceDTO.setId(dto.getWorkflowInstance().getId());
+            entity.setDagInstance(dagInstanceDTO);
+        }
+        if (dto.getNode() != null) {
+            DagConfigStepDTO dagConfigStepDTO = new DagConfigStepDTO();
+            dagConfigStepDTO.setId(dto.getNode().getId());
+            entity.setDagConfigStep(dagConfigStepDTO);
+        }
+        if (dto.getInputs() != null) {
+            entity.setInputs(JacksonUtil.toJsonNode(dto.getInputs()));
+        }
+        if (dto.getOutputs() != null) {
+            entity.setOutputs(JacksonUtil.toJsonNode(dto.getOutputs()));
+        }
+        return entity;
     }
 
     @Override

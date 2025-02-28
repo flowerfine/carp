@@ -415,7 +415,7 @@ public class RunTaskHandler extends AbstractOrcaMessageHandler<Messages.RunTask>
     private void processTaskOutput(StageExecution stage, TaskResult result) {
         Map<String, Object> filteredOutputs = Maps.newHashMap();
         for (Map.Entry entry : result.getOutputs().entrySet()) {
-            if (Objects.equals(entry.getKey(), "stageTimeoutMs")) {
+            if (Objects.equals(entry.getKey(), "stageTimeoutMs") == false) {
                 filteredOutputs.put((String) entry.getKey(), entry.getValue());
             }
         }

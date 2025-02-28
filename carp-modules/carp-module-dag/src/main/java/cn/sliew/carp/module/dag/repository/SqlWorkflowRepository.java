@@ -153,9 +153,23 @@ public class SqlWorkflowRepository implements WorkflowRepository {
     }
 
     @Override
+    public void update(WorkflowInstance workflowInstance) {
+        DagInstanceDTO dagInstanceDTO = WorkflowInstanceConvert.INSTANCE.toDo(workflowInstance);
+        dagInstanceService.update(dagInstanceDTO);
+    }
+
+    @Override
     public WorkflowStepInstance getStepInstance(Long stepInstanceId) {
         DagStepDTO dagStepDTO = dagStepService.getWithConfig(stepInstanceId);
-        return WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
+        WorkflowStepInstance stepInstance = WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
+        stepInstance.setWorkflowInstance(get(stepInstance.getWorkflowInstance().getId()));
+        return stepInstance;
+    }
+
+    @Override
+    public void updateStepInstance(WorkflowStepInstance stepInstance) {
+        DagStepDTO dagStepDTO = WorkflowStepInstanceConvert.INSTANCE.toDo(stepInstance);
+        dagStepService.update(dagStepDTO);
     }
 
     @Override
@@ -178,9 +192,19 @@ public class SqlWorkflowRepository implements WorkflowRepository {
 
     @Override
     public void addStepTaskInstance(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
+        DagStepTaskDTO dagStepTaskDTO = convertToTask(stepInstance, taskExecution);
+        dagStepTaskService.add(dagStepTaskDTO);
+    }
+
+    @Override
+    public void updateStepTaskInstance(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
+        DagStepTaskDTO dagStepTaskDTO = convertToTask(stepInstance, taskExecution);
+        dagStepTaskService.update(dagStepTaskDTO);
+    }
+
+    private DagStepTaskDTO convertToTask(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
         DagStepTaskDTO dagStepTaskDTO = new DagStepTaskDTO();
         BeanUtils.copyProperties(taskExecution, dagStepTaskDTO);
-        dagStepTaskDTO.setId(null);
         dagStepTaskDTO.setNamespace(stepInstance.getNamespace());
         dagStepTaskDTO.setDagInstanceId(stepInstance.getWorkflowInstance().getId());
         dagStepTaskDTO.setDagStepId(stepInstance.getId());
@@ -193,6 +217,6 @@ public class SqlWorkflowRepository implements WorkflowRepository {
         if (Objects.nonNull(taskExecution.getEndTime())) {
             dagStepTaskDTO.setEndTime(Date.from(taskExecution.getEndTime()));
         }
-        dagStepTaskService.add(dagStepTaskDTO);
+        return dagStepTaskDTO;
     }
 }

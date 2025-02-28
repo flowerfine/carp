@@ -25,6 +25,7 @@ import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.resolver.NoSuchTaskException;
 import cn.sliew.carp.module.workflow.stage.model.resolver.TaskResolver;
@@ -32,9 +33,8 @@ import cn.sliew.carp.module.workflow.stage.model.task.RetryableTask;
 import cn.sliew.carp.module.workflow.stage.model.task.Task;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionInterceptor;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskResult;
-import cn.sliew.milky.common.util.JacksonUtil;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
@@ -151,28 +151,19 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
     private void processTaskOutput(WorkflowStepInstance stepInstance, TaskResult result) {
         Map<String, Object> filteredOutputs = Maps.newHashMap();
         for (Map.Entry entry : result.getOutputs().entrySet()) {
-            if (Objects.equals(entry.getKey(), "stepTimeoutMs")) {
+            if (Objects.equals(entry.getKey(), "stepTimeoutMs") == false) {
                 filteredOutputs.put((String) entry.getKey(), entry.getValue());
             }
         }
         if (MapUtils.isNotEmpty(result.getContext()) || MapUtils.isNotEmpty(filteredOutputs)) {
-            ObjectNode outputs = JacksonUtil.createObjectNode();
             if (MapUtils.isNotEmpty(result.getContext())) {
-                result.getContext().forEach((key, value) -> {
-                    outputs.putPOJO(key, value);
-                });
+                stepInstance.getContext().putAll(result.getContext());
+                stepInstance.getInputs().putAll(result.getContext());
             }
-
             if (MapUtils.isNotEmpty(filteredOutputs)) {
-                filteredOutputs.forEach((key, value) -> {
-                    outputs.putPOJO(key, value);
-                });
+                stepInstance.getOutputs().putAll(filteredOutputs);
             }
-
-            // todo store task output
-//            stage.getContext().putAll(result.getContext());
-//            stage.getOutputs().putAll(filteredOutputs);
-//            getRepository().storeStage(stage);
+            getWorkflowRepository().updateStepInstance(stepInstance);
         }
     }
 
@@ -191,7 +182,7 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
             }
             EnumSet<ExecutionStatus> set = EnumSet.of(ExecutionStatus.TERMINAL, ExecutionStatus.FAILED_CONTINUE);
             if (set.contains(timeoutResult.getStatus())) {
-                getLog().error("Dag Task (namespace: {}, type: {}, dagId: {}, stepId: {}, task: {}) return invalid status ({}) for onTimeout",
+                getLog().error("Workflow Task (namespace: {}, type: {}, dagId: {}, stepId: {}, task: {}) return invalid status ({}) for onTimeout",
                         message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(),
                         task.getClass().getName(), timeoutResult.getStatus());
                 throw e;
@@ -339,12 +330,14 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
 
 
     private long getMaxTaskBackoff() {
+        if (CollectionUtils.isEmpty(taskExecutionInterceptors)) {
+            return Long.MAX_VALUE;
+        }
         return taskExecutionInterceptors.stream()
                 .mapToLong(TaskExecutionInterceptor::maxTaskBackoff)
                 .min()
                 .orElse(Long.MAX_VALUE);
     }
-
 
     private TaskResult mergeOutputs(TaskResult result, TaskResult newResult) {
         if (newResult == null) {
@@ -376,8 +369,8 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
                     message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), message.getTaskType().getSimpleName());
             push(message, getBackoffPeriod(task, taskModel, stepInstance));
 //            trackResult(stage, startTimeMs, taskModel, ExecutionStatus.RUNNING);
-        } else if (e instanceof StepTimeoutException) {
-//                && Boolean.TRUE.equals(dagStepDTO.getContext().get("markSuccessfulOnTimeout"))) {
+        } else if (e instanceof StepTimeoutException
+                && Boolean.TRUE.equals(stepInstance.getContext().get("markSuccessfulOnTimeout"))) {
 //            trackResult(stage, startTimeMs, taskModel, ExecutionStatus.SUCCEEDED);
             push(new Messages.CompleteTask(message, ExecutionStatus.SUCCEEDED));
         } else {
@@ -389,14 +382,15 @@ public class RunTaskHandler2 extends AbstractDagMessageHandler<Messages.RunTask>
 //                            message.getExecutionId(),
 //                            e);
 //                } else {
-                getLog().error("Dag Task (namespace: {}, type: {}, dagId: {}, stepId: {}, task: {}) run error, terminal",
+                getLog().error("Workflow Task (namespace: {}, type: {}, dagId: {}, stepId: {}, task: {}) run error, terminal",
                         message.getNamespace(), message.getType(), message.getDagId(), message.getStepId(), message.getTaskType().getSimpleName());
             }
 
             ExecutionStatus status = DagExecutionUtil.failureStatus(stepInstance, ExecutionStatus.TERMINAL);
-//            dagStepDTO.getContext().put("exception", exceptionDetails);
-//            taskModel.getTaskExceptionDetails().put("exception", exceptionDetails);
-//            getRepository().storeStage(stage);
+            stepInstance.getContext().put("exception", exceptionVO);
+            getWorkflowRepository().updateStepInstance(stepInstance);
+            taskModel.getTaskExceptionDetails().put("exception", exceptionVO);
+            getWorkflowRepository().updateStepTaskInstance(stepInstance, (TaskExecutionImpl) taskModel);
             push(new Messages.CompleteTask(message, status, ExecutionStatus.TERMINAL));
 //            trackResult(stage, startTimeMs, taskModel, status);
         }

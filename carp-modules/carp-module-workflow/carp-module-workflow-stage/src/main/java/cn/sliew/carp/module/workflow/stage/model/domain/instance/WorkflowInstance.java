@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
+import cn.sliew.carp.framework.common.model.BaseBuilderDTO;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowExecutionGraphConvert;
@@ -24,7 +25,11 @@ import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefin
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.annotation.Nonnull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.Collection;
 import java.util.Date;
@@ -33,7 +38,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Data
-public class WorkflowInstance extends BaseDTO {
+@Jacksonized
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class WorkflowInstance extends BaseBuilderDTO {
 
     private String namespace;
 
