@@ -43,6 +43,8 @@ public interface WorkflowRepository {
 
     void update(WorkflowInstance workflowInstance);
 
+    List<WorkflowStepInstance> getStepInstances(Long workflowInstanceId);
+
     /**
      * todo 增加 not found exception
      */

@@ -18,9 +18,6 @@
 package cn.sliew.carp.module.dag.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
-import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.dag.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
@@ -29,7 +26,6 @@ import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepIns
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -44,11 +40,6 @@ public class CompleteDagHandler extends AbstractDagMessageHandler<Messages.Compl
 
     private final Duration RETRY_DELAY = Duration.ofSeconds(30L);
 
-    @Autowired
-    private DagStepService dagStepService;
-    @Autowired
-    private DagInstanceService dagInstanceService;
-
     @Override
     public Class<Messages.CompleteWorkflow> getMessageType() {
         return Messages.CompleteWorkflow.class;
@@ -58,29 +49,28 @@ public class CompleteDagHandler extends AbstractDagMessageHandler<Messages.Compl
     public void handle(Messages.CompleteWorkflow message) {
         withWorkflow(message, workflowInstance -> {
             if (ExecutionStatus.valueOf(workflowInstance.getStatus()).isComplete()) {
-                log.info("Execution {} already completed with {} status",
-                        workflowInstance.getId(), workflowInstance.getStatus());
+                log.info("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) already completed with {} status",
+                        message.getNamespace(), message.getType(), message.getDagId(), workflowInstance.getStatus());
             } else {
                 determineFinalStatus(message, workflowInstance, status -> {
                     workflowInstance.setStatus(status.name());
-                    dagInstanceService.updateStatus(workflowInstance.getId(), null, status.name());
+                    getWorkflowRepository().update(workflowInstance);
 
 //                    publisher.publishEvent(new ExecutionComplete(this, dagInstanceDTO));
 
                     if (status != ExecutionStatus.SUCCEEDED) {
-                        List<DagStepDTO> steps = dagStepService.listSteps(workflowInstance.getId());
-                        if (CollectionUtils.isNotEmpty(steps)) {
-                            steps.stream()
+                        List<WorkflowStepInstance> stepInstances = getWorkflowRepository().getStepInstances(workflowInstance.getId());
+                        if (CollectionUtils.isNotEmpty(stepInstances)) {
+                            stepInstances.stream()
                                     .filter(it -> StringUtils.equalsIgnoreCase(it.getStatus(), ExecutionStatus.RUNNING.name()))
-                                    .forEach(it -> push(new Messages.CancelStep(it)));
+                                    .forEach(it -> push(new Messages.CancelStep(message, it.getId())));
                         }
-
                     }
                 });
             }
 
-//            log.debug("Execution {} is with {} status and Disabled concurrent executions is {}",
-//                    dagInstanceDTO.getId(), dagInstanceDTO.getStatus(), dagInstanceDTO.isLimitConcurrent());
+//            log.debug("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) is with {} status and Disabled concurrent executions is {}",
+//                    message.getNamespace(), message.getType(), message.getDagId(), workflowInstance.getStatus(), workflowInstance.isLimitConcurrent());
 
             if (StringUtils.equalsIgnoreCase(workflowInstance.getStatus(), ExecutionStatus.RUNNING.name()) == false) {
 //                Long configId = dagInstanceDTO.getPipelineConfigId();
@@ -91,8 +81,8 @@ public class CompleteDagHandler extends AbstractDagMessageHandler<Messages.Compl
 //                    ));
 //                }
             } else {
-                log.debug("Not starting waiting workflows as workflow {} is currently RUNNING.",
-                        workflowInstance.getId());
+                log.debug("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}) not starting waiting workflows as currently RUNNING.",
+                        message.getNamespace(), message.getType(), message.getDagId());
             }
         });
     }

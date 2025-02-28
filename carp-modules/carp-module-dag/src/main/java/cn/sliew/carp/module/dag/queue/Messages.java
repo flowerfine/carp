@@ -352,8 +352,8 @@ public class Messages {
             this(source.getNamespace(), source.getType(), source.getDagId(), source.getStepId());
         }
 
-        public CancelStep(DagStepDTO source) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
+        public CancelStep(WorkflowLevel source, Long stepId) {
+            this(source.getNamespace(), source.getType(), source.getDagId(), stepId);
         }
     }
 

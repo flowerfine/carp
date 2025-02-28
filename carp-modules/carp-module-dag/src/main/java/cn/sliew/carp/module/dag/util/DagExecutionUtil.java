@@ -31,7 +31,6 @@ import jakarta.annotation.Nullable;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -75,7 +74,7 @@ public enum DagExecutionUtil {
 
     public static boolean shouldFailPipeline(WorkflowStepInstance stepInstance) {
         Object failPipeline = stepInstance.getContext().get("failPipeline");
-        return Objects.equals(Boolean. TRUE, failPipeline);
+        return Objects.equals(Boolean.TRUE, failPipeline);
     }
 
     public static List<TaskExecutionImpl> getTasks(WorkflowStepInstance stepInstance) {

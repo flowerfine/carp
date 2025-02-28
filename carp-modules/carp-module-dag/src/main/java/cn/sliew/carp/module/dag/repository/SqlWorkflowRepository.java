@@ -159,6 +159,12 @@ public class SqlWorkflowRepository implements WorkflowRepository {
     }
 
     @Override
+    public List<WorkflowStepInstance> getStepInstances(Long workflowInstanceId) {
+        List<DagStepDTO> steps = dagStepService.listSteps(workflowInstanceId);
+        return WorkflowStepInstanceConvert.INSTANCE.toDto(steps);
+    }
+
+    @Override
     public WorkflowStepInstance getStepInstance(Long stepInstanceId) {
         DagStepDTO dagStepDTO = dagStepService.getWithConfig(stepInstanceId);
         WorkflowStepInstance stepInstance = WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
