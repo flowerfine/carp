@@ -15,18 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model.domain.definition;
+package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class WorkflowDefinitionAttrs {
+@Builder
+@Jacksonized
+@NoArgsConstructor
+@AllArgsConstructor
+public class WorkflowStepInstanceBody {
 
-    private boolean limitConcurrent = false;
+    // fixme 不合适，应该放在 task 中，task 的数据传递方式为 context
 
-    private int maxConcurrentExecutions = 0;
-
-    private boolean keepWaitingPipelines = false;
+    private Long subWorkflowInstanceId;
 }

@@ -23,6 +23,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepContext;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstanceBody;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Maps;
@@ -52,6 +53,9 @@ public interface WorkflowStepInstanceConvert extends BaseConvert<DagStepDTO, Wor
             dagConfigStepDTO.setId(dto.getNode().getId());
             entity.setDagConfigStep(dagConfigStepDTO);
         }
+        if (Objects.nonNull(dto.getBody())) {
+            entity.setBody(JacksonUtil.toJsonNode(dto.getBody()));
+        }
         if (dto.getInputs() != null) {
             entity.setInputs(JacksonUtil.toJsonNode(dto.getInputs()));
         }
@@ -70,6 +74,11 @@ public interface WorkflowStepInstanceConvert extends BaseConvert<DagStepDTO, Wor
         }
         if (entity.getDagConfigStep() != null) {
             dto.setNode(WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(entity.getDagConfigStep()));
+        }
+        if (Objects.nonNull(entity.getBody())
+                && entity.getBody().isNull() == false
+                && entity.getBody().isEmpty() == false) {
+            dto.setBody(JacksonUtil.toObject(entity.getBody(), WorkflowStepInstanceBody.class));
         }
         if (Objects.nonNull(entity.getInputs())
                 && entity.getInputs().isNull() == false

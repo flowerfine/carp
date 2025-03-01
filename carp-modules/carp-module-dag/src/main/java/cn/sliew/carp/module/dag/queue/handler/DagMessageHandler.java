@@ -85,6 +85,10 @@ public interface DagMessageHandler<M> {
     }
 
     default boolean isCanceled(WorkflowInstance workflowInstance) {
+        if (Objects.nonNull(workflowInstance.getBody())
+                && Objects.nonNull(workflowInstance.getBody().getCanceled())) {
+            return workflowInstance.getBody().getCanceled().isCanceled();
+        }
         return false;
     }
 

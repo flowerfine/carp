@@ -21,6 +21,7 @@ import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionStatus;
 import cn.sliew.carp.module.orca.spinnaker.api.model.stage.StageExecutionImpl;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.Task;
 import cn.sliew.carp.module.orca.spinnaker.api.model.task.TaskExecution;
+import cn.sliew.carp.module.orca.spinnaker.api.model.task.TaskExecutionImpl;
 import cn.sliew.carp.module.orca.spinnaker.api.persistence.ExecutionRepository;
 import cn.sliew.carp.module.orca.spinnaker.api.resolver.TaskResolver;
 import cn.sliew.carp.module.orca.spinnaker.keiko.core.Queue;
@@ -53,9 +54,14 @@ public class ResumeTaskHandler implements OrcaMessageHandler<Messages.ResumeTask
 
     @Override
     public void handle(Messages.ResumeTask message) {
-        withTask(message, (stage, task) -> {
+        withStage(message, stage -> {
             ((StageExecutionImpl) stage).setStatus(ExecutionStatus.RUNNING);
-            queue.push(new Messages.RunTask(message, getTaskType(task)));
+            stage.getTasks().stream()
+                    .filter(task -> task.getStatus() == ExecutionStatus.PAUSED)
+                    .forEach(task -> {
+                        ((TaskExecutionImpl) task).setStatus(ExecutionStatus.RUNNING);
+                        queue.push(new Messages.RunTask(message, getTaskType(task)));
+                    });
             repository.storeStage(stage);
         });
     }

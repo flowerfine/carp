@@ -18,9 +18,7 @@
 package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
 import cn.sliew.carp.framework.common.model.BaseBuilderDTO;
-import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNode;
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.annotation.Nonnull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -46,7 +44,7 @@ public class WorkflowStepInstance extends BaseBuilderDTO {
 
     private String uuid;
 
-    private JsonNode body;
+    private WorkflowStepInstanceBody body;
 
     private Map<String, Object> inputs;
 

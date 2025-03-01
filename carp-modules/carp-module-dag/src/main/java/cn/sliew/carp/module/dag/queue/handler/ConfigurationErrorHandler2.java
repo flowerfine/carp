@@ -17,17 +17,13 @@
  */
 package cn.sliew.carp.module.dag.queue.handler;
 
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.module.dag.queue.Messages;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConfigurationErrorHandler2 extends AbstractDagMessageHandler<Messages.ConfigurationError> {
-
-    @Autowired
-    private DagInstanceService dagInstanceService;
 
     @Override
     public Class<Messages.ConfigurationError> getMessageType() {
@@ -45,7 +41,12 @@ public class ConfigurationErrorHandler2 extends AbstractDagMessageHandler<Messag
                     message.getType(),
                     message.getDagId(),
                     message.getNamespace());
-            dagInstanceService.updateStatus(message.getDagId(), null, ExecutionStatus.TERMINAL.name());
+
+            getWorkflowRepository().update(
+                    WorkflowInstance.builder()
+                            .id(message.getDagId())
+                            .status(ExecutionStatus.TERMINAL.name())
+                            .build());
         }
     }
 }

@@ -96,15 +96,15 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("rescheduleExecution")
-    public static class RescheduleExecution implements WorkflowLevel, Serializable {
+    @JsonTypeName("rescheduleWorkflow")
+    public static class RescheduleWorkflow implements WorkflowLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
 
-        public RescheduleExecution(DagInstanceDTO source) {
-            this(source.getNamespace(), source.getDagConfig().getType(), source.getId());
+        public RescheduleWorkflow(WorkflowInstance source) {
+            this(source.getNamespace(), source.getDefinition().getType(), source.getId());
         }
     }
 
@@ -128,15 +128,15 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("resumeExecution")
-    public static class ResumeExecution implements WorkflowLevel, Serializable {
+    @JsonTypeName("resumeWorkflow")
+    public static class ResumeWorkflow implements WorkflowLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
 
-        public ResumeExecution(DagInstanceDTO source) {
-            this(source.getNamespace(), source.getDagConfig().getType(), source.getId());
+        public ResumeWorkflow(WorkflowInstance source) {
+            this(source.getNamespace(), source.getDefinition().getType(), source.getId());
         }
     }
 
@@ -282,19 +282,19 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("pauseStage")
-    public static class PauseStage implements StepLevel, Serializable {
+    @JsonTypeName("pauseStep")
+    public static class PauseStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public PauseStage(StepLevel source) {
+        public PauseStep(StepLevel source) {
             this(source, source.getStepId());
         }
 
-        public PauseStage(WorkflowLevel source, Long stepId) {
+        public PauseStep(WorkflowLevel source, Long stepId) {
             this(source.getNamespace(), source.getType(), source.getDagId(), stepId);
         }
     }
@@ -321,20 +321,20 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("resumeStage")
-    public static class ResumeStage implements StepLevel, Serializable {
+    @JsonTypeName("resumeStep")
+    public static class ResumeStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public ResumeStage(WorkflowLevel source, Long stageId) {
-            this(source.getNamespace(), source.getType(), source.getDagId(), stageId);
+        public ResumeStep(WorkflowLevel source, Long stepId) {
+            this(source.getNamespace(), source.getType(), source.getDagId(), stepId);
         }
 
-        public ResumeStage(DagStepDTO source) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
+        public ResumeStep(WorkflowStepInstance source) {
+            this(source.getNamespace(), source.getWorkflowInstance().getDefinition().getType(), source.getWorkflowInstance().getId(), source.getId());
         }
     }
 

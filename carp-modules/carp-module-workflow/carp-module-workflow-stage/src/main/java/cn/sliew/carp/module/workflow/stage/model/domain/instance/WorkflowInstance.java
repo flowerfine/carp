@@ -18,12 +18,10 @@
 package cn.sliew.carp.module.workflow.stage.model.domain.instance;
 
 import cn.sliew.carp.framework.common.model.BaseBuilderDTO;
-import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowExecutionGraphConvert;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,7 +48,7 @@ public class WorkflowInstance extends BaseBuilderDTO {
 
     private String uuid;
 
-    private JsonNode body;
+    private WorkflowInstanceBody body;
 
     private Map<String, Object> inputs;
 
@@ -85,4 +83,5 @@ public class WorkflowInstance extends BaseBuilderDTO {
                                     return o2;
                                 }));
     }
+
 }
