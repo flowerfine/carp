@@ -48,8 +48,8 @@ public interface WorkflowDefinitionConvert extends BaseConvert<DagConfigDTO, Wor
         if (entity.getDagAttrs() != null) {
             dto.setAttrs(JacksonUtil.toObject(entity.getDagAttrs(), WorkflowDefinitionAttrs.class));
         }
-        if (entity.getIntputOptions() != null) {
-            dto.setInputOptions(JacksonUtil.parseJsonArray(entity.getIntputOptions().toString(), WorkflowParamOption.class));
+        if (entity.getInputOptions() != null) {
+            dto.setInputOptions(JacksonUtil.parseJsonArray(entity.getInputOptions().toString(), WorkflowParamOption.class));
         }
         if (entity.getOutputOptions() != null) {
             dto.setOutputOptions(JacksonUtil.parseJsonArray(entity.getOutputOptions().toString(), WorkflowParamOption.class));
