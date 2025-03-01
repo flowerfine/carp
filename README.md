@@ -60,8 +60,7 @@
     * [x] 配置管理
     * [x] 实例管理
     * [ ] 日志管理
-  * workflow 管理
-  * orca 管理
+  * workflow 管理。基于 [orca](https://github.com/spinnaker/orca) 实现，复制重写了一版
     * [ ] 队列管理
       * [ ] 存储。基于内存、Redis 和 SQL 实现
       * [ ] web 页面
