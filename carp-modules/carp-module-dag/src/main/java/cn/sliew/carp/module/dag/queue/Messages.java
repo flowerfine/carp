@@ -17,8 +17,6 @@
  */
 package cn.sliew.carp.module.dag.queue;
 
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
@@ -202,20 +200,20 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("continueParentStage")
-    public static class ContinueParentStage implements StepLevel, Serializable {
+    @JsonTypeName("continueParentStep")
+    public static class ContinueParentStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public ContinueParentStage(StepLevel source) {
+        public ContinueParentStep(StepLevel source) {
             this(source.getNamespace(), source.getType(), source.getDagId(), source.getStepId());
         }
 
-        public ContinueParentStage(DagStepDTO source) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
+        public ContinueParentStep(WorkflowStepInstance source) {
+            this(source.getWorkflowInstance().getNamespace(), source.getWorkflowInstance().getDefinition().getType(), source.getWorkflowInstance().getId(), source.getId());
         }
     }
 
@@ -263,20 +261,20 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("abortStage")
-    public static class AbortStage implements StepLevel, Serializable {
+    @JsonTypeName("abortStep")
+    public static class AbortStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
         private final Long dagId;
         private final Long stepId;
 
-        public AbortStage(StepLevel source) {
+        public AbortStep(StepLevel source) {
             this(source.getNamespace(), source.getType(), source.getDagId(), source.getStepId());
         }
 
-        public AbortStage(DagStepDTO source) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId());
+        public AbortStep(WorkflowStepInstance source) {
+            this(source.getWorkflowInstance().getNamespace(), source.getWorkflowInstance().getDefinition().getType(), source.getWorkflowInstance().getId(), source.getId());
         }
     }
 
@@ -301,8 +299,8 @@ public class Messages {
 
     @Getter
     @AllArgsConstructor
-    @JsonTypeName("restartStage")
-    public static class RestartStage implements StepLevel, Serializable {
+    @JsonTypeName("restartStep")
+    public static class RestartStep implements StepLevel, Serializable {
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
@@ -310,12 +308,12 @@ public class Messages {
         private final Long stepId;
         private String user;
 
-        public RestartStage(DagInstanceDTO source, Long stepId, String user) {
-            this(source.getNamespace(), source.getDagConfig().getType(), source.getId(), stepId, user);
+        public RestartStep(WorkflowInstance source, Long stepId, String user) {
+            this(source.getNamespace(), source.getDefinition().getType(), source.getId(), stepId, user);
         }
 
-        public RestartStage(DagStepDTO source, String user) {
-            this(source.getDagInstance().getNamespace(), source.getDagInstance().getDagConfig().getType(), source.getDagInstance().getId(), source.getId(), user);
+        public RestartStep(WorkflowStepInstance source, String user) {
+            this(source.getWorkflowInstance().getNamespace(), source.getWorkflowInstance().getDefinition().getType(), source.getWorkflowInstance().getId(), source.getId(), user);
         }
     }
 
