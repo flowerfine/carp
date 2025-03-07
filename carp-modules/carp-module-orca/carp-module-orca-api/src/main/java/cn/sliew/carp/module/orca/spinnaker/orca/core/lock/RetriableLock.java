@@ -32,15 +32,11 @@ import java.util.function.Supplier;
  * specified by the user.
  */
 @Slf4j
+@AllArgsConstructor
 public class RetriableLock {
 
     private final RunOnLockAcquired lock;
     private final RetrySupport retrySupport;
-
-    public RetriableLock(RunOnLockAcquired lock, RetrySupport retrySupport) {
-        this.lock = lock;
-        this.retrySupport = retrySupport;
-    }
 
     /**
      * This method blocks the current thread and delegates locking and function execution to

@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * Lock Manager with heartbeat support.
  */
 public interface RefreshableLockManager extends LockManager {
+
     HeartbeatResponse heartbeat(final HeartbeatLockRequest heartbeatLockRequest);
 
     void queueHeartbeat(final HeartbeatLockRequest heartbeatLockRequest);
