@@ -20,7 +20,7 @@ package cn.sliew.carp.module.http.sync.job.task.jst.order;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import cn.sliew.carp.framework.exception.SliewException;
+import cn.sliew.carp.framework.common.exception.SliewException;
 import cn.sliew.carp.module.http.sync.framework.model.job.JobLogLevel;
 import cn.sliew.carp.module.http.sync.framework.model.processor.DefaultJobContext;
 import cn.sliew.carp.module.http.sync.framework.model.processor.FetchResult;
