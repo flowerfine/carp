@@ -165,8 +165,17 @@ const Dnd = () => {
         status: CellStatus.DEFAULT,
       },
       ports: item.ports,
+      tools: [
+        {
+          name: "button-remove",
+          args: {
+            x: "100%",
+            y: 0,
+            offset: { x: -35, y: 0 }
+          }
+        }
+      ],
     }
-    console.log('node', node, item)
     startDrag(node, e);
   };
 

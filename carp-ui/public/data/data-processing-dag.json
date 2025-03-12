@@ -11,6 +11,16 @@
           "group": "out"
         }
       ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
       "data": {
         "name": "数据输入_1",
         "type": "INPUT",
@@ -32,6 +42,16 @@
           "group": "out"
         }
       ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
       "data": {
         "name": "数据筛选_1",
         "type": "FILTER"
@@ -46,6 +66,16 @@
         {
           "id": "node-2-out",
           "group": "out"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
         }
       ],
       "data": {
@@ -68,6 +98,16 @@
           "group": "out"
         }
       ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
       "data": {
         "name": "数据连接_1",
         "type": "JOIN"
@@ -82,6 +122,16 @@
         {
           "id": "node-4-in",
           "group": "in"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
         }
       ],
       "data": {
@@ -103,6 +153,10 @@
       },
       "shape": "data-processing-curve",
       "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
       "data": {
         "source": "node-0",
         "target": "node-1"
@@ -120,6 +174,10 @@
       },
       "shape": "data-processing-curve",
       "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
       "data": {
         "source": "node-2",
         "target": "node-3"
@@ -137,6 +195,10 @@
       },
       "shape": "data-processing-curve",
       "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
       "data": {
         "source": "node-1",
         "target": "node-3"
@@ -154,6 +216,10 @@
       },
       "shape": "data-processing-curve",
       "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
       "data": {
         "source": "node-3",
         "target": "node-4"

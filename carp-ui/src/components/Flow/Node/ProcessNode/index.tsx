@@ -479,54 +479,12 @@ Graph.registerEdge(
         },
       },
     },
+    tools: {
+      name: "button-remove",
+      args: { distance: "50%" }
+    },
   },
   true)
-
-
-// 节点状态列表
-const nodeStatusList = [
-  {
-    id: 'node-0',
-    status: 'success',
-  },
-  {
-    id: 'node-1',
-    status: 'success',
-  },
-  {
-    id: 'node-2',
-    status: 'success',
-  },
-  {
-    id: 'node-3',
-    status: 'success',
-  },
-  {
-    id: 'node-4',
-    status: 'error',
-    statusMsg: '错误信息示例',
-  },
-]
-
-// 边状态列表
-const edgeStatusList = [
-  {
-    id: 'edge-0',
-    status: 'success',
-  },
-  {
-    id: 'edge-1',
-    status: 'success',
-  },
-  {
-    id: 'edge-2',
-    status: 'success',
-  },
-  {
-    id: 'edge-3',
-    status: 'success',
-  },
-]
 
 insertCss(`
   .data-processing-dag-node {
