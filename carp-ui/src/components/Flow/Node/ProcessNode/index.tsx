@@ -178,6 +178,16 @@ export const createNode = (
     x: position?.x,
     y: position?.y,
     ports: getPortsByType(type, id),
+    tools: [
+      {
+        name: "button-remove",
+        args: {
+          x: "100%",
+          y: 0,
+          offset: { x: -35, y: 0 }
+        }
+      }
+    ],
     data: {
       name: `${typeName}_${sameTypeNodes.length + 1}`,
       type,
@@ -206,6 +216,10 @@ const createEdge = (source: string, target: string, graph: Graph) => {
       port: `${target}-in`,
     },
     zIndex: -1,
+    tools: {
+      name: "button-remove",
+      args: { distance: "50%" }
+    },
     data: {
       source,
       target,
