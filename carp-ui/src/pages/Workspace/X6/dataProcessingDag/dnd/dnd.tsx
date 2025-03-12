@@ -159,7 +159,6 @@ const Dnd = () => {
       id: id.toString(),
       shape: PROCESS_NODE,
       data: {
-        id: id.toString(),
         type: item.key,
         name: item.title + "_" + id,
         status: CellStatus.DEFAULT,
