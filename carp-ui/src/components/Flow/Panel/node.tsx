@@ -2,13 +2,28 @@ import React from "react";
 import {Button, Descriptions, Popover, Space, Tag, Typography} from 'antd';
 import {HolderOutlined, InfoCircleOutlined, MenuOutlined} from '@ant-design/icons';
 import {useIntl} from "@umijs/max";
+import {useDnd} from "@antv/xflow";
 import {Dict, Props} from "@/typings";
+import {DAG_NODE} from "@/pages/Workspace/X6/dag-demo/dag/components/node/canvas-node";
+import {titleCase} from "@/pages/Workspace/X6/dag-demo/dag/components/node/init-node";
 
 export const PanelNode: React.FC<Props<Record<string, any>>> = ({data}) => {
   const intl = useIntl();
+  const {startDrag} = useDnd();
 
   const handleMouseDown = (e: React.MouseEvent<Element, MouseEvent>,) => {
-
+    startDrag(
+      {
+        shape: DAG_NODE,
+        data: {
+          label: data.title + " " + titleCase(data.category),
+          meta: data.meta,
+          attrs: {}
+        },
+        ports: data.ports,
+      },
+      e,
+    );
   };
 
   const nodeStyle = () => {

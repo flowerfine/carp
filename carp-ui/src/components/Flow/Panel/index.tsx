@@ -46,7 +46,7 @@ const Panel: React.FC<Props<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({data})
   };
 
   const treeNodeRender = (treeNode: ComponentTreeItem) => {
-    const {isLeaf, docString, title} = treeNode;
+    const {isLeaf, title} = treeNode;
     if (isLeaf) {
       return <PanelNode data={treeNode}/>
     } else {
