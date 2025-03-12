@@ -48,6 +48,7 @@
     "@antv/l7-react": "^2.4.3",
     "@antv/layout": "^1.2.14-beta.8",
     "@antv/x6-plugin-selection": "^2.2.2",
+    "@antv/x6-plugin-stencil": "^2.1.5",
     "@antv/x6-react-components": "^2.0.8",
     "@antv/xflow": "^2.1.13",
     "@antv/xflow-diff": "^1.0.0",

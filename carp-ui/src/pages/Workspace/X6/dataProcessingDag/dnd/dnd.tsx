@@ -1,8 +1,7 @@
-import {DatabaseFilled, HolderOutlined} from '@ant-design/icons';
-import {useDnd} from '@antv/xflow';
+import React, {useEffect} from 'react';
 import {Popover, Tree} from 'antd';
-import React from 'react';
-
+import {DatabaseFilled, HolderOutlined} from '@ant-design/icons';
+import {useDnd, useGraphInstance} from '@antv/xflow';
 import styles from './dnd.less';
 import SearchInput from './search';
 import {CellStatus, PROCESS_NODE} from "@/components/Flow/Node/ProcessNode";
@@ -147,8 +146,17 @@ const componentTreeData = [
 ];
 
 const Dnd = () => {
-  let id = 0;
+  const graph = useGraphInstance();
   const {startDrag} = useDnd();
+
+  useEffect(() => {
+    if (graph) {
+
+    }
+  }, [graph]);
+
+  let id = 0;
+
 
   const handleMouseDown = (
     e: React.MouseEvent<Element, MouseEvent>,
@@ -170,7 +178,7 @@ const Dnd = () => {
           args: {
             x: "100%",
             y: 0,
-            offset: { x: -35, y: 0 }
+            offset: {x: -35, y: 0}
           }
         }
       ],

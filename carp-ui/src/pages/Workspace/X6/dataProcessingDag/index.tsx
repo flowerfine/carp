@@ -4,6 +4,7 @@ import {Dnd} from './dnd/dnd';
 import {InitNode} from "./init-shade";
 import styles from './index.less';
 import {PROCESS_CONNECTOR, PROCESS_EDGE} from "@/components/Flow/Node/ProcessNode";
+import {StencilPanel} from "@/components/Flow/StencilPanel";
 
 const Page = () => {
     return (
@@ -12,7 +13,8 @@ const Page = () => {
                 <div className={styles.container}>
                     <div className={styles.left}>
                         <div className={styles.leftTop}>算子组件库</div>
-                        <Dnd/>
+                        {/*<Dnd/>*/}
+                      <StencilPanel/>
                     </div>
                     <div className={styles.center}>
                         <div className={styles.graph}>
