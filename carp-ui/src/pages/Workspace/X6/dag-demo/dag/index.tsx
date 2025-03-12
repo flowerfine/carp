@@ -20,6 +20,7 @@ import {CustomMenubar} from "./components/menubar";
 import {CustomToolbar} from "./components/toolbar";
 import styles from './index.less';
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
+import {Panel} from "@/components/Flow/Panel";
 
 const WorkflowDagDetailWeb: React.FC = () => {
   const data = useLocation().state as WorkspaceWorkflowAPI.WorkflowDefinition;
@@ -30,7 +31,7 @@ const WorkflowDagDetailWeb: React.FC = () => {
         <div className={styles.page}>
           <div className={styles.container}>
             <div className={styles.left}>
-              <Dnd data={data}/>
+              <Panel data={data}/>
             </div>
             <div className={styles.center}>
               <div className={styles.toolbar}>

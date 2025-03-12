@@ -19,7 +19,7 @@ const WorkspaceWorkflowDefinitionWeb: React.FC = () => {
   const [workflowDefinitionFormData, setWorkflowDefinitionFormData] = useState<WorkflowDefinitionState>({ visiable: false, data: null });
 
   const onDetailClick = (record: WorkspaceWorkflowAPI.WorkflowDefinition) => {
-    history.push('/workspace/x6/dag-demo/detail', record);
+    history.push('/workspace/pro-flow/dag-demo/detail', record);
   };
 
   const columns: ProColumns<WorkspaceWorkflowAPI.WorkflowDefinition>[] = [
@@ -80,7 +80,7 @@ const WorkspaceWorkflowDefinitionWeb: React.FC = () => {
   ];
 
   return (
-    <PageContainer content={intl.formatMessage({ id: 'menu.workspace.x6.dag-demo.desc' })}>
+    <PageContainer content={intl.formatMessage({ id: 'menu.workspace.pro-flow.dag-demo.desc' })}>
       <ProTable<WorkspaceWorkflowAPI.WorkflowDefinition>
         search={{
           labelWidth: 'auto',

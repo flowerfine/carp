@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.kork.expressions;
 
-import cn.sliew.carp.framework.exception.SliewException;
+import cn.sliew.carp.framework.common.exception.SliewException;
 
 public class SpelHelperFunctionException extends SliewException {
 

@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.orca.spinnaker.api.executions;
 
-import cn.sliew.carp.framework.exception.HasAdditionalAttributes;
+import cn.sliew.carp.framework.common.exception.HasAdditionalAttributes;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionStatus;
 import cn.sliew.carp.module.orca.spinnaker.api.model.ExecutionType;
 import cn.sliew.carp.module.orca.spinnaker.api.model.pipeline.PipelineBuilder;

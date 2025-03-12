@@ -302,6 +302,27 @@ export default [
           }
         ]
       },
+      {
+        path: '/workspace/pro-flow',
+        name: 'pro-flow',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/pro-flow',
+            redirect: '/workspace/pro-flow/dag-demo',
+          },
+          {
+            path: '/workspace/pro-flow/dag-demo',
+            name: 'dag-demo',
+            icon: 'profile',
+            component: './Workspace/ProFlow/dag-demo',
+          },
+          {
+            path: '/workspace/pro-flow/dag-demo/detail',
+            component: './Workspace/ProFlow/dag-demo/dag'
+          },
+        ]
+      }
     ]
   },
   {

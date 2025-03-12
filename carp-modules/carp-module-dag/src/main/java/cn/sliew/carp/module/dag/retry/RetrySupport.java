@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.dag.retry;
 
 import cn.hutool.core.thread.ThreadUtil;
-import cn.sliew.carp.framework.exception.SliewException;
+import cn.sliew.carp.framework.common.exception.SliewException;
 
 import java.time.Duration;
 import java.util.function.Supplier;

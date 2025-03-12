@@ -26,7 +26,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 
-@Component
+@Component("orcaWaitTask")
 public class WaitTask implements RetryableTask {
 
     private final Clock clock;
