@@ -83,11 +83,11 @@ const componentTreeData = [
         ports: [
           {
             id: 'FILTER-top',
-            group: 'top',
+            group: 'in',
           },
           {
             id: 'FILTER-bottom',
-            group: 'bottom',
+            group: 'out',
           },
         ],
       },
@@ -100,11 +100,11 @@ const componentTreeData = [
         ports: [
           {
             id: 'JOIN-top',
-            group: 'top',
+            group: 'in',
           },
           {
             id: 'JOIN-bottom',
-            group: 'bottom',
+            group: 'out',
           },
         ],
       },
@@ -117,11 +117,11 @@ const componentTreeData = [
         ports: [
           {
             id: 'UNION-top',
-            group: 'top',
+            group: 'in',
           },
           {
             id: 'UNION-bottom',
-            group: 'bottom',
+            group: 'out',
           },
         ],
       },
@@ -134,11 +134,11 @@ const componentTreeData = [
         ports: [
           {
             id: 'AGG-top',
-            group: 'top',
+            group: 'in',
           },
           {
             id: 'AGG-bottom',
-            group: 'bottom',
+            group: 'out',
           },
         ],
       }
