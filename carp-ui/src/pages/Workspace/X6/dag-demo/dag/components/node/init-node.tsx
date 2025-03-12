@@ -7,14 +7,6 @@ import {DAG_EDGE, DAG_NODE} from './canvas-node';
 import { WorkspaceWorkflowAPI } from '@/services/workspace/workflow/typings';
 import { WorkflowService } from '@/services/workspace/workflow/workflow.service';
 
-const titleCase = (title: string) => {
-  let tmpStrArr: string[] = title.split(' ');
-  for (let i = 0; i < tmpStrArr.length; i++) {
-    tmpStrArr[i] = tmpStrArr[i].slice(0, 1).toUpperCase() + tmpStrArr[i].slice(1).toLowerCase();
-  }
-  return tmpStrArr.join(' ');
-}
-
 const InitShape: React.FC<Props<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({data}) => {
     const intl = useIntl()
     const addNodes = useGraphStore((state) => state.addNodes);
@@ -184,4 +176,4 @@ const InitShape: React.FC<Props<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({da
   }
 ;
 
-export {InitShape, titleCase};
+export {InitShape};

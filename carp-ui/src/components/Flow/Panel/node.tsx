@@ -4,8 +4,8 @@ import {HolderOutlined, InfoCircleOutlined, MenuOutlined} from '@ant-design/icon
 import {useIntl} from "@umijs/max";
 import {useDnd} from "@antv/xflow";
 import {Dict, Props} from "@/typings";
-import {DAG_NODE} from "@/pages/Workspace/X6/dag-demo/dag/components/node/canvas-node";
-import {titleCase} from "@/pages/Workspace/X6/dag-demo/dag/components/node/init-node";
+import {titleCase} from "@/utils/utils";
+import {STRING_NODE} from "@/components/Flow/Node/StringNode";
 
 export const PanelNode: React.FC<Props<Record<string, any>>> = ({data}) => {
   const intl = useIntl();
@@ -14,7 +14,7 @@ export const PanelNode: React.FC<Props<Record<string, any>>> = ({data}) => {
   const handleMouseDown = (e: React.MouseEvent<Element, MouseEvent>,) => {
     startDrag(
       {
-        shape: DAG_NODE,
+        shape: STRING_NODE,
         data: {
           label: data.title + " " + titleCase(data.category),
           meta: data.meta,

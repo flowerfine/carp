@@ -265,6 +265,12 @@ export default [
             component: './Workspace/X6/dag',
           },
           {
+            path: '/workspace/x6/dataProcessingDag',
+            name: 'dataProcessingDag',
+            icon: 'profile',
+            component: './Workspace/X6/dataProcessingDag',
+          },
+          {
             path: '/workspace/x6/basic',
             name: 'basic',
             icon: 'profile',
