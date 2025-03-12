@@ -1,14 +1,13 @@
-import { DatabaseFilled, HolderOutlined } from '@ant-design/icons';
-import { useDnd } from '@antv/xflow';
-import { Popover, Tree } from 'antd';
+import {DatabaseFilled, HolderOutlined} from '@ant-design/icons';
+import {useDnd} from '@antv/xflow';
+import {Popover, Tree} from 'antd';
 import React from 'react';
-
-import { DAG_NODE } from '../shape';
 
 import styles from './dnd.less';
 import SearchInput from './search';
+import {CellStatus, PROCESS_NODE} from "@/components/Flow/Node/ProcessNode";
 
-const { DirectoryTree } = Tree;
+const {DirectoryTree} = Tree;
 
 type ComponentTreeItem = {
   category: string;
@@ -40,7 +39,7 @@ const componentTreeData = [
         ports: [
           {
             id: 'INPUT-bottom',
-            group: 'bottom',
+            group: 'out',
           },
         ],
       }
@@ -62,7 +61,7 @@ const componentTreeData = [
         ports: [
           {
             id: 'OUTPUT-bottom',
-            group: 'bottom',
+            group: 'in',
           },
         ],
       }
@@ -149,26 +148,26 @@ const componentTreeData = [
 
 const Dnd = () => {
   let id = 0;
-  const { startDrag } = useDnd();
+  const {startDrag} = useDnd();
 
   const handleMouseDown = (
     e: React.MouseEvent<Element, MouseEvent>,
     item: ComponentTreeItem,
   ) => {
     id += 1;
-    startDrag(
-      {
+    const node = {
+      id: id.toString(),
+      shape: PROCESS_NODE,
+      data: {
         id: id.toString(),
-        shape: DAG_NODE,
-        data: {
-          id: id.toString(),
-          label: item.title,
-          status: 'default',
-        },
-        ports: item.ports,
+        type: item.key,
+        name: item.title + "_" + id,
+        status: CellStatus.DEFAULT,
       },
-      e,
-    );
+      ports: item.ports,
+    }
+    console.log('node', node, item)
+    startDrag(node, e);
   };
 
   const [searchComponents, setSearchComponents] = React.useState<ComponentTreeItem[]>(
@@ -189,7 +188,7 @@ const Dnd = () => {
   };
 
   const treeNodeRender = (treeNode: ComponentTreeItem) => {
-    const { isLeaf, docString, title } = treeNode;
+    const {isLeaf, docString, title} = treeNode;
     if (isLeaf) {
       return (
         <Popover
@@ -213,12 +212,12 @@ const Dnd = () => {
           >
             <div className={styles.nodeTitle}>
               <span className={styles.icon}>
-                <DatabaseFilled style={{ color: '#A1AABC' }} />
+                <DatabaseFilled style={{color: '#A1AABC'}}/>
               </span>
               <span>{title}</span>
             </div>
             <div className={styles.nodeDragHolder}>
-              <HolderOutlined />
+              <HolderOutlined/>
             </div>
           </div>
         </Popover>
@@ -251,4 +250,4 @@ const Dnd = () => {
   );
 };
 
-export { Dnd };
+export {Dnd};
