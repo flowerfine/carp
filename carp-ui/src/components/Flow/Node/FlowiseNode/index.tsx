@@ -1,7 +1,12 @@
 import React from "react";
+import {Divider, Flex, Image, theme, Typography} from "antd";
+import {ProCard} from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
 import {Graph, Node, Path, register, XFlow} from "@antv/xflow";
-import useStyles from './style';
+import NodeInputHandler from "@/components/Flow/Node/FlowiseNode/NodeInputHandler";
+import NodeOutputHandler from "@/components/Flow/Node/FlowiseNode/NodeOutputHandler";
+
+const {useToken} = theme;
 
 const FLOWISE_NODE = 'flowise-node';
 const FLOWISE_EDGE = 'flowise-curve';
@@ -9,14 +14,62 @@ const FLOWISE_CONNECTOR = 'flowise-onnector';
 
 const FlowiseNode = ({node}: { node: Node }) => {
   const intl = getIntl(getLocale())
-  const { styles } = useStyles();
-  const data = node?.getData()
+  const {token} = useToken();
+  const data = node?.getData() as FlowiseNodeAPI.INode
 
   return (
     <XFlow>
-      <div className={styles.pipeNodeWrap}>
-        测试信息
-      </div>
+      <ProCard
+        title={
+          <Flex align={'center'} gap={'small'}>
+            <Image src={data.icon} alt={data.type} preview={false}/>
+            <Typography.Text style={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: '200px'
+            }}
+            >{data.label}</Typography.Text>
+          </Flex>
+        }
+        tooltip={data.description}
+      >
+        <Flex vertical>
+          {(data.inputAnchors.length > 0 || data.inputParams.length > 0) && (
+            <>
+              <Divider/>
+              <Flex vertical style={{background: 'gray', p: 1}}>
+                <Typography.Title level={5} style={{fontWeight: 500, textAlign: 'center'}}>
+                  Inputs
+                </Typography.Title>
+              </Flex>
+              <Divider/>
+            </>
+          )}
+          {data.inputAnchors.map((inputAnchor, index) => (
+            <NodeInputHandler key={index} inputAnchor={inputAnchor} data={data}/>
+          ))}
+          {data.inputParams.filter((inputParam) => !inputParam.hidden).map((inputParam, index) => (
+            <NodeInputHandler key={index} inputParam={inputParam} data={data}/>
+          ))}
+
+          {data.outputAnchors.length > 0 && (
+            <>
+              <Divider/>
+              <Flex vertical style={{p: 1}}>
+                <Typography.Title level={5} style={{fontWeight: 500, textAlign: 'center'}}>
+                  Output
+                </Typography.Title>
+              </Flex>
+              <Divider/>
+            </>
+          )}
+          {data.outputAnchors.length > 0 &&
+            data.outputAnchors.map((outputAnchor) => (
+              <NodeOutputHandler key={JSON.stringify(data)} outputAnchor={outputAnchor} data={data}/>
+            ))}
+        </Flex>
+      </ProCard>
     </XFlow>
   );
 }
