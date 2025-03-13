@@ -259,6 +259,12 @@ export default [
             component: './Workspace/X6/dag-demo/dag'
           },
           {
+            path: '/workspace/x6/cicd',
+            name: 'cicd',
+            icon: 'profile',
+            component: './Workspace/X6/cicd',
+          },
+          {
             path: '/workspace/x6/dag',
             name: 'dag',
             icon: 'profile',
