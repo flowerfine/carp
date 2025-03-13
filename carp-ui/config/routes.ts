@@ -259,6 +259,12 @@ export default [
             component: './Workspace/X6/dag-demo/dag'
           },
           {
+            path: '/workspace/x6/chat',
+            name: 'chat',
+            icon: 'profile',
+            component: './Workspace/X6/chat',
+          },
+          {
             path: '/workspace/x6/cicd',
             name: 'cicd',
             icon: 'profile',
@@ -314,27 +320,6 @@ export default [
           }
         ]
       },
-      {
-        path: '/workspace/pro-flow',
-        name: 'pro-flow',
-        icon: 'profile',
-        routes: [
-          {
-            path: '/workspace/pro-flow',
-            redirect: '/workspace/pro-flow/dag-demo',
-          },
-          {
-            path: '/workspace/pro-flow/dag-demo',
-            name: 'dag-demo',
-            icon: 'profile',
-            component: './Workspace/ProFlow/dag-demo',
-          },
-          {
-            path: '/workspace/pro-flow/dag-demo/detail',
-            component: './Workspace/ProFlow/dag-demo/dag'
-          },
-        ]
-      }
     ]
   },
   {

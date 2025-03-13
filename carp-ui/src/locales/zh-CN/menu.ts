@@ -53,12 +53,6 @@ export default {
   'menu.workspace.x6.dag-demo': 'DAG数据加工',
   'menu.workspace.x6.dag-demo.desc': 'X6 demo，演示如何通过 x6 实现 DAG 数据加工',
 
-  'menu.workspace.pro-flow': 'ProFlow',
-  'menu.workspace.pro-flow.dag-demo': 'DAG数据加工',
-  'menu.workspace.pro-flow.dag-demo.desc': 'ProFlow demo，演示如何通过 ProFlow 实现 DAG 数据加工',
-  'menu.workspace.pro-flow.dag-detail': 'DAG详情',
-  'menu.workspace.pro-flow.dag-detail.desc': 'ProFlow 详情 Demo',
-
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',
