@@ -1,4 +1,4 @@
-import {Clipboard, Control, XFlow, XFlowGraph} from '@antv/xflow';
+import {XFlow, XFlowGraph} from '@antv/xflow';
 import {Connect} from './connect';
 import {Dnd} from './dnd/dnd';
 import {InitNode} from "./init-shade";
@@ -39,13 +39,7 @@ const Page = () => {
                                 }}
                             />
                             <InitNode/>
-                            <Clipboard/>
                             <Connect/>
-                            <div className={styles.controlTool}>
-                                <Control
-                                    items={['zoomOut', 'zoomTo', 'zoomIn', 'zoomToFit', 'zoomToOrigin']}
-                                />
-                            </div>
                         </div>
                     </div>
                 </div>
