@@ -18,17 +18,6 @@ const NodeInputHandler = ({
 
   return (
     <div ref={ref}>
-      {inputAnchor && (
-        <>
-          <Flex vertical justify={'flex-start'}>
-            <Typography.Text>
-              {inputAnchor.label}
-              {!inputAnchor.optional && <span style={{color: 'red'}}>&nbsp;*</span>}
-            </Typography.Text>
-          </Flex>
-        </>
-      )}
-
       {((inputParam && !inputParam.additionalParams) || isAdditionalParams) && (
         <>
           <Flex vertical justify={'flex-start'} >

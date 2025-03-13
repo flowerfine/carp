@@ -5,6 +5,7 @@ import {getIntl, getLocale} from "@umijs/max";
 import {Graph, Node, Path, register, XFlow} from "@antv/xflow";
 import NodeInputHandler from "@/components/Flow/Node/FlowiseNode/NodeInputHandler";
 import NodeOutputHandler from "@/components/Flow/Node/FlowiseNode/NodeOutputHandler";
+import NodeInputAnchorHandler from "@/components/Flow/Node/FlowiseNode/NodeInputAnchorHandler";
 
 const {useToken} = theme;
 
@@ -16,6 +17,31 @@ const FlowiseNode = ({node}: { node: Node }) => {
   const intl = getIntl(getLocale())
   const {token} = useToken();
   const data = node?.getData() as FlowiseNodeAPI.INode
+
+
+  // 鼠标进入矩形主区域的时候显示连接桩
+  const onMainMouseEnter = () => {
+    // 获取该节点下的所有连接桩
+    const ports = node.getPorts() || []
+    ports.forEach((port) => {
+      node.setPortProp(port.id, 'attrs/circle', {
+        fill: '#fff',
+        stroke: '#85A5FF',
+      })
+    })
+  }
+
+  // 鼠标离开矩形主区域的时候隐藏连接桩
+  const onMainMouseLeave = () => {
+    // 获取该节点下的所有连接桩
+    const ports = node.getPorts() || []
+    ports.forEach((port) => {
+      node.setPortProp(port.id, 'attrs/circle', {
+        fill: 'transparent',
+        stroke: 'transparent',
+      })
+    })
+  }
 
   return (
     <XFlow>
@@ -47,7 +73,7 @@ const FlowiseNode = ({node}: { node: Node }) => {
             </>
           )}
           {data.inputAnchors.map((inputAnchor, index) => (
-            <NodeInputHandler key={index} inputAnchor={inputAnchor} data={data}/>
+            <NodeInputAnchorHandler key={index} node={node} inputAnchor={inputAnchor} data={data}/>
           ))}
           {data.inputParams.filter((inputParam) => !inputParam.hidden).map((inputParam, index) => (
             <NodeInputHandler key={index} inputParam={inputParam} data={data}/>
@@ -79,7 +105,8 @@ register({
   width: 212,
   height: 48,
   component: FlowiseNode,
-  // port默认不可见
+  effect: ['ports', 'data'],
+  // port默认不可见. stroke 和 fill 设置为 transparent
   ports: {
     groups: {
       in: {
@@ -88,28 +115,22 @@ register({
           circle: {
             r: 4,
             magnet: true,
-            stroke: 'transparent',
+            stroke: '#85A5FF',
             strokeWidth: 1,
-            fill: 'transparent',
+            fill: '#fff',
           },
         },
       },
 
       out: {
-        position: {
-          name: 'right',
-          args: {
-            dx: -32,
-          },
-        },
-
+        position: 'right',
         attrs: {
           circle: {
             r: 4,
             magnet: true,
-            stroke: 'transparent',
+            stroke: '#85A5FF',
             strokeWidth: 1,
-            fill: 'transparent',
+            fill: '#fff',
           },
         },
       },

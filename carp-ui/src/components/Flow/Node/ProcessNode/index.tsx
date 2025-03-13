@@ -378,7 +378,7 @@ register({
   width: 212,
   height: 48,
   component: ProcessNode,
-  // port默认不可见
+  // port默认不可见. stroke 和 fill 设置为 transparent
   ports: {
     groups: {
       in: {
