@@ -55,7 +55,7 @@ const InitNode: React.FC = () => {
 
   useEffect(() => {
     if (graph) {
-      fetch('/data/basic.json')
+      fetch('/data/serverless-workflow.json')
         .then((response) => response.json())
         .then((data) => {
           graph.fromJSON(data)

@@ -2,32 +2,19 @@ import React from 'react';
 import {useDnd} from "@antv/xflow";
 import {ServerlessWorkflowService} from "@/services/workspace/workflow/serverless-workflow.service";
 import X6Panel from "@/components/X6/Panel";
+import {guid} from "@antv/l7";
 
 const Dnd = () => {
   const {startDrag} = useDnd();
 
-  let id = 0;
-
   const onDrag = (e: React.MouseEvent<Element, MouseEvent>, item: X6API.DndNode) => {
-    id += 1;
     const node = {
-      id: id.toString(),
       shape: item.shape,
       data: {
         label: item.label,
         dndMeta: item.dndMeta
       },
-      ports: item.ports,
-      tools: [
-        {
-          name: "button-remove",
-          args: {
-            x: "100%",
-            y: 0,
-            offset: {x: -35, y: 0}
-          }
-        }
-      ],
+      ports: item.ports?.map((port) => {return {id: guid(), group: port.group}}),
     }
     startDrag(node, e);
   };

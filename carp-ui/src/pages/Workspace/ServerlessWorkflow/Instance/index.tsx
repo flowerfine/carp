@@ -3,9 +3,7 @@ import Dnd from "./dnd";
 import {Connect} from './connect';
 import {InitNode} from "./init-shade";
 import styles from './index.less';
-import {PROCESS_CONNECTOR, PROCESS_EDGE} from "@/components/Flow/Node/ProcessNode";
 import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflowNode";
-import {BASIC_EDGE} from "@/components/X6/Shape/BasicNode";
 
 const Page = () => {
   return (
@@ -30,7 +28,7 @@ const Page = () => {
                   connector: 'smooth',
                 }}
                 connectionEdgeOptions={{
-                  shape: BASIC_EDGE,
+                  shape: SERVERLESS_WORKFLOW_EDGE,
                   animated: true,
                   zIndex: -1,
                 }}
