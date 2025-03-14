@@ -86,12 +86,12 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
     private List<X6NodePortDTO> buildNodePorts(String key) {
         return Lists.newArrayList(
                 X6NodePortDTO.builder()
-                        .id(key + "_in")
-                        .group("in")
+                        .id(key + "_top")
+                        .group("top")
                         .build(),
                 X6NodePortDTO.builder()
-                        .id(key + "_out")
-                        .group("out")
+                        .id(key + "_bottom")
+                        .group("bottom")
                         .build()
         );
     }

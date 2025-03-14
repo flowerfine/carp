@@ -74,8 +74,8 @@ register({
   // port默认不可见. stroke 和 fill 设置为 transparent
   ports: {
     groups: {
-      in: {
-        position: 'left',
+      top: {
+        position: 'top',
         attrs: {
           circle: {
             r: 4,
@@ -87,14 +87,8 @@ register({
         },
       },
 
-      out: {
-        position: {
-          name: 'right',
-          args: {
-            dx: -32,
-          },
-        },
-
+      bottom: {
+        position: 'bottom',
         attrs: {
           circle: {
             r: 4,
