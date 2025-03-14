@@ -11,16 +11,6 @@
           "group": "out"
         }
       ],
-      "tools": [
-        {
-          "name": "button-remove",
-          "args": {
-            "x": "100%",
-            "y": 0,
-            "offset": { "x": -35, "y": 0 }
-          }
-        }
-      ],
       "data": {
         "label": "数据输入_1",
         "name": "数据输入_1",
@@ -45,16 +35,6 @@
         {
           "id": "node-1-bottom",
           "group": "out"
-        }
-      ],
-      "tools": [
-        {
-          "name": "button-remove",
-          "args": {
-            "x": "100%",
-            "y": 0,
-            "offset": { "x": -35, "y": 0 }
-          }
         }
       ],
       "data": {
@@ -82,16 +62,6 @@
           "group": "out"
         }
       ],
-      "tools": [
-        {
-          "name": "button-remove",
-          "args": {
-            "x": "100%",
-            "y": 0,
-            "offset": { "x": -35, "y": 0 }
-          }
-        }
-      ],
       "data": {
         "label": "数据连接_1",
         "name": "数据连接_1",
@@ -113,16 +83,6 @@
           "group": "in"
         }
       ],
-      "tools": [
-        {
-          "name": "button-remove",
-          "args": {
-            "x": "100%",
-            "y": 0,
-            "offset": { "x": -35, "y": 0 }
-          }
-        }
-      ],
       "data": {
         "label": "数据输出_1",
         "name": "数据输出_1",
@@ -142,16 +102,6 @@
         {
           "id": "node-4-bottom",
           "group": "out"
-        }
-      ],
-      "tools": [
-        {
-          "name": "button-remove",
-          "args": {
-            "x": "100%",
-            "y": 0,
-            "offset": { "x": -35, "y": 0 }
-          }
         }
       ],
       "data": {
@@ -179,16 +129,6 @@
           "group": "out"
         }
       ],
-      "tools": [
-        {
-          "name": "button-remove",
-          "args": {
-            "x": "100%",
-            "y": 0,
-            "offset": { "x": -35, "y": 0 }
-          }
-        }
-      ],
       "data": {
         "label": "数据合并_1",
         "name": "数据合并_1",
@@ -212,16 +152,6 @@
         {
           "id": "node-6-bottom",
           "group": "out"
-        }
-      ],
-      "tools": [
-        {
-          "name": "button-remove",
-          "args": {
-            "x": "100%",
-            "y": 0,
-            "offset": { "x": -35, "y": 0 }
-          }
         }
       ],
       "data": {
@@ -248,10 +178,6 @@
       },
       "shape": "basic-edge",
       "zIndex": -1,
-      "tools": {
-        "name": "button-remove",
-        "args": { "distance": "50%" }
-      },
       "data": {
         "source": "node-0",
         "target": "node-1"
@@ -269,10 +195,6 @@
       },
       "shape": "basic-edge",
       "zIndex": -1,
-      "tools": {
-        "name": "button-remove",
-        "args": { "distance": "50%" }
-      },
       "data": {
         "source": "node-1",
         "target": "node-2"
@@ -290,10 +212,6 @@
       },
       "shape": "basic-edge",
       "zIndex": -1,
-      "tools": {
-        "name": "button-remove",
-        "args": { "distance": "50%" }
-      },
       "data": {
         "source": "node-2",
         "target": "node-3"
@@ -312,10 +230,6 @@
       },
       "shape": "basic-edge",
       "zIndex": -1,
-      "tools": {
-        "name": "button-remove",
-        "args": { "distance": "50%" }
-      },
       "data": {
         "source": "node-4",
         "target": "node-5"
@@ -333,10 +247,6 @@
       },
       "shape": "basic-edge",
       "zIndex": -1,
-      "tools": {
-        "name": "button-remove",
-        "args": { "distance": "50%" }
-      },
       "data": {
         "source": "node-5",
         "target": "node-6"
@@ -354,10 +264,6 @@
       },
       "shape": "basic-edge",
       "zIndex": -1,
-      "tools": {
-        "name": "button-remove",
-        "args": { "distance": "50%" }
-      },
       "data": {
         "source": "node-6",
         "target": "node-3"
