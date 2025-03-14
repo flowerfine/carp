@@ -219,6 +219,23 @@ export default [
         ]
       },
       {
+        path: '/workspace/serverless-workflow',
+        name: 'serverless-workflow',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/serverless-workflow',
+            redirect: '/workspace/serverless-workflow/instance',
+          },
+          {
+            path: '/workspace/serverless-workflow/instance',
+            name: 'instance',
+            icon: 'profile',
+            component: './Workspace/ServerlessWorkflow/Instance',
+          }
+        ]
+      },
+      {
         path: '/workspace/orca',
         name: 'orca',
         icon: 'profile',

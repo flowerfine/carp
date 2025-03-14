@@ -46,6 +46,7 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
                         .key("wait")
                         .label("Wait")
                         .order(1)
+                        .shape("data-processing-dag-node") // 和前端深度绑定
                         .ports(buildNodePorts())
                         .dndMeta(X6DndDTO.builder()
                                 .label("Wait")
@@ -56,12 +57,14 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
                                 .category(category)
                                 .author(category)
                                 .description("Allows workflows to pause or delay their execution for a specified period of time")
+                                .document("https://serverlessworkflow.io/")
                                 .build())
                         .build(),
                 DndNodeDTO.builder()
                         .key("http")
                         .label("HTTP")
                         .order(2)
+                        .shape("data-processing-dag-node") // 和前端深度绑定
                         .ports(buildNodePorts())
                         .dndMeta(X6DndDTO.builder()
                                 .label("HTTP")
@@ -72,6 +75,7 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
                                 .category(category)
                                 .author(category)
                                 .description("Defines the HTTP call to perform")
+                                .document("https://serverlessworkflow.io/")
                                 .build())
                         .build()
         );

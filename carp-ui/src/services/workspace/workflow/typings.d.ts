@@ -64,4 +64,5 @@ declare namespace WorkspaceWorkflowAPI {
     createTime?: Date;
     updateTime?: Date;
   };
+
 }

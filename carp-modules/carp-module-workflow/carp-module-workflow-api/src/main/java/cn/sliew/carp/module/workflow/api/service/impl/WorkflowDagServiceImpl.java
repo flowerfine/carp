@@ -19,7 +19,7 @@ package cn.sliew.carp.module.workflow.api.service.impl;
 
 import cn.sliew.carp.framework.dag.x6.dnd.DndDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.DndPortDTO;
-import cn.sliew.carp.framework.dag.x6.dnd.DndPortGroupEnum;
+import cn.sliew.carp.framework.dag.x6.dnd.X6PortGroupPositionEnum;
 import cn.sliew.carp.module.workflow.api.dag.dnd.WorkflowDefinitionNodeDndDTO;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
 import cn.sliew.carp.module.workflow.stage.model.StepDefinition;
@@ -75,8 +75,8 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     private List<DndPortDTO> getSourcePorts(String key) {
         List<DndPortDTO> ports = new ArrayList<>();
         DndPortDTO portDTO = new DndPortDTO();
-        portDTO.setId(key + "-" + DndPortGroupEnum.bottom.name());
-        portDTO.setGroup(DndPortGroupEnum.bottom.name());
+        portDTO.setId(key + "-" + X6PortGroupPositionEnum.bottom.name());
+        portDTO.setGroup(X6PortGroupPositionEnum.bottom.name());
         ports.add(portDTO);
         return ports;
     }
@@ -84,8 +84,8 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     private List<DndPortDTO> getSinkPorts(String key) {
         List<DndPortDTO> ports = new ArrayList<>();
         DndPortDTO portDTO = new DndPortDTO();
-        portDTO.setId(key + "-" + DndPortGroupEnum.top.name());
-        portDTO.setGroup(DndPortGroupEnum.top.name());
+        portDTO.setId(key + "-" + X6PortGroupPositionEnum.top.name());
+        portDTO.setGroup(X6PortGroupPositionEnum.top.name());
         ports.add(portDTO);
         return ports;
     }
@@ -93,13 +93,13 @@ public class WorkflowDagServiceImpl implements WorkflowDagService {
     private List<DndPortDTO> getTransformPorts(String key) {
         List<DndPortDTO> ports = new ArrayList<>();
         DndPortDTO sourcePort = new DndPortDTO();
-        sourcePort.setId(key + "-" + DndPortGroupEnum.top.name());
-        sourcePort.setGroup(DndPortGroupEnum.top.name());
+        sourcePort.setId(key + "-" + X6PortGroupPositionEnum.top.name());
+        sourcePort.setGroup(X6PortGroupPositionEnum.top.name());
         ports.add(sourcePort);
 
         DndPortDTO sinkPort = new DndPortDTO();
-        sinkPort.setId(key + "-" + DndPortGroupEnum.bottom.name());
-        sinkPort.setGroup(DndPortGroupEnum.bottom.name());
+        sinkPort.setId(key + "-" + X6PortGroupPositionEnum.bottom.name());
+        sinkPort.setGroup(X6PortGroupPositionEnum.bottom.name());
         ports.add(sinkPort);
         return ports;
     }

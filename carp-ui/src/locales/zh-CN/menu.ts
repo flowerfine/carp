@@ -43,11 +43,16 @@ export default {
   'menu.workspace.schedule.config.desc': '调度任务配置',
   'menu.workspace.schedule.instance': '任务实例',
   'menu.workspace.schedule.instance.desc': '调度任务实例信息',
+
   'menu.workspace.orca': '任务编排',
   'menu.workspace.orca.instance': '实例管理',
   'menu.workspace.orca.instance.desc': '任务编排实例管理页面',
   'menu.workspace.orca.detail': '实例详情',
   'menu.workspace.orca.detail.desc': '任务编排实例详情页面',
+
+  'menu.workspace.serverless-workflow': 'Serverless Workflow',
+  'menu.workspace.serverless-workflow.instance': '实例管理',
+  'menu.workspace.serverless-workflow.instance.desc': 'Serverless Workflow 实例编排页面',
 
   'menu.workspace.x6': 'X6',
   'menu.workspace.x6.dag-demo': 'DAG数据加工',

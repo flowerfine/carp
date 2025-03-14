@@ -30,6 +30,7 @@ import java.util.List;
 @Jacksonized
 public class DndNodeDTO extends DndElementDTO {
 
+    private String shape;
     private List<X6NodePortDTO> ports;
     private X6DndDTO dndMeta;
 }
