@@ -4,6 +4,7 @@ import {Connect} from './connect';
 import {InitNode} from "./init-shade";
 import styles from './index.less';
 import {PROCESS_CONNECTOR, PROCESS_EDGE} from "@/components/Flow/Node/ProcessNode";
+import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflowNode";
 
 const Page = () => {
   return (
@@ -25,13 +26,10 @@ const Page = () => {
                   highlight: true,
                   connectionPoint: 'anchor',
                   anchor: 'center',
-                  connector: PROCESS_CONNECTOR,
-                  validateMagnet({magnet}) {
-                    return magnet.getAttribute('port-group') !== 'top';
-                  },
+                  connector: 'smooth',
                 }}
                 connectionEdgeOptions={{
-                  shape: PROCESS_EDGE,
+                  shape: SERVERLESS_WORKFLOW_EDGE,
                   animated: true,
                   zIndex: -1,
                 }}

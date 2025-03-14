@@ -2,7 +2,6 @@ import React from 'react';
 import {useDnd} from "@antv/xflow";
 import {ServerlessWorkflowService} from "@/services/workspace/workflow/serverless-workflow.service";
 import X6Panel from "@/components/X6/Panel";
-import {CellStatus, PROCESS_NODE} from "@/components/Flow/Node/ProcessNode";
 
 const Dnd = () => {
   const {startDrag} = useDnd();
@@ -15,9 +14,8 @@ const Dnd = () => {
       id: id.toString(),
       shape: item.shape,
       data: {
-        type: item.key,
-        name: item.label + "_" + id,
-        status: CellStatus.DEFAULT,
+        label: item.label,
+        dndMeta: item.dndMeta
       },
       ports: item.ports,
       tools: [

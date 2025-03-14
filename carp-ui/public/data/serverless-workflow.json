@@ -1,0 +1,360 @@
+{
+  "nodes": [
+    {
+      "id": "node-0",
+      "shape": "serverless-workflow-node",
+      "x": 0,
+      "y": 100,
+      "ports": [
+        {
+          "id": "node-0-out",
+          "group": "out"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
+      "data": {
+        "label": "数据输入_1",
+        "name": "数据输入_1",
+        "type": "INPUT",
+        "checkStatus": "sucess",
+        "dndMeta": {
+          "icon": "https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original"
+        }
+      }
+    },
+    {
+      "id": "node-1",
+      "shape": "serverless-workflow-node",
+      "x": 250,
+      "y": 100,
+      "ports": [
+        {
+          "id": "node-1-in",
+          "group": "in"
+        },
+        {
+          "id": "node-1-out",
+          "group": "out"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
+      "data": {
+        "label": "数据筛选_1",
+        "name": "数据筛选_1",
+        "type": "FILTER",
+        "dndMeta": {
+          "icon": "https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*ZJ6qToit8P4AAAAAAAAAAAAADtOHAQ/original"
+        }
+      }
+    },
+    {
+      "id": "node-2",
+      "shape": "serverless-workflow-node",
+      "x": 500,
+      "y": 100,
+      "ports": [
+        {
+          "id": "node-2-in",
+          "group": "in"
+        },
+        {
+          "id": "node-2-out",
+          "group": "out"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
+      "data": {
+        "label": "数据连接_1",
+        "name": "数据连接_1",
+        "type": "JOIN",
+        "dndMeta": {
+          "icon": "https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*EHqyQoDeBvIAAAAAAAAAAAAADtOHAQ/original"
+        }
+      }
+    },
+    {
+      "id": "node-3",
+      "shape": "serverless-workflow-node",
+      "x": 750,
+      "y": 100,
+      "ports": [
+        {
+          "id": "node-3-in",
+          "group": "in"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
+      "data": {
+        "label": "数据输出_1",
+        "name": "数据输出_1",
+        "type": "OUTPUT",
+        "dndMeta": {
+          "icon": "https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*zUgORbGg1HIAAAAAAAAAAAAADtOHAQ/original"
+        }
+      }
+    },
+    {
+      "id": "node-4",
+      "shape": "serverless-workflow-node",
+      "x": 0,
+      "y": 0,
+      "ports": [
+        {
+          "id": "node-4-out",
+          "group": "out"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
+      "data": {
+        "label": "数据输入_2",
+        "name": "数据输入_2",
+        "type": "INPUT",
+        "dndMeta": {
+          "icon": "https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original"
+        }
+      }
+    },
+    {
+      "id": "node-5",
+      "shape": "serverless-workflow-node",
+      "x": 250,
+      "y": 0,
+      "ports": [
+        {
+          "id": "node-5-in",
+          "group": "in"
+        },
+        {
+          "id": "node-5-out",
+          "group": "out"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
+      "data": {
+        "label": "数据合并_1",
+        "name": "数据合并_1",
+        "type": "UNION",
+        "dndMeta": {
+          "icon": "https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*k4eyRaXv8gsAAAAAAAAAAAAADtOHAQ/original"
+        }
+      }
+    },
+    {
+      "id": "node-6",
+      "shape": "serverless-workflow-node",
+      "x": 500,
+      "y": 0,
+      "ports": [
+        {
+          "id": "node-6-in",
+          "group": "in"
+        },
+        {
+          "id": "node-6-out",
+          "group": "out"
+        }
+      ],
+      "tools": [
+        {
+          "name": "button-remove",
+          "args": {
+            "x": "100%",
+            "y": 0,
+            "offset": { "x": -35, "y": 0 }
+          }
+        }
+      ],
+      "data": {
+        "label": "数据聚合_1",
+        "name": "数据聚合_1",
+        "type": "AGG",
+        "dndMeta": {
+          "icon": "https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*TKG8R6nfYiAAAAAAAAAAAAAADtOHAQ/original"
+        }
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-0",
+      "source": {
+        "cell": "node-0",
+        "port": "node-0-out"
+      },
+      "target": {
+        "cell": "node-1",
+        "port": "node-1-in"
+      },
+      "shape": "serverless-workflow-edge",
+      "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
+      "data": {
+        "source": "node-0",
+        "target": "node-1"
+      }
+    },
+    {
+      "id": "edge-1",
+      "source": {
+        "cell": "node-1",
+        "port": "node-1-out"
+      },
+      "target": {
+        "cell": "node-2",
+        "port": "node-2-in"
+      },
+      "shape": "serverless-workflow-edge",
+      "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
+      "data": {
+        "source": "node-1",
+        "target": "node-2"
+      }
+    },
+    {
+      "id": "edge-2",
+      "source": {
+        "cell": "node-2",
+        "port": "node-2-out"
+      },
+      "target": {
+        "cell": "node-3",
+        "port": "node-3-in"
+      },
+      "shape": "serverless-workflow-edge",
+      "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
+      "data": {
+        "source": "node-2",
+        "target": "node-3"
+      }
+    },
+
+    {
+      "id": "edge-3",
+      "source": {
+        "cell": "node-4",
+        "port": "node-4-out"
+      },
+      "target": {
+        "cell": "node-5",
+        "port": "node-5-in"
+      },
+      "shape": "serverless-workflow-edge",
+      "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
+      "data": {
+        "source": "node-4",
+        "target": "node-5"
+      }
+    },
+    {
+      "id": "edge-4",
+      "source": {
+        "cell": "node-5",
+        "port": "node-5-out"
+      },
+      "target": {
+        "cell": "node-6",
+        "port": "node-6-in"
+      },
+      "shape": "serverless-workflow-edge",
+      "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
+      "data": {
+        "source": "node-5",
+        "target": "node-6"
+      }
+    },
+    {
+      "id": "edge-5",
+      "source": {
+        "cell": "node-6",
+        "port": "node-6-out"
+      },
+      "target": {
+        "cell": "node-3",
+        "port": "node-3-in"
+      },
+      "shape": "serverless-workflow-edge",
+      "zIndex": -1,
+      "tools": {
+        "name": "button-remove",
+        "args": { "distance": "50%" }
+      },
+      "data": {
+        "source": "node-6",
+        "target": "node-3"
+      }
+    }
+  ]
+}

@@ -131,7 +131,6 @@ Graph.registerEdge(
         stroke: '#C2C8D5',
         strokeWidth: 1
       },
-
     },
     zIndex: -1,
   },

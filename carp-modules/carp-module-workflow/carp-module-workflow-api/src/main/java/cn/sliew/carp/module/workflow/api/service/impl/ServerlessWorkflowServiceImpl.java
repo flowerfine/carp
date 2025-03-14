@@ -46,13 +46,14 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
                         .key("wait")
                         .label("Wait")
                         .order(1)
-                        .shape("data-processing-dag-node") // 和前端深度绑定
-                        .ports(buildNodePorts())
+                        .shape("serverless-workflow-node") // 和前端深度绑定
+                        .ports(buildNodePorts("wait"))
                         .dndMeta(X6DndDTO.builder()
                                 .label("Wait")
                                 .name("wait")
                                 .type("wait")
-                                .icon("/icons/workflow/home.svg")
+                                .icon("https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original")
+//                                .icon("/icons/workflow/home.svg")
                                 .version(1)
                                 .category(category)
                                 .author(category)
@@ -64,13 +65,14 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
                         .key("http")
                         .label("HTTP")
                         .order(2)
-                        .shape("data-processing-dag-node") // 和前端深度绑定
-                        .ports(buildNodePorts())
+                        .shape("serverless-workflow-node") // 和前端深度绑定
+                        .ports(buildNodePorts("http"))
                         .dndMeta(X6DndDTO.builder()
                                 .label("HTTP")
                                 .name("http")
                                 .type("http")
-                                .icon("/icons/workflow/http.svg")
+                                .icon("https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*zUgORbGg1HIAAAAAAAAAAAAADtOHAQ/original")
+//                                .icon("/icons/workflow/http.svg")
                                 .version(1)
                                 .category(category)
                                 .author(category)
@@ -81,12 +83,14 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
         );
     }
 
-    private List<X6NodePortDTO> buildNodePorts() {
+    private List<X6NodePortDTO> buildNodePorts(String key) {
         return Lists.newArrayList(
                 X6NodePortDTO.builder()
+                        .id(key + "_in")
                         .group("in")
                         .build(),
                 X6NodePortDTO.builder()
+                        .id(key + "_out")
                         .group("out")
                         .build()
         );
