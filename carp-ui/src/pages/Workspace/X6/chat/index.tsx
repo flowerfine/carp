@@ -2,6 +2,9 @@ import {XFlow, XFlowGraph} from '@antv/xflow';
 import {InitNode} from "./init-shade";
 import styles from './index.less';
 import {FLOWISE_CONNECTOR, FLOWISE_EDGE} from "@/components/Flow/Node/FlowiseNode";
+import X6ControlMinimap from "@/components/X6/Control";
+import X6GridSnapline from "@/components/X6/Grid";
+import X6HistoryClipboard from "@/components/X6/History";
 
 const Page = () => {
   return (
@@ -31,6 +34,9 @@ const Page = () => {
                 }}
               />
               <InitNode/>
+              <X6ControlMinimap/>
+              <X6GridSnapline/>
+              <X6HistoryClipboard/>
             </div>
           </div>
         </div>

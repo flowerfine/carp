@@ -1,4 +1,4 @@
-import { XFlow, XFlowGraph, Clipboard, Control } from '@antv/xflow';
+import {XFlow, XFlowGraph, Clipboard, Control, Background} from '@antv/xflow';
 
 import { ConfigDrawer } from './config-drawer';
 import { Connect } from './connect';
@@ -7,6 +7,9 @@ import styles from './index.less';
 import { InitShape } from './node';
 import { DAG_EDGE, DAG_CONNECTOR } from './shape';
 import { Toolbar } from './toolbar';
+import X6ControlMinimap from "@/components/X6/Control";
+import X6GridSnapline from "@/components/X6/Grid";
+import X6HistoryClipboard from "@/components/X6/History";
 
 const Page = () => {
   return (
@@ -45,11 +48,9 @@ const Page = () => {
               <InitShape />
               <Clipboard />
               <Connect />
-              <div className={styles.controlTool}>
-                <Control
-                  items={['zoomOut', 'zoomTo', 'zoomIn', 'zoomToFit', 'zoomToOrigin']}
-                />
-              </div>
+              <X6ControlMinimap/>
+              <X6GridSnapline/>
+              <X6HistoryClipboard/>
             </div>
           </div>
         </div>

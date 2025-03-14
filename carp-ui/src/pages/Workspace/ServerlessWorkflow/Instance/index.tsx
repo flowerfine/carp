@@ -4,6 +4,9 @@ import {Connect} from './connect';
 import {InitNode} from "./init-shade";
 import styles from './index.less';
 import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflowNode";
+import X6ControlMinimap from "@/components/X6/Control";
+import X6GridSnapline from "@/components/X6/Grid";
+import X6HistoryClipboard from "@/components/X6/History";
 
 const Page = () => {
   return (
@@ -12,7 +15,7 @@ const Page = () => {
         <div className={styles.container}>
           <div className={styles.left}>
             <div className={styles.leftTop}>算子组件库</div>
-            <Dnd />
+            <Dnd/>
           </div>
           <div className={styles.center}>
             <div className={styles.graph}>
@@ -35,6 +38,9 @@ const Page = () => {
               />
               <InitNode/>
               <Connect/>
+              <X6ControlMinimap/>
+              <X6GridSnapline/>
+              <X6HistoryClipboard/>
             </div>
           </div>
         </div>
