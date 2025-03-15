@@ -18,33 +18,33 @@ const X6Layout: React.FC = ({menubar, toolbar, dnd, body}: X6LayoutProps) => {
       <PanelGroup direction="vertical">
         {menubar && (
           <>
-            <Panel minSize={5} maxSize={5} style={{background: '#b2a17b'}}>
+            <Panel minSize={5} maxSize={5}>
               {menubar}
             </Panel>
             <PanelResizeHandle/>
           </>
         )}
-        <Panel style={{background: '#c6d252'}}>
+        <Panel>
           <PanelGroup direction="horizontal">
             {dnd && (
               <>
-                <Panel minSize={5} maxSize={15} style={{background: '#77d529',}}>
+                <Panel minSize={5} maxSize={15}>
                   {dnd}
                 </Panel>
                 <PanelResizeHandle/>
               </>
             )}
-            <Panel style={{background: '#4dd79d',}}>
+            <Panel>
               <PanelGroup direction="vertical">
                 {toolbar && (
                   <>
-                    <Panel minSize={5} maxSize={5} style={{background: '#208cb4',}}>
+                    <Panel minSize={5} maxSize={5}>
                       {toolbar}
                     </Panel>
                     <PanelResizeHandle/>
                   </>
                 )}
-                <Panel style={{background: '#7213c0',}}>
+                <Panel>
                   {body}
                   <X6ControlMinimap/>
                   <X6GridSnapline/>

@@ -114,7 +114,7 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
                       value={label}
                     />
                   )
-                  : (<Flex gap={8} align={'center'} horizontal>
+                  : (<Flex gap={8} align={'center'} vertical={false}>
                     {label}
                     <Button icon={<EditOutlined/>} type="text" onClick={() => setLabelEdited(true)}/>
                   </Flex>)}
