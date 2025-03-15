@@ -12,7 +12,7 @@ const X6ControlMinimap: React.FC = () => {
           background: 'transparent',
           width: 0,
           bottom: 80,
-          left: '55%',
+          left: '50%',
         }}
         portalDom={false}
       >

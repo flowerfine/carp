@@ -1,56 +1,44 @@
+import React from "react";
 import {XFlow, XFlowGraph} from '@antv/xflow';
-import Dnd from "./dnd";
-import {Connect} from './connect';
-import {InitNode} from "./init-shade";
-import styles from './index.less';
-import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflowNode";
-import X6ControlMinimap from "@/components/X6/Control";
-import X6GridSnapline from "@/components/X6/Grid";
-import X6HistoryClipboard from "@/components/X6/History";
-import X6Toolbar from "@/components/X6/Toolbar";
+import X6Layout from "@/components/X6/Layout";
 import X6Menubar from "@/components/X6/Menubar";
+import X6Toolbar from "@/components/X6/Toolbar";
+import Dnd from "@/pages/Workspace/ServerlessWorkflow/Instance/dnd";
+import {Connect} from "@/pages/Workspace/ServerlessWorkflow/Instance/connect";
+import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Instance/init-shade";
+import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflowNode";
 
-const Page = () => {
+const Page: React.FC = () => {
   return (
     <XFlow>
-      <div className={styles.page}>
-        <div className={styles.container}>
-          <div className={styles.left}>
-            <div className={styles.leftTop}>算子组件库</div>
-            <Dnd/>
-          </div>
-          <div className={styles.center}>
-            <div className={styles.toolbar}>
-              <X6Toolbar/>
-              <X6Menubar/>
-            </div>
-            <div className={styles.graph}>
-              <XFlowGraph
-                pannable
-                connectionOptions={{
-                  snap: true,
-                  allowBlank: false,
-                  allowLoop: false,
-                  highlight: true,
-                  connectionPoint: 'anchor',
-                  anchor: 'center',
-                  connector: 'smooth',
-                }}
-                connectionEdgeOptions={{
-                  shape: SERVERLESS_WORKFLOW_EDGE,
-                  animated: true,
-                  zIndex: -1,
-                }}
-              />
-              <InitNode/>
-              <Connect/>
-              <X6ControlMinimap/>
-              <X6GridSnapline/>
-              <X6HistoryClipboard/>
-            </div>
-          </div>
-        </div>
-      </div>
+      <X6Layout
+        menubar={<X6Menubar/>}
+        toolbar={<X6Toolbar/>}
+        dnd={<Dnd/>}
+        body={(
+          <>
+            <XFlowGraph
+              pannable
+              connectionOptions={{
+                snap: true,
+                allowBlank: false,
+                allowLoop: false,
+                highlight: true,
+                connectionPoint: 'anchor',
+                anchor: 'center',
+                connector: 'smooth',
+              }}
+              connectionEdgeOptions={{
+                shape: SERVERLESS_WORKFLOW_EDGE,
+                animated: true,
+                zIndex: -1,
+              }}
+            />
+          </>
+        )}
+      />
+      <InitNode/>
+      <Connect/>
     </XFlow>
   );
 };

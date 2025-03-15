@@ -2,7 +2,7 @@ import React from 'react';
 import {useDnd} from "@antv/xflow";
 import {ServerlessWorkflowService} from "@/services/workspace/workflow/serverless-workflow.service";
 import X6Panel from "@/components/X6/Panel";
-import {guid} from "@antv/l7";
+import {uuidv4} from "lib0/random";
 
 const Dnd = () => {
   const {startDrag} = useDnd();
@@ -14,7 +14,7 @@ const Dnd = () => {
         label: item.label,
         dndMeta: item.dndMeta
       },
-      ports: item.ports?.map((port) => {return {id: guid(), group: port.group}}),
+      ports: item.ports?.map((port) => {return {id: uuidv4(), group: port.group}}),
     }
     startDrag(node, e);
   };
