@@ -73,6 +73,7 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
   );
 
   // 鼠标进入矩形主区域的时候显示连接桩
+  // fixme 已禁用。修改属性会触发节点更新，导致撤销/恢复的时候，恢复的是这些
   const onMainMouseEnter = () => {
     // 获取该节点下的所有连接桩
     const ports = node.getPorts() || []
@@ -85,6 +86,7 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
   }
 
   // 鼠标离开矩形主区域的时候隐藏连接桩
+  // fixme 已禁用。修改属性会触发节点更新，导致撤销/恢复的时候，恢复的是这些
   const onMainMouseLeave = () => {
     // 获取该节点下的所有连接桩
     const ports = node.getPorts() || []
@@ -97,7 +99,7 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
   }
 
   return (
-    <div className={cx(styles.nodeWrap)} onMouseEnter={onMainMouseEnter} onMouseLeave={onMainMouseLeave}>
+    <div className={cx(styles.nodeWrap)}>
       <Col style={{width: '212px'}}>
         <Row justify="space-around" align="middle">
           <Col span={4}>

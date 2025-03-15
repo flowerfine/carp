@@ -18,7 +18,14 @@ const Page: React.FC = () => {
         body={(
           <>
             <XFlowGraph
+              centerView
+              zoomable
+              zoomOptions={{
+                minScale: 0.5,
+                maxScale: 1.5,
+              }}
               pannable
+              fitView
               connectionOptions={{
                 snap: true,
                 allowBlank: false,

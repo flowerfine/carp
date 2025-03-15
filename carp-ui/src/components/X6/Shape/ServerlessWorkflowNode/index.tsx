@@ -33,9 +33,9 @@ register({
           circle: {
             r: 4,
             magnet: true,
-            stroke: 'transparent',
+            stroke: '#85A5FF',
             strokeWidth: 1,
-            fill: 'transparent',
+            fill: '#fff',
           },
         },
       },
@@ -46,9 +46,9 @@ register({
           circle: {
             r: 4,
             magnet: true,
-            stroke: 'transparent',
+            stroke: '#85A5FF',
             strokeWidth: 1,
-            fill: 'transparent',
+            fill: '#fff',
           },
         },
       },
