@@ -16,7 +16,6 @@ const { Item: MenuItem, Divider } = Menu;
 
 const DAG_NODE = 'dag-node';
 const DAG_EDGE = 'dag-edge';
-const DAG_CONNECTOR = 'dag-connector';
 interface NodeStatus {
   id: string;
   status: 'default' | 'success' | 'failed' | 'running';
@@ -161,27 +160,6 @@ register({
   },
 });
 
-Graph.registerConnector(
-  DAG_CONNECTOR,
-  (s, e) => {
-    const offset = 4;
-    const deltaY = Math.abs(e.y - s.y);
-    const control = Math.floor((deltaY / 3) * 2);
-
-    const v1 = { x: s.x, y: s.y + offset + control };
-    const v2 = { x: e.x, y: e.y - offset - control };
-
-    return Path.normalize(
-      `M ${s.x} ${s.y}
-     L ${s.x} ${s.y + offset}
-     C ${v1.x} ${v1.y} ${v2.x} ${v2.y} ${e.x} ${e.y - offset}
-     L ${e.x} ${e.y}
-    `,
-    );
-  },
-  true,
-);
-
 Graph.registerEdge(
   DAG_EDGE,
   {
@@ -198,4 +176,4 @@ Graph.registerEdge(
   true,
 );
 
-export { DAG_NODE, DAG_EDGE, DAG_CONNECTOR };
+export { DAG_NODE, DAG_EDGE };

@@ -24,7 +24,7 @@ const Page = () => {
                 highlight: true,
                 connectionPoint: 'anchor',
                 anchor: 'center',
-                connector: DAG_CONNECTOR,
+                connector: 'smooth',
                 validateMagnet({magnet}) {
                   return magnet.getAttribute('port-group') !== 'top';
                 },
