@@ -42,7 +42,7 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
         break;
       case 'copy':
         graph.copy([graph.getCellById(node.id)]);
-        graph.paste({offset: 30});
+        graph.paste();
         break;
       case 'delete':
         node.remove();
@@ -66,8 +66,8 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
 
   const menu = (
     <Menu hasIcon={true} onClick={(key: string) => onMenuItemClick(key)}>
-      <MenuItem name="cut" icon={<ScissorOutlined />} hotkey="Cmd+X | ⌘X" text={intl.formatMessage({ id: 'app.common.operate.cut.label' })} />
-      <MenuItem name="copy" icon={<CopyOutlined/>} hotkey="Cmd+C | ⌘C" text={intl.formatMessage({ id: 'app.common.operate.copy.label' })}/>
+      {/*<MenuItem name="cut" icon={<ScissorOutlined />} hotkey="⌘X" text={intl.formatMessage({ id: 'app.common.operate.cut.label' })} />*/}
+      <MenuItem name="copy" icon={<CopyOutlined/>} hotkey="⌘C" text={intl.formatMessage({ id: 'app.common.operate.copy.label' })}/>
       <MenuItem name="delete" icon={<DeleteOutlined/>} hotkey="Delete" text={intl.formatMessage({ id: 'app.common.operate.delete.label' })}/>
     </Menu>
   );
