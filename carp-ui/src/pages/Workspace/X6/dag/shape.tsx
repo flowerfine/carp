@@ -1,26 +1,23 @@
-import {
-  CopyOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  PlayCircleOutlined,
-} from '@ant-design/icons';
-import { Dropdown, Menu } from '@antv/x6-react-components';
-import { register, Graph, Path, XFlow } from '@antv/xflow';
-import type { Node } from '@antv/xflow';
-import { Modal, Input } from 'antd';
-import { useEffect, useState } from 'react';
-import './node.less';
+import {useEffect, useState} from 'react';
+import {Input, Modal} from 'antd';
+import {CopyOutlined, DeleteOutlined, EditOutlined, PlayCircleOutlined,} from '@ant-design/icons';
+import type {Node} from '@antv/xflow';
+import {Graph, register, XFlow} from '@antv/xflow';
+import {Dropdown, Menu} from '@antv/x6-react-components';
 import '@antv/x6-react-components/dist/index.css';
+import './node.less';
 
-const { Item: MenuItem, Divider } = Menu;
+const {Item: MenuItem, Divider} = Menu;
 
 const DAG_NODE = 'dag-node';
 const DAG_EDGE = 'dag-edge';
+
 interface NodeStatus {
   id: string;
   status: 'default' | 'success' | 'failed' | 'running';
   label?: string;
 }
+
 const image = {
   logo: 'https://gw.alipayobjects.com/mdn/rms_43231b/afts/img/A*evDjT5vjkX0AAAAAAAAAAAAAARQnAQ',
   success:
@@ -31,9 +28,9 @@ const image = {
     'https://gw.alipayobjects.com/mdn/rms_43231b/afts/img/A*t8fURKfgSOgAAAAAAAAAAAAAARQnAQ',
 };
 
-const AlgoNode = ({ node }: { node: Node }) => {
+const AlgoNode = ({node}: { node: Node }) => {
   const data = node?.getData() as NodeStatus;
-  const { label, status = 'default' } = data || {};
+  const {label, status = 'default'} = data || {};
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | undefined>();
 
@@ -78,12 +75,12 @@ const AlgoNode = ({ node }: { node: Node }) => {
 
   const menu = (
     <Menu hasIcon={true} onClick={(key: string) => onMenuItemClick(key)}>
-      <MenuItem name="rename" icon={<EditOutlined />} text="重命名" />
-      <MenuItem name="copy" icon={<CopyOutlined />} text="复制" />
-      <MenuItem name="paste" icon={<CopyOutlined />} text="粘贴" />
-      <MenuItem name="delete" icon={<DeleteOutlined />} text="删除" />
-      <Divider />
-      <MenuItem name="exec" icon={<PlayCircleOutlined />} text="执行节点" />
+      <MenuItem name="rename" icon={<EditOutlined/>} text="重命名"/>
+      <MenuItem name="copy" icon={<CopyOutlined/>} text="复制"/>
+      <MenuItem name="paste" icon={<CopyOutlined/>} text="粘贴"/>
+      <MenuItem name="delete" icon={<DeleteOutlined/>} text="删除"/>
+      <Divider/>
+      <MenuItem name="exec" icon={<PlayCircleOutlined/>} text="执行节点"/>
     </Menu>
   );
 
@@ -103,20 +100,20 @@ const AlgoNode = ({ node }: { node: Node }) => {
           setOpen(false);
         }}
       >
-        <Input value={value} onChange={(e) => setValue(e.target.value)} />
+        <Input value={value} onChange={(e) => setValue(e.target.value)}/>
       </Modal>
       <Dropdown
         overlay={menu}
         trigger={['contextMenu']}
-        overlayStyle={{ overflowY: 'auto' }}
+        overlayStyle={{overflowY: 'auto'}}
       >
         <div className={`node ${status}`}>
-          <img src={image.logo} alt="logo" />
+          <img src={image.logo} alt="logo"/>
           <span className="label">{label}</span>
           <span className="status">
-            {status === 'success' && <img src={image.success} alt="success" />}
-            {status === 'failed' && <img src={image.failed} alt="failed" />}
-            {status === 'running' && <img src={image.running} alt="running" />}
+            {status === 'success' && <img src={image.success} alt="success"/>}
+            {status === 'failed' && <img src={image.failed} alt="failed"/>}
+            {status === 'running' && <img src={image.running} alt="running"/>}
           </span>
         </div>
       </Dropdown>
@@ -176,4 +173,4 @@ Graph.registerEdge(
   true,
 );
 
-export { DAG_NODE, DAG_EDGE };
+export {DAG_NODE, DAG_EDGE};
