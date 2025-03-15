@@ -1,7 +1,6 @@
 import { useGraphStore } from '@antv/xflow';
 import { useCallback, useEffect } from 'react';
-
-import { DAG_EDGE, DAG_NODE } from './shape';
+import {DAG_EDGE, DAG_NODE} from "@/components/X6/Shape/DagNode/shape";
 
 const InitShape = () => {
   const addNodes = useGraphStore((state) => state.addNodes);

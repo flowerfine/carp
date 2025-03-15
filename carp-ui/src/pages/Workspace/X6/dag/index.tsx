@@ -2,10 +2,10 @@ import {XFlow, XFlowGraph} from '@antv/xflow';
 import {Connect} from './connect';
 import {Dnd} from './dnd/dnd';
 import {InitShape} from './node';
-import {DAG_CONNECTOR, DAG_EDGE} from './shape';
 import X6Layout from "@/components/X6/Layout";
 import {ConfigDrawer} from "@/pages/Workspace/X6/dag/config-drawer";
 import {Toolbar} from "@/pages/Workspace/X6/dag/toolbar";
+import {DAG_EDGE} from "@/components/X6/Shape/DagNode/shape";
 
 const Page = () => {
   return (

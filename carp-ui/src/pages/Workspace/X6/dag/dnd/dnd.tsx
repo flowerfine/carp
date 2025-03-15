@@ -1,12 +1,10 @@
+import React from 'react';
+import { Popover, Tree } from 'antd';
 import { DatabaseFilled, HolderOutlined } from '@ant-design/icons';
 import { useDnd } from '@antv/xflow';
-import { Popover, Tree } from 'antd';
-import React from 'react';
-
-import { DAG_NODE } from '../shape';
-
-import styles from './dnd.less';
 import SearchInput from './search';
+import styles from './dnd.less';
+import {DAG_NODE} from "@/components/X6/Shape/DagNode/shape";
 
 const { DirectoryTree } = Tree;
 
