@@ -101,6 +101,5 @@ Graph.registerEdge(
 
 export {
   SERVERLESS_WORKFLOW_NODE,
-  SERVERLESS_WORKFLOW_EDGE,
-  ServerlessWorkflowNode
+  SERVERLESS_WORKFLOW_EDGE
 };
