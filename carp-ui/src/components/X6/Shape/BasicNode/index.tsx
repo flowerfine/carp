@@ -1,6 +1,14 @@
 import React, {useState} from 'react';
-import {Button, Col, Divider, Flex, Image, Popover, Row} from "antd";
-import {CopyOutlined, DashOutlined, DeleteOutlined, EditOutlined, PlayCircleOutlined} from "@ant-design/icons";
+import {Button, Col, Flex, Image, Popover, Row} from "antd";
+import {
+  CopyOutlined,
+  DashOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlayCircleOutlined,
+  ScissorOutlined
+} from "@ant-design/icons";
+import {getIntl, getLocale} from "@umijs/max";
 import {Node} from "@antv/xflow";
 import {Dropdown, Menu} from '@antv/x6-react-components';
 import {ControlInput} from "@/components/Input/ControlInput";
@@ -14,6 +22,7 @@ type BasicNodeProps = {
 }
 
 const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
+  const intl = getIntl(getLocale())
   const {styles, cx} = useStyles();
   const {label, dndMeta} = node?.getData()
   const [labelEdited, setLabelEdited] = useState(false);
@@ -28,8 +37,12 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
       return;
     }
     switch (key) {
+      case 'cut':
+        graph.cut([graph.getCellById(node.id)]);
+        break;
       case 'copy':
         graph.copy([graph.getCellById(node.id)]);
+        graph.paste({offset: 30});
         break;
       case 'delete':
         node.remove();
@@ -53,8 +66,9 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
 
   const menu = (
     <Menu hasIcon={true} onClick={(key: string) => onMenuItemClick(key)}>
-      <MenuItem name="copy" icon={<CopyOutlined/>} text="复制"/>
-      <MenuItem name="delete" icon={<DeleteOutlined/>} text="删除"/>
+      <MenuItem name="cut" icon={<ScissorOutlined />} hotkey="Cmd+X | ⌘X" text={intl.formatMessage({ id: 'app.common.operate.cut.label' })} />
+      <MenuItem name="copy" icon={<CopyOutlined/>} hotkey="Cmd+C | ⌘C" text={intl.formatMessage({ id: 'app.common.operate.copy.label' })}/>
+      <MenuItem name="delete" icon={<DeleteOutlined/>} hotkey="Delete" text={intl.formatMessage({ id: 'app.common.operate.delete.label' })}/>
     </Menu>
   );
 

@@ -10,7 +10,7 @@ const X6ControlMinimap: React.FC = () => {
       <FooterToolbar
         style={{
           background: 'transparent',
-          width: 40,
+          width: 0,
           bottom: 80,
           left: '55%',
         }}
@@ -21,7 +21,7 @@ const X6ControlMinimap: React.FC = () => {
       <FooterToolbar
         style={{
           background: 'transparent',
-          width: 40,
+          width: 0,
           bottom: 50,
           right: 200,
         }}

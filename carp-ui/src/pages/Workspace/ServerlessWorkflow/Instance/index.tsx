@@ -7,6 +7,8 @@ import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflow
 import X6ControlMinimap from "@/components/X6/Control";
 import X6GridSnapline from "@/components/X6/Grid";
 import X6HistoryClipboard from "@/components/X6/History";
+import X6Toolbar from "@/components/X6/Toolbar";
+import X6Menubar from "@/components/X6/Menubar";
 
 const Page = () => {
   return (
@@ -18,6 +20,10 @@ const Page = () => {
             <Dnd/>
           </div>
           <div className={styles.center}>
+            <div className={styles.toolbar}>
+              <X6Toolbar/>
+              <X6Menubar/>
+            </div>
             <div className={styles.graph}>
               <XFlowGraph
                 pannable
