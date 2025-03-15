@@ -312,12 +312,6 @@ export default [
             component: './Workspace/X6/dnd',
           },
           {
-            path: '/workspace/x6/diff',
-            name: 'diff',
-            icon: 'profile',
-            component: './Workspace/X6/diff',
-          },
-          {
             path: '/workspace/x6/flow',
             name: 'flow',
             icon: 'profile',

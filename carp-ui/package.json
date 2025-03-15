@@ -50,7 +50,6 @@
     "@antv/x6-plugin-stencil": "^2.1.5",
     "@antv/x6-react-components": "^2.0.8",
     "@antv/xflow": "^2.1.13",
-    "@antv/xflow-diff": "^1.0.0",
     "@umijs/route-utils": "^2.2.2",
     "antd": "^5.12.7",
     "antd-style": "^3.6.1",
