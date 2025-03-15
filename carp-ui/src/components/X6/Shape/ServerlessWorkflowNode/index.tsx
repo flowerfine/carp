@@ -1,16 +1,11 @@
 import React from "react";
-import {getIntl, getLocale} from "@umijs/max";
 import {Graph, Node, register, XFlow} from "@antv/xflow";
 import BasicNode from "@/components/X6/Shape/BasicNode";
-import useStyles from './style';
 
 const SERVERLESS_WORKFLOW_NODE = 'serverless-workflow-node';
 const SERVERLESS_WORKFLOW_EDGE = 'serverless-workflow-edge';
 
 const ServerlessWorkflowNode = ({node}: { node: Node }) => {
-  const intl = getIntl(getLocale())
-  const {styles} = useStyles();
-  const data = node?.getData()
 
   return (
     <XFlow>
