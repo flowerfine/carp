@@ -4,7 +4,7 @@
       "id": "node-0",
       "shape": "serverless-workflow-node",
       "x": 0,
-      "y": 100,
+      "y": 200,
       "ports": [
         {
           "id": "node-0-bottom",
@@ -24,8 +24,8 @@
     {
       "id": "node-1",
       "shape": "serverless-workflow-node",
-      "x": 250,
-      "y": 100,
+      "x": 350,
+      "y": 200,
       "ports": [
         {
           "id": "node-1-top",
@@ -48,8 +48,8 @@
     {
       "id": "node-2",
       "shape": "serverless-workflow-node",
-      "x": 500,
-      "y": 100,
+      "x": 700,
+      "y": 200,
       "ports": [
         {
           "id": "node-2-top",
@@ -72,8 +72,8 @@
     {
       "id": "node-3",
       "shape": "serverless-workflow-node",
-      "x": 750,
-      "y": 100,
+      "x": 1050,
+      "y": 200,
       "ports": [
         {
           "id": "node-3-top",
@@ -112,7 +112,7 @@
     {
       "id": "node-5",
       "shape": "serverless-workflow-node",
-      "x": 250,
+      "x": 350,
       "y": 0,
       "ports": [
         {
@@ -136,7 +136,7 @@
     {
       "id": "node-6",
       "shape": "serverless-workflow-node",
-      "x": 500,
+      "x": 700,
       "y": 0,
       "ports": [
         {
