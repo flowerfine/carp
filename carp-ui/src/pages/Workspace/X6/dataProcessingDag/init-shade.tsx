@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import {useIntl} from "@umijs/max";
 import {useGraphInstance, useGraphStore} from "@antv/xflow";
 
-
 // 节点状态列表
 const nodeStatusList = [
   {
@@ -59,14 +58,11 @@ const InitNode: React.FC = () => {
       fetch('/data/data-processing-dag.json')
         .then((response) => response.json())
         .then((data) => {
-          graph.fromJSON(data)
-          const zoomOptions = {
-            padding: {
-              left: 10,
-              right: 10,
-            },
-          }
-          graph.zoomToFit(zoomOptions)
+          // 使用 graph.fromJSON 方法导入进去的节点，无法被键盘快捷键处理
+          // graph.fromJSON(data)
+          graph.addNodes(data.nodes);
+          graph.addEdges(data.edges);
+          graph.zoomToFit({ maxScale: 1 });
           setTimeout(() => {
             excuteAnimate()
           }, 2000)
