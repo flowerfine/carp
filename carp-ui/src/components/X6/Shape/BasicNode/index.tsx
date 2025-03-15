@@ -66,8 +66,8 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
 
   const menu = (
     <Menu hasIcon={true} onClick={(key: string) => onMenuItemClick(key)}>
-      {/*<MenuItem name="cut" icon={<ScissorOutlined />} hotkey="⌘X" text={intl.formatMessage({ id: 'app.common.operate.cut.label' })} />*/}
-      <MenuItem name="copy" icon={<CopyOutlined/>} hotkey="⌘C" text={intl.formatMessage({ id: 'app.common.operate.copy.label' })}/>
+      {/*<MenuItem name="cut" icon={<ScissorOutlined />} hotkey="Command ⌘ + X" text={intl.formatMessage({ id: 'app.common.operate.cut.label' })} />*/}
+      <MenuItem name="copy" icon={<CopyOutlined/>} hotkey="Command ⌘ + C" text={intl.formatMessage({ id: 'app.common.operate.copy.label' })}/>
       <MenuItem name="delete" icon={<DeleteOutlined/>} hotkey="Delete" text={intl.formatMessage({ id: 'app.common.operate.delete.label' })}/>
     </Menu>
   );

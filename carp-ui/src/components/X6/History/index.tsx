@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Clipboard, History, useClipboard, useGraphStore, useHistory, useKeyboard} from '@antv/xflow';
 
 const X6HistoryClipboard: React.FC = () => {
@@ -6,53 +6,63 @@ const X6HistoryClipboard: React.FC = () => {
   const {undo, redo, canUndo, canRedo} = useHistory()
   const nodes = useGraphStore((state) => state.nodes);
   const edges = useGraphStore((state) => state.edges);
+  const updateNode = useGraphStore((state) => state.updateNode);
+  const updateEdge = useGraphStore((state) => state.updateEdge);
   const removeNodes = useGraphStore((state) => state.removeNodes);
   const removeEdges = useGraphStore((state) => state.removeEdges);
 
-  useKeyboard('command+c', () => onCopy());
-  useKeyboard('command+v', () => onPaste());
-  useKeyboard('backspace', (e: KeyboardEvent) => onDelete(e));
+  const selectNodeIds = useCallback(() => {
+    const nodeSelected = nodes.filter((node) => node.selected);
+    const nodeIds: string[] = nodeSelected.map((node) => node.id!);
+    return nodeIds;
+  }, [nodes]);
 
-  const onUndo = () => {
+  const selectEdgeIds = useCallback(() => {
+    const edgesSelect = edges.filter((edge) => edge.selected);
+    const edgeIds: string[] = edgesSelect.map((edge) => edge.id!);
+    return edgeIds;
+  }, [edges]);
+
+  const selectShapeIds = () => {
+    return [...selectEdgeIds(), ...selectNodeIds()];
+  };
+
+  useKeyboard(['meta+x', 'ctrl+x'], () => {
+    // fixme 剪切后无法通过 paste 在恢复
+    cut(selectShapeIds());
+  });
+
+  useKeyboard(['meta+c', 'ctrl+c'], () => {
+    copy(selectShapeIds());
+  });
+
+  useKeyboard(['meta+v', 'ctrl+v'], () => {
+    paste();
+  });
+
+  useKeyboard('backspace', () => {
+    removeNodes(selectNodeIds());
+    removeEdges(selectEdgeIds());
+  });
+
+  useKeyboard(['meta+z', 'ctrl+z'], () => {
     // fixme 不起效
     if (canUndo) {
-      undo()
+      undo();
     }
-  };
-
-  const onRedo = () => {
+  });
+  useKeyboard(['meta+shift+z', 'ctrl+shift+z'], () => {
     // fixme 不起效
     if (canRedo) {
-      redo()
+      redo();
     }
-  };
+  });
 
-  const onCut = () => {
-    const selected = nodes.filter((node) => node.selected);
-    const ids: string[] = selected.map((node) => node.id || '');
-    // fixme 剪切后无法粘贴出来
-    cut(ids)
-  };
-
-  const onCopy = () => {
-    const selected = nodes.filter((node) => node.selected);
-    const ids: string[] = selected.map((node) => node.id || '');
-    copy(ids);
-  };
-
-  const onPaste = () => {
-    paste();
-  };
-
-  const onDelete = (e: KeyboardEvent) => {
-    console.log('onDelete')
-    const selectedNodes = nodes.filter((node) => node.selected);
-    const nodeIds: string[] = selectedNodes.map((node) => node.id || '');
-    removeNodes(nodeIds);
-    const selectedEdges = edges.filter((edge) => edge.selected);
-    const edgeIds: string[] = selectedEdges.map((edge) => edge.id || '');
-    removeEdges(edgeIds);
-  };
+  useKeyboard(['meta+a', 'ctrl+a'], () => {
+    // fixme 不起效
+    nodes.map((node) => updateNode(node.id!, { selected: true }));
+    edges.map((edge) => updateEdge(edge.id, { selected: true }));
+  });
 
   return (
     <>

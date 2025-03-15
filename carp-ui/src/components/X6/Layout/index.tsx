@@ -38,7 +38,7 @@ const X6Layout: React.FC = ({menubar, toolbar, dnd, body}: X6LayoutProps) => {
               <PanelGroup direction="vertical">
                 {toolbar && (
                   <>
-                    <Panel minSize={5} maxSize={5}>
+                    <Panel minSize={5} maxSize={5} style={{background: '#f5f5f5'}}>
                       {toolbar}
                     </Panel>
                     <PanelResizeHandle/>
