@@ -23,8 +23,11 @@ const Page: React.FC = () => {
             console.log('X6Menubar onSave', data, graph);
           }}
           onExecute={(data, graph) => {
-            ServerlessWorkflowService.convertToWorkflow(graph).then(workflow => {
-              console.log('X6Menubar onExecute', data, graph, workflow.data);
+            const param = {
+              petId: 10
+            }
+            ServerlessWorkflowService.execute(param, graph).then(response => {
+              console.log('X6Menubar onExecute', data, graph, response);
             })
           }}
         />}

@@ -31,7 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @WebLog
 @RestController
@@ -57,7 +56,7 @@ public class ServerlessWorkflowController {
 
     @PostMapping("execute")
     @Operation(summary = "执行 DAG", description = "执行 DAG")
-    public CompletableFuture<JsonNode> execute(@Valid @RequestBody ServerlessWorkflowExecuteParam param) {
+    public JsonNode execute(@Valid @RequestBody ServerlessWorkflowExecuteParam param) {
         return serverlessWorkflowService.execute(param);
     }
 

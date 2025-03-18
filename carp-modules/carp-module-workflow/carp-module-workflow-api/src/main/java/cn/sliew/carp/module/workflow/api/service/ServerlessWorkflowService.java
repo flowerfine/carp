@@ -23,8 +23,6 @@ import cn.sliew.carp.module.workflow.api.service.param.ServerlessWorkflowExecute
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public interface ServerlessWorkflowService {
 
@@ -32,5 +30,5 @@ public interface ServerlessWorkflowService {
 
     String convertDagToWorkflow(X6GraphDTO graphDTO);
 
-    CompletableFuture<JsonNode> execute(ServerlessWorkflowExecuteParam param);
+    JsonNode execute(ServerlessWorkflowExecuteParam param);
 }

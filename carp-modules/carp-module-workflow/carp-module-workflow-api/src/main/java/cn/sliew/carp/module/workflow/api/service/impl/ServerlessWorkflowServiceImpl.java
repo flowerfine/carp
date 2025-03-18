@@ -24,6 +24,7 @@ import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowService;
 import cn.sliew.carp.module.workflow.api.service.dto.dnd.DndGroupDTO;
 import cn.sliew.carp.module.workflow.api.service.dto.dnd.DndNodeDTO;
 import cn.sliew.carp.module.workflow.api.service.param.ServerlessWorkflowExecuteParam;
+import cn.sliew.milky.common.exception.Rethrower;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -37,8 +38,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Service
@@ -150,15 +150,19 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
     }
 
     @Override
-    public CompletableFuture<JsonNode> execute(ServerlessWorkflowExecuteParam param) {
+    public JsonNode execute(ServerlessWorkflowExecuteParam param) {
         String workflow = convertDagToWorkflow(param.getGraph());
         try (WorkflowApplication appl = WorkflowApplication.builder().build()) {
             return appl.workflowDefinition(WorkflowReader.readWorkflowFromString(workflow, WorkflowFormat.JSON))
                     .instance(param.getParam())
-                    .start();
+                    .start().get();
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            return CompletableFuture.failedFuture(e);
+            Rethrower.throwAs(e);
+        } catch (ExecutionException | InterruptedException e) {
+            log.error(e.getMessage(), e);
+            Rethrower.throwAs(e);
         }
+        return null;
     }
 }

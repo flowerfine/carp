@@ -17,4 +17,11 @@ export const ServerlessWorkflowService = {
     });
   },
 
+  execute: async (param: any, graph: X6API.Graph) => {
+    return request<ResponseBody<string>>(`${ServerlessWorkflowService.url}/execute`, {
+      method: 'POST',
+      data: {param: param, graph: graph},
+    });
+  },
+
 };
