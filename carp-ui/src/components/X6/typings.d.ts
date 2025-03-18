@@ -20,6 +20,7 @@ declare namespace X6API {
   }
 
   type DndMeta = {
+    namespace: string
     label: string
     name: string
     type: string

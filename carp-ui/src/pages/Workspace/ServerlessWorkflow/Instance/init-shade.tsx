@@ -11,8 +11,12 @@ const InitNode: React.FC = () => {
         .then((data) => {
           // 使用 graph.fromJSON 方法导入进去的节点，无法被键盘快捷键处理
           // graph.fromJSON(data)
-          graph.addNodes(data.nodes);
-          graph.addEdges(data.edges);
+          if (data.nodes) {
+            graph.addNodes(data.nodes);
+          }
+          if (data.edges) {
+            graph.addEdges(data.edges);
+          }
           graph.zoomToFit({maxScale: 1});
         })
     }

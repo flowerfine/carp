@@ -1,60 +1,47 @@
 import React, {useState} from "react";
-import {Form} from "antd";
-import {DrawerForm, ProFormText} from "@ant-design/pro-components";
-import {useIntl} from "@umijs/max";
-import {useGraphEvent, useGraphInstance} from "@antv/xflow";
-
-interface NodeData {
-  id: string;
-  label?: string;
-  dndMeta?: any;
-}
+import {Node, useGraphEvent} from "@antv/xflow";
+import ServerlessNodeHttpForm from "@/pages/Workspace/ServerlessWorkflow/Instance/NodeConfig/nodes/http";
 
 const ServerlessNodeConfig: React.FC = () => {
-  const intl = useIntl();
-  const [form] = Form.useForm();
-  const graph = useGraphInstance();
   const [open, setOpen] = useState(false);
-  const [nodeData, setNodeData] = useState<NodeData>();
+  const [nodeObj, setNodeObj] = useState<Node>();
 
   useGraphEvent('node:dblclick', ({node}) => {
-    const {id, data} = node;
+    setNodeObj(node);
     setOpen(true);
-    setNodeData({...data, id});
-    form.setFieldsValue(data);
   });
 
   useGraphEvent('blank:click', () => {
-    onClose();
+    setOpen(false);
   });
 
-  const onClose = () => {
+  const onOk = (values: Record<string, any>) => {
+    // 移除 undefined 字段，否则会更新异常
+    const attrs: Record<string, any> = Object.keys(values)
+      .filter((key) => values[key] != null && values[key] != undefined)
+      .reduce((acc, key) => ({...acc, [key]: values[key]}), {});
+    nodeObj?.setData({...nodeObj.data, nodeData: attrs})
     setOpen(false);
-    form.resetFields();
   };
 
-  return (
-    <DrawerForm
-      title={nodeData?.label}
-      open={open}
-      grid={true}
-      width={780}
-      form={form}
-      drawerProps={{
-        styles: {body: {overflowY: 'scroll'}},
-        closeIcon: null,
-        destroyOnClose: true,
-        mask: false
-      }}
-    >
-      <ProFormText
-        name={"name"}
-        label={"组件名"}
-        placeholder={"请输入组件名称"}
-        rules={[{required: true, message: '请填写组件名称'}]}
-      />
-    </DrawerForm>
-  );
+  const switchStep = () => {
+    if (!nodeObj) {
+      return (<></>);
+    }
+
+    if (nodeObj?.data?.dndMeta?.type === 'http') {
+      return (<ServerlessNodeHttpForm data={nodeObj}
+                                      visible={open}
+                                      onVisibleChange={setOpen}
+                                      onCancel={() => setOpen(false)}
+                                      onOK={onOk}
+      />)
+    }
+
+    return (<></>);
+  }
+
+  return (<div>{switchStep()}</div>);
 };
 
 export default ServerlessNodeConfig;
