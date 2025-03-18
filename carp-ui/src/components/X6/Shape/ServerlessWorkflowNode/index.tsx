@@ -1,17 +1,36 @@
-import React from "react";
+import React, {useState} from "react";
 import {Graph, Node, register, XFlow} from "@antv/xflow";
 import BasicNode from "@/components/X6/Shape/BasicNode";
+import ServerlessNodeConfig from "@/pages/Workspace/ServerlessWorkflow/Instance/NodeConfig";
 
 const SERVERLESS_WORKFLOW_NODE = 'serverless-workflow-node';
 const SERVERLESS_WORKFLOW_EDGE = 'serverless-workflow-edge';
 
 const ServerlessWorkflowNode = ({node}: { node: Node }) => {
+  const [openDrawerForm, setOpenDrawerForm] = useState<boolean>(false)
 
   return (
     <XFlow>
-      <BasicNode
-        node={node}
-      />
+      <div onDoubleClick={() => setOpenDrawerForm(true)}>
+        <BasicNode
+          node={node}
+        />
+      </div>
+      {openDrawerForm && (
+        <ServerlessNodeConfig
+          data={node}
+          visible={openDrawerForm}
+          onCancel={() => setOpenDrawerForm(false)}
+          onFinish={(values) => {
+            // 移除 undefined 字段，否则会更新异常
+            const attrs: Record<string, any> = Object.keys(values)
+              .filter((key) => values[key] != null && values[key] != undefined)
+              .reduce((acc, key) => ({...acc, [key]: values[key]}), {});
+            node?.setData({...node?.data, nodeData: attrs})
+            setOpenDrawerForm(false);
+          }}
+        />
+      )}
     </XFlow>
   );
 }

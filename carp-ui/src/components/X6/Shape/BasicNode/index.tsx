@@ -82,8 +82,13 @@ const BasicNode: React.FC = ({node, onExecute, children}: BasicNodeProps) => {
     })
   }
 
+  const onNodeClick = () => {
+    const graph = node?.model?.graph;
+    graph?.select(node)
+  }
+
   return (
-    <div className={cx(styles.nodeWrap)}>
+    <div className={cx(styles.nodeWrap)} onClick={onNodeClick}>
       <Col style={{width: '212px'}}>
         <Row justify="space-around" align="middle">
           <Col span={4}>
