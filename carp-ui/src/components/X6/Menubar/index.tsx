@@ -19,10 +19,10 @@ type X6MenubarProps = {
   name: string;
   onNameChange?: (name: string) => void;
   onSave?: (data: any, graph: any) => void;
-  onExecuteClicked?: (data: any, graph: any) => void;
+  onExecute?: (data: any, graph: any) => void;
 };
 
-const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecuteClicked}: X6MenubarProps) => {
+const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6MenubarProps) => {
   const intl = getIntl(getLocale())
   const graph = useGraphInstance();
   const nodes = useGraphStore((state) => state.nodes);
@@ -85,6 +85,10 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecuteClicked
 
   const onSaveClicked = () => {
     onSave(data, buildGraphData())
+  };
+
+  const onExecuteClicked = () => {
+    onExecute(data, buildGraphData())
   };
 
   function unique(arr: any[]) {
@@ -164,12 +168,12 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecuteClicked
             <Tooltip title={intl.formatMessage({id: 'app.common.operate.export.label'})}>
               <Button icon={<DownloadOutlined/>} type="text" onClick={onExportClicked}/>
             </Tooltip>
-            {onSaveClicked && (
+            {onSave && (
               <Tooltip title={intl.formatMessage({id: 'app.common.operate.save.label'})}>
                 <Button icon={<SaveOutlined/>} type="text" onClick={onSaveClicked}/>
               </Tooltip>)}
           </Space.Compact>
-          {onExecuteClicked && (
+          {onExecute && (
             <Button icon={<PlayCircleOutlined/>} type="primary" onClick={onExecuteClicked}>
               {intl.formatMessage({id: 'app.common.operate.exec.label'})}
             </Button>

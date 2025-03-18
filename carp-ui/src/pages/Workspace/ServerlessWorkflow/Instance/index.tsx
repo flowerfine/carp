@@ -21,6 +21,9 @@ const Page: React.FC = () => {
           onSave={(data, graph) => {
             console.log('X6Menubar onSave', data, graph);
           }}
+          onExecute={(data, graph) => {
+            console.log('X6Menubar onExecute', data, graph);
+          }}
         />}
         toolbar={<X6Toolbar/>}
         dnd={<Dnd/>}
