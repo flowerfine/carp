@@ -15,22 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.service;
+package cn.sliew.carp.module.workflow.api.service.param;
 
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
-import cn.sliew.carp.module.workflow.api.service.dto.dnd.DndGroupDTO;
-import cn.sliew.carp.module.workflow.api.service.param.ServerlessWorkflowExecuteParam;
-import com.fasterxml.jackson.databind.JsonNode;
+import lombok.Data;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
-public interface ServerlessWorkflowService {
+@Data
+public class ServerlessWorkflowExecuteParam {
 
-    List<DndGroupDTO> getDnds();
-
-    String convertDagToWorkflow(X6GraphDTO graphDTO);
-
-    CompletableFuture<JsonNode> execute(ServerlessWorkflowExecuteParam param);
+    private X6GraphDTO graph;
+    private Map<String, Object> param;
 }
