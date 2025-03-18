@@ -1,10 +1,8 @@
 import React, {useEffect} from "react";
-import {useGraphInstance, useGraphStore} from "@antv/xflow";
+import {useGraphInstance} from "@antv/xflow";
 
 const InitNode: React.FC = () => {
   const graph = useGraphInstance();
-  const addNodes = useGraphStore((state) => state.addNodes);
-  const addEdges = useGraphStore((state) => state.addEdges);
 
   useEffect(() => {
     if (graph) {
@@ -15,7 +13,7 @@ const InitNode: React.FC = () => {
           // graph.fromJSON(data)
           graph.addNodes(data.nodes);
           graph.addEdges(data.edges);
-          graph.zoomToFit({ maxScale: 1 });
+          graph.zoomToFit({maxScale: 1});
         })
     }
   }, [graph]);

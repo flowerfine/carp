@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Flex, Space, Tooltip} from "antd";
+import {Button, Flex, message, Space, Tooltip, Upload, UploadProps} from "antd";
 import {DownloadOutlined, EditOutlined, LeftOutlined, SaveOutlined, UploadOutlined} from "@ant-design/icons";
 import {getIntl, getLocale, history} from '@umijs/max';
 import {Edge, useGraphInstance, useGraphStore} from "@antv/xflow";
@@ -40,7 +40,7 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
       nodes: nodes.map(node => {
         return {
           id: node.id,
-          shade: node.shape,
+          shape: node.shape,
           position: node.position,
           ports: node.ports?.items,
           data: node.data
@@ -58,6 +58,23 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
     }
   };
 
+  const onExportClicked= () => {
+    try {
+      let dataStr = JSON.stringify(buildGraphData(), null, 2)
+      const blob = new Blob([dataStr], { type: 'application/json' })
+      const dataUri = URL.createObjectURL(blob)
+
+      let exportFileDefaultName = `${name}.json`
+
+      let linkElement = document.createElement('a')
+      linkElement.setAttribute('href', dataUri)
+      linkElement.setAttribute('download', exportFileDefaultName)
+      linkElement.click()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   const onSaveClicked = () => {
     onSave(data, buildGraphData())
   };
@@ -67,6 +84,47 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
       //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
       return arr.indexOf(item, 0) === index;
     });
+  }
+
+
+  const props: UploadProps = {
+    name: 'file',
+    showUploadList: false,
+    beforeUpload: (file) => {
+      const isJson = file.type === 'application/json';
+      if (!isJson) {
+        message.error(`${file.name} is not a json`);
+      }
+      return isJson || Upload.LIST_IGNORE;
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} upload successfully`);
+        fileUpoload(info.file.originFileObj)
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} upload failed`);
+      }
+    },
+  };
+
+  const fileUpoload = (file: any) => {
+    const reader = new FileReader()
+    reader.onload = (evt) => {
+      if (!evt?.target?.result) {
+        return
+      }
+      const { result } = evt.target
+      let jsonData = JSON.parse(result);
+      if (jsonData.nodes) {
+        graph.addNodes(jsonData.nodes);
+      }
+      if (jsonData.edges) {
+        graph.addEdges(jsonData.edges);
+      }
+    }
+    reader.readAsText(file)
   }
 
   const enableNameChange = () => {
@@ -91,10 +149,12 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
         <Space>
           <Space.Compact>
             <Tooltip title={intl.formatMessage({ id: 'app.common.operate.import.label' })}>
-              <Button icon={<UploadOutlined/>} type="text"/>
+              <Upload {...props}>
+                <Button icon={<UploadOutlined/>} type="text"/>
+              </Upload>
             </Tooltip>
             <Tooltip title={intl.formatMessage({ id: 'app.common.operate.export.label' })}>
-              <Button icon={<DownloadOutlined/>} type="text"/>
+              <Button icon={<DownloadOutlined/>} type="text" onClick={onExportClicked}/>
             </Tooltip>
           </Space.Compact>
           <Button icon={<SaveOutlined/>} type="primary" onClick={onSaveClicked}>
