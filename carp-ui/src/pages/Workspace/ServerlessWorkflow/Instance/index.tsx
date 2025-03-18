@@ -7,6 +7,7 @@ import Dnd from "@/pages/Workspace/ServerlessWorkflow/Instance/dnd";
 import {Connect} from "@/pages/Workspace/ServerlessWorkflow/Instance/connect";
 import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Instance/init-shade";
 import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflowNode";
+import NodeConfig from "@/pages/Workspace/ServerlessWorkflow/Instance/NodeConfig";
 
 const Page: React.FC = () => {
   return (
@@ -54,6 +55,7 @@ const Page: React.FC = () => {
       />
       <InitNode/>
       <Connect/>
+      <NodeConfig/>
     </XFlow>
   );
 };
