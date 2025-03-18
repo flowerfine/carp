@@ -12,7 +12,15 @@ const Page: React.FC = () => {
   return (
     <XFlow>
       <X6Layout
-        menubar={<X6Menubar/>}
+        menubar={<X6Menubar
+          name="Serverless Workflow"
+          onNameChange={(name) => {
+            console.log('X6Menubar onNameChange', name);
+          }}
+          onSave={(data, graph) => {
+            console.log('X6Menubar onSave', data, graph);
+          }}
+        />}
         toolbar={<X6Toolbar/>}
         dnd={<Dnd/>}
         body={(

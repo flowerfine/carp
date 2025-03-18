@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {
-  CopyOutlined, DeleteOutlined,
+  CopyOutlined,
+  DeleteOutlined,
   RedoOutlined,
   ScissorOutlined,
   UndoOutlined,
@@ -13,7 +14,7 @@ import {Menu, Toolbar} from "@antv/x6-react-components";
 const Item = Toolbar.Item // eslint-disable-line
 const Group = Toolbar.Group // eslint-disable-line
 
- enum ControlEnum {
+enum ControlEnum {
   ZoomTo = 'zoomTo',
   ZoomIn = 'zoomIn',
   ZoomOut = 'zoomOut',
@@ -53,7 +54,7 @@ const X6Toolbar: React.FC = () => {
     const {data, id} = node;
   });
 
-  useGraphEvent('scale', ({ sx }) => {
+  useGraphEvent('scale', ({sx}) => {
     setZoom(sx);
   });
 
@@ -73,7 +74,7 @@ const X6Toolbar: React.FC = () => {
         }
         break;
       case ControlEnum.ZoomToFit:
-        graph.zoomToFit({ maxScale: 1 });
+        graph.zoomToFit({maxScale: 1});
         break;
       case ControlEnum.ZoomToOrigin:
         graph.zoomTo(1);
@@ -101,8 +102,10 @@ const X6Toolbar: React.FC = () => {
     const Divider = Menu.Divider // eslint-disable-line
     return (
       <Menu>
-        <MenuItem name={"resetView"} text={"重置"} hotkey={"Command ⌘ + H"} onClick={() => changeZoom(ControlEnum.ZoomToOrigin)}/>
-        <MenuItem name={"fitWindow"} text={"自适应窗口大小"} hotkey="Command ⌘ + Shift ⇧ + H" onClick={() => changeZoom(ControlEnum.ZoomToFit)}/>
+        <MenuItem name={"resetView"} text={"重置"} hotkey={"Command ⌘ + H"}
+                  onClick={() => changeZoom(ControlEnum.ZoomToOrigin)}/>
+        <MenuItem name={"fitWindow"} text={"自适应窗口大小"} hotkey="Command ⌘ + Shift ⇧ + H"
+                  onClick={() => changeZoom(ControlEnum.ZoomToFit)}/>
         <Divider/>
         <MenuItem name="50" onClick={() => changeZoom(ControlEnum.ZoomTo, '1')}>50%</MenuItem>
         <MenuItem name="75" onClick={() => changeZoom(ControlEnum.ZoomTo, '2')}>75%</MenuItem>
@@ -114,10 +117,7 @@ const X6Toolbar: React.FC = () => {
   }
 
   return (
-    <Toolbar
-      hoverEffect={true}
-      extra={<div>extra</div>}
-    >
+    <Toolbar hoverEffect={true}>
       <Group>
         <Item
           name="zoom"
@@ -207,7 +207,7 @@ const X6Toolbar: React.FC = () => {
         <Item
           name="delete"
           tooltip="Delete (Delete)"
-          icon={<DeleteOutlined />}
+          icon={<DeleteOutlined/>}
           disabled={selectShapeIds() && selectShapeIds().length > 0 ? false : true}
           onClick={() => {
             removeNodes(selectNodeIds());
