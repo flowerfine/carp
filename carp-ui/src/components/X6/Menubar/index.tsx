@@ -1,6 +1,13 @@
 import React, {useState} from 'react';
 import {Button, Flex, message, Space, Tooltip, Upload, UploadProps} from "antd";
-import {DownloadOutlined, EditOutlined, LeftOutlined, SaveOutlined, UploadOutlined} from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  EditOutlined,
+  LeftOutlined,
+  PlayCircleOutlined,
+  SaveOutlined,
+  UploadOutlined
+} from "@ant-design/icons";
 import {getIntl, getLocale, history} from '@umijs/max';
 import {Edge, useGraphInstance, useGraphStore} from "@antv/xflow";
 import {Menubar} from "@antv/x6-react-components";
@@ -12,9 +19,10 @@ type X6MenubarProps = {
   name: string;
   onNameChange?: (name: string) => void;
   onSave?: (data: any, graph: any) => void;
+  onExecuteClicked?: (data: any, graph: any) => void;
 };
 
-const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps) => {
+const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecuteClicked}: X6MenubarProps) => {
   const intl = getIntl(getLocale())
   const graph = useGraphInstance();
   const nodes = useGraphStore((state) => state.nodes);
@@ -58,10 +66,10 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
     }
   };
 
-  const onExportClicked= () => {
+  const onExportClicked = () => {
     try {
       let dataStr = JSON.stringify(buildGraphData(), null, 2)
-      const blob = new Blob([dataStr], { type: 'application/json' })
+      const blob = new Blob([dataStr], {type: 'application/json'})
       const dataUri = URL.createObjectURL(blob)
 
       let exportFileDefaultName = `${name}.json`
@@ -115,7 +123,7 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
       if (!evt?.target?.result) {
         return
       }
-      const { result } = evt.target
+      const {result} = evt.target
       let jsonData = JSON.parse(result);
       if (jsonData.nodes) {
         graph.addNodes(jsonData.nodes);
@@ -148,22 +156,28 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
       extra={
         <Space>
           <Space.Compact>
-            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.import.label' })}>
+            <Tooltip title={intl.formatMessage({id: 'app.common.operate.import.label'})}>
               <Upload {...props}>
                 <Button icon={<UploadOutlined/>} type="text"/>
               </Upload>
             </Tooltip>
-            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.export.label' })}>
+            <Tooltip title={intl.formatMessage({id: 'app.common.operate.export.label'})}>
               <Button icon={<DownloadOutlined/>} type="text" onClick={onExportClicked}/>
             </Tooltip>
+            {onSaveClicked && (
+              <Tooltip title={intl.formatMessage({id: 'app.common.operate.save.label'})}>
+                <Button icon={<SaveOutlined/>} type="text" onClick={onSaveClicked}/>
+              </Tooltip>)}
           </Space.Compact>
-          <Button icon={<SaveOutlined/>} type="primary" onClick={onSaveClicked}>
-            {intl.formatMessage({ id: 'app.common.operate.save.label' })}
-          </Button>
+          {onExecuteClicked && (
+            <Button icon={<PlayCircleOutlined/>} type="primary" onClick={onExecuteClicked}>
+              {intl.formatMessage({id: 'app.common.operate.exec.label'})}
+            </Button>
+          )}
         </Space>
       }>
       <Space>
-        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.return.label' })}>
+        <Tooltip title={intl.formatMessage({id: 'app.common.operate.return.label'})}>
           <Button icon={<LeftOutlined/>} onClick={() => history.back()}/>
         </Tooltip>
         {onNameChange ?
