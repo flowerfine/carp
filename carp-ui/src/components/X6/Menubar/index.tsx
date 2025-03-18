@@ -18,8 +18,8 @@ type X6MenubarProps = {
   data?: any;
   name: string;
   onNameChange?: (name: string) => void;
-  onSave?: (data: any, graph: any) => void;
-  onExecute?: (data: any, graph: any) => void;
+  onSave?: (data: any, graph: X6API.Graph) => void;
+  onExecute?: (data: any, graph: X6API.Graph) => void;
 };
 
 const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6MenubarProps) => {
@@ -44,7 +44,7 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6Me
       return result.map(edge => edges.find(item => edge.id === item.id))
     });
 
-    return {
+    const graph: X6API.Graph = {
       nodes: nodes.map(node => {
         return {
           id: node.id,
@@ -64,6 +64,7 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6Me
         }
       })
     }
+    return graph;
   };
 
   const onExportClicked = () => {
@@ -128,12 +129,12 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6Me
         return
       }
       const {result} = evt.target
-      let jsonData = JSON.parse(result);
-      if (jsonData.nodes) {
-        graph.addNodes(jsonData.nodes);
+      let {nodes, edges} = JSON.parse(result) as X6API.Graph;
+      if (nodes) {
+        graph.addNodes(nodes);
       }
-      if (jsonData.edges) {
-        graph.addEdges(jsonData.edges);
+      if (edges) {
+        graph.addEdges(edges);
       }
     }
     reader.readAsText(file)

@@ -3,6 +3,11 @@
 
 declare namespace X6API {
 
+  type Graph = {
+    nodes: any[]
+    edges: any[]
+  }
+
   type DndGroup = {
     key: string
     label: string

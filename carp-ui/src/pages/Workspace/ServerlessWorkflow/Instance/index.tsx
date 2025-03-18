@@ -8,6 +8,7 @@ import {Connect} from "@/pages/Workspace/ServerlessWorkflow/Instance/connect";
 import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Instance/init-shade";
 import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflowNode";
 import NodeConfig from "@/pages/Workspace/ServerlessWorkflow/Instance/NodeConfig";
+import {ServerlessWorkflowService} from "@/services/workspace/workflow/serverless-workflow.service";
 
 const Page: React.FC = () => {
   return (
@@ -22,7 +23,9 @@ const Page: React.FC = () => {
             console.log('X6Menubar onSave', data, graph);
           }}
           onExecute={(data, graph) => {
-            console.log('X6Menubar onExecute', data, graph);
+            ServerlessWorkflowService.convertToWorkflow(graph).then(workflow => {
+              console.log('X6Menubar onExecute', data, graph, workflow.data);
+            })
           }}
         />}
         toolbar={<X6Toolbar/>}
