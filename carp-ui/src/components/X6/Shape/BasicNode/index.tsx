@@ -122,7 +122,7 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
                   </Flex>)}
               </Col>
               <Col span={3}>
-                <Popover content={"执行节点"}>
+                <Popover content={intl.formatMessage({ id: 'app.common.operate.exec.label' })}>
                   <PlayCircleOutlined/>
                 </Popover>
               </Col>

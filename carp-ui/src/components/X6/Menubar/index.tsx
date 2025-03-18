@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Flex, Space, Tooltip} from "antd";
 import {DownloadOutlined, EditOutlined, LeftOutlined, SaveOutlined, UploadOutlined} from "@ant-design/icons";
-import {history} from '@umijs/max';
+import {getIntl, getLocale, history} from '@umijs/max';
 import {Edge, useGraphInstance, useGraphStore} from "@antv/xflow";
 import {Menubar} from "@antv/x6-react-components";
 import {EdgeOptions} from "@antv/xflow/src/types";
@@ -15,6 +15,7 @@ type X6MenubarProps = {
 };
 
 const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps) => {
+  const intl = getIntl(getLocale())
   const graph = useGraphInstance();
   const nodes = useGraphStore((state) => state.nodes);
   const edges = useGraphStore((state) => state.edges);
@@ -35,7 +36,7 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
       return result.map(edge => edges.find(item => edge.id === item.id))
     });
 
-    return  {
+    return {
       nodes: nodes.map(node => {
         return {
           id: node.id,
@@ -62,7 +63,7 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
   };
 
   function unique(arr: any[]) {
-    return arr.filter(function(item, index, arr) {
+    return arr.filter(function (item, index, arr) {
       //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
       return arr.indexOf(item, 0) === index;
     });
@@ -89,18 +90,20 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave}: X6MenubarProps)
       extra={
         <Space>
           <Space.Compact>
-            <Tooltip title={"导入"}>
+            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.import.label' })}>
               <Button icon={<UploadOutlined/>} type="text"/>
             </Tooltip>
-            <Tooltip title={"导出"}>
+            <Tooltip title={intl.formatMessage({ id: 'app.common.operate.export.label' })}>
               <Button icon={<DownloadOutlined/>} type="text"/>
             </Tooltip>
           </Space.Compact>
-          <Button icon={<SaveOutlined/>} type="primary" onClick={onSaveClicked}>保存</Button>
+          <Button icon={<SaveOutlined/>} type="primary" onClick={onSaveClicked}>
+            {intl.formatMessage({ id: 'app.common.operate.save.label' })}
+          </Button>
         </Space>
       }>
       <Space>
-        <Tooltip title={"返回"}>
+        <Tooltip title={intl.formatMessage({ id: 'app.common.operate.return.label' })}>
           <Button icon={<LeftOutlined/>} onClick={() => history.back()}/>
         </Tooltip>
         {onNameChange ?
