@@ -11,9 +11,6 @@ const ServerlessWorkflowNode = ({node}: { node: Node }) => {
     <XFlow>
       <BasicNode
         node={node}
-        children={
-          <div>children</div>
-        }
       />
     </XFlow>
   );

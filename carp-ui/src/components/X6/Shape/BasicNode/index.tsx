@@ -1,13 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Col, Flex, Image, Popover, Row} from "antd";
-import {
-  CopyOutlined,
-  DashOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  PlayCircleOutlined,
-  ScissorOutlined
-} from "@ant-design/icons";
+import {CopyOutlined, DashOutlined, DeleteOutlined, EditOutlined, PlayCircleOutlined} from "@ant-design/icons";
 import {getIntl, getLocale} from "@umijs/max";
 import {Node} from "@antv/xflow";
 import {Dropdown, Menu} from '@antv/x6-react-components';
@@ -18,10 +11,11 @@ const {Item: MenuItem} = Menu;
 
 type BasicNodeProps = {
   node: Node,
+  onExecute?: (node: Node) => void
   children?: React.ReactNode
 }
 
-const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
+const BasicNode: React.FC = ({node, onExecute, children}: BasicNodeProps) => {
   const intl = getIntl(getLocale())
   const {styles, cx} = useStyles();
   const {label, dndMeta} = node?.getData()
@@ -47,18 +41,6 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
       case 'delete':
         node.remove();
         break;
-      case 'exec':
-        node.setData({
-          ...node.data,
-          status: 'running',
-        });
-        setTimeout(() => {
-          node.setData({
-            ...node.data,
-            status: 'success',
-          });
-        }, 2000);
-        break;
       default:
         break;
     }
@@ -67,8 +49,10 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
   const menu = (
     <Menu hasIcon={true} onClick={(key: string) => onMenuItemClick(key)}>
       {/*<MenuItem name="cut" icon={<ScissorOutlined />} hotkey="Command ⌘ + X" text={intl.formatMessage({ id: 'app.common.operate.cut.label' })} />*/}
-      <MenuItem name="copy" icon={<CopyOutlined/>} hotkey="Command ⌘ + C" text={intl.formatMessage({ id: 'app.common.operate.copy.label' })}/>
-      <MenuItem name="delete" icon={<DeleteOutlined/>} hotkey="Delete" text={intl.formatMessage({ id: 'app.common.operate.delete.label' })}/>
+      <MenuItem name="copy" icon={<CopyOutlined/>} hotkey="Command ⌘ + C"
+                text={intl.formatMessage({id: 'app.common.operate.copy.label'})}/>
+      <MenuItem name="delete" icon={<DeleteOutlined/>} hotkey="Delete"
+                text={intl.formatMessage({id: 'app.common.operate.delete.label'})}/>
     </Menu>
   );
 
@@ -121,11 +105,16 @@ const BasicNode: React.FC = ({node, children}: BasicNodeProps) => {
                     <Button icon={<EditOutlined/>} type="text" onClick={() => setLabelEdited(true)}/>
                   </Flex>)}
               </Col>
-              <Col span={3}>
-                <Popover content={intl.formatMessage({ id: 'app.common.operate.exec.label' })}>
-                  <PlayCircleOutlined/>
-                </Popover>
-              </Col>
+              {onExecute
+                ? (
+                  <Col span={3}>
+                    <Popover content={intl.formatMessage({id: 'app.common.operate.exec.label'})}>
+                      <Button icon={<PlayCircleOutlined/>} type={"text"} onClick={() => onExecute(node)}/>
+                    </Popover>
+                  </Col>
+                )
+                : (<Col span={3}></Col>)
+              }
               <Col span={3}>
                 <Dropdown overlay={menu}>
                   <DashOutlined/>
