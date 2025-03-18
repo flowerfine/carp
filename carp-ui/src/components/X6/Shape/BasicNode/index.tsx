@@ -107,15 +107,15 @@ const BasicNode: React.FC = ({node, onExecute, children}: BasicNodeProps) => {
               </Col>
               {onExecute
                 ? (
-                  <Col span={3}>
+                  <Col span={4}>
                     <Popover content={intl.formatMessage({id: 'app.common.operate.exec.label'})}>
                       <Button icon={<PlayCircleOutlined/>} type={"text"} onClick={() => onExecute(node)}/>
                     </Popover>
                   </Col>
                 )
-                : (<Col span={3}></Col>)
+                : (<Col span={4}></Col>)
               }
-              <Col span={3}>
+              <Col span={2}>
                 <Dropdown overlay={menu}>
                   <DashOutlined/>
                 </Dropdown>
