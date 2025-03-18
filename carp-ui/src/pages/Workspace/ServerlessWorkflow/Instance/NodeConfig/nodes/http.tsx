@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Form} from "antd";
 import {DrawerForm, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
 import {Node} from "@antv/xflow";
 import {ModalFormProps} from "@/typings";
 
-const ServerlessNodeHttpForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onOK}) => {
+const ServerlessNodeHttpForm: React.FC<ModalFormProps<Node>> = ({data, visible, onVisibleChange, onCancel, onFinish}) => {
   const intl = getIntl(getLocale());
   const [form] = Form.useForm();
   const nodeDataObj = data?.data;
+
+  console.log('ServerlessNodeHttpForm node', data, nodeDataObj);
 
   return (
     <DrawerForm
@@ -21,13 +23,14 @@ const ServerlessNodeHttpForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
       initialValues={nodeDataObj?.nodeData}
       drawerProps={{
         styles: {body: {overflowY: 'scroll'}},
+        onClose: (e) => onCancel(),
         closeIcon: null,
         destroyOnClose: true,
         mask: false
       }}
       onFinish={(values) => {
-        if (onOK) {
-          onOK(values)
+        if (onFinish) {
+          onFinish(values)
           return Promise.resolve(true)
         }
         return Promise.resolve(false)

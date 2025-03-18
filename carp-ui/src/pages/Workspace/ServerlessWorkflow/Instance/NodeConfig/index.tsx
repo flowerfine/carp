@@ -34,7 +34,7 @@ const ServerlessNodeConfig: React.FC = () => {
                                       visible={open}
                                       onVisibleChange={setOpen}
                                       onCancel={() => setOpen(false)}
-                                      onOK={onOk}
+                                      onFinish={onOk}
       />)
     }
 
