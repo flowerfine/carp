@@ -128,39 +128,48 @@ create table carp_dag_config_step
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (1, 'default', 1, '157f118c-9b6c-4d18-a919-fce824676696', 'Jdbc Source', null, null, 520, 150, null, null,
-        '{\"name\":\"Jdbc\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
+values (1, 'default', 1, '157f118c-9b6c-4d18-a919-fce824676696', 'Jdbc Source', null, null, 0, 100,
+        'serverless-workflow-node', null,
+        '{"namespace":"seatunnel","label":"Jdbc","name":"Jdbc","type":"Jdbc","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"source","author":"carp","description":"Read external data source data through JDBC.","document":"https://seatunnel.apache.org","engine":"seatunnel","stepType":"normal"}',
         '{\"stepTitle\":\"Jdbc Source\",\"dataSourceType\":\"MySQL\",\"dataSource\":1,\"fetch_size\":0,\"query\":\"select * from sample_data_e_commerce\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (2, 'default', 1, 'e69dbf5a-76ad-47be-aa16-175b733a7df2', 'Jdbc Sink', null, null, 460, 400, null, null,
-        '{\"name\":\"Jdbc\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
+values (2, 'default', 1, 'e69dbf5a-76ad-47be-aa16-175b733a7df2', 'Jdbc Sink', null, null, 350, 100,
+        'serverless-workflow-node', null,
+        '{"namespace":"seatunnel","label":"Jdbc","name":"Jdbc","type":"Jdbc","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"sink","author":"carp","description":"Write data through jdbc","document":"https://seatunnel.apache.org","engine":"seatunnel","stepType":"normal"}',
         '{\"stepTitle\":\"Jdbc Sink\",\"dataSourceType\":\"MySQL\",\"dataSource\":1,\"generate_sink_sql\":false,\"batch_size\":300,\"max_retries\":3,\"is_exactly_once\":false,\"query\":\"insert into sample_data_e_commerce_duplicate \\n( id, invoice_no, stock_code, description, quantity, invoice_date, unit_price, customer_id, country )\\nvalues (?,?,?,?,?,?,?,?,?)\",\"primary_keys\":\"[]\",\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (3, 'default', 2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', null, null, 380, 140, null, null,
-        '{"name":"FakeSource","type":"source","engine":"seatunnel"}',
+values (3, 'default', 2, '6223c6c3-b552-4c69-adab-5300b7514fad', 'Fake Source', null, null, 0, 100,
+        'serverless-workflow-node', null,
+        '{"namespace":"seatunnel","label":"FakeSource","name":"FakeSource","type":"FakeSource","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"source","author":"carp","description":"The FakeSource is a virtual data source, which randomly generates the number of rows according to the data structure of the user-defined schema, just for some test cases such as type conversion or connector new feature testing","document":"https://seatunnel.apache.org","engine":"seatunnel","stepType":"normal"}',
         '{"stepTitle":"Fake Source","fields":[{"field":"c_string","type":"string"},{"field":"c_boolean","type":"boolean"},{"field":"c_tinyint","type":"tinyint"},{"field":"c_smallint","type":"smallint"},{"field":"c_int","type":"int"},{"field":"c_bigint","type":"bigint"},{"field":"c_float","type":"float"},{"field":"c_double","type":"double"},{"field":"c_decimal","type":"decimal(30, 8)"},{"field":"c_bytes","type":"bytes"},{"field":"c_map","type":"map<string, string>"},{"field":"c_date","type":"date"},{"field":"c_time","type":"time"},{"field":"c_timestamp","type":"timestamp"}],"schema":"{\\\"fields\\\":{\\\"c_string\\\":\\\"string\\\",\\\"c_boolean\\\":\\\"boolean\\\",\\\"c_tinyint\\\":\\\"tinyint\\\",\\\"c_smallint\\\":\\\"smallint\\\",\\\"c_int\\\":\\\"int\\\",\\\"c_bigint\\\":\\\"bigint\\\",\\\"c_float\\\":\\\"float\\\",\\\"c_double\\\":\\\"double\\\",\\\"c_decimal\\\":\\\"decimal(30, 8)\\\",\\\"c_bytes\\\":\\\"bytes\\\",\\\"c_map\\\":\\\"map<string, string>\\\",\\\"c_date\\\":\\\"date\\\",\\\"c_time\\\":\\\"time\\\",\\\"c_timestamp\\\":\\\"timestamp\\\"}}"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (4, 'default', 2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', null, null, 360, 290, null, null,
-        '{"name":"Console","type":"sink","engine":"seatunnel"}', '{"stepTitle":"Console Sink"}', 'sys', 'sys');
+values (4, 'default', 2, 'f08143b4-34dc-4190-8723-e8d8ce49738f', 'Console Sink', null, null, 350, 100,
+        'serverless-workflow-node', null,
+        '{"namespace":"seatunnel","label":"Console","name":"Console","type":"Console","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"sink","author":"carp","description":"Used to send data to Console","document":"https://seatunnel.apache.org","engine":"seatunnel","stepType":"normal"}',
+        '{"stepTitle":"Console Sink"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (5, 'default', 3, '1d0b15ba-12b9-4698-ab21-4c5cfe0b2e64', 'MySQL Source', null, null, 380, 140, null, null,
-        '{\"name\":\"MySQL\",\"type\":\"source\"}', '{\"stepTitle\":\"MySQL Source\"}', 'sys', 'sys');
+values (5, 'default', 3, '1d0b15ba-12b9-4698-ab21-4c5cfe0b2e64', 'MySQL Source', null, null, 0, 100,
+        'serverless-workflow-node', null,
+        '{"namespace":"seatunnel","label":"MySQL","name":"MySQL","type":"MySQL","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"source","author":"carp","description":"Read external data source data through JDBC.","document":"https://seatunnel.apache.org","engine":"seatunnel","stepType":"normal"}',
+        '{\"stepTitle\":\"MySQL Source\"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (6, 'default', 3, '640069cb-4f12-4c84-aefb-2731d4a82d78', 'Doris Sink', null, null, 360, 290, null, null,
-        '{\"name\":\"Doris\",\"type\":\"sink\"}', '{\"stepTitle\":\"Doris Sink\"}', 'sys', 'sys');
+values (6, 'default', 3, '640069cb-4f12-4c84-aefb-2731d4a82d78', 'Doris Sink', null, null, 350, 100,
+        'serverless-workflow-node', null,
+        '{"namespace":"seatunnel","label":"Doris","name":"Doris","type":"Doris","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"sink","author":"carp","description":"Used to send data to Doris","document":"https://seatunnel.apache.org","engine":"seatunnel","stepType":"normal"}',
+        '{\"stepTitle\":\"Doris Sink\"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
@@ -217,7 +226,8 @@ values (13, 'default', 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatu
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (14, 'default', 8, 'cfddc076-db37-41b1-a0f5-26430184805d', 'Kafka Source', null, null, 640, 160, null, null,
+values (14, 'default', 8, 'cfddc076-db37-41b1-a0f5-26430184805d', 'Kafka Source', null, null, 640, 160,
+        'serverless-workflow-node', null,
         '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"data_service_sample_data_e_commerce\",\"pattern\":false,\"consumer.group\":\"mysql_binlog_kafka_es_1\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
         'sys', 'sys');
@@ -225,110 +235,122 @@ insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `ste
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
 values (15, 'default', 8, '8ababac2-725c-46c4-96b7-75ebc94621db', 'Elasticsearch Sink', null, null, 640, 334,
-        null, null,
+        'serverless-workflow-node', null,
         '{\"name\":\"Elasticsearch\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Elasticsearch Sink\",\"dataSourceType\":\"Elasticsearch\",\"dataSource\":8,\"index\":\"data_service_sample_data_e_commerce\",\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"max_batch_size\":10,\"max_retry_count\":3,\"primary_keys\":\"[]\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (16, 'default', 8, 'c2e9413a-3aa8-4e04-82ec-77da8f6c12eb', 'Kafka Source', null, null, 210, 160, null, null,
+values (16, 'default', 8, 'c2e9413a-3aa8-4e04-82ec-77da8f6c12eb', 'Kafka Source', null, null, 210, 160,
+        'serverless-workflow-node', null,
         '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"data_service_sample_data_e_commerce\",\"pattern\":false,\"consumer.group\":\"mysql_binlog_kafka_es_2\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"canal_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (17, 'default', 8, '7cc271ae-d7e9-4d8c-8568-c2a50492ab77', 'Kafka Sink', null, null, 210, 334, null, null,
+values (17, 'default', 8, '7cc271ae-d7e9-4d8c-8568-c2a50492ab77', 'Kafka Sink', null, null, 210, 334,
+        'serverless-workflow-node', null,
         '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"data_service_sample_data_e_commerce_duplicate\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"canal_json\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (18, 'default', 9, '297d303d-faa8-4405-b104-b438847e35c9', 'MySQL-CDC Source', null, null, 370, 110, null, null,
+values (18, 'default', 9, '297d303d-faa8-4405-b104-b438847e35c9', 'MySQL-CDC Source', null, null, 370, 110,
+        'serverless-workflow-node', null,
         '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"database-names\":\"data_service\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"initial\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (19, 'default', 9, 'b125d246-a5ae-44cb-8280-ee4f8bfe9f1e', 'Kafka Sink', null, null, 370, 250, null, null,
+values (19, 'default', 9, 'b125d246-a5ae-44cb-8280-ee4f8bfe9f1e', 'Kafka Sink', null, null, 370, 250,
+        'serverless-workflow-node', null,
         '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"binlog_cdc_sample_data_e_commerce\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"debezium_json\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (20, 'default', 10, '65a74232-1d62-4a48-951c-606c62c4bc20', 'MySQL-CDC Source', null, null, 430, 190, null, null,
+values (20, 'default', 10, '65a74232-1d62-4a48-951c-606c62c4bc20', 'MySQL-CDC Source', null, null, 430, 190,
+        'serverless-workflow-node', null,
         '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"initial\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (21, 'default', 10, '75e6ddb1-5146-46c1-9cfe-39f3a1be196a', 'Paimon Sink', null, null, 430, 325, null, null,
+values (21, 'default', 10, '75e6ddb1-5146-46c1-9cfe-39f3a1be196a', 'Paimon Sink', null, null, 430, 325,
+        'serverless-workflow-node', null,
         '{\"name\":\"Paimon\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Paimon Sink\",\"warehouse\":\"s3a:///scaleph/seatunnel/paimon/\",\"database\":\"mysql_data_service\",\"table\":\"sample_data_e_commerce\",\"paimon.hadoop.conf_common_config_\":[{\"paimon.hadoop.conf_common_config_key_\":\"s3.endpoint\",\"paimon.hadoop.conf_common_config_value_\":\"http://localhost:9000\"},{\"paimon.hadoop.conf_common_config_key_\":\"s3.access-key\",\"paimon.hadoop.conf_common_config_value_\":\"admin\"},{\"paimon.hadoop.conf_common_config_key_\":\"s3.secret-key\",\"paimon.hadoop.conf_common_config_value_\":\"password\"},{\"paimon.hadoop.conf_common_config_key_\":\"s3.path.style.access\",\"paimon.hadoop.conf_common_config_value_\":\"true\"}],\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"paimon.hadoop.conf\":\"{\\\"s3.endpoint\\\":\\\"http://localhost:9000\\\",\\\"s3.access-key\\\":\\\"admin\\\",\\\"s3.secret-key\\\":\\\"password\\\",\\\"s3.path.style.access\\\":\\\"true\\\"}\",\"paimon.table.write-props\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (22, 'default', 11, 'ffa948e5-d728-4b1a-abb1-b4058f353118', 'MySQL-CDC Source', null, null, 380, 40, null, null,
+values (22, 'default', 11, 'ffa948e5-d728-4b1a-abb1-b4058f353118', 'MySQL-CDC Source', null, null, 380, 40,
+        'serverless-workflow-node', null,
         '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"initial\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (23, 'default', 11, '6faa1187-093e-4a1f-867c-ebe5c6ed1251', 'Kafka Sink', null, null, 380, 163, null, null,
+values (23, 'default', 11, '6faa1187-093e-4a1f-867c-ebe5c6ed1251', 'Kafka Sink', null, null, 380, 163,
+        'serverless-workflow-node', null,
         '{\"name\":\"Kafka\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Sink\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"sample_data_e_commerce\",\"semantic\":\"AT_LEAST_ONCE\",\"format\":\"debezium_json\",\"schema\":\"{\\\"fields\\\":{}}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (24, 'default', 11, '66e6337a-e9e3-49ff-90ae-28672147c938', 'Kafka Source', null, null, 380, 266, null, null,
+values (24, 'default', 11, '66e6337a-e9e3-49ff-90ae-28672147c938', 'Kafka Source', null, null, 380, 266,
+        'serverless-workflow-node', null,
         '{\"name\":\"Kafka\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Kafka Source\",\"dataSourceType\":\"Kafka\",\"dataSource\":7,\"topic\":\"sample_data_e_commerce\",\"pattern\":false,\"consumer.group\":\"SeaTunnel-Consumer-Group-678\",\"commit_on_checkpoint\":true,\"format_error_handle_way\":\"fail\",\"format\":\"debezium_json\",\"start_mode\":\"earliest\",\"schema\":\"{\\\"fields\\\":{}}\",\"kafka.config\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (25, 'default', 11, 'ed9c7440-e6b6-47c7-bf97-1051392174eb', 'Doris Sink', null, null, 380, 383, null, null,
+values (25, 'default', 11, 'ed9c7440-e6b6-47c7-bf97-1051392174eb', 'Doris Sink', null, null, 380, 383,
+        'serverless-workflow-node', null,
         '{\"name\":\"Doris\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Doris Sink\",\"dataSourceType\":\"Doris\",\"dataSource\":9,\"database\":\"ods\",\"table\":\"ods_data_service_mysql_data_service\",\"sink.label-prefix\":\"test_\",\"sink.enable-2pc\":true,\"sink.enable-delete\":false,\"needs_unsupported_type_casting\":false,\"sink.check-interval\":10000,\"sink.max-retries\":3,\"sink.buffer-size\":262144,\"sink.buffer-count\":3,\"doris.batch.size\":1024,\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"doris.config_common_config_\":[{\"doris.config_common_config_key_\":\"format\",\"doris.config_common_config_value_\":\"json\"},{\"doris.config_common_config_key_\":\"read_json_by_line\",\"doris.config_common_config_value_\":\"true\"}],\"doris.config\":\"{\\\"format\\\":\\\"json\\\",\\\"read_json_by_line\\\":\\\"true\\\"}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (26, 'default', 12, '1a7dc268-5620-4f17-974a-8b22e51690a5', 'MySQL-CDC Source', null, null, 420, 80, null, null,
+values (26, 'default', 12, '1a7dc268-5620-4f17-974a-8b22e51690a5', 'MySQL-CDC Source', null, null, 420, 80,
+        'serverless-workflow-node', null,
         '{\"name\":\"MySQL-CDC\",\"type\":\"source\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"MySQL-CDC Source\",\"base-url\":\"jdbc:mysql://localhost:3306/data_service\",\"username\":\"root\",\"password\":\"123456\",\"table-names\":\"data_service.sample_data_e_commerce\",\"startupMode\":\"initial\",\"stopMode\":\"never\",\"snapshot.split.size\":8096,\"snapshot.fetch.size\":1024,\"incremental.parallelism\":1,\"server-time-zone\":\"UTC\",\"connection.pool.size\":20,\"connect.timeout\":\"30s\",\"connect.max-retries\":3,\"chunk-key.even-distribution.factor.lower-bound\":0.05,\"chunk-key.even-distribution.factor.upper-bound\":1000,\"sample-sharding.threshold\":1000,\"inverse-sampling.rate\":1000,\"exactly_once\":true,\"format\":\"DEFAULT\",\"debezium\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (27, 'default', 12, '763e5f0a-fea0-400b-a5d0-42f72fed63f9', 'Iceberg Sink', null, null, 420, 210, null, null,
+values (27, 'default', 12, '763e5f0a-fea0-400b-a5d0-42f72fed63f9', 'Iceberg Sink', null, null, 420, 210,
+        'serverless-workflow-node', null,
         '{\"name\":\"Iceberg\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Iceberg Sink\",\"catalog_name\":\"ods\",\"namespace\":\"data_service\",\"table\":\"sample_data_e_commerce\",\"type\":\"hadoop\",\"warehouse\":\"s3a:///tmp/seatunnel/iceberg/scaleph/\",\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"iceberg.catalog.config\":\"{\\\"type\\\":\\\"hadoop\\\",\\\"warehouse\\\":\\\"s3a:///tmp/seatunnel/iceberg/scaleph/\\\"}\",\"hadoop.config\":\"{}\",\"iceberg.table.write-props\":\"{}\",\"iceberg.table.auto-create-props\":\"{}\"}',
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (28, 'default', 13, '01JJASC5NXJZXVNXV4H49V0590', 'Log', null, null, 420, 80, null, null,
+values (28, 'default', 13, '01JJASC5NXJZXVNXV4H49V0590', 'Log', null, null, 420, 80, 'serverless-workflow-node', null,
         '{\"type\":\"log\",\"syntheticStageOwner\":null,\"additionalMetricTags\":{}}',
         '{\"stepTitle\":\"log\",\"context\":{\"url\":\"url-data\",\"payload\":\"payload-data\"}}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (29, 'default', 13, '01JJASQN1A3AX87TCZ3PYKGY6M', 'Wait', null, null, 420, 210, null, null,
+values (29, 'default', 13, '01JJASQN1A3AX87TCZ3PYKGY6M', 'Wait', null, null, 420, 210, 'serverless-workflow-node', null,
         '{\"type\":\"wait\",\"syntheticStageOwner\":null,\"additionalMetricTags\":{}}',
         '{\"stepTitle\":\"wait\",\"context\":{\"waitTime\":30,\"skipRemainingWait\":false}}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (30, 'default', 13, '01JJASWEDS856T5G4A330ZT63G', 'Log', null, null, 420, 340, null, null,
+values (30, 'default', 13, '01JJASWEDS856T5G4A330ZT63G', 'Log', null, null, 420, 340, 'serverless-workflow-node', null,
         '{\"type\":\"log\",\"syntheticStageOwner\":null,\"additionalMetricTags\":{}}',
         '{\"stepTitle\":\"log\",\"context\":{\"url\":\"url-data\",\"payload\":\"payload-data\"}}', 'sys', 'sys');
 
@@ -410,6 +432,11 @@ insert into `carp_dag_config_link` (`id`, `namespace`, `dag_id`, `link_id`, `lin
                                     `shape`, `style`, `link_meta`, `link_attrs`, `creator`, `editor`)
 values (15, 'default', 13, '01JJAWSARAN37VEXDQ0MKZ7PD3', null, '01JJASQN1A3AX87TCZ3PYKGY6M',
         '01JJASWEDS856T5G4A330ZT63G', null, null, null, null, 'sys', 'sys');
+insert into `carp_dag_config_link` (`id`, `namespace`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`,
+                                    `shape`, `style`, `link_meta`, `link_attrs`, `creator`, `editor`)
+values (16, 'default', 3, 'd7b5d6a0-842f-474e-9d05-cb7ccfc2a40e', null, '1d0b15ba-12b9-4698-ab21-4c5cfe0b2e64',
+        '640069cb-4f12-4c84-aefb-2731d4a82d78', null, null, null, null, 'sys', 'sys');
+
 
 drop table if exists carp_dag_instance;
 create table carp_dag_instance
