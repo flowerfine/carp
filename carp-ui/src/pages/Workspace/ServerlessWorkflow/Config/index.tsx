@@ -11,7 +11,7 @@ export type WorkflowDefinitionState = {
   data?: WorkspaceWorkflowAPI.WorkflowDefinition | null;
 }
 
-const WorkspaceWorkflowDefinitionWeb: React.FC = () => {
+const WorkspaceServerlessWorkflowConfigWeb: React.FC = () => {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
@@ -80,7 +80,7 @@ const WorkspaceWorkflowDefinitionWeb: React.FC = () => {
   ];
 
   return (
-    <PageContainer content={intl.formatMessage({ id: 'menu.workspace.x6.dag-demo.desc' })}>
+    <PageContainer content={intl.formatMessage({ id: 'menu.workspace.serverless-workflow.config.desc' })}>
       <ProTable<WorkspaceWorkflowAPI.WorkflowDefinition>
         search={{
           labelWidth: 'auto',
@@ -106,4 +106,4 @@ const WorkspaceWorkflowDefinitionWeb: React.FC = () => {
   )
 }
 
-export default WorkspaceWorkflowDefinitionWeb
+export default WorkspaceServerlessWorkflowConfigWeb

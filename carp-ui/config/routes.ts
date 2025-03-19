@@ -225,7 +225,13 @@ export default [
         routes: [
           {
             path: '/workspace/serverless-workflow',
-            redirect: '/workspace/serverless-workflow/instance',
+            redirect: '/workspace/serverless-workflow/config',
+          },
+          {
+            path: '/workspace/serverless-workflow/config',
+            name: 'config',
+            icon: 'profile',
+            component: './Workspace/ServerlessWorkflow/Config',
           },
           {
             path: '/workspace/serverless-workflow/instance',
@@ -236,44 +242,13 @@ export default [
         ]
       },
       {
-        path: '/workspace/orca',
-        name: 'orca',
-        icon: 'profile',
-        routes: [
-          {
-            path: '/workspace/orca',
-            redirect: '/workspace/orca/instance',
-          },
-          {
-            path: '/workspace/orca/instance',
-            name: 'instance',
-            icon: 'profile',
-            component: './Workspace/Orca/Instance',
-          },
-          {
-            path: '/workspace/orca/detail',
-            component: './Workspace/Orca/Detail',
-          },
-        ]
-      },
-      {
         path: '/workspace/x6',
         name: 'x6',
         icon: 'profile',
         routes: [
           {
             path: '/workspace/x6',
-            redirect: '/workspace/x6/dag-demo',
-          },
-          {
-            path: '/workspace/x6/dag-demo',
-            name: 'dag-demo',
-            icon: 'profile',
-            component: './Workspace/X6/dag-demo',
-          },
-          {
-            path: '/workspace/x6/dag-demo/detail',
-            component: './Workspace/X6/dag-demo/dag'
+            redirect: '/workspace/x6/chat',
           },
           {
             path: '/workspace/x6/chat',

@@ -44,13 +44,9 @@ export default {
   'menu.workspace.schedule.instance': '任务实例',
   'menu.workspace.schedule.instance.desc': '调度任务实例信息',
 
-  'menu.workspace.orca': '任务编排',
-  'menu.workspace.orca.instance': '实例管理',
-  'menu.workspace.orca.instance.desc': '任务编排实例管理页面',
-  'menu.workspace.orca.detail': '实例详情',
-  'menu.workspace.orca.detail.desc': '任务编排实例详情页面',
-
   'menu.workspace.serverless-workflow': 'Serverless Workflow',
+  'menu.workspace.serverless-workflow.config': '配置管理',
+  'menu.workspace.serverless-workflow.config.desc': 'Serverless Workflow 配置管理页面',
   'menu.workspace.serverless-workflow.instance': '实例管理',
   'menu.workspace.serverless-workflow.instance.desc': 'Serverless Workflow 实例编排页面',
 
