@@ -17,10 +17,10 @@
  */
 package cn.sliew.carp.module.workflow.internal.manager;
 
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +52,7 @@ public class SimpleWorkflowTaskInstanceManager implements WorkflowTaskInstanceMa
         stateMachine.resume(get(id));
     }
 
-    private WorkflowTaskInstance get(Long id) {
+    private WorkflowStepInstance get(Long id) {
         return workflowInstanceService.getTask(id);
     }
 }

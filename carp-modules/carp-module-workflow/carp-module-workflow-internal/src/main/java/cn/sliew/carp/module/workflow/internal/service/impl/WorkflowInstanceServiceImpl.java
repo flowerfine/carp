@@ -28,16 +28,16 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowExecutionGraph;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.api.service.convert.WorkflowDefinitionGraphEdgeConvert;
-import cn.sliew.carp.module.workflow.api.service.convert.WorkflowInstanceConvert;
-import cn.sliew.carp.module.workflow.api.service.convert.WorkflowTaskInstanceConvert;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowDefinitionGraphEdgeConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowInstanceConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowStepInstanceConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowExecutionGraph;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,10 +73,10 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
         WorkflowExecutionGraph graph = new WorkflowExecutionGraph();
         dto.setGraph(graph);
 
-        List<WorkflowTaskInstance> allNodes = WorkflowTaskInstanceConvert.INSTANCE.toDto(complexDTO.getSteps());
-        WorkflowTaskInstance preNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.PRE).findFirst().orElse(null);
-        WorkflowTaskInstance postNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.POST).findFirst().orElse(null);
-        List<WorkflowTaskInstance> normalNodes = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.NORMAL).collect(Collectors.toList());
+        List<WorkflowStepInstance> allNodes = WorkflowStepInstanceConvert.INSTANCE.toDto(complexDTO.getSteps());
+        WorkflowStepInstance preNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.PRE).findFirst().orElse(null);
+        WorkflowStepInstance postNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.POST).findFirst().orElse(null);
+        List<WorkflowStepInstance> normalNodes = allNodes.stream().filter(node -> node.getNode().getMeta().getStepType() == CarpWorkflowStepType.NORMAL).collect(Collectors.toList());
         graph.setPreTask(preNode);
         graph.setPostTask(postNode);
         graph.setTasks(normalNodes);
@@ -88,9 +88,9 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
-    public WorkflowTaskInstance getTask(Long workflowTaskInstanceId) {
+    public WorkflowStepInstance getTask(Long workflowTaskInstanceId) {
         DagStepDTO dagStepDTO = dagStepService.get(workflowTaskInstanceId);
-        return WorkflowTaskInstanceConvert.INSTANCE.toDto(dagStepDTO);
+        return WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
     }
 
     @Override

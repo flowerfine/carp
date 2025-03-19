@@ -20,13 +20,15 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
-import cn.sliew.carp.module.workflow.api.service.convert.WorkflowExecutionGraphConvert;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutorManager;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowExecutionGraphConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,23 +59,24 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
     private void run(Long workflowInstanceId) {
         WorkflowInstance workflowInstance = workflowInstanceService.getGraph(workflowInstanceId);
-        if (CarpWorkflowInstanceState.FAILURE == workflowInstance.getStatus()) {
+        if (StringUtils.equalsIgnoreCase(workflowInstance.getStatus(), CarpWorkflowInstanceState.FAILURE.name())) {
             return;
         }
 
-        DAG<WorkflowTaskInstance> dag = WorkflowExecutionGraphConvert.INSTANCE.toDto(workflowInstance.getGraph());
+        DAG<WorkflowStepInstance> dag = WorkflowExecutionGraphConvert.INSTANCE.toDto(workflowInstance.getGraph());
         // 检测所有任务的状态，如果有一个失败，则失败。如果都执行成功，则成功
         int successTaskCount = 0;
         boolean isAnyFailure = false;
         String anyFailureMessage = null;
-        for (WorkflowTaskInstance taskInstance : dag.nodes()) {
-            if (taskInstance.getStatus().isEnd()) {
-                if (taskInstance.getStatus().isFailure()) {
+        for (WorkflowStepInstance taskInstance : dag.nodes()) {
+            CarpWorkflowTaskInstanceStage taskInstanceStage = CarpWorkflowTaskInstanceStage.of(taskInstance.getStatus());
+            if (taskInstanceStage.isEnd()) {
+                if (taskInstanceStage.isFailure()) {
                     isAnyFailure = true;
 //                    anyFailureMessage = dagStepDTO.getMessage();
                     break;
                 }
-                if (taskInstance.getStatus().isSuccess()) {
+                if (taskInstanceStage.isSuccess()) {
                     successTaskCount++;
                 }
             }

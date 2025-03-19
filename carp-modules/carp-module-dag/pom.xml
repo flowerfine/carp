@@ -39,15 +39,7 @@
         </dependency>
         <dependency>
             <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-dag</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-pf4j</artifactId>
         </dependency>
 
         <dependency>

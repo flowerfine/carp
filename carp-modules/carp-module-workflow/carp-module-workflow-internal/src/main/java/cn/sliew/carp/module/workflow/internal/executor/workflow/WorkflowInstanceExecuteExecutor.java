@@ -22,10 +22,11 @@ import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStag
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.algorithm.DagUtil;
 import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutor;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,22 +44,22 @@ public class WorkflowInstanceExecuteExecutor implements WorkflowInstanceExecutor
     }
 
     @Override
-    public void execute(WorkflowInstance instance, DAG<WorkflowTaskInstance> dag) {
+    public void execute(WorkflowInstance instance, DAG<WorkflowStepInstance> dag) {
         DagUtil.execute(dag, (dag1, node) -> checkTask(instance, dag1, node), (dag1, edge) -> checkEdge(instance, dag, edge), this::executeTasks);
     }
 
     @Override
-    public boolean checkEdge(WorkflowInstance instance, DAG<WorkflowTaskInstance> dag, DefaultDagEdge<WorkflowTaskInstance> edge) {
-        return edge.getSource().getStatus().isSuccess();
+    public boolean checkEdge(WorkflowInstance instance, DAG<WorkflowStepInstance> dag, DefaultDagEdge<WorkflowStepInstance> edge) {
+        return CarpWorkflowTaskInstanceStage.of(edge.getSource().getStatus()).isSuccess();
     }
 
     @Override
-    public boolean checkTask(WorkflowInstance instance, DAG<WorkflowTaskInstance> dag, WorkflowTaskInstance task) {
-        return task.getStatus() == CarpWorkflowTaskInstanceStage.PENDING;
+    public boolean checkTask(WorkflowInstance instance, DAG<WorkflowStepInstance> dag, WorkflowStepInstance task) {
+        return StringUtils.equalsIgnoreCase(task.getStatus(), CarpWorkflowTaskInstanceStage.PENDING.name());
     }
 
     @Override
-    public void executeTasks(Set<WorkflowTaskInstance> task) {
+    public void executeTasks(Set<WorkflowStepInstance> task) {
         task.forEach(taskInstance -> workflowTaskInstanceManager.deploy(taskInstance.getId()));
     }
 }

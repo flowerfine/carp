@@ -20,8 +20,8 @@ package cn.sliew.carp.module.workflow.internal.statemachine;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilder;
@@ -107,30 +107,30 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
 
 
     public void deploy(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(instance.getId(), null));
     }
 
     public void shutdown(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN, Pair.of(instance.getId(), null));
     }
 
     public void suspend(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.COMMAND_SUSPEND, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_SUSPEND, Pair.of(instance.getId(), null));
     }
 
     public void resume(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.COMMAND_RESUME, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_RESUME, Pair.of(instance.getId(), null));
     }
 
     public void onTaskChange(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(instance.getId(), null));
     }
 
     public void onSuccess(WorkflowInstance instance) {
-        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.PROCESS_SUCCESS, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_SUCCESS, Pair.of(instance.getId(), null));
     }
 
     public void onFailure(WorkflowInstance instance, Throwable throwable) {
-        stateMachine.fireEvent(instance.getStatus(), CarpWorkflowInstanceEvent.PROCESS_FAILURE, Pair.of(instance.getId(), throwable));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_FAILURE, Pair.of(instance.getId(), throwable));
     }
 }

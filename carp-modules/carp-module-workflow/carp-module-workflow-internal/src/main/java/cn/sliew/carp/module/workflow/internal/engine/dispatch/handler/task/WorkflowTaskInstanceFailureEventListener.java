@@ -20,8 +20,8 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -60,8 +60,8 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
             dagStepUpdateParam.setEndTime(new Date());
             dagStepService.update(dagStepUpdateParam);
 
-            WorkflowTaskInstance taskInstance = workflowInstanceService.getTask(workflowTaskInstanceId);
-            workflowInstanceStateMachine.onTaskChange(workflowInstanceService.get(taskInstance.getWorkflowInstanceId()));
+            WorkflowStepInstance taskInstance = workflowInstanceService.getTask(workflowTaskInstanceId);
+            workflowInstanceStateMachine.onTaskChange(workflowInstanceService.get(taskInstance.getWorkflowInstance().getId()));
         }
     }
 

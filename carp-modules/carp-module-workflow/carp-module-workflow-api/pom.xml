@@ -33,10 +33,6 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-dag</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

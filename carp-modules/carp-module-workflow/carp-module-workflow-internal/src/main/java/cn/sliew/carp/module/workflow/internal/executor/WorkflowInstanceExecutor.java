@@ -20,8 +20,8 @@ package cn.sliew.carp.module.workflow.internal.executor;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 
 import java.util.Set;
 
@@ -29,11 +29,11 @@ public interface WorkflowInstanceExecutor {
 
     CarpWorkflowExecuteType getExecuteType();
 
-    void execute(WorkflowInstance instance, DAG<WorkflowTaskInstance> dag);
+    void execute(WorkflowInstance instance, DAG<WorkflowStepInstance> dag);
 
-    boolean checkEdge(WorkflowInstance instance, DAG<WorkflowTaskInstance> dag, DefaultDagEdge<WorkflowTaskInstance> edge);
+    boolean checkEdge(WorkflowInstance instance, DAG<WorkflowStepInstance> dag, DefaultDagEdge<WorkflowStepInstance> edge);
 
-    boolean checkTask(WorkflowInstance instance, DAG<WorkflowTaskInstance> dag, WorkflowTaskInstance task);
+    boolean checkTask(WorkflowInstance instance, DAG<WorkflowStepInstance> dag, WorkflowStepInstance task);
 
-    void executeTasks(Set<WorkflowTaskInstance> task);
+    void executeTasks(Set<WorkflowStepInstance> task);
 }

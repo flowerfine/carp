@@ -19,8 +19,8 @@ package cn.sliew.carp.module.workflow.internal.executor;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -64,7 +64,7 @@ public class WorkflowInstanceExecutorManager implements InitializingBean, Dispos
         }
     }
 
-    public CompletableFuture execute(CarpWorkflowExecuteType executeType, WorkflowInstance instance, DAG<WorkflowTaskInstance> dag) {
+    public CompletableFuture execute(CarpWorkflowExecuteType executeType, WorkflowInstance instance, DAG<WorkflowStepInstance> dag) {
         if (registry.containsKey(executeType) == false) {
             throw new RuntimeException("unknown workflow instance execute type: "
                     + executeType.getLabel() + "[" + executeType.getValue() + "]");

@@ -19,9 +19,9 @@ package cn.sliew.carp.module.workflow.internal.statemachine;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.publisher.InternalWorkflowTaskInstanceEventPublisher;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilder;
@@ -96,27 +96,27 @@ public class WorkflowTaskInstanceStateMachine implements InitializingBean {
         };
     }
 
-    public void deploy(WorkflowTaskInstance taskInstance) {
-        stateMachine.fireEvent(taskInstance.getStatus(), CarpWorkflowTaskInstanceEvent.COMMAND_DEPLOY, Pair.of(taskInstance.getId(), null));
+    public void deploy(WorkflowStepInstance taskInstance) {
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceStage.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_DEPLOY, Pair.of(taskInstance.getId(), null));
     }
 
-    public void shutdown(WorkflowTaskInstance taskInstance) {
-        stateMachine.fireEvent(taskInstance.getStatus(), CarpWorkflowTaskInstanceEvent.COMMAND_SHUTDOWN, Pair.of(taskInstance.getId(), null));
+    public void shutdown(WorkflowStepInstance taskInstance) {
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceStage.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_SHUTDOWN, Pair.of(taskInstance.getId(), null));
     }
 
-    public void suspend(WorkflowTaskInstance taskInstance) {
-        stateMachine.fireEvent(taskInstance.getStatus(), CarpWorkflowTaskInstanceEvent.COMMAND_SUSPEND, Pair.of(taskInstance.getId(), null));
+    public void suspend(WorkflowStepInstance taskInstance) {
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceStage.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_SUSPEND, Pair.of(taskInstance.getId(), null));
     }
 
-    public void resume(WorkflowTaskInstance taskInstance) {
-        stateMachine.fireEvent(taskInstance.getStatus(), CarpWorkflowTaskInstanceEvent.COMMAND_RESUME, Pair.of(taskInstance.getId(), null));
+    public void resume(WorkflowStepInstance taskInstance) {
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceStage.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_RESUME, Pair.of(taskInstance.getId(), null));
     }
 
-    public void onSuccess(WorkflowTaskInstance taskInstance) {
-        stateMachine.fireEvent(taskInstance.getStatus(), CarpWorkflowTaskInstanceEvent.PROCESS_SUCCESS, Pair.of(taskInstance.getId(), null));
+    public void onSuccess(WorkflowStepInstance taskInstance) {
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceStage.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.PROCESS_SUCCESS, Pair.of(taskInstance.getId(), null));
     }
 
-    public void onFailure(WorkflowTaskInstance taskInstance, Throwable throwable) {
-        stateMachine.fireEvent(taskInstance.getStatus(), CarpWorkflowTaskInstanceEvent.PROCESS_FAILURE, Pair.of(taskInstance.getId(), throwable));
+    public void onFailure(WorkflowStepInstance taskInstance, Throwable throwable) {
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceStage.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.PROCESS_FAILURE, Pair.of(taskInstance.getId(), throwable));
     }
 }

@@ -18,9 +18,9 @@
 package cn.sliew.carp.module.workflow.api.service.dto;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionAttrs;
-import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionMeta;
-import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowParamOption;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionAttrs;
+import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionMeta;
+import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -42,10 +42,10 @@ public class WorkflowDefinitionDTO extends BaseDTO {
     private WorkflowDefinitionAttrs attrs;
 
     @Schema(description = "输入参数声明")
-    private List<WorkflowParamOption> intputOptions;
+    private List<WorkflowParam> intputOptions;
 
     @Schema(description = "输出参数声明")
-    private List<WorkflowParamOption> outputOptions;
+    private List<WorkflowParam> outputOptions;
 
     @Schema(description = "备注")
     private String remark;

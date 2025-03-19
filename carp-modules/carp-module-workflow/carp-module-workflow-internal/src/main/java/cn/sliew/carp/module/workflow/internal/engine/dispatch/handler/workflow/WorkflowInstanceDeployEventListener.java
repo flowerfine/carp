@@ -21,11 +21,11 @@ import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.api.engine.domain.instance.WorkflowTaskInstance;
-import cn.sliew.carp.module.workflow.api.service.convert.WorkflowExecutionGraphConvert;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutorManager;
+import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowExecutionGraphConvert;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,7 +62,7 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
         dagInstanceService.updateStatus(event.getWorkflowInstanceId(), event.getState().getValue(), event.getNextState().getValue());
 
         WorkflowInstance workflowInstance = workflowInstanceService.getGraph(event.getWorkflowInstanceId());
-        DAG<WorkflowTaskInstance> dag = WorkflowExecutionGraphConvert.INSTANCE.toDto(workflowInstance.getGraph());
+        DAG<WorkflowStepInstance> dag = WorkflowExecutionGraphConvert.INSTANCE.toDto(workflowInstance.getGraph());
         // 无节点，直接成功
         if (dag.nodes().size() == 0) {
             stateMachine.onSuccess(workflowInstance);

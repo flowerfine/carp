@@ -28,9 +28,6 @@
     </parent>
     <artifactId>carp-module-workflow-stage</artifactId>
 
-    <properties>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
