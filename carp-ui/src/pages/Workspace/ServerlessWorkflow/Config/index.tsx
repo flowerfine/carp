@@ -19,7 +19,7 @@ const WorkspaceServerlessWorkflowConfigWeb: React.FC = () => {
   const [workflowDefinitionFormData, setWorkflowDefinitionFormData] = useState<WorkflowDefinitionState>({ visiable: false, data: null });
 
   const onDetailClick = (record: WorkspaceWorkflowAPI.WorkflowDefinition) => {
-    history.push('/workspace/x6/dag-demo/detail', record);
+    history.push('/workspace/serverless-workflow/config/dag', record);
   };
 
   const columns: ProColumns<WorkspaceWorkflowAPI.WorkflowDefinition>[] = [

@@ -234,6 +234,10 @@ export default [
             component: './Workspace/ServerlessWorkflow/Config',
           },
           {
+            path: '/workspace/serverless-workflow/config/dag',
+            component: './Workspace/ServerlessWorkflow/Config/Dag',
+          },
+          {
             path: '/workspace/serverless-workflow/instance',
             name: 'instance',
             icon: 'profile',

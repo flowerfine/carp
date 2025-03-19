@@ -1,19 +1,11 @@
 import React, {useEffect} from "react";
 import {useGraphInstance} from "@antv/xflow";
-import {ModalFormProps} from "@/typings";
-import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowService} from "@/services/workspace/workflow/workflow.service";
 
-const InitNode: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({data}) => {
+const InitNode: React.FC = () => {
   const graph = useGraphInstance();
 
   useEffect(() => {
     if (graph) {
-      WorkflowService.get(data?.id).then(response => {
-        if (response.success && response.data) {
-          console.log('InitNode response', response)
-        }
-      })
       fetch('/data/serverless-workflow.json')
         .then((response) => response.json())
         .then((data) => {
