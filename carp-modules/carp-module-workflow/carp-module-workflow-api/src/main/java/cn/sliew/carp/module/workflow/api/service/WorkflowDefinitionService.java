@@ -19,6 +19,7 @@ package cn.sliew.carp.module.workflow.api.service;
 
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
+import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
 import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
 
@@ -28,7 +29,9 @@ public interface WorkflowDefinitionService {
 
     WorkflowDefinition get(Long id);
 
-    WorkflowDefinition getGraph(Long id);
+    WorkflowDefinition getWithGraph(Long id);
+
+    X6GraphDTO getGraph(Long id);
 
     void updateName(WorkflowUpdateNameParam param);
 

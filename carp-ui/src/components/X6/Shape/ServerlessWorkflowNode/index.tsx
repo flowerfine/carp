@@ -26,7 +26,7 @@ const ServerlessWorkflowNode = ({node}: { node: Node }) => {
             const attrs: Record<string, any> = Object.keys(values)
               .filter((key) => values[key] != null && values[key] != undefined)
               .reduce((acc, key) => ({...acc, [key]: values[key]}), {});
-            node?.setData({...node?.data, nodeData: attrs})
+            node?.setData({...node?.data, attrs: attrs})
             setOpenDrawerForm(false);
           }}
         />

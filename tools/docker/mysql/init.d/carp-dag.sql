@@ -165,20 +165,21 @@ insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `ste
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
 values (7, 'default', 4, '7f7ced76-7771-4870-91d9-435ef1c4e623', 'FlinkSessionClusterStatus', null, null, 460, 400,
-        null, null,
+        'serverless-workflow-node', null,
         '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkSessionClusterStatusSyncJob\",\"type\":\"1\"}',
         null, 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (8, 'default', 5, '5d5d67c5-ade3-4005-a0db-d514bf11616d', 'FlinkJobStatus', null, null, 460, 400, null, null,
+values (8, 'default', 5, '5d5d67c5-ade3-4005-a0db-d514bf11616d', 'FlinkJobStatus', null, null, 460, 400,
+        'serverless-workflow-node', null,
         '{\"handler\":\"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJob\",\"type\":\"1\"}', null,
         'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
 values (9, 'default', 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorInstanceStatus', null, null, 460, 400,
-        null, null,
+        'serverless-workflow-node', null,
         '{\"handler\":\"cn.sliew.scaleph.application.doris.action.DorisOperatorInstanceStatusSyncJob\",\"type\":\"1\"}',
         null, 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
@@ -186,32 +187,32 @@ insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `ste
                                     `step_attrs`, `creator`, `editor`)
 values (10, 'default', 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus-1',
         '[{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"},{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"}]',
-        null, 460, 400, null, null,
-        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepOne","stepType":"normal","taskType":"1","type":"log"}',
+        null, 0, 100, 'serverless-workflow-node', null,
+        '{"namespace":"serverless-workflow","label":"Log","name":"log","type":"log","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"default","author":"carp","description":"log utilty","document":"https://github.com/flowerfine/carp","handler":"cn.sliew.scaleph.application.flink.action. FlinkJobStatusSyncJobStepOne","stepType":"normal","taskType":"1"}',
         '{"key1":"value1"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
 values (11, 'default', 7, '2c2cb6c8-794b-4cc1-8258-cd1898912744', 'FlinkJobStatus-2',
         '[{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"},{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"}]',
-        null, 460, 400, null, null,
-        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepTwo","stepType":"normal","taskType":"1","type":"log"}',
+        null, 350, 100, 'serverless-workflow-node', null,
+        '{"namespace":"serverless-workflow","label":"Log","name":"log","type":"log","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"default","author":"carp","description":"log utilty","document":"https://github.com/flowerfine/carp","handler":"cn.sliew.scaleph.application.flink.action. FlinkJobStatusSyncJobStepTwo","stepType":"normal","taskType":"1"}',
         '{"key2":"value2"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
 values (12, 'default', 7, 'd82a947b-f414-4273-973a-06f20fe33f0d', 'FlinkJobStatus-3-1',
         '[{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"},{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"}]',
-        null, 460, 400, null, null,
-        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeOne","stepType":"normal","taskType":"1","type":"log"}',
+        null, 700, 0, 'serverless-workflow-node', null,
+        '{"namespace":"serverless-workflow","label":"Log","name":"log","type":"log","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"default","author":"carp","description":"log utilty","document":"https://github.com/flowerfine/carp","handler":"cn.sliew.scaleph.application.flink.action. FlinkJobStatusSyncJobStepThreeOne","stepType":"normal","taskType":"1"}',
         '{"key3-1":"value3-1"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
 values (13, 'default', 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatus-3-2',
         '[{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"},{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"}]',
-        null, 460, 400, null, null,
-        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeTwo","stepType":"normal","taskType":"1","type":"log"}',
+        null, 700, 200, 'serverless-workflow-node', null,
+        '{"namespace":"serverless-workflow","label":"Log","name":"log","type":"log","icon":"https://mdn.alipayobjects.com/huamei_f4t1bn/afts/img/A*RXnuTpQ22xkAAAAAAAAAAAAADtOHAQ/original","version":1,"category":"default","author":"carp","description":"log utilty","document":"https://github.com/flowerfine/carp","handler":"cn.sliew.scaleph.application.flink.action. FlinkJobStatusSyncJobStepThreeTwo","stepType":"normal","taskType":"1"}',
         '{"key3-2":"value3-2"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
@@ -371,7 +372,7 @@ values (5, 'default', 7, 'af16c8ee-0abf-4555-aa0e-98ec01964ce1', null, '2c2cb6c8
         'd82a947b-f414-4273-973a-06f20fe33f0d', null, null, null, null, 'sys', 'sys');
 insert into `carp_dag_config_link` (`id`, `namespace`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`,
                                     `shape`, `style`, `link_meta`, `link_attrs`, `creator`, `editor`)
-values (6, 'default', 7, '027db10b-9150-403d-9d11-e4a36c99e1db', null, '2c2cb6c8-794b-4cc1-8258-cd1898912744',
+values (6, 'default', 7, '44c37815-92c4-4bcd-98b5-d049c85c07de', null, '2c2cb6c8-794b-4cc1-8258-cd1898912744',
         '027db10b-9150-403d-9d11-e4a36c99e1db', null, null, null, null, 'sys', 'sys');
 insert into `carp_dag_config_link` (`id`, `namespace`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`,
                                     `shape`, `style`, `link_meta`, `link_attrs`, `creator`, `editor`)

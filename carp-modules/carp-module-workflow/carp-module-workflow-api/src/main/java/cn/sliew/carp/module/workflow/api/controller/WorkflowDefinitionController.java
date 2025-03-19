@@ -20,6 +20,7 @@ package cn.sliew.carp.module.workflow.api.controller;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.dag.x6.dnd.DndDTO;
+import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
@@ -60,7 +61,7 @@ public class WorkflowDefinitionController {
 
     @GetMapping("{id}/graph")
     @Operation(summary = "查询详情-图", description = "查询详情-图")
-    public WorkflowDefinition getGraph(@PathVariable("id") Long id) {
+    public X6GraphDTO getGraph(@PathVariable("id") Long id) {
         return workflowDefinitionService.getGraph(id);
     }
 

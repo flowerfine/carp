@@ -9,7 +9,7 @@ const InitNode: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>
 
   useEffect(() => {
     if (graph) {
-      WorkflowService.get(data?.id).then(response => {
+      WorkflowService.getGraph(data?.id).then(response => {
         if (response.success && response.data) {
           console.log('InitNode response', response)
         }

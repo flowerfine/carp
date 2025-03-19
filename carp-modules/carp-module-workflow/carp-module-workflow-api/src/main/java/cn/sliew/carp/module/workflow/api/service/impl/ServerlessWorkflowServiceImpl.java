@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.workflow.api.service.impl;
 
-import cn.sliew.carp.framework.dag.x6.dnd.X6DndDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
+import cn.sliew.carp.framework.dag.x6.dnd.X6NodeMetaDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6NodePortDTO;
 import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowService;
 import cn.sliew.carp.module.workflow.api.service.dto.dnd.DndGroupDTO;
@@ -62,7 +62,7 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
                         .order(1)
                         .shape("serverless-workflow-node") // 和前端深度绑定
                         .ports(buildNodePorts("wait"))
-                        .dndMeta(X6DndDTO.builder()
+                        .dndMeta(X6NodeMetaDTO.builder()
                                 .label("Wait")
                                 .name("wait")
                                 .type("wait")
@@ -81,7 +81,7 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
                         .order(2)
                         .shape("serverless-workflow-node") // 和前端深度绑定
                         .ports(buildNodePorts("http"))
-                        .dndMeta(X6DndDTO.builder()
+                        .dndMeta(X6NodeMetaDTO.builder()
                                 .label("HTTP")
                                 .name("http")
                                 .type("http")

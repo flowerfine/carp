@@ -23,7 +23,13 @@ export const WorkflowService = {
   },
 
   get: async (id: number) => {
-    return request<ResponseBody<WorkspaceWorkflowAPI.WorkflowDefinition>>(`${WorkflowService.url}/${id}/graph`, {
+    return request<ResponseBody<WorkspaceWorkflowAPI.WorkflowDefinition>>(`${WorkflowService.url}/${id}`, {
+      method: 'GET'
+    });
+  },
+
+  getGraph: async (id: number) => {
+    return request<ResponseBody<X6API.Graph>>(`${WorkflowService.url}/${id}/graph`, {
       method: 'GET'
     });
   },

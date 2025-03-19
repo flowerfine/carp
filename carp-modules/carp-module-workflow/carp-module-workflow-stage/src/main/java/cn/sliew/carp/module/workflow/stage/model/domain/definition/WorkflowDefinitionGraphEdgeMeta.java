@@ -17,11 +17,14 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.domain.definition;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import cn.sliew.carp.framework.dag.x6.dnd.X6EdgeMetaDTO;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
-@Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class WorkflowDefinitionGraphEdgeMeta {
-    
+@Getter
+@SuperBuilder
+@Jacksonized
+public class WorkflowDefinitionGraphEdgeMeta extends X6EdgeMetaDTO {
+
 }

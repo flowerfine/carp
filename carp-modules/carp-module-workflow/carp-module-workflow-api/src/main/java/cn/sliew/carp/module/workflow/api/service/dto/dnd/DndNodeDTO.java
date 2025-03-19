@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.api.service.dto.dnd;
 
-import cn.sliew.carp.framework.dag.x6.dnd.X6DndDTO;
+import cn.sliew.carp.framework.dag.x6.dnd.X6NodeMetaDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6NodePortDTO;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -32,5 +32,5 @@ public class DndNodeDTO extends DndElementDTO {
 
     private String shape;
     private List<X6NodePortDTO> ports;
-    private X6DndDTO dndMeta;
+    private X6NodeMetaDTO dndMeta;
 }

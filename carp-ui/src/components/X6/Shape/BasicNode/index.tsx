@@ -18,7 +18,7 @@ type BasicNodeProps = {
 const BasicNode: React.FC = ({node, onExecute, children}: BasicNodeProps) => {
   const intl = getIntl(getLocale())
   const {styles, cx} = useStyles();
-  const {label, dndMeta} = node?.getData()
+  const {label, meta} = node?.getData()
   const [labelEdited, setLabelEdited] = useState(false);
 
   const onLabelEdit = (value: string) => {
@@ -92,7 +92,7 @@ const BasicNode: React.FC = ({node, onExecute, children}: BasicNodeProps) => {
       <Col style={{width: '212px'}}>
         <Row justify="space-around" align="middle">
           <Col span={4}>
-            <Image src={dndMeta?.icon} alt={dndMeta?.type} preview={false}/>
+            <Image src={meta?.icon} alt={meta?.type} preview={false}/>
           </Col>
           <Col span={20}>
             <Row align="middle">

@@ -12,7 +12,7 @@ const Dnd = () => {
       shape: item.shape,
       data: {
         label: item.label,
-        dndMeta: item.dndMeta
+        meta: item.dndMeta
       },
       ports: item.ports?.map((port) => {return {id: uuidv4(), group: port.group}}),
     }

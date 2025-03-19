@@ -19,16 +19,19 @@ package cn.sliew.carp.module.workflow.stage.model.domain.definition;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskType;
-import lombok.Data;
+import cn.sliew.carp.framework.dag.x6.dnd.X6NodeMetaDTO;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
-@Data
-public class WorkflowDefinitionGraphNodeMeta {
+@Getter
+@SuperBuilder
+@Jacksonized
+public class WorkflowDefinitionGraphNodeMeta extends X6NodeMetaDTO {
 
     private CarpWorkflowStepType stepType;
 
     private CarpWorkflowTaskType taskType;
-
-    private String type;
 
     private String alias;
 
