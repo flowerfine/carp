@@ -25,14 +25,12 @@ import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
+import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -64,6 +62,12 @@ public class WorkflowDefinitionController {
     @Operation(summary = "查询详情-图", description = "查询详情-图")
     public WorkflowDefinition getGraph(@PathVariable("id") Long id) {
         return workflowDefinitionService.getGraph(id);
+    }
+
+    @PostMapping("updateName")
+    @Operation(summary = "修改-名称", description = "修改-名称")
+    public void updateName(@Valid @RequestBody WorkflowUpdateNameParam param) {
+        workflowDefinitionService.updateName(param);
     }
 
     @GetMapping("/dag/dnd")

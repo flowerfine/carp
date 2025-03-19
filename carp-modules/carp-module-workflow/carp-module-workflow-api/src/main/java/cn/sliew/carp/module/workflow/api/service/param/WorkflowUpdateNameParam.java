@@ -15,21 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.service;
+package cn.sliew.carp.module.workflow.api.service.param;
 
-import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
-import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
-import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-public interface WorkflowDefinitionService {
+@Data
+public class WorkflowUpdateNameParam {
 
-    PageResult<WorkflowDefinition> page(DagConfigSimplePageParam param);
+    @NotNull
+    private Long id;
 
-    WorkflowDefinition get(Long id);
-
-    WorkflowDefinition getGraph(Long id);
-
-    void updateName(WorkflowUpdateNameParam param);
-
+    @NotBlank
+    private String name;
 }

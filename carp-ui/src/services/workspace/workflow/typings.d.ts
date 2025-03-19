@@ -28,6 +28,11 @@ declare namespace WorkspaceWorkflowAPI {
     uuid?: string;
   };
 
+  type WorkflowDefinitionUpdateNameParam = {
+    id: string;
+    name: string;
+  };
+
   type WorkflowDefinitionGraph = {
     preNode?: WorkflowDefinitionGraphNode;
     postNode: WorkflowDefinitionGraphNode;

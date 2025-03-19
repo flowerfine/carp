@@ -11,6 +11,7 @@ import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflow
 import NodeConfig from "@/pages/Workspace/ServerlessWorkflow/Instance/NodeConfig";
 import {ServerlessWorkflowService} from "@/services/workspace/workflow/serverless-workflow.service";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
+import {WorkflowService} from "@/services/workspace/workflow/workflow.service";
 
 const Page: React.FC = () => {
   const workflowDefinition = useLocation().state as WorkspaceWorkflowAPI.WorkflowDefinition;
@@ -21,7 +22,7 @@ const Page: React.FC = () => {
         menubar={<X6Menubar
           name={workflowDefinition.name}
           onNameChange={(name) => {
-            console.log('X6Menubar onNameChange', name);
+            WorkflowService.updateName({id: workflowDefinition.id, name: name})
           }}
           onSave={(data, graph) => {
             console.log('X6Menubar onSave', data, graph);

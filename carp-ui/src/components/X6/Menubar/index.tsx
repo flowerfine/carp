@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Flex, message, Space, Tooltip, Upload, UploadProps} from "antd";
 import {
   DownloadOutlined,
@@ -27,7 +27,12 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6Me
   const graph = useGraphInstance();
   const nodes = useGraphStore((state) => state.nodes);
   const edges = useGraphStore((state) => state.edges);
+  const [dagName, setDagName] = useState<string>();
   const [nameEdited, setNameEdited] = useState(false);
+
+  useEffect(() => {
+    setDagName(name)
+  }, []);
 
   const buildGraphData = () => {
     const concatEdges: EdgeOptions[] = nodes.flatMap((node) => {
@@ -99,7 +104,6 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6Me
     });
   }
 
-
   const props: UploadProps = {
     name: 'file',
     showUploadList: false,
@@ -144,14 +148,17 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6Me
     return nameEdited ?
       (
         <ControlInput
-          onChange={onNameChange}
+          onChange={(name) => {
+            onNameChange(name)
+            setDagName(name)
+          }}
           onChangeEnd={() => setNameEdited(false)}
-          value={name}
+          value={dagName}
         />
       )
       :
       (<Flex gap={8} align={'center'} vertical={false}>
-        {name}
+        {dagName}
         <Button icon={<EditOutlined/>} type="text" onClick={() => setNameEdited(true)}/>
       </Flex>)
   }
@@ -187,7 +194,7 @@ const X6Menubar: React.FC = ({data, name, onNameChange, onSave, onExecute}: X6Me
         </Tooltip>
         {onNameChange ?
           (enableNameChange())
-          : (<div>{name}</div>)
+          : (<div>{dagName}</div>)
         }
       </Space>
     </Menubar>

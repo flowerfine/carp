@@ -23,6 +23,7 @@ import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleUpdateParam;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.api.engine.domain.definition.WorkflowDefinitionGraph;
@@ -32,6 +33,8 @@ import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.api.service.convert.WorkflowDefinitionConvert;
 import cn.sliew.carp.module.workflow.api.service.convert.WorkflowDefinitionGraphEdgeConvert;
 import cn.sliew.carp.module.workflow.api.service.convert.WorkflowDefinitionGraphNodeConvert;
+import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,6 +78,13 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
         graph.setNodes(normalNodes);
 
         return dto;
+    }
+
+    @Override
+    public void updateName(WorkflowUpdateNameParam param) {
+        DagConfigSimpleUpdateParam updateParam = new DagConfigSimpleUpdateParam();
+        BeanUtils.copyProperties(param, updateParam);
+        dagConfigComplexService.update(updateParam);
     }
 
 }

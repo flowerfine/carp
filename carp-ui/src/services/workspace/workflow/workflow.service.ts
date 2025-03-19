@@ -1,6 +1,8 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
 import {WorkspaceWorkflowAPI} from './typings';
+import {WorkspaceScheduleAPI} from "@/services/workspace/schedule/typings";
+import {WorkflowDefinitionUpdateNameParam} from "@/services/workspace/workflow/typings";
 
 export const WorkflowService = {
   url: '/api/carp/workflow/definition',
@@ -29,6 +31,13 @@ export const WorkflowService = {
   getDnds: async () => {
     return request<ResponseBody<Array<Record<string, any>>>>(`${WorkflowService.url}/dag/dnd`, {
       method: 'GET',
+    });
+  },
+
+  updateName: async (row: WorkspaceWorkflowAPI.WorkflowDefinitionUpdateNameParam) => {
+    return request<ResponseBody<any>>(`${WorkflowService.url}/updateName`, {
+      method: 'POST',
+      data: row,
     });
   },
 
