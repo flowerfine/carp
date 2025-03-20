@@ -4,14 +4,13 @@ import {XFlow, XFlowGraph} from '@antv/xflow';
 import X6Layout from "@/components/X6/Layout";
 import X6Menubar from "@/components/X6/Menubar";
 import X6Toolbar from "@/components/X6/Toolbar";
-import {SERVERLESS_WORKFLOW_EDGE} from "@/components/X6/Shape/ServerlessWorkflowNode";
 import Dnd from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/dnd";
 import {Connect} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/connect";
-import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/init-shade";
+import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/init-node";
+import {SERVERLESS_WORKFLOW_EDGE} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/shape";
 import NodeConfig from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/NodeConfig";
-import {ServerlessWorkflowService} from "@/services/workspace/workflow/serverless-workflow.service";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowService} from "@/services/workspace/workflow/workflow.service";
+import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
 import {ModalFormProps} from "@/typings";
 
 const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({data})  => {
@@ -23,18 +22,13 @@ const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = 
         menubar={<X6Menubar
           name={workflowDefinition.name}
           onNameChange={(name) => {
-            WorkflowService.updateName({id: workflowDefinition.id, name: name})
+            WorkflowDefinitionService.updateName({id: workflowDefinition.id, name: name})
           }}
           onSave={(data, graph) => {
             console.log('X6Menubar onSave', data, graph);
           }}
           onExecute={(data, graph) => {
-            const param = {
-              petId: 10
-            }
-            ServerlessWorkflowService.execute(param, graph).then(response => {
-              console.log('X6Menubar onExecute', data, graph, response);
-            })
+
           }}
         />}
         toolbar={<X6Toolbar/>}

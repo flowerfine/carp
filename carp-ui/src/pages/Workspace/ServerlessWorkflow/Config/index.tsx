@@ -4,7 +4,7 @@ import {FileSearchOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useIntl} from "@umijs/max";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowService} from "@/services/workspace/workflow/workflow.service";
+import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
 
 export type WorkflowDefinitionState = {
   visiable: boolean;
@@ -99,7 +99,7 @@ const WorkspaceServerlessWorkflowConfigWeb: React.FC = () => {
           },
         }}
         request={(params, sorter, filter) => {
-          return WorkflowService.page({...params, namespace: 'default'});
+          return WorkflowDefinitionService.page({...params, namespace: 'default'});
         }}
       />
     </PageContainer>

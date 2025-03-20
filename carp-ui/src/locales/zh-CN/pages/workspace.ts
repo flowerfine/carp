@@ -39,9 +39,14 @@ export default {
   'pages.workspace.orca.instance.endTime': '结束时间',
 
   'pages.workspace.workflow': 'Workflow管理',
-  'pages.workspace.workflow.definition': '定义管理',
+  'pages.workspace.workflow.definition': '配置管理',
   'pages.workspace.workflow.definition.namespace': '命名空间',
   'pages.workspace.workflow.definition.type': '类型',
   'pages.workspace.workflow.definition.name': '名称',
   'pages.workspace.workflow.definition.uuid': 'UUID',
+  'pages.workspace.workflow.instance': '实例管理',
+  'pages.workspace.workflow.instance.uuid': 'UUID',
+  'pages.workspace.workflow.instance.status': '状态',
+  'pages.workspace.workflow.instance.startTime': '开始时间',
+  'pages.workspace.workflow.instance.endTime': '结束时间',
 }

@@ -45,6 +45,8 @@ declare namespace WorkspaceWorkflowAPI {
     workflowDefinitionId: number;
     stepId: string;
     stepName: string;
+    inputOptions?: Array<Record<string, any>>;
+    outputOptions?: Array<Record<string, any>>;
     positionX: number;
     positionY: number;
     shape: string;
@@ -66,6 +68,52 @@ declare namespace WorkspaceWorkflowAPI {
     style?: Record<string, any>;
     meta?: Record<string, any>;
     attrs?: Record<string, any>;
+    createTime?: Date;
+    updateTime?: Date;
+  };
+
+  type WorkflowInstance = {
+    id: number;
+    namespace: string;
+    definition: WorkflowDefinition;
+    uuid: string;
+    body?: Record<string, any>;
+    inputs?: Record<string, any>;
+    outputs?: Record<string, any>;
+    status: string;
+    startTime?: Date;
+    endTime?: Date;
+    graph: WorkflowInstanceGraph;
+    createTime?: Date;
+    updateTime?: Date;
+  };
+
+  type WorkflowInstancePageParam = QueryParam & {
+    namespace?: string;
+    uuid?: string;
+    status?: string;
+  };
+
+  type WorkflowInstanceGraph = {
+    preTask?: WorkflowStepInstance;
+    postTask: WorkflowStepInstance;
+    tasks: Array<WorkflowStepInstance>;
+    edges: Array<WorkflowDefinitionGraphEdge>;
+  };
+
+  type WorkflowStepInstance = {
+    id: number;
+    namespace: string;
+    workflowInstance: WorkflowInstance;
+    node: WorkflowDefinitionGraphNode;
+    uuid: string;
+    body?: Record<string, any>;
+    inputs?: Record<string, any>;
+    outputs?: Record<string, any>;
+    status: string;
+    startTime?: Date;
+    endTime?: Date;
+    context: Record<string, any>;
     createTime?: Date;
     updateTime?: Date;
   };

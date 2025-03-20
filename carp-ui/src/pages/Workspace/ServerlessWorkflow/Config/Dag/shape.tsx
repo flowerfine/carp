@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Graph, Node, register, XFlow} from "@antv/xflow";
 import BasicNode from "@/components/X6/Shape/BasicNode";
-import ServerlessNodeConfig from "@/pages/Workspace/ServerlessWorkflow/Instance/NodeConfig";
+import ServerlessNodeConfig from "./NodeConfig";
 
 const SERVERLESS_WORKFLOW_NODE = 'serverless-workflow-node';
 const SERVERLESS_WORKFLOW_EDGE = 'serverless-workflow-edge';

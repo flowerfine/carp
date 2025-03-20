@@ -1,7 +1,7 @@
 import React from "react";
 import {Node} from "@antv/xflow";
-import ServerlessNodeHttpForm from "@/pages/Workspace/ServerlessWorkflow/Instance/NodeConfig/nodes/http";
 import {ModalFormProps} from "@/typings";
+import ServerlessNodeHttpForm from "./nodes/http";
 
 const ServerlessNodeConfig: React.FC<ModalFormProps<Node>> = ({visible, onCancel, onFinish, data}) => {
 

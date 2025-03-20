@@ -17,20 +17,20 @@
  */
 package cn.sliew.carp.module.workflow.api.controller;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
+import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
 import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
+import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @WebLog
 @AnonymousAccess
@@ -42,6 +42,12 @@ public class WorkflowInstanceController {
 
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
+
+    @GetMapping("page")
+    @Operation(summary = "分页查询", description = "分页查询")
+    public PageResult<WorkflowInstance> page(@Valid DagInstanceSimplePageParam param) {
+        return workflowInstanceService.page(param);
+    }
 
     @PostMapping("run")
     @Operation(summary = "启动", description = "启动")

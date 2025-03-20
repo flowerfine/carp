@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Tree} from 'antd';
 import {Props} from "@/typings";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import { WorkflowService } from '@/services/workspace/workflow/workflow.service';
+import {WorkflowDefinitionService} from '@/services/workspace/workflow/workflow-definition.service';
 import styles from './style.less';
 import SearchInput from './search';
 import {PanelNode} from "./node";
@@ -25,7 +25,7 @@ const Panel: React.FC<Props<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({data})
   const [searchComponents, setSearchComponents] = useState<ComponentTreeItem[]>([]);
 
   useEffect(() => {
-    WorkflowService.getDnds().then((response) => {
+    WorkflowDefinitionService.getDnds().then((response) => {
       if (response.success && response.data) {
         setTreeItems(response.data)
       }

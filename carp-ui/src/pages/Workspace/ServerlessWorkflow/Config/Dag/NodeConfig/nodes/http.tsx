@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Form} from "antd";
 import {DrawerForm, ProFormSelect, ProFormText} from "@ant-design/pro-components";
 import {getIntl, getLocale} from "@umijs/max";
@@ -9,8 +9,6 @@ const ServerlessNodeHttpForm: React.FC<ModalFormProps<Node>> = ({data, visible, 
   const intl = getIntl(getLocale());
   const [form] = Form.useForm();
   const nodeDataObj = data?.data;
-
-  console.log('ServerlessNodeHttpForm node', data, nodeDataObj);
 
   return (
     <DrawerForm

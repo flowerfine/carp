@@ -4,11 +4,11 @@ import {WorkspaceWorkflowAPI} from './typings';
 import {WorkspaceScheduleAPI} from "@/services/workspace/schedule/typings";
 import {WorkflowDefinitionUpdateNameParam} from "@/services/workspace/workflow/typings";
 
-export const WorkflowService = {
+export const WorkflowDefinitionService = {
   url: '/api/carp/workflow/definition',
 
   page: async (queryParam: WorkspaceWorkflowAPI.WorkflowDefinitionPageParam) => {
-    return request<ResponseBody<PageResponse<WorkspaceWorkflowAPI.WorkflowDefinition>>>(`${WorkflowService.url}/page`, {
+    return request<ResponseBody<PageResponse<WorkspaceWorkflowAPI.WorkflowDefinition>>>(`${WorkflowDefinitionService.url}/page`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -23,25 +23,25 @@ export const WorkflowService = {
   },
 
   get: async (id: number) => {
-    return request<ResponseBody<WorkspaceWorkflowAPI.WorkflowDefinition>>(`${WorkflowService.url}/${id}`, {
+    return request<ResponseBody<WorkspaceWorkflowAPI.WorkflowDefinition>>(`${WorkflowDefinitionService.url}/${id}`, {
       method: 'GET'
     });
   },
 
   getGraph: async (id: number) => {
-    return request<ResponseBody<X6API.Graph>>(`${WorkflowService.url}/${id}/graph`, {
+    return request<ResponseBody<X6API.Graph>>(`${WorkflowDefinitionService.url}/${id}/graph`, {
       method: 'GET'
     });
   },
 
   getDnds: async () => {
-    return request<ResponseBody<Array<Record<string, any>>>>(`${WorkflowService.url}/dag/dnd`, {
+    return request<ResponseBody<Array<Record<string, any>>>>(`${WorkflowDefinitionService.url}/dag/dnd`, {
       method: 'GET',
     });
   },
 
   updateName: async (row: WorkspaceWorkflowAPI.WorkflowDefinitionUpdateNameParam) => {
-    return request<ResponseBody<any>>(`${WorkflowService.url}/updateName`, {
+    return request<ResponseBody<any>>(`${WorkflowDefinitionService.url}/updateName`, {
       method: 'POST',
       data: row,
     });
