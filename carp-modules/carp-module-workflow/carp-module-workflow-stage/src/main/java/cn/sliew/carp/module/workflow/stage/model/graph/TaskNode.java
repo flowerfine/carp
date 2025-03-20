@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
-import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
 import cn.sliew.carp.module.workflow.stage.model.task.Task;
 import com.google.common.annotations.VisibleForTesting;
 

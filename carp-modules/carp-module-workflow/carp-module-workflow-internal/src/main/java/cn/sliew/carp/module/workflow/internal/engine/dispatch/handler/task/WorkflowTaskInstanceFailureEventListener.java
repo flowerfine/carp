@@ -21,7 +21,7 @@ import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEven
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

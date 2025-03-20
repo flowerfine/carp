@@ -18,8 +18,8 @@
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
 import cn.hutool.extra.spring.SpringUtil;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import com.google.common.collect.Lists;
 

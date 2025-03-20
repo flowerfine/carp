@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 
 import java.time.Duration;
 

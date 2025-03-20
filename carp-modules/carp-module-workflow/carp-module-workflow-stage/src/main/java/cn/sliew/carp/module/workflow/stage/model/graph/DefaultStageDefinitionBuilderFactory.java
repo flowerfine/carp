@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.graph;
 
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNodeMeta;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraphNodeMeta;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.resolver.StepResolver;
 import jakarta.annotation.Nonnull;
 

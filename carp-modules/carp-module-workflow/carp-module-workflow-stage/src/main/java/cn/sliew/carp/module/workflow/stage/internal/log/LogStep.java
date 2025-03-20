@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.internal.log;
 
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.TaskNode;
 import lombok.extern.slf4j.Slf4j;

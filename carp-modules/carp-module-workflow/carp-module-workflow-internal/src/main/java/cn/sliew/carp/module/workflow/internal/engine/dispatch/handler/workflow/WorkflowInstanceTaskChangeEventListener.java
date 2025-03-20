@@ -24,9 +24,9 @@ import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStag
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutorManager;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowExecutionGraphConvert;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.convert.WorkflowExecutionGraphConvert;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -17,9 +17,9 @@
  */
 package cn.sliew.carp.module.workflow.stage.internal.log;
 
-import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
+import cn.sliew.carp.module.workflow.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.task.RetryableTask;
 import cn.sliew.carp.module.workflow.stage.model.task.SkippableTask;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskResult;

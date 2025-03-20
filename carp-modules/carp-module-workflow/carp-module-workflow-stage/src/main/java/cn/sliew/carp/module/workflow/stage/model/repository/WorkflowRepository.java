@@ -18,10 +18,10 @@
 package cn.sliew.carp.module.workflow.stage.model.repository;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecutionImpl;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 
 import java.util.List;
 import java.util.Map;

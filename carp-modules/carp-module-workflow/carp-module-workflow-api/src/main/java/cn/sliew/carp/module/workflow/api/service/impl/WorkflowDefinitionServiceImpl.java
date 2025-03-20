@@ -19,35 +19,29 @@ package cn.sliew.carp.module.workflow.api.service.impl;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.algorithm.DagUtil;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleUpdateParam;
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
-import cn.sliew.carp.framework.dag.x6.dnd.X6NodeDataDTO;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.api.service.convert.X6EdgeConvert;
 import cn.sliew.carp.module.workflow.api.service.convert.X6NodeConvert;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowDefinitionConvert;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowDefinitionGraphEdgeConvert;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowDefinitionGraphNodeConvert;
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraph;
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphEdge;
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNode;
-import com.google.common.collect.Maps;
+import cn.sliew.carp.module.workflow.domain.convert.WorkflowDefinitionConvert;
+import cn.sliew.carp.module.workflow.domain.convert.WorkflowDefinitionGraphEdgeConvert;
+import cn.sliew.carp.module.workflow.domain.convert.WorkflowDefinitionGraphNodeConvert;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraph;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraphEdge;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraphNode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service

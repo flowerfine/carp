@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
+import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;

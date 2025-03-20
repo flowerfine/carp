@@ -23,10 +23,10 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowDefinitionGraphNodeConvert;
-import cn.sliew.carp.module.workflow.stage.model.domain.convert.WorkflowStepInstanceConvert;
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinitionGraphNode;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.convert.WorkflowDefinitionGraphNodeConvert;
+import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepInstanceConvert;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraphNode;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import com.google.common.collect.Maps;
 
 import java.util.Map;

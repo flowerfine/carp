@@ -19,9 +19,9 @@ package cn.sliew.carp.module.workflow.api.stage.log;
 
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.module.workflow.stage.model.TaskDefinition;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.ParamDataType;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepInputParam;
-import cn.sliew.carp.module.workflow.stage.model.domain.param.WorkflowStepOutputParam;
+import cn.sliew.carp.module.workflow.domain.param.ParamDataType;
+import cn.sliew.carp.module.workflow.domain.param.WorkflowStepInputParam;
+import cn.sliew.carp.module.workflow.domain.param.WorkflowStepOutputParam;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

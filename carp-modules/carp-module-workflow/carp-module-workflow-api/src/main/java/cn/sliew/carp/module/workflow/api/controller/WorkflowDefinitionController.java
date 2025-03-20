@@ -26,7 +26,7 @@ import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

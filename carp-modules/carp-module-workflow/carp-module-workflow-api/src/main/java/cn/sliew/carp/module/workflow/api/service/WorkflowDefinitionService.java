@@ -21,7 +21,7 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
-import cn.sliew.carp.module.workflow.stage.model.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
 
 public interface WorkflowDefinitionService {
 

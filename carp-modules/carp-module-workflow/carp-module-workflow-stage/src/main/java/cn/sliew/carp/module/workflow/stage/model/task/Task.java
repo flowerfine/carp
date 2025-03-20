@@ -18,9 +18,9 @@
 package cn.sliew.carp.module.workflow.stage.model.task;
 
 import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
-import cn.sliew.carp.module.workflow.stage.model.ExecutionStatus;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.TaskExecution;
-import cn.sliew.carp.module.workflow.stage.model.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
+import cn.sliew.carp.module.workflow.domain.instance.TaskExecution;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

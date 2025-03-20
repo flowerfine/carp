@@ -109,3 +109,6 @@ knife4j:
     enable-version: true
   basic.enable: false
   cors: true
+
+
+carp.framework.lock.redis.enabled: true
