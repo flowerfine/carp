@@ -1,18 +1,12 @@
 import {XFlow, XFlowGraph} from '@antv/xflow';
-import {Connect} from './connect';
-import {Dnd} from './dnd/dnd';
-import {InitShape} from './node';
 import X6Layout from "@/components/X6/Layout";
-import {ConfigDrawer} from "@/pages/Workspace/X6/dag/config-drawer";
-import {Toolbar} from "@/pages/Workspace/X6/dag/toolbar";
-import {DAG_EDGE} from "@/components/X6/Shape/DagNode/shape";
+import {PIPELINE_EDGE} from "@/pages/Workspace/X6/pipeline/shape";
+import {InitNode} from "@/pages/Workspace/X6/pipeline/init-node";
 
-const Page = () => {
+const X6PipelineWeb = () => {
   return (
     <XFlow>
       <X6Layout
-        toolbar={<Toolbar/>}
-        dnd={<Dnd/>}
         body={(
           <XFlowGraph
             pannable
@@ -29,18 +23,16 @@ const Page = () => {
               },
             }}
             connectionEdgeOptions={{
-              shape: DAG_EDGE,
+              shape: PIPELINE_EDGE,
               animated: true,
               zIndex: -1,
             }}
           />
         )}
       />
-      <InitShape/>
-      <Connect/>
-      <ConfigDrawer/>
+      <InitNode />
     </XFlow>
   );
 };
 
-export default Page;
+export default X6PipelineWeb;

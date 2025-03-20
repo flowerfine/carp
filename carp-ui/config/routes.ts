@@ -267,6 +267,12 @@ export default [
             component: './Workspace/X6/cicd',
           },
           {
+            path: '/workspace/x6/pipeline',
+            name: 'pipeline',
+            icon: 'profile',
+            component: './Workspace/X6/pipeline',
+          },
+          {
             path: '/workspace/x6/dag',
             name: 'dag',
             icon: 'profile',

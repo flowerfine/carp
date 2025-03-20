@@ -13,7 +13,7 @@ import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
 import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
 import {ModalFormProps} from "@/typings";
 
-const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({data})  => {
+const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({data}) => {
   const workflowDefinition = useLocation().state as WorkspaceWorkflowAPI.WorkflowDefinition;
 
   return (
@@ -34,32 +34,30 @@ const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = 
         toolbar={<X6Toolbar/>}
         dnd={<Dnd/>}
         body={(
-          <>
-            <XFlowGraph
-              centerView
-              zoomable
-              zoomOptions={{
-                minScale: 0.5,
-                maxScale: 1.5,
-              }}
-              pannable
-              fitView
-              connectionOptions={{
-                snap: true,
-                allowBlank: false,
-                allowLoop: false,
-                highlight: true,
-                connectionPoint: 'anchor',
-                anchor: 'center',
-                connector: 'smooth',
-              }}
-              connectionEdgeOptions={{
-                shape: SERVERLESS_WORKFLOW_EDGE,
-                animated: true,
-                zIndex: -1,
-              }}
-            />
-          </>
+          <XFlowGraph
+            centerView
+            zoomable
+            zoomOptions={{
+              minScale: 0.5,
+              maxScale: 1.5,
+            }}
+            pannable
+            fitView
+            connectionOptions={{
+              snap: true,
+              allowBlank: false,
+              allowLoop: false,
+              highlight: true,
+              connectionPoint: 'anchor',
+              anchor: 'center',
+              connector: 'smooth',
+            }}
+            connectionEdgeOptions={{
+              shape: SERVERLESS_WORKFLOW_EDGE,
+              animated: true,
+              zIndex: -1,
+            }}
+          />
         )}
       />
       <InitNode data={workflowDefinition}/>
