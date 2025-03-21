@@ -77,6 +77,8 @@ register({
   width: 212,
   height: 48,
   component: CICDNode,
+  // 不可拖拽
+  draggable: false,
   // port默认不可见
   ports: {
     groups: {
