@@ -8,14 +8,20 @@ const Dnd = () => {
   const {startDrag} = useDnd();
 
   const onDrag = (e: React.MouseEvent<Element, MouseEvent>, item: X6API.DndNode) => {
+    const id = StringExt.uuid();
     const node = {
-      id: StringExt.uuid(),
+      id: id,
       shape: item.shape,
       data: {
         label: item.label,
         meta: item.dndMeta
       },
-      ports: item.ports?.map((port) => {return {id: StringExt.uuid(), group: port.group}}),
+      ports: item.ports?.map((port) => {
+        return {
+          id: id + "_" + port.group,
+          group: port.group
+        }
+      }),
     }
     startDrag(node, e);
   };
