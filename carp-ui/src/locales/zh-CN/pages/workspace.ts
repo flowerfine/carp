@@ -49,4 +49,9 @@ export default {
   'pages.workspace.workflow.instance.status': '状态',
   'pages.workspace.workflow.instance.startTime': '开始时间',
   'pages.workspace.workflow.instance.endTime': '结束时间',
+  'pages.workspace.workflow.instance.detail': '实例详情',
+  'pages.workspace.workflow.instance.detail.buttton.definition': '配置',
+  'pages.workspace.workflow.instance.detail.buttton.refresh': '刷新',
+  'pages.workspace.workflow.instance.detail.buttton.actions': '操作',
+  'pages.workspace.workflow.instance.detail.tab.canvas': 'Canvas',
 }

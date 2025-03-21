@@ -222,7 +222,10 @@ const WorkspaceScheduleConfig: React.FC = () => {
           },
         }}
         request={(params, sorter, filter) => {
-          return ScheduleConfigService.page(params);
+          if (jobGroupId) {
+            return ScheduleConfigService.page(params);
+          }
+          return Promise.reject()
         }}
         toolbar={{
           actions: [

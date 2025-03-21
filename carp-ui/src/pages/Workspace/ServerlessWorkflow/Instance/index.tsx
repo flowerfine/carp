@@ -4,7 +4,6 @@ import {FileSearchOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useIntl} from "@umijs/max";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
 import {WorkflowInstanceService} from "@/services/workspace/workflow/workflow-instance.service";
 
 const WorkspaceServerlessWorkflowInstanceWeb: React.FC = () => {
@@ -14,7 +13,7 @@ const WorkspaceServerlessWorkflowInstanceWeb: React.FC = () => {
   const [selectedRows, setSelectedRows] = useState<WorkspaceWorkflowAPI.WorkflowInstance[]>([]);
 
   const onDetailClick = (record: WorkspaceWorkflowAPI.WorkflowInstance) => {
-    history.push('/workspace/serverless-workflow/config/dag', record);
+    history.push('/workspace/serverless-workflow/instance/detail', record);
   };
 
   const columns: ProColumns<WorkspaceWorkflowAPI.WorkflowInstance>[] = [
@@ -24,7 +23,12 @@ const WorkspaceServerlessWorkflowInstanceWeb: React.FC = () => {
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.uuid' }),
-      dataIndex: 'uuid'
+      dataIndex: 'uuid',
+      renderText: (dom, record) => (
+        <Space>
+          <a onClick={() => onDetailClick(record)}>{dom}</a>
+        </Space>
+      ),
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.workflow.definition.type' }),

@@ -49,6 +49,8 @@ export default {
   'menu.workspace.serverless-workflow.config.desc': 'Serverless Workflow 配置管理页面',
   'menu.workspace.serverless-workflow.instance': '实例管理',
   'menu.workspace.serverless-workflow.instance.desc': 'Serverless Workflow 实例编排页面',
+  'menu.workspace.serverless-workflow.instance.detail': '实例详情',
+  'menu.workspace.serverless-workflow.instance.detail.desc': 'Serverless Workflow 实例详情页面',
 
   'menu.workspace.x6': 'X6',
   'menu.workspace.x6.dag-demo': 'DAG数据加工',

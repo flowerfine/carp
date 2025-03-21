@@ -242,6 +242,10 @@ export default [
             name: 'instance',
             icon: 'profile',
             component: './Workspace/ServerlessWorkflow/Instance',
+          },
+          {
+            path: '/workspace/serverless-workflow/instance/detail',
+            component: './Workspace/ServerlessWorkflow/Instance/Detail',
           }
         ]
       },
