@@ -9,50 +9,26 @@ const PIPELINE_EDGE = 'pipeline-edge';
 const X6PipelineNode = ({node}: { node: Node }) => {
   const {styles} = useStyles();
   const {label, meta, attrs} = node.getData();
-  // const {stages = []} = attrs;
-  const stages = [];
-  const isEditMode = true;
-  const heights = [];
-
-  console.log('X6PipelineNode node', node.getData())
-
-  const sumHeights = () => {
-    return heights.slice(0, stages.length).map(height => {
-      let tempHeight = 0
-      return height.map(_height => {
-        tempHeight += _height
-        return tempHeight
-      })
-    })
-  }
+  const {children} = attrs
 
   return (
     <XFlow>
-      <ProCard.Group title={"Pipeline Title"}
+      <ProCard.Group title={label}
                      gutter={8}
                      wrap
                      bordered hoverable headerBordered
       >
-        <ProCard
-          title={"条件"}
-          layout={"center"} bordered
-          >
-          表达式
-        </ProCard>
-        <ProCard
-          title={"checkout"}
-          layout={"center"} bordered
-        >
-        </ProCard>
-        <ProCard
-          title={"打印消息"}
-          type={"inner"}
-          layout={"center"} bordered
-        >
-        </ProCard>
+        {children?.map(child => {
+          return (
+            <ProCard
+              title={child.title}
+              layout={"center"} bordered
+            >
+              {child.des}
+            </ProCard>
+          )
+        })}
       </ProCard.Group>
-
-
     </XFlow>
   );
 }
