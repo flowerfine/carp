@@ -11,6 +11,8 @@ const X6PipelineNode = ({node}: { node: Node }) => {
   const {label, meta, attrs} = node.getData();
   const {children} = attrs
 
+
+
   return (
     <XFlow>
       <ProCard.Group title={label}
