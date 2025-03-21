@@ -1,7 +1,7 @@
 import React from "react";
 import {Graph, Node, register, XFlow} from "@antv/xflow";
 import useStyles from './style';
-import PipelineEdges from "@/pages/Workspace/X6/pipeline/shape/edges";
+import {ProCard} from "@ant-design/pro-components";
 
 const PIPELINE_NODE = 'pipeline-node';
 const PIPELINE_EDGE = 'pipeline-edge';
@@ -13,6 +13,8 @@ const X6PipelineNode = ({node}: { node: Node }) => {
   const stages = [];
   const isEditMode = true;
   const heights = [];
+
+  console.log('X6PipelineNode node', node.getData())
 
   const sumHeights = () => {
     return heights.slice(0, stages.length).map(height => {
@@ -26,12 +28,31 @@ const X6PipelineNode = ({node}: { node: Node }) => {
 
   return (
     <XFlow>
-      <PipelineEdges
-        heights={sumHeights()}
-        index={-1}
-        isEditMode={isEditMode}
-        onInsertColumn={(index) => {
-        }}/>
+      <ProCard.Group title={"Pipeline Title"}
+                     gutter={8}
+                     wrap
+                     bordered hoverable headerBordered
+      >
+        <ProCard
+          title={"条件"}
+          layout={"center"} bordered
+          >
+          表达式
+        </ProCard>
+        <ProCard
+          title={"checkout"}
+          layout={"center"} bordered
+        >
+        </ProCard>
+        <ProCard
+          title={"打印消息"}
+          type={"inner"}
+          layout={"center"} bordered
+        >
+        </ProCard>
+      </ProCard.Group>
+
+
     </XFlow>
   );
 }
@@ -46,27 +67,37 @@ register({
   ports: {
     groups: {
       out: {
-        position: 'right',
+        position: {
+          name: 'right',
+          args: {
+            dx: 2,
+          }
+        },
         attrs: {
           circle: {
             r: 4,
             magnet: true,
-            stroke: '#85A5FF',
+            stroke: 'transparent',
             strokeWidth: 1,
-            fill: '#fff',
+            fill: 'transparent',
           },
         },
       },
 
       in: {
-        position: 'left',
+        position: {
+          name: 'left',
+          args: {
+            dx: -2,
+          }
+        },
         attrs: {
           circle: {
             r: 4,
             magnet: true,
-            stroke: '#85A5FF',
+            stroke: 'transparent',
             strokeWidth: 1,
-            fill: '#fff',
+            fill: 'transparent',
           },
         },
       },
@@ -101,17 +132,13 @@ Graph.registerEdge(
     attrs: {
       wrap: {
         connection: true,
-        strokeWidth: 10,
+        strokeWidth: 5,
         strokeLinejoin: 'round',
       },
       line: {
         connection: true,
         stroke: '#A2B1C3',
-        strokeWidth: 1,
-        targetMarker: {
-          name: 'classic',
-          size: 6,
-        },
+        strokeWidth: 2,
       },
     }
   },

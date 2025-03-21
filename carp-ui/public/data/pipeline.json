@@ -47,7 +47,7 @@
     {
       "id": "a2",
       "shape": "pipeline-node",
-      "x": 300,
+      "x": 400,
       "y": 0,
       "ports": [
         {
@@ -79,114 +79,6 @@
           }
         ]
       }
-    },
-    {
-      "id": "a3",
-      "shape": "pipeline-node",
-      "x": 600,
-      "y": 0,
-      "ports": [
-        {
-          "id": "a3-in",
-          "group": "in"
-        },
-        {
-          "id": "a3-out",
-          "group": "out"
-        }
-      ],
-      "data": {
-        "stepTitle": "阶段 3: 三方关联初始化",
-        "title": "监控初始化",
-        "logo": "https://mdn.alipayobjects.com/huamei_d2ejos/afts/img/A*sko9RoPu-HgAAAAAAAAAAAAADvl6AQ/original",
-        "des": "1秒"
-      }
-    },
-    {
-      "id": "a4",
-      "shape": "pipeline-node",
-      "x": 900,
-      "y": 0,
-      "ports": [
-        {
-          "id": "a4-in",
-          "group": "in"
-        },
-        {
-          "id": "a4-out",
-          "group": "out"
-        }
-      ],
-      "data": {
-        "stepTitle": "阶段 4: 准备组件仓库初始化",
-        "title": "重命名 name",
-        "logo": "https://mdn.alipayobjects.com/huamei_d2ejos/afts/img/A*sko9RoPu-HgAAAAAAAAAAAAADvl6AQ/original",
-        "des": "1秒"
-      }
-    },
-    {
-      "id": "a5",
-      "shape": "pipeline-node",
-      "x": 1200,
-      "y": 0,
-      "ports": [
-        {
-          "id": "a5-in",
-          "group": "in"
-        },
-        {
-          "id": "a5-out",
-          "group": "out"
-        }
-      ],
-      "data": {
-        "stepTitle": "阶段 5: 代码初始化",
-        "title": "仓库初始化",
-        "logo": "https://mdn.alipayobjects.com/huamei_d2ejos/afts/img/A*7gzVQJ63mfEAAAAAAAAAAAAADvl6AQ/original",
-        "des": "6秒",
-        "needSwitch": true,
-        "open": true,
-        "children": [
-          {
-            "title": "创建仓库",
-            "logo": "https://mdn.alipayobjects.com/huamei_d2ejos/afts/img/A*sko9RoPu-HgAAAAAAAAAAAAADvl6AQ/original",
-            "des": "3秒"
-          },
-          {
-            "title": "接触分支保护",
-            "logo": "https://mdn.alipayobjects.com/huamei_d2ejos/afts/img/A*sko9RoPu-HgAAAAAAAAAAAAADvl6AQ/original",
-            "des": "1秒"
-          },
-          {
-            "title": "初始化代码模板",
-            "logo": "https://mdn.alipayobjects.com/huamei_d2ejos/afts/img/A*7gzVQJ63mfEAAAAAAAAAAAAADvl6AQ/original",
-            "des": "1秒"
-          },
-          {
-            "title": "创建代码基线",
-            "logo": "https://mdn.alipayobjects.com/huamei_d2ejos/afts/img/A*Em_PQoTrMDgAAAAAAAAAAAAADvl6AQ/original",
-            "des": "未开始"
-          }
-        ]
-      }
-    },
-    {
-      "id": "a6",
-      "shape": "pipeline-node",
-      "x": 1500,
-      "y": 0,
-      "ports": [
-        {
-          "id": "a6-in",
-          "group": "in"
-        }
-      ],
-      "data": {
-        "stepTitle": "阶段 6: 仓库权限同步",
-        "title": "同步至埋点平台",
-        "logo": "https://mdn.alipayobjects.com/huamei_d2ejos/afts/img/A*Em_PQoTrMDgAAAAAAAAAAAAADvl6AQ/original",
-        "des": "未开始"
-      }
     }
   ],
   "edges": [
@@ -205,74 +97,6 @@
       "data": {
         "source": "a1",
         "target": "a2"
-      }
-    },
-    {
-      "id": "edge-2",
-      "source": {
-        "cell": "a2",
-        "port": "a2-out"
-      },
-      "target": {
-        "cell": "a3",
-        "port": "a3-in"
-      },
-      "shape": "pipeline-edge",
-      "zIndex": -1,
-      "data": {
-        "source": "a2",
-        "target": "a3"
-      }
-    },
-    {
-      "id": "edge-3",
-      "source": {
-        "cell": "a3",
-        "port": "a3-out"
-      },
-      "target": {
-        "cell": "a4",
-        "port": "a4-in"
-      },
-      "shape": "pipeline-edge",
-      "zIndex": -1,
-      "data": {
-        "source": "a3",
-        "target": "a4"
-      }
-    },
-    {
-      "id": "edge-4",
-      "source": {
-        "cell": "a4",
-        "port": "a4-out"
-      },
-      "target": {
-        "cell": "a5",
-        "port": "a5-in"
-      },
-      "shape": "pipeline-edge",
-      "zIndex": -1,
-      "data": {
-        "source": "a4",
-        "target": "a5"
-      }
-    },
-    {
-      "id": "edge-5",
-      "source": {
-        "cell": "a5",
-        "port": "a5-out"
-      },
-      "target": {
-        "cell": "a6",
-        "port": "a6-in"
-      },
-      "shape": "pipeline-edge",
-      "zIndex": -1,
-      "data": {
-        "source": "a5",
-        "target": "a6"
       }
     }
   ]

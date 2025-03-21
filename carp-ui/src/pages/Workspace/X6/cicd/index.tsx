@@ -1,10 +1,6 @@
 import {XFlow, XFlowGraph} from '@antv/xflow';
 import {InitNode} from "./init-shade";
-import styles from './index.less';
 import {CICD_CONNECTOR, CICD_EDGE} from "@/components/Flow/Node/CICDNode";
-import X6ControlMinimap from "@/components/X6/Control";
-import X6GridSnapline from "@/components/X6/Grid";
-import X6HistoryClipboard from "@/components/X6/History";
 import X6Layout from "@/components/X6/Layout";
 
 const Page = () => {
