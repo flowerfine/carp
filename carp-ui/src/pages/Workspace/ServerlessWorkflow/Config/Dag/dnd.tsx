@@ -1,20 +1,21 @@
 import React from 'react';
+import {StringExt} from "@antv/x6";
 import {useDnd} from "@antv/xflow";
 import {ServerlessWorkflowService} from "@/services/workspace/workflow/serverless-workflow.service";
 import X6Panel from "@/components/X6/Panel";
-import {uuidv4} from "lib0/random";
 
 const Dnd = () => {
   const {startDrag} = useDnd();
 
   const onDrag = (e: React.MouseEvent<Element, MouseEvent>, item: X6API.DndNode) => {
     const node = {
+      id: StringExt.uuid(),
       shape: item.shape,
       data: {
         label: item.label,
         meta: item.dndMeta
       },
-      ports: item.ports?.map((port) => {return {id: uuidv4(), group: port.group}}),
+      ports: item.ports?.map((port) => {return {id: StringExt.uuid(), group: port.group}}),
     }
     startDrag(node, e);
   };
