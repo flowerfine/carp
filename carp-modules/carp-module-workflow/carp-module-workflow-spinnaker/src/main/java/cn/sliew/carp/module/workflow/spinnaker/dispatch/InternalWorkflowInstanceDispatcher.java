@@ -40,8 +40,8 @@ import java.util.concurrent.CompletableFuture;
 @MessageListener(topic = InternalWorkflowInstanceDispatcher.TOPIC, consumerGroup = InternalWorkflowInstanceDispatcher.CONSUMER_GROUP)
 public class InternalWorkflowInstanceDispatcher implements WorkflowInstanceDispatcher, MessageHandler, InitializingBean, DisposableBean {
 
-    public static final String TOPIC = "TOPIC_CARP_INTERNAL_WORKFLOW_INSTANCE_EVENT";
-    public static final String CONSUMER_GROUP = "CONSUMER_GROUP_CARP_INTERNAL_WORKFLOW_INSTANCE_EVENT";
+    public static final String TOPIC = "TOPIC_CARP_SPINNAKER_WORKFLOW_INSTANCE_EVENT";
+    public static final String CONSUMER_GROUP = "CONSUMER_GROUP_CARP_SPINNAKER_WORKFLOW_INSTANCE_EVENT";
 
     @Autowired(required = false)
     private List<WorkflowMessageHandler> handlers;

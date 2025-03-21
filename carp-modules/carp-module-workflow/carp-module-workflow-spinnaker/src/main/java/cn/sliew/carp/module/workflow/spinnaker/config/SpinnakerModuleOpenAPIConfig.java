@@ -27,7 +27,7 @@ public class SpinnakerModuleOpenAPIConfig {
     @Bean
     public GroupedOpenApi carpSpinnakerModuleOpenApi() {
         return GroupedOpenApi.builder().group("Spinnaker模块")
-                .pathsToMatch("/api/carp/spinnaker/**")
+                .pathsToMatch("/api/carp/workflow/spinnaker/**")
                 .packagesToScan("cn.sliew.carp.module.workflow.spinnaker.controller").build();
     }
 
