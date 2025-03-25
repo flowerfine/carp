@@ -22,20 +22,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-modules</artifactId>
+        <artifactId>carp-module-workflow</artifactId>
         <version>0.0.34</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-workflow</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-workflow-simple</artifactId>
 
-    <modules>
-        <module>carp-module-workflow-api</module>
-        <module>carp-module-workflow-domain</module>
-        <module>carp-module-workflow-internal</module>
-        <module>carp-module-workflow-simple</module>
-        <module>carp-module-workflow-spinnaker</module>
-        <module>carp-module-workflow-stage</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-workflow-api</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
