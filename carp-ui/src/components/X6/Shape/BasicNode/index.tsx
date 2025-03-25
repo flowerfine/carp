@@ -92,7 +92,7 @@ const BasicNode: React.FC = ({node, onExecute, children}: BasicNodeProps) => {
       <Col style={{width: '212px'}}>
         <Row justify="space-around" align="middle">
           <Col span={4}>
-            <Image src={meta?.icon} alt={meta?.type} preview={false}/>
+            <Image src={meta?.icon} alt={meta?.icon} preview={false}/>
           </Col>
           <Col span={20}>
             <Row align="middle">

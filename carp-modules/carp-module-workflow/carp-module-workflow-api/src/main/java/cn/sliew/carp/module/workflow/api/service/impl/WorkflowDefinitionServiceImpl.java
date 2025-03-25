@@ -71,9 +71,9 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
 
         List<WorkflowDefinitionGraphEdge> edges = WorkflowDefinitionGraphEdgeConvert.INSTANCE.toDto(complexDTO.getLinks());
         List<WorkflowDefinitionGraphNode> allNodes = WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(complexDTO.getSteps());
-        WorkflowDefinitionGraphNode preNode = allNodes.stream().filter(node -> node.getMeta().getStepType() == CarpWorkflowStepType.PRE).findFirst().orElse(null);
-        WorkflowDefinitionGraphNode postNode = allNodes.stream().filter(node -> node.getMeta().getStepType() == CarpWorkflowStepType.POST).findFirst().orElse(null);
-        List<WorkflowDefinitionGraphNode> normalNodes = allNodes.stream().filter(node -> node.getMeta().getStepType() == CarpWorkflowStepType.NORMAL).collect(Collectors.toList());
+        WorkflowDefinitionGraphNode preNode = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepType.PRE).findFirst().orElse(null);
+        WorkflowDefinitionGraphNode postNode = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepType.POST).findFirst().orElse(null);
+        List<WorkflowDefinitionGraphNode> normalNodes = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepType.NORMAL).collect(Collectors.toList());
 
         graph.setEdges(edges);
         graph.setPreNode(preNode);

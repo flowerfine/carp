@@ -29,7 +29,7 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class WorkflowDefinitionGraphNodeMeta extends X6NodeMetaDTO {
 
-    private CarpWorkflowStepType stepType;
+    private CarpWorkflowStepType stepOrder;
 
     private CarpWorkflowTaskType taskType;
 
