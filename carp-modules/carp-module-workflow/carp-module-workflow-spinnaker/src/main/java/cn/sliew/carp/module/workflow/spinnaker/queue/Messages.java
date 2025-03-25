@@ -17,6 +17,9 @@
  */
 package cn.sliew.carp.module.workflow.spinnaker.queue;
 
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowLevel;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepLevel;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepTaskLevel;
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
 import cn.sliew.carp.module.workflow.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
@@ -31,31 +34,6 @@ import java.io.Serializable;
 import java.util.Map;
 
 public class Messages {
-
-    /**
-     * Messages used internally by the queueing system.
-     */
-    interface NamespaceAware {
-
-        String getNamespace();
-    }
-
-    public interface WorkflowLevel extends NamespaceAware {
-
-        String getType();
-
-        Long getWorkflowInstanceId();
-    }
-
-    public interface StepLevel extends WorkflowLevel {
-
-        Long getStepId();
-    }
-
-    public interface TaskLevel extends StepLevel {
-
-        Long getTaskId();
-    }
 
     @Getter
     @AllArgsConstructor
@@ -185,7 +163,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("startStep")
-    public static class StartStep implements StepLevel, Serializable {
+    public static class StartStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -193,7 +171,7 @@ public class Messages {
         private final Long workflowInstanceId;
         private final Long stepId;
 
-        public StartStep(StepLevel source) {
+        public StartStep(WorkflowStepLevel source) {
             this(source, source.getStepId());
         }
 
@@ -209,7 +187,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("continueParentStep")
-    public static class ContinueParentStep implements StepLevel, Serializable {
+    public static class ContinueParentStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -217,7 +195,7 @@ public class Messages {
         private final Long workflowInstanceId;
         private final Long stepId;
 
-        public ContinueParentStep(StepLevel source) {
+        public ContinueParentStep(WorkflowStepLevel source) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(), source.getStepId());
         }
 
@@ -229,7 +207,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("completeStep")
-    public static class CompleteStep implements StepLevel, Serializable {
+    public static class CompleteStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -237,7 +215,7 @@ public class Messages {
         private final Long workflowInstanceId;
         private final Long stepId;
 
-        public CompleteStep(StepLevel source) {
+        public CompleteStep(WorkflowStepLevel source) {
             this(source, source.getStepId());
         }
 
@@ -253,7 +231,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("skipStep")
-    public static class SkipStep implements StepLevel, Serializable {
+    public static class SkipStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -261,7 +239,7 @@ public class Messages {
         private final Long workflowInstanceId;
         private final Long stepId;
 
-        public SkipStep(StepLevel source) {
+        public SkipStep(WorkflowStepLevel source) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(), source.getStepId());
         }
 
@@ -273,7 +251,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("abortStep")
-    public static class AbortStep implements StepLevel, Serializable {
+    public static class AbortStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -281,7 +259,7 @@ public class Messages {
         private final Long workflowInstanceId;
         private final Long stepId;
 
-        public AbortStep(StepLevel source) {
+        public AbortStep(WorkflowStepLevel source) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(), source.getStepId());
         }
 
@@ -293,7 +271,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("pauseStep")
-    public static class PauseStep implements StepLevel, Serializable {
+    public static class PauseStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -301,7 +279,7 @@ public class Messages {
         private final Long workflowInstanceId;
         private final Long stepId;
 
-        public PauseStep(StepLevel source) {
+        public PauseStep(WorkflowStepLevel source) {
             this(source, source.getStepId());
         }
 
@@ -313,7 +291,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("restartStep")
-    public static class RestartStep implements StepLevel, Serializable {
+    public static class RestartStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -334,7 +312,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("resumeStep")
-    public static class ResumeStep implements StepLevel, Serializable {
+    public static class ResumeStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -354,7 +332,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("cancelStep")
-    public static class CancelStep implements StepLevel, Serializable {
+    public static class CancelStep implements WorkflowStepLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -362,7 +340,7 @@ public class Messages {
         private final Long workflowInstanceId;
         private final Long stepId;
 
-        public CancelStep(StepLevel source) {
+        public CancelStep(WorkflowStepLevel source) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(), source.getStepId());
         }
 
@@ -374,7 +352,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("startTask")
-    public static class StartTask implements TaskLevel, Serializable {
+    public static class StartTask implements WorkflowStepTaskLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -388,7 +366,7 @@ public class Messages {
                     stepId, taskId);
         }
 
-        public StartTask(StepLevel source, Long taskId) {
+        public StartTask(WorkflowStepLevel source, Long taskId) {
             this(source, source.getStepId(), taskId);
         }
 
@@ -406,7 +384,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("runTask")
-    public static class RunTask implements TaskLevel, Serializable {
+    public static class RunTask implements WorkflowStepTaskLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -416,12 +394,12 @@ public class Messages {
         private final Long taskId;
         private Class<? extends Task> taskType;
 
-        public RunTask(TaskLevel source, Class<? extends Task> taskType) {
+        public RunTask(WorkflowStepTaskLevel source, Class<? extends Task> taskType) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(),
                     source.getStepId(), source.getTaskId(), taskType);
         }
 
-        public RunTask(StepLevel source, Long taskId, Class<? extends Task> taskType) {
+        public RunTask(WorkflowStepLevel source, Long taskId, Class<? extends Task> taskType) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(),
                     source.getStepId(), taskId, taskType);
         }
@@ -435,7 +413,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("completeTask")
-    public static class CompleteTask implements TaskLevel, Serializable {
+    public static class CompleteTask implements WorkflowStepTaskLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -446,11 +424,11 @@ public class Messages {
         private ExecutionStatus status;
         private ExecutionStatus originalStatus;
 
-        public CompleteTask(TaskLevel source, ExecutionStatus status) {
+        public CompleteTask(WorkflowStepTaskLevel source, ExecutionStatus status) {
             this(source, status, null);
         }
 
-        public CompleteTask(TaskLevel source, ExecutionStatus status, ExecutionStatus originalStatus) {
+        public CompleteTask(WorkflowStepTaskLevel source, ExecutionStatus status, ExecutionStatus originalStatus) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(),
                     source.getStepId(), source.getTaskId(), status, originalStatus);
         }
@@ -459,7 +437,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("pauseTask")
-    public static class PauseTask implements TaskLevel, Serializable {
+    public static class PauseTask implements WorkflowStepTaskLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -468,7 +446,7 @@ public class Messages {
         private final Long stepId;
         private final Long taskId;
 
-        public PauseTask(TaskLevel source) {
+        public PauseTask(WorkflowStepTaskLevel source) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(),
                     source.getStepId(), source.getTaskId());
         }
@@ -477,7 +455,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("resumeTask")
-    public static class ResumeTask implements TaskLevel, Serializable {
+    public static class ResumeTask implements WorkflowStepTaskLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -486,7 +464,7 @@ public class Messages {
         private final Long stepId;
         private final Long taskId;
 
-        public ResumeTask(StepLevel source, Long taskId) {
+        public ResumeTask(WorkflowStepLevel source, Long taskId) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(),
                     source.getStepId(), taskId);
         }
@@ -514,7 +492,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("invalidStepId")
-    public static class InvalidStepId extends ConfigurationError implements StepLevel {
+    public static class InvalidStepId extends ConfigurationError implements WorkflowStepLevel {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -522,7 +500,7 @@ public class Messages {
         private final Long workflowInstanceId;
         private final Long stepId;
 
-        public InvalidStepId(StepLevel source) {
+        public InvalidStepId(WorkflowStepLevel source) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(), source.getStepId());
         }
     }
@@ -530,7 +508,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("invalidTaskId")
-    public static class InvalidTaskId extends ConfigurationError implements TaskLevel {
+    public static class InvalidTaskId extends ConfigurationError implements WorkflowStepTaskLevel {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -539,7 +517,7 @@ public class Messages {
         private final Long stepId;
         private final Long taskId;
 
-        public InvalidTaskId(TaskLevel source) {
+        public InvalidTaskId(WorkflowStepTaskLevel source) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(), source.getStepId(), source.getTaskId());
         }
     }
@@ -547,7 +525,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("invalidTaskType")
-    public static class InvalidTaskType extends ConfigurationError implements StepLevel {
+    public static class InvalidTaskType extends ConfigurationError implements WorkflowStepLevel {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -556,7 +534,7 @@ public class Messages {
         private final Long stepId;
         private String className;
 
-        public InvalidTaskType(StepLevel source, String className) {
+        public InvalidTaskType(WorkflowStepLevel source, String className) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(), source.getStepId(), className);
         }
     }
@@ -564,7 +542,7 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("noDownstreamTasks")
-    public static class NoDownstreamTasks extends ConfigurationError implements TaskLevel {
+    public static class NoDownstreamTasks extends ConfigurationError implements WorkflowStepTaskLevel {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
@@ -573,7 +551,7 @@ public class Messages {
         private final Long stepId;
         private final Long taskId;
 
-        public NoDownstreamTasks(TaskLevel source) {
+        public NoDownstreamTasks(WorkflowStepTaskLevel source) {
             this(source.getNamespace(), source.getType(), source.getWorkflowInstanceId(), source.getStepId(), source.getTaskId());
         }
     }

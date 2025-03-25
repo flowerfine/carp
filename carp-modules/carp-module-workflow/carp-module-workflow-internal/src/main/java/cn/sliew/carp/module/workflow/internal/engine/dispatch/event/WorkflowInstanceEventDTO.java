@@ -20,6 +20,7 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -29,21 +30,25 @@ public class WorkflowInstanceEventDTO implements WorkflowInstanceStatusEvent, Se
 
     private static final long serialVersionUID = 1L;
 
+    private final String namespace;
+    private final String type;
+    private final Long workflowInstanceId;
     private final CarpWorkflowInstanceState state;
     private final CarpWorkflowInstanceState nextState;
     private final CarpWorkflowInstanceEvent event;
-    private final Long workflowInstanceId;
     private final Throwable throwable;
 
-    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, Long workflowInstanceId) {
-        this(state, nextState, event, workflowInstanceId, null);
+    public WorkflowInstanceEventDTO(WorkflowInstance workflowInstance, CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event) {
+        this(workflowInstance, state, nextState, event, null);
     }
 
-    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, Long workflowInstanceId, Throwable throwable) {
+    public WorkflowInstanceEventDTO(WorkflowInstance workflowInstance, CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, Throwable throwable) {
+        this.namespace = workflowInstance.getNamespace();
+        this.type = workflowInstance.getDefinition().getType();
+        this.workflowInstanceId = workflowInstance.getId();
         this.state = state;
         this.nextState = nextState;
         this.event = event;
-        this.workflowInstanceId = workflowInstanceId;
         this.throwable = throwable;
     }
 

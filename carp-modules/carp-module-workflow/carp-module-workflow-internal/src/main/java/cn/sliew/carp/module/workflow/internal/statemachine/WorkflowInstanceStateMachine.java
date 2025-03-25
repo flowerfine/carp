@@ -42,11 +42,11 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
     @Autowired
     private WorkflowInstanceEventPublisher publisher;
 
-    private StateMachine<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<Long, Throwable>> stateMachine;
+    private StateMachine<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<WorkflowInstance, Throwable>> stateMachine;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        StateMachineBuilder<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<Long, Throwable>> builder = StateMachineBuilderFactory.create();
+        StateMachineBuilder<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<WorkflowInstance, Throwable>> builder = StateMachineBuilderFactory.create();
 
         builder.externalTransition()
                 .from(CarpWorkflowInstanceState.PENDING)
@@ -98,39 +98,39 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
         this.stateMachine = builder.build(CONSUMER_GROUP);
     }
 
-    private Action<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<Long, Throwable>> doPerform() {
+    private Action<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<WorkflowInstance, Throwable>> doPerform() {
         return (fromState, toState, eventEnum, pair) -> {
-            WorkflowInstanceEventDTO eventDTO = new WorkflowInstanceEventDTO(fromState, toState, eventEnum, pair.getLeft(), pair.getRight());
+            WorkflowInstanceEventDTO eventDTO = new WorkflowInstanceEventDTO(pair.getLeft(), fromState, toState, eventEnum, pair.getRight());
             publisher.publish(eventDTO);
         };
     }
 
 
     public void deploy(WorkflowInstance instance) {
-        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(instance, null));
     }
 
     public void shutdown(WorkflowInstance instance) {
-        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN, Pair.of(instance, null));
     }
 
     public void suspend(WorkflowInstance instance) {
-        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_SUSPEND, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_SUSPEND, Pair.of(instance, null));
     }
 
     public void resume(WorkflowInstance instance) {
-        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_RESUME, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_RESUME, Pair.of(instance, null));
     }
 
     public void onTaskChange(WorkflowInstance instance) {
-        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(instance, null));
     }
 
     public void onSuccess(WorkflowInstance instance) {
-        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_SUCCESS, Pair.of(instance.getId(), null));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_SUCCESS, Pair.of(instance, null));
     }
 
     public void onFailure(WorkflowInstance instance, Throwable throwable) {
-        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_FAILURE, Pair.of(instance.getId(), throwable));
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_FAILURE, Pair.of(instance, throwable));
     }
 }
