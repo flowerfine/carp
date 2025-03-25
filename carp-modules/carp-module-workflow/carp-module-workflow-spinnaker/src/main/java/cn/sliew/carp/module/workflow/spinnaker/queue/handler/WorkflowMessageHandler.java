@@ -18,6 +18,9 @@
 package cn.sliew.carp.module.workflow.spinnaker.queue.handler;
 
 import cn.sliew.carp.framework.exception.ExceptionVO;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowLevel;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepLevel;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepTaskLevel;
 import cn.sliew.carp.module.workflow.spinnaker.queue.Messages;
 import cn.sliew.carp.module.workflow.spinnaker.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
@@ -48,7 +51,7 @@ public interface WorkflowMessageHandler<M> {
 
     ExceptionVO handleException(String name, Exception e);
 
-    default void withWorkflow(Messages.WorkflowLevel workflowLevel, Consumer<WorkflowInstance> block) {
+    default void withWorkflow(WorkflowLevel workflowLevel, Consumer<WorkflowInstance> block) {
         try {
             WorkflowInstance workflowInstance = getWorkflowRepository().get(workflowLevel.getWorkflowInstanceId());
             block.accept(workflowInstance);
@@ -58,7 +61,7 @@ public interface WorkflowMessageHandler<M> {
     }
 
 
-    default void withStep(Messages.StepLevel stepLevel, Consumer<WorkflowStepInstance> block) {
+    default void withStep(WorkflowStepLevel stepLevel, Consumer<WorkflowStepInstance> block) {
         withWorkflow(stepLevel, dagInstanceDTO -> {
             try {
                 WorkflowStepInstance stepInstance = getWorkflowRepository().getStepInstance(stepLevel.getStepId());
@@ -71,7 +74,7 @@ public interface WorkflowMessageHandler<M> {
         });
     }
 
-    default void withTask(Messages.TaskLevel taskLevel, BiConsumer<WorkflowStepInstance, TaskExecution> block) {
+    default void withTask(WorkflowStepTaskLevel taskLevel, BiConsumer<WorkflowStepInstance, TaskExecution> block) {
         withStep(taskLevel, stepInstance -> {
             TaskExecution task = DagExecutionUtil.getTasks(stepInstance, taskLevel.getTaskId());
             if (task == null) {
