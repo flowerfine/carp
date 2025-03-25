@@ -18,7 +18,6 @@
 package cn.sliew.carp.module.workflow.spinnaker.queue;
 
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
-import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
@@ -61,21 +60,21 @@ public class Messages {
     @Getter
     @AllArgsConstructor
     @JsonTypeName("initWorkflow")
-    public static class InitWorkflow implements NamespaceAware, Serializable {
+    public static class InitWorkflow implements WorkflowLevel, Serializable {
         @Serial
         private static final long serialVersionUID = 1L;
         private final String namespace;
         private final String type;
-        private final Long workflowDefinitionId;
+        private final Long workflowInstanceId;
         private Map<String, Object> inputs;
         private Map<String, Map<String, Object>> stepInputs;
 
-        public InitWorkflow(WorkflowDefinition source) {
-            this(source.getNamespace(), source.getType(), source.getId(), null, null);
+        public InitWorkflow(WorkflowInstance source) {
+            this(source.getNamespace(), source.getDefinition().getType(), source.getId(), null, null);
         }
 
-        public InitWorkflow(WorkflowDefinition source, Map<String, Object> inputs, Map<String, Map<String, Object>> stepInputs) {
-            this(source.getNamespace(), source.getType(), source.getId(), inputs, stepInputs);
+        public InitWorkflow(WorkflowInstance source, Map<String, Object> inputs, Map<String, Map<String, Object>> stepInputs) {
+            this(source.getNamespace(), source.getDefinition().getType(), source.getId(), inputs, stepInputs);
         }
 
     }

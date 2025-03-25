@@ -29,8 +29,13 @@ declare namespace WorkspaceWorkflowAPI {
   };
 
   type WorkflowDefinitionUpdateNameParam = {
-    id: string;
+    id: number;
     name: string;
+  };
+
+  type WorkflowDefinitionRunParam = {
+    id: number;
+    globalVariable?: Record<string, any>;
   };
 
   type WorkflowDefinitionGraph = {
@@ -117,5 +122,6 @@ declare namespace WorkspaceWorkflowAPI {
     createTime?: Date;
     updateTime?: Date;
   };
+
 
 }

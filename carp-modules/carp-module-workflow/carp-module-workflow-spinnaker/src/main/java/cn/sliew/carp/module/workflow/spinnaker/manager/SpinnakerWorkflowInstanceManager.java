@@ -15,52 +15,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.internal.manager;
+package cn.sliew.carp.module.workflow.spinnaker.manager;
 
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.spinnaker.model.WorkflowRunner;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-//@Component
-public class SimpleWorkflowInstanceManager implements WorkflowInstanceManager {
+import java.util.Map;
 
-    @Autowired
-    private DagInstanceService dagInstanceService;
+@Component
+public class SpinnakerWorkflowInstanceManager implements WorkflowInstanceManager {
+
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
     @Autowired
-    private WorkflowInstanceStateMachine stateMachine;
+    private WorkflowRunner dagRunner;
 
     @Override
     public void deploy(Long id, JsonNode globalVariable) {
-        // 更新参数
-        DagInstanceDTO instanceDTO = new DagInstanceDTO();
-        instanceDTO.setId(id);
-        instanceDTO.setInputs(globalVariable);
-        dagInstanceService.update(instanceDTO);
-
-        stateMachine.deploy(get(id));
+        WorkflowInstance workflowInstance = workflowInstanceService.getGraph(id);
+        Map<String, Object> inputs = Map.of("foo", "foo-data", "bar", "bar-data");
+        Map<String, Map<String, Object>> stepInputs = Map.of(
+                "cae1a622-6c96-4cec-81d3-883510c17702", Map.of("url", "url-data", "payload", "payload-data"),
+                "2c2cb6c8-794b-4cc1-8258-cd1898912744", Map.of("url", "url-data", "payload", "payload-data"),
+                "d82a947b-f414-4273-973a-06f20fe33f0d", Map.of("url", "url-data", "payload", "payload-data"),
+                "027db10b-9150-403d-9d11-e4a36c99e1db", Map.of("url", "url-data", "payload", "payload-data")
+        );
+        dagRunner.start(workflowInstance, inputs, stepInputs);
     }
 
     @Override
     public void shutdown(Long id) {
-        stateMachine.shutdown(get(id));
+
     }
 
     @Override
     public void suspend(Long id) {
-        stateMachine.suspend(get(id));
+
     }
 
     @Override
     public void resume(Long id) {
-        stateMachine.resume(get(id));
+
     }
 
     private WorkflowInstance get(Long id) {

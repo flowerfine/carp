@@ -17,13 +17,13 @@
  */
 package cn.sliew.carp.module.workflow.spinnaker.model;
 
-import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 
 import java.util.Map;
 
 public interface WorkflowRunner {
 
-    void start(WorkflowDefinition workflowDefinition,
+    void start(WorkflowInstance workflowInstance,
                Map<String, Object> inputs,
                Map<String, Map<String, Object>> stepInputs);
 }

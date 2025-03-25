@@ -17,9 +17,11 @@
  */
 package cn.sliew.carp.module.workflow.api.manager;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public interface WorkflowInstanceManager {
 
-    void deploy(Long id);
+    void deploy(Long id, JsonNode globalVariable);
 
     void shutdown(Long id);
 

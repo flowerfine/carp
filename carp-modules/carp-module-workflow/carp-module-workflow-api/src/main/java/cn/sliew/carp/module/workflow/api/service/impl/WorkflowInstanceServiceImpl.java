@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.internal.service.impl;
+package cn.sliew.carp.module.workflow.api.service.impl;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
@@ -104,24 +104,13 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
     @Override
     public Long simpleInitialize(Long workflowDefinitionId) {
-        Long workflowInstanceId = dagInstanceComplexService.initialize(workflowDefinitionId);
-        dagInstanceService.updateStatus(workflowInstanceId, null, CarpWorkflowInstanceState.PENDING.getValue());
-        List<DagStepDTO> dagStepDTOS = dagStepService.listSteps(workflowInstanceId);
-        for (DagStepDTO dagStepDTO : dagStepDTOS) {
-            dagStepService.updateStatus(dagStepDTO.getId(), null, CarpWorkflowTaskInstanceStage.PENDING.getValue());
-        }
-        return workflowInstanceId;
+        return dagInstanceComplexService.initialize(workflowDefinitionId);
     }
 
     @Override
     public Long run(WorkflowRunParam param) {
         Long workflowInstanceId = simpleInitialize(param.getId());
-        // 更新参数
-        DagInstanceDTO instanceDTO = new DagInstanceDTO();
-        instanceDTO.setId(workflowInstanceId);
-        instanceDTO.setInputs(param.getGlobalVariable());
-        dagInstanceService.update(instanceDTO);
-        workflowInstanceManager.deploy(workflowInstanceId);
+        workflowInstanceManager.deploy(workflowInstanceId, param.getGlobalVariable());
         return workflowInstanceId;
     }
 

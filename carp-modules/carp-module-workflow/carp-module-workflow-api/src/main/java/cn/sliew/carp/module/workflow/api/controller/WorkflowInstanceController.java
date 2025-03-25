@@ -49,6 +49,12 @@ public class WorkflowInstanceController {
         return workflowInstanceService.page(param);
     }
 
+    @GetMapping("{id}")
+    @Operation(summary = "查询详情", description = "查询详情")
+    public WorkflowInstance get(@PathVariable("id") Long id) {
+        return workflowInstanceService.get(id);
+    }
+
     @PostMapping("run")
     @Operation(summary = "启动", description = "启动")
     public Long run(@Valid @RequestBody WorkflowRunParam param) {

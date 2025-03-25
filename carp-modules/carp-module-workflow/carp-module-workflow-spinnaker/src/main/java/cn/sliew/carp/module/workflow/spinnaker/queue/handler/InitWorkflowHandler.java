@@ -30,7 +30,7 @@ public class InitWorkflowHandler extends AbstractWorkflowMessageHandler<Messages
 
     @Override
     public void handle(Messages.InitWorkflow message) {
-        Long workflowInstanceId = getWorkflowRepository().addFromDefinition(message.getWorkflowDefinitionId(), message.getInputs(), message.getStepInputs());
-        push(new Messages.StartWorkflow(getWorkflowRepository().get(workflowInstanceId)));
+        getWorkflowRepository().prepareRun(message.getWorkflowInstanceId(), message.getInputs(), message.getStepInputs());
+        push(new Messages.StartWorkflow(getWorkflowRepository().get(message.getWorkflowInstanceId())));
     }
 }

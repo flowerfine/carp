@@ -18,7 +18,6 @@
 package cn.sliew.carp.module.workflow.spinnaker.repository;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
-import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
@@ -49,8 +48,6 @@ import java.util.stream.Collectors;
 @Repository
 public class SqlWorkflowRepository implements WorkflowRepository {
 
-    @Autowired
-    private DagConfigComplexService dagConfigComplexService;
     @Autowired
     private DagConfigLinkService dagConfigLinkService;
 
@@ -97,59 +94,39 @@ public class SqlWorkflowRepository implements WorkflowRepository {
     }
 
     @Override
-    public Long addFromDefinition(Long workflowDefinitionId,
-                                  Map<String, Object> inputs,
-                                  Map<String, Map<String, Object>> stepInputs) {
-        // inputs 处理
-        DagConfigComplexDTO dagConfigComplexDTO = dagConfigComplexService.selectOne(workflowDefinitionId);
-        List<DagConfigStepDTO> steps = dagConfigComplexDTO.getSteps();
-        List<DagConfigLinkDTO> links = dagConfigComplexDTO.getLinks();
-        dagConfigComplexDTO.setSteps(null);
-        dagConfigComplexDTO.setLinks(null);
+    public void prepareRun(Long workflowInstanceId,
+                           Map<String, Object> inputs,
+                           Map<String, Map<String, Object>> stepInputs) {
 
-        // 插入 dag_instance
+        // 更新 dag_instance
         DagInstanceDTO dagInstanceDTO = new DagInstanceDTO();
-        dagInstanceDTO.setNamespace(dagConfigComplexDTO.getNamespace());
-        dagInstanceDTO.setDagConfig(dagConfigComplexDTO);
-        dagInstanceDTO.setUuid(UUIDUtil.randomUUId());
-//        dagInstanceDTO.setBody(JacksonUtil.toJsonNode(dagConfigComplexDTO));
+        dagInstanceDTO.setId(workflowInstanceId);
         if (CollectionUtils.isEmpty(inputs) == false) {
             dagInstanceDTO.setInputs(JacksonUtil.toJsonNode(inputs));
         }
         dagInstanceDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
-        Long dagInstanceId = dagInstanceService.add(dagInstanceDTO);
-        dagInstanceDTO.setId(dagInstanceId);
-        // 插入 dag_step
+        dagInstanceService.update(dagInstanceDTO);
+
+        // 更新 dag_step
+        List<DagStepDTO> steps = dagStepService.listSteps(workflowInstanceId);
         if (CollectionUtils.isEmpty(steps) == false) {
-            for (DagConfigStepDTO dagConfigStepDTO : steps) {
-                DagStepDTO dagStepDTO = new DagStepDTO();
-                dagStepDTO.setNamespace(dagConfigComplexDTO.getNamespace());
-                dagStepDTO.setDagInstance(dagInstanceDTO);
-                dagStepDTO.setDagConfigStep(dagConfigStepDTO);
-                dagStepDTO.setUuid(UUIDUtil.randomUUId());
-//                dagStepDTO.setBody(JacksonUtil.toJsonNode(dagConfigStepDTO));
+            for (DagStepDTO dagStepDTO : steps) {
                 if (CollectionUtils.isEmpty(stepInputs) == false
-                        && stepInputs.containsKey(dagConfigStepDTO.getStepId())) {
-                    dagStepDTO.setInputs(JacksonUtil.toJsonNode(stepInputs.get(dagConfigStepDTO.getStepId())));
+                        && stepInputs.containsKey(dagStepDTO.getDagConfigStep().getStepId())) {
+                    dagStepDTO.setInputs(JacksonUtil.toJsonNode(stepInputs.get(dagStepDTO.getDagConfigStep().getStepId())));
                 }
                 dagStepDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
-                dagStepService.add(dagStepDTO);
+                dagStepService.update(dagStepDTO);
             }
         }
-        // 插入 dag_link
+        // 更新 dag_link
+        List<DagLinkDTO> links = dagLinkService.listLinks(workflowInstanceId);
         if (CollectionUtils.isEmpty(links) == false) {
-            for (DagConfigLinkDTO dagConfigLinkDTO : links) {
-                DagLinkDTO dagLinkDTO = new DagLinkDTO();
-                dagLinkDTO.setNamespace(dagConfigComplexDTO.getNamespace());
-                dagLinkDTO.setDagInstance(dagInstanceDTO);
-                dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
-                dagLinkDTO.setUuid(UUIDUtil.randomUUId());
-//                dagLinkDTO.setBody(JacksonUtil.toJsonNode(dagConfigLinkDTO));
+            for (DagLinkDTO dagLinkDTO : links) {
                 dagLinkDTO.setStatus(ExecutionStatus.NOT_STARTED.name());
-                dagLinkService.add(dagLinkDTO);
+                dagLinkService.update(dagLinkDTO);
             }
         }
-        return dagInstanceId;
     }
 
     @Override

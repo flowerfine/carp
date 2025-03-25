@@ -37,7 +37,7 @@ public interface WorkflowRepository {
 
     DAG<WorkflowStepInstance> getDAG(Long id);
 
-    Long addFromDefinition(Long workflowDefinitionId,
+    void prepareRun(Long workflowDefinitionId,
                            Map<String, Object> inputs,
                            Map<String, Map<String, Object>> stepInputs);
 
