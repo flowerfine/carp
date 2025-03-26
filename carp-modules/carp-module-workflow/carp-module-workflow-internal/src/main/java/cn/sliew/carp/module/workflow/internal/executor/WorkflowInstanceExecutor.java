@@ -17,9 +17,9 @@
  */
 package cn.sliew.carp.module.workflow.internal.executor;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowExecuteType;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 
@@ -33,7 +33,7 @@ public interface WorkflowInstanceExecutor {
 
     boolean checkEdge(WorkflowInstance instance, DAG<WorkflowStepInstance> dag, DefaultDagEdge<WorkflowStepInstance> edge);
 
-    boolean checkTask(WorkflowInstance instance, DAG<WorkflowStepInstance> dag, WorkflowStepInstance task);
+    boolean checkStep(WorkflowInstance instance, DAG<WorkflowStepInstance> dag, WorkflowStepInstance step);
 
-    void executeTasks(Set<WorkflowStepInstance> task);
+    void executeSteps(Set<WorkflowStepInstance> steps);
 }

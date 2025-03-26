@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEvent;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 import org.springframework.stereotype.Component;
 
@@ -38,19 +38,21 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
         CompletableFuture<?> future = CompletableFuture.runAsync(() -> run(event)).toCompletableFuture();
         future.whenCompleteAsync((unused, throwable) -> {
             if (throwable != null) {
-                onFailure(event.getWorkflowTaskInstanceId(), throwable);
+                onFailure(event.getStepId(), event.getTaskId(), throwable);
             }
         });
         return future;
     }
 
     private void run(WorkflowTaskInstanceEventDTO event) {
-        DagStepDTO dagStepUpdateParam = new DagStepDTO();
-        dagStepUpdateParam.setId(event.getWorkflowTaskInstanceId());
-        dagStepUpdateParam.setStatus(event.getNextState().getValue());
-        dagStepUpdateParam.setStartTime(new Date());
-        dagStepService.update(dagStepUpdateParam);
+        DagStepTaskDTO dagStepTaskUpdateParam = new DagStepTaskDTO();
+        dagStepTaskUpdateParam.setId(event.getTaskId());
+        dagStepTaskUpdateParam.setStatus(event.getNextState().getValue());
+        dagStepTaskUpdateParam.setStartTime(new Date());
+        dagStepTaskService.update(dagStepTaskUpdateParam);
+
         // todo run task
-        stateMachine.onSuccess(workflowInstanceService.getStep(event.getWorkflowTaskInstanceId()));
+
+        stateMachine.onSuccess(workflowInstanceService.getStep(event.getStepId()), workflowInstanceService.getTask(event.getTaskId()));
     }
 }

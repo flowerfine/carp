@@ -55,7 +55,7 @@ public final class Message extends EventObject {
     private String topic;
 
     @Builder.Default
-    private Integer retry = 1;
+    private Integer retry = 0;
     @Builder.Default
     private Integer maxRetry = 3;
     private Integer backoffMills = 0;

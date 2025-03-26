@@ -51,9 +51,9 @@ class MessageTask implements TimerTask {
                     try {
                         handler.handler(message);
                     } catch (Exception e) {
-                        log.error("message deliver error, msgId: {}, topic: {}, consumerGroup: {}, retry: {}, maxRetry: {}",
-                                message.getId(), message.getTopic(), entry.getKey(), message.getRetry(), message.getMaxRetry(), e);
                         if (message.getRetry() < message.getMaxRetry()) {
+                            log.error("message deliver error, msgId: {}, topic: {}, consumerGroup: {}, retry: {}, maxRetry: {}",
+                                    message.getId(), message.getTopic(), entry.getKey(), message.getRetry(), message.getMaxRetry(), e);
                             message.setRetry(message.getRetry() + 1);
                             timeout.timer().newTimeout(this, message.getBackoffMills(), TimeUnit.MILLISECONDS);
                         } else {

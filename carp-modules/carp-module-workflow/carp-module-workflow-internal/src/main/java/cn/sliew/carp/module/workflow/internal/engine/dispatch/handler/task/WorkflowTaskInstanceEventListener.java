@@ -25,10 +25,11 @@ public interface WorkflowTaskInstanceEventListener extends WorkflowTaskInstanceE
 
     @Override
     default void handle(WorkflowTaskInstanceStatusEvent event) {
-        if (event instanceof WorkflowTaskInstanceEventDTO == false) {
-            throw new RuntimeException();
+        if (event instanceof WorkflowTaskInstanceEventDTO eventDTO) {
+            handleInternal(eventDTO);
+            return;
         }
-        handleInternal((WorkflowTaskInstanceEventDTO) event);
+        throw new RuntimeException();
     }
 
     void handleInternal(WorkflowTaskInstanceEventDTO eventDTO);

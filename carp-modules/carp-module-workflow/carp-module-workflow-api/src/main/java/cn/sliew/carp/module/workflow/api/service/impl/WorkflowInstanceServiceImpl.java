@@ -93,7 +93,10 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     @Override
     public WorkflowStepInstance getStep(Long workflowStepInstanceId) {
         DagStepDTO dagStepDTO = dagStepService.get(workflowStepInstanceId);
-        return WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
+        WorkflowStepInstance stepInstance = WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
+        WorkflowInstance workflowInstance = get(stepInstance.getWorkflowInstance().getId());
+        stepInstance.setWorkflowInstance(workflowInstance);
+        return stepInstance;
     }
 
     @Override

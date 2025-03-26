@@ -18,6 +18,8 @@
 package cn.sliew.carp.module.workflow.internal.configuration;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
+import cn.sliew.carp.framework.dag.service.DagLinkService;
+import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.module.queue.api.QueueFactory;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowStepInstanceEventPublisher;
@@ -77,10 +79,12 @@ public class InternalWorkflowRuntimeAutoConfiguration {
     @ConditionalOnMissingBean(WorkflowInstanceManager.class)
     public InternalWorkflowInstanceManager internalWorkflowInstanceManager(
             DagInstanceService dagInstanceService,
+            DagStepService dagStepService,
+            DagLinkService dagLinkService,
             WorkflowInstanceService workflowInstanceService,
             InternalWorkflowInstanceStateMachine stateMachine) {
         return new InternalWorkflowInstanceManager(
-                dagInstanceService, workflowInstanceService, stateMachine);
+                dagInstanceService, dagStepService, dagLinkService, workflowInstanceService, stateMachine);
     }
 
     @Bean

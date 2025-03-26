@@ -62,4 +62,35 @@ public enum CarpWorkflowStepInstanceState implements DictInstance {
         return label;
     }
 
+    public boolean isSuccess() {
+        switch (this) {
+            case SUCCESS:
+            case SKIP:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isFailureOrShutdown() {
+        switch (this) {
+            case FAILURE:
+            case SHUTDOWN:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isEnd() {
+        switch (this) {
+            case SUCCESS:
+            case FAILURE:
+            case SHUTDOWN:
+            case SKIP:
+                return true;
+            default:
+                return false;
+        }
+    }
 }

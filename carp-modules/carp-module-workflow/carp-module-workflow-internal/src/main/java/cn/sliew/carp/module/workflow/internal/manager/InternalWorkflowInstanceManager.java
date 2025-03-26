@@ -18,28 +18,59 @@
 package cn.sliew.carp.module.workflow.internal.manager;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
+import cn.sliew.carp.framework.dag.service.DagLinkService;
+import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceState;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 @AllArgsConstructor
 public class InternalWorkflowInstanceManager implements WorkflowInstanceManager {
 
     private DagInstanceService dagInstanceService;
+    private DagStepService dagStepService;
+    private DagLinkService dagLinkService;
     private WorkflowInstanceService workflowInstanceService;
     private InternalWorkflowInstanceStateMachine stateMachine;
 
     @Override
     public void deploy(Long id, JsonNode globalVariable) {
-        // 更新参数
+        // 更新 dag_instance
         DagInstanceDTO instanceDTO = new DagInstanceDTO();
         instanceDTO.setId(id);
         instanceDTO.setInputs(globalVariable);
+        instanceDTO.setStatus(CarpWorkflowInstanceState.PENDING.getValue());
         dagInstanceService.update(instanceDTO);
+
+        // 更新 dag_step
+        List<DagStepDTO> steps = dagStepService.listSteps(id);
+        if (CollectionUtils.isEmpty(steps) == false) {
+            for (DagStepDTO dagStepDTO : steps) {
+                dagStepDTO.setStatus(CarpWorkflowStepInstanceState.PENDING.getValue());
+                dagStepService.update(dagStepDTO);
+            }
+        }
+        // 更新 dag_link
+        List<DagLinkDTO> links = dagLinkService.listLinks(id);
+        if (CollectionUtils.isEmpty(links) == false) {
+            for (DagLinkDTO dagLinkDTO : links) {
+                dagLinkDTO.setStatus(CarpWorkflowStepInstanceState.PENDING.getValue());
+                dagLinkService.update(dagLinkDTO);
+            }
+        }
 
         stateMachine.deploy(get(id));
     }

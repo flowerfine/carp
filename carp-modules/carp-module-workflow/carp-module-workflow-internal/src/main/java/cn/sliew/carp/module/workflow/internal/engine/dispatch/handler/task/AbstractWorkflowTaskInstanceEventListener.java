@@ -18,10 +18,10 @@
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
-import cn.sliew.carp.framework.dag.service.DagStepService;
+import cn.sliew.carp.framework.dag.service.DagStepTaskService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
-import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowStepInstanceStateMachine;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
@@ -44,11 +44,11 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
     @Autowired
     protected DagInstanceComplexService dagInstanceComplexService;
     @Autowired
-    protected DagStepService dagStepService;
+    protected DagStepTaskService dagStepTaskService;
     @Autowired
     protected WorkflowInstanceService workflowInstanceService;
     @Autowired
-    protected InternalWorkflowInstanceStateMachine internalWorkflowInstanceStateMachine;
+    protected InternalWorkflowStepInstanceStateMachine stepInstanceStateMachine;
     @Autowired
     protected InternalWorkflowTaskInstanceStateMachine stateMachine;
     @Autowired
@@ -70,12 +70,15 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
         try {
             handleEventAsync(event);
         } catch (Throwable throwable) {
-            onFailure(event.getWorkflowTaskInstanceId(), throwable);
+            onFailure(event.getStepId(), event.getTaskId(), throwable);
         }
     }
 
-    protected void onFailure(Long workflowTaskInstanceId, Throwable throwable) {
-//        stateMachine.onFailure(dagStepService.get(workflowTaskInstanceId), throwable);
+    protected void onFailure(Long workflowStepInstnaceId, Long workflowTaskInstanceId, Throwable throwable) {
+        stateMachine.onFailure(
+                workflowInstanceService.getStep(workflowStepInstnaceId),
+                workflowInstanceService.getTask(workflowTaskInstanceId),
+                throwable);
     }
 
     protected abstract CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event);

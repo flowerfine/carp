@@ -17,18 +17,17 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
-import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutorManager;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowExecuteType;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceEvent;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceState;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowExecutionGraphConvert;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutorManager;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +42,7 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
     @Override
     public CarpWorkflowInstanceEvent getType() {
-        return CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE;
+        return CarpWorkflowInstanceEvent.PROCESS_STEP_CHANGE;
     }
 
     @Override
@@ -59,7 +58,8 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
 
     private void run(Long workflowInstanceId) {
         WorkflowInstance workflowInstance = workflowInstanceService.getGraph(workflowInstanceId);
-        if (StringUtils.equalsIgnoreCase(workflowInstance.getStatus(), CarpWorkflowInstanceState.FAILURE.name())) {
+        CarpWorkflowInstanceState workflowInstanceState = CarpWorkflowInstanceState.of(workflowInstance.getStatus());
+        if (workflowInstanceState.isEnd()) {
             return;
         }
 
@@ -68,20 +68,20 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
         int successTaskCount = 0;
         boolean isAnyFailure = false;
         String anyFailureMessage = null;
-        for (WorkflowStepInstance taskInstance : dag.nodes()) {
-            CarpWorkflowTaskInstanceStage taskInstanceStage = CarpWorkflowTaskInstanceStage.of(taskInstance.getStatus());
-            if (taskInstanceStage.isEnd()) {
-                if (taskInstanceStage.isFailure()) {
+        for (WorkflowStepInstance stepInstance : dag.nodes()) {
+            CarpWorkflowStepInstanceState stepInstanceState = CarpWorkflowStepInstanceState.of(stepInstance.getStatus());
+            if (stepInstanceState.isEnd()) {
+                if (stepInstanceState.isFailureOrShutdown()) {
                     isAnyFailure = true;
-//                    anyFailureMessage = dagStepDTO.getMessage();
                     break;
                 }
-                if (taskInstanceStage.isSuccess()) {
+                if (stepInstanceState.isSuccess()) {
                     successTaskCount++;
                 }
             }
         }
 
+        // 全部成功，运行结束
         if (successTaskCount == dag.nodes().size()) {
             stateMachine.onSuccess(workflowInstanceService.get(workflowInstanceId));
             return;
@@ -91,6 +91,8 @@ public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowIns
             onFailure(workflowInstanceId, new Exception(anyFailureMessage));
             return;
         }
+
+        // todo 未传播 failure 和 shutdown 事件
 
         // 继续执行剩余节点
         workflowInstanceExecutorManager.execute(CarpWorkflowExecuteType.EXECUTE, workflowInstance, dag);

@@ -15,25 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
+package cn.sliew.carp.server.config;
 
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
-import cn.sliew.milky.common.util.JacksonUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import cn.sliew.carp.module.workflow.internal.annotation.EnableInternalWorkflowRuntime;
+import org.springframework.context.annotation.Configuration;
 
-@Slf4j
-@Component
-public class WorkflowInstanceSuspendEventListener implements WorkflowInstanceEventListener {
+@Configuration
+@EnableInternalWorkflowRuntime
+public class CarpWorkflowConfig {
 
-    @Override
-    public CarpWorkflowInstanceEvent getType() {
-        return CarpWorkflowInstanceEvent.COMMAND_SUSPEND;
-    }
-
-    @Override
-    public void handleInternal(WorkflowInstanceEventDTO event) {
-        log.info("on event, {}", JacksonUtil.toJsonString(event));
-    }
 }

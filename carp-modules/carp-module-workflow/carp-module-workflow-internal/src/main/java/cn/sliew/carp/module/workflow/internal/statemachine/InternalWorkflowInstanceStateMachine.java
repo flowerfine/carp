@@ -63,6 +63,11 @@ public class InternalWorkflowInstanceStateMachine implements InitializingBean {
                 .to(CarpWorkflowInstanceState.SHUTDOWN)
                 .on(CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
+        builder.externalTransition()
+                .from(CarpWorkflowInstanceState.PENDING)
+                .to(CarpWorkflowInstanceState.SUCCESS)
+                .on(CarpWorkflowInstanceEvent.PROCESS_SUCCESS)
+                .perform(doPerform());
 
         builder.externalTransition()
                 .from(CarpWorkflowInstanceState.RUNNING)

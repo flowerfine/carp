@@ -17,11 +17,11 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskInstanceStage;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -39,29 +39,31 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowTaskInstanceId(), event.getThrowable())).toCompletableFuture();
+        return CompletableFuture.runAsync(new FailureRunner(event.getStepId(), event.getTaskId(), event.getThrowable())).toCompletableFuture();
     }
 
     private class FailureRunner implements Runnable, Serializable {
 
-        private Long workflowTaskInstanceId;
+        private Long stepId;
+        private Long taskId;
         private Optional<Throwable> throwable;
 
-        public FailureRunner(Long workflowTaskInstanceId, Throwable throwable) {
-            this.workflowTaskInstanceId = workflowTaskInstanceId;
+        public FailureRunner(Long stepId, Long taskId, Throwable throwable) {
+            this.stepId = stepId;
+            this.taskId = taskId;
             this.throwable = Optional.ofNullable(throwable);
         }
 
         @Override
         public void run() {
-            DagStepDTO dagStepUpdateParam = new DagStepDTO();
-            dagStepUpdateParam.setId(workflowTaskInstanceId);
-            dagStepUpdateParam.setStatus(CarpWorkflowTaskInstanceStage.FAILURE.getValue());
+            DagStepTaskDTO dagStepUpdateParam = new DagStepTaskDTO();
+            dagStepUpdateParam.setId(taskId);
+            dagStepUpdateParam.setStatus(CarpWorkflowTaskInstanceState.FAILURE.getValue());
             dagStepUpdateParam.setEndTime(new Date());
-            dagStepService.update(dagStepUpdateParam);
+            dagStepTaskService.update(dagStepUpdateParam);
 
-            WorkflowStepInstance taskInstance = workflowInstanceService.getStep(workflowTaskInstanceId);
-            internalWorkflowInstanceStateMachine.onTaskChange(workflowInstanceService.get(taskInstance.getWorkflowInstance().getId()));
+            WorkflowStepInstance taskInstance = workflowInstanceService.getStep(stepId);
+            stepInstanceStateMachine.onTaskChange(taskInstance);
         }
     }
 

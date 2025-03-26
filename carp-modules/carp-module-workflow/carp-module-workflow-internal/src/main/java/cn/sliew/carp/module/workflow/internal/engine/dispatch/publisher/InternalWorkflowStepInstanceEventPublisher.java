@@ -24,7 +24,7 @@ import cn.sliew.carp.module.queue.api.Queue;
 import cn.sliew.carp.module.queue.api.QueueFactory;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowStepInstanceEventPublisher;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowInstanceEventDispatcher;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowStepInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowStepInstanceEventDTO;
 
 public class InternalWorkflowStepInstanceEventPublisher implements WorkflowStepInstanceEventPublisher {
@@ -38,7 +38,7 @@ public class InternalWorkflowStepInstanceEventPublisher implements WorkflowStepI
     @Override
     public void publish(WorkflowStepInstanceStatusEvent event) {
         if (event instanceof WorkflowStepInstanceEventDTO eventDTO) {
-            Queue queue = queueFactory.get(InternalWorkflowInstanceEventDispatcher.TOPIC);
+            Queue queue = queueFactory.get(InternalWorkflowStepInstanceEventDispatcher.TOPIC);
             SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
             Message message = Message.builder()
                     .topic(queue.getName())

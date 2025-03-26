@@ -60,4 +60,15 @@ public enum CarpWorkflowInstanceState implements DictInstance {
     public String getLabel() {
         return label;
     }
+
+    public boolean isEnd() {
+        switch (this) {
+            case SUCCESS:
+            case FAILURE:
+            case SHUTDOWN:
+                return true;
+            default:
+                return false;
+        }
+    }
 }

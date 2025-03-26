@@ -28,17 +28,14 @@ import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.spinnaker.dispatch.InternalWorkflowInstanceDispatcher;
 import cn.sliew.carp.module.workflow.spinnaker.queue.Messages;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
 
 import java.util.Map;
 
-@Component
+@AllArgsConstructor
 public class SpinnakerWorkflowInstanceManager implements WorkflowInstanceManager {
 
-    @Autowired
     private WorkflowInstanceService workflowInstanceService;
-    @Autowired
     private QueueFactory queueFactory;
 
     @Override
@@ -73,9 +70,5 @@ public class SpinnakerWorkflowInstanceManager implements WorkflowInstanceManager
     @Override
     public void resume(Long id) {
 
-    }
-
-    private WorkflowInstance get(Long id) {
-        return workflowInstanceService.get(id);
     }
 }

@@ -17,19 +17,22 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowExecuteType;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowExecuteType;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutorManager;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowExecutionGraphConvert;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -60,11 +63,15 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
 
     private void run(WorkflowInstanceEventDTO event) {
         dagInstanceService.updateStatus(event.getWorkflowInstanceId(), event.getState().getValue(), event.getNextState().getValue());
+        DagInstanceDTO dagInstanceDTO = new DagInstanceDTO();
+        dagInstanceDTO.setId(event.getWorkflowInstanceId());
+        dagInstanceDTO.setStartTime(new Date());
+        dagInstanceService.update(dagInstanceDTO);
 
         WorkflowInstance workflowInstance = workflowInstanceService.getGraph(event.getWorkflowInstanceId());
         DAG<WorkflowStepInstance> dag = WorkflowExecutionGraphConvert.INSTANCE.toDto(workflowInstance.getGraph());
         // 无节点，直接成功
-        if (dag.nodes().size() == 0) {
+        if (CollectionUtils.isEmpty(dag.nodes())) {
             stateMachine.onSuccess(workflowInstance);
             return;
         }
