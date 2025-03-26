@@ -99,7 +99,7 @@ public class StartWorkflowHandler extends AbstractWorkflowMessageHandler<Message
 //            push(new Messages.StartWaitingExecutions(dagInstanceDTO.getDagConfig().getId(), !dagInstanceDTO.isKeepWaitingPipelines()));
         } else {
             getLog().warn("Workflow Instance (namespace: {}, type: {}, workflowInstanceId: {}, status: {}) cannot be started unless state is NOT_STARTED. Ignoring StartWorkflow message.",
-                    workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId(), workflowInstance.getStatus(), workflowInstance.getNamespace());
+                    workflowInstance.getNamespace(), workflowInstance.getDefinition().getType(), workflowInstance.getId(), workflowInstance.getStatus());
         }
     }
 
