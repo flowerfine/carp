@@ -20,7 +20,7 @@ package cn.sliew.carp.module.system.controller;
 import cn.sliew.carp.framework.common.dict.DictDefinition;
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.log.annotation.WebLog;
+import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.system.service.SysDictDefinitionService;
 import cn.sliew.carp.module.system.service.SysDictInstanceService;

@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.datasource.controller;
 
-import cn.sliew.carp.framework.log.annotation.WebLog;
+import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.datasource.service.CarpDsCategoryService;
 import cn.sliew.carp.module.datasource.service.dto.DsCategoryDTO;

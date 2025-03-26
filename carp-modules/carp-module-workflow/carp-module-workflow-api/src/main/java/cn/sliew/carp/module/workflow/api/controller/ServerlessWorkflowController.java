@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.api.controller;
 
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
-import cn.sliew.carp.framework.log.annotation.WebLog;
+import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowService;
 import cn.sliew.carp.module.workflow.api.service.dto.dnd.DndGroupDTO;

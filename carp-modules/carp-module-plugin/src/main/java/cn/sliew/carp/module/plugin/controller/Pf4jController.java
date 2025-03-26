@@ -20,7 +20,7 @@ package cn.sliew.carp.module.plugin.controller;
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
-import cn.sliew.carp.framework.log.annotation.WebLog;
+import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.module.plugin.service.Pf4jService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

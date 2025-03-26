@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.http.sync.job.controller.job;
 
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
-import cn.sliew.carp.framework.log.annotation.WebLog;
+import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.http.sync.job.jst.order.JstOrderJob;
 import io.swagger.v3.oas.annotations.Operation;

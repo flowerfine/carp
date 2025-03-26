@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.spinnaker.repository;
 
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.*;
@@ -74,9 +75,9 @@ public class SqlWorkflowRepository implements WorkflowRepository {
         WorkflowExecutionGraph graph = new WorkflowExecutionGraph();
 
         List<WorkflowStepInstance> allNodes = WorkflowStepInstanceConvert.INSTANCE.toDto(complexDTO.getSteps());
-        WorkflowStepInstance preNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepOrder() == CarpWorkflowStepType.PRE).findFirst().orElse(null);
-        WorkflowStepInstance postNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepOrder() == CarpWorkflowStepType.POST).findFirst().orElse(null);
-        List<WorkflowStepInstance> normalNodes = allNodes.stream().filter(node -> node.getNode().getMeta().getStepOrder() == CarpWorkflowStepType.NORMAL).collect(Collectors.toList());
+        WorkflowStepInstance preNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepOrder() == CarpWorkflowStepOrder.PRE).findFirst().orElse(null);
+        WorkflowStepInstance postNode = allNodes.stream().filter(node -> node.getNode().getMeta().getStepOrder() == CarpWorkflowStepOrder.POST).findFirst().orElse(null);
+        List<WorkflowStepInstance> normalNodes = allNodes.stream().filter(node -> node.getNode().getMeta().getStepOrder() == CarpWorkflowStepOrder.NORMAL).collect(Collectors.toList());
         graph.setPreTask(preNode);
         graph.setPostTask(postNode);
         graph.setTasks(normalNodes);

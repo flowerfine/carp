@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.api.service.impl;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
@@ -71,9 +71,9 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
 
         List<WorkflowDefinitionGraphEdge> edges = WorkflowDefinitionGraphEdgeConvert.INSTANCE.toDto(complexDTO.getLinks());
         List<WorkflowDefinitionGraphNode> allNodes = WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(complexDTO.getSteps());
-        WorkflowDefinitionGraphNode preNode = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepType.PRE).findFirst().orElse(null);
-        WorkflowDefinitionGraphNode postNode = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepType.POST).findFirst().orElse(null);
-        List<WorkflowDefinitionGraphNode> normalNodes = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepType.NORMAL).collect(Collectors.toList());
+        WorkflowDefinitionGraphNode preNode = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepOrder.PRE).findFirst().orElse(null);
+        WorkflowDefinitionGraphNode postNode = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepOrder.POST).findFirst().orElse(null);
+        List<WorkflowDefinitionGraphNode> normalNodes = allNodes.stream().filter(node -> node.getMeta().getStepOrder() == CarpWorkflowStepOrder.NORMAL).collect(Collectors.toList());
 
         graph.setEdges(edges);
         graph.setPreNode(preNode);

@@ -21,7 +21,7 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.dag.x6.dnd.DndDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
-import cn.sliew.carp.framework.log.annotation.WebLog;
+import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;

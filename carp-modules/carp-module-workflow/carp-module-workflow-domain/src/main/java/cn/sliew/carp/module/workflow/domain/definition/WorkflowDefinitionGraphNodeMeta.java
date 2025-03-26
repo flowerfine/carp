@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.domain.definition;
 
+import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskType;
 import cn.sliew.carp.framework.dag.x6.dnd.X6NodeMetaDTO;
@@ -29,7 +30,9 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class WorkflowDefinitionGraphNodeMeta extends X6NodeMetaDTO {
 
-    private CarpWorkflowStepType stepOrder;
+    private CarpWorkflowStepOrder stepOrder;
+
+    private CarpWorkflowStepType stepType;
 
     private CarpWorkflowTaskType taskType;
 
