@@ -20,8 +20,8 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceState;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -42,16 +42,16 @@ public class WorkflowTaskInstanceEventDTO implements WorkflowTaskInstanceStatusE
     private final CarpWorkflowTaskInstanceEvent event;
     private final Throwable throwable;
 
-    public WorkflowTaskInstanceEventDTO(WorkflowStepInstance workflowStepInstance, TaskExecutionImpl taskExecution, CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event) {
-        this(workflowStepInstance, taskExecution, state, nextState, event, null);
+    public WorkflowTaskInstanceEventDTO(WorkflowStepInstance workflowStepInstance, WorkflowTaskInstance taskInstance, CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event) {
+        this(workflowStepInstance, taskInstance, state, nextState, event, null);
     }
 
-    public WorkflowTaskInstanceEventDTO(WorkflowStepInstance workflowStepInstance, TaskExecutionImpl taskExecution, CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event, Throwable throwable) {
+    public WorkflowTaskInstanceEventDTO(WorkflowStepInstance workflowStepInstance, WorkflowTaskInstance taskInstance, CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event, Throwable throwable) {
         this.namespace = workflowStepInstance.getNamespace();
         this.type = workflowStepInstance.getWorkflowInstance().getDefinition().getType();
         this.workflowInstanceId = workflowStepInstance.getWorkflowInstance().getId();
         this.stepId = workflowStepInstance.getId();
-        this.taskId = taskExecution.getId();
+        this.taskId = taskInstance.getId();
         this.state = state;
         this.nextState = nextState;
         this.event = event;

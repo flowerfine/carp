@@ -19,8 +19,8 @@ package cn.sliew.carp.module.workflow.api.util;
 
 import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.stage.model.graph.Iterators;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.TaskNode;
@@ -37,7 +37,7 @@ public enum StageDefinitionBuilderUtil {
      */
     public static void buildTasks(StageDefinitionBuilder stageDefinitionBuilder, WorkflowStepInstance step) {
         ListIterator<TaskNode> iterator = stageDefinitionBuilder.buildTaskGraph(step).listIterator();
-        List<TaskExecutionImpl> tasks = Lists.newArrayList();
+        List<WorkflowTaskInstance> tasks = Lists.newArrayList();
         Iterators.forEachWithMetadata(
                 iterator,
                 element -> processTaskNode(step, element, tasks, false));
@@ -49,12 +49,12 @@ public enum StageDefinitionBuilderUtil {
     private static void processTaskNode(
             WorkflowStepInstance step,
             Iterators.IteratorElement<TaskNode> element,
-            List<TaskExecutionImpl> tasks,
+            List<WorkflowTaskInstance> tasks,
             boolean isSubGraph) {
 
         if (element.getValue() instanceof TaskNode.DefinedTask) {
             TaskNode.DefinedTask definedTask = (TaskNode.DefinedTask) element.getValue();
-            TaskExecutionImpl task = buildTaskExecution(step, tasks, definedTask);
+            WorkflowTaskInstance task = buildTaskExecution(step, tasks, definedTask);
 
             if (isSubGraph) {
                 task.setLoopStart(element.isFirst());
@@ -74,8 +74,11 @@ public enum StageDefinitionBuilderUtil {
         }
     }
 
-    private static TaskExecutionImpl buildTaskExecution(WorkflowStepInstance step, List<TaskExecutionImpl> tasks, TaskNode.DefinedTask taskNode) {
-        TaskExecutionImpl taskExecution = new TaskExecutionImpl();
+    private static WorkflowTaskInstance buildTaskExecution(WorkflowStepInstance step, List<WorkflowTaskInstance> tasks, TaskNode.DefinedTask taskNode) {
+        WorkflowTaskInstance taskExecution = new WorkflowTaskInstance();
+        taskExecution.setNamespace(step.getNamespace());
+        taskExecution.setWorkflowInstanceId(step.getWorkflowInstance().getId());
+        taskExecution.setStepId(step.getId());
         taskExecution.setTaskId(tasks.size() + 1L);
         taskExecution.setName(taskNode.getName());
         taskExecution.setImplementingClass(taskNode.getImplementingClassName());

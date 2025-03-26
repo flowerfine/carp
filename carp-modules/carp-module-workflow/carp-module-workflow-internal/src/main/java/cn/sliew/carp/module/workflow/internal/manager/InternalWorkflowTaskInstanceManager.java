@@ -19,9 +19,9 @@ package cn.sliew.carp.module.workflow.internal.manager;
 
 import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
-import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
+import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -44,7 +44,7 @@ public class InternalWorkflowTaskInstanceManager implements WorkflowTaskInstance
         return workflowInstanceService.getStep(id);
     }
 
-    private TaskExecutionImpl getTask(Long id) {
+    private WorkflowTaskInstance getTask(Long id) {
         return workflowInstanceService.getTask(id);
     }
 }

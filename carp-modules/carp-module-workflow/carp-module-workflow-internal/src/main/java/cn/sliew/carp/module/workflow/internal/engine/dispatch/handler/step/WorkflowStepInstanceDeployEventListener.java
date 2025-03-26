@@ -17,20 +17,25 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.step;
 
+import cn.sliew.carp.framework.dag.service.DagStepTaskService;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
 import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceEvent;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.api.util.StageDefinitionBuilderUtil;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowStepInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
@@ -40,6 +45,8 @@ public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowSte
 
     @Autowired
     private StageDefinitionBuilderFactory stageDefinitionBuilderFactory;
+    @Autowired
+    private DagStepTaskService dagStepTaskService;
 
     @Override
     public CarpWorkflowStepInstanceEvent getType() {
@@ -71,17 +78,23 @@ public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowSte
 
         WorkflowStepInstance stepInstance = workflowInstanceService.getStep(event.getStepId());
         plan(stepInstance);
-        TaskExecutionImpl task = DagExecutionUtil.firstTask(stepInstance);
-//        if (Objects.nonNull(task)) {
-//            taskInstanceManager.deploy(event.getStepId(), task.getId());
-//        } else {
-//            stateMachine.onSuccess(workflowInstanceService.getStep(event.getStepId()));
-//        }
-        stateMachine.onSuccess(workflowInstanceService.getStep(event.getStepId()));
+        WorkflowTaskInstance task = DagExecutionUtil.firstTask(stepInstance);
+        if (Objects.nonNull(task)) {
+            taskInstanceManager.deploy(event.getStepId(), task.getId());
+        } else {
+            stateMachine.onSuccess(workflowInstanceService.getStep(event.getStepId()));
+        }
     }
 
     private void plan(WorkflowStepInstance stepInstance) {
         StageDefinitionBuilder builder = builder(stepInstance);
         StageDefinitionBuilderUtil.buildTasks(builder, stepInstance);
+        List<DagStepTaskDTO> tasks = dagStepTaskService.listTasks(stepInstance.getId());
+        tasks.forEach(task -> {
+            if (StringUtils.isBlank(task.getStatus())) {
+                task.setStatus(CarpWorkflowTaskInstanceState.PENDING.getValue());
+                dagStepTaskService.update(task);
+            }
+        });
     }
 }

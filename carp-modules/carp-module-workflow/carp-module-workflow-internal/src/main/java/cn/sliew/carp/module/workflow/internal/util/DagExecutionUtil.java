@@ -20,17 +20,15 @@ package cn.sliew.carp.module.workflow.internal.util;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceState;
+import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecution;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
-import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.stage.model.task.Task;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskExecutionInterceptor;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskResult;
 import jakarta.annotation.Nullable;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -92,26 +90,26 @@ public enum DagExecutionUtil {
         return Objects.equals(Boolean.TRUE, failPipeline);
     }
 
-    public static List<TaskExecutionImpl> getTasks(WorkflowStepInstance stepInstance) {
-        WorkflowRepository workflowRepository = SpringUtil.getBean(WorkflowRepository.class);
-        return workflowRepository.getStepTaskInstances(stepInstance.getId());
+    public static List<WorkflowTaskInstance> getTasks(WorkflowStepInstance stepInstance) {
+        WorkflowInstanceService workflowInstanceService = SpringUtil.getBean(WorkflowInstanceService.class);
+        return workflowInstanceService.listTasks(stepInstance.getId());
     }
 
-    public static TaskExecution getTasks(WorkflowStepInstance stepInstance, Long taskId) {
+    public static WorkflowTaskInstance getTasks(WorkflowStepInstance stepInstance, Long taskId) {
         return getTasks(stepInstance).stream().filter(it -> Objects.equals(it.getId(), taskId)).findFirst().orElse(null);
     }
 
-    public static TaskExecutionImpl firstTask(WorkflowStepInstance stepInstance) {
-        List<TaskExecutionImpl> tasks = getTasks(stepInstance);
+    public static WorkflowTaskInstance firstTask(WorkflowStepInstance stepInstance) {
+        List<WorkflowTaskInstance> tasks = getTasks(stepInstance);
         return tasks.isEmpty() ? null : tasks.get(0);
     }
 
     @Nullable
-    public static TaskExecution nextTask(WorkflowStepInstance stepInstance, TaskExecution task) {
+    public static WorkflowTaskInstance nextTask(WorkflowStepInstance stepInstance, WorkflowTaskInstance task) {
         if (task.isStageEnd()) {
             return null;
         }
-        List<TaskExecutionImpl> tasks = getTasks(stepInstance);
+        List<WorkflowTaskInstance> tasks = getTasks(stepInstance);
         int index = tasks.indexOf(task);
 
         if (index == tasks.size() - 1) {

@@ -19,44 +19,40 @@ package cn.sliew.carp.module.workflow.domain.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
-import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.Objects;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface WorkflowStepTaskInstanceConvert extends BaseConvert<DagStepTaskDTO, TaskExecutionImpl> {
+public interface WorkflowStepTaskInstanceConvert extends BaseConvert<DagStepTaskDTO, WorkflowTaskInstance> {
     WorkflowStepTaskInstanceConvert INSTANCE = Mappers.getMapper(WorkflowStepTaskInstanceConvert.class);
 
     @Override
-    default DagStepTaskDTO toDo(TaskExecutionImpl taskExecution) {
-        DagStepTaskDTO dagStepTaskDTO = new DagStepTaskDTO();
-        BeanUtils.copyProperties(taskExecution, dagStepTaskDTO);
-        if (Objects.nonNull(taskExecution.getStatus())) {
-            dagStepTaskDTO.setStatus(taskExecution.getStatus().name());
+    default DagStepTaskDTO toDo(WorkflowTaskInstance dto) {
+        DagStepTaskDTO entity = new DagStepTaskDTO();
+        BeanUtils.copyProperties(dto, entity);
+        entity.setDagInstanceId(dto.getWorkflowInstanceId());
+        entity.setDagStepId(dto.getStepId());
+        if (Objects.nonNull(dto.getStartTime())) {
+            entity.setStartTime(Date.from(dto.getStartTime()));
         }
-        if (Objects.nonNull(taskExecution.getStartTime())) {
-            dagStepTaskDTO.setStartTime(Date.from(taskExecution.getStartTime()));
+        if (Objects.nonNull(dto.getEndTime())) {
+            entity.setEndTime(Date.from(dto.getEndTime()));
         }
-        if (Objects.nonNull(taskExecution.getEndTime())) {
-            dagStepTaskDTO.setEndTime(Date.from(taskExecution.getEndTime()));
-        }
-        return dagStepTaskDTO;
+        return entity;
     }
 
     @Override
-    default TaskExecutionImpl toDto(DagStepTaskDTO entity) {
-        TaskExecutionImpl dto = new TaskExecutionImpl();
+    default WorkflowTaskInstance toDto(DagStepTaskDTO entity) {
+        WorkflowTaskInstance dto = new WorkflowTaskInstance();
         BeanUtils.copyProperties(entity, dto);
-        if (StringUtils.hasText(entity.getStatus())) {
-            dto.setStatus(ExecutionStatus.valueOf(entity.getStatus()));
-        }
+        dto.setWorkflowInstanceId(entity.getDagInstanceId());
+        dto.setStepId(entity.getDagStepId());
         if (Objects.nonNull(entity.getStartTime())) {
             dto.setStartTime(entity.getStartTime().toInstant());
         }

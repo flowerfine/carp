@@ -27,13 +27,12 @@ import cn.sliew.carp.module.workflow.domain.convert.WorkflowInstanceConvert;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepInstanceConvert;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepTaskInstanceConvert;
 import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
-import cn.sliew.carp.module.workflow.domain.instance.WorkflowExecutionGraph;
-import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.*;
 import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -155,19 +154,45 @@ public class SqlWorkflowRepository implements WorkflowRepository {
     @Override
     public List<TaskExecutionImpl> getStepTaskInstances(Long stepInstanceId) {
         List<DagStepTaskDTO> dagStepTaskDTOS = dagStepTaskService.listTasks(stepInstanceId);
-        return WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTOS);
+        List<WorkflowTaskInstance> taskInstances = WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTOS);
+        return taskInstances.stream().map(taskInstance -> {
+            TaskExecutionImpl taskExecution = new TaskExecutionImpl();
+            BeanUtils.copyProperties(taskInstance, taskExecution);
+            if (StringUtils.isBlank(taskInstance.getStatus())) {
+                taskExecution.setStatus(ExecutionStatus.NOT_STARTED);
+            } else {
+                taskExecution.setStatus(ExecutionStatus.valueOf(taskInstance.getStatus()));
+            }
+            return taskExecution;
+        }).collect(Collectors.toList());
     }
 
     @Override
     public TaskExecutionImpl getStepTaskInstance(Long stepTaskInstanceId) {
         DagStepTaskDTO dagStepTaskDTO = dagStepTaskService.get(stepTaskInstanceId);
-        return WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTO);
+        WorkflowTaskInstance taskInstance =  WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTO);
+        TaskExecutionImpl taskExecution = new TaskExecutionImpl();
+        BeanUtils.copyProperties(taskInstance, taskExecution);
+        if (StringUtils.isBlank(taskInstance.getStatus())) {
+            taskExecution.setStatus(ExecutionStatus.NOT_STARTED);
+        } else {
+            taskExecution.setStatus(ExecutionStatus.valueOf(taskInstance.getStatus()));
+        }
+        return taskExecution;
     }
 
     @Override
     public TaskExecutionImpl getStepTaskInstance(Long workflowInstanceId, Long stepInstanceId, Long taskId) {
         DagStepTaskDTO dagStepTaskDTO = dagStepTaskService.get(workflowInstanceId, stepInstanceId, taskId);
-        return WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTO);
+        WorkflowTaskInstance taskInstance =  WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTO);
+        TaskExecutionImpl taskExecution = new TaskExecutionImpl();
+        BeanUtils.copyProperties(taskInstance, taskExecution);
+        if (StringUtils.isBlank(taskInstance.getStatus())) {
+            taskExecution.setStatus(ExecutionStatus.NOT_STARTED);
+        } else {
+            taskExecution.setStatus(ExecutionStatus.valueOf(taskInstance.getStatus()));
+        }
+        return taskExecution;
     }
 
     @Override
@@ -182,11 +207,9 @@ public class SqlWorkflowRepository implements WorkflowRepository {
         dagStepTaskService.update(dagStepTaskDTO);
     }
 
+
     private DagStepTaskDTO convertToTask(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
-        DagStepTaskDTO dagStepTaskDTO = WorkflowStepTaskInstanceConvert.INSTANCE.toDo(taskExecution);
-        dagStepTaskDTO.setNamespace(stepInstance.getNamespace());
-        dagStepTaskDTO.setDagInstanceId(stepInstance.getWorkflowInstance().getId());
-        dagStepTaskDTO.setDagStepId(stepInstance.getId());
-        return dagStepTaskDTO;
+        // fixme 转换
+        return null;
     }
 }
