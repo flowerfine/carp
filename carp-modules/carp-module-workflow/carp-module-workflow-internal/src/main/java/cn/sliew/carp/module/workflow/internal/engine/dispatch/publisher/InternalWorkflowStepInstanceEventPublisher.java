@@ -22,22 +22,22 @@ import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.module.queue.api.Message;
 import cn.sliew.carp.module.queue.api.Queue;
 import cn.sliew.carp.module.queue.api.QueueFactory;
-import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowStepInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowInstanceEventDispatcher;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowStepInstanceEventDTO;
 
-public class InternalWorkflowInstanceEventPublisher implements WorkflowInstanceEventPublisher {
+public class InternalWorkflowStepInstanceEventPublisher implements WorkflowStepInstanceEventPublisher {
 
     private QueueFactory queueFactory;
 
-    public InternalWorkflowInstanceEventPublisher(QueueFactory queueFactory) {
+    public InternalWorkflowStepInstanceEventPublisher(QueueFactory queueFactory) {
         this.queueFactory = queueFactory;
     }
 
     @Override
-    public void publish(WorkflowInstanceStatusEvent event) {
-        if (event instanceof WorkflowInstanceEventDTO eventDTO) {
+    public void publish(WorkflowStepInstanceStatusEvent event) {
+        if (event instanceof WorkflowStepInstanceEventDTO eventDTO) {
             Queue queue = queueFactory.get(InternalWorkflowInstanceEventDispatcher.TOPIC);
             SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
             Message message = Message.builder()

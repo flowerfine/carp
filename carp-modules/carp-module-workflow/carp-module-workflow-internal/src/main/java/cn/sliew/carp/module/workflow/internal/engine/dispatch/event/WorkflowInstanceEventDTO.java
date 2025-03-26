@@ -17,9 +17,9 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceEvent;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import lombok.Getter;
 
@@ -50,10 +50,5 @@ public class WorkflowInstanceEventDTO implements WorkflowInstanceStatusEvent, Se
         this.nextState = nextState;
         this.event = event;
         this.throwable = throwable;
-    }
-
-    @Override
-    public CarpWorkflowInstanceEvent getEvent() {
-        return event;
     }
 }

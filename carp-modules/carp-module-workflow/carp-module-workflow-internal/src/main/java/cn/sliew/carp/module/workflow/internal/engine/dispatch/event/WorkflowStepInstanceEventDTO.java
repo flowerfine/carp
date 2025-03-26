@@ -17,17 +17,16 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 
-import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceEvent;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceState;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceEvent;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import lombok.Getter;
 
 import java.io.Serializable;
 
 @Getter
-public class WorkflowTaskInstanceEventDTO implements WorkflowTaskInstanceStatusEvent, Serializable {
+public class WorkflowStepInstanceEventDTO implements WorkflowStepInstanceStatusEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,23 +34,20 @@ public class WorkflowTaskInstanceEventDTO implements WorkflowTaskInstanceStatusE
     private final String type;
     private final Long workflowInstanceId;
     private final Long stepId;
-    private final Long taskId;
-
-    private final CarpWorkflowTaskInstanceState state;
-    private final CarpWorkflowTaskInstanceState nextState;
-    private final CarpWorkflowTaskInstanceEvent event;
+    private final CarpWorkflowStepInstanceState state;
+    private final CarpWorkflowStepInstanceState nextState;
+    private final CarpWorkflowStepInstanceEvent event;
     private final Throwable throwable;
 
-    public WorkflowTaskInstanceEventDTO(WorkflowStepInstance workflowStepInstance, TaskExecutionImpl taskExecution, CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event) {
-        this(workflowStepInstance, taskExecution, state, nextState, event, null);
+    public WorkflowStepInstanceEventDTO(WorkflowStepInstance workflowStepInstance, CarpWorkflowStepInstanceState state, CarpWorkflowStepInstanceState nextState, CarpWorkflowStepInstanceEvent event) {
+        this(workflowStepInstance, state, nextState, event, null);
     }
 
-    public WorkflowTaskInstanceEventDTO(WorkflowStepInstance workflowStepInstance, TaskExecutionImpl taskExecution, CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event, Throwable throwable) {
+    public WorkflowStepInstanceEventDTO(WorkflowStepInstance workflowStepInstance, CarpWorkflowStepInstanceState state, CarpWorkflowStepInstanceState nextState, CarpWorkflowStepInstanceEvent event, Throwable throwable) {
         this.namespace = workflowStepInstance.getNamespace();
         this.type = workflowStepInstance.getWorkflowInstance().getDefinition().getType();
         this.workflowInstanceId = workflowStepInstance.getWorkflowInstance().getId();
         this.stepId = workflowStepInstance.getId();
-        this.taskId = taskExecution.getId();
         this.state = state;
         this.nextState = nextState;
         this.event = event;

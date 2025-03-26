@@ -15,11 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.manager;
+package cn.sliew.carp.module.workflow.internal.annotation;
 
-public interface WorkflowTaskInstanceManager {
+import cn.sliew.carp.module.workflow.internal.configuration.InternalWorkflowRuntimeAutoConfiguration;
+import org.springframework.context.annotation.Import;
 
-    void deploy(Long workflowStepInstanceId, Long workflowTaskInstanceId);
+import java.lang.annotation.*;
 
-    void shutdown(Long workflowStepInstanceId, Long workflowTaskInstanceId);
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+@Import(InternalWorkflowRuntimeAutoConfiguration.class)
+public @interface EnableInternalWorkflowRuntime {
+
 }

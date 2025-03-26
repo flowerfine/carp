@@ -17,11 +17,11 @@
  */
 package cn.sliew.carp.module.workflow.internal.statemachine;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceEvent;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilder;
@@ -29,20 +29,20 @@ import com.alibaba.cola.statemachine.builder.StateMachineBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
-public class WorkflowInstanceStateMachine implements InitializingBean {
+public class InternalWorkflowInstanceStateMachine implements InitializingBean {
 
-    public static final String CONSUMER_GROUP = "WorkflowInstanceStateMachine";
-    public static final String EXECUTOR = "WorkflowInstanceExecute";
+    public static final String CONSUMER_GROUP = "InternalWorkflowInstanceStateMachine";
+    public static final String EXECUTOR = "InternalWorkflowInstanceExecute";
 
-    @Autowired
     private WorkflowInstanceEventPublisher publisher;
 
     private StateMachine<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, Pair<WorkflowInstance, Throwable>> stateMachine;
+
+    public InternalWorkflowInstanceStateMachine(WorkflowInstanceEventPublisher publisher) {
+        this.publisher = publisher;
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -55,14 +55,15 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .perform(doPerform());
         builder.externalTransition()
                 .from(CarpWorkflowInstanceState.PENDING)
-                .to(CarpWorkflowInstanceState.SUCCESS)
-                .on(CarpWorkflowInstanceEvent.PROCESS_SUCCESS)
+                .to(CarpWorkflowInstanceState.SUSPEND)
+                .on(CarpWorkflowInstanceEvent.COMMAND_SUSPEND)
+                .perform(doPerform());
+        builder.externalTransition()
+                .from(CarpWorkflowInstanceState.PENDING)
+                .to(CarpWorkflowInstanceState.SHUTDOWN)
+                .on(CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
 
-        builder.internalTransition()
-                .within(CarpWorkflowInstanceState.RUNNING)
-                .on(CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE)
-                .perform(doPerform());
         builder.externalTransition()
                 .from(CarpWorkflowInstanceState.RUNNING)
                 .to(CarpWorkflowInstanceState.SUCCESS)
@@ -80,8 +81,12 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .perform(doPerform());
         builder.externalTransition()
                 .from(CarpWorkflowInstanceState.RUNNING)
-                .to(CarpWorkflowInstanceState.TERMINATED)
+                .to(CarpWorkflowInstanceState.SHUTDOWN)
                 .on(CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN)
+                .perform(doPerform());
+        builder.internalTransition()
+                .within(CarpWorkflowInstanceState.RUNNING)
+                .on(CarpWorkflowInstanceEvent.PROCESS_STEP_CHANGE)
                 .perform(doPerform());
 
         builder.externalTransition()
@@ -91,7 +96,7 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
                 .perform(doPerform());
         builder.externalTransition()
                 .from(CarpWorkflowInstanceState.SUSPEND)
-                .to(CarpWorkflowInstanceState.TERMINATED)
+                .to(CarpWorkflowInstanceState.SHUTDOWN)
                 .on(CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
 
@@ -122,8 +127,8 @@ public class WorkflowInstanceStateMachine implements InitializingBean {
         stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_RESUME, Pair.of(instance, null));
     }
 
-    public void onTaskChange(WorkflowInstance instance) {
-        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_TASK_CHANGE, Pair.of(instance, null));
+    public void onStepChange(WorkflowInstance instance) {
+        stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_STEP_CHANGE, Pair.of(instance, null));
     }
 
     public void onSuccess(WorkflowInstance instance) {

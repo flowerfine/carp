@@ -21,8 +21,8 @@ import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;
@@ -48,9 +48,9 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
     @Autowired
     protected WorkflowInstanceService workflowInstanceService;
     @Autowired
-    protected WorkflowInstanceStateMachine workflowInstanceStateMachine;
+    protected InternalWorkflowInstanceStateMachine internalWorkflowInstanceStateMachine;
     @Autowired
-    protected WorkflowTaskInstanceStateMachine stateMachine;
+    protected InternalWorkflowTaskInstanceStateMachine stateMachine;
     @Autowired
     private RedissonClient redissonClient;
 
@@ -61,7 +61,7 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        executorService = redissonClient.getExecutorService(WorkflowTaskInstanceStateMachine.EXECUTOR);
+        executorService = redissonClient.getExecutorService(InternalWorkflowTaskInstanceStateMachine.EXECUTOR);
         executorService.registerWorkers(WorkerOptions.defaults().workers(20).beanFactory(beanFactory));
     }
 

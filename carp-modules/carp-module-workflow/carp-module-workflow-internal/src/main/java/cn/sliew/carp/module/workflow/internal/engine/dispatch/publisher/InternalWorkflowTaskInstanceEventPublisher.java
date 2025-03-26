@@ -26,14 +26,14 @@ import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInsta
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowTaskInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowTaskInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 public class InternalWorkflowTaskInstanceEventPublisher implements WorkflowTaskInstanceEventPublisher {
 
-    @Autowired
     private QueueFactory queueFactory;
+
+    public InternalWorkflowTaskInstanceEventPublisher(QueueFactory queueFactory) {
+        this.queueFactory = queueFactory;
+    }
 
     @Override
     public void publish(WorkflowTaskInstanceStatusEvent event) {

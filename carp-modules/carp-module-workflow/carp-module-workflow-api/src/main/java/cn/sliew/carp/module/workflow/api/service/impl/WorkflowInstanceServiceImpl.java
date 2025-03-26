@@ -19,14 +19,8 @@ package cn.sliew.carp.module.workflow.api.service.impl;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
-import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
-import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.framework.dag.service.*;
+import cn.sliew.carp.framework.dag.service.dto.*;
 import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
@@ -36,6 +30,8 @@ import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowDefinitionGraphEdgeConvert;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowInstanceConvert;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepInstanceConvert;
+import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepTaskInstanceConvert;
+import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowExecutionGraph;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
@@ -53,11 +49,11 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     @Autowired
     private DagInstanceComplexService dagInstanceComplexService;
     @Autowired
-    private DagInstanceService dagInstanceService;
-    @Autowired
     private DagConfigLinkService dagConfigLinkService;
     @Autowired
     private DagStepService dagStepService;
+    @Autowired
+    private DagStepTaskService dagStepTaskService;
     @Autowired
     private WorkflowInstanceManager workflowInstanceManager;
 
@@ -95,9 +91,15 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
-    public WorkflowStepInstance getTask(Long workflowTaskInstanceId) {
-        DagStepDTO dagStepDTO = dagStepService.get(workflowTaskInstanceId);
+    public WorkflowStepInstance getStep(Long workflowStepInstanceId) {
+        DagStepDTO dagStepDTO = dagStepService.get(workflowStepInstanceId);
         return WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
+    }
+
+    @Override
+    public TaskExecutionImpl getTask(Long workflowTaskInstanceId) {
+        DagStepTaskDTO dagStepTaskDTO = dagStepTaskService.get(workflowTaskInstanceId);
+        return WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTO);
     }
 
     @Override

@@ -17,34 +17,20 @@
  */
 package cn.sliew.carp.module.workflow.internal.manager;
 
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
+import cn.sliew.carp.module.workflow.api.manager.WorkflowStepInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
-import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowStepInstanceStateMachine;
+import lombok.AllArgsConstructor;
 
-//@Component
-public class SimpleWorkflowInstanceManager implements WorkflowInstanceManager {
+@AllArgsConstructor
+public class InternalWorkflowStepInstanceManager implements WorkflowStepInstanceManager {
 
-    @Autowired
-    private DagInstanceService dagInstanceService;
-    @Autowired
     private WorkflowInstanceService workflowInstanceService;
-    @Autowired
-    private WorkflowInstanceStateMachine stateMachine;
+    private InternalWorkflowStepInstanceStateMachine stateMachine;
 
     @Override
-    public void deploy(Long id, JsonNode globalVariable) {
-        // 更新参数
-        DagInstanceDTO instanceDTO = new DagInstanceDTO();
-        instanceDTO.setId(id);
-        instanceDTO.setInputs(globalVariable);
-        dagInstanceService.update(instanceDTO);
-
+    public void deploy(Long id) {
         stateMachine.deploy(get(id));
     }
 
@@ -63,7 +49,12 @@ public class SimpleWorkflowInstanceManager implements WorkflowInstanceManager {
         stateMachine.resume(get(id));
     }
 
-    private WorkflowInstance get(Long id) {
-        return workflowInstanceService.get(id);
+    @Override
+    public void skip(Long id) {
+        stateMachine.skip(get(id));
+    }
+
+    private WorkflowStepInstance get(Long id) {
+        return workflowInstanceService.getStep(id);
     }
 }

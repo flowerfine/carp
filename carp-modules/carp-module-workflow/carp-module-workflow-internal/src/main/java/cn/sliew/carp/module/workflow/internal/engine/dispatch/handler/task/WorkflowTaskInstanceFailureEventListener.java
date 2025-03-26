@@ -60,8 +60,8 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
             dagStepUpdateParam.setEndTime(new Date());
             dagStepService.update(dagStepUpdateParam);
 
-            WorkflowStepInstance taskInstance = workflowInstanceService.getTask(workflowTaskInstanceId);
-            workflowInstanceStateMachine.onTaskChange(workflowInstanceService.get(taskInstance.getWorkflowInstance().getId()));
+            WorkflowStepInstance taskInstance = workflowInstanceService.getStep(workflowTaskInstanceId);
+            internalWorkflowInstanceStateMachine.onTaskChange(workflowInstanceService.get(taskInstance.getWorkflowInstance().getId()));
         }
     }
 

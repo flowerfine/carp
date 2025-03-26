@@ -26,4 +26,6 @@ public interface WorkflowStepInstanceManager {
     void suspend(Long id);
 
     void resume(Long id);
+
+    void skip(Long id);
 }

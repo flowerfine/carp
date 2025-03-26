@@ -19,40 +19,32 @@ package cn.sliew.carp.module.workflow.internal.manager;
 
 import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowTaskInstanceStateMachine;
+import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
+import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
 
-@Component
-public class SimpleWorkflowTaskInstanceManager implements WorkflowTaskInstanceManager {
+@AllArgsConstructor
+public class InternalWorkflowTaskInstanceManager implements WorkflowTaskInstanceManager {
 
-    @Autowired
     private WorkflowInstanceService workflowInstanceService;
-    @Autowired
-    private WorkflowTaskInstanceStateMachine stateMachine;
+    private InternalWorkflowTaskInstanceStateMachine stateMachine;
 
     @Override
-    public void deploy(Long id) {
-        stateMachine.deploy(get(id));
+    public void deploy(Long workflowStepInstanceId, Long workflowTaskInstanceId) {
+        stateMachine.deploy(getStep(workflowStepInstanceId), getTask(workflowTaskInstanceId));
     }
 
     @Override
-    public void shutdown(Long id) {
-        stateMachine.shutdown(get(id));
+    public void shutdown(Long workflowStepInstanceId, Long workflowTaskInstanceId) {
+        stateMachine.shutdown(getStep(workflowStepInstanceId), getTask(workflowTaskInstanceId));
     }
 
-    @Override
-    public void suspend(Long id) {
-        stateMachine.suspend(get(id));
+    private WorkflowStepInstance getStep(Long id) {
+        return workflowInstanceService.getStep(id);
     }
 
-    @Override
-    public void resume(Long id) {
-        stateMachine.resume(get(id));
-    }
-
-    private WorkflowStepInstance get(Long id) {
+    private TaskExecutionImpl getTask(Long id) {
         return workflowInstanceService.getTask(id);
     }
 }

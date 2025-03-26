@@ -27,7 +27,7 @@ import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowTaskInstanceEve
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowTaskInstanceEventHandler;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
-import cn.sliew.carp.module.workflow.internal.statemachine.WorkflowInstanceStateMachine;
+import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -42,7 +42,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-@MessageListener(topic = InternalWorkflowTaskInstanceEventDispatcher.TOPIC, consumerGroup = WorkflowInstanceStateMachine.CONSUMER_GROUP)
+@MessageListener(topic = InternalWorkflowTaskInstanceEventDispatcher.TOPIC, consumerGroup = InternalWorkflowInstanceStateMachine.CONSUMER_GROUP)
 public class InternalWorkflowTaskInstanceEventDispatcher implements WorkflowTaskInstanceEventDispatcher, MessageHandler, InitializingBean, DisposableBean {
 
     public static final String TOPIC = "TOPIC_CARP_INTERNAL_WORKFLOW_TASK_INSTANCE_EVENT";

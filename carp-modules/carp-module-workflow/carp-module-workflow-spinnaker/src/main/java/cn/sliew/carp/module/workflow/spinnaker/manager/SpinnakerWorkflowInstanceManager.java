@@ -17,10 +17,16 @@
  */
 package cn.sliew.carp.module.workflow.spinnaker.manager;
 
+import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
+import cn.sliew.carp.module.queue.api.Message;
+import cn.sliew.carp.module.queue.api.Queue;
+import cn.sliew.carp.module.queue.api.QueueFactory;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.spinnaker.model.WorkflowRunner;
+import cn.sliew.carp.module.workflow.spinnaker.dispatch.InternalWorkflowInstanceDispatcher;
+import cn.sliew.carp.module.workflow.spinnaker.queue.Messages;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +39,7 @@ public class SpinnakerWorkflowInstanceManager implements WorkflowInstanceManager
     @Autowired
     private WorkflowInstanceService workflowInstanceService;
     @Autowired
-    private WorkflowRunner dagRunner;
+    private QueueFactory queueFactory;
 
     @Override
     public void deploy(Long id, JsonNode globalVariable) {
@@ -45,7 +51,13 @@ public class SpinnakerWorkflowInstanceManager implements WorkflowInstanceManager
                 "d82a947b-f414-4273-973a-06f20fe33f0d", Map.of("url", "url-data", "payload", "payload-data"),
                 "027db10b-9150-403d-9d11-e4a36c99e1db", Map.of("url", "url-data", "payload", "payload-data")
         );
-        dagRunner.start(workflowInstance, inputs, stepInputs);
+        Queue queue = queueFactory.get(InternalWorkflowInstanceDispatcher.TOPIC);
+        SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
+        Message message = Message.builder()
+                .topic(queue.getName())
+                .body(serDer.serialize(new Messages.InitWorkflow(workflowInstance, inputs, stepInputs)))
+                .build();
+        queue.push(message);
     }
 
     @Override

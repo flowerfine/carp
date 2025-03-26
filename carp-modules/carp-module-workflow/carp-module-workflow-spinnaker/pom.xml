@@ -42,7 +42,6 @@
             <artifactId>carp-framework-lock-redis</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-queue-api</artifactId>
@@ -50,6 +49,11 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-statemachine</artifactId>
         </dependency>
     </dependencies>
 </project>
