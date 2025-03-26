@@ -35,7 +35,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowInstanceTaskChangeEventListener extends AbstractWorkflowInstanceEventListener {
+public class WorkflowInstanceStepChangeEventListener extends AbstractWorkflowInstanceEventListener {
 
     @Autowired
     private WorkflowInstanceExecutorManager workflowInstanceExecutorManager;

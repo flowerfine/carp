@@ -19,31 +19,27 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.step;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceEvent;
-import cn.sliew.carp.module.workflow.api.util.StageDefinitionBuilderUtil;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
-import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowStepInstanceEventDTO;
-import cn.sliew.carp.module.workflow.internal.util.DagExecutionUtil;
-import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowStepInstanceEventListener implements StepBuilderAware {
+public class WorkflowStepInstanceSuccessEventListener extends AbstractWorkflowStepInstanceEventListener implements StepBuilderAware {
 
     @Autowired
     private StageDefinitionBuilderFactory stageDefinitionBuilderFactory;
 
     @Override
     public CarpWorkflowStepInstanceEvent getType() {
-        return CarpWorkflowStepInstanceEvent.COMMAND_DEPLOY;
+        return CarpWorkflowStepInstanceEvent.PROCESS_SUCCESS;
     }
 
     @Override
@@ -53,7 +49,7 @@ public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowSte
 
     @Override
     protected CompletableFuture handleEventAsync(WorkflowStepInstanceEventDTO event) {
-        CompletableFuture<?> future = CompletableFuture.runAsync(() -> run(event)).toCompletableFuture();
+        CompletableFuture<?> future = CompletableFuture.runAsync(new SuccessRunner(event.getWorkflowInstanceId(), event.getStepId())).toCompletableFuture();
         future.whenCompleteAsync((unused, throwable) -> {
             if (throwable != null) {
                 onFailure(event.getStepId(), throwable);
@@ -62,26 +58,26 @@ public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowSte
         return future;
     }
 
-    private void run(WorkflowStepInstanceEventDTO event) {
-        DagStepDTO dagStepUpdateParam = new DagStepDTO();
-        dagStepUpdateParam.setId(event.getStepId());
-        dagStepUpdateParam.setStatus(event.getNextState().getValue());
-        dagStepUpdateParam.setStartTime(new Date());
-        dagStepService.update(dagStepUpdateParam);
+    private class SuccessRunner implements Runnable, Serializable {
 
-        WorkflowStepInstance stepInstance = workflowInstanceService.getStep(event.getStepId());
-        plan(stepInstance);
-        TaskExecutionImpl task = DagExecutionUtil.firstTask(stepInstance);
-//        if (Objects.nonNull(task)) {
-//            taskInstanceManager.deploy(event.getStepId(), task.getId());
-//        } else {
-//            stateMachine.onSuccess(workflowInstanceService.getStep(event.getStepId()));
-//        }
-        stateMachine.onSuccess(workflowInstanceService.getStep(event.getStepId()));
+        private Long workflowInstanceId;
+        private Long stepId;
+
+        public SuccessRunner(Long workflowInstanceId, Long stepId) {
+            this.workflowInstanceId = workflowInstanceId;
+            this.stepId = stepId;
+        }
+
+        @Override
+        public void run() {
+            DagStepDTO dagStepUpdateParam = new DagStepDTO();
+            dagStepUpdateParam.setId(stepId);
+            dagStepUpdateParam.setStatus(CarpWorkflowStepInstanceState.SUCCESS.getValue());
+            dagStepUpdateParam.setEndTime(new Date());
+            dagStepService.update(dagStepUpdateParam);
+
+            instanceStateMachine.onStepChange(workflowInstanceService.get(workflowInstanceId));
+        }
     }
 
-    private void plan(WorkflowStepInstance stepInstance) {
-        StageDefinitionBuilder builder = builder(stepInstance);
-        StageDefinitionBuilderUtil.buildTasks(builder, stepInstance);
-    }
 }
