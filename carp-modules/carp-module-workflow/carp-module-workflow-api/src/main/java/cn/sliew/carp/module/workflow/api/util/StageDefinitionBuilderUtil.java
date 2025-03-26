@@ -15,12 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.stage.model.graph;
+package cn.sliew.carp.module.workflow.api.util;
 
 import cn.hutool.extra.spring.SpringUtil;
+import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
-import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
+import cn.sliew.carp.module.workflow.stage.model.graph.Iterators;
+import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
+import cn.sliew.carp.module.workflow.stage.model.graph.TaskNode;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -39,8 +42,8 @@ public enum StageDefinitionBuilderUtil {
                 iterator,
                 element -> processTaskNode(step, element, tasks, false));
 
-        WorkflowRepository workflowRepository = SpringUtil.getBean(WorkflowRepository.class);
-        tasks.forEach(task -> workflowRepository.addStepTaskInstance(step, task));
+        WorkflowInstanceService workflowInstanceService = SpringUtil.getBean(WorkflowInstanceService.class);
+        tasks.forEach(task -> workflowInstanceService.addTask(step, task));
     }
 
     private static void processTaskNode(

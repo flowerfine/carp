@@ -18,7 +18,6 @@
 package cn.sliew.carp.module.workflow.spinnaker.repository;
 
 import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
@@ -35,15 +34,12 @@ import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -187,20 +183,10 @@ public class SqlWorkflowRepository implements WorkflowRepository {
     }
 
     private DagStepTaskDTO convertToTask(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
-        DagStepTaskDTO dagStepTaskDTO = new DagStepTaskDTO();
-        BeanUtils.copyProperties(taskExecution, dagStepTaskDTO);
+        DagStepTaskDTO dagStepTaskDTO = WorkflowStepTaskInstanceConvert.INSTANCE.toDo(taskExecution);
         dagStepTaskDTO.setNamespace(stepInstance.getNamespace());
         dagStepTaskDTO.setDagInstanceId(stepInstance.getWorkflowInstance().getId());
         dagStepTaskDTO.setDagStepId(stepInstance.getId());
-        if (Objects.nonNull(taskExecution.getStatus())) {
-            dagStepTaskDTO.setStatus(taskExecution.getStatus().name());
-        }
-        if (Objects.nonNull(taskExecution.getStartTime())) {
-            dagStepTaskDTO.setStartTime(Date.from(taskExecution.getStartTime()));
-        }
-        if (Objects.nonNull(taskExecution.getEndTime())) {
-            dagStepTaskDTO.setEndTime(Date.from(taskExecution.getEndTime()));
-        }
         return dagStepTaskDTO;
     }
 }

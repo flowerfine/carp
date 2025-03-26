@@ -37,6 +37,10 @@ public interface WorkflowInstanceService {
 
     TaskExecutionImpl getTask(Long workflowTaskInstanceId);
 
+    void addTask(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution);
+
+    void updateTask(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution);
+
     Long simpleInitialize(Long workflowDefinitionId);
 
     Long run(WorkflowRunParam param);

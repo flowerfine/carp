@@ -27,19 +27,20 @@ import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
-import cn.sliew.carp.module.workflow.domain.convert.WorkflowDefinitionGraphEdgeConvert;
-import cn.sliew.carp.module.workflow.domain.convert.WorkflowInstanceConvert;
-import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepInstanceConvert;
-import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepTaskInstanceConvert;
+import cn.sliew.carp.module.workflow.domain.convert.*;
+import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraphNode;
 import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowExecutionGraph;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -48,6 +49,8 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
     @Autowired
     private DagInstanceComplexService dagInstanceComplexService;
+    @Autowired
+    private DagConfigStepService dagConfigStepService;
     @Autowired
     private DagConfigLinkService dagConfigLinkService;
     @Autowired
@@ -93,7 +96,9 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     @Override
     public WorkflowStepInstance getStep(Long workflowStepInstanceId) {
         DagStepDTO dagStepDTO = dagStepService.get(workflowStepInstanceId);
+        DagConfigStepDTO dagConfigStepDTO = dagConfigStepService.get(dagStepDTO.getDagConfigStep().getId());
         WorkflowStepInstance stepInstance = WorkflowStepInstanceConvert.INSTANCE.toDto(dagStepDTO);
+        stepInstance.setNode(WorkflowDefinitionGraphNodeConvert.INSTANCE.toDto(dagConfigStepDTO));
         WorkflowInstance workflowInstance = get(stepInstance.getWorkflowInstance().getId());
         stepInstance.setWorkflowInstance(workflowInstance);
         return stepInstance;
@@ -103,6 +108,18 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     public TaskExecutionImpl getTask(Long workflowTaskInstanceId) {
         DagStepTaskDTO dagStepTaskDTO = dagStepTaskService.get(workflowTaskInstanceId);
         return WorkflowStepTaskInstanceConvert.INSTANCE.toDto(dagStepTaskDTO);
+    }
+
+    @Override
+    public void addTask(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
+        DagStepTaskDTO dagStepTaskDTO = convertToTask(stepInstance, taskExecution);
+        dagStepTaskService.add(dagStepTaskDTO);
+    }
+
+    @Override
+    public void updateTask(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
+        DagStepTaskDTO dagStepTaskDTO = convertToTask(stepInstance, taskExecution);
+        dagStepTaskService.update(dagStepTaskDTO);
     }
 
     @Override
@@ -120,5 +137,14 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     @Override
     public void stop(WorkflowStopParam param) {
 
+    }
+
+
+    private DagStepTaskDTO convertToTask(WorkflowStepInstance stepInstance, TaskExecutionImpl taskExecution) {
+        DagStepTaskDTO dagStepTaskDTO = WorkflowStepTaskInstanceConvert.INSTANCE.toDo(taskExecution);
+        dagStepTaskDTO.setNamespace(stepInstance.getNamespace());
+        dagStepTaskDTO.setDagInstanceId(stepInstance.getWorkflowInstance().getId());
+        dagStepTaskDTO.setDagStepId(stepInstance.getId());
+        return dagStepTaskDTO;
     }
 }

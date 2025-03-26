@@ -27,6 +27,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -34,8 +35,19 @@ public interface WorkflowStepTaskInstanceConvert extends BaseConvert<DagStepTask
     WorkflowStepTaskInstanceConvert INSTANCE = Mappers.getMapper(WorkflowStepTaskInstanceConvert.class);
 
     @Override
-    default DagStepTaskDTO toDo(TaskExecutionImpl dto) {
-        throw new UnsupportedOperationException();
+    default DagStepTaskDTO toDo(TaskExecutionImpl taskExecution) {
+        DagStepTaskDTO dagStepTaskDTO = new DagStepTaskDTO();
+        BeanUtils.copyProperties(taskExecution, dagStepTaskDTO);
+        if (Objects.nonNull(taskExecution.getStatus())) {
+            dagStepTaskDTO.setStatus(taskExecution.getStatus().name());
+        }
+        if (Objects.nonNull(taskExecution.getStartTime())) {
+            dagStepTaskDTO.setStartTime(Date.from(taskExecution.getStartTime()));
+        }
+        if (Objects.nonNull(taskExecution.getEndTime())) {
+            dagStepTaskDTO.setEndTime(Date.from(taskExecution.getEndTime()));
+        }
+        return dagStepTaskDTO;
     }
 
     @Override

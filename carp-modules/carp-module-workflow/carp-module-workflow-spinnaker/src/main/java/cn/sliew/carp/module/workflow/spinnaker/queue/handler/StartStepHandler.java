@@ -19,6 +19,7 @@ package cn.sliew.carp.module.workflow.spinnaker.queue.handler;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.exception.ExceptionVO;
+import cn.sliew.carp.module.workflow.api.util.StageDefinitionBuilderUtil;
 import cn.sliew.carp.module.workflow.spinnaker.queue.Messages;
 import cn.sliew.carp.module.workflow.spinnaker.util.DagExecutionUtil;
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
@@ -26,7 +27,6 @@ import cn.sliew.carp.module.workflow.domain.instance.TaskExecutionImpl;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilder;
 import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
-import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
