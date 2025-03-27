@@ -1,4 +1,4 @@
-# Http-Sync
+# Http-Sync Module
 
 核心概念
 
@@ -29,26 +29,26 @@
 项目中并未添加所有的开放平台，只是添加了个最常见的场景
 
 * 快手
-  * [开放平台](https://open.kuaishou.com/platform/openApi?menu=5)
-  * [电商开放平台](https://open.kwaixiaodian.com/docs/dev?pageSign=a068e6b0409a9ee55f5b6f5760ff9d391614263559910)
-  * [本地生活开放平台](https://open.kwailocallife.com/)
-  * [磁力引擎开放平台](https://developers.e.kuaishou.com/welcome)
+    * [开放平台](https://open.kuaishou.com/platform/openApi?menu=5)
+    * [电商开放平台](https://open.kwaixiaodian.com/docs/dev?pageSign=a068e6b0409a9ee55f5b6f5760ff9d391614263559910)
+    * [本地生活开放平台](https://open.kwailocallife.com/)
+    * [磁力引擎开放平台](https://developers.e.kuaishou.com/welcome)
 * [淘宝](https://open.taobao.com/)
-  * 聚石塔
-  * 聚石塔自定义接口
+    * 聚石塔
+    * 聚石塔自定义接口
 
 * 聚水潭
-  * [开放平台-旧](https://open.jushuitan.com/document.html)
-  * [开放平台-新](https://openweb.jushuitan.com/index)
+    * [开放平台-旧](https://open.jushuitan.com/document.html)
+    * [开放平台-新](https://openweb.jushuitan.com/index)
 * [有赞](https://doc.youzanyun.com/home)
 * [京东联盟](https://union.jd.com/openplatform)
 * [企业微信](https://developer.work.weixin.qq.com/)。获取组织架构，企业员工
 * [北森](https://open.italent.cn/#/open-document?menu=develop-guide)。组织架构，考勤信息
 * [易快报](https://docs.ekuaibao.com/)
 * 金蝶
-  * [金蝶云星瀚](https://mcn818.kdcloud.com/)
-  * [工单系统](https://ticket.kingdee.com)
-  * [开发者社区](https://developer.kingdee.com)
+    * [金蝶云星瀚](https://mcn818.kdcloud.com/)
+    * [工单系统](https://ticket.kingdee.com)
+    * [开发者社区](https://developer.kingdee.com)
 
 * [天眼查](https://open.tianyancha.com/)
 * [得物](https://open.dewu.com/)
@@ -62,17 +62,17 @@
 
 * 详情接口。一次只返回单个对象的数据，如订单详情、员工信息
 * 列表接口。一次返回一批数据，如订单列表，员工列表
-  * 翻页。按照数据量，平台在提供接口时会考虑是否支持翻页。如获取物流仓库列表，仓库数据量在 100 以内，又或者订单评论的子评论，平台会一次性返回，如商品列表，商品数量会有几百个，平台会提供翻页功能
-  * 翻页参数。pageSize + pageNum，offset + limit，cursor（或 scrollId） + size，has_next + size
-    * 在快手-电商开放平台实现中大量使用 cursor + size 方式。如订单场景中，参数如下：
-      * queryType。1：按创建时间查找，2：按更新时间查找。默认创建时间，值为1时只允许获取创建时间90天内的订单数据，值为2时仅允许获取更新时间90天内且创建时间240天内的订单数据
-      * beginTime
-      * endTime
-      * sort。1：时间降序，2：时间升序。默认降序
-      * pageSize。每页请求数量。最多一页50条
-      * cursor。游标内容 第一次传空串，之后传上一次的cursor返回值，若返回“nomore”则标识到底。实例数据：`157356441188_2021345676543`。
-    * 为获取数据的实时变动，按照 **updateTime** 作为时间范围，采取**降序**排序平台。因为数据本身的 updateTime 随时可能会变，**同步数据场景**为保证不漏数据需采用降序，**从后往前翻页**。参考淘宝开放平台接口：[taobao.trades.sold.increment.get](https://open.taobao.com/api.htm?docId=128&docType=2&source=search)
-    * 实现时首次查询使用 `where updateTime >= {startUpdateTime} and updateTime < {endUpdateTime} order by updateTime desc, id limit {size}`，同时返回最后一条数据的 id + updateTime 作为 cursor。下次查询时会从 cursor 中解析出 id 和 updateTime，查询使用 `where updateTime >= {startUpdateTime} and updateTime <= {cursorUpdateTime} and id > {id} order by updateTime desc, id limit {size}`
+    * 翻页。按照数据量，平台在提供接口时会考虑是否支持翻页。如获取物流仓库列表，仓库数据量在 100 以内，又或者订单评论的子评论，平台会一次性返回，如商品列表，商品数量会有几百个，平台会提供翻页功能
+    * 翻页参数。pageSize + pageNum，offset + limit，cursor（或 scrollId） + size，has_next + size
+        * 在快手-电商开放平台实现中大量使用 cursor + size 方式。如订单场景中，参数如下：
+            * queryType。1：按创建时间查找，2：按更新时间查找。默认创建时间，值为1时只允许获取创建时间90天内的订单数据，值为2时仅允许获取更新时间90天内且创建时间240天内的订单数据
+            * beginTime
+            * endTime
+            * sort。1：时间降序，2：时间升序。默认降序
+            * pageSize。每页请求数量。最多一页50条
+            * cursor。游标内容 第一次传空串，之后传上一次的cursor返回值，若返回“nomore”则标识到底。实例数据：`157356441188_2021345676543`。
+        * 为获取数据的实时变动，按照 **updateTime** 作为时间范围，采取**降序**排序平台。因为数据本身的 updateTime 随时可能会变，**同步数据场景**为保证不漏数据需采用降序，**从后往前翻页**。参考淘宝开放平台接口：[taobao.trades.sold.increment.get](https://open.taobao.com/api.htm?docId=128&docType=2&source=search)
+        * 实现时首次查询使用 `where updateTime >= {startUpdateTime} and updateTime < {endUpdateTime} order by updateTime desc, id limit {size}`，同时返回最后一条数据的 id + updateTime 作为 cursor。下次查询时会从 cursor 中解析出 id 和 updateTime，查询使用 `where updateTime >= {startUpdateTime} and updateTime <= {cursorUpdateTime} and id > {id} order by updateTime desc, id limit {size}`
 
 在接口有新增数据时，无法每次全量拉取，开放平台一般会提供按照时间进行滚动查询的接口，如订单接口：
 
@@ -85,7 +85,7 @@
 
 * 同步时间。开始全量同步时，设置本次全量同步时间。全量同步结束时，对未标记删除的数据中没有更新为最新的全量同步时间数据，标记为删除数据。
 * 快照。存储数据时，每次都存储数据的完整快照。查询时需携带快照信息，可以查看对应快照的数据。
-  * 为保证 mysql 等关系型存储的数据规模，快照数据也可由数仓团队存储，关系型存储中每次同步时都把表中数据清空，存储最新数据
+    * 为保证 mysql 等关系型存储的数据规模，快照数据也可由数仓团队存储，关系型存储中每次同步时都把表中数据清空，存储最新数据
 
 回刷数据。开放平台接口无法保证数据不遗漏，或者开放平台接口会发生变更，需要通过回刷数据保证不遗漏或者同步最新数据。
 
@@ -132,4 +132,4 @@
 
 * 按照时间范围分批次。每批次数据由开始时间和结束时间决定。每批次数据量由数据本身分布决定，可能出现某个批次数据量特别大，存在数据热点现象。优点是可以支持并发，即同时可以处理多个批次。
 * 按照数据量分批次。每次处理固定数据量数据，如一次处理 1k 条。扫描数据的时候采用 `timestamp >= #{startTime} order by timestamp limit 1000`，下一次扫描的开始时间即为上一次扫描最后一条数据的时间。优点是不存在数据热点，每次处理数据量相同，缺点是不支持并发，一次只能处理一个批次。
-  * 时间限制也可以增加结束时间，对数据扫描时间进行限制。`timestamp >= #{startTime} and timestamp < #{endTime} order by timestamp limit 1000`
+    * 时间限制也可以增加结束时间，对数据扫描时间进行限制。`timestamp >= #{startTime} and timestamp < #{endTime} order by timestamp limit 1000`
