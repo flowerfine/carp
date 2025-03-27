@@ -16,7 +16,7 @@
 
 ## Framework
 
-已独立，参考 [carp-parent](https://github.com/flowerfine/carp-parent)。
+已独立，参考 [carp-parent](https://github.com/flowerfine/carp-parent?tab=readme-ov-file#carp-framework)。
 
 ## Module
 
