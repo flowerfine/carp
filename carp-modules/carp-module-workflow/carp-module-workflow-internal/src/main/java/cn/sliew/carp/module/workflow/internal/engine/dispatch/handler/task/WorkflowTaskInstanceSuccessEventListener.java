@@ -21,6 +21,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
 import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 import org.springframework.stereotype.Component;
 
@@ -60,7 +61,8 @@ public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTa
             dagStepTaskService.update(dagStepUpdateParam);
 
             WorkflowStepInstance stepInstance = workflowInstanceService.getStep(stepId);
-            stepInstanceStateMachine.onTaskChange(stepInstance);
+            WorkflowTaskInstance taskInstance = workflowInstanceService.getTask(taskId);
+            stepInstanceStateMachine.onTaskChange(stepInstance, taskInstance);
         }
     }
 
