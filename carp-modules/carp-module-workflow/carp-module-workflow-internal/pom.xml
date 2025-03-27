@@ -47,6 +47,15 @@
             <groupId>com.alibaba.cola</groupId>
             <artifactId>cola-component-statemachine</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.serverlessworkflow</groupId>
+            <artifactId>serverlessworkflow-impl-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.serverlessworkflow</groupId>
+            <artifactId>serverlessworkflow-impl-http</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
