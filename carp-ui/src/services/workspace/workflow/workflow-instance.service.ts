@@ -1,7 +1,6 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
 import {WorkspaceWorkflowAPI} from './typings';
-import {WorkflowDefinitionRunParam} from "@/services/workspace/workflow/typings";
 
 export const WorkflowInstanceService = {
   url: '/api/carp/workflow/instance',
@@ -23,6 +22,12 @@ export const WorkflowInstanceService = {
 
   get: async (id: number) => {
     return request<ResponseBody<WorkspaceWorkflowAPI.WorkfflowInstance>>(`${WorkflowInstanceService.url}/${id}`, {
+      method: 'GET'
+    });
+  },
+
+  getGraph: async (id: number) => {
+    return request<ResponseBody<X6API.Graph>>(`${WorkflowInstanceService.url}/${id}/graph`, {
       method: 'GET'
     });
   },

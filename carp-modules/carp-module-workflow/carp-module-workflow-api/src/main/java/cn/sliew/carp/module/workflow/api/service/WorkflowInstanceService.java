@@ -19,6 +19,7 @@ package cn.sliew.carp.module.workflow.api.service;
 
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
+import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
@@ -34,6 +35,8 @@ public interface WorkflowInstanceService {
     WorkflowInstance get(Long workflowInstanceId);
 
     WorkflowInstance getGraph(Long workflowInstanceId);
+
+    X6GraphDTO getX6Graph(Long workflowInstanceId);
 
     WorkflowStepInstance getStep(Long workflowStepInstanceId);
 

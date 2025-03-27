@@ -20,6 +20,7 @@ package cn.sliew.carp.module.workflow.api.controller;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
+import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
@@ -53,6 +54,12 @@ public class WorkflowInstanceController {
     @Operation(summary = "查询详情", description = "查询详情")
     public WorkflowInstance get(@PathVariable("id") Long id) {
         return workflowInstanceService.get(id);
+    }
+
+    @GetMapping("{id}/graph")
+    @Operation(summary = "查询详情-图", description = "查询详情-图")
+    public X6GraphDTO getX6Graph(@PathVariable("id") Long id) {
+        return workflowInstanceService.getX6Graph(id);
     }
 
     @PostMapping("run")

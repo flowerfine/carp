@@ -3,6 +3,7 @@ import {XFlow, XFlowGraph} from "@antv/xflow";
 import X6Layout from "@/components/X6/Layout";
 import {useLocation} from "@umijs/max";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
+import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Instance/Detail/Dag/init-node";
 
 const WorkspaceServerlessWorkflowInstanceDetailDagWeb: React.FC = () => {
   const workflowInstance = useLocation().state as WorkspaceWorkflowAPI.WorkflowInstance;
@@ -25,6 +26,7 @@ const WorkspaceServerlessWorkflowInstanceDetailDagWeb: React.FC = () => {
           />
         )}
       />
+      <InitNode data={workflowInstance}/>
     </XFlow>
   )
 }
