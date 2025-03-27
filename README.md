@@ -1,3 +1,5 @@
+[![Gihub Actions](https://github.com/flowerfine/carp/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/flowerfine/carp/actions) [![Last commit](https://img.shields.io/github/last-commit/flowerfine/carp.svg)](https://github.com/flowerfine/carp) [![GitHub Tag](https://img.shields.io/github/v/tag/flowerfine/carp)](https://github.com/flowerfine/carp/tags) [![Maven Central](https://img.shields.io/maven-central/v/cn.sliew/carp)](https://maven-badges.herokuapp.com/maven-central/cn.sliew/carp) [![License](https://img.shields.io/github/license/flowerfine/carp.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 # Carp
 
 可插拔通用技术&业务模块。通过将技术&业务模块按照模块划分，发布至 maven 仓库，供其他需要类似功能的应用用之即取，简化类似功能在不同应用间重复开发。
