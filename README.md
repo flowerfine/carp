@@ -2,7 +2,7 @@
 
 # Carp
 
-可插拔通用技术&业务模块。通过将技术&业务模块按照模块划分，发布至 maven 仓库，供其他需要类似功能的应用用之即取，简化类似功能在不同应用间重复开发。
+通用技术&业务模块。通过将技术&业务模块按照模块划分，发布至 maven 仓库，供其他需要类似功能的应用用之即取，简化类似功能在不同应用间重复开发。
 
 * 复用，减少重复。
   * 技术框架选型。不同应用在技术选型上具有通用性，如使用 springboot、mybatis、swagger、slf4j、json、redis 和 mysql。
@@ -14,84 +14,26 @@
 
 `carp` 提供众多的业务模块，通过精心规划的模块划分，在业务开发时需要类似功能时，可直接引入 maven 依赖，创建数据库表，即可实现业务功能
 
-## 通用模块
+## Framework
 
-### 系统管理
+已独立，参考 [carp-parent](https://github.com/flowerfine/carp-parent)。
 
-* 权限管理
-  - [x] RBAC（用户，角色，权限）
-  - [ ] 组织架构。部门、岗位管理
-  - [ ] 认证、授权
-    - [x] SSO
-    - [ ] OAuth2
-  - [ ] 多租户
-  - [ ] 在线用户
+## Module
+
 * 系统管理
-  - [ ] 系统日志，操作日志
-  - [ ] 字典管理
-    - [x] 基于枚举
-    - [ ] 基于数据库
-  - [ ] 监控告警（告警组，联系人，告警记录）
-* 消息中心
-  - [ ] 站内信管理
-  - [ ] 短信管理
-  - [ ] 邮件管理
-* 文件管理
-  - [ ] 存储功能。hdfs、minio、oss
-  - [ ] 文件管理。图片、视频、文件、垃圾箱
-* 导入导出
-  - [ ] 基于 excel、csv 的导入&导出功能
-  - [ ] 格式化转化。导入时将是否文件转化为1｜0，导出时将 1|0转化为是否。
-    - [ ] 数据格式。
-
-### 大数据模块
-
-* 数据源管理
-  - [x] 数据源。数据源分类、数据源管理
-  - [ ] 数据元。查看数据库表、字段、索引信息
-* 数据同步
-  - [ ] 基于 http 接口的数据同步。参考文档：[index](docs/modules/http-sync/index.md)
-    - [ ] 授权管理
-    - [ ] 同步任务管理
-* 数据服务
-  * [x] 模板管理
-  * [ ] 接口管理
-* 调度管理
-  * 通用管理。
-    * [x] 分组管理
-    * [x] 配置管理
-    * [x] 实例管理
-    * [ ] 日志管理
-  * workflow 管理。基于 [orca](https://github.com/spinnaker/orca) 实现，复制重写了一版
-    * [ ] 队列管理
-      * [ ] 存储。基于内存、Redis 和 SQL 实现
-      * [ ] web 页面
-    * [ ] 编排管理
-      * [ ] 编排存储。基于内存、Redis 和 SQL 实现
-      * [ ] web 页面
-
-
-### 技术模块
-
-* 通用功能
-  - [ ] websocket，sse
-  - [ ] 队列。延迟队列
-  - [x] dag
-  - [ ] 线程池增强。线程池任务
-* 接口开发框架
-  - [ ] 通用 service & controller
-  - [ ] 加解密。数据在数据库中加密存储，访问时自动解密
-  - [ ] 格式化
-* 插件
-  - [x] 动态插件
-  - [ ] 插件管理
-  - [ ] 插件接入 spring
-  - [ ] 内部接入
-* 监控告警。集成 prometheus 技术栈，集成 alert-manager 和 grafana
-  * [ozhera](https://github.com/XiaoMi/ozhera)
-  * [应用实时监控服务ARMS](https://help.aliyun.com/zh/arms/)。阿里云产品
-* kubernetes 管理
-  * [KubePi](https://github.com/1Panel-dev/KubePi)
+  * [carp-module-security](./carp-modules/carp-module-security)。权限管理
+  * [carp-module-system](./carp-modules/carp-module-system)。字典管理
+* 调度&Workflow
+  * [carp-module-scheduler](./carp-modules/carp-module-scheduler)。调度任务管理
+  * [carp-module-workflow](./carp-modules/carp-module-workflow)。Workflow 管理
+* 大数据
+  * [carp-module-datasource](./carp-modules/carp-module-datasource)。数据源管理
+  * [carp-module-dataservice](./carp-modules/carp-module-dataservice)。数据服务。基于 mybatis 实现，编写基于 mybatis xml sql，可快速生成一个 http 接口
+  * [carp-module-http-sync](./carp-modules/carp-module-http-sync)。通过 http 大规模同步数据。如拥有 1万个快手、淘宝、抖音商家账号，通过快手、淘宝、抖音开放平台接口同步订单、售后单等数据，保证数据的稳定性和及时性
+* 其他
+  * [carp-module-alert](./carp-modules/carp-module-alert)。未完成，目前只完成了 prometheus alert-manager 告警信息存储
+  * [carp-module-queue](./carp-modules/carp-module-queue)。任务队列，支持延时队列。目前实现基于 redis，后续新增消息队列 kafka 和 rocketmq
+  * [carp-module-plugin](./carp-modules/carp-module-plugin)。插件模块
 
 ## Code of Conduct
 
