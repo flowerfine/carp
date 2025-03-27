@@ -24,7 +24,9 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleUpdateParam;
+import cn.sliew.carp.framework.dag.x6.dnd.X6EdgeDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
+import cn.sliew.carp.framework.dag.x6.dnd.X6NodeDTO;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.api.service.convert.X6EdgeConvert;
@@ -86,9 +88,28 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
     public X6GraphDTO getGraph(Long id) {
         WorkflowDefinition dto = getWithGraph(id);
         WorkflowDefinitionGraph graph = dto.getGraph();
+        // 重写了一下 shape
+        List<X6EdgeDTO> edges = X6EdgeConvert.INSTANCE.toDto(graph.getEdges()).stream().map(edge -> {
+            return X6EdgeDTO.builder()
+                    .id(edge.getId())
+                    .shape("serverless-workflow-node")
+                    .source(edge.getSource())
+                    .target(edge.getTarget())
+                    .data(edge.getData())
+                    .build();
+        }).collect(Collectors.toList());
+        List<X6NodeDTO> nodes = X6NodeConvert.INSTANCE.toDto(graph.getNodes()).stream().map(node -> {
+            return X6NodeDTO.builder()
+                    .id(node.getId())
+                    .shape("serverless-workflow-edge")
+                    .position(node.getPosition())
+                    .ports(node.getPorts())
+                    .data(node.getData())
+                    .build();
+        }).collect(Collectors.toList());
         return X6GraphDTO.builder()
-                .edges(X6EdgeConvert.INSTANCE.toDto(graph.getEdges()))
-                .nodes(X6NodeConvert.INSTANCE.toDto(graph.getNodes()))
+                .edges(edges)
+                .nodes(nodes)
                 .build();
     }
 

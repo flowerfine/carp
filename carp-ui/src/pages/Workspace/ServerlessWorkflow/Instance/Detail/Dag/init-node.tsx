@@ -13,9 +13,9 @@ const InitNode: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowInstance>> 
         if (response.success && response.data) {
           if (response.data.nodes) {
             graph.addNodes(response.data.nodes);
-          }
-          if (response.data.edges) {
-            graph.addEdges(response.data.edges);
+            if (response.data.edges) {
+              graph.addEdges(response.data.edges);
+            }
           }
           graph.zoomToFit({maxScale: 1});
         }

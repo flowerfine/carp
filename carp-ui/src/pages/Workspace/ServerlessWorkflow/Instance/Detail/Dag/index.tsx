@@ -4,17 +4,17 @@ import X6Layout from "@/components/X6/Layout";
 import {useLocation} from "@umijs/max";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
 import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Instance/Detail/Dag/init-node";
+import {SERVERLESS_WORKFLOW_INSTNACE_NODE} from "@/pages/Workspace/ServerlessWorkflow/Instance/Detail/Dag/shape";
 
 const WorkspaceServerlessWorkflowInstanceDetailDagWeb: React.FC = () => {
   const workflowInstance = useLocation().state as WorkspaceWorkflowAPI.WorkflowInstance;
-
-  console.log('WorkspaceServerlessWorkflowInstanceDetailDagWeb', workflowInstance)
 
   return (
     <XFlow>
       <X6Layout
         body={(
           <XFlowGraph
+            readonly={true}
             centerView
             zoomable
             zoomOptions={{
@@ -23,6 +23,11 @@ const WorkspaceServerlessWorkflowInstanceDetailDagWeb: React.FC = () => {
             }}
             pannable
             fitView
+            connectionEdgeOptions={{
+              shape: SERVERLESS_WORKFLOW_INSTNACE_NODE,
+              animated: true,
+              zIndex: -1,
+            }}
           />
         )}
       />

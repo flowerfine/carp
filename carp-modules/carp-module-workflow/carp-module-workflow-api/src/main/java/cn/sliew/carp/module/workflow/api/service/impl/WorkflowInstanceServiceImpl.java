@@ -22,15 +22,16 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
 import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
+import cn.sliew.carp.framework.dag.x6.dnd.X6EdgeDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6NodeDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6NodeDataDTO;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.api.service.dto.X6WorkflowStepInstanceData;
 import cn.sliew.carp.module.workflow.api.service.convert.X6EdgeConvert;
 import cn.sliew.carp.module.workflow.api.service.convert.X6NodeTaskConvert;
+import cn.sliew.carp.module.workflow.api.service.dto.X6WorkflowStepInstanceData;
 import cn.sliew.carp.module.workflow.api.service.dto.X6WorkflowTaskInstanceData;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
@@ -103,10 +104,21 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
         WorkflowInstance dto = getGraph(workflowInstanceId);
         WorkflowExecutionGraph graph = dto.getGraph();
 
+        List<X6EdgeDTO> edges = X6EdgeConvert.INSTANCE.toDto(graph.getEdges()).stream().map(edge -> {
+            return X6EdgeDTO.builder()
+                    .id(edge.getId())
+                    .shape("serverless-workflow-instance-edge")
+                    .source(edge.getSource())
+                    .target(edge.getTarget())
+                    .data(edge.getData())
+                    .build();
+        }).collect(Collectors.toList());
+
         Map<String, X6NodeDTO> nodeMap = graph.getTasks().stream()
                 .map(task -> X6NodeTaskConvert.INSTANCE.toDto(task))
                 .collect(Collectors.toMap(X6NodeDTO::getId, dto1 -> dto1));
 
+        // 重写了一下 shape
         List<X6NodeDTO> nodes = new ArrayList<>();
         for (WorkflowStepInstance stepInstance : graph.getTasks()) {
             List<WorkflowTaskInstance> taskInstances = listTasks(stepInstance.getId());
@@ -128,20 +140,20 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
             // 塞进去
             X6NodeDTO x6NodeDTO = nodeMap.get(stepInstance.getNode().getStepId());
             nodes.add(X6NodeDTO.builder()
-                            .id(x6NodeDTO.getId())
-                            .shape(x6NodeDTO.getShape())
-                            .position(x6NodeDTO.getPosition())
-                            .ports(x6NodeDTO.getPorts())
-                            .data(X6NodeDataDTO.builder()
-                                    .label(x6NodeDTO.getData().getLabel())
-                                    .meta(x6NodeDTO.getData().getMeta())
-                                    .attrs(x6NodeDTO.getData().getAttrs())
-                                    .extData(stepInstanceData)
-                                    .build())
+                    .id(x6NodeDTO.getId())
+                    .shape("serverless-workflow-instance-node")
+                    .position(x6NodeDTO.getPosition())
+                    .ports(x6NodeDTO.getPorts())
+                    .data(X6NodeDataDTO.builder()
+                            .label(x6NodeDTO.getData().getLabel())
+                            .meta(x6NodeDTO.getData().getMeta())
+                            .attrs(x6NodeDTO.getData().getAttrs())
+                            .extData(stepInstanceData)
+                            .build())
                     .build());
         }
         return X6GraphDTO.builder()
-                .edges(X6EdgeConvert.INSTANCE.toDto(graph.getEdges()))
+                .edges(edges)
                 .nodes(nodes)
                 .build();
     }

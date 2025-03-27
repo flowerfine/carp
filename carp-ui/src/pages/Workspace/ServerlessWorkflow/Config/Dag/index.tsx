@@ -1,14 +1,12 @@
 import React from "react";
-import {useLocation, history} from "@umijs/max";
+import {history, useLocation} from "@umijs/max";
 import {XFlow, XFlowGraph} from '@antv/xflow';
 import X6Layout from "@/components/X6/Layout";
 import X6Menubar from "@/components/X6/Menubar";
 import X6Toolbar from "@/components/X6/Toolbar";
 import Dnd from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/dnd";
-import {Connect} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/connect";
 import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/init-node";
 import {SERVERLESS_WORKFLOW_EDGE} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/shape";
-import NodeConfig from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/NodeConfig";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
 import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
 import {ModalFormProps} from "@/typings";
@@ -38,7 +36,6 @@ const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = 
                 })
               }
             })
-            // 跳转至 详情页面
           }}
         />}
         toolbar={<X6Toolbar/>}
@@ -71,8 +68,6 @@ const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = 
         )}
       />
       <InitNode data={workflowDefinition}/>
-      <Connect/>
-      <NodeConfig/>
     </XFlow>
   );
 };
