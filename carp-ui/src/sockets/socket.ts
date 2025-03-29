@@ -20,7 +20,7 @@ export const WorkflowSocketCreator = (currentUser: AdminSecurityAPI.OnlineUserIn
   return manager.socket(`/workflow`, {
     auth: {
       userId: currentUser?.userId,
-      token: currentUser?.token,
+      u_token: currentUser?.token,
       userName: currentUser?.userName
     }
   })

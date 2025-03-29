@@ -92,7 +92,7 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
         List<X6EdgeDTO> edges = X6EdgeConvert.INSTANCE.toDto(graph.getEdges()).stream().map(edge -> {
             return X6EdgeDTO.builder()
                     .id(edge.getId())
-                    .shape("serverless-workflow-node")
+                    .shape("serverless-workflow-edge")
                     .source(edge.getSource())
                     .target(edge.getTarget())
                     .data(edge.getData())
@@ -101,7 +101,7 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
         List<X6NodeDTO> nodes = X6NodeConvert.INSTANCE.toDto(graph.getNodes()).stream().map(node -> {
             return X6NodeDTO.builder()
                     .id(node.getId())
-                    .shape("serverless-workflow-edge")
+                    .shape("serverless-workflow-node")
                     .position(node.getPosition())
                     .ports(node.getPorts())
                     .data(node.getData())
