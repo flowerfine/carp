@@ -95,7 +95,8 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
             onlineUserVO.setRoles(userDetail.getRoles());
             onlineUserVO.setResourceWebs(userDetail.getResourceWebs());
             //存储信息到redis中
-            redisUtil.set(SecurityConstants.REDIS_ONLINE_TOKEN_KEY + onlineUserVO.getToken(), onlineUserVO.getUserId(), Duration.ofHours(12L));
+
+            redisUtil.set(SecurityUtil.buildRedisToken(onlineUserVO.getToken()), onlineUserVO.getUserId(), Duration.ofHours(12L));
             CookieUtil.addCookie(response, onlineUserVO.getToken());
             return onlineUserVO;
         } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
@@ -131,7 +132,9 @@ public class SecAuthenticationServiceImpl implements SecAuthenticationService {
     public OnlineUserVO getOnlineUser() {
         OnlineUserInfo userInfo = CarpSecurityContext.get();
         SecUserDTO secUserDTO = secUserService.get(userInfo.getUserId());
-        return getOnlineUser(secUserDTO);
+        OnlineUserVO onlineUser = getOnlineUser(secUserDTO);
+        onlineUser.setToken(userInfo.getToken());
+        return onlineUser;
     }
 
     @Override

@@ -19,6 +19,7 @@ package cn.sliew.carp.module.security.spring.web;
 
 import cn.sliew.carp.framework.common.security.CarpSecurityContext;
 import cn.sliew.carp.framework.common.security.OnlineUserInfo;
+import cn.sliew.carp.framework.common.util.KeyUtil;
 import cn.sliew.carp.framework.redis.RedissonUtil;
 import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
@@ -54,7 +55,7 @@ public class CarpTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = SecurityUtil.resolveToken(request);
         if (StringUtils.hasText(token)) {
-            Long userId = (Long) redisUtil.get(SecurityConstants.REDIS_ONLINE_TOKEN_KEY + token);
+            Long userId = (Long) redisUtil.get(SecurityUtil.buildRedisToken(token));
             if (userId != null) {
                 SecUserDTO secUserDTO = secUserService.get(userId);
                 CarpUserDetail carpUserDetail = carpUserDetailsService.fillUserDetails(secUserDTO);
@@ -63,6 +64,7 @@ public class CarpTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 // 打通 carp 自己的
                 OnlineUserInfo userInfo = new OnlineUserInfo();
+                userInfo.setToken(token);
                 userInfo.setUserId(userId);
                 userInfo.setType(secUserDTO.getType());
                 userInfo.setUserName(secUserDTO.getUserName());

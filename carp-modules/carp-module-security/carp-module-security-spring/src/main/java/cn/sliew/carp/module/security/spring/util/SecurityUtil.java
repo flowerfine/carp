@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.security.spring.util;
 
+import cn.sliew.carp.framework.common.util.KeyUtil;
 import cn.sliew.carp.module.security.spring.authentication.CarpUserDetail;
 import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
 import jakarta.servlet.http.Cookie;
@@ -55,21 +56,29 @@ public enum SecurityUtil {
         return Optional.empty();
     }
 
+    public static String buildRedisToken(String token) {
+        return KeyUtil.buildCacheKey(SecurityConstants.REDIS_ONLINE_TOKEN_KEY, token);
+    }
+
     public static String resolveToken(HttpServletRequest request) {
+        return doResolveToken(request, SecurityConstants.TOKEN_KEY);
+    }
+
+    public static String doResolveToken(HttpServletRequest request, String tokenKey) {
+        // cookie
+        Cookie cookie = CookieUtil.findCookieByName(request, tokenKey);
+        if (cookie != null && StringUtils.hasText(cookie.getValue())) {
+            return cookie.getValue();
+        }
         // header
-        String headerToken = request.getHeader(SecurityConstants.TOKEN_KEY);
+        String headerToken = request.getHeader(tokenKey);
         if (StringUtils.hasText(headerToken)) {
             return headerToken;
         }
         // query
-        String paramToken = request.getParameter(SecurityConstants.TOKEN_KEY);
+        String paramToken = request.getParameter(tokenKey);
         if (StringUtils.hasText(paramToken)) {
             return paramToken;
-        }
-        // cookie
-        Cookie cookie = CookieUtil.findCookieByName(request, SecurityConstants.TOKEN_KEY);
-        if (cookie != null && StringUtils.hasText(cookie.getValue())) {
-            return cookie.getValue();
         }
         return null;
     }
