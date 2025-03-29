@@ -86,8 +86,11 @@ logging:
   level:
     root: info
 #    org.springframework: debug
-    cn.sliew.carp.module.security.core: info
-#    org.zalando.logbook.Logbook: trace
+    com.corundumstudio.socketio: debug
+    cn.sliew.carp:
+      framework.socketio: debug
+      module.security.core: info
+
 
 springdoc:
   swagger-ui:

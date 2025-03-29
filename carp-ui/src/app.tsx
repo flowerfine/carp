@@ -11,7 +11,6 @@ import {AdminSecurityAPI} from "@/services/admin/security/typings";
 import {AuthenticationService} from "@/services/admin/security/authentication.service";
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
 
 const login = () => {
   const query = queryString.parse(history.location.search);
