@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.enums;
+package cn.sliew.carp.module.workflow.domain.enums;
 
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -25,24 +25,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpWorkflowStepType implements DictInstance {
+public enum CarpWorkflowTaskType implements DictInstance {
 
-    STEP("step", "Step"),
-    SUB_WORKFLOW("sub_workflow", "Sub Workflow")
+    SUB_WORKFLOW("0", "SUB_WORKFLOW"),
+    JAVA("1", "JAVA"),
     ;
 
     @JsonCreator
-    public static CarpWorkflowStepType of(String value) {
+    public static CarpWorkflowTaskType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowStepType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowTaskType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    CarpWorkflowStepType(String value, String label) {
+    CarpWorkflowTaskType(String value, String label) {
         this.value = value;
         this.label = label;
     }

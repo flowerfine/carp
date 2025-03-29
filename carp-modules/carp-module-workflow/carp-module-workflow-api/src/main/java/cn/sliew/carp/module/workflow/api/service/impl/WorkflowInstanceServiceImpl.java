@@ -17,7 +17,6 @@
  */
 package cn.sliew.carp.module.workflow.api.service.impl;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
@@ -36,6 +35,7 @@ import cn.sliew.carp.module.workflow.api.service.dto.X6WorkflowTaskInstanceData;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
 import cn.sliew.carp.module.workflow.domain.convert.*;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepOrder;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowExecutionGraph;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;

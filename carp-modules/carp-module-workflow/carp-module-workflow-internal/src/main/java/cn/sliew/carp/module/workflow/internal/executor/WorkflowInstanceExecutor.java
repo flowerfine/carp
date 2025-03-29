@@ -19,7 +19,7 @@ package cn.sliew.carp.module.workflow.internal.executor;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowExecuteType;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowExecuteType;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 

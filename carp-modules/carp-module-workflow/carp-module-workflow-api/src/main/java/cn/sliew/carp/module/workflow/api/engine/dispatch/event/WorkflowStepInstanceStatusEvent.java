@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.api.engine.dispatch.event;
 
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
 
 public interface WorkflowStepInstanceStatusEvent extends WorkflowStepLevel {
 

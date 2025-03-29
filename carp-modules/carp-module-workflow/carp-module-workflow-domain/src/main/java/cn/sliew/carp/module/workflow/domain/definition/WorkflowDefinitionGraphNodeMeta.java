@@ -17,10 +17,10 @@
  */
 package cn.sliew.carp.module.workflow.domain.definition;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepType;
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowTaskType;
 import cn.sliew.carp.framework.dag.x6.dnd.X6NodeMetaDTO;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepOrder;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepType;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskType;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;

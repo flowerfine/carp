@@ -25,7 +25,7 @@ import cn.sliew.carp.module.queue.api.MessageListener;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowStepInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowStepInstanceEventHandler;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowStepInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;

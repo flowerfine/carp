@@ -18,8 +18,8 @@
 package cn.sliew.carp.module.workflow.internal.statemachine;
 
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceState;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import com.alibaba.cola.statemachine.Action;

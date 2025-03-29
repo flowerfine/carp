@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.api.engine.listener;
 
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceState;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 
 public interface WorkflowTaskInstanceStatusListener {
 

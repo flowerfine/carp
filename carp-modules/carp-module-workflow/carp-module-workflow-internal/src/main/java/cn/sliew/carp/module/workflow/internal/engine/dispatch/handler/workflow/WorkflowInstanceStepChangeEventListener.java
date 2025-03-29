@@ -18,11 +18,11 @@
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowExecuteType;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowInstanceState;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowExecutionGraphConvert;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowExecuteType;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;

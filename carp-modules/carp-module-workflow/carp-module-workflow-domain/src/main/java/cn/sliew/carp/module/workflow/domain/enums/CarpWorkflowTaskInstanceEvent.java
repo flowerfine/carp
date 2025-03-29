@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.enums;
+package cn.sliew.carp.module.workflow.domain.enums;
 
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -25,28 +25,28 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpWorkflowInstanceState implements DictInstance {
+public enum CarpWorkflowTaskInstanceEvent implements DictInstance {
 
-    PENDING("pending", "PENDING"),
-    RUNNING("running", "RUNNING"),
-    SUCCESS("success", "SUCCESS"),
-    FAILURE("failure", "FAILURE"),
-    SUSPEND("suspend", "SUSPEND"),
-    SHUTDOWN("shutdown", "SHUTDOWN"),
+    COMMAND_DEPLOY("0", "COMMAND_DEPLOY"),
+    COMMAND_SHUTDOWN("1", "COMMAND_SHUTDOWN"),
+
+    PROCESS_REDIRECT("2", "PROCESS_REDIRECT"),
+    PROCESS_SUCCESS("3", "PROCESS_SUCCESS"),
+    PROCESS_FAILURE("4", "PROCESS_FAILURE"),
     ;
 
     @JsonCreator
-    public static CarpWorkflowInstanceState of(String value) {
+    public static CarpWorkflowTaskInstanceEvent of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowInstanceState.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowTaskInstanceEvent.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    CarpWorkflowInstanceState(String value, String label) {
+    CarpWorkflowTaskInstanceEvent(String value, String label) {
         this.value = value;
         this.label = label;
     }
@@ -59,16 +59,5 @@ public enum CarpWorkflowInstanceState implements DictInstance {
     @Override
     public String getLabel() {
         return label;
-    }
-
-    public boolean isEnd() {
-        switch (this) {
-            case SUCCESS:
-            case FAILURE:
-            case SHUTDOWN:
-                return true;
-            default:
-                return false;
-        }
     }
 }

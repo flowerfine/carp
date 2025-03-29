@@ -18,8 +18,8 @@
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceEvent;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceState;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import lombok.Getter;

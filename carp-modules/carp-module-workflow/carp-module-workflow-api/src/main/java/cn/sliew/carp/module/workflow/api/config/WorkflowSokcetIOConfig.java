@@ -15,11 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.engine.dispatch.event;
+package cn.sliew.carp.module.workflow.api.config;
 
-import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.framework.socketio.annotation.EnableSocketIO;
+import org.springframework.context.annotation.Configuration;
 
-public interface WorkflowTaskInstanceStatusEvent extends WorkflowStepTaskLevel {
+@Configuration
+@EnableSocketIO
+public class WorkflowSokcetIOConfig {
 
-    CarpWorkflowTaskInstanceEvent getEvent();
 }

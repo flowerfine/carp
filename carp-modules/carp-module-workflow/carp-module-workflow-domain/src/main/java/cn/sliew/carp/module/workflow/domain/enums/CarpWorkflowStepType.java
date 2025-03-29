@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.enums;
+package cn.sliew.carp.module.workflow.domain.enums;
 
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -25,28 +25,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpWorkflowTaskInstanceEvent implements DictInstance {
+public enum CarpWorkflowStepType implements DictInstance {
 
-    COMMAND_DEPLOY("0", "COMMAND_DEPLOY"),
-    COMMAND_SHUTDOWN("1", "COMMAND_SHUTDOWN"),
-
-    PROCESS_REDIRECT("2", "PROCESS_REDIRECT"),
-    PROCESS_SUCCESS("3", "PROCESS_SUCCESS"),
-    PROCESS_FAILURE("4", "PROCESS_FAILURE"),
+    STEP("step", "Step"),
+    SUB_WORKFLOW("sub_workflow", "Sub Workflow")
     ;
 
     @JsonCreator
-    public static CarpWorkflowTaskInstanceEvent of(String value) {
+    public static CarpWorkflowStepType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowTaskInstanceEvent.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowStepType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    CarpWorkflowTaskInstanceEvent(String value, String label) {
+    CarpWorkflowStepType(String value, String label) {
         this.value = value;
         this.label = label;
     }

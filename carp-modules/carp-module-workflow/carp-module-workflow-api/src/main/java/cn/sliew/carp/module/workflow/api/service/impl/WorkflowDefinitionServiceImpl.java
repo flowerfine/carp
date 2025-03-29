@@ -17,7 +17,6 @@
  */
 package cn.sliew.carp.module.workflow.api.service.impl;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigComplexDTO;
@@ -39,6 +38,7 @@ import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
 import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraph;
 import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraphEdge;
 import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraphNode;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepOrder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

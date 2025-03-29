@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.enums;
+package cn.sliew.carp.module.workflow.domain.enums;
 
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -25,24 +25,31 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpWorkflowExecuteType implements DictInstance {
+public enum CarpWorkflowInstanceEvent implements DictInstance {
 
-    EXECUTE("execute", "execute"),
-    health("health", "health"),
+    COMMAND_DEPLOY("0", "COMMAND_DEPLOY"),
+    COMMAND_SHUTDOWN("1", "COMMAND_SHUTDOWN"),
+    COMMAND_SUSPEND("2", "COMMAND_SUSPEND"),
+    COMMAND_RESUME("3", "COMMAND_RESUME"),
+    COMMAND_SKIP("4", "COMMAND_SKIP"),
+
+    PROCESS_STEP_CHANGE("5", "PROCESS_STEP_CHANGE"),
+    PROCESS_SUCCESS("6", "PROCESS_SUCCESS"),
+    PROCESS_FAILURE("7", "PROCESS_FAILURE"),
     ;
 
     @JsonCreator
-    public static CarpWorkflowExecuteType of(String value) {
+    public static CarpWorkflowInstanceEvent of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowExecuteType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowInstanceEvent.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    CarpWorkflowExecuteType(String value, String label) {
+    CarpWorkflowInstanceEvent(String value, String label) {
         this.value = value;
         this.label = label;
     }

@@ -25,7 +25,7 @@ import cn.sliew.carp.module.queue.api.MessageListener;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowTaskInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowTaskInstanceEventHandler;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;

@@ -17,7 +17,6 @@
  */
 package cn.sliew.carp.module.workflow.spinnaker.repository;
 
-import cn.sliew.carp.framework.common.dict.workflow.CarpWorkflowStepOrder;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
@@ -27,6 +26,7 @@ import cn.sliew.carp.module.workflow.domain.convert.WorkflowInstanceConvert;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepInstanceConvert;
 import cn.sliew.carp.module.workflow.domain.convert.WorkflowStepTaskInstanceConvert;
 import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepOrder;
 import cn.sliew.carp.module.workflow.domain.instance.*;
 import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import cn.sliew.carp.module.workflow.stage.model.util.WorkflowUtil;

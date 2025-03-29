@@ -18,8 +18,8 @@
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceEvent;
-import cn.sliew.carp.module.workflow.api.enums.CarpWorkflowTaskInstanceState;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;

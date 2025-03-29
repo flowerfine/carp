@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.enums;
+package cn.sliew.carp.module.workflow.domain.enums;
 
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
@@ -25,27 +25,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpWorkflowTaskInstanceState implements DictInstance {
+public enum CarpWorkflowStepOrder implements DictInstance {
 
-    PENDING("pending", "PENDING"),
-    RUNNING("running", "RUNNING"),
-    SUCCESS("success", "SUCCESS"),
-    FAILURE("failure", "FAILURE"),
-    SHUTDOWN("shutdown", "SHUTDOWN"),
+    PRE("pre", "前置"),
+    POST("post", "后置"),
+    NORMAL("normal", "正常"),
     ;
 
     @JsonCreator
-    public static CarpWorkflowTaskInstanceState of(String value) {
+    public static CarpWorkflowStepOrder of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowTaskInstanceState.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowStepOrder.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    CarpWorkflowTaskInstanceState(String value, String label) {
+    CarpWorkflowStepOrder(String value, String label) {
         this.value = value;
         this.label = label;
     }
@@ -58,16 +56,5 @@ public enum CarpWorkflowTaskInstanceState implements DictInstance {
     @Override
     public String getLabel() {
         return label;
-    }
-
-    public boolean isEnd() {
-        switch (this) {
-            case SUCCESS:
-            case FAILURE:
-            case SHUTDOWN:
-                return true;
-            default:
-                return false;
-        }
     }
 }
