@@ -53,6 +53,9 @@ public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTas
 
         // todo run task
 
+        // todo 处理运行结果。如果是 running，则延迟执行，如果是 success、failure 等结束，分发事件
+        // todo 如果是 redirect，则分发 redirect 事件，重新执行
+
         stateMachine.onSuccess(workflowInstanceService.getStep(event.getStepId()), workflowInstanceService.getTask(event.getTaskId()));
     }
 }
