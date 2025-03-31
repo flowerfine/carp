@@ -37,6 +37,7 @@ public class InternalWorkflowTaskInstanceEventPublisher implements WorkflowTaskI
         if (event instanceof WorkflowTaskInstanceEventDTO eventDTO) {
             PubsubChannel channel = pubsubChannelFactory.get(InternalWorkflowTaskInstanceEventDispatcher.TOPIC);
             channel.push(eventDTO);
+            return;
         }
 
         throw new RuntimeException();
