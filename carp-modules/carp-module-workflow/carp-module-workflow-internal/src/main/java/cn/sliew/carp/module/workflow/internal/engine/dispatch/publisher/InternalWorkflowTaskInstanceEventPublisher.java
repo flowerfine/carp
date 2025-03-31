@@ -17,16 +17,12 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.publisher;
 
-import cn.sliew.carp.framework.common.serder.SerDer;
-import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
 import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowTaskInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowTaskInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
-
-import java.nio.charset.StandardCharsets;
 
 public class InternalWorkflowTaskInstanceEventPublisher implements WorkflowTaskInstanceEventPublisher {
 
@@ -40,8 +36,7 @@ public class InternalWorkflowTaskInstanceEventPublisher implements WorkflowTaskI
     public void publish(WorkflowTaskInstanceStatusEvent event) {
         if (event instanceof WorkflowTaskInstanceEventDTO eventDTO) {
             PubsubChannel channel = pubsubChannelFactory.get(InternalWorkflowTaskInstanceEventDispatcher.TOPIC);
-            SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
-            channel.push(new String(serDer.serialize(eventDTO), StandardCharsets.UTF_8));
+            channel.push(eventDTO);
         }
 
         throw new RuntimeException();

@@ -39,7 +39,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -88,8 +87,8 @@ public class InternalWorkflowTaskInstanceEventDispatcher implements WorkflowTask
     public void handle(CommonMessage message) {
         if (message.getBody() != null) {
             SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
-            WorkflowTaskInstanceEventDTO eventDTO = serDer.deserialize(message.getBody(), WorkflowTaskInstanceEventDTO.class);
-            if (Objects.nonNull(eventDTO)) {
+            Object messageBody = serDer.deserialize(message.getBody(), Object.class);
+            if (messageBody instanceof WorkflowTaskInstanceEventDTO eventDTO) {
                 dispatch(eventDTO);
             }
         }

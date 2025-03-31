@@ -80,6 +80,7 @@ public abstract class AbstractWorkflowStepInstanceEventListener implements Workf
     }
 
     protected void onFailure(Long workflowStepInstnaceId, Throwable throwable) {
+        log.error("workflow step instance event dispatch failed", throwable);
         stateMachine.onFailure(workflowInstanceService.getStep(workflowStepInstnaceId), throwable);
     }
 

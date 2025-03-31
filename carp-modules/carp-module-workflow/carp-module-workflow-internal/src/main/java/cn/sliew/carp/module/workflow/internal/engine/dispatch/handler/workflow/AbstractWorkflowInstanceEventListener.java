@@ -69,6 +69,7 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     }
 
     protected void onFailure(Long workflowInstanceId, Throwable throwable) {
+        log.error("workflow instance event dispatch failed", throwable);
         stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), throwable);
     }
 

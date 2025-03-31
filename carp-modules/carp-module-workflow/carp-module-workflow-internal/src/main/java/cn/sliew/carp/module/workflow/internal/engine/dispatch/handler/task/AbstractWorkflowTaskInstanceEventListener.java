@@ -75,6 +75,7 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
     }
 
     protected void onFailure(Long workflowStepInstnaceId, Long workflowTaskInstanceId, Throwable throwable) {
+        log.error("workflow task instance event dispatch failed", throwable);
         stateMachine.onFailure(
                 workflowInstanceService.getStep(workflowStepInstnaceId),
                 workflowInstanceService.getTask(workflowTaskInstanceId),

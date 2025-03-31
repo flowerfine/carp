@@ -121,4 +121,3 @@ carp.framework:
     port: 8999
   queue.kekio:
     enabled: true
-    type: JEDIS
