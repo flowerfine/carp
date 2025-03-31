@@ -19,33 +19,29 @@ package cn.sliew.carp.module.workflow.spinnaker.queue;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.Queue;
-import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.spinnaker.dispatch.InternalWorkflowInstanceDispatcher;
 import cn.sliew.carp.module.workflow.spinnaker.model.WorkflowRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Component
 public class QueueWorkflowRunner implements WorkflowRunner {
 
     @Autowired
-    private QueueFactory queueFactory;
+    private PubsubChannelFactory pubsubChannelFactory;
 
     @Override
     public void start(WorkflowInstance workflowInstance,
                       Map<String, Object> inputs,
                       Map<String, Map<String, Object>> stepInputs) {
-        Queue queue = queueFactory.get(InternalWorkflowInstanceDispatcher.TOPIC);
+        PubsubChannel channel = pubsubChannelFactory.get(InternalWorkflowInstanceDispatcher.TOPIC);
         SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
-        Message message = Message.builder()
-                .topic(queue.getName())
-                .body(serDer.serialize(new Messages.InitWorkflow(workflowInstance, inputs, stepInputs)))
-                .build();
-        queue.push(message);
+        channel.push(new String(serDer.serialize(new Messages.InitWorkflow(workflowInstance, inputs, stepInputs)), StandardCharsets.UTF_8));
     }
 }

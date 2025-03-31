@@ -19,9 +19,10 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.MessageListener;
+import cn.sliew.carp.framework.pubsub.annotation.PubsubListener;
+import cn.sliew.carp.framework.queue.kekio.MessageHandler;
+import cn.sliew.carp.framework.queue.kekio.Queue;
+import cn.sliew.carp.framework.queue.kekio.message.CommonMessage;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowStepInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowStepInstanceEventHandler;
@@ -41,8 +42,8 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-@MessageListener(topic = InternalWorkflowStepInstanceEventDispatcher.TOPIC, consumerGroup = InternalWorkflowStepInstanceStateMachine.CONSUMER_GROUP)
-public class InternalWorkflowStepInstanceEventDispatcher implements WorkflowStepInstanceEventDispatcher, MessageHandler, InitializingBean, DisposableBean {
+@PubsubListener(queue = InternalWorkflowStepInstanceEventDispatcher.TOPIC, group = InternalWorkflowStepInstanceStateMachine.CONSUMER_GROUP)
+public class InternalWorkflowStepInstanceEventDispatcher implements WorkflowStepInstanceEventDispatcher, MessageHandler<CommonMessage>, InitializingBean, DisposableBean {
 
     public static final String TOPIC = "TOPIC_CARP_INTERNAL_WORKFLOW_STEP_INSTANCE_EVENT";
 
@@ -73,7 +74,17 @@ public class InternalWorkflowStepInstanceEventDispatcher implements WorkflowStep
     }
 
     @Override
-    public void handler(Message message) throws Exception {
+    public Queue getQueue() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Class<CommonMessage> getMessageType() {
+        return CommonMessage.class;
+    }
+
+    @Override
+    public void handle(CommonMessage message) {
         if (message.getBody() != null) {
             SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
             WorkflowStepInstanceStatusEvent eventDTO = serDer.deserialize(message.getBody(), WorkflowStepInstanceStatusEvent.class);

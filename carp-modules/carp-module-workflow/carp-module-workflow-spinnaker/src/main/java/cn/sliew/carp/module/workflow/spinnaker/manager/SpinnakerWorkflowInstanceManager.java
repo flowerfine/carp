@@ -19,9 +19,8 @@ package cn.sliew.carp.module.workflow.spinnaker.manager;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.Queue;
-import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
@@ -30,13 +29,14 @@ import cn.sliew.carp.module.workflow.spinnaker.queue.Messages;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @AllArgsConstructor
 public class SpinnakerWorkflowInstanceManager implements WorkflowInstanceManager {
 
     private WorkflowInstanceService workflowInstanceService;
-    private QueueFactory queueFactory;
+    private PubsubChannelFactory pubsubChannelFactory;
 
     @Override
     public void deploy(Long id, JsonNode globalVariable) {
@@ -48,13 +48,9 @@ public class SpinnakerWorkflowInstanceManager implements WorkflowInstanceManager
                 "d82a947b-f414-4273-973a-06f20fe33f0d", Map.of("url", "url-data", "payload", "payload-data"),
                 "027db10b-9150-403d-9d11-e4a36c99e1db", Map.of("url", "url-data", "payload", "payload-data")
         );
-        Queue queue = queueFactory.get(InternalWorkflowInstanceDispatcher.TOPIC);
+        PubsubChannel channel = pubsubChannelFactory.get(InternalWorkflowInstanceDispatcher.TOPIC);
         SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
-        Message message = Message.builder()
-                .topic(queue.getName())
-                .body(serDer.serialize(new Messages.InitWorkflow(workflowInstance, inputs, stepInputs)))
-                .build();
-        queue.push(message);
+        channel.push(new String(serDer.serialize(new Messages.InitWorkflow(workflowInstance, inputs, stepInputs)), StandardCharsets.UTF_8));
     }
 
     @Override

@@ -19,36 +19,31 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.publisher;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.Queue;
-import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowTaskInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowTaskInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 
+import java.nio.charset.StandardCharsets;
+
 public class InternalWorkflowTaskInstanceEventPublisher implements WorkflowTaskInstanceEventPublisher {
 
-    private QueueFactory queueFactory;
+    private PubsubChannelFactory pubsubChannelFactory;
 
-    public InternalWorkflowTaskInstanceEventPublisher(QueueFactory queueFactory) {
-        this.queueFactory = queueFactory;
+    public InternalWorkflowTaskInstanceEventPublisher(PubsubChannelFactory pubsubChannelFactory) {
+        this.pubsubChannelFactory = pubsubChannelFactory;
     }
 
     @Override
     public void publish(WorkflowTaskInstanceStatusEvent event) {
-        if (event instanceof WorkflowTaskInstanceEventDTO == false) {
-            throw new RuntimeException();
+        if (event instanceof WorkflowTaskInstanceEventDTO eventDTO) {
+            PubsubChannel channel = pubsubChannelFactory.get(InternalWorkflowTaskInstanceEventDispatcher.TOPIC);
+            SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
+            channel.push(new String(serDer.serialize(eventDTO), StandardCharsets.UTF_8));
         }
 
-        WorkflowTaskInstanceEventDTO eventDTO = (WorkflowTaskInstanceEventDTO) event;
-
-        Queue queue = queueFactory.get(InternalWorkflowTaskInstanceEventDispatcher.TOPIC);
-        SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
-        Message message = Message.builder()
-                .topic(queue.getName())
-                .body(serDer.serialize(eventDTO))
-                .build();
-        queue.push(message);
+        throw new RuntimeException();
     }
 }

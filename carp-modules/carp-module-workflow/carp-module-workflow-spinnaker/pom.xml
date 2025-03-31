@@ -41,11 +41,11 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-lock-redis</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-queue-api</artifactId>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-pubsub-queue-kekio</artifactId>
         </dependency>
+
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-api</artifactId>

@@ -37,7 +37,6 @@
         <module>carp-module-orca</module>
         <module>carp-module-persistence</module>
         <module>carp-module-plugin</module>
-        <module>carp-module-queue</module>
         <module>carp-module-scheduler</module>
         <module>carp-module-security</module>
         <module>carp-module-system</module>

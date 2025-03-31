@@ -21,10 +21,9 @@ import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.framework.exception.ExceptionHandler;
 import cn.sliew.carp.framework.exception.ExceptionVO;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.spinnaker.dispatch.InternalWorkflowInstanceDispatcher;
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.Queue;
-import cn.sliew.carp.module.queue.api.QueueFactory;
 import cn.sliew.carp.module.workflow.stage.model.repository.WorkflowRepository;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;
@@ -35,6 +34,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public abstract class AbstractWorkflowMessageHandler<M> implements WorkflowMessa
     @Autowired
     private RedissonClient redissonClient;
     @Autowired
-    private QueueFactory queueFactory;
+    private PubsubChannelFactory pubsubChannelFactory;
     @Autowired(required = false)
     private List<ExceptionHandler> exceptionHandlers;
 
@@ -65,13 +65,9 @@ public abstract class AbstractWorkflowMessageHandler<M> implements WorkflowMessa
 
     @Override
     public void push(Object event, Duration delay) {
-        Queue queue = queueFactory.get(InternalWorkflowInstanceDispatcher.TOPIC);
+        PubsubChannel channel = pubsubChannelFactory.get(InternalWorkflowInstanceDispatcher.TOPIC);
         SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
-        Message message = Message.builder()
-                .topic(queue.getName())
-                .body(serDer.serialize(event))
-                .build();
-        queue.push(message, delay);
+        channel.push(new String(serDer.serialize(event), StandardCharsets.UTF_8), delay);
     }
 
     @Override

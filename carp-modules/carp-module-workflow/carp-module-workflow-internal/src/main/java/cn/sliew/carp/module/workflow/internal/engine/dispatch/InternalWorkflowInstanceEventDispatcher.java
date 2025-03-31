@@ -19,16 +19,16 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.MessageHandler;
-import cn.sliew.carp.module.queue.api.MessageListener;
+import cn.sliew.carp.framework.pubsub.annotation.PubsubListener;
+import cn.sliew.carp.framework.queue.kekio.MessageHandler;
+import cn.sliew.carp.framework.queue.kekio.Queue;
+import cn.sliew.carp.framework.queue.kekio.message.CommonMessage;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowInstanceEventHandler;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
-import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -43,8 +43,8 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-@MessageListener(topic = InternalWorkflowInstanceEventDispatcher.TOPIC, consumerGroup = InternalWorkflowInstanceStateMachine.CONSUMER_GROUP)
-public class InternalWorkflowInstanceEventDispatcher implements WorkflowInstanceEventDispatcher, MessageHandler, InitializingBean, DisposableBean {
+@PubsubListener(queue = InternalWorkflowInstanceEventDispatcher.TOPIC, group = InternalWorkflowInstanceStateMachine.CONSUMER_GROUP)
+public class InternalWorkflowInstanceEventDispatcher implements WorkflowInstanceEventDispatcher, MessageHandler<CommonMessage>, InitializingBean, DisposableBean {
 
     public static final String TOPIC = "TOPIC_CARP_INTERNAL_WORKFLOW_INSTANCE_EVENT";
 
@@ -75,7 +75,17 @@ public class InternalWorkflowInstanceEventDispatcher implements WorkflowInstance
     }
 
     @Override
-    public void handler(Message message) throws Exception {
+    public Queue getQueue() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Class<CommonMessage> getMessageType() {
+        return CommonMessage.class;
+    }
+
+    @Override
+    public void handle(CommonMessage message) {
         if (message.getBody() != null) {
             SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
             WorkflowInstanceEventDTO eventDTO = serDer.deserialize(message.getBody(), WorkflowInstanceEventDTO.class);

@@ -19,32 +19,29 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.publisher;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
-import cn.sliew.carp.module.queue.api.Message;
-import cn.sliew.carp.module.queue.api.Queue;
-import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
 
+import java.nio.charset.StandardCharsets;
+
 public class InternalWorkflowInstanceEventPublisher implements WorkflowInstanceEventPublisher {
 
-    private QueueFactory queueFactory;
+    private PubsubChannelFactory pubsubChannelFactory;
 
-    public InternalWorkflowInstanceEventPublisher(QueueFactory queueFactory) {
-        this.queueFactory = queueFactory;
+    public InternalWorkflowInstanceEventPublisher(PubsubChannelFactory pubsubChannelFactory) {
+        this.pubsubChannelFactory = pubsubChannelFactory;
     }
 
     @Override
     public void publish(WorkflowInstanceStatusEvent event) {
         if (event instanceof WorkflowInstanceEventDTO eventDTO) {
-            Queue queue = queueFactory.get(InternalWorkflowInstanceEventDispatcher.TOPIC);
+            PubsubChannel channel = pubsubChannelFactory.get(InternalWorkflowInstanceEventDispatcher.TOPIC);
             SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
-            Message message = Message.builder()
-                    .topic(queue.getName())
-                    .body(serDer.serialize(eventDTO))
-                    .build();
-            queue.push(message);
+            channel.push(new String(serDer.serialize(eventDTO), StandardCharsets.UTF_8));
             return;
         }
 

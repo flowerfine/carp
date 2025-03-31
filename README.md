@@ -32,7 +32,6 @@
   * [carp-module-http-sync](./carp-modules/carp-module-http-sync)。通过 http 大规模同步数据。如拥有 1万个快手、淘宝、抖音商家账号，通过快手、淘宝、抖音开放平台接口同步订单、售后单等数据，保证数据的稳定性和及时性
 * 其他
   * [carp-module-alert](./carp-modules/carp-module-alert)。未完成，目前只完成了 prometheus alert-manager 告警信息存储
-  * [carp-module-queue](./carp-modules/carp-module-queue)。任务队列，支持延时队列。目前实现基于 redis，后续新增消息队列 kafka 和 rocketmq
   * [carp-module-plugin](./carp-modules/carp-module-plugin)。插件模块
 
 ## Code of Conduct
