@@ -53,7 +53,7 @@ public class SpinnakerKeikoConfig {
     }
 
     @Bean
-    public QueueExecutor<ThreadPoolTaskExecutor> queueExecutor() {
+    public QueueExecutor<ThreadPoolTaskExecutor> orcaQueueExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setThreadNamePrefix("keiko-queue-processor-");
         executor.setCorePoolSize(Runtime.getRuntime().availableProcessors());
@@ -66,7 +66,7 @@ public class SpinnakerKeikoConfig {
     }
 
     @Bean
-    public EventPublisher eventPublisher(MeterRegistry registry, Clock clock) {
+    public EventPublisher orcaEventPublisher(MeterRegistry registry, Clock clock) {
         return new QueueMetricsPublisher(registry, clock);
     }
 
