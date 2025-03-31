@@ -19,7 +19,9 @@ package cn.sliew.carp.module.workflow.internal.configuration;
 
 import cn.sliew.carp.framework.queue.kekio.configuration.KekioQueueAutoConfiguration;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.*;
@@ -27,6 +29,9 @@ import redis.clients.jedis.*;
 @Configuration
 @AutoConfigureBefore(KekioQueueAutoConfiguration.class)
 public class KekioQueueConfig {
+
+    @Autowired
+    private RedisProperties redisProperties;
 
     @Bean
     public JedisPool jedisPool() {
@@ -38,11 +43,11 @@ public class KekioQueueConfig {
         poolConfig.setMaxIdle(3);
         poolConfig.setMaxTotal(10);
 
-        HostAndPort hostAndPort = new HostAndPort("localhost", 6379);
+        HostAndPort hostAndPort = new HostAndPort(redisProperties.getHost(), redisProperties.getPort());
         JedisClientConfig config = DefaultJedisClientConfig.builder()
                 .clientName("kekio")
-                .database(3)
-                .password("123456")
+                .database(redisProperties.getDatabase())
+                .password(redisProperties.getPassword())
                 .build();
         return new JedisPool(poolConfig, hostAndPort, config);
     }
