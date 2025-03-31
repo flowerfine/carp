@@ -19,6 +19,7 @@ package cn.sliew.carp.module.workflow.api.socket;
 
 import cn.sliew.carp.framework.socketio.annotation.CarpSocketIoNamespace;
 import cn.sliew.carp.framework.socketio.listener.CarpConnectionListener;
+import cn.sliew.carp.framework.socketio.repository.SocketIORepository;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.corundumstudio.socketio.*;
 import com.corundumstudio.socketio.annotation.OnConnect;
@@ -35,6 +36,9 @@ public class WorkflowSocketIOController implements CarpConnectionListener {
     @Getter
     @Setter
     private SocketIONamespace namespace;
+    @Getter
+    @Setter
+    private SocketIORepository repository;
 
     @OnConnect
     @Override

@@ -20,7 +20,7 @@ package cn.sliew.carp.module.workflow.internal.configuration;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.DagLinkService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowStepInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowTaskInstanceEventPublisher;
@@ -44,20 +44,20 @@ public class InternalWorkflowRuntimeAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(WorkflowInstanceEventPublisher.class)
-    public InternalWorkflowInstanceEventPublisher workflowInstanceEventPublisher(QueueFactory queueFactory) {
-        return new InternalWorkflowInstanceEventPublisher(queueFactory);
+    public InternalWorkflowInstanceEventPublisher workflowInstanceEventPublisher(PubsubChannelFactory pubsubChannelFactory) {
+        return new InternalWorkflowInstanceEventPublisher(pubsubChannelFactory);
     }
 
     @Bean
     @ConditionalOnMissingBean(WorkflowStepInstanceEventPublisher.class)
-    public InternalWorkflowStepInstanceEventPublisher workflowStepInstanceEventPublisher(QueueFactory queueFactory) {
-        return new InternalWorkflowStepInstanceEventPublisher(queueFactory);
+    public InternalWorkflowStepInstanceEventPublisher workflowStepInstanceEventPublisher(PubsubChannelFactory pubsubChannelFactory) {
+        return new InternalWorkflowStepInstanceEventPublisher(pubsubChannelFactory);
     }
 
     @Bean
     @ConditionalOnMissingBean(WorkflowTaskInstanceEventPublisher.class)
-    public InternalWorkflowTaskInstanceEventPublisher workflowTaskInstanceEventPublisher(QueueFactory queueFactory) {
-        return new InternalWorkflowTaskInstanceEventPublisher(queueFactory);
+    public InternalWorkflowTaskInstanceEventPublisher workflowTaskInstanceEventPublisher(PubsubChannelFactory pubsubChannelFactory) {
+        return new InternalWorkflowTaskInstanceEventPublisher(pubsubChannelFactory);
     }
 
     @Bean

@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.spinnaker.configuration;
 
-import cn.sliew.carp.module.queue.api.QueueFactory;
+import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.spinnaker.manager.SpinnakerWorkflowInstanceManager;
@@ -30,9 +30,9 @@ public class SpinnakerWorkflowRuntimeAutoConfiguration {
     @ConditionalOnMissingBean(WorkflowInstanceManager.class)
     public SpinnakerWorkflowInstanceManager spinnakerWorkflowInstanceManager(
             WorkflowInstanceService workflowInstanceService,
-            QueueFactory queueFactory) {
+            PubsubChannelFactory pubsubChannelFactory) {
         return new SpinnakerWorkflowInstanceManager(
-                workflowInstanceService, queueFactory);
+                workflowInstanceService, pubsubChannelFactory);
     }
 
 }
