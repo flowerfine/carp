@@ -43,7 +43,7 @@ const WorkspaceServerlessWorkflowInstanceWeb: React.FC = () => {
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.startTime' }),
-      dataIndex: 'startTime'
+      dataIndex: 'startTime',
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.endTime' }),

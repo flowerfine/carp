@@ -32,6 +32,7 @@ const CICDNode = ({node}: { node: Node }) => {
     <XFlow>
       <div className={styles.pipeNodeWrap}>
         <div className={styles.stepTitle}>{stepTitle}</div>
+
         <div className={styles.pipeNode}>
           <div className={styles.mainBox}>
             <div className={styles.logo}>

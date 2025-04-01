@@ -1,51 +1,119 @@
-import {Graph, Node, register, XFlow} from "@antv/xflow";
-import BasicNode from "@/components/X6/Shape/BasicNode";
 import React from "react";
+import {Flex, Image, Space, Typography} from "antd";
+import {ProCard} from "@ant-design/pro-components";
+import {getIntl, getLocale} from "@umijs/max";
+import {Graph, Node, register, XFlow} from "@antv/xflow";
+import moment from "moment";
 
-const SERVERLESS_WORKFLOW_INSTNACE_NODE = 'serverless-workflow-instance-node';
-const SERVERLESS_WORKFLOW_INSTNACE_EDGE = 'serverless-workflow-instance-edge';
+const CICD_NODE = 'cicd-node';
+const CICD_EDGE = 'cicd-edge';
 
-const ServerlessWorkflowInstanceNode = ({node}: { node: Node }) => {
+const CICDNode = ({node}: { node: Node }) => {
+  const intl = getIntl(getLocale())
+  const data = node?.getData()
+  const {label, meta, attrs, extData} = data;
+  const {startTime, endTime, status, outputs, tasks = []} = extData;
 
   return (
     <XFlow>
-      <BasicNode
-        node={node}
-      />
+      <ProCard
+        title={label}
+        size={'small'}
+        style={{
+          width: 240
+        }}
+        headStyle={{
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        <ProCard title={(
+          <Space>
+            <Image src={meta.icon} alt={meta.type} sytle={{width: 12, height: 12}} preview={false}/>
+            {meta.label}
+          </Space>)}
+                 subTitle={moment(endTime).diff(moment(startTime), 'seconds') + '秒'}
+                 type={"inner"}
+                 size={'small'}
+                 bordered
+                 headStyle={{
+                   overflow: 'hidden',
+                   whiteSpace: 'nowrap',
+                   textOverflow: 'ellipsis',
+                 }}
+        >
+          {tasks.length > 0 && (
+            <Flex vertical gap={"small"}>
+              {tasks.map((item, index) => (
+                <ProCard title={(
+                  <Flex gap={"small"}>
+                    <Image src={meta.icon} alt={meta.type} sytle={{width: 12, height: 12}} preview={false}/>
+                    <Typography.Text ellipsis={{ tooltip: item.name }}>
+                      {item.name}
+                    </Typography.Text>
+                  </Flex>
+                )}
+                         size={'small'}
+                         bordered
+                         hoverable
+                         colSpan={{xs: 24, sm: 12, md: 12, lg: 12, xl: 12}}
+                         layout="center"
+                >
+                  {moment(item.endTime).diff(moment(item.startTime), 'seconds') + '秒'}
+                </ProCard>
+              ))}
+            </Flex>
+          )}
+        </ProCard>
+      </ProCard>
     </XFlow>
   );
 }
 
 register({
-  shape: SERVERLESS_WORKFLOW_INSTNACE_NODE,
+  shape: CICD_NODE,
   width: 240,
-  height: 60,
-  component: ServerlessWorkflowInstanceNode,
-  // port默认不可见. stroke 和 fill 设置为 transparent
+  height: 125,
+  component: CICDNode,
+  // 不可拖拽
+  draggable: true,
+  // port默认不可见
   ports: {
     groups: {
-      out: {
-        position: 'right',
+      in: {
+        position: {
+          name: 'left',
+          args: {
+            dx: 4,
+          },
+        },
         attrs: {
           circle: {
             r: 4,
             magnet: true,
-            stroke: '#85A5FF',
+            stroke: 'transparent',
             strokeWidth: 1,
-            fill: '#fff',
+            fill: 'transparent',
           },
         },
       },
 
-      in: {
-        position: 'left',
+      out: {
+        position: {
+          name: 'right',
+          args: {
+            dx: -4,
+          },
+        },
+
         attrs: {
           circle: {
             r: 4,
             magnet: true,
-            stroke: '#85A5FF',
+            stroke: 'transparent',
             strokeWidth: 1,
-            fill: '#fff',
+            fill: 'transparent',
           },
         },
       },
@@ -54,7 +122,7 @@ register({
 })
 
 Graph.registerEdge(
-  SERVERLESS_WORKFLOW_INSTNACE_EDGE,
+  CICD_EDGE,
   {
     markup: [
       {
@@ -76,7 +144,7 @@ Graph.registerEdge(
         },
       },
     ],
-    connector: {name: 'smooth'},
+    connector: 'smooth',
     attrs: {
       wrap: {
         connection: true,
@@ -92,9 +160,8 @@ Graph.registerEdge(
           size: 6,
         },
       },
-    }
+    },
   },
   true)
 
-export {SERVERLESS_WORKFLOW_INSTNACE_NODE, SERVERLESS_WORKFLOW_INSTNACE_EDGE}
-
+export {CICD_NODE, CICD_EDGE};
