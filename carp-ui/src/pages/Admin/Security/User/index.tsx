@@ -42,7 +42,6 @@ const AdminSecurityUserWeb: React.FC = () => {
           <AdminSecurityUserLeftDeptWeb onSelect={treeOnSelect}/>
         </Col>
         <Col {...rightLayout} style={{ minHeight: '100%', overflow: 'auto' }}>
-          {/* <UserList organization={organization} /> */}
           <AdminSecurityUserRightWeb dept={dept}/>
         </Col>
       </Row>

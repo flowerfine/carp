@@ -221,3 +221,13 @@ create table carp_sec_user_dept
     primary key (id),
     unique key (dept_id, user_id)
 ) engine = innodb comment = 'security dept and user relation';
+
+insert into carp_sec_user_dept (user_id, dept_id, is_leader, creator, editor)
+select t1.id as user_id,
+       t2.id as dept_id,
+       '0' as is_leader,
+       'sys' as creator,
+       'sys' as editor
+from carp_sec_user t1,
+     carp_sec_dept t2
+where t2.`id` in (1, 2, 5);

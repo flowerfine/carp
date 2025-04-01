@@ -19,7 +19,6 @@ package cn.sliew.carp.module.security.core.service.param;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,7 +26,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class SecResourceWebListParam extends PageParam {
 
-    @NotNull
     @Schema(description = "上级权限id")
     private Long pid;
 

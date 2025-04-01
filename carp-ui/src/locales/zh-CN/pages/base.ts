@@ -90,6 +90,9 @@ export default {
   'app.common.message.system': '系统消息',
 
 
+  'app.common.operate.security.label': '权限',
+  'app.common.operate.security.webResources2user.label': 'Web资源管理',
+  'app.common.operate.security.roles2user.label': '角色管理',
   'app.common.operate.forbid.label': '注销',
   'app.common.operate.forbid.success': '注销成功',
   'app.common.operate.forbid.confirm.title': '确定注销?',

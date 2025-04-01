@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import {Button, message, Modal, Space, Table, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
-import {history, useAccess, useIntl} from "@umijs/max";
+import {useAccess, useIntl} from "@umijs/max";
 import {AdminSecurityAPI} from "@/services/admin/security/typings";
 import {DictService} from "@/services/admin/system/dict.service";
 import {DICT_TYPE} from "@/constants/dictType";
@@ -21,10 +21,6 @@ const AdminSecurityRoleWeb: React.FC = () => {
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<AdminSecurityAPI.SecRole[]>([]);
   const [roleFormData, setRoleFormData] = useState<SecurityRoleState>({ visiable: false, data: null });
-
-  const onDetailClick = (record: AdminSecurityAPI.SecRole) => {
-    history.push('/metadata/gravitino/metalake/catalog', record);
-  };
 
   const columns: ProColumns<AdminSecurityAPI.SecRole>[] = [
     {

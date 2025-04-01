@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { Button, Card, message, Modal, Skeleton, Space, Table, Tag, Tooltip } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, FormOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
-import { history, useAccess, useIntl } from "@umijs/max";
+import { useAccess, useIntl } from "@umijs/max";
 import { AdminSecurityAPI } from "@/services/admin/security/typings";
 import { DictService } from "@/services/admin/system/dict.service";
 import { DICT_TYPE } from "@/constants/dictType";
 import { UserService } from '@/services/admin/security/user.service';
 import SecurityUserForm from './SecurityUserForm';
+import SecurityRoles2UserForm from "@/pages/Admin/Security/User/components/User/SecurityRoles2UserForm";
 
 export type SecurityUserState = {
   visiable: boolean;
@@ -23,11 +24,8 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<AdminSecurityAPI.SecUser[]>([]);
   const [userFormData, setUserFormData] = useState<SecurityUserState>({ visiable: false, data: null });
+  const [roles2UserFormData, setRoles2UserFormData] = useState<SecurityUserState>({visiable: false, data: null});
   const { dept } = props;
-
-  const onDetailClick = (record: AdminSecurityAPI.SecUser) => {
-    history.push('/metadata/gravitino/metalake/catalog', record);
-  };
 
   const columns: ProColumns<AdminSecurityAPI.SecUser>[] = [
     {
@@ -85,6 +83,40 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
+    },
+    {
+      title: intl.formatMessage({ id: 'app.common.operate.security.label' }),
+      dataIndex: 'actions',
+      valueType: 'option',
+      align: 'center',
+      width: 120,
+      fixed: 'right',
+      render: (_, record) => (
+        <Space>
+          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.security.webResources2user.label' })}>
+            <Button
+              shape="default"
+              type="link"
+              icon={<FormOutlined/>}
+              disabled={record.type?.value == '0' || record.status?.value == '2'}
+              onClick={() => {
+                setRoles2UserFormData({ visiable: true, data: record });
+              }}
+            />
+          </Tooltip>
+          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.security.roles2user.label' })}>
+            <Button
+              shape="default"
+              type="link"
+              icon={<EditOutlined />}
+              disabled={record.type?.value == '0' || record.status?.value == '2'}
+              onClick={() => {
+                setRoles2UserFormData({ visiable: true, data: record });
+              }}
+            />
+          </Tooltip>
+        </Space>
+      ),
     },
     {
       title: intl.formatMessage({ id: 'app.common.operate.label' }),
@@ -217,6 +249,19 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
           }}
           onFinish={(values) => {
             setUserFormData({ visiable: false, data: null });
+            actionRef.current?.reload();
+          }}
+        />
+      ) : null}
+      {roles2UserFormData.visiable ? (
+        <SecurityRoles2UserForm
+          visible={roles2UserFormData.visiable}
+          data={roles2UserFormData.data}
+          onCancel={() => {
+            setRoles2UserFormData({ visiable: false, data: null });
+          }}
+          onFinish={(values) => {
+            setRoles2UserFormData({ visiable: false, data: null });
             actionRef.current?.reload();
           }}
         />

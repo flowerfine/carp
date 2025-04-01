@@ -50,8 +50,6 @@
             t1.*
         FROM
             carp_sec_user t1
-                LEFT JOIN carp_sec_user_dept t2 ON t1.id = t2.user_id
-                LEFT JOIN carp_sec_dept t3 ON t2.dept_id = t3.id
         <where>
             <if test="param.type != null and param.type != ''">
                 AND t1.`type` = #{param.type}
@@ -72,10 +70,16 @@
                 AND t1.`phone` = #{param.phone}
             </if>
             <if test="childDeptIds != null and childDeptIds.size() > 0">
-                AND t2.`dept_id` IN
-                <foreach collection="childDeptIds" item="deptId" open="(" separator="," close=")">
+                AND EXISTS (
+                    SELECT * FROM
+                        carp_sec_user_dept t2
+	                        JOIN carp_sec_dept t3 ON t2.dept_id = t3.id
+	                WHERE t1.id = t2.user_id
+	                AND  t3.id IN
+	                <foreach collection="childDeptIds" item="deptId" open="(" separator="," close=")">
                     #{deptId}
                 </foreach>
+                )
             </if>
         </where>
         ORDER BY t1.order, t1.id
