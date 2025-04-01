@@ -86,6 +86,8 @@ public interface WorkflowStepInstanceConvert extends BaseConvert<DagStepDTO, Wor
         if (Objects.nonNull(entity.getContext())) {
             dto.setContext(JacksonUtil.toObject(entity.getContext(), new TypeReference<Map<String, Object>>() {
             }));
+        } else {
+            dto.setContext(Maps.newHashMap());
         }
         if (Objects.nonNull(entity.getInputs())
                 && entity.getInputs().isNull() == false
@@ -103,7 +105,6 @@ public interface WorkflowStepInstanceConvert extends BaseConvert<DagStepDTO, Wor
         } else {
             dto.setOutputs(Maps.newHashMap());
         }
-        dto.setContext(new WorkflowStepContext(dto));
         return dto;
     }
 }

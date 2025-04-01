@@ -49,9 +49,11 @@ public class LogStepTask implements RetryableTask, SkippableTask {
                 step.getNamespace(), step.getWorkflowInstance().getId(), step.getId(), step.getNode().getStepName(),
                 task.getName(), task.getId(), task.getTaskId(),
                 JacksonUtil.toJsonString(step.getContext()), JacksonUtil.toJsonString(task));
+
+
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
-                .context("log-task-context-" + task.getTaskId(), "log-task-context-" + task.getTaskId())
-                .output("log-task-output-" + task.getTaskId(), "log-task-output-" + task.getTaskId())
+                .context(step.getNode().getStepName() + ": log-task-context-" + task.getTaskId(), "log-task-context-" + task.getTaskId())
+                .output(step.getNode().getStepName() + ": log-task-output-" + task.getTaskId(), "log-task-output-" + task.getTaskId())
                 .build();
     }
 }
