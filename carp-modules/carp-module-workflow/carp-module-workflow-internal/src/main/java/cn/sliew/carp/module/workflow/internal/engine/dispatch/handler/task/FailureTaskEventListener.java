@@ -22,41 +22,44 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.FailureTaskDTO;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Component
-public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTaskInstanceEventListener<WorkflowTaskInstanceEventDTO> {
+public class FailureTaskEventListener extends AbstractTaskEventListener<FailureTaskDTO> {
 
     @Override
     public CarpWorkflowTaskInstanceEvent getType() {
-        return CarpWorkflowTaskInstanceEvent.PROCESS_SUCCESS;
+        return CarpWorkflowTaskInstanceEvent.PROCESS_FAILURE;
     }
 
     @Override
-    protected CompletableFuture<?> handleEventAsync(WorkflowTaskInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new SuccessRunner(event.getStepId(), event.getTaskId())).toCompletableFuture();
+    protected CompletableFuture<?> handleEventAsync(FailureTaskDTO event) {
+        return CompletableFuture.runAsync(new FailureRunner(event.getStepId(), event.getTaskId(), event.getThrowable())).toCompletableFuture();
     }
 
-    private class SuccessRunner implements Runnable, Serializable {
+    private class FailureRunner implements Runnable, Serializable {
 
         private Long stepId;
         private Long taskId;
+        private Optional<Throwable> throwable;
 
-        public SuccessRunner(Long stepId, Long taskId) {
+        public FailureRunner(Long stepId, Long taskId, Throwable throwable) {
             this.stepId = stepId;
             this.taskId = taskId;
+            this.throwable = Optional.ofNullable(throwable);
         }
 
         @Override
         public void run() {
             DagStepTaskDTO dagStepUpdateParam = new DagStepTaskDTO();
             dagStepUpdateParam.setId(taskId);
-            dagStepUpdateParam.setStatus(CarpWorkflowTaskInstanceState.SUCCESS.getValue());
+            dagStepUpdateParam.setStatus(CarpWorkflowTaskInstanceState.FAILURE.getValue());
             dagStepUpdateParam.setEndTime(new Date());
             dagStepTaskService.update(dagStepUpdateParam);
 

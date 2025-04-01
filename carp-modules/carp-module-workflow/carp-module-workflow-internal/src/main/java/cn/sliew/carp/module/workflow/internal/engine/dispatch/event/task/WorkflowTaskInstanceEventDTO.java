@@ -30,14 +30,7 @@ public class WorkflowTaskInstanceEventDTO extends AbstractWorkflowTaskInstanceEv
     @Serial
     private static final long serialVersionUID = -5907661838804259235L;
 
-    private final Throwable throwable;
-
     public WorkflowTaskInstanceEventDTO(CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event, WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance) {
-        this(state, nextState, event, stepInstance, taskInstance, null);
-    }
-
-    public WorkflowTaskInstanceEventDTO(CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event, WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance, Throwable throwable) {
         super(state, nextState, event, stepInstance, taskInstance);
-        this.throwable = throwable;
     }
 }

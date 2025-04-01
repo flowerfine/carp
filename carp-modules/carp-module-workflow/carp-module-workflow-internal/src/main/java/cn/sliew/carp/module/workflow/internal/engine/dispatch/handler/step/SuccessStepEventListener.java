@@ -26,40 +26,37 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowStepInstanceFailureEventListener extends AbstractWorkflowStepInstanceEventListener<WorkflowStepInstanceEventDTO> {
+public class SuccessStepEventListener extends AbstractStepEventListener<WorkflowStepInstanceEventDTO> {
 
     @Override
     public CarpWorkflowStepInstanceEvent getType() {
-        return CarpWorkflowStepInstanceEvent.PROCESS_FAILURE;
+        return CarpWorkflowStepInstanceEvent.PROCESS_SUCCESS;
     }
 
     @Override
     protected CompletableFuture<?> handleEventAsync(WorkflowStepInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowInstanceId(), event.getStepId(), event.getThrowable())).toCompletableFuture();
+        return CompletableFuture.runAsync(new SuccessRunner(event.getWorkflowInstanceId(), event.getStepId())).toCompletableFuture();
     }
 
-    private class FailureRunner implements Runnable, Serializable {
+    private class SuccessRunner implements Runnable, Serializable {
 
         private Long workflowInstanceId;
         private Long stepId;
-        private Optional<Throwable> throwable;
 
-        public FailureRunner(Long workflowInstanceId, Long stepId, Throwable throwable) {
+        public SuccessRunner(Long workflowInstanceId, Long stepId) {
             this.workflowInstanceId = workflowInstanceId;
             this.stepId = stepId;
-            this.throwable = Optional.ofNullable(throwable);
         }
 
         @Override
         public void run() {
             DagStepDTO dagStepUpdateParam = new DagStepDTO();
             dagStepUpdateParam.setId(stepId);
-            dagStepUpdateParam.setStatus(CarpWorkflowStepInstanceState.FAILURE.getValue());
+            dagStepUpdateParam.setStatus(CarpWorkflowStepInstanceState.SUCCESS.getValue());
             dagStepUpdateParam.setEndTime(new Date());
             dagStepService.update(dagStepUpdateParam);
 

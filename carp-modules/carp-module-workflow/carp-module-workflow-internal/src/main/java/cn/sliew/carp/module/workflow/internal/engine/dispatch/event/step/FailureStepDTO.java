@@ -25,12 +25,14 @@ import lombok.Getter;
 import java.io.Serial;
 
 @Getter
-public class WorkflowStepInstanceEventDTO extends AbstractWorkflowStepInstanceEventDTO {
+public class FailureStepDTO extends AbstractWorkflowStepInstanceEventDTO {
     @Serial
     private static final long serialVersionUID = -4930935191667908326L;
 
-    public WorkflowStepInstanceEventDTO(CarpWorkflowStepInstanceState state, CarpWorkflowStepInstanceState nextState, CarpWorkflowStepInstanceEvent event, WorkflowStepInstance stepInstance) {
-        super(state, nextState, event, stepInstance);
-    }
+    private final Throwable throwable;
 
+    public FailureStepDTO(CarpWorkflowStepInstanceState state, CarpWorkflowStepInstanceState nextState, CarpWorkflowStepInstanceEvent event, WorkflowStepInstance workflowStepInstance, Throwable throwable) {
+        super(state, nextState, event, workflowStepInstance);
+        this.throwable = throwable;
+    }
 }

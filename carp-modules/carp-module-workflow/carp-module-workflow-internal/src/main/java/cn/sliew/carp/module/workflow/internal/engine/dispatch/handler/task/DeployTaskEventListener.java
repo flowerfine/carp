@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 @Component
-public class WorkflowTaskInstanceDeployEventListener extends AbstractWorkflowTaskInstanceEventListener<WorkflowTaskInstanceEventDTO> {
+public class DeployTaskEventListener extends AbstractTaskEventListener<WorkflowTaskInstanceEventDTO> {
 
     @Override
     public CarpWorkflowTaskInstanceEvent getType() {

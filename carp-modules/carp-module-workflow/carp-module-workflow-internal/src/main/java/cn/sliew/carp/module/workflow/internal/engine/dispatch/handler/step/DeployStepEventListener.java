@@ -41,7 +41,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowStepInstanceEventListener<WorkflowStepInstanceEventDTO> implements StepBuilderAware {
+public class DeployStepEventListener extends AbstractStepEventListener<WorkflowStepInstanceEventDTO> implements StepBuilderAware {
 
     @Autowired
     private StageDefinitionBuilderFactory stageDefinitionBuilderFactory;

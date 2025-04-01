@@ -23,6 +23,7 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowTaskInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.FailureTaskDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.InternalWorkflowTaskInstanceStatusEventBuilder;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.WorkflowTaskInstanceEventDTO;
 import com.alibaba.cola.statemachine.Action;
@@ -111,7 +112,7 @@ public class InternalWorkflowTaskInstanceStateMachine implements InitializingBea
     public void onFailure(WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance, Throwable throwable) {
         InternalWorkflowTaskInstanceStatusEventBuilder builder =
                 (fromState, toState, eventEnum) ->
-                        new WorkflowTaskInstanceEventDTO(fromState, toState, eventEnum, stepInstance, taskInstance, throwable);
+                        new FailureTaskDTO(fromState, toState, eventEnum, stepInstance, taskInstance, throwable);
         stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.PROCESS_FAILURE, builder);
     }
 }

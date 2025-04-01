@@ -27,39 +27,36 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Component
-public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTaskInstanceEventListener<WorkflowTaskInstanceEventDTO> {
+public class SuccessTaskEventListener extends AbstractTaskEventListener<WorkflowTaskInstanceEventDTO> {
 
     @Override
     public CarpWorkflowTaskInstanceEvent getType() {
-        return CarpWorkflowTaskInstanceEvent.PROCESS_FAILURE;
+        return CarpWorkflowTaskInstanceEvent.PROCESS_SUCCESS;
     }
 
     @Override
     protected CompletableFuture<?> handleEventAsync(WorkflowTaskInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new FailureRunner(event.getStepId(), event.getTaskId(), event.getThrowable())).toCompletableFuture();
+        return CompletableFuture.runAsync(new SuccessRunner(event.getStepId(), event.getTaskId())).toCompletableFuture();
     }
 
-    private class FailureRunner implements Runnable, Serializable {
+    private class SuccessRunner implements Runnable, Serializable {
 
         private Long stepId;
         private Long taskId;
-        private Optional<Throwable> throwable;
 
-        public FailureRunner(Long stepId, Long taskId, Throwable throwable) {
+        public SuccessRunner(Long stepId, Long taskId) {
             this.stepId = stepId;
             this.taskId = taskId;
-            this.throwable = Optional.ofNullable(throwable);
         }
 
         @Override
         public void run() {
             DagStepTaskDTO dagStepUpdateParam = new DagStepTaskDTO();
             dagStepUpdateParam.setId(taskId);
-            dagStepUpdateParam.setStatus(CarpWorkflowTaskInstanceState.FAILURE.getValue());
+            dagStepUpdateParam.setStatus(CarpWorkflowTaskInstanceState.SUCCESS.getValue());
             dagStepUpdateParam.setEndTime(new Date());
             dagStepTaskService.update(dagStepUpdateParam);
 

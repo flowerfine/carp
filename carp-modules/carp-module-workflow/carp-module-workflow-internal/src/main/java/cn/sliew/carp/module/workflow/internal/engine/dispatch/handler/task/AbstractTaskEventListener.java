@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public abstract class AbstractWorkflowTaskInstanceEventListener<T extends InternalWorkflowTaskInstanceStatusEvent> implements InternalWorkflowTaskInstanceEventListener<T>, InitializingBean, BeanFactoryAware {
+public abstract class AbstractTaskEventListener<T extends InternalWorkflowTaskInstanceStatusEvent> implements InternalTaskEventListener<T>, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;

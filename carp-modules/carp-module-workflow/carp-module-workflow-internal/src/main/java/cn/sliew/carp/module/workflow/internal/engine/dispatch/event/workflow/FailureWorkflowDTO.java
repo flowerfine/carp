@@ -27,11 +27,18 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
-public class WorkflowInstanceEventDTO extends AbstractWorkflowInstanceEventDTO implements InternalWorkflowInstanceStatusEvent, Serializable {
+public class FailureWorkflowDTO extends AbstractWorkflowInstanceEventDTO implements InternalWorkflowInstanceStatusEvent, Serializable {
     @Serial
-    private static final long serialVersionUID = -3291102278852497834L;
+    private static final long serialVersionUID = 7047301725204616323L;
 
-    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, WorkflowInstance source) {
+    private final Throwable throwable;
+
+    public FailureWorkflowDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, WorkflowInstance source) {
+        this(state, nextState, event, source, null);
+    }
+
+    public FailureWorkflowDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, WorkflowInstance source, Throwable throwable) {
         super(state, nextState, event, source);
+        this.throwable = throwable;
     }
 }

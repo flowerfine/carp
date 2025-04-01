@@ -20,43 +20,46 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.step;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step.WorkflowStepInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step.FailureStepDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowStepInstanceSuccessEventListener extends AbstractWorkflowStepInstanceEventListener<WorkflowStepInstanceEventDTO> {
+public class FailureStepEventListener extends AbstractStepEventListener<FailureStepDTO> {
 
     @Override
     public CarpWorkflowStepInstanceEvent getType() {
-        return CarpWorkflowStepInstanceEvent.PROCESS_SUCCESS;
+        return CarpWorkflowStepInstanceEvent.PROCESS_FAILURE;
     }
 
     @Override
-    protected CompletableFuture<?> handleEventAsync(WorkflowStepInstanceEventDTO event) {
-        return CompletableFuture.runAsync(new SuccessRunner(event.getWorkflowInstanceId(), event.getStepId())).toCompletableFuture();
+    protected CompletableFuture<?> handleEventAsync(FailureStepDTO event) {
+        return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowInstanceId(), event.getStepId(), event.getThrowable())).toCompletableFuture();
     }
 
-    private class SuccessRunner implements Runnable, Serializable {
+    private class FailureRunner implements Runnable, Serializable {
 
         private Long workflowInstanceId;
         private Long stepId;
+        private Optional<Throwable> throwable;
 
-        public SuccessRunner(Long workflowInstanceId, Long stepId) {
+        public FailureRunner(Long workflowInstanceId, Long stepId, Throwable throwable) {
             this.workflowInstanceId = workflowInstanceId;
             this.stepId = stepId;
+            this.throwable = Optional.ofNullable(throwable);
         }
 
         @Override
         public void run() {
             DagStepDTO dagStepUpdateParam = new DagStepDTO();
             dagStepUpdateParam.setId(stepId);
-            dagStepUpdateParam.setStatus(CarpWorkflowStepInstanceState.SUCCESS.getValue());
+            dagStepUpdateParam.setStatus(CarpWorkflowStepInstanceState.FAILURE.getValue());
             dagStepUpdateParam.setEndTime(new Date());
             dagStepService.update(dagStepUpdateParam);
 

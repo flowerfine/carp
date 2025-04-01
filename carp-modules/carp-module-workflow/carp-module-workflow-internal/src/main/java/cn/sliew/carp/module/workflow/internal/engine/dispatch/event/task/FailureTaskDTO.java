@@ -15,22 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task;
 
-import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
-import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import lombok.Getter;
 
 import java.io.Serial;
 
 @Getter
-public class WorkflowStepInstanceEventDTO extends AbstractWorkflowStepInstanceEventDTO {
+public class FailureTaskDTO extends AbstractWorkflowTaskInstanceEventDTO {
     @Serial
-    private static final long serialVersionUID = -4930935191667908326L;
+    private static final long serialVersionUID = -5907661838804259235L;
 
-    public WorkflowStepInstanceEventDTO(CarpWorkflowStepInstanceState state, CarpWorkflowStepInstanceState nextState, CarpWorkflowStepInstanceEvent event, WorkflowStepInstance stepInstance) {
-        super(state, nextState, event, stepInstance);
+    private final Throwable throwable;
+
+    public FailureTaskDTO(CarpWorkflowTaskInstanceState state, CarpWorkflowTaskInstanceState nextState, CarpWorkflowTaskInstanceEvent event, WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance, Throwable throwable) {
+        super(state, nextState, event, stepInstance, taskInstance);
+        this.throwable = throwable;
     }
-
 }

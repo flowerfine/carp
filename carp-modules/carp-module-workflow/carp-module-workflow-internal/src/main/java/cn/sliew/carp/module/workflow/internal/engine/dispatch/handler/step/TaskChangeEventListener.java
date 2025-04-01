@@ -21,7 +21,7 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step.WorkflowStepInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step.TaskChangeStepDTO;
 import cn.sliew.carp.module.workflow.internal.util.DagExecutionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowStepInstanceTaskChangeEventListener extends AbstractWorkflowStepInstanceEventListener<WorkflowStepInstanceEventDTO> {
+public class TaskChangeEventListener extends AbstractStepEventListener<TaskChangeStepDTO> {
 
     @Override
     public CarpWorkflowStepInstanceEvent getType() {
@@ -39,13 +39,12 @@ public class WorkflowStepInstanceTaskChangeEventListener extends AbstractWorkflo
     }
 
     @Override
-    protected CompletableFuture<?> handleEventAsync(WorkflowStepInstanceEventDTO event) {
+    protected CompletableFuture<?> handleEventAsync(TaskChangeStepDTO event) {
         return CompletableFuture.runAsync(() -> run(event));
     }
 
-    private void run(WorkflowStepInstanceEventDTO event) {
+    private void run(TaskChangeStepDTO event) {
         WorkflowStepInstance stepInstance = workflowInstanceService.getStep(event.getStepId());
-        // todo event 和 handler 的消息处理有点僵硬
         WorkflowTaskInstance taskInstance = workflowInstanceService.getTask(event.getTaskId());
         CarpWorkflowTaskInstanceState taskInstanceState = CarpWorkflowTaskInstanceState.of(taskInstance.getStatus());
         if (taskInstanceState.isEnd() == false) {

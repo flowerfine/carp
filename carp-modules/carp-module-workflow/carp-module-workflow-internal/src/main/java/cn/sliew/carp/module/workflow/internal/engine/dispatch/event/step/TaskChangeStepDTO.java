@@ -20,17 +20,21 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import lombok.Getter;
 
 import java.io.Serial;
 
 @Getter
-public class WorkflowStepInstanceEventDTO extends AbstractWorkflowStepInstanceEventDTO {
+public class TaskChangeStepDTO extends AbstractWorkflowStepInstanceEventDTO {
     @Serial
-    private static final long serialVersionUID = -4930935191667908326L;
+    private static final long serialVersionUID = -5276960746289347811L;
 
-    public WorkflowStepInstanceEventDTO(CarpWorkflowStepInstanceState state, CarpWorkflowStepInstanceState nextState, CarpWorkflowStepInstanceEvent event, WorkflowStepInstance stepInstance) {
-        super(state, nextState, event, stepInstance);
+    private final Long taskId;
+
+    public TaskChangeStepDTO(CarpWorkflowStepInstanceState state, CarpWorkflowStepInstanceState nextState, CarpWorkflowStepInstanceEvent event, WorkflowStepInstance workflowStepInstance, WorkflowTaskInstance workflowTaskInstance) {
+        super(state, nextState, event, workflowStepInstance);
+        this.taskId = workflowTaskInstance.getId();
     }
 
 }

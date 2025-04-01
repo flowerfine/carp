@@ -23,7 +23,9 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowStepInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step.FailureStepDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step.InternalWorkflowStepInstanceStatusEventBuilder;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step.TaskChangeStepDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.step.WorkflowStepInstanceEventDTO;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
@@ -180,7 +182,7 @@ public class InternalWorkflowStepInstanceStateMachine implements InitializingBea
     public void onTaskChange(WorkflowStepInstance instance, WorkflowTaskInstance taskInstance) {
         InternalWorkflowStepInstanceStatusEventBuilder builder =
                 (state, nextState, event) ->
-                        new WorkflowStepInstanceEventDTO(state, nextState, event, instance, taskInstance);
+                        new TaskChangeStepDTO(state, nextState, event, instance, taskInstance);
         stateMachine.fireEvent(CarpWorkflowStepInstanceState.of(instance.getStatus()), CarpWorkflowStepInstanceEvent.PROCESS_TASK_CHANGE, builder);
     }
 
@@ -194,7 +196,7 @@ public class InternalWorkflowStepInstanceStateMachine implements InitializingBea
     public void onFailure(WorkflowStepInstance instance, Throwable throwable) {
         InternalWorkflowStepInstanceStatusEventBuilder builder =
                 (state, nextState, event) ->
-                        new WorkflowStepInstanceEventDTO(state, nextState, event, instance, throwable);
+                        new FailureStepDTO(state, nextState, event, instance, throwable);
         stateMachine.fireEvent(CarpWorkflowStepInstanceState.of(instance.getStatus()), CarpWorkflowStepInstanceEvent.PROCESS_FAILURE, builder);
     }
 

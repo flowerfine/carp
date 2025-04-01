@@ -28,7 +28,7 @@ import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowStepInstanceEve
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowStepInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.step.InternalWorkflowStepInstanceEventListener;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.step.InternalStepEventListener;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowStepInstanceStateMachine;
 import cn.sliew.milky.common.util.MapUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +48,9 @@ public class InternalWorkflowStepInstanceEventDispatcher implements WorkflowStep
     public static final String TOPIC = "TOPIC_CARP_INTERNAL_WORKFLOW_STEP_INSTANCE_EVENT";
 
     @Autowired(required = false)
-    private List<InternalWorkflowStepInstanceEventListener> handlers;
+    private List<InternalStepEventListener> handlers;
 
-    private Map<CarpWorkflowStepInstanceEvent, List<InternalWorkflowStepInstanceEventListener>> registry = new HashMap<>();
+    private Map<CarpWorkflowStepInstanceEvent, List<InternalStepEventListener>> registry = new HashMap<>();
     private ThreadPoolTaskExecutor taskExecutor;
 
     @Override
@@ -103,8 +103,8 @@ public class InternalWorkflowStepInstanceEventDispatcher implements WorkflowStep
                     + event.getEvent().getLabel() + "[" + event.getEvent().getValue() + "]");
         }
 
-        List<InternalWorkflowStepInstanceEventListener> eventHandlers = registry.get(event.getEvent());
-        InternalWorkflowStepInstanceEventListener handler = eventHandlers.stream()
+        List<InternalStepEventListener> eventHandlers = registry.get(event.getEvent());
+        InternalStepEventListener handler = eventHandlers.stream()
                 .filter(item -> {
                     Class<?> typeArgument = ClassUtil.getTypeArgument(item.getClass());
                     if (Objects.nonNull(typeArgument)) {

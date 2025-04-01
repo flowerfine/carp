@@ -22,6 +22,7 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.FailureWorkflowDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.InternalWorkflowInstanceStatusEventBuilder;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.WorkflowInstanceEventDTO;
 import com.alibaba.cola.statemachine.Action;
@@ -168,10 +169,9 @@ public class InternalWorkflowInstanceStateMachine implements InitializingBean {
     }
 
     public void onFailure(WorkflowInstance instance, Throwable throwable) {
-
         InternalWorkflowInstanceStatusEventBuilder builder =
                 (state, nextState, event) ->
-                        new WorkflowInstanceEventDTO(state, nextState, event, instance, throwable);
+                        new FailureWorkflowDTO(state, nextState, event, instance, throwable);
         stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.PROCESS_FAILURE, builder);
     }
 }
