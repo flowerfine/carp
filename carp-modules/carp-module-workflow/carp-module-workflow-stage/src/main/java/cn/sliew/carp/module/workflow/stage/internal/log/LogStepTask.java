@@ -50,7 +50,7 @@ public class LogStepTask implements RetryableTask, SkippableTask {
                 task.getName(), task.getId(), task.getTaskId(),
                 JacksonUtil.toJsonString(step.getContext()), JacksonUtil.toJsonString(task));
 
-
+        // todo 读取 context。是否能正确读取 outputs 中内容，还是只能读取 context 中内容
         return TaskResult.builder(ExecutionStatus.SUCCEEDED)
                 .context(step.getNode().getStepName() + ": log-task-context-" + task.getTaskId(), "log-task-context-" + task.getTaskId())
                 .output(step.getNode().getStepName() + ": log-task-output-" + task.getTaskId(), "log-task-output-" + task.getTaskId())
