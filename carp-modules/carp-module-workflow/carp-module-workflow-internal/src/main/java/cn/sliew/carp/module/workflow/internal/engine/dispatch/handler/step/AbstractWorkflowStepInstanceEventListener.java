@@ -24,7 +24,6 @@ import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWork
 import cn.sliew.carp.module.workflow.internal.manager.InternalWorkflowTaskInstanceManager;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowStepInstanceStateMachine;
-import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
 import org.redisson.api.RedissonClient;
@@ -66,7 +65,7 @@ public abstract class AbstractWorkflowStepInstanceEventListener<T extends Intern
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        executorService = redissonClient.getExecutorService(InternalWorkflowTaskInstanceStateMachine.EXECUTOR);
+        executorService = redissonClient.getExecutorService(InternalWorkflowStepInstanceStateMachine.EXECUTOR);
         executorService.registerWorkers(WorkerOptions.defaults().workers(20).beanFactory(beanFactory));
     }
 

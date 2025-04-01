@@ -23,7 +23,6 @@ import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInsta
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowStepInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowStepInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowStepInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowStepInstanceEventDTO;
 
 public class InternalWorkflowStepInstanceEventPublisher implements WorkflowStepInstanceEventPublisher {
 

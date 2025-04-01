@@ -22,13 +22,14 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowTaskInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.InternalWorkflowTaskInstanceStatusEventBuilder;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.WorkflowTaskInstanceEventDTO;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilder;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.beans.factory.InitializingBean;
 
 @Slf4j
@@ -39,7 +40,7 @@ public class InternalWorkflowTaskInstanceStateMachine implements InitializingBea
 
     private WorkflowTaskInstanceEventPublisher publisher;
 
-    private StateMachine<CarpWorkflowTaskInstanceState, CarpWorkflowTaskInstanceEvent, Triple<WorkflowStepInstance, WorkflowTaskInstance, Throwable>> stateMachine;
+    private StateMachine<CarpWorkflowTaskInstanceState, CarpWorkflowTaskInstanceEvent, InternalWorkflowTaskInstanceStatusEventBuilder> stateMachine;
 
     public InternalWorkflowTaskInstanceStateMachine(WorkflowTaskInstanceEventPublisher publisher) {
         this.publisher = publisher;
@@ -47,7 +48,7 @@ public class InternalWorkflowTaskInstanceStateMachine implements InitializingBea
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        StateMachineBuilder<CarpWorkflowTaskInstanceState, CarpWorkflowTaskInstanceEvent, Triple<WorkflowStepInstance, WorkflowTaskInstance, Throwable>> builder = StateMachineBuilderFactory.create();
+        StateMachineBuilder<CarpWorkflowTaskInstanceState, CarpWorkflowTaskInstanceEvent, InternalWorkflowTaskInstanceStatusEventBuilder> builder = StateMachineBuilderFactory.create();
 
         builder.externalTransition()
                 .from(CarpWorkflowTaskInstanceState.PENDING)
@@ -79,26 +80,38 @@ public class InternalWorkflowTaskInstanceStateMachine implements InitializingBea
         this.stateMachine = builder.build(CONSUMER_GROUP);
     }
 
-    private Action<CarpWorkflowTaskInstanceState, CarpWorkflowTaskInstanceEvent, Triple<WorkflowStepInstance, WorkflowTaskInstance, Throwable>> doPerform() {
-        return (fromState, toState, eventEnum, triple) -> {
-            WorkflowTaskInstanceEventDTO eventDTO = new WorkflowTaskInstanceEventDTO(triple.getLeft(), triple.getMiddle(), fromState, toState, eventEnum, triple.getRight());
+    private Action<CarpWorkflowTaskInstanceState, CarpWorkflowTaskInstanceEvent, InternalWorkflowTaskInstanceStatusEventBuilder> doPerform() {
+        return (fromState, toState, eventEnum, builder) -> {
+            InternalWorkflowTaskInstanceStatusEvent eventDTO = builder.build(fromState, toState, eventEnum);
             publisher.publish(eventDTO);
         };
     }
 
     public void deploy(WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance) {
-        stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_DEPLOY, Triple.of(stepInstance, taskInstance, null));
+        InternalWorkflowTaskInstanceStatusEventBuilder builder =
+                (fromState, toState, eventEnum) ->
+                        new WorkflowTaskInstanceEventDTO(fromState, toState, eventEnum, stepInstance, taskInstance);
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_DEPLOY, builder);
     }
 
     public void shutdown(WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance) {
-        stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_SHUTDOWN, Triple.of(stepInstance, taskInstance, null));
+        InternalWorkflowTaskInstanceStatusEventBuilder builder =
+                (fromState, toState, eventEnum) ->
+                        new WorkflowTaskInstanceEventDTO(fromState, toState, eventEnum, stepInstance, taskInstance);
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_SHUTDOWN, builder);
     }
 
     public void onSuccess(WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance) {
-        stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.PROCESS_SUCCESS, Triple.of(stepInstance, taskInstance, null));
+        InternalWorkflowTaskInstanceStatusEventBuilder builder =
+                (fromState, toState, eventEnum) ->
+                        new WorkflowTaskInstanceEventDTO(fromState, toState, eventEnum, stepInstance, taskInstance);
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.PROCESS_SUCCESS, builder);
     }
 
     public void onFailure(WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance, Throwable throwable) {
-        stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.PROCESS_FAILURE, Triple.of(stepInstance, taskInstance, throwable));
+        InternalWorkflowTaskInstanceStatusEventBuilder builder =
+                (fromState, toState, eventEnum) ->
+                        new WorkflowTaskInstanceEventDTO(fromState, toState, eventEnum, stepInstance, taskInstance, throwable);
+        stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.PROCESS_FAILURE, builder);
     }
 }

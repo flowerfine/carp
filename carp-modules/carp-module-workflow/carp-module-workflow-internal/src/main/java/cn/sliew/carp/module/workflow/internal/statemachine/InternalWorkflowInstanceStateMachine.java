@@ -168,6 +168,7 @@ public class InternalWorkflowInstanceStateMachine implements InitializingBean {
     }
 
     public void onFailure(WorkflowInstance instance, Throwable throwable) {
+
         InternalWorkflowInstanceStatusEventBuilder builder =
                 (state, nextState, event) ->
                         new WorkflowInstanceEventDTO(state, nextState, event, instance, throwable);

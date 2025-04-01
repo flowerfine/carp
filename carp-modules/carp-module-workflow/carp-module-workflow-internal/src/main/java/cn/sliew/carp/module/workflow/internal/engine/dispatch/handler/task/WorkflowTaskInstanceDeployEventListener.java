@@ -19,7 +19,7 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.WorkflowTaskInstanceEventDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

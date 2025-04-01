@@ -23,12 +23,13 @@ import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
 import lombok.Getter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
 public class WorkflowInstanceEventDTO extends AbstractWorkflowInstanceEventDTO implements InternalWorkflowInstanceStatusEvent, Serializable {
-
-    private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = -3291102278852497834L;
 
     private final Throwable throwable;
 
@@ -38,11 +39,6 @@ public class WorkflowInstanceEventDTO extends AbstractWorkflowInstanceEventDTO i
 
     public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, WorkflowInstance source, Throwable throwable) {
         super(state, nextState, event, source);
-        this.throwable = throwable;
-    }
-
-    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, String namespace, String type, Long workflowInstanceId, Throwable throwable) {
-        super(state, nextState, event, namespace, type, workflowInstanceId);
         this.throwable = throwable;
     }
 }
