@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Component
-public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstanceEventListener {
+public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
 
     @Autowired
     private DagInstanceService dagInstanceService;
@@ -42,7 +42,7 @@ public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstan
     }
 
     @Override
-    protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
+    protected CompletableFuture<?> handleEventAsync(WorkflowInstanceEventDTO event) {
         return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowInstanceId(), event.getThrowable()));
     }
 

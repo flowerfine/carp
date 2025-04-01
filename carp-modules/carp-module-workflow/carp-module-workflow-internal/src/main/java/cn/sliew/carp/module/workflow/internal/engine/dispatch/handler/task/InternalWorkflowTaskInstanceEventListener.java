@@ -17,20 +17,11 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
-import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowTaskInstanceEventHandler;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowTaskInstanceStatusEvent;
 
-public interface WorkflowTaskInstanceEventListener extends WorkflowTaskInstanceEventHandler {
+public interface InternalWorkflowTaskInstanceEventListener<T extends InternalWorkflowTaskInstanceStatusEvent> extends WorkflowTaskInstanceEventHandler<T> {
 
     @Override
-    default void handle(WorkflowTaskInstanceStatusEvent event) {
-        if (event instanceof WorkflowTaskInstanceEventDTO eventDTO) {
-            handleInternal(eventDTO);
-            return;
-        }
-        throw new RuntimeException();
-    }
-
-    void handleInternal(WorkflowTaskInstanceEventDTO eventDTO);
+    void handle(T event);
 }

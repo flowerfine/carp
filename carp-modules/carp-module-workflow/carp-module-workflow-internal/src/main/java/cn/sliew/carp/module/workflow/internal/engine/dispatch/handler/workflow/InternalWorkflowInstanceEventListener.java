@@ -15,14 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.api.engine.dispatch.handler;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
+import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowInstanceEventHandler;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
 
-public interface WorkflowStepInstanceEventHandler<T extends WorkflowStepInstanceStatusEvent> {
+public interface InternalWorkflowInstanceEventListener<T extends InternalWorkflowInstanceStatusEvent> extends WorkflowInstanceEventHandler<T> {
 
-    CarpWorkflowStepInstanceEvent getType();
-
+    @Override
     void handle(T event);
 }

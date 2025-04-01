@@ -41,7 +41,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowStepInstanceEventListener implements StepBuilderAware {
+public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowStepInstanceEventListener<WorkflowStepInstanceEventDTO> implements StepBuilderAware {
 
     @Autowired
     private StageDefinitionBuilderFactory stageDefinitionBuilderFactory;
@@ -59,14 +59,8 @@ public class WorkflowStepInstanceDeployEventListener extends AbstractWorkflowSte
     }
 
     @Override
-    protected CompletableFuture handleEventAsync(WorkflowStepInstanceEventDTO event) {
-        CompletableFuture<?> future = CompletableFuture.runAsync(() -> run(event)).toCompletableFuture();
-        future.whenCompleteAsync((unused, throwable) -> {
-            if (throwable != null) {
-                onFailure(event.getStepId(), throwable);
-            }
-        });
-        return future;
+    protected CompletableFuture<?> handleEventAsync(WorkflowStepInstanceEventDTO event) {
+        return CompletableFuture.runAsync(() -> run(event)).toCompletableFuture();
     }
 
     private void run(WorkflowStepInstanceEventDTO event) {

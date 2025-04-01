@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Component
-public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTaskInstanceEventListener {
+public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTaskInstanceEventListener<WorkflowTaskInstanceEventDTO> {
 
     @Override
     public CarpWorkflowTaskInstanceEvent getType() {
@@ -39,7 +39,7 @@ public class WorkflowTaskInstanceFailureEventListener extends AbstractWorkflowTa
     }
 
     @Override
-    protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {
+    protected CompletableFuture<?> handleEventAsync(WorkflowTaskInstanceEventDTO event) {
         return CompletableFuture.runAsync(new FailureRunner(event.getStepId(), event.getTaskId(), event.getThrowable())).toCompletableFuture();
     }
 

@@ -17,7 +17,6 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 
-import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
@@ -27,7 +26,7 @@ import lombok.Getter;
 import java.io.Serializable;
 
 @Getter
-public class WorkflowTaskInstanceEventDTO implements WorkflowTaskInstanceStatusEvent, Serializable {
+public class WorkflowTaskInstanceEventDTO implements InternalWorkflowTaskInstanceStatusEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 

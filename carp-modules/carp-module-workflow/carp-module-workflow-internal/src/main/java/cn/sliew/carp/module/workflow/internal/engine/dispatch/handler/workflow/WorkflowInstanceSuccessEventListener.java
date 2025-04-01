@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 @Component
-public class WorkflowInstanceSuccessEventListener extends AbstractWorkflowInstanceEventListener {
+public class WorkflowInstanceSuccessEventListener extends AbstractWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
 
     @Autowired
     private DagInstanceService dagInstanceService;

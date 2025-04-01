@@ -50,6 +50,11 @@ public class InternalWorkflowInstanceStateMachine implements InitializingBean {
 
         builder.externalTransition()
                 .from(CarpWorkflowInstanceState.PENDING)
+                .to(CarpWorkflowInstanceState.PENDING)
+                .on(CarpWorkflowInstanceEvent.COMMAND_INIT)
+                .perform(doPerform());
+        builder.externalTransition()
+                .from(CarpWorkflowInstanceState.PENDING)
                 .to(CarpWorkflowInstanceState.RUNNING)
                 .on(CarpWorkflowInstanceEvent.COMMAND_DEPLOY)
                 .perform(doPerform());
@@ -115,6 +120,9 @@ public class InternalWorkflowInstanceStateMachine implements InitializingBean {
         };
     }
 
+    public void init(WorkflowInstance instance) {
+        stateMachine.fireEvent(CarpWorkflowInstanceState.PENDING, CarpWorkflowInstanceEvent.COMMAND_INIT, Pair.of(instance, null));
+    }
 
     public void deploy(WorkflowInstance instance) {
         stateMachine.fireEvent(CarpWorkflowInstanceState.of(instance.getStatus()), CarpWorkflowInstanceEvent.COMMAND_DEPLOY, Pair.of(instance, null));

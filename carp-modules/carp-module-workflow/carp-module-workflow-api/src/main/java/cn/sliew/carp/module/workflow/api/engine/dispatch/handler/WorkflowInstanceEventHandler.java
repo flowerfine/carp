@@ -20,9 +20,9 @@ package cn.sliew.carp.module.workflow.api.engine.dispatch.handler;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
 
-public interface WorkflowInstanceEventHandler {
+public interface WorkflowInstanceEventHandler<T extends WorkflowInstanceStatusEvent> {
 
     CarpWorkflowInstanceEvent getType();
 
-    void handle(WorkflowInstanceStatusEvent event);
+    void handle(T event);
 }

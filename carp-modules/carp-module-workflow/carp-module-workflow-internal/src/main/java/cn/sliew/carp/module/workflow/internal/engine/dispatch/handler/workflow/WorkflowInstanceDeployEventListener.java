@@ -40,7 +40,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanceEventListener {
+public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
 
     @Autowired
     private DagInstanceService dagInstanceService;
@@ -53,15 +53,8 @@ public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanc
     }
 
     @Override
-    protected CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event) {
-        CompletableFuture<?> future = CompletableFuture.runAsync(() -> run(event));
-        future.whenCompleteAsync((unused, throwable) -> {
-            if (throwable != null) {
-                log.error(throwable.getMessage(), throwable);
-                onFailure(event.getWorkflowInstanceId(), throwable);
-            }
-        });
-        return future;
+    protected CompletableFuture<?> handleEventAsync(WorkflowInstanceEventDTO event) {
+        return CompletableFuture.runAsync(() -> run(event));
     }
 
     private void run(WorkflowInstanceEventDTO event) {

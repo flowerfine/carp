@@ -20,6 +20,7 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagStepTaskService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowStepInstanceStateMachine;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
@@ -36,7 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public abstract class AbstractWorkflowTaskInstanceEventListener implements WorkflowTaskInstanceEventListener, InitializingBean, BeanFactoryAware {
+public abstract class AbstractWorkflowTaskInstanceEventListener<T extends InternalWorkflowTaskInstanceStatusEvent> implements InternalWorkflowTaskInstanceEventListener<T>, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;
@@ -66,9 +67,14 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
     }
 
     @Override
-    public void handleInternal(WorkflowTaskInstanceEventDTO event) {
+    public void handle(T event) {
         try {
-            handleEventAsync(event);
+            CompletableFuture<?> future = handleEventAsync(event);
+            future.whenCompleteAsync((unused, throwable) -> {
+                if (throwable != null) {
+                    onFailure(event.getStepId(), event.getTaskId(), throwable);
+                }
+            });
         } catch (Throwable throwable) {
             onFailure(event.getStepId(), event.getTaskId(), throwable);
         }
@@ -82,5 +88,5 @@ public abstract class AbstractWorkflowTaskInstanceEventListener implements Workf
                 throwable);
     }
 
-    protected abstract CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event);
+    protected abstract CompletableFuture<?> handleEventAsync(T event);
 }

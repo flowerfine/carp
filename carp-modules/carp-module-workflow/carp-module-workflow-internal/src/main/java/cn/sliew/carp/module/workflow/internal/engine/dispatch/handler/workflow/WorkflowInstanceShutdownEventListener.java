@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class WorkflowInstanceShutdownEventListener implements WorkflowInstanceEventListener {
+public class WorkflowInstanceShutdownEventListener implements InternalWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
 
     @Override
     public CarpWorkflowInstanceEvent getType() {
@@ -33,7 +33,8 @@ public class WorkflowInstanceShutdownEventListener implements WorkflowInstanceEv
     }
 
     @Override
-    public void handleInternal(WorkflowInstanceEventDTO event) {
+    public void handle(WorkflowInstanceEventDTO event) {
         log.info("on event, {}", JacksonUtil.toJsonString(event));
     }
+
 }

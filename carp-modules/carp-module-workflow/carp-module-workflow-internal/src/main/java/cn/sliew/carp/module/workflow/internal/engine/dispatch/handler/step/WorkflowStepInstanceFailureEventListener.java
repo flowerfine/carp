@@ -21,9 +21,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowStepInstanceEventDTO;
-import cn.sliew.carp.module.workflow.stage.model.graph.StageDefinitionBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -33,10 +31,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowStepInstanceFailureEventListener extends AbstractWorkflowStepInstanceEventListener implements StepBuilderAware {
-
-    @Autowired
-    private StageDefinitionBuilderFactory stageDefinitionBuilderFactory;
+public class WorkflowStepInstanceFailureEventListener extends AbstractWorkflowStepInstanceEventListener<WorkflowStepInstanceEventDTO> {
 
     @Override
     public CarpWorkflowStepInstanceEvent getType() {
@@ -44,19 +39,8 @@ public class WorkflowStepInstanceFailureEventListener extends AbstractWorkflowSt
     }
 
     @Override
-    public StageDefinitionBuilderFactory getStageDefinitionBuilderFactory() {
-        return stageDefinitionBuilderFactory;
-    }
-
-    @Override
-    protected CompletableFuture handleEventAsync(WorkflowStepInstanceEventDTO event) {
-        CompletableFuture<?> future = CompletableFuture.runAsync(new FailureRunner(event.getWorkflowInstanceId(), event.getStepId(), event.getThrowable())).toCompletableFuture();
-        future.whenCompleteAsync((unused, throwable) -> {
-            if (throwable != null) {
-                onFailure(event.getStepId(), throwable);
-            }
-        });
-        return future;
+    protected CompletableFuture<?> handleEventAsync(WorkflowStepInstanceEventDTO event) {
+        return CompletableFuture.runAsync(new FailureRunner(event.getWorkflowInstanceId(), event.getStepId(), event.getThrowable())).toCompletableFuture();
     }
 
     private class FailureRunner implements Runnable, Serializable {

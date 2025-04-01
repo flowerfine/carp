@@ -31,7 +31,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowStepInstanceTaskChangeEventListener extends AbstractWorkflowStepInstanceEventListener {
+public class WorkflowStepInstanceTaskChangeEventListener extends AbstractWorkflowStepInstanceEventListener<WorkflowStepInstanceEventDTO> {
 
     @Override
     public CarpWorkflowStepInstanceEvent getType() {
@@ -39,14 +39,8 @@ public class WorkflowStepInstanceTaskChangeEventListener extends AbstractWorkflo
     }
 
     @Override
-    protected CompletableFuture handleEventAsync(WorkflowStepInstanceEventDTO event) {
-        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> run(event));
-        future.whenComplete(((unused, throwable) -> {
-            if (throwable != null) {
-                onFailure(event.getWorkflowInstanceId(), throwable);
-            }
-        }));
-        return future;
+    protected CompletableFuture<?> handleEventAsync(WorkflowStepInstanceEventDTO event) {
+        return CompletableFuture.runAsync(() -> run(event));
     }
 
     private void run(WorkflowStepInstanceEventDTO event) {

@@ -19,7 +19,7 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RScheduledExecutorService;
@@ -31,10 +31,11 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public abstract class AbstractWorkflowInstanceEventListener implements WorkflowInstanceEventListener, InitializingBean, BeanFactoryAware {
+public abstract class AbstractWorkflowInstanceEventListener<T extends InternalWorkflowInstanceStatusEvent> implements InternalWorkflowInstanceEventListener<T>, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;
@@ -60,9 +61,14 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
     }
 
     @Override
-    public void handleInternal(WorkflowInstanceEventDTO event) {
+    public void handle(T event) {
         try {
-            handleEventAsync(event);
+            CompletableFuture<?> future = handleEventAsync(event);
+            future.whenCompleteAsync((unused, throwable) -> {
+                if (Objects.nonNull(throwable)) {
+                    onFailure(event.getWorkflowInstanceId(), throwable);
+                }
+            });
         } catch (Throwable throwable) {
             onFailure(event.getWorkflowInstanceId(), throwable);
         }
@@ -73,5 +79,5 @@ public abstract class AbstractWorkflowInstanceEventListener implements WorkflowI
         stateMachine.onFailure(workflowInstanceService.get(workflowInstanceId), throwable);
     }
 
-    protected abstract CompletableFuture handleEventAsync(WorkflowInstanceEventDTO event);
+    protected abstract CompletableFuture<?> handleEventAsync(T event);
 }

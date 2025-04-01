@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch;
 
+import cn.hutool.core.util.ClassUtil;
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.framework.pubsub.annotation.PubsubListener;
@@ -25,9 +26,11 @@ import cn.sliew.carp.framework.queue.kekio.Queue;
 import cn.sliew.carp.framework.queue.kekio.message.CommonMessage;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowStepInstanceEventDispatcher;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowStepInstanceEventHandler;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceEvent;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowStepInstanceStatusEvent;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.step.InternalWorkflowStepInstanceEventListener;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowStepInstanceStateMachine;
+import cn.sliew.milky.common.util.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -35,9 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -47,15 +48,15 @@ public class InternalWorkflowStepInstanceEventDispatcher implements WorkflowStep
     public static final String TOPIC = "TOPIC_CARP_INTERNAL_WORKFLOW_STEP_INSTANCE_EVENT";
 
     @Autowired(required = false)
-    private List<WorkflowStepInstanceEventHandler> handlers;
+    private List<InternalWorkflowStepInstanceEventListener> handlers;
 
-    private Map<CarpWorkflowStepInstanceEvent, WorkflowStepInstanceEventHandler> registry = new HashMap<>();
+    private Map<CarpWorkflowStepInstanceEvent, List<InternalWorkflowStepInstanceEventListener>> registry = new HashMap<>();
     private ThreadPoolTaskExecutor taskExecutor;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         if (CollectionUtils.isEmpty(handlers) == false) {
-            handlers.stream().forEach(handler -> registry.put(handler.getType(), handler));
+            handlers.stream().forEach(handler -> MapUtil.computeIfAbsent(registry, handler.getType(), k -> new ArrayList<>()).add(handler));
         }
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setMaxPoolSize(5);
@@ -87,8 +88,10 @@ public class InternalWorkflowStepInstanceEventDispatcher implements WorkflowStep
         if (message.getBody() != null) {
             SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
             Object messageBody = serDer.deserialize(message.getBody(), Object.class);
-            if (messageBody instanceof WorkflowStepInstanceStatusEvent eventDTO) {
+            if (messageBody instanceof InternalWorkflowStepInstanceStatusEvent eventDTO) {
                 dispatch(eventDTO);
+            } else {
+                throw new UnsupportedOperationException();
             }
         }
     }
@@ -99,8 +102,21 @@ public class InternalWorkflowStepInstanceEventDispatcher implements WorkflowStep
             throw new RuntimeException("unknown workflow step instance event: "
                     + event.getEvent().getLabel() + "[" + event.getEvent().getValue() + "]");
         }
-        WorkflowStepInstanceEventHandler handler = registry.get(event.getEvent());
-        CompletableFuture.runAsync(() -> handler.handle(event), taskExecutor)
+
+        List<InternalWorkflowStepInstanceEventListener> eventHandlers = registry.get(event.getEvent());
+        InternalWorkflowStepInstanceEventListener handler = eventHandlers.stream()
+                .filter(item -> {
+                    Class<?> typeArgument = ClassUtil.getTypeArgument(item.getClass());
+                    if (Objects.nonNull(typeArgument)) {
+                        return typeArgument.isAssignableFrom(event.getClass());
+                    } else {
+                        return false;
+                    }
+                })
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("unknown workflow step instance event: " + event.getClass().getSimpleName()));
+
+        CompletableFuture.runAsync(() -> handler.handle((InternalWorkflowStepInstanceStatusEvent) event), taskExecutor)
                 .whenComplete((unused, throwable) -> {
                     if (throwable != null) {
                         log.error("workflow step instance event dispatch failed", throwable);

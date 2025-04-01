@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 @Component
-public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTaskInstanceEventListener {
+public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTaskInstanceEventListener<WorkflowTaskInstanceEventDTO> {
 
     @Override
     public CarpWorkflowTaskInstanceEvent getType() {
@@ -38,7 +38,7 @@ public class WorkflowTaskInstanceSuccessEventListener extends AbstractWorkflowTa
     }
 
     @Override
-    protected CompletableFuture handleEventAsync(WorkflowTaskInstanceEventDTO event) {
+    protected CompletableFuture<?> handleEventAsync(WorkflowTaskInstanceEventDTO event) {
         return CompletableFuture.runAsync(new SuccessRunner(event.getStepId(), event.getTaskId())).toCompletableFuture();
     }
 

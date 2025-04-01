@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowTaskInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowTaskInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.InternalWorkflowTaskInstanceEventDispatcher;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowTaskInstanceStatusEvent;
 
 public class InternalWorkflowTaskInstanceEventPublisher implements WorkflowTaskInstanceEventPublisher {
 
@@ -34,7 +34,7 @@ public class InternalWorkflowTaskInstanceEventPublisher implements WorkflowTaskI
 
     @Override
     public void publish(WorkflowTaskInstanceStatusEvent event) {
-        if (event instanceof WorkflowTaskInstanceEventDTO eventDTO) {
+        if (event instanceof InternalWorkflowTaskInstanceStatusEvent eventDTO) {
             PubsubChannel channel = pubsubChannelFactory.get(InternalWorkflowTaskInstanceEventDispatcher.TOPIC);
             channel.push(eventDTO);
             return;

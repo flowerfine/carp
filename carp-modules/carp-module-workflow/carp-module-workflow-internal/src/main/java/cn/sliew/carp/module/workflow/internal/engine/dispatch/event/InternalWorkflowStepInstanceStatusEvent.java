@@ -15,22 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.step;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
 
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowStepInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowStepInstanceEventHandler;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowStepInstanceEventDTO;
 
-public interface WorkflowStepInstanceEventListener extends WorkflowStepInstanceEventHandler {
-
-    @Override
-    default void handle(WorkflowStepInstanceStatusEvent event) {
-        if (event instanceof WorkflowStepInstanceEventDTO eventDTO) {
-            handleInternal(eventDTO);
-            return;
-        }
-        throw new RuntimeException();
-    }
-
-    void handleInternal(WorkflowStepInstanceEventDTO eventDTO);
+public interface InternalWorkflowStepInstanceStatusEvent extends WorkflowStepInstanceStatusEvent {
 }

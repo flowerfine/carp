@@ -48,31 +48,8 @@ public class InternalWorkflowInstanceManager implements WorkflowInstanceManager 
 
     @Override
     public void deploy(Long id, JsonNode globalVariable) {
-        // 更新 dag_instance
-        DagInstanceDTO instanceDTO = new DagInstanceDTO();
-        instanceDTO.setId(id);
-        instanceDTO.setInputs(globalVariable);
-        instanceDTO.setStatus(CarpWorkflowInstanceState.PENDING.getValue());
-        dagInstanceService.update(instanceDTO);
 
-        // 更新 dag_step
-        List<DagStepDTO> steps = dagStepService.listSteps(id);
-        if (CollectionUtils.isEmpty(steps) == false) {
-            for (DagStepDTO dagStepDTO : steps) {
-                dagStepDTO.setStatus(CarpWorkflowStepInstanceState.PENDING.getValue());
-                dagStepService.update(dagStepDTO);
-            }
-        }
-        // 更新 dag_link
-        List<DagLinkDTO> links = dagLinkService.listLinks(id);
-        if (CollectionUtils.isEmpty(links) == false) {
-            for (DagLinkDTO dagLinkDTO : links) {
-                dagLinkDTO.setStatus(CarpWorkflowStepInstanceState.PENDING.getValue());
-                dagLinkService.update(dagLinkDTO);
-            }
-        }
-
-        stateMachine.deploy(get(id));
+        stateMachine.init(get(id));
     }
 
     @Override
