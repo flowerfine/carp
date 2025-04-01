@@ -19,7 +19,15 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.task;
 
 import cn.sliew.carp.framework.dag.service.dto.DagStepTaskDTO;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceEvent;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.InternalWorkflowTaskInstanceStatusEventBuilder;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.RunTaskDTO;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.WorkflowTaskInstanceEventDTO;
+import cn.sliew.carp.module.workflow.stage.model.resolver.TaskResolver;
+import cn.sliew.carp.module.workflow.stage.model.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -27,6 +35,9 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 public class DeployTaskEventListener extends AbstractTaskEventListener<WorkflowTaskInstanceEventDTO> {
+
+    @Autowired
+    private TaskResolver taskResolver;
 
     @Override
     public CarpWorkflowTaskInstanceEvent getType() {
@@ -45,11 +56,16 @@ public class DeployTaskEventListener extends AbstractTaskEventListener<WorkflowT
         dagStepTaskUpdateParam.setStartTime(new Date());
         dagStepTaskService.update(dagStepTaskUpdateParam);
 
-        // todo run task
+        WorkflowStepInstance stepInstance = workflowInstanceService.getStep(event.getStepId());
+        WorkflowTaskInstance taskInstance = workflowInstanceService.getTask(event.getTaskId());
 
-        // todo 处理运行结果。如果是 running，则延迟执行，如果是 success、failure 等结束，分发事件
-        // todo 如果是 redirect，则分发 redirect 事件，重新执行
+        InternalWorkflowTaskInstanceStatusEventBuilder builder =
+                (fromState, toState, eventEnum) ->
+                        new RunTaskDTO(fromState, toState, eventEnum, stepInstance, taskInstance, getTaskType(taskInstance));
+        stateMachine.run(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), builder);
+    }
 
-        stateMachine.onSuccess(workflowInstanceService.getStep(event.getStepId()), workflowInstanceService.getTask(event.getTaskId()));
+    private Class<? extends Task> getTaskType(WorkflowTaskInstance task) {
+        return taskResolver.getTaskClass(task.getImplementingClass());
     }
 }

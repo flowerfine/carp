@@ -50,9 +50,8 @@ public class InternalWorkflowInstanceStateMachine implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         StateMachineBuilder<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, InternalWorkflowInstanceStatusEventBuilder> builder = StateMachineBuilderFactory.create();
 
-        builder.externalTransition()
-                .from(CarpWorkflowInstanceState.PENDING)
-                .to(CarpWorkflowInstanceState.PENDING)
+        builder.internalTransition()
+                .within(CarpWorkflowInstanceState.PENDING)
                 .on(CarpWorkflowInstanceEvent.COMMAND_INIT)
                 .perform(doPerform());
         builder.externalTransition()

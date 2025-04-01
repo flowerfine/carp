@@ -188,7 +188,8 @@ public class RunTaskHandler2 extends AbstractWorkflowMessageHandler<Messages.Run
         }
 
 //        TaskResult result = task.execute(withMergedContext(stage));
-        TaskResult result = task.execute(stepInstance, taskModel);
+//        TaskResult result = task.execute(stepInstance, taskModel);
+        TaskResult result = task.execute(stepInstance, null);
         result = DagExecutionUtil.afterTask(taskExecutionInterceptors, stepInstance, task, result);
         return result;
     }

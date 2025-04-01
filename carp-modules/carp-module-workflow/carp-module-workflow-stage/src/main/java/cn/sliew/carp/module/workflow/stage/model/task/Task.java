@@ -19,8 +19,8 @@ package cn.sliew.carp.module.workflow.stage.model.task;
 
 import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -41,7 +41,7 @@ public interface Task extends CarpExtensionPoint {
      * @param task The running task execution
      * @return The result of this Task's execution
      */
-    TaskResult execute(WorkflowStepInstance step, TaskExecution task);
+    TaskResult execute(WorkflowStepInstance step, WorkflowTaskInstance task);
 
     /**
      * Behavior to be called on Task timeout.

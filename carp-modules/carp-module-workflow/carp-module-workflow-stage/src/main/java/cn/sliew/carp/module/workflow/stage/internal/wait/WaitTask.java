@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.module.workflow.stage.internal.wait;
 
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.stage.model.task.RetryableTask;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskResult;
 import cn.sliew.milky.common.util.JacksonUtil;
@@ -62,7 +62,7 @@ public class WaitTask implements RetryableTask {
     }
 
     @Override
-    public TaskResult execute(WorkflowStepInstance step, TaskExecution task) {
+    public TaskResult execute(WorkflowStepInstance step, WorkflowTaskInstance task) {
         WaitStepContext context =
                 JacksonUtil.toObject(JacksonUtil.toJsonNode(step.getContext()), WaitStepContext.class);
 

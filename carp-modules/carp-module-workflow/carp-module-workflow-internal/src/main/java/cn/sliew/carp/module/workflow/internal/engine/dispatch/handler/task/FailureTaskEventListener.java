@@ -23,10 +23,12 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowTaskInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.task.FailureTaskDTO;
+import cn.sliew.milky.common.exception.ThrowableTraceFormater;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -61,6 +63,9 @@ public class FailureTaskEventListener extends AbstractTaskEventListener<FailureT
             dagStepUpdateParam.setId(taskId);
             dagStepUpdateParam.setStatus(CarpWorkflowTaskInstanceState.FAILURE.getValue());
             dagStepUpdateParam.setEndTime(new Date());
+            if (throwable.isPresent()) {
+                dagStepUpdateParam.setTaskExceptionDetails(Map.of("exception", ThrowableTraceFormater.readStackTrace(throwable.get())));
+            }
             dagStepTaskService.update(dagStepUpdateParam);
 
             WorkflowStepInstance stepInstance = workflowInstanceService.getStep(stepId);

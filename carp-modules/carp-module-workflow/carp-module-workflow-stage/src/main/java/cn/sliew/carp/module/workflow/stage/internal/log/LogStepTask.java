@@ -18,8 +18,8 @@
 package cn.sliew.carp.module.workflow.stage.internal.log;
 
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
-import cn.sliew.carp.module.workflow.domain.instance.TaskExecution;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
+import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.stage.model.task.RetryableTask;
 import cn.sliew.carp.module.workflow.stage.model.task.SkippableTask;
 import cn.sliew.carp.module.workflow.stage.model.task.TaskResult;
@@ -44,7 +44,7 @@ public class LogStepTask implements RetryableTask, SkippableTask {
     }
 
     @Override
-    public TaskResult execute(WorkflowStepInstance step, TaskExecution task) {
+    public TaskResult execute(WorkflowStepInstance step, WorkflowTaskInstance task) {
         log.info("Workflow Step (namespace: {}, id: {}, stepId: {}, stepName: {}) log task: {} (taskId: {}-{}) execute, context: {}, currentTask: {}",
                 step.getNamespace(), step.getWorkflowInstance().getId(), step.getId(), step.getNode().getStepName(),
                 task.getName(), task.getId(), task.getTaskId(),

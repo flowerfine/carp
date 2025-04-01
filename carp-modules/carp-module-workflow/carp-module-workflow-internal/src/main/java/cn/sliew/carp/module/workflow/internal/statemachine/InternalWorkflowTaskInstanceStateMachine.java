@@ -62,6 +62,10 @@ public class InternalWorkflowTaskInstanceStateMachine implements InitializingBea
                 .on(CarpWorkflowTaskInstanceEvent.COMMAND_SHUTDOWN)
                 .perform(doPerform());
 
+        builder.internalTransition()
+                .within(CarpWorkflowTaskInstanceState.RUNNING)
+                .on(CarpWorkflowTaskInstanceEvent.COMMAND_RUN)
+                .perform(doPerform());
         builder.externalTransition()
                 .from(CarpWorkflowTaskInstanceState.RUNNING)
                 .to(CarpWorkflowTaskInstanceState.SUCCESS)
@@ -93,6 +97,10 @@ public class InternalWorkflowTaskInstanceStateMachine implements InitializingBea
                 (fromState, toState, eventEnum) ->
                         new WorkflowTaskInstanceEventDTO(fromState, toState, eventEnum, stepInstance, taskInstance);
         stateMachine.fireEvent(CarpWorkflowTaskInstanceState.of(taskInstance.getStatus()), CarpWorkflowTaskInstanceEvent.COMMAND_DEPLOY, builder);
+    }
+
+    public void run(CarpWorkflowTaskInstanceState state, InternalWorkflowTaskInstanceStatusEventBuilder builder) {
+        stateMachine.fireEvent(state, CarpWorkflowTaskInstanceEvent.COMMAND_RUN, builder);
     }
 
     public void shutdown(WorkflowStepInstance stepInstance, WorkflowTaskInstance taskInstance) {
