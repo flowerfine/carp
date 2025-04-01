@@ -26,7 +26,7 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.WorkflowInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutorManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -40,7 +40,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowInstanceDeployEventListener extends AbstractWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
+public class DeployWorkflowEventListener extends AbstractWorkflowEventListener<WorkflowInstanceEventDTO> {
 
     @Autowired
     private DagInstanceService dagInstanceService;

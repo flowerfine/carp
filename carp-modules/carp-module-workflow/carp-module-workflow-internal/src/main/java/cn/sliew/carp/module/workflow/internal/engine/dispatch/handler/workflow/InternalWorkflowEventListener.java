@@ -20,7 +20,7 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 import cn.sliew.carp.module.workflow.api.engine.dispatch.handler.WorkflowInstanceEventHandler;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
 
-public interface InternalWorkflowInstanceEventListener<T extends InternalWorkflowInstanceStatusEvent> extends WorkflowInstanceEventHandler<T> {
+public interface InternalWorkflowEventListener<T extends InternalWorkflowInstanceStatusEvent> extends WorkflowInstanceEventHandler<T> {
 
     @Override
     void handle(T event);

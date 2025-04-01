@@ -35,7 +35,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
-public abstract class AbstractWorkflowInstanceEventListener<T extends InternalWorkflowInstanceStatusEvent> implements InternalWorkflowInstanceEventListener<T>, InitializingBean, BeanFactoryAware {
+public abstract class AbstractWorkflowEventListener<T extends InternalWorkflowInstanceStatusEvent> implements InternalWorkflowEventListener<T>, InitializingBean, BeanFactoryAware {
 
     private BeanFactory beanFactory;
     protected RScheduledExecutorService executorService;

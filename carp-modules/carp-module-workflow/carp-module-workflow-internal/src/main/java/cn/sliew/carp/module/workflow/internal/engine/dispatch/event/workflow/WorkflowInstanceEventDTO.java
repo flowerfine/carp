@@ -15,39 +15,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.internal.engine.dispatch.event;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow;
 
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
 import lombok.Getter;
 
 import java.io.Serializable;
 
 @Getter
-public class WorkflowInstanceEventDTO implements InternalWorkflowInstanceStatusEvent, Serializable {
+public class WorkflowInstanceEventDTO extends AbstractWorkflowInstanceEventDTO implements InternalWorkflowInstanceStatusEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final String namespace;
-    private final String type;
-    private final Long workflowInstanceId;
-    private final CarpWorkflowInstanceState state;
-    private final CarpWorkflowInstanceState nextState;
-    private final CarpWorkflowInstanceEvent event;
     private final Throwable throwable;
 
-    public WorkflowInstanceEventDTO(WorkflowInstance workflowInstance, CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event) {
-        this(workflowInstance, state, nextState, event, null);
+    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, WorkflowInstance source) {
+        this(state, nextState, event, source, null);
     }
 
-    public WorkflowInstanceEventDTO(WorkflowInstance workflowInstance, CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, Throwable throwable) {
-        this.namespace = workflowInstance.getNamespace();
-        this.type = workflowInstance.getDefinition().getType();
-        this.workflowInstanceId = workflowInstance.getId();
-        this.state = state;
-        this.nextState = nextState;
-        this.event = event;
+    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, WorkflowInstance source, Throwable throwable) {
+        super(state, nextState, event, source);
+        this.throwable = throwable;
+    }
+
+    public WorkflowInstanceEventDTO(CarpWorkflowInstanceState state, CarpWorkflowInstanceState nextState, CarpWorkflowInstanceEvent event, String namespace, String type, Long workflowInstanceId, Throwable throwable) {
+        super(state, nextState, event, namespace, type, workflowInstanceId);
         this.throwable = throwable;
     }
 }

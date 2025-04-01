@@ -28,7 +28,7 @@ import cn.sliew.carp.module.workflow.api.engine.dispatch.WorkflowInstanceEventDi
 import cn.sliew.carp.module.workflow.api.engine.dispatch.event.WorkflowInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow.InternalWorkflowInstanceEventListener;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow.InternalWorkflowEventListener;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
 import cn.sliew.milky.common.util.MapUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +48,9 @@ public class InternalWorkflowInstanceEventDispatcher implements WorkflowInstance
     public static final String TOPIC = "TOPIC_CARP_INTERNAL_WORKFLOW_INSTANCE_EVENT";
 
     @Autowired(required = false)
-    private List<InternalWorkflowInstanceEventListener> handlers;
+    private List<InternalWorkflowEventListener> handlers;
 
-    private Map<CarpWorkflowInstanceEvent, List<InternalWorkflowInstanceEventListener>> registry = new HashMap<>();
+    private Map<CarpWorkflowInstanceEvent, List<InternalWorkflowEventListener>> registry = new HashMap<>();
     private ThreadPoolTaskExecutor taskExecutor;
 
     @Override
@@ -102,8 +102,8 @@ public class InternalWorkflowInstanceEventDispatcher implements WorkflowInstance
             throw new RuntimeException("unknown workflow instance event: "
                     + event.getEvent().getLabel() + "[" + event.getEvent().getValue() + "]");
         }
-        List<InternalWorkflowInstanceEventListener> eventHandlers = registry.get(event.getEvent());
-        InternalWorkflowInstanceEventListener handler = eventHandlers.stream()
+        List<InternalWorkflowEventListener> eventHandlers = registry.get(event.getEvent());
+        InternalWorkflowEventListener handler = eventHandlers.stream()
                 .filter(item -> {
                     Class<?> typeArgument = ClassUtil.getTypeArgument(item.getClass());
                     if (Objects.nonNull(typeArgument)) {

@@ -17,37 +17,23 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.WorkflowInstanceEventDTO;
+import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowInstanceInitEventListener extends AbstractWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
-
-    @Autowired
-    private DagInstanceService dagInstanceService;
+public class SuspendWorkflowEventListener implements InternalWorkflowEventListener<WorkflowInstanceEventDTO> {
 
     @Override
     public CarpWorkflowInstanceEvent getType() {
-        return CarpWorkflowInstanceEvent.COMMAND_INIT;
+        return CarpWorkflowInstanceEvent.COMMAND_SUSPEND;
     }
 
     @Override
-    protected CompletableFuture<?> handleEventAsync(WorkflowInstanceEventDTO event) {
-        return CompletableFuture.runAsync(() -> init(event));
+    public void handle(WorkflowInstanceEventDTO event) {
+        log.info("on event, {}", JacksonUtil.toJsonString(event));
     }
-
-    private void init(WorkflowInstanceEventDTO event) {
-
-        WorkflowInstance workflowInstance = workflowInstanceService.get(event.getWorkflowInstanceId());
-        stateMachine.deploy(workflowInstance);
-    }
-
 }

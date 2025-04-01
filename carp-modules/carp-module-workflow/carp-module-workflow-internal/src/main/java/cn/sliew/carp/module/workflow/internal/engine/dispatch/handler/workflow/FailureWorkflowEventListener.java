@@ -21,7 +21,7 @@ import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.WorkflowInstanceEventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Component
-public class WorkflowInstanceFailureEventListener extends AbstractWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
+public class FailureWorkflowEventListener extends AbstractWorkflowEventListener<WorkflowInstanceEventDTO> {
 
     @Autowired
     private DagInstanceService dagInstanceService;

@@ -17,39 +17,28 @@
  */
 package cn.sliew.carp.module.workflow.internal.manager;
 
-import cn.sliew.carp.framework.dag.service.DagInstanceService;
-import cn.sliew.carp.framework.dag.service.DagLinkService;
-import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
-import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
-import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
-import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
-import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.InitWorkflowDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.InternalWorkflowInstanceStatusEventBuilder;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
-import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
 
 @AllArgsConstructor
 public class InternalWorkflowInstanceManager implements WorkflowInstanceManager {
 
-    private DagInstanceService dagInstanceService;
-    private DagStepService dagStepService;
-    private DagLinkService dagLinkService;
     private WorkflowInstanceService workflowInstanceService;
     private InternalWorkflowInstanceStateMachine stateMachine;
 
     @Override
     public void deploy(Long id, JsonNode globalVariable) {
-
-        stateMachine.init(get(id));
+        WorkflowInstance workflowInstance = workflowInstanceService.get(id);
+        InternalWorkflowInstanceStatusEventBuilder builder =
+                (state, nextState, event) ->
+                        new InitWorkflowDTO(state, nextState, event, workflowInstance, globalVariable);
+        stateMachine.init(builder);
     }
 
     @Override

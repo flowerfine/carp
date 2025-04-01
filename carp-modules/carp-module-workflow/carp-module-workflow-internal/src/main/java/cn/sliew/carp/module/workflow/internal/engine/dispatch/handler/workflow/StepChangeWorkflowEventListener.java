@@ -25,7 +25,7 @@ import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.WorkflowInstanceEventDTO;
 import cn.sliew.carp.module.workflow.internal.executor.WorkflowInstanceExecutorManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-public class WorkflowInstanceStepChangeEventListener extends AbstractWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
+public class StepChangeWorkflowEventListener extends AbstractWorkflowEventListener<WorkflowInstanceEventDTO> {
 
     @Autowired
     private WorkflowInstanceExecutorManager workflowInstanceExecutorManager;

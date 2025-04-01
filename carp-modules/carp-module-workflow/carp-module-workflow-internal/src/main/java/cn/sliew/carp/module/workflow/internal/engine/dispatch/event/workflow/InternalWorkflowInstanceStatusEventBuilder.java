@@ -15,25 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
+package cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow;
 
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
-import cn.sliew.milky.common.util.JacksonUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
 
-@Slf4j
-@Component
-public class WorkflowInstanceResumeEventListener implements InternalWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
+@FunctionalInterface
+public interface InternalWorkflowInstanceStatusEventBuilder {
 
-    @Override
-    public CarpWorkflowInstanceEvent getType() {
-        return CarpWorkflowInstanceEvent.COMMAND_RESUME;
-    }
-
-    @Override
-    public void handle(WorkflowInstanceEventDTO event) {
-        log.info("on event, {}", JacksonUtil.toJsonString(event));
-    }
+    InternalWorkflowInstanceStatusEvent build(
+            CarpWorkflowInstanceState state,
+            CarpWorkflowInstanceState nextState,
+            CarpWorkflowInstanceEvent event);
 }

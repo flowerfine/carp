@@ -18,22 +18,23 @@
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
-import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.WorkflowInstanceEventDTO;
+import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.WorkflowInstanceEventDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class WorkflowInstanceSuspendEventListener implements InternalWorkflowInstanceEventListener<WorkflowInstanceEventDTO> {
+public class ShutdownWorkflowEventListener implements InternalWorkflowEventListener<WorkflowInstanceEventDTO> {
 
     @Override
     public CarpWorkflowInstanceEvent getType() {
-        return CarpWorkflowInstanceEvent.COMMAND_SUSPEND;
+        return CarpWorkflowInstanceEvent.COMMAND_SHUTDOWN;
     }
 
     @Override
     public void handle(WorkflowInstanceEventDTO event) {
         log.info("on event, {}", JacksonUtil.toJsonString(event));
     }
+
 }
