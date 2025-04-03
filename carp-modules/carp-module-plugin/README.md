@@ -15,3 +15,8 @@ plugin 模块，参考 [kork](https://github.com/spinnaker/kork) 项目。基于
   * 动态管理。上传、下载、启用、禁用插件
 * 插件注册为 spring bean
 * 插件自动更新
+
+## pf4j 介绍
+
+### `PluginManager`
+
