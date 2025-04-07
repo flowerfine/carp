@@ -117,7 +117,7 @@ public class CarpSecurityConfig {
             }
         }
         authorizeHttpRequests.requestMatchers(anonymousUrls.toArray(new String[0])).permitAll();
-        // 放行endpoint
+        // endpoint
         authorizeHttpRequests.requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll();
         // 静态资源
         authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/**/*.css", "/**/*.js", "/**/*.png",
