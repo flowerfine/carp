@@ -80,7 +80,7 @@ spring:
   devtools.remote.restart.enabled: false
 
 management:
-  endpoints.web.exposure.include: *
+  endpoints.web.exposure.include: "*"
 
 logging:
   level:
@@ -121,3 +121,12 @@ carp.framework:
     port: 8999
   queue.kekio:
     enabled: true
+    object-mapper:
+      messageSubtypeLocator:
+        rootTypeName: cn.sliew.carp.framework.queue.kekio.message.Message
+        searchPackages:
+          - cn.sliew.carp.framework.queue.kekio.message
+      attributeSubtypeLocator:
+        rootTypeName: cn.sliew.carp.framework.queue.kekio.message.Attribute
+        searchPackages:
+          - cn.sliew.carp.framework.queue.kekio.message

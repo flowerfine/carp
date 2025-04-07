@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model.task;
 
-import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
+import cn.sliew.carp.framework.pf4j.api.internal.CarpExtensionPoint;
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;

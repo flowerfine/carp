@@ -37,8 +37,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.pf4j</groupId>
-            <artifactId>pf4j</artifactId>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-pf4j-api</artifactId>
             <!-- !!! VERY IMPORTANT -->
             <scope>provided</scope>
         </dependency>

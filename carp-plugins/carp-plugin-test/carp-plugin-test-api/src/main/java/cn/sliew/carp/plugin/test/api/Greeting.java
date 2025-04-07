@@ -17,9 +17,9 @@
  */
 package cn.sliew.carp.plugin.test.api;
 
-import org.pf4j.ExtensionPoint;
+import cn.sliew.carp.framework.pf4j.api.internal.CarpExtensionPoint;
 
-public interface Greeting extends ExtensionPoint {
+public interface Greeting extends CarpExtensionPoint {
 
     String getGreeting();
 }

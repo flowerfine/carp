@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.workflow.stage.model;
 
-import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
+import cn.sliew.carp.framework.pf4j.api.internal.CarpExtensionPoint;
 import cn.sliew.carp.module.workflow.domain.param.WorkflowParam;
 
 import java.util.List;

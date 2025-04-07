@@ -17,29 +17,8 @@
  */
 package cn.sliew.carp.module.http.sync.job.config;
 
-import cn.sliew.carp.framework.feign.JacksonQueryMapEncoder;
-import feign.Capability;
-import feign.QueryMapEncoder;
-import feign.codec.Decoder;
-import feign.codec.Encoder;
-import feign.micrometer.MicrometerCapability;
-import feign.okhttp.OkHttpClient;
-import io.micrometer.core.instrument.MeterRegistry;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
-import org.springframework.cloud.openfeign.support.SpringDecoder;
-import org.springframework.cloud.openfeign.support.SpringEncoder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 @Configuration
 @EnableFeignClients(basePackages = {
@@ -47,43 +26,4 @@ import java.util.List;
 })
 public class HttpSyncFeignConfig {
 
-    @Autowired
-    private MappingJackson2HttpMessageConverter jacksonConverter;
-
-    @Bean
-    public OkHttpClient okHttpClient() {
-        return new OkHttpClient();
-    }
-
-    @Bean
-    public Capability capability(MeterRegistry registry) {
-        return new MicrometerCapability(registry);
-    }
-
-    @Bean
-    public QueryMapEncoder queryMapEncoder() {
-        return new JacksonQueryMapEncoder();
-    }
-
-    @Bean
-    public Encoder encoder() {
-        addAdditionalMediaType();
-        HttpMessageConverters httpMessageConverters = new HttpMessageConverters(jacksonConverter);
-        ObjectFactory<HttpMessageConverters> objectFactory = () -> httpMessageConverters;
-        return new SpringEncoder(objectFactory);
-    }
-
-    @Bean
-    public Decoder decoder() {
-        addAdditionalMediaType();
-        HttpMessageConverters httpMessageConverters = new HttpMessageConverters(jacksonConverter);
-        ObjectFactory<HttpMessageConverters> objectFactory = () -> httpMessageConverters;
-        return new ResponseEntityDecoder(new SpringDecoder(objectFactory));
-    }
-
-    private void addAdditionalMediaType() {
-        List<MediaType> supportedMediaTypes = new LinkedList<>(jacksonConverter.getSupportedMediaTypes());
-        supportedMediaTypes.addAll(Arrays.asList(MediaType.TEXT_HTML, MediaType.TEXT_PLAIN));
-        jacksonConverter.setSupportedMediaTypes(supportedMediaTypes);
-    }
 }

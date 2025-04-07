@@ -31,6 +31,10 @@
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-pf4j-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-common</artifactId>
         </dependency>
         <dependency>
@@ -50,16 +54,6 @@
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.pf4j</groupId>
-            <artifactId>pf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.pf4j</groupId>
-            <artifactId>pf4j-spring</artifactId>
-            <version>0.9.0</version>
         </dependency>
     </dependencies>
 </project>
