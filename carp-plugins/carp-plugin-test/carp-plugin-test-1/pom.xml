@@ -28,59 +28,8 @@
     </parent>
     <artifactId>carp-plugin-test-1</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-plugin-test-api</artifactId>
-            <!-- !!! VERY IMPORTANT -->
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-pf4j-api</artifactId>
-            <!-- !!! VERY IMPORTANT -->
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <resources>
-            <resource>
-                <!-- !!! VERY IMPORTANT -->
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-        <plugins>
-            <!-- !!! VERY IMPORTANT -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <!-- !!! VERY IMPORTANT -->
-                    <finalName>${project.artifactId}-${project.version}-all</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <attach>false</attach>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <properties>
+        <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
+        <plugin.class>cn.sliew.carp.plugin.test.HelloPlugin</plugin.class>
+    </properties>
 </project>

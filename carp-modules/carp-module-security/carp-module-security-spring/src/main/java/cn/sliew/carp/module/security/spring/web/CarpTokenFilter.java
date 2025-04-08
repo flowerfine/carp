@@ -19,13 +19,11 @@ package cn.sliew.carp.module.security.spring.web;
 
 import cn.sliew.carp.framework.common.security.CarpSecurityContext;
 import cn.sliew.carp.framework.common.security.OnlineUserInfo;
-import cn.sliew.carp.framework.common.util.KeyUtil;
 import cn.sliew.carp.framework.redis.RedissonUtil;
 import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.spring.authentication.CarpUserDetail;
 import cn.sliew.carp.module.security.spring.authentication.CarpUserDetailsServiceImpl;
-import cn.sliew.carp.module.security.spring.constant.SecurityConstants;
 import cn.sliew.carp.module.security.spring.util.SecurityUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

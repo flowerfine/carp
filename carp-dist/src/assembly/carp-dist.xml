@@ -84,8 +84,26 @@
         </fileSet>
 
         <!-- Test plugins -->
-        <!-- 通过数据库加载 -->
-
+        <fileSet>
+            <directory>../carp-plugins/carp-plugin-test/carp-plugin-test-1/target</directory>
+            <includes>
+                <!-- !!! VERY IMPORTANT -->
+                <include>*-all.jar</include>
+                <include>dependencies/*.jar</include>
+            </includes>
+            <outputDirectory>plugins</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>../carp-plugins/carp-plugin-test/carp-plugin-test-2/target</directory>
+            <includes>
+                <!-- !!! VERY IMPORTANT -->
+                <include>*-all.jar</include>
+                <include>dependencies/*.jar</include>
+            </includes>
+            <outputDirectory>plugins</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
     </fileSets>
 
     <dependencySets>

@@ -21,7 +21,6 @@ import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
-import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepContext;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstanceBody;
 import cn.sliew.milky.common.util.JacksonUtil;

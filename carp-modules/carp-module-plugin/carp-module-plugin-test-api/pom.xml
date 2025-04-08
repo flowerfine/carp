@@ -22,11 +22,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-plugin-test</artifactId>
+        <artifactId>carp-module-plugin</artifactId>
         <version>0.0.34</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-plugin-test-api</artifactId>
+    <artifactId>carp-module-plugin-test-api</artifactId>
 
     <dependencies>
         <dependency>

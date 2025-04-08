@@ -130,3 +130,8 @@ carp.framework:
         rootTypeName: cn.sliew.carp.framework.queue.kekio.message.Attribute
         searchPackages:
           - cn.sliew.carp.framework.queue.kekio.message
+  pf4j.plugins:
+    cn.sliew.carp-plugin-test-1:
+      enabled: true
+    cn.sliew.carp-plugin-test-2:
+      enabled: true

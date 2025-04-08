@@ -27,33 +27,11 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-plugin</artifactId>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-pf4j-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-web</artifactId>
-        </dependency>
+    <modules>
+        <module>carp-module-plugin-core</module>
+        <module>carp-module-plugin-test-api</module>
+    </modules>
 
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-plugin-test-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.auto.service</groupId>
-            <artifactId>auto-service</artifactId>
-        </dependency>
-    </dependencies>
 </project>

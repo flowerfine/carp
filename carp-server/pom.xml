@@ -70,7 +70,7 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-plugin</artifactId>
+            <artifactId>carp-module-plugin-core</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
