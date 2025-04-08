@@ -88,9 +88,10 @@ logging:
 #    org.springframework: debug
     com.corundumstudio.socketio: debug
     cn.sliew.carp:
-      framework.socketio: debug
+      framework:
+        socketio: debug
+        pf4j.core.config: debug
       module.security.core: info
-
 
 springdoc:
   swagger-ui:
@@ -133,5 +134,10 @@ carp.framework:
   pf4j.plugins:
     cn.sliew.carp-plugin-test-1:
       enabled: true
+      config:
+        name: carp-plugin-test-1-name
     cn.sliew.carp-plugin-test-2:
       enabled: true
+      welcome-namespace:
+        config:
+          value: carp-plugin-test-2-value

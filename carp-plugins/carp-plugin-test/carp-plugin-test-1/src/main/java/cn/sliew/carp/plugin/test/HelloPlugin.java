@@ -17,33 +17,43 @@
  */
 package cn.sliew.carp.plugin.test;
 
+import cn.sliew.carp.framework.pf4j.api.PluginSdks;
 import cn.sliew.carp.plugin.test.api.DemoPlugin;
 import cn.sliew.carp.plugin.test.api.Greeting;
+import lombok.RequiredArgsConstructor;
 import org.pf4j.Extension;
 import org.pf4j.PluginWrapper;
 
 public class HelloPlugin extends DemoPlugin {
 
-    public HelloPlugin(PluginWrapper wrapper) {
+    private PluginSdks pluginSdks;
+    private HelloPluginProperties properties;
+
+    public HelloPlugin(PluginWrapper wrapper, PluginSdks pluginSdks, HelloPluginProperties properties) {
         super(wrapper);
+        this.pluginSdks = pluginSdks;
+        this.properties = properties;
     }
 
     @Override
     public void start() {
-        log.info("HelloPlugin.start()");
+        log.info("HelloPlugin.start(), name: {}", properties.getName());
     }
 
     @Override
     public void stop() {
-        log.info("HelloPlugin.stop()");
+        log.info("HelloPlugin.stop(), name: {}", properties.getName());
     }
 
     @Extension(ordinal = 1)
+    @RequiredArgsConstructor
     public static class HelloGreeting implements Greeting {
+
+        private final HelloPluginProperties properties;
 
         @Override
         public String getGreeting() {
-            return "Hello";
+            return "Hello, " + properties.getName();
         }
     }
 }

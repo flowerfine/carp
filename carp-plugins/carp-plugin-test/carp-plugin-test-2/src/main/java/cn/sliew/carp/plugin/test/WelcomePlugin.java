@@ -17,33 +17,43 @@
  */
 package cn.sliew.carp.plugin.test;
 
+import cn.sliew.carp.framework.pf4j.api.PluginSdks;
 import cn.sliew.carp.plugin.test.api.DemoPlugin;
 import cn.sliew.carp.plugin.test.api.Greeting;
+import lombok.RequiredArgsConstructor;
 import org.pf4j.Extension;
 import org.pf4j.PluginWrapper;
 
 public class WelcomePlugin extends DemoPlugin {
 
-    public WelcomePlugin(PluginWrapper wrapper) {
+    private PluginSdks pluginSdks;
+    private WelcomePluginWithNamespaceProperties properties;
+
+    public WelcomePlugin(PluginWrapper wrapper, PluginSdks pluginSdks, WelcomePluginWithNamespaceProperties properties) {
         super(wrapper);
+        this.pluginSdks = pluginSdks;
+        this.properties = properties;
     }
 
     @Override
     public void start() {
-        log.info("WelcomePlugin.start()");
+        log.info("WelcomePlugin.start(), value: {}", properties.getValue());
     }
 
     @Override
     public void stop() {
-        log.info("WelcomePlugin.stop()");
+        log.info("WelcomePlugin.stop(), value: {}", properties.getValue());
     }
 
     @Extension
+    @RequiredArgsConstructor
     public static class WelcomeGreeting implements Greeting {
+
+        private final WelcomePluginWithNamespaceProperties properties;
 
         @Override
         public String getGreeting() {
-            return "Welcome";
+            return "Welcome, " + properties.getValue();
         }
 
     }
