@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WelcomeService {
 
+    // 自动注入
     private final WelcomePluginWithNamespaceProperties properties;
 
     public String getGreeting() {

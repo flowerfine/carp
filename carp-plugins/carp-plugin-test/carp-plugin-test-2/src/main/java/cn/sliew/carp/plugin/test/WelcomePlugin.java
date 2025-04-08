@@ -46,10 +46,9 @@ public class WelcomePlugin extends DemoPlugin {
 
     /**
      * 如果添加 @Extension 注解，pf4j 的 ExtensionFactory 会生成这个实例。
-     * 无论添不添加 @Extension，都会因为 CarpExtensionPoint
+     * 无论添不添加 @Extension，都会因为 CarpExtensionPoint 被实例化，注册到 spring 中。
+     * 这里不添加 @Extension 注解，避免 pf4j 的 ExtensionFactory 生成这个实例
      */
-    // 不可添加 @Extension 注解，避免 pf4j 的 ExtensionFactory 生成这个实例
-//    @Extension
     @RequiredArgsConstructor
     public static class WelcomeGreeting implements Greeting {
 
