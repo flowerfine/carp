@@ -29,7 +29,7 @@
     <artifactId>carp-plugin-test-2</artifactId>
 
     <properties>
-        <plugin.id>plugin-test-2</plugin.id>
+        <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
         <plugin.class>cn.sliew.carp.plugin.test.WelcomePlugin</plugin.class>
     </properties>
 </project>
