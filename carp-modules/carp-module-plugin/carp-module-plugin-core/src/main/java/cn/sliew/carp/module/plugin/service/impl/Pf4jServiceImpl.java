@@ -48,6 +48,8 @@ public class Pf4jServiceImpl implements Pf4jService {
     private PluginManager pluginManager;
     @Autowired
     private List<RemotePluginRepository> repositories;
+    @Autowired(required = false)
+    private List<Greeting> greetings;
 
     @Override
     public List<PluginRepositoryInfo> listRemoteRepository() {
@@ -133,6 +135,15 @@ public class Pf4jServiceImpl implements Pf4jService {
         List<Greeting> extensions = getExtensions(Greeting.class);
         for (Greeting greeting : extensions) {
             log.info("   {}", greeting.getGreeting());
+        }
+    }
+
+    @Override
+    public void testSpringExtension() {
+        if (CollectionUtils.isEmpty(greetings) == false) {
+            for (Greeting greeting : greetings) {
+                log.info("   {}", greeting.getGreeting());
+            }
         }
     }
 }

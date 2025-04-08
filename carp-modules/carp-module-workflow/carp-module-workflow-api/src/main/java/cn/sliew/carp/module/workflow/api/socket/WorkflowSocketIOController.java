@@ -30,7 +30,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CarpSocketIoNamespace("/workflow")
+@CarpSocketIoNamespace(namespace = "/workflow")
 public class WorkflowSocketIOController implements CarpConnectionListener {
 
     @Getter

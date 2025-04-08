@@ -49,7 +49,7 @@ public class HelloPlugin extends DemoPlugin {
     @RequiredArgsConstructor
     public static class HelloGreeting implements Greeting {
 
-        private final HelloPluginProperties properties;
+        private final HelloExtensionProperties properties;
 
         @Override
         public String getGreeting() {

@@ -54,4 +54,6 @@ public interface Pf4jService {
     <EP> List<EP> getExtensions(Class<EP> clazz, String pluginId);
 
     void testExtension();
+
+    void testSpringExtension();
 }

@@ -63,8 +63,14 @@ public class Pf4jController {
     }
 
     @GetMapping("test")
-    @Operation(summary = "测试一下", description = "测试一下")
+    @Operation(summary = "测试 Extension", description = "测试 Extension")
     public void test() {
         pf4jService.testExtension();
+    }
+
+    @GetMapping("testSpring")
+    @Operation(summary = "测试 SpringExtension", description = "测试 SpringExtension")
+    public void testSpring() {
+        pf4jService.testSpringExtension();
     }
 }

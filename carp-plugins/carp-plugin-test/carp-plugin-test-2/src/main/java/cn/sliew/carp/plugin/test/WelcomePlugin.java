@@ -21,7 +21,6 @@ import cn.sliew.carp.framework.pf4j.api.PluginSdks;
 import cn.sliew.carp.plugin.test.api.DemoPlugin;
 import cn.sliew.carp.plugin.test.api.Greeting;
 import lombok.RequiredArgsConstructor;
-import org.pf4j.Extension;
 import org.pf4j.PluginWrapper;
 
 public class WelcomePlugin extends DemoPlugin {
@@ -45,15 +44,21 @@ public class WelcomePlugin extends DemoPlugin {
         log.info("WelcomePlugin.stop(), value: {}", properties.getValue());
     }
 
-    @Extension
+    /**
+     * 如果添加 @Extension 注解，pf4j 的 ExtensionFactory 会生成这个实例。
+     * 无论添不添加 @Extension，都会因为 CarpExtensionPoint
+     */
+    // 不可添加 @Extension 注解，避免 pf4j 的 ExtensionFactory 生成这个实例
+//    @Extension
     @RequiredArgsConstructor
     public static class WelcomeGreeting implements Greeting {
 
-        private final WelcomePluginWithNamespaceProperties properties;
+        // 自动注入
+        private final WelcomeService welcomeService;
 
         @Override
         public String getGreeting() {
-            return "Welcome, " + properties.getValue();
+            return welcomeService.getGreeting();
         }
 
     }

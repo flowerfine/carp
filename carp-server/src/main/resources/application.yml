@@ -136,6 +136,9 @@ carp.framework:
       enabled: true
       config:
         name: carp-plugin-test-1-name
+      extensions:
+        config:
+          name: carp-plugin-test-1-extension-name
     cn.sliew.carp-plugin-test-2:
       enabled: true
       welcome-namespace:
