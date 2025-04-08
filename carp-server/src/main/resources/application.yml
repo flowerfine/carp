@@ -90,8 +90,8 @@ logging:
     cn.sliew.carp:
       framework:
         socketio: debug
-        pf4j.core.config: debug
-      module.security.core: info
+      module:
+        security.core: info
 
 springdoc:
   swagger-ui:
