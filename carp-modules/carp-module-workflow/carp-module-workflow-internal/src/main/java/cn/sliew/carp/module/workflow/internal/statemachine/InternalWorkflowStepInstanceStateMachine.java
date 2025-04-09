@@ -120,6 +120,7 @@ public class InternalWorkflowStepInstanceStateMachine implements InitializingBea
                 .perform(doPerform());
 
         this.stateMachine = builder.build(CONSUMER_GROUP);
+        log.debug("Cola StateMachine: {}\n{}", stateMachine.getMachineId(), stateMachine.accept(new DAGMermaidVisitor()));
     }
 
     private Action<CarpWorkflowStepInstanceState, CarpWorkflowStepInstanceEvent, InternalWorkflowStepInstanceStatusEventBuilder> doPerform() {
