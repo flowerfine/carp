@@ -28,8 +28,6 @@ package cn.sliew.carp.module.workflow.stage.model.task;
  * via property
  *
  * <p>tasks.dummySkippableTask.enabled
- *
- * @see {@code StartTaskHandler}
  */
 public interface SkippableTask extends Task {
 
