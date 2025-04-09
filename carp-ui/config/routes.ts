@@ -246,12 +246,6 @@ export default [
           {
             path: '/workspace/serverless-workflow/instance/detail',
             component: './Workspace/ServerlessWorkflow/Instance/Detail',
-          },
-          {
-            path: '/workspace/serverless-workflow/flowchart',
-            name: 'flowchart',
-            icon: 'profile',
-            component: './Workspace/ServerlessWorkflow/FlowChart',
           }
         ]
       },
