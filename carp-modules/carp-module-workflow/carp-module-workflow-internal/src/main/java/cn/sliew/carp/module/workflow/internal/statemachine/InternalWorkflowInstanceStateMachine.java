@@ -27,6 +27,7 @@ import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.Int
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.workflow.WorkflowInstanceEventDTO;
 import com.alibaba.cola.statemachine.Action;
 import com.alibaba.cola.statemachine.StateMachine;
+import com.alibaba.cola.statemachine.StateMachineFactory;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilder;
 import com.alibaba.cola.statemachine.builder.StateMachineBuilderFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -112,6 +113,7 @@ public class InternalWorkflowInstanceStateMachine implements InitializingBean {
                 .perform(doPerform());
 
         this.stateMachine = builder.build(CONSUMER_GROUP);
+        StateMachineFactory.register(stateMachine);
     }
 
     private Action<CarpWorkflowInstanceState, CarpWorkflowInstanceEvent, InternalWorkflowInstanceStatusEventBuilder> doPerform() {
