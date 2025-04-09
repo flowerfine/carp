@@ -19,11 +19,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>cn.sliew</groupId>
-        <artifactId>carp-spring-boot-parent</artifactId>
-        <version>0.0.67</version>
-    </parent>
     <groupId>cn.sliew</groupId>
     <artifactId>carp</artifactId>
     <version>${revision}</version>
@@ -114,6 +109,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>cn.sliew</groupId>
+                <artifactId>carp-dependencies</artifactId>
+                <version>0.0.67</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-alert</artifactId>
@@ -343,7 +345,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
-                <version>${flatten-maven-plugin.version}</version>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
                     <flattenMode>resolveCiFriendliesOnly</flattenMode>
