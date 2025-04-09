@@ -5,6 +5,8 @@ import {PageContainer} from "@ant-design/pro-components";
 import {history, useIntl, useLocation} from "@umijs/max";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
 import WorkspaceServerlessWorkflowInstanceDetailDagWeb from "@/pages/Workspace/ServerlessWorkflow/Instance/Detail/Dag";
+import WorkspaceServerlessWorkflowInstanceDetailMermaidWeb
+  from "@/pages/Workspace/ServerlessWorkflow/Instance/Detail/Mermaid";
 
 const WorkspaceServerlessWorkflowInstanceDetailWeb: React.FC = () => {
   const intl = useIntl();
@@ -30,6 +32,8 @@ const WorkspaceServerlessWorkflowInstanceDetailWeb: React.FC = () => {
   const renderChild = () => {
     if (tabKey === 'canvas') {
       return <WorkspaceServerlessWorkflowInstanceDetailDagWeb/>
+    } else if (tabKey === 'mermaid') {
+      return <WorkspaceServerlessWorkflowInstanceDetailMermaidWeb/>
     } else if (tabKey === 'input&output') {
       return <div>input&output tab</div>
     }
@@ -61,7 +65,10 @@ const WorkspaceServerlessWorkflowInstanceDetailWeb: React.FC = () => {
           >
             {intl.formatMessage({id: 'pages.workspace.workflow.instance.detail.buttton.refresh'})}
           </Button>,
-          <Dropdown.Button menu={{items: items, onClick: () => {}}}>
+          <Dropdown.Button menu={{
+            items: items, onClick: () => {
+            }
+          }}>
             {intl.formatMessage({id: 'pages.workspace.workflow.instance.detail.buttton.actions'})}
           </Dropdown.Button>
         ]
@@ -69,7 +76,11 @@ const WorkspaceServerlessWorkflowInstanceDetailWeb: React.FC = () => {
       tabList={[
         {
           key: 'canvas',
-          tab: intl.formatMessage({ id: 'pages.workspace.workflow.instance.detail.tab.canvas' }),
+          tab: intl.formatMessage({id: 'pages.workspace.workflow.instance.detail.tab.canvas'}),
+        },
+        {
+          key: 'mermaid',
+          tab: intl.formatMessage({id: 'pages.workspace.workflow.instance.detail.tab.mermaid'}),
         },
         {
           key: 'input&output',

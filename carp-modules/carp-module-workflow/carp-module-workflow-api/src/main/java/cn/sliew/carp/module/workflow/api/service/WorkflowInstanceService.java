@@ -36,7 +36,11 @@ public interface WorkflowInstanceService {
 
     WorkflowInstance getGraph(Long workflowInstanceId);
 
-    X6GraphDTO getX6Graph(Long workflowInstanceId);
+    X6GraphDTO toX6Graph(Long workflowInstanceId);
+
+    String toPlantUML(Long workflowInstanceId);
+
+    String toMermaid(Long workflowInstanceId);
 
     WorkflowStepInstance getStep(Long workflowStepInstanceId);
 

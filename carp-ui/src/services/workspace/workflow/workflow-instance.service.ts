@@ -26,8 +26,20 @@ export const WorkflowInstanceService = {
     });
   },
 
-  getGraph: async (id: number) => {
-    return request<ResponseBody<X6API.Graph>>(`${WorkflowInstanceService.url}/${id}/graph`, {
+  toX6Graph: async (id: number) => {
+    return request<ResponseBody<X6API.Graph>>(`${WorkflowInstanceService.url}/${id}/x6graph`, {
+      method: 'GET'
+    });
+  },
+
+  toPlantUML: async (id: number) => {
+    return request<ResponseBody<String>>(`${WorkflowInstanceService.url}/${id}/plantuml`, {
+      method: 'GET'
+    });
+  },
+
+  toMermaid: async (id: number) => {
+    return request<ResponseBody<String>>(`${WorkflowInstanceService.url}/${id}/mermaid`, {
       method: 'GET'
     });
   },

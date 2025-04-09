@@ -18,14 +18,28 @@
 package cn.sliew.carp.module.workflow.domain.definition;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.framework.dag.algorithm.DagNode;
 import cn.sliew.carp.module.workflow.domain.param.WorkflowStepInputParam;
 import cn.sliew.carp.module.workflow.domain.param.WorkflowStepOutputParam;
+import jakarta.annotation.Nonnull;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class WorkflowDefinitionGraphNode extends BaseDTO {
+public class WorkflowDefinitionGraphNode extends BaseDTO implements DagNode {
+
+    @Nonnull
+    @Override
+    public String getKey() {
+        return getStepId();
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return getStepName();
+    }
 
     private String namespace;
 

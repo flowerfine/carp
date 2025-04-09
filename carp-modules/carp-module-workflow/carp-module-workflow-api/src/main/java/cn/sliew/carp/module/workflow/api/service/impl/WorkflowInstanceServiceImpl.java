@@ -100,7 +100,7 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
     }
 
     @Override
-    public X6GraphDTO getX6Graph(Long workflowInstanceId) {
+    public X6GraphDTO toX6Graph(Long workflowInstanceId) {
         WorkflowInstance dto = getGraph(workflowInstanceId);
         WorkflowExecutionGraph graph = dto.getGraph();
 
@@ -156,6 +156,16 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
                 .edges(edges)
                 .nodes(nodes)
                 .build();
+    }
+
+    @Override
+    public String toPlantUML(Long workflowInstanceId) {
+        return dagInstanceComplexService.toPlantUML(workflowInstanceId);
+    }
+
+    @Override
+    public String toMermaid(Long workflowInstanceId) {
+        return dagInstanceComplexService.toMermaid(workflowInstanceId);
     }
 
     @Override

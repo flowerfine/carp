@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.workflow.domain.instance;
 
 import cn.sliew.carp.framework.common.model.BaseBuilderDTO;
+import cn.sliew.carp.framework.dag.algorithm.DagNode;
 import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinitionGraphNode;
 import jakarta.annotation.Nonnull;
 import lombok.*;
@@ -34,7 +35,19 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
-public class WorkflowStepInstance extends BaseBuilderDTO {
+public class WorkflowStepInstance extends BaseBuilderDTO implements DagNode {
+
+    @Nonnull
+    @Override
+    public String getKey() {
+        return getNode().getKey();
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return getNode().getName();
+    }
 
     private String namespace;
 

@@ -9,7 +9,7 @@ const InitNode: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>
 
   useEffect(() => {
     if (graph) {
-      WorkflowDefinitionService.getGraph(data?.id).then(response => {
+      WorkflowDefinitionService.toX6Graph(data?.id).then(response => {
         if (response.success && response.data) {
           if (response.data.nodes) {
             graph.addNodes(response.data.nodes);

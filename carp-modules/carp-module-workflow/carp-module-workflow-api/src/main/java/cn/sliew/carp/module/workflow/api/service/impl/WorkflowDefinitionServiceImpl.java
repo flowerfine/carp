@@ -85,7 +85,7 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
     }
 
     @Override
-    public X6GraphDTO getGraph(Long id) {
+    public X6GraphDTO toX6Graph(Long id) {
         WorkflowDefinition dto = getWithGraph(id);
         WorkflowDefinitionGraph graph = dto.getGraph();
         // 重写了一下 shape
@@ -111,6 +111,16 @@ public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService 
                 .edges(edges)
                 .nodes(nodes)
                 .build();
+    }
+
+    @Override
+    public String toPlantUML(Long id) {
+        return dagConfigComplexService.toPlantUML(id);
+    }
+
+    @Override
+    public String toMermaid(Long id) {
+        return dagConfigComplexService.toMermaid(id);
     }
 
     @Override

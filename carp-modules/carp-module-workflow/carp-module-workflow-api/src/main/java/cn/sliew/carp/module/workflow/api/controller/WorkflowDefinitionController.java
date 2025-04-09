@@ -59,10 +59,22 @@ public class WorkflowDefinitionController {
         return workflowDefinitionService.get(id);
     }
 
-    @GetMapping("{id}/graph")
-    @Operation(summary = "查询详情-图", description = "查询详情-图")
-    public X6GraphDTO getGraph(@PathVariable("id") Long id) {
-        return workflowDefinitionService.getGraph(id);
+    @GetMapping("{id}/x6graph")
+    @Operation(summary = "查询详情-X6图", description = "查询详情-X6图")
+    public X6GraphDTO toX6Graph(@PathVariable("id") Long id) {
+        return workflowDefinitionService.toX6Graph(id);
+    }
+
+    @GetMapping("{id}/plantuml")
+    @Operation(summary = "查询详情-PlantUML", description = "查询详情-PlantUML")
+    public String toPlantUML(@PathVariable("id") Long id) {
+        return workflowDefinitionService.toPlantUML(id);
+    }
+
+    @GetMapping("{id}/mermaid")
+    @Operation(summary = "查询详情-Mermaid", description = "查询详情-Mermaid")
+    public String toMermaid(@PathVariable("id") Long id) {
+        return workflowDefinitionService.toMermaid(id);
     }
 
     @PostMapping("updateName")

@@ -54,4 +54,5 @@ export default {
   'pages.workspace.workflow.instance.detail.buttton.refresh': '刷新',
   'pages.workspace.workflow.instance.detail.buttton.actions': '操作',
   'pages.workspace.workflow.instance.detail.tab.canvas': 'Canvas',
+  'pages.workspace.workflow.instance.detail.tab.mermaid': 'Mermaid',
 }

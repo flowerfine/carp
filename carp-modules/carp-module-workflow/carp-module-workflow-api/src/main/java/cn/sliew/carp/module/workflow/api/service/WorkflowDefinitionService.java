@@ -31,7 +31,11 @@ public interface WorkflowDefinitionService {
 
     WorkflowDefinition getWithGraph(Long id);
 
-    X6GraphDTO getGraph(Long id);
+    X6GraphDTO toX6Graph(Long id);
+
+    String toPlantUML(Long id);
+
+    String toMermaid(Long id);
 
     void updateName(WorkflowUpdateNameParam param);
 
