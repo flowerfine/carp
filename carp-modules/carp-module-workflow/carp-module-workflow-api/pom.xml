@@ -37,6 +37,10 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-socketio</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-log-realtime</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

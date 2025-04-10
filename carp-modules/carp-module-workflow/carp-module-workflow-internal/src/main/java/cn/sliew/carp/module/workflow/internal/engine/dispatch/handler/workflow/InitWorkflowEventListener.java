@@ -17,12 +17,14 @@
  */
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
+import cn.sliew.carp.framework.common.util.KeyUtil;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.DagLinkService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.module.workflow.api.util.WorkflowUtil;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceEvent;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowInstanceState;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
@@ -60,6 +62,8 @@ public class InitWorkflowEventListener extends AbstractWorkflowEventListener<Ini
     }
 
     private void init(InitWorkflowDTO event) {
+        String streamKey = WorkflowUtil.buildWorkflowInstanceLogsKey(event.getWorkflowInstanceId());
+        streamLogService.info(streamKey, log, "Init workflow instance, workflowInstanceId: {}", event.getWorkflowInstanceId());
         // 更新 dag_instance
         DagInstanceDTO instanceDTO = new DagInstanceDTO();
         instanceDTO.setId(event.getWorkflowInstanceId());

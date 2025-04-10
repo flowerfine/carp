@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
+import cn.sliew.carp.framework.log.realtime.service.StreamLogService;
 import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
@@ -48,6 +49,8 @@ public abstract class AbstractWorkflowEventListener<T extends InternalWorkflowIn
     protected InternalWorkflowInstanceStateMachine stateMachine;
     @Autowired
     private RedissonClient redissonClient;
+    @Autowired
+    protected StreamLogService streamLogService;
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {

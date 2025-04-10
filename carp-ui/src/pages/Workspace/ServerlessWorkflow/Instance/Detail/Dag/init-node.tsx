@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useModel} from "@umijs/max";
-import {useGraphInstance} from "@antv/xflow";
+import {Cell, useGraphInstance} from "@antv/xflow";
 import {ModalFormProps} from "@/typings";
 import {WorkflowSocketCreator} from "@/sockets/socket";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
@@ -16,58 +16,69 @@ const InitNode: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowInstance>> 
   useEffect(() => {
     socket.on("connect", () => {
       setIsConnected(true);
-      console.log('socket on connect')
-      socket.emitWithAck("customEvent", {
-        "id": "1"
-      }).then((response) => {
-        console.log('socket on customEvent', response)
+      socket.emitWithAck("readLogs", {
+        "workflowInstanceId": data?.id
+      })
+      socket.emitWithAck("readEvents", {
+        "workflowInstanceId": data?.id
       })
     });
 
     socket.on("disconnect", (reason, details) => {
       setIsConnected(false);
-      console.log('socket on disconnect', reason, details)
     });
 
-    socket.on("info", (value) => {
-      console.log('socket on info', value)
+    socket.on("pushLogs", (value) => {
+      console.log('socket on pushLogs', value)
+    });
+
+    socket.on("pushEvents", (value) => {
+      console.log('socket on pushEvents', value)
+      resetGraph();
     });
 
     return () => {
       socket.off("connect");
       socket.off("disconnect");
-      socket.off("info");
+      socket.off("pushLogs");
+      socket.off("pushEvents");
     };
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
       if (!isConnected) {
-        console.log('socket on connect')
         connectSocket()
       }
     }, 5000)
   }, []);
 
   useEffect(() => {
+    resetGraph()
+  }, [graph]);
+
+  const connectSocket = () => {
+    if (!socket.connected) {
+      socket.connect();
+    }
+  }
+
+  const resetGraph = () => {
     if (graph) {
       WorkflowInstanceService.toX6Graph(data?.id).then(response => {
         if (response.success && response.data) {
+          graph.resetCells([])
           if (response.data.nodes) {
+            // cells.push(response.data.nodes);
             graph.addNodes(response.data.nodes);
             if (response.data.edges) {
+              // cells.push(response.data.edges)
               graph.addEdges(response.data.edges);
             }
           }
           graph.zoomToFit({maxScale: 1});
         }
       })
-    }
-  }, [graph]);
-
-  const connectSocket = () => {
-    if (!socket.connected) {
-      socket.connect();
     }
   }
 
