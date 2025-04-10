@@ -20,6 +20,8 @@ package cn.sliew.carp.module.workflow.api.socket;
 import cn.sliew.carp.framework.log.realtime.configuration.RealtimeLogPollProperties;
 import cn.sliew.carp.framework.log.realtime.poll.StreamPollerImpl;
 import cn.sliew.carp.framework.log.realtime.poll.redis.RedisStreamIterator;
+import cn.sliew.carp.framework.log.realtime.service.dto.StreamLogLine;
+import cn.sliew.carp.framework.log.realtime.util.StreamLogUtil;
 import cn.sliew.carp.framework.socketio.annotation.CarpSocketIoNamespace;
 import cn.sliew.carp.framework.socketio.listener.CarpConnectionListener;
 import cn.sliew.carp.framework.socketio.repository.SocketIORepository;
@@ -46,7 +48,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
@@ -110,7 +111,10 @@ public class WorkflowSocketIOController implements CarpConnectionListener, Initi
                     List<String> datas = streamPoller.poll(10, Duration.ofSeconds(1L));
                     if (CollectionUtils.isEmpty(datas) == false) {
                         for (String data : datas) {
-                            sendBroadcastMessage(getUserId(client), "pushLogs", data);
+                            StreamLogLine streamLogLine = JacksonUtil.parseJsonString(data, StreamLogLine.class);
+                            sendBroadcastMessage(getUserId(client),
+                                    "pushLogs",
+                                    StreamLogUtil.format(streamLogLine));
                         }
                     }
                 }
@@ -139,12 +143,5 @@ public class WorkflowSocketIOController implements CarpConnectionListener, Initi
                 log.error("Poll workflow events error, streamKey: {}", streamKey, e);
             }
         });
-    }
-
-    @OnEvent("customEvent")
-    public void onCustomEvent(SocketIOClient client, AckRequest request, Object data) {
-        log.info("receive custom event: {}, authData: {}", JacksonUtil.toJsonString(data), JacksonUtil.toJsonString(client.getHandshakeData().getAuthToken()));
-        request.sendAckData("ok");
-        sendBroadcastMessage(getUserId(client), "info", "info data");
     }
 }
