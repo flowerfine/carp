@@ -53,13 +53,13 @@ services:
       - carp
 
   minio:
-    image: bitnami/minio:2023.3.24
+    image: bitnami/minio:2025.4.8
     container_name: minio
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=password
       - MINIO_DEFAULT_BUCKETS=scaleph,scaleph-public:public
-      - MINIO_PROMETHEUS_AUTH_TYPE=public
+      - MINIO_PROMETHEUS_AUTH_TYPE=public # 低版本不起效，升级到最新版本
     ports:
       - 9000:9000
       - 9001:9001

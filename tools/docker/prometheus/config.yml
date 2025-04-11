@@ -12,25 +12,10 @@ scrape_configs:
         labels:
           group: 'spring-boot-metrics'
 
-
-  - job_name: 'minio-metrics'
-    metrics_path: /minio/prometheus/metrics
-    scheme: http
-    basic_auth:
-      username: admin
-      password: password
-    static_configs:
-      - targets:
-          - 'host.docker.internal:9000'
-        labels:
-          group: 'minio-metrics'
-
   - job_name: 'minio-metrics-cluster'
     metrics_path: /minio/v2/metrics/cluster
+#    bearer_token: xxx 需要到容器内部生成。或者启用 MINIO_PROMETHEUS_AUTH_TYPE=public 环境变量
     scheme: http
-    basic_auth:
-      username: admin
-      password: password
     static_configs:
       - targets:
           - 'host.docker.internal:9000'
