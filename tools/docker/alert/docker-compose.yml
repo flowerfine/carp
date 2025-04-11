@@ -25,6 +25,17 @@ services:
       - 9090:9090
     volumes:
       - ../prometheus/config.yml:/etc/prometheus/prometheus.yml
+      - ../prometheus/rules.yml:/etc/prometheus/rules.yml
+    networks:
+      - alert
+
+  alertmanager:
+    container_name: alertmanager
+    image: prom/alertmanager:v0.28.1
+    ports:
+      - 9093:9093
+    volumes:
+      - ../alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
     networks:
       - alert
 
