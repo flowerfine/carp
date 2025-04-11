@@ -26,7 +26,7 @@ services:
     volumes:
       - ../prometheus/config.yml:/etc/prometheus/prometheus.yml
     networks:
-      - carp
+      - alert
 
   grafana:
     container_name: grafana
@@ -45,8 +45,9 @@ services:
       - ../grafana/dashboards:/var/lib/grafana/dashboards
       - ../grafana/provisioning:/etc/grafana/provisioning
     networks:
-      - carp
+      - alert
 
+# warn: 网络配置的是 external，方便与 local docker-compose.yml 集成
 networks:
-  carp:
+  alert:
     driver: bridge

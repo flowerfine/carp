@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 10s # 每 10s 采集一次数据
+  scrape_interval: 30s # 每 10s 采集一次数据
   evaluation_interval: 10s # 每 10s 检测一次告警
 
 scrape_configs:
@@ -12,9 +12,25 @@ scrape_configs:
         labels:
           group: 'spring-boot-metrics'
 
-  - job_name: 'minio'
-    metrics_path: /minio/prometheus/metrics/v3
+
+  - job_name: 'minio-metrics'
+    metrics_path: /minio/prometheus/metrics
     scheme: http
+    basic_auth:
+      username: admin
+      password: password
+    static_configs:
+      - targets:
+          - 'host.docker.internal:9000'
+        labels:
+          group: 'minio-metrics'
+
+  - job_name: 'minio-metrics-cluster'
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: http
+    basic_auth:
+      username: admin
+      password: password
     static_configs:
       - targets:
           - 'host.docker.internal:9000'
