@@ -15,38 +15,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.model;
+package cn.sliew.carp.module.alert.model.webhook;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.time.Duration;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
-public class PrometheusRuleSpec {
+public class WebhookAlert {
 
-    private List<RuleGroup> groups;
+    public static final String LABEL_ALERTNAME = "alertname";
+    public static final String LABEL_JOB = "job";
+    public static final String LABEL_INSTANCE = "instance";
 
-    @Data
-    public static class RuleGroup {
-        private String name;
-        private List<Rule> rules;
-        private Duration interval;
-        private String partial_response_strategy;
-        private Integer limit;
-    }
+    public static final String ANNOTATION_SUMMARY = "summary";
+    public static final String ANNOTATION_DESCRIPTION = "description";
 
-    @Data
-    public static class Rule {
-        // record 和 alert 只能设置一个
-        private String record;
-        private String alert;
-        private String expr;
-        @JsonProperty("for")
-        private Duration forExpr;
-        private Map<String, String> labels;
-        private Map<String, String> annotations;
-    }
+    /**
+     * @see cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus
+     */
+    private String status;
+    private Map<String, String> labels;
+    private Map<String, String> annotations;
+    private LocalDateTime startsAt;
+    private LocalDateTime endsAt;
+    private String generatorURL;
+    private String fingerprint;
 }

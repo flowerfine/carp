@@ -15,10 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.model;
+package cn.sliew.carp.module.alert.model.webhook;
 
 import lombok.Data;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
-public class PrometheusRule {
+public class WebhookAlertList {
+
+    private String version;
+    private String receiver;
+    /**
+     * 外层状态不能作为内部列表的状态，要用内部列表的状态
+     * @see cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus
+     */
+    private String status;
+    private List<WebhookAlert> alerts;
+    private Map<String, String> groupLabels;
+    private Map<String, String> commonLabels;
+    private Map<String, String> commonAnnotations;
+    private String externalURL;
+    private String groupKey;
+    private Long truncatedAlerts;
 }

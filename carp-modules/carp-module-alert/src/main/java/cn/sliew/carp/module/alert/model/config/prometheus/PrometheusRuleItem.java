@@ -15,22 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.model;
+package cn.sliew.carp.module.alert.model.config.prometheus;
 
-import cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus;
+import cn.sliew.carp.module.alert.enums.ConditionType;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
 @Data
-public class Alert {
+public class PrometheusRuleItem {
 
-    private CarpAlertStatus status;
-    private Map<String, String> labels;
-    private Map<String, String> annotations;
-    private LocalDateTime startsAt;
-    private LocalDateTime endsAt;
-    private String generatorURL;
-    private String fingerprint;
+    private String metric;
+    private ConditionType condition;
+    private double value;
+    // todo 时间差
 }

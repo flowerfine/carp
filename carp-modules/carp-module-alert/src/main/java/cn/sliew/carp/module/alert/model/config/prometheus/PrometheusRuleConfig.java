@@ -15,26 +15,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.model;
+package cn.sliew.carp.module.alert.model.config.prometheus;
 
-import cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
 @Data
-public class AlertList {
+public class PrometheusRuleConfig {
 
-    private String version;
-    private String receiver;
-    // 外层状态不能作为内部列表的状态，要用内部列表的状态
-    private CarpAlertStatus status;
-    private List<Alert> alerts;
-    private Map<String, String> groupLabels;
-    private Map<String, String> commonLabels;
-    private Map<String, String> commonAnnotations;
-    private String externalURL;
-    private String groupKey;
-    private Long truncatedAlerts;
+    private List<RuleGroup> groups;
+
+    @Data
+    public static class RuleGroup {
+        private String name;
+        private List<Rule> rules;
+        private Duration interval;
+        @JsonProperty("partial_response_strategy")
+        private String partialResponseStrategy;
+        private Integer limit;
+    }
+
+    @Data
+    public static class Rule {
+        // record 和 alert 只能设置一个
+        private String record;
+        private String alert;
+        private String expr;
+        @JsonProperty("for")
+        private Duration forExpr;
+        private Map<String, String> labels;
+        private Map<String, String> annotations;
+    }
 }
