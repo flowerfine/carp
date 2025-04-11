@@ -59,6 +59,7 @@ services:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=password
       - MINIO_DEFAULT_BUCKETS=scaleph,scaleph-public:public
+      - MINIO_PROMETHEUS_AUTH_TYPE=public
     ports:
       - 9000:9000
       - 9001:9001
