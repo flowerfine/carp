@@ -28,7 +28,7 @@ groups:
       # MinIO 集群宕机告警 - 当所有 MinIO 节点都不可达时触发
       - alert: MinIODown
         expr: up{job=~"minio-job"} == 0
-        for: 5m
+        for: 1m
         labels:
           severity: critical
         annotations:
