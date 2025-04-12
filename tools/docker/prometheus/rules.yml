@@ -2,8 +2,6 @@ groups:
   - name: WatchDog
     labels:
       team: WatchDog
-    annotations:
-      type: WatchDog
     rules:
       - alert: WatchDog
         expr: vector(1)
@@ -21,8 +19,6 @@ groups:
   - name: minio-alerts
     labels:
       team: Minio-Alerts
-    annotations:
-      type: Minio-Alerts
     rules:
       - alert: NodesOffline
         expr: avg_over_time(minio_cluster_nodes_offline_total{job="minio-job"}[5m]) > 0
