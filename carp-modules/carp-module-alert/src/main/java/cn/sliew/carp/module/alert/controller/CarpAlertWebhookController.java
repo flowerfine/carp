@@ -21,8 +21,10 @@ import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.module.alert.model.webhook.WebhookAlert;
 import cn.sliew.carp.module.alert.model.webhook.WebhookAlertList;
+import cn.sliew.carp.module.alert.service.AlertLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +37,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "告警管理-Webhook")
 public class CarpAlertWebhookController {
 
+    @Autowired
+    private AlertLogService alertLogService;
+
     @PostMapping
     @Operation(summary = "接收告警", description = "接收告警")
-    public String receiveAlert(@RequestBody WebhookAlertList alertList) {
-        for (WebhookAlert alert : alertList.getAlerts()) {
-            String identify = alert.getLabels().get(WebhookAlert.LABEL_IDENTIFY);
-
-        }
-        return null;
+    public void receiveAlert(@RequestBody WebhookAlertList alertList) {
+        alertLogService.addAlerts(alertList);
     }
 }
