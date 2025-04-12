@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 30s # 每 10s 采集一次数据
+  scrape_interval: 30s # 每 30s 采集一次数据
   evaluation_interval: 10s # 每 10s 检测一次告警
 
 scrape_configs:
