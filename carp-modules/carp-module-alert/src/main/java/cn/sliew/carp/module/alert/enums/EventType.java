@@ -27,25 +27,22 @@ import java.util.Arrays;
 
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum AlertLevel implements DictInstance {
-    NONE("none", "None"),
-    INFO("info", "Info"),
-    WARN("warn", "Warn"),
-    CRITICAL("critical", "紧急"),
+public enum EventType implements DictInstance {
+    FAILURE("failure", "Job Failure"),
     ;
 
     @JsonCreator
-    public static AlertLevel of(String value) {
+    public static EventType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(AlertLevel.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(EventType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    AlertLevel(String value, String label) {
+    EventType(String value, String label) {
         this.value = value;
         this.label = label;
     }

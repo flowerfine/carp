@@ -15,16 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.model.config.prometheus;
+package cn.sliew.carp.module.alert.service.dto;
 
-import cn.sliew.carp.module.alert.enums.ConditionType;
+import cn.sliew.carp.framework.common.model.BaseBuilderDTO;
+import cn.sliew.carp.module.alert.enums.AlertIndexType;
+import cn.sliew.carp.module.alert.enums.EventType;
+import cn.sliew.carp.module.alert.enums.MetricMethod;
+import cn.sliew.carp.module.alert.enums.MetricType;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
+
+import java.util.List;
 
 @Data
-public class PrometheusRuleItem {
+@Jacksonized
+@SuperBuilder
+public class MetricItem extends BaseBuilderDTO {
 
+    private AlertIndexType indexType;
+    private EventType eventType;
+    private MetricType metricType;
+    private String name;
     private String metric;
-    private ConditionType condition;
-    private double value;
-    // todo 时间差
+    private String unit;
+    private MetricMethod method;
+    private List<String> label;
 }

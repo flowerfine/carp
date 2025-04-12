@@ -15,32 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.model.webhook;
+package cn.sliew.carp.module.alert.model.config.prometheus;
 
+import cn.sliew.carp.module.alert.enums.ConditionType;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
+/**
+ * delta(flink_jobmanager_job_numRestarts{deploymentId='{deploymentId}'}[1m]) >= 1.0
+ * promQL: delta(flink_jobmanager_job_numRestarts{deploymentId='{deploymentId}'}[1m])
+ * condition: >=
+ * value: 1.0
+ */
 @Data
-public class WebhookAlert {
-
-    public static final String LABEL_ALERTNAME = "alertname";
-    public static final String LABEL_JOB = "job";
-    public static final String LABEL_INSTANCE = "instance";
-    public static final String LABEL_IDENTIFY = "identify";
-
-    public static final String ANNOTATION_SUMMARY = "summary";
-    public static final String ANNOTATION_DESCRIPTION = "description";
+public class PromQLConfig {
 
     /**
-     * @see cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus
+     * @see cn.sliew.carp.module.alert.metrics.PromQLGenerator
      */
-    private String status;
-    private Map<String, String> labels;
-    private Map<String, String> annotations;
-    private LocalDateTime startsAt;
-    private LocalDateTime endsAt;
-    private String generatorURL;
-    private String fingerprint;
+    private String promQL;
+    private ConditionType condition;
+    private Double value;
+
+    public String format() {
+        return String.format("%s %s %d", promQL, condition.getValue(), value);
+    }
 }

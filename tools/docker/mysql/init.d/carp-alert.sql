@@ -1,6 +1,51 @@
 create database if not exists carp default character set utf8mb4 collate utf8mb4_unicode_ci;
 use carp;
 
+drop table if exists carp_alert_alertmanager;
+create table carp_alert_alertmanager
+(
+    `id`              bigint      not null auto_increment comment '自增主键',
+    `namespace`       varchar(64) not null,
+    `name`            varchar(64) not null,
+    `uuid`            varchar(64) not null,
+    `type`            varchar(32) not null,
+    `url`             varchar(128),
+    `is_auth_enabled` varchar(4),
+    `username`        varchar(32),
+    `password`        varchar(32),
+    `remark`          text,
+    `creator`         varchar(32) comment '创建人',
+    `create_time`     datetime    not null default current_timestamp comment '创建时间',
+    `editor`          varchar(32) comment '修改人',
+    `update_time`     datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
+    primary key (id),
+    unique key uniq_uuid (`namespace`, `uuid`),
+    key               idx_name (`namespace`, `name`)
+) engine = innodb comment = 'alert AlertManager';
+
+drop table if exists carp_alert_prometheus;
+create table carp_alert_prometheus
+(
+    `id`               bigint      not null auto_increment comment '自增主键',
+    `namespace`        varchar(64) not null,
+    `name`             varchar(64) not null comment '名称',
+    `uuid`             varchar(64) not null,
+    `type`             varchar(32) not null,
+    `url`              varchar(128),
+    `config_file_path` varchar(256),
+    `is_auth_enabled`  varchar(4),
+    `username`         varchar(32),
+    `password`         varchar(32),
+    `remark`           text,
+    `creator`          varchar(32) comment '创建人',
+    `create_time`      datetime    not null default current_timestamp comment '创建时间',
+    `editor`           varchar(32) comment '修改人',
+    `update_time`      datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
+    primary key (id),
+    unique key uniq_uuid (`namespace`, `uuid`),
+    key                idx_name (`namespace`, `name`)
+) engine = innodb comment = 'alert Prometheus';
+
 drop table if exists carp_alert_log;
 create table carp_alert_log
 (

@@ -27,25 +27,24 @@ import java.util.Arrays;
 
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum AlertLevel implements DictInstance {
-    NONE("none", "None"),
-    INFO("info", "Info"),
-    WARN("warn", "Warn"),
-    CRITICAL("critical", "紧急"),
+public enum PrometheusDeployType implements DictInstance {
+    LOCAL("local", "Local"),
+    DOCKER("docker", "Docker"),
+    Kubernetes("kubernetes", "Kubernetes"),
     ;
 
     @JsonCreator
-    public static AlertLevel of(String value) {
+    public static PrometheusDeployType of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(AlertLevel.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(PrometheusDeployType.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    AlertLevel(String value, String label) {
+    PrometheusDeployType(String value, String label) {
         this.value = value;
         this.label = label;
     }

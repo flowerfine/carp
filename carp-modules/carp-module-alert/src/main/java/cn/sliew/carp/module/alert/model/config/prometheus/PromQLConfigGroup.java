@@ -15,32 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.model.webhook;
+package cn.sliew.carp.module.alert.model.config.prometheus;
 
+import cn.sliew.carp.module.alert.enums.ConditionType;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
 
+/**
+ * delta(flink_jobmanager_job_numRestarts{deploymentId='{deploymentId}'}[1m]) >= 1.0
+ * and
+ * delta(flink_jobmanager_job_numberOfCompletedCheckpoints{deploymentId='{deploymentId}'}[5m]) <= 1.0
+ * and
+ * max(flink_taskmanager_job_task_operator_currentEmitEventTimeLag{deploymentId='{deploymentId}'}/1000) >= 600.0
+ */
 @Data
-public class WebhookAlert {
+public class PromQLConfigGroup {
 
-    public static final String LABEL_ALERTNAME = "alertname";
-    public static final String LABEL_JOB = "job";
-    public static final String LABEL_INSTANCE = "instance";
-    public static final String LABEL_IDENTIFY = "identify";
-
-    public static final String ANNOTATION_SUMMARY = "summary";
-    public static final String ANNOTATION_DESCRIPTION = "description";
-
-    /**
-     * @see cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus
-     */
-    private String status;
-    private Map<String, String> labels;
-    private Map<String, String> annotations;
-    private LocalDateTime startsAt;
-    private LocalDateTime endsAt;
-    private String generatorURL;
-    private String fingerprint;
+    private List<PromQLConfig> items;
+    private ConditionType condition;
 }
