@@ -22,6 +22,7 @@ import cn.sliew.carp.module.alert.enums.PrometheusDeployType;
 import cn.sliew.carp.module.alert.model.config.prometheus.PrometheusConfig;
 import cn.sliew.carp.module.alert.repository.entity.CarpAlertPrometheus;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,6 +42,8 @@ import java.util.Base64;
 @Component
 public class LocalPrometheusClient implements PrometheusClient, InitializingBean {
 
+    @Autowired
+    private OkHttpClient client;
     private Representer representer;
 
     @Override
@@ -69,21 +72,31 @@ public class LocalPrometheusClient implements PrometheusClient, InitializingBean
             writer.write(prometheusConfig);
             writer.flush();
             reload(prometheus);
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Write prometheus config file error", e);
             return false;
         }
         return true;
     }
 
-    private void reload(CarpAlertPrometheus prometheus) {
+    private void reload(CarpAlertPrometheus prometheus) throws Exception {
         String reloadUrl = getPrometheusReloadUrl(prometheus);
+        Request.Builder builder = new Request.Builder()
+                .url(reloadUrl)
+                .post(RequestBody.create(new byte[0],
+                        MediaType.parse("application/x-www-form-urlencoded")))
+                .header("Content-type", "application/x-www-form-urlencoded");
         if (prometheus.getIsAuthEnabled() == CarpYesOrNo.YES) {
             String credentials = prometheus.getUsername() + ":" + prometheus.getPassword();
             String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
-//            request.setHeader("Authorization", "Basic " + encodedCredentials);
-        } else {
-
+            builder.header("Authorization", "Basic " + encodedCredentials);
+        }
+        try (Response response = client.newCall(builder.build()).execute()) {
+            if (!response.isSuccessful()) {
+                throw new RuntimeException(response.message());
+            }
+        } catch (IOException e) {
+            throw e;
         }
     }
 

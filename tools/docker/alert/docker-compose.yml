@@ -21,6 +21,9 @@ services:
   prometheus:
     container_name: prometheus
     image: prom/prometheus:v3.2.1
+    command:
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - 9090:9090
     volumes:

@@ -41,5 +41,10 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-spring</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-kubernetes</artifactId>
+        </dependency>
     </dependencies>
 </project>
