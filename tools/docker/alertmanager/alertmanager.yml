@@ -9,5 +9,5 @@ route:
 receivers:
   - name: 'carp-webhook'
     webhook_configs:
-      - url: 'http://host.docker.internal:8863/carp/api/carp/alert'
+      - url: 'http://host.docker.internal:8863/carp/api/carp/alert/webhook'
         send_resolved: true     # 表示服务恢复后会收到恢复告警
