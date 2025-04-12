@@ -81,14 +81,16 @@ create table carp_alert_log
     `editor`             varchar(32) comment '修改人',
     `update_time`        datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
-    unique key (fingerprint, starts_at)
+    key                  idx_fingerprint (fingerprint),
+    key                  idx_starts_at (starts_at)
 ) engine = innodb comment = 'alert log';
 
 drop table if exists carp_alert_message;
 create table carp_alert_message
 (
-    `id`          bigint     not null auto_increment comment '自增主键',
-    `alertname`   varchar(4) not null comment '告警名称',
+    `id`          bigint      not null auto_increment comment '自增主键',
+    `rule_id`     varchar(64) not null comment '规则id',
+    `alertname`   varchar(4)  not null comment '告警名称',
     `fingerprint` varchar(64) comment '告警消息fingerprint',
     `status`      varchar(8) comment '告警消息状态',
     `labels`      varchar(8) comment '告警消息labels',
@@ -97,39 +99,38 @@ create table carp_alert_message
     `ends_at`     bigint comment '恢复时间',
     `count`       bigint comment '告警次数',
     `creator`     varchar(32) comment '创建人',
-    `create_time` datetime   not null default current_timestamp comment '创建时间',
+    `create_time` datetime    not null default current_timestamp comment '创建时间',
     `editor`      varchar(32) comment '修改人',
-    `update_time` datetime   not null default current_timestamp on update current_timestamp comment '更新时间',
+    `update_time` datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
     unique key (fingerprint),
     key           idx_name (`alertname`)
 ) engine = innodb comment = 'alert message';
 
-drop table if exists carp_alert_quota;
-create table carp_alert_quota
-(
-    `id`          bigint      not null auto_increment comment '自增主键',
-    `name`        varchar(64) not null comment '名称',
-    `level`       varchar(64) comment '级别',
-    `creator`     varchar(32) comment '创建人',
-    `create_time` datetime    not null default current_timestamp comment '创建时间',
-    `editor`      varchar(32) comment '修改人',
-    `update_time` datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
-    primary key (id),
-    key           idx_name (`name`)
-) engine = innodb comment = 'alert quota';
-
 drop table if exists carp_alert_rule;
 create table carp_alert_rule
 (
     `id`          bigint      not null auto_increment comment '自增主键',
+    `namespace`   varchar(64) not null,
     `name`        varchar(64) not null comment '名称',
+    `uuid`        varchar(64) not null,
     `level`       varchar(64) comment '级别',
     `promql`      varchar(64),
+    `wait_for`    varchar(8),
+    `summary`     varchar(512),
+    `description` text,
+    `remark`      text,
     `creator`     varchar(32) comment '创建人',
     `create_time` datetime    not null default current_timestamp comment '创建时间',
     `editor`      varchar(32) comment '修改人',
     `update_time` datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
-    key           idx_name (`name`)
+    unique key uniq_uuid (`namespace`, `uuid`),
+    key           idx_name (`namespace`, `name`)
 ) engine = innodb comment = 'alert rule';
+INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `level`, `promql`, `wait_for`, `summary`,
+                               `description`, `remark`, `creator`, `editor`)
+VALUES (1, 'default', 'Minio Down', '84066a33-77c6-5e4e-43f5-61ab968ca5ef', 'critical', 'up{job=~\"minio-job\"} == 0',
+        '1m', 'MinIO cluster is down',
+        'All MinIO nodes are unreachable for more than 5 minutes. This is a critical issue affecting storage availability.',
+        NULL, 'sys', 'sys');

@@ -36,5 +36,5 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "MinIO cluster is down (instance: {{ $labels.instance }})"
+          summary: "MinIO cluster is down"
           description: "All MinIO nodes are unreachable for more than 5 minutes. This is a critical issue affecting storage availability."
