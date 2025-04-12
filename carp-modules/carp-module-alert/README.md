@@ -4,6 +4,17 @@
 
 应用在考虑监控、告警时也越来越多地开始考虑将监控、告警功能代理给 prometheus 和 alertmanager，甚至开始进行监控、告警参与决策，自动化执行某些业务。
 
+Alert 模块提供如下功能：
+
+* 内置监控规则。使用 prometheus 采集应用指标后，即可通过编写 promQL 创建告警规则。这种方式需要用户熟悉采集的应用指标和 promQL 语法，最好的方式莫过于页面提供可视化配置，用户可直接选择：`cpu > 80%` 告警。Alert 模块提供内置指标模板供用户快速创建告警任务，屏蔽底层 promQL 复杂性
+* 应用告警。一些应用如实时计算平台需提供监控、告警功能，及时向用户告知运行中的 flink 任务重启、失败、延迟等，应用开发一套监控、告警功能耗时耗力，可借助 prometheus 和 alertmanager 的力量，将监控告警功能委托给 prometheus 和 alertmanager，应用提供 webhook 接收 alertmanager 告警，在转发给用户
+
+为实现上述 2 个功能，Alert 模块需实现如下功能：
+
+* prometheus 集成。同步采集配置和告警规则至 prometheus。
+* alertmanager 集成。配置 alertmanager，将 AlertManager 创建的告警规则触发的告警推送至 Alert 模块提供的 webhook。
+* 分发告警事件。告警历史，通过邮箱、钉钉等方式推送告警事件至用户。
+
 ## 集成方案
 
 在使用 prometheus 和 alertmanager 进行监控、告警时，需逐步解决 3 个问题：
@@ -91,7 +102,7 @@ prometheus 根据配置的 promQL 进行监控，当命中 promQL 后发送告�
 
 ### 告警分发
 
-
+参考：[PrometheusAlert](https://github.com/feiyu563/PrometheusAlert)
 
 ## 开源参考
 
