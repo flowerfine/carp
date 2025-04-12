@@ -15,19 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.config;
+package cn.sliew.carp.module.alert.service;
 
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.carp.framework.common.model.BasePageParam;
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.module.alert.model.webhook.WebhookAlertList;
+import cn.sliew.carp.module.alert.repository.entity.CarpAlertLog;
+import cn.sliew.carp.module.alert.service.dto.CarpAlertLogDTO;
+import com.baomidou.mybatisplus.extension.service.IService;
 
-@Configuration
-public class AlertOpenAPIConfig {
+import java.util.Collection;
 
-    @Bean
-    public GroupedOpenApi carpAlertModuleOpenApi() {
-        return GroupedOpenApi.builder().group("告警模块")
-                .pathsToMatch("/api/carp/alert/**")
-                .packagesToScan("cn.sliew.carp.module.alert.controller").build();
-    }
+public interface AlertLogService extends IService<CarpAlertLog> {
+
+    PageResult<CarpAlertLogDTO> page(BasePageParam param);
+
+    CarpAlertLogDTO get(Long id);
+
+    void add(CarpAlertLogDTO param);
+
+    void addAlerts(WebhookAlertList alertList);
+
+    boolean delete(Long id);
+
+    boolean deleteBatch(Collection<Long> ids);
 }

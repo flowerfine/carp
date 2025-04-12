@@ -15,19 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.config;
+package cn.sliew.carp.module.alert.metrics;
 
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.carp.framework.common.model.BaseBuilderDTO;
+import cn.sliew.carp.module.alert.enums.AlertIndexType;
+import cn.sliew.carp.module.alert.enums.EventType;
+import cn.sliew.carp.module.alert.enums.MetricMethod;
+import cn.sliew.carp.module.alert.enums.MetricType;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
-@Configuration
-public class AlertOpenAPIConfig {
+import java.util.List;
 
-    @Bean
-    public GroupedOpenApi carpAlertModuleOpenApi() {
-        return GroupedOpenApi.builder().group("告警模块")
-                .pathsToMatch("/api/carp/alert/**")
-                .packagesToScan("cn.sliew.carp.module.alert.controller").build();
-    }
+@Data
+@Jacksonized
+@SuperBuilder
+public class MetricItem extends BaseBuilderDTO {
+
+    private AlertIndexType indexType;
+    private EventType eventType;
+    private MetricType metricType;
+    private String name;
+    private String metric;
+    private String unit;
+    private MetricMethod method;
+    private List<String> label;
 }

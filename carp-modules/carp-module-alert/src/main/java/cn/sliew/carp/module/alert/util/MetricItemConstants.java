@@ -20,7 +20,7 @@ package cn.sliew.carp.module.alert.util;
 import cn.sliew.carp.module.alert.enums.AlertIndexType;
 import cn.sliew.carp.module.alert.enums.MetricMethod;
 import cn.sliew.carp.module.alert.enums.MetricType;
-import cn.sliew.carp.module.alert.service.dto.MetricItem;
+import cn.sliew.carp.module.alert.metrics.MetricItem;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 

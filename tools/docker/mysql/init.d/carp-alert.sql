@@ -58,6 +58,8 @@ INSERT INTO `carp_alert_alertmanager` (`id`, `namespace`, `name`, `uuid`, `type`
 VALUES (1, 'default', 'docker', '768ce00e-13dd-d812-1086-8342ba2621de', 'docker', 'http:localhost:9093', '0', NULL,
         NULL, NULL, 'sys', 'sys');
 
+-- 在大部分基于 prometheus + alertmanager 的告警体系中，往往会从 label 或 instance 中提取关联的实例信息
+-- 如从 instance 提取实例ip，从 label 提取实例 uuid，确保能关联告警和实例
 drop table if exists carp_alert_log;
 create table carp_alert_log
 (

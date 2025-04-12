@@ -15,19 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.config;
+package cn.sliew.carp.module.alert.repository.mapper;
 
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.carp.module.alert.repository.entity.CarpAlertAlertmanager;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@Configuration
-public class AlertOpenAPIConfig {
+@Repository
+public interface CarpAlertAlertmanagerMapper extends BaseMapper<CarpAlertAlertmanager> {
 
-    @Bean
-    public GroupedOpenApi carpAlertModuleOpenApi() {
-        return GroupedOpenApi.builder().group("告警模块")
-                .pathsToMatch("/api/carp/alert/**")
-                .packagesToScan("cn.sliew.carp.module.alert.controller").build();
-    }
 }

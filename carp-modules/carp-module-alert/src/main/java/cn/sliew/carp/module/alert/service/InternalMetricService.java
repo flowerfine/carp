@@ -20,7 +20,7 @@ package cn.sliew.carp.module.alert.service;
 import cn.sliew.carp.module.alert.enums.ConditionType;
 import cn.sliew.carp.module.alert.enums.EventType;
 import cn.sliew.carp.module.alert.enums.MetricType;
-import cn.sliew.carp.module.alert.service.dto.MetricItem;
+import cn.sliew.carp.module.alert.metrics.MetricItem;
 
 import java.util.List;
 

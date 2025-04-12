@@ -15,19 +15,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.config;
+package cn.sliew.carp.module.alert.service.dto;
 
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.module.alert.enums.AlertManagerDeployType;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-@Configuration
-public class AlertOpenAPIConfig {
+@Data
+@Schema(name = "CarpAlertAlertmanager", description = "alert AlertManager")
+public class CarpAlertAlertmanagerDTO extends BaseDTO {
 
-    @Bean
-    public GroupedOpenApi carpAlertModuleOpenApi() {
-        return GroupedOpenApi.builder().group("告警模块")
-                .pathsToMatch("/api/carp/alert/**")
-                .packagesToScan("cn.sliew.carp.module.alert.controller").build();
-    }
+    private static final long serialVersionUID = 1L;
+
+    private String namespace;
+
+    private String name;
+
+    private String uuid;
+
+    private AlertManagerDeployType type;
+
+    private String url;
+
+    private CarpYesOrNo isAuthEnabled;
+
+    private String username;
+
+    private String password;
+
+    private String remark;
 }

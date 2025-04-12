@@ -17,17 +17,14 @@
  */
 package cn.sliew.carp.module.alert.config;
 
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
+import cn.sliew.carp.framework.mybatis.DataSourceConstants;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AlertOpenAPIConfig {
+@MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
+        basePackages = {AlertMybatisConfig.MAPPER_MODULE_DATASOURCE_PACKAGE})
+public class AlertMybatisConfig {
 
-    @Bean
-    public GroupedOpenApi carpAlertModuleOpenApi() {
-        return GroupedOpenApi.builder().group("告警模块")
-                .pathsToMatch("/api/carp/alert/**")
-                .packagesToScan("cn.sliew.carp.module.alert.controller").build();
-    }
+    public static final String MAPPER_MODULE_DATASOURCE_PACKAGE = "cn.sliew.carp.module.alert.repository.mapper";
 }

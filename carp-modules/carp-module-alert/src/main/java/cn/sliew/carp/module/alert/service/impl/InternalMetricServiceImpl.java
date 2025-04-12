@@ -21,7 +21,7 @@ import cn.sliew.carp.module.alert.enums.ConditionType;
 import cn.sliew.carp.module.alert.enums.EventType;
 import cn.sliew.carp.module.alert.enums.MetricType;
 import cn.sliew.carp.module.alert.service.InternalMetricService;
-import cn.sliew.carp.module.alert.service.dto.MetricItem;
+import cn.sliew.carp.module.alert.metrics.MetricItem;
 import cn.sliew.carp.module.alert.util.MetricItemConstants;
 import org.springframework.stereotype.Service;
 
