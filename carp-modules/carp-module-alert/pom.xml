@@ -37,5 +37,9 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-spring</artifactId>
+        </dependency>
     </dependencies>
 </project>

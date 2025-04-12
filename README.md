@@ -31,7 +31,8 @@
   * [carp-module-dataservice](./carp-modules/carp-module-dataservice)。数据服务。基于 mybatis 实现，编写基于 mybatis xml sql，可快速生成一个 http 接口
   * [carp-module-http-sync](./carp-modules/carp-module-http-sync)。通过 http 大规模同步数据。如拥有 1万个快手、淘宝、抖音商家账号，通过快手、淘宝、抖音开放平台接口同步订单、售后单等数据，保证数据的稳定性和及时性
 * 其他
-  * [carp-module-alert](./carp-modules/carp-module-alert)。未完成，目前只完成了 prometheus alert-manager 告警信息存储
+  * [carp-module-kubernetes](./carp-modules/carp-module-kubernetes)
+  * [carp-module-alert](./carp-modules/carp-module-alert)。集成 prometheus + alertmanager。主要支持 kubernetes 环境下的 prometheus 和 alertmanager，对于单独部署的 prometheus 和 alertmanager，因为监控和告警规则同步问题，仅做本地实例支持。
   * [carp-module-plugin](./carp-modules/carp-module-plugin)。插件模块
 
 ## Code of Conduct

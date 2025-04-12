@@ -22,24 +22,29 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-modules</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-modules</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-kubernetes</artifactId>
 
-    <modules>
-        <module>carp-module-alert</module>
-        <module>carp-module-dataservice</module>
-        <module>carp-module-datasource</module>
-        <module>carp-module-http-sync</module>
-        <module>carp-module-kubernetes</module>
-        <module>carp-module-persistence</module>
-        <module>carp-module-plugin</module>
-        <module>carp-module-scheduler</module>
-        <module>carp-module-security</module>
-        <module>carp-module-system</module>
-        <module>carp-module-workflow</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-pekko</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
+        </dependency>
+    </dependencies>
 </project>
