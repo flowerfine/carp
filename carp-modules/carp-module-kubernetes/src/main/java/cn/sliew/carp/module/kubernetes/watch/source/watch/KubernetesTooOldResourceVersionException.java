@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source.watch;
 
-import cn.sliew.carp.framework.exception.SliewException;
+import cn.sliew.carp.framework.common.exception.SliewException;
 
 /**
  * Kubernetes too old resource version exception.
