@@ -54,7 +54,7 @@
     <select id="page" resultType="cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO">
         SELECT
             t1.*,
-            t2.name
+            t2.`name` AS ruleName
         FROM
             carp_alert_message t1
                 JOIN carp_alert_rule t2 ON t1.rule_id = t2.uuid
@@ -74,7 +74,7 @@
     <select id="get" resultType="cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO">
         SELECT
         t1.*,
-        t2.name
+        t2.`name` AS ruleName
         FROM
         carp_alert_message t1
         JOIN carp_alert_rule t2 ON t1.rule_id = t2.uuid

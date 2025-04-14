@@ -342,7 +342,13 @@ export default [
             routes: [
               {
                 path: '/workspace/monitor/alert',
-                redirect: '/workspace/monitor/alert/rule',
+                redirect: '/workspace/monitor/alert/message',
+              },
+              {
+                path: '/workspace/monitor/alert/message',
+                name: 'message',
+                icon: 'profile',
+                component: './Workspace/Monitor/Alert/Message'
               },
               {
                 path: '/workspace/monitor/alert/rule',

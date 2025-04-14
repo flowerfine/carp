@@ -58,6 +58,8 @@ export default {
 
   'menu.workspace.monitor': '监控',
   'menu.workspace.monitor.alert': '告警',
+  'menu.workspace.monitor.alert.message': '告警消息',
+  'menu.workspace.monitor.alert.message.desc': '收到的告警消息',
   'menu.workspace.monitor.alert.rule': '告警规则',
   'menu.workspace.monitor.alert.rule.desc': '基于 Prometheus 的告警规则管理',
 

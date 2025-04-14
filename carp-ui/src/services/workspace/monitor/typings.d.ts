@@ -44,4 +44,30 @@ declare namespace WorkspaceMonitorAPI {
     id: number;
   };
 
+  type AlertMessage = {
+    id: number;
+    namespace: string;
+    ruleName: string;
+    ruleId: string;
+    resourceType: string;
+    resourceId: string;
+    fingerprint: string;
+    status: Dict;
+    startTime: string;
+    endTime?: string;
+    count: number;
+    summary: string;
+    description: string;
+    source: string;
+    createTime?: Date;
+    updateTime?: Date;
+  };
+
+  type AlertMessagePageParam = QueryParam & {
+    namespace: string;
+    ruleId?: string;
+    resourceType?: string;
+    resourceId?: string;
+  };
+
 }
