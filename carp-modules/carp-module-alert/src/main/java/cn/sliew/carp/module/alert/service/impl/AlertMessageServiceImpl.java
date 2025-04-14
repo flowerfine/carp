@@ -19,6 +19,7 @@ package cn.sliew.carp.module.alert.service.impl;
 
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.alert.repository.entity.CarpAlertMessage;
 import cn.sliew.carp.module.alert.repository.mapper.CarpAlertMessageMapper;
 import cn.sliew.carp.module.alert.service.AlertMessageService;
@@ -28,6 +29,7 @@ import cn.sliew.carp.module.alert.service.param.AlertMessageReceiveParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @Service
 public class AlertMessageServiceImpl
         extends ServiceImpl<CarpAlertMessageMapper, CarpAlertMessage>
@@ -43,13 +47,16 @@ public class AlertMessageServiceImpl
 
     @Override
     public PageResult<CarpAlertMessageDTO> page(AlertMessagePageParam param) {
-
-        return null;
+        Page<CarpAlertMessage> page = PageUtil.buildPageParam(param);
+        Page<CarpAlertMessageDTO> carpAlertMessageDTOPage = baseMapper.page(page, param);
+        return PageUtil.buildPageResult(carpAlertMessageDTOPage, list -> list);
     }
 
     @Override
     public CarpAlertMessageDTO get(Long id) {
-        return null;
+        CarpAlertMessageDTO dto = baseMapper.get(id);
+        checkNotNull(dto, "alert message not exists for id: " + id);
+        return dto;
     }
 
     @Override
@@ -63,6 +70,7 @@ public class AlertMessageServiceImpl
                 .eq(CarpAlertMessage::getFingerprint, param.getFingerprint());
         CarpAlertMessage entity = getOne(queryWrapper, false);
         if (Objects.nonNull(entity)) {
+            message.setId(entity.getId());
             message.setCount(entity.getCount() + 1);
             return updateById(message);
         } else {

@@ -17,6 +17,8 @@
  */
 package cn.sliew.carp.module.alert.model.webhook;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -41,6 +43,7 @@ public class WebhookAlert {
     private String status;
     private Map<String, String> labels;
     private Map<String, String> annotations;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private LocalDateTime startsAt;
     private LocalDateTime endsAt;
     private String generatorURL;

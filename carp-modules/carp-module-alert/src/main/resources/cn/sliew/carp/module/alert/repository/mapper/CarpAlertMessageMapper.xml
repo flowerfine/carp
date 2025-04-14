@@ -52,18 +52,34 @@
     </sql>
 
     <select id="page" resultType="cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO">
+        SELECT
+            t1.*,
+            t2.name
+        FROM
+            carp_alert_message t1
+                JOIN carp_alert_rule t2 ON t1.rule_id = t2.uuid
+        WHERE
+            t1.namespace = #{param.namespace}
+        <if test="param.ruleId != null and param.ruleId != ''">
+            AND t1.rule_id = #{param.ruleId}
+        </if>
+        <if test="param.resourceType != null and param.resourceType != ''">
+            AND t1.resource_type = #{param.resourceType}
+        </if>
+        <if test="param.resourceId != null and param.resourceId != ''">
+            AND t1.resource_id = #{param.resourceId}
+        </if>
     </select>
 
-    <insert id="upsert">
-        insert into carp_alert_message
-        (namespace, rule_id, resource_type, resource_id, fingerprint, `status`,
-         start_time, end_time, count, summary, `description`, source, creator,
-         create_time, editor, update_time,)
-        values (#{message.namespace},) on duplicate key
-        update
-            count = count + 1,
-            editor = values(editor),
-            update_time = now()
-    </insert>
+    <select id="get" resultType="cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO">
+        SELECT
+        t1.*,
+        t2.name
+        FROM
+        carp_alert_message t1
+        JOIN carp_alert_rule t2 ON t1.rule_id = t2.uuid
+        WHERE
+        t1.id = #{id}
+    </select>
 
 </mapper>

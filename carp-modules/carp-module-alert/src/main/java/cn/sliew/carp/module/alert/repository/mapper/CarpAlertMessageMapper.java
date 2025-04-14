@@ -28,8 +28,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarpAlertMessageMapper extends BaseMapper<CarpAlertMessage> {
 
-    Page<CarpAlertMessageDTO> page(Page<CarpAlertMessage> page, AlertMessagePageParam param);
+    Page<CarpAlertMessageDTO> page(Page<CarpAlertMessage> page, @Param("param") AlertMessagePageParam param);
 
-    int upsert(@Param("message") CarpAlertMessage message);
-
+    CarpAlertMessageDTO get(@Param("id") Long id);
 }
