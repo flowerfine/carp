@@ -76,9 +76,10 @@ public class AlertLogServiceImpl
         CarpAlertLog entity = AlertLogConvert.INSTANCE.toDo(param);
         save(entity);
 
+        // todo 改成异步 或者事件发布形式，而不是直接调用接口
         AlertMessageReceiveParam receiveParam = AlertMessageReceiveParam.builder()
                 .namespace(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_NAMESPACE))
-                .ruleId(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_RULE))
+                .ruleId(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_RULE_ID))
                 .resourceType(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_RESOURCE_TYPE))
                 .resourceId(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_RESOURCE_ID))
                 .fingerprint(param.getFingerprint())

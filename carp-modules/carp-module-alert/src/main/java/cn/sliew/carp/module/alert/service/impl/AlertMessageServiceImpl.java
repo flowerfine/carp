@@ -66,7 +66,7 @@ public class AlertMessageServiceImpl
             message.setCount(entity.getCount() + 1);
             return updateById(message);
         } else {
-            return save(entity);
+            return save(message);
         }
     }
 

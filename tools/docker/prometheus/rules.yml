@@ -8,7 +8,12 @@ groups:
         for: 1m
         labels:
           severity: none
+          namespace: 'default'
+          ruleId: '84066a33-77c6-5e4e-43f5-61ab968ca5ef'
+          resourceType: none
+          resourceId: none
         annotations:
+          summary: Alert heartbeat
           description: |
             This is an alert meant to ensure that the entire alerting pipeline is functional.
             This alert is always firing, therefore it should always be firing in Alertmanager

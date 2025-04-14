@@ -28,7 +28,7 @@ public class WebhookAlert {
     public static final String LABEL_ALERTNAME = "alertname";
     public static final String LABEL_JOB = "job";
     public static final String LABEL_NAMESPACE = "namespace";
-    public static final String LABEL_RULE = "rule";
+    public static final String LABEL_RULE_ID = "ruleId";
     public static final String LABEL_RESOURCE_TYPE = "resourceType";
     public static final String LABEL_RESOURCE_ID = "resourceId";
 
