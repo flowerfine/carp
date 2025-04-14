@@ -15,36 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.service.dto;
+package cn.sliew.carp.module.alert.repository.mapper;
 
-import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.module.alert.enums.AlertLevel;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import cn.sliew.carp.module.alert.repository.entity.CarpAlertMessage;
+import cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO;
+import cn.sliew.carp.module.alert.service.param.AlertMessagePageParam;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.stereotype.Repository;
 
-@Data
-@Schema(name = "CarpAlertRule", description = "alert rule")
-public class CarpAlertRuleDTO extends BaseDTO {
+@Repository
+public interface CarpAlertMessageMapper extends BaseMapper<CarpAlertMessage> {
 
-    private static final long serialVersionUID = 1L;
+    Page<CarpAlertMessageDTO> page(Page<CarpAlertMessage> page, AlertMessagePageParam param);
 
-    private String namespace;
-
-    @Schema(description = "名称")
-    private String name;
-
-    private String uuid;
-
-    @Schema(description = "级别")
-    private AlertLevel level;
-
-    private String promql;
-
-    private String waitFor;
-
-    private String summary;
-
-    private String description;
-
-    private String remark;
 }

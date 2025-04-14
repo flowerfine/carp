@@ -22,9 +22,11 @@ import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.alert.repository.entity.CarpAlertRule;
 import cn.sliew.carp.module.alert.repository.mapper.CarpAlertRuleMapper;
+import cn.sliew.carp.module.alert.service.AlertMessageService;
 import cn.sliew.carp.module.alert.service.AlertRuleService;
 import cn.sliew.carp.module.alert.service.convert.AlertRuleConvert;
 import cn.sliew.carp.module.alert.service.dto.CarpAlertRuleDTO;
+import cn.sliew.carp.module.alert.service.param.AlertMessageReceiveParam;
 import cn.sliew.carp.module.alert.service.param.AlertRuleAddParam;
 import cn.sliew.carp.module.alert.service.param.AlertRulePageParam;
 import cn.sliew.carp.module.alert.service.param.AlertRuleUpdateParam;
@@ -33,8 +35,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -45,6 +49,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class AlertRuleServiceImpl
         extends ServiceImpl<CarpAlertRuleMapper, CarpAlertRule>
         implements AlertRuleService {
+
+    @Autowired
+    private AlertMessageService alertMessageService;
 
     @Override
     public PageResult<CarpAlertRuleDTO> page(AlertRulePageParam param) {
@@ -68,7 +75,12 @@ public class AlertRuleServiceImpl
     public boolean add(AlertRuleAddParam param) {
         CarpAlertRule entity = new CarpAlertRule();
         BeanUtils.copyProperties(param, entity);
-        return save(entity);
+        if (save(entity)) {
+            AlertMessageReceiveParam receiveParam = AlertMessageReceiveParam.builder().build();
+            alertMessageService.receive(receiveParam);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -78,14 +90,23 @@ public class AlertRuleServiceImpl
         return updateById(entity);
     }
 
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean delete(Long id) {
-        return removeById(id);
+        CarpAlertRuleDTO ruleDTO = get(id);
+        removeById(id);
+        return alertMessageService.deleteByRule(ruleDTO.getNamespace(), ruleDTO.getUuid());
     }
 
     @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean deleteBatch(Collection<Long> ids) {
-        return removeBatchByIds(ids);
+        if (CollectionUtils.isEmpty(ids)) {
+            return true;
+        }
+        for (Long id : ids) {
+            delete(id);
+        }
+        return true;
     }
 }

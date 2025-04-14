@@ -27,8 +27,10 @@ public class WebhookAlert {
 
     public static final String LABEL_ALERTNAME = "alertname";
     public static final String LABEL_JOB = "job";
-    public static final String LABEL_INSTANCE = "instance";
-    public static final String LABEL_IDENTIFY = "identify";
+    public static final String LABEL_NAMESPACE = "namespace";
+    public static final String LABEL_RULE = "rule";
+    public static final String LABEL_RESOURCE_TYPE = "resourceType";
+    public static final String LABEL_RESOURCE_ID = "resourceId";
 
     public static final String ANNOTATION_SUMMARY = "summary";
     public static final String ANNOTATION_DESCRIPTION = "description";

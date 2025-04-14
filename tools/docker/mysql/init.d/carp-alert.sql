@@ -88,23 +88,28 @@ create table carp_alert_log
 drop table if exists carp_alert_message;
 create table carp_alert_message
 (
-    `id`          bigint      not null auto_increment comment '自增主键',
-    `rule_id`     varchar(64) not null comment '规则id',
-    `alertname`   varchar(4)  not null comment '告警名称',
-    `fingerprint` varchar(64) comment '告警消息fingerprint',
-    `status`      varchar(8) comment '告警消息状态',
-    `labels`      varchar(8) comment '告警消息labels',
-    `annotations` varchar(8) comment '告警消息annotations',
-    `starts_at`   bigint comment '告警时间',
-    `ends_at`     bigint comment '恢复时间',
-    `count`       bigint comment '告警次数',
-    `creator`     varchar(32) comment '创建人',
-    `create_time` datetime    not null default current_timestamp comment '创建时间',
-    `editor`      varchar(32) comment '修改人',
-    `update_time` datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
+    `id`            bigint      not null auto_increment comment '自增主键',
+    `namespace`     varchar(64) not null comment '命名空间',
+    `rule_id`       varchar(64) not null comment '规则id',
+    `resource_type` varchar(64) not null comment '资源类型',
+    `resource_id`   varchar(64) not null comment '资源id',
+    `fingerprint`   varchar(64) comment '告警消息fingerprint',
+    `status`        varchar(8) comment '告警消息状态',
+    `start_time`    datetime comment '告警时间',
+    `end_time`      datetime comment '恢复时间',
+    `count`         bigint comment '告警次数',
+    `summary`       varchar(512),
+    `description`   text,
+    `source`        varchar(32),
+    `creator`       varchar(32) comment '创建人',
+    `create_time`   datetime    not null default current_timestamp comment '创建时间',
+    `editor`        varchar(32) comment '修改人',
+    `update_time`   datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
-    unique key (fingerprint),
-    key           idx_name (`alertname`)
+    unique key uniq_fingerprint (`namespace`, `fingerprint`),
+    key             idx_rule_id (`namespace`, `rule_id`),
+    key             idx_resource (`namespace`, `resource_type`, `resource_id`),
+    key             idx_rule_resource (`namespace`, `rule_id`, `resource_type`, `resource_id`)
 ) engine = innodb comment = 'alert message';
 
 drop table if exists carp_alert_rule;

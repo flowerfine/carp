@@ -15,36 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.service.dto;
+package cn.sliew.carp.module.alert.service.param;
 
-import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.module.alert.enums.AlertLevel;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.sliew.carp.framework.common.model.PageParam;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-@Schema(name = "CarpAlertRule", description = "alert rule")
-public class CarpAlertRuleDTO extends BaseDTO {
+public class AlertMessagePageParam extends PageParam {
 
-    private static final long serialVersionUID = 1L;
-
+    @NotBlank
     private String namespace;
 
-    @Schema(description = "名称")
-    private String name;
+    private String ruleId;
 
-    private String uuid;
-
-    @Schema(description = "级别")
-    private AlertLevel level;
-
-    private String promql;
-
-    private String waitFor;
-
-    private String summary;
-
-    private String description;
-
-    private String remark;
+    private String resourceType;
+    
+    private String resourceId;
 }

@@ -15,36 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.service.dto;
+package cn.sliew.carp.module.alert.service.convert;
 
-import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.module.alert.enums.AlertLevel;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.module.alert.repository.entity.CarpAlertMessage;
+import cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@Data
-@Schema(name = "CarpAlertRule", description = "alert rule")
-public class CarpAlertRuleDTO extends BaseDTO {
-
-    private static final long serialVersionUID = 1L;
-
-    private String namespace;
-
-    @Schema(description = "名称")
-    private String name;
-
-    private String uuid;
-
-    @Schema(description = "级别")
-    private AlertLevel level;
-
-    private String promql;
-
-    private String waitFor;
-
-    private String summary;
-
-    private String description;
-
-    private String remark;
+@Mapper
+public interface AlertMessageConvert extends BaseConvert<CarpAlertMessage, CarpAlertMessageDTO> {
+    AlertMessageConvert INSTANCE = Mappers.getMapper(AlertMessageConvert.class);
 }

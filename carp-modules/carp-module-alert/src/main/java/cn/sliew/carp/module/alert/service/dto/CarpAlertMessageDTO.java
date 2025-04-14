@@ -17,34 +17,52 @@
  */
 package cn.sliew.carp.module.alert.service.dto;
 
+import cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus;
 import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.module.alert.enums.AlertLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-@Schema(name = "CarpAlertRule", description = "alert rule")
-public class CarpAlertRuleDTO extends BaseDTO {
+@Schema(name = "CarpAlertMessage", description = "alert message")
+public class CarpAlertMessageDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "命名空间")
     private String namespace;
 
-    @Schema(description = "名称")
-    private String name;
+    @Schema(description = "规则id")
+    private String ruleId;
 
-    private String uuid;
+    @Schema(description = "规则名称")
+    private String ruleName;
 
-    @Schema(description = "级别")
-    private AlertLevel level;
+    @Schema(description = "资源类型")
+    private String resourceType;
 
-    private String promql;
+    @Schema(description = "资源id")
+    private String resourceId;
 
-    private String waitFor;
+    @Schema(description = "告警消息fingerprint")
+    private String fingerprint;
+
+    @Schema(description = "告警消息状态")
+    private CarpAlertStatus status;
+
+    @Schema(description = "告警时间")
+    private Date startTime;
+
+    @Schema(description = "恢复时间")
+    private Date endTime;
+
+    @Schema(description = "告警次数")
+    private Long count;
 
     private String summary;
 
     private String description;
 
-    private String remark;
+    private String source;
 }
