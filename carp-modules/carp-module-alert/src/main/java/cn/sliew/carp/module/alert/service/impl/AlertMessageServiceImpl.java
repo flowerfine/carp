@@ -25,13 +25,16 @@ import cn.sliew.carp.module.alert.service.AlertMessageService;
 import cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO;
 import cn.sliew.carp.module.alert.service.param.AlertMessagePageParam;
 import cn.sliew.carp.module.alert.service.param.AlertMessageReceiveParam;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class AlertMessageServiceImpl
@@ -51,7 +54,20 @@ public class AlertMessageServiceImpl
 
     @Override
     public boolean receive(AlertMessageReceiveParam param) {
-        return false;
+        CarpAlertMessage message = new CarpAlertMessage();
+        BeanUtils.copyProperties(param, message);
+        message.setCount(1L);
+        LambdaQueryWrapper<CarpAlertMessage> queryWrapper = Wrappers.lambdaQuery(CarpAlertMessage.class)
+                .eq(CarpAlertMessage::getNamespace, param.getNamespace())
+                .eq(CarpAlertMessage::getRuleId, param.getRuleId())
+                .eq(CarpAlertMessage::getFingerprint, param.getFingerprint());
+        CarpAlertMessage entity = getOne(queryWrapper, false);
+        if (Objects.nonNull(entity)) {
+            message.setCount(entity.getCount() + 1);
+            return updateById(message);
+        } else {
+            return save(entity);
+        }
     }
 
 

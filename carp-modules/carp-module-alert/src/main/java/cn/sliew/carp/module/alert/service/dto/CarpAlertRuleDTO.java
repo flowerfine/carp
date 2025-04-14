@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.alert.service.dto;
 
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.module.alert.enums.AlertLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,6 +35,8 @@ public class CarpAlertRuleDTO extends BaseDTO {
     private String name;
 
     private String uuid;
+
+    private CarpYesOrNo isEnabled;
 
     @Schema(description = "级别")
     private AlertLevel level;

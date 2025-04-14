@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.alert.repository.entity;
 
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import cn.sliew.carp.module.alert.enums.AlertLevel;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -37,6 +38,9 @@ public class CarpAlertRule extends BaseAuditDO {
 
     @TableField("uuid")
     private String uuid;
+
+    @TableField("is_enabled")
+    private CarpYesOrNo isEnabled;
 
     @TableField("`level`")
     private AlertLevel level;

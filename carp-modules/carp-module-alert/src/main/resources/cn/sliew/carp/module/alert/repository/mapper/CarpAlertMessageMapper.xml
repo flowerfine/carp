@@ -47,10 +47,23 @@
         create_time,
         editor,
         update_time,
-        namespace, rule_id, resource_type, resource_id, fingerprint, `status`, start_time, end_time, count, summary, `description`, source
+        namespace, rule_id, resource_type, resource_id, fingerprint, `status`,
+        start_time, end_time, count, summary, `description`, source
     </sql>
 
     <select id="page" resultType="cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO">
     </select>
+
+    <insert id="upsert">
+        insert into carp_alert_message
+        (namespace, rule_id, resource_type, resource_id, fingerprint, `status`,
+         start_time, end_time, count, summary, `description`, source, creator,
+         create_time, editor, update_time,)
+        values (#{message.namespace},) on duplicate key
+        update
+            count = count + 1,
+            editor = values(editor),
+            update_time = now()
+    </insert>
 
 </mapper>

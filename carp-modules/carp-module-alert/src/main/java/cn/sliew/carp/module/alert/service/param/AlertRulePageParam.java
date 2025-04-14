@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.alert.service.param;
 
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.framework.common.model.PageParam;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -30,4 +31,6 @@ public class AlertRulePageParam extends PageParam {
     private String name;
 
     private String uuid;
+
+    private CarpYesOrNo isEnabled;
 }

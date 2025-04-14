@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.module.alert.service.impl;
 
+import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
@@ -26,7 +27,6 @@ import cn.sliew.carp.module.alert.service.AlertMessageService;
 import cn.sliew.carp.module.alert.service.AlertRuleService;
 import cn.sliew.carp.module.alert.service.convert.AlertRuleConvert;
 import cn.sliew.carp.module.alert.service.dto.CarpAlertRuleDTO;
-import cn.sliew.carp.module.alert.service.param.AlertMessageReceiveParam;
 import cn.sliew.carp.module.alert.service.param.AlertRuleAddParam;
 import cn.sliew.carp.module.alert.service.param.AlertRulePageParam;
 import cn.sliew.carp.module.alert.service.param.AlertRuleUpdateParam;
@@ -42,8 +42,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 @Service
 public class AlertRuleServiceImpl
@@ -59,7 +61,8 @@ public class AlertRuleServiceImpl
         LambdaQueryWrapper<CarpAlertRule> queryWrapper = Wrappers.lambdaQuery(CarpAlertRule.class)
                 .eq(CarpAlertRule::getNamespace, param.getNamespace())
                 .like(StringUtils.hasText(param.getName()), CarpAlertRule::getName, param.getName())
-                .eq(StringUtils.hasText(param.getUuid()), CarpAlertRule::getUuid, param.getUuid());
+                .eq(StringUtils.hasText(param.getUuid()), CarpAlertRule::getUuid, param.getUuid())
+                .eq(Objects.nonNull(param.getIsEnabled()), CarpAlertRule::getIsEnabled, param.getIsEnabled());
         Page<CarpAlertRule> carpAlertRulePage = page(page, queryWrapper);
         return PageUtil.buildPageResult(carpAlertRulePage, AlertRuleConvert.INSTANCE::toDto);
     }
@@ -75,12 +78,8 @@ public class AlertRuleServiceImpl
     public boolean add(AlertRuleAddParam param) {
         CarpAlertRule entity = new CarpAlertRule();
         BeanUtils.copyProperties(param, entity);
-        if (save(entity)) {
-            AlertMessageReceiveParam receiveParam = AlertMessageReceiveParam.builder().build();
-            alertMessageService.receive(receiveParam);
-            return true;
-        }
-        return false;
+        entity.setIsEnabled(CarpYesOrNo.NO);
+        return save(entity);
     }
 
     @Override
@@ -94,6 +93,7 @@ public class AlertRuleServiceImpl
     @Override
     public boolean delete(Long id) {
         CarpAlertRuleDTO ruleDTO = get(id);
+        checkState(ruleDTO.getIsEnabled() == CarpYesOrNo.NO, "Can't delete in use alert rule");
         removeById(id);
         return alertMessageService.deleteByRule(ruleDTO.getNamespace(), ruleDTO.getUuid());
     }

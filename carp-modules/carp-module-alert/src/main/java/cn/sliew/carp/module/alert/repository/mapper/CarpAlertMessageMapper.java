@@ -22,11 +22,14 @@ import cn.sliew.carp.module.alert.service.dto.CarpAlertMessageDTO;
 import cn.sliew.carp.module.alert.service.param.AlertMessagePageParam;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CarpAlertMessageMapper extends BaseMapper<CarpAlertMessage> {
 
     Page<CarpAlertMessageDTO> page(Page<CarpAlertMessage> page, AlertMessagePageParam param);
+
+    int upsert(@Param("message") CarpAlertMessage message);
 
 }

@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.alert.service.impl;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.sliew.carp.framework.common.dict.alert.CarpAlertStatus;
 import cn.sliew.carp.framework.common.model.BasePageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
@@ -27,17 +28,22 @@ import cn.sliew.carp.module.alert.model.webhook.WebhookAlertList;
 import cn.sliew.carp.module.alert.repository.entity.CarpAlertLog;
 import cn.sliew.carp.module.alert.repository.mapper.CarpAlertLogMapper;
 import cn.sliew.carp.module.alert.service.AlertLogService;
+import cn.sliew.carp.module.alert.service.AlertMessageService;
 import cn.sliew.carp.module.alert.service.convert.AlertLogConvert;
 import cn.sliew.carp.module.alert.service.dto.CarpAlertLogDTO;
+import cn.sliew.carp.module.alert.service.param.AlertMessageReceiveParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -45,6 +51,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class AlertLogServiceImpl
         extends ServiceImpl<CarpAlertLogMapper, CarpAlertLog>
         implements AlertLogService {
+
+    @Autowired
+    private AlertMessageService alertMessageService;
 
     @Override
     public PageResult<CarpAlertLogDTO> page(BasePageParam param) {
@@ -66,6 +75,21 @@ public class AlertLogServiceImpl
     public void add(CarpAlertLogDTO param) {
         CarpAlertLog entity = AlertLogConvert.INSTANCE.toDo(param);
         save(entity);
+
+        AlertMessageReceiveParam receiveParam = AlertMessageReceiveParam.builder()
+                .namespace(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_NAMESPACE))
+                .ruleId(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_RULE))
+                .resourceType(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_RESOURCE_TYPE))
+                .resourceId(MapUtils.getString(param.getLabels(), WebhookAlert.LABEL_RESOURCE_ID))
+                .fingerprint(param.getFingerprint())
+                .status(CarpAlertStatus.of(param.getStatus()))
+                .startTime(new Date(param.getStartsAt()))
+                .endTime(param.getEndsAt() > 0L ? new Date(param.getEndsAt()) : null)
+                .summary(MapUtils.getString(param.getAnnotations(), WebhookAlert.ANNOTATION_SUMMARY))
+                .description(MapUtils.getString(param.getAnnotations(), WebhookAlert.ANNOTATION_DESCRIPTION))
+                .source("prometheus")
+                .build();
+        alertMessageService.receive(receiveParam);
     }
 
     @Override

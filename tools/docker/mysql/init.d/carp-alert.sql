@@ -119,6 +119,7 @@ create table carp_alert_rule
     `namespace`   varchar(64) not null,
     `name`        varchar(64) not null comment '名称',
     `uuid`        varchar(64) not null,
+    `is_enabled`  varchar(4),
     `level`       varchar(64) comment '级别',
     `promql`      varchar(64),
     `wait_for`    varchar(8),
@@ -133,9 +134,9 @@ create table carp_alert_rule
     unique key uniq_uuid (`namespace`, `uuid`),
     key           idx_name (`namespace`, `name`)
 ) engine = innodb comment = 'alert rule';
-INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `level`, `promql`, `wait_for`, `summary`,
-                               `description`, `remark`, `creator`, `editor`)
-VALUES (1, 'default', 'Minio Down', '84066a33-77c6-5e4e-43f5-61ab968ca5ef', 'critical', 'up{job=~\"minio-job\"} == 0',
-        '1m', 'MinIO cluster is down',
+INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `is_enabled`, `level`, `promql`, `wait_for`,
+                               `summary`, `description`, `remark`, `creator`, `editor`)
+VALUES (1, 'default', 'Minio Down', '84066a33-77c6-5e4e-43f5-61ab968ca5ef', '0', 'critical',
+        'up{job=~\"minio-job\"} == 0', '1m', 'MinIO cluster is down',
         'All MinIO nodes are unreachable for more than 5 minutes. This is a critical issue affecting storage availability.',
         NULL, 'sys', 'sys');
