@@ -60,6 +60,7 @@ export default {
   'pages.workspace.monitor.alert.rule.namespace': '命名空间',
   'pages.workspace.monitor.alert.rule.name': '名称',
   'pages.workspace.monitor.alert.rule.uuid': 'UUID',
+  'pages.workspace.monitor.alert.rule.isEnabled': '启用状态',
   'pages.workspace.monitor.alert.rule.level': '级别',
   'pages.workspace.monitor.alert.rule.promql': 'PromQL',
   'pages.workspace.monitor.alert.rule.waitFor': '等待时间',

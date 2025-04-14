@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Button, message, Modal, Space, Table, Tooltip} from "antd";
+import {Button, message, Modal, Space, Table, Tag, Tooltip} from "antd";
 import {DeleteOutlined, EditOutlined, FileSearchOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {useIntl, history} from "@umijs/max";
@@ -36,6 +36,13 @@ const WorkspaceMonitorAlertRuleWeb: React.FC = () => {
       dataIndex: 'uuid',
       ellipsis: true,
       copyable: true,
+    },
+    {
+      title: intl.formatMessage({ id: 'pages.workspace.monitor.alert.rule.isEnabled' }),
+      dataIndex: 'isEnabled',
+      render: (dom, record, index) => {
+        return <Tag>{record.isEnabled.label}</Tag>
+      }
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.monitor.alert.rule.level' }),

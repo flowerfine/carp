@@ -10,6 +10,7 @@ declare namespace WorkspaceMonitorAPI {
     namespace: string;
     name: string;
     uuid: string;
+    isEnabled: Dict;
     level: Dict;
     promql: string;
     waitFor: string;
@@ -24,6 +25,7 @@ declare namespace WorkspaceMonitorAPI {
     namespace: string;
     name?: string;
     uuid?: string;
+    isEnabled: string;
   };
 
   type AlertRuleAddParam = {
