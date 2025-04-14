@@ -56,6 +56,11 @@ export default {
   'menu.workspace.x6.dag-demo': 'DAG数据加工',
   'menu.workspace.x6.dag-demo.desc': 'X6 demo，演示如何通过 x6 实现 DAG 数据加工',
 
+  'menu.workspace.monitor': '监控',
+  'menu.workspace.monitor.alert': '告警',
+  'menu.workspace.monitor.alert.rule': '告警规则',
+  'menu.workspace.monitor.alert.rule.desc': '基于 Prometheus 的告警规则管理',
+
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',

@@ -19,6 +19,7 @@ package cn.sliew.carp.module.alert.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
+import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.alert.service.AlertRuleService;
 import cn.sliew.carp.module.alert.service.dto.CarpAlertRuleDTO;
 import cn.sliew.carp.module.alert.service.param.AlertRuleAddParam;
@@ -34,6 +35,7 @@ import java.util.List;
 
 @WebLog
 @RestController
+@ApiResponseWrapper
 @RequestMapping("/api/carp/alert/rule")
 @Tag(name = "告警管理-告警规则")
 public class CarpAlertRuleController {

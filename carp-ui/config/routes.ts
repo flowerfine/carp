@@ -326,6 +326,34 @@ export default [
           }
         ]
       },
+      {
+        path: '/workspace/monitor',
+        name: 'monitor',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/monitor',
+            redirect: '/workspace/monitor/alert',
+          },
+          {
+            path: '/workspace/monitor/alert',
+            name: 'alert',
+            icon: 'profile',
+            routes: [
+              {
+                path: '/workspace/monitor/alert',
+                redirect: '/workspace/monitor/alert/rule',
+              },
+              {
+                path: '/workspace/monitor/alert/rule',
+                name: 'rule',
+                icon: 'profile',
+                component: './Workspace/Monitor/Alert/Rule'
+              }
+            ]
+          }
+        ]
+      }
     ]
   },
   {

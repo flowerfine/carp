@@ -55,4 +55,14 @@ export default {
   'pages.workspace.workflow.instance.detail.buttton.actions': '操作',
   'pages.workspace.workflow.instance.detail.tab.canvas': 'Canvas',
   'pages.workspace.workflow.instance.detail.tab.mermaid': 'Mermaid',
+
+  'pages.workspace.monitor.alert.rule': '告警规则',
+  'pages.workspace.monitor.alert.rule.namespace': '命名空间',
+  'pages.workspace.monitor.alert.rule.name': '名称',
+  'pages.workspace.monitor.alert.rule.uuid': 'UUID',
+  'pages.workspace.monitor.alert.rule.level': '级别',
+  'pages.workspace.monitor.alert.rule.promql': 'PromQL',
+  'pages.workspace.monitor.alert.rule.waitFor': '等待时间',
+  'pages.workspace.monitor.alert.rule.summary': '告警标题',
+  'pages.workspace.monitor.alert.rule.description': '告警详情',
 }
