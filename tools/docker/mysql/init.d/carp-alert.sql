@@ -106,8 +106,7 @@ create table carp_alert_message
     `editor`        varchar(32) comment '修改人',
     `update_time`   datetime    not null default current_timestamp on update current_timestamp comment '更新时间',
     primary key (id),
-    unique key uniq_fingerprint (`namespace`, `fingerprint`),
-    key             idx_rule_id (`namespace`, `rule_id`),
+    unique key uniq_fingerprint (`namespace`, `rule_id`, `fingerprint`),
     key             idx_resource (`namespace`, `resource_type`, `resource_id`),
     key             idx_rule_resource (`namespace`, `rule_id`, `resource_type`, `resource_id`)
 ) engine = innodb comment = 'alert message';
