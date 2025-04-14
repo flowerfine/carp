@@ -14,8 +14,12 @@ const WorkspaceMonitorAlertRuleWeb: React.FC = () => {
 
   const [selectedRows, setSelectedRows] = useState<WorkspaceMonitorAPI.AlertMessage[]>([]);
 
-  const onDetailClick = (ruleId: string) => {
-    history.push('/workspace/monitor/alert/rule', {uuid: ruleId});
+  const onDetailClick = (record: WorkspaceMonitorAPI.AlertMessage) => {
+    const param: WorkspaceMonitorAPI.AlertRulePageParam = {
+      namespace: record.namespace,
+      uuid: record.ruleId
+    }
+    history.push('/workspace/monitor/alert/rule', param);
   };
 
   const columns: ProColumns<WorkspaceMonitorAPI.AlertMessage>[] = [
@@ -28,7 +32,7 @@ const WorkspaceMonitorAlertRuleWeb: React.FC = () => {
       dataIndex: 'ruleName',
       renderText: (dom, record) => (
         <Space>
-          <a onClick={() => onDetailClick(record.ruleId)}>{dom}</a>
+          <a onClick={() => onDetailClick(record)}>{dom}</a>
         </Space>
       ),
     },
