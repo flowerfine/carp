@@ -28,7 +28,7 @@ services:
       - 9090:9090
     volumes:
       - ../prometheus/config.yml:/etc/prometheus/prometheus.yml
-      - ../prometheus/rules.yml:/etc/prometheus/rules.yml
+      - ../prometheus/rules:/etc/prometheus/rules
     networks:
       - alert
 

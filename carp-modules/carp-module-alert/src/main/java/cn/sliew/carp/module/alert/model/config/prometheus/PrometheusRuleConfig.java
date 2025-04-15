@@ -41,8 +41,6 @@ public class PrometheusRuleConfig {
 
     @Data
     public static class Rule {
-        // record 和 alert 只能设置一个
-        private String record;
         private String alert;
         private String expr;
         @JsonProperty("for")

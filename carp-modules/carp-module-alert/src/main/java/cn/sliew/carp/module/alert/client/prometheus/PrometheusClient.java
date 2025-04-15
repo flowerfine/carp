@@ -20,10 +20,15 @@ package cn.sliew.carp.module.alert.client.prometheus;
 import cn.sliew.carp.module.alert.enums.PrometheusDeployType;
 import cn.sliew.carp.module.alert.model.config.prometheus.PrometheusConfig;
 import cn.sliew.carp.module.alert.repository.entity.CarpAlertPrometheus;
+import cn.sliew.carp.module.alert.service.dto.CarpAlertRuleDTO;
 
 public interface PrometheusClient {
 
     PrometheusDeployType getDeployType();
 
-    boolean updatePrometheusConfig(CarpAlertPrometheus prometheus, PrometheusConfig config);
+    <T> T convertToScrapeConfig(CarpAlertPrometheus prometheus, CarpAlertRuleDTO alertRuleDTO);
+
+    <T> T convertToRule(CarpAlertPrometheus prometheus, CarpAlertRuleDTO alertRuleDTO);
+
+    boolean updatePrometheusConfig(CarpAlertPrometheus prometheus);
 }

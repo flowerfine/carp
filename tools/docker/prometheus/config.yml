@@ -29,4 +29,4 @@ alerting:
           - 'host.docker.internal:9093'
 
 rule_files:
-  - /etc/prometheus/rules.yml
+  - /etc/prometheus/rules/*.yml

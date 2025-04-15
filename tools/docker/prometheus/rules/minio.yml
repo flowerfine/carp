@@ -1,0 +1,23 @@
+groups:
+  - name: Minio Rule
+    labels:
+      team: Minio-Alerts
+    rules:
+      - alert: NodesOffline
+        expr: avg_over_time(minio_cluster_nodes_offline_total{job="minio-job"}[5m]) > 0
+        for: 10m
+        labels:
+          severity: warn
+        annotations:
+          summary: "Node down in MinIO deployment"
+          description: "Node(s) in cluster {{ $labels.instance }} offline for more than 5 minutes"
+
+      # MinIO 集群宕机告警 - 当所有 MinIO 节点都不可达时触发
+      - alert: MinIODown
+        expr: up{job=~"minio-job"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "MinIO cluster is down"
+          description: "All MinIO nodes are unreachable for more than 5 minutes. This is a critical issue affecting storage availability."

@@ -1,0 +1,39 @@
+groups:
+  - name: Flink Rule
+    rules:
+      - alert: Job Restart
+        expr: delta(flink_jobmanager_job_numRestarts{deploymentId='0bcf6ab3-124a-fe45-28a2-618fde98a993'}[1m]) >= 1.0
+        for: 1m
+        labels:
+          severity: critical
+          namespace: default
+          ruleId: 'd2493ea2-e1fb-ddb8-5f72-7c2400b525bf'
+          resourceType: flink
+          resourceId: '0bcf6ab3-124a-fe45-28a2-618fde98a993'
+        annotations:
+          summary: 1min 内重启次数 > 1
+          description: '{{ $value | printf "%.2f" }}'
+      - alert: Job Lag
+        expr: max(flink_taskmanager_job_task_operator_currentEmitEventTimeLag{deploymentId='373b231a-a030-26c1-8328-0db98c0abbd2'}/1000) >= 600.0
+        for: 1m
+        labels:
+          severity: critical
+          namespace: default
+          ruleId: 'e6357866-45ce-2452-8f0e-8eaca36ee120'
+          resourceType: flink
+          resourceId: '373b231a-a030-26c1-8328-0db98c0abbd2'
+        annotations:
+          summary: 延迟大于 > 600s
+          description: '{{ $value | printf "%.2f" }}'
+      - alert: Checkpoint Count
+        expr: delta(flink_jobmanager_job_numberOfCompletedCheckpoints{deploymentId='8fb80872-77d0-4f56-35b8-6e9cf905778f'}[5m]) < 1.0
+        for: 1m
+        labels:
+          severity: critical
+          namespace: default
+          ruleId: 'ef3fc905-1404-ca1e-463e-aad469f5bd95'
+          resourceType: flink
+          resourceId: '8fb80872-77d0-4f56-35b8-6e9cf905778f'
+        annotations:
+          summary: 5min Checkpoint 次数 < 1
+          description: '{{ $value | printf "%.2f" }}'

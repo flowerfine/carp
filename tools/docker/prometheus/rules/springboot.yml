@@ -1,0 +1,78 @@
+groups:
+  - name: SpringBoot Rule
+    rules:
+      - alert: Waiting Thread
+        expr: jvm_threads_states_threads{application="data-service", state="waiting"} >  500.0
+        for: 1m
+        labels:
+          severity: warn
+          namespace: default
+          ruleId: '6e7cf69f-4704-df78-3c8c-3ef9ce292bda'
+          resourceType: springboot
+          resourceId: '5338895e-05e1-30c7-7ac8-b59155d3f625'
+        annotations:
+          summary: Waiting Thread 数量 > 500
+          description: '{{ $value | printf "%.2f" }}'
+      - alert: Thread Count
+        expr: jvm_threads_live_threads{application="data-service"} > 1000
+        for: 1m
+        labels:
+          severity: warn
+          namespace: default
+          ruleId: '6fe20b21-7b05-9b45-b1b1-42998a2024b2'
+          resourceType: springboot
+          resourceId: '5338895e-05e1-30c7-7ac8-b59155d3f625'
+        annotations:
+          summary: Thread 数量 > 1000
+          description: '{{ $value | printf "%.2f" }}'
+
+      - alert: Heap
+        expr: sum(jvm_memory_used_bytes{application="data-service", area="heap"}) >= 4000.0
+        for: 1m
+        labels:
+          severity: warn
+          namespace: default
+          ruleId: '17040bbb-967a-8b99-f2eb-f0876b8ed8a9'
+          resourceType: springboot
+          resourceId: '5338895e-05e1-30c7-7ac8-b59155d3f625'
+        annotations:
+          summary: Heap 使用量 > 4Gi
+          description: '{{ $value | printf "%.2f" }}'
+
+      - alert: GC Count
+        expr: rate(jvm_gc_pause_seconds_count{application="data-service"}[1m]) > 120
+        for: 1m
+        labels:
+          severity: warn
+          namespace: default
+          ruleId: 'e996756d-c9e6-a2cf-c788-29a6a4311432'
+          resourceType: springboot
+          resourceId: '5338895e-05e1-30c7-7ac8-b59155d3f625'
+        annotations:
+          summary: GC 次数 > 120 次/分钟
+          description: '{{ $value | printf "%.2f" }}'
+      - alert: AVG GC Pause Duration
+        expr: rate(jvm_gc_pause_seconds_sum{application="data-service"}[1m])/rate(jvm_gc_pause_seconds_count{application="data-service"}[1m]) > 1000
+        for: 1m
+        labels:
+          severity: warn
+          namespace: default
+          ruleId: 'aa5fa1df-a715-fc95-81fa-5a76d171e73e'
+          resourceType: springboot
+          resourceId: '5338895e-05e1-30c7-7ac8-b59155d3f625'
+        annotations:
+          summary: 平均 GC 暂停时间 > 1000 ms
+          description: '{{ $value | printf "%.2f" }}'
+      - alert: Max GC Pause Duration
+        expr: jvm_gc_pause_seconds_max{application="data-service"} > 10000
+        for: 1m
+        labels:
+          severity: warn
+          namespace: default
+          ruleId: 'a1b4a3ae-066f-64a3-55fe-6751085bd3cf'
+          resourceType: springboot
+          resourceId: '5338895e-05e1-30c7-7ac8-b59155d3f625'
+        annotations:
+          summary: 最大 GC 暂停时间 > 10000 ms
+          description: '{{ $value | printf "%.2f" }}'
+
