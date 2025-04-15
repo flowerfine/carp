@@ -15,16 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.config;
+package cn.sliew.carp.module.workflow.manager.repository.mapper;
 
-import cn.sliew.carp.framework.mybatis.DataSourceConstants;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowInstance;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
-@Configuration
-@MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
-        basePackages = {AlertMybatisConfig.MAPPER_MODULE_ALERT_PACKAGE})
-public class AlertMybatisConfig {
+@Repository
+public interface CarpWorkflowInstanceMapper extends BaseMapper<CarpWorkflowInstance> {
 
-    public static final String MAPPER_MODULE_ALERT_PACKAGE = "cn.sliew.carp.module.alert.repository.mapper";
 }

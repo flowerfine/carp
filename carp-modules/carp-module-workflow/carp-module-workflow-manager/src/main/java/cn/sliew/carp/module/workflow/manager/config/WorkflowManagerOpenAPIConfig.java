@@ -15,16 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.config;
+package cn.sliew.carp.module.workflow.manager.config;
 
-import cn.sliew.carp.framework.mybatis.DataSourceConstants;
-import org.mybatis.spring.annotation.MapperScan;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
-        basePackages = {AlertMybatisConfig.MAPPER_MODULE_ALERT_PACKAGE})
-public class AlertMybatisConfig {
+public class WorkflowManagerOpenAPIConfig {
 
-    public static final String MAPPER_MODULE_ALERT_PACKAGE = "cn.sliew.carp.module.alert.repository.mapper";
+    @Bean
+    public GroupedOpenApi carpWorkflowManagerModuleOpenApi() {
+        return GroupedOpenApi.builder().group("Workflow模块")
+                .pathsToMatch("/api/carp/workflow/manager/**")
+                .packagesToScan("cn.sliew.carp.module.security").build();
+    }
 }

@@ -23,8 +23,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
-        basePackages = {KubernetesMybatisConfig.MAPPER_MODULE_DATASOURCE_PACKAGE})
+        basePackages = {KubernetesMybatisConfig.MAPPER_MODULE_KUBERNETES_PACKAGE})
 public class KubernetesMybatisConfig {
 
-    public static final String MAPPER_MODULE_DATASOURCE_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
+    public static final String MAPPER_MODULE_KUBERNETES_PACKAGE = "cn.sliew.carp.module.kubernetes.repository.mapper";
 }

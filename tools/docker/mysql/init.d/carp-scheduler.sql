@@ -8,9 +8,9 @@ CREATE TABLE `carp_schedule_job_group`
     `namespace`   varchar(64) NOT NULL COMMENT '命名空间',
     `name`        varchar(64) NOT NULL COMMENT '分组名称',
     `remark`      varchar(256) COMMENT 'remark',
-    `creator`     varchar(32)          DEFAULT NULL COMMENT 'creator',
+    `creator`     varchar(32) COMMENT 'creator',
     `create_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
-    `editor`      varchar(32)          DEFAULT NULL COMMENT 'editor',
+    `editor`      varchar(32) COMMENT 'editor',
     `update_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'update time',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uniq_name` (`namespace`,`name`)
@@ -33,9 +33,9 @@ CREATE TABLE `carp_schedule_job_config`
     `name`         varchar(64) NOT NULL COMMENT '任务名称',
     `handler`      varchar(64) COMMENT '任务处理器',
     `remark`       varchar(255) COMMENT 'remark',
-    `creator`      varchar(32)          DEFAULT NULL COMMENT 'creator',
+    `creator`      varchar(32) COMMENT 'creator',
     `create_time`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
-    `editor`       varchar(32)          DEFAULT NULL COMMENT 'editor',
+    `editor`       varchar(32) COMMENT 'editor',
     `update_time`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'update time',
     PRIMARY KEY (`id`),
     UNIQUE KEY `uniq_group_name` (`job_group_id`,`name`)
@@ -63,17 +63,17 @@ CREATE TABLE `carp_schedule_job_instance`
     `job_config_id` bigint(20) NOT NULL COMMENT '任务配置id',
     `name`          varchar(255) NOT NULL COMMENT '实例名称',
     `cron`          varchar(128) COMMENT 'CRON表达式',
-    `timezone`      VARCHAR(64)  NOT NULL,
-    `start_time`    DATETIME,
-    `end_time`      DATETIME,
+    `timezone`      varchar(64)  NOT NULL,
+    `start_time`    datetime,
+    `end_time`      datetime,
     `props`         varchar(255) COMMENT '属性',
     `params`        varchar(255) COMMENT '参数',
     `timeout`       bigint(20) COMMENT '超时时间（毫秒）',
     `status`        varchar(4)   NOT NULL COMMENT '状态',
     `remark`        varchar(255) COMMENT 'remark',
-    `creator`       varchar(32)           DEFAULT NULL COMMENT 'creator',
+    `creator`       varchar(32) COMMENT 'creator',
     `create_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
-    `editor`        varchar(32)           DEFAULT NULL COMMENT 'editor',
+    `editor`        varchar(32) COMMENT 'editor',
     `update_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'update time',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB COMMENT='schedule job instance';
@@ -106,3 +106,49 @@ INSERT INTO `carp_schedule_job_instance` (`id`, `job_config_id`, `name`, `cron`,
                                           `props`, `params`, `timeout`, `status`, `remark`, `creator`, `editor`)
 VALUES (7, 3, 'middle', '0 0/1 * * * ?', 'GMT+8', '2024-01-01 00:00:00', '9999-01-01 00:00:00',
         '{"workflowDefinitionId":7}', NULL, NULL, '0', NULL, 'sys', 'sys');
+
+DROP TABLE IF EXISTS `carp_workflow_definition`;
+CREATE TABLE `carp_workflow_definition`
+(
+    `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `namespace`   varchar(64) NOT NULL COMMENT '命名空间',
+    `name`        varchar(64) NOT NULL COMMENT '名称',
+    `uuid`        varchar(64) NOT NULL COMMENT 'uuid',
+    `engine`      varchar(64) NOT NULL COMMENT 'Engine',
+    `body`        text COMMENT 'body',
+    `remark`      varchar(256) COMMENT 'remark',
+    `creator`     varchar(32) COMMENT 'creator',
+    `create_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+    `editor`      varchar(32) COMMENT 'editor',
+    `update_time` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'update time',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uniq_name` (`namespace`,`uuid`)
+) ENGINE=InnoDB COMMENT='workflow definition';
+
+INSERT INTO `carp_workflow_definition` (`id`, `namespace`, `name`, `uuid`, `engine`, `body`, `remark`, `creator`,
+                                       `editor`)
+VALUES (1, 'default', 'log', '90a5946e-a2c5-f6d1-7218-4d7b4b812d26', 'internal', '{"dagConfigId":7}', NULL, 'sys',
+        'sys');
+INSERT INTO `carp_workflow_definition` (`id`, `namespace`, `name`, `uuid`, `engine`, `body`, `remark`, `creator`,
+                                       `editor`)
+VALUES (2, 'default', 'hello', 'e247443e-10f4-829f-a10c-d29fe4fa98db', 'temporal',
+        '{"queue":"hello_queue","workflowMethod":"hello"}', NULL, 'sys', 'sys');
+
+DROP TABLE IF EXISTS `carp_workflow_instance`;
+CREATE TABLE `carp_workflow_instance`
+(
+    `id`                     bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `namespace`              varchar(64) NOT NULL COMMENT '命名空间',
+    `workflow_definition_id` bigint      NOT NULL COMMENT 'workflow definition id',
+    `uuid`                   varchar(64) NOT NULL COMMENT 'uuid',
+    `params`                 text COMMENT 'params',
+    `status`                 varchar(4)  NOT NULL COMMENT '状态',
+    `scheduler_instance_id`  bigint COMMENT '调度实例 ID',
+    `remark`                 varchar(256) COMMENT 'remark',
+    `creator`                varchar(32) COMMENT 'creator',
+    `create_time`            datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+    `editor`                 varchar(32) COMMENT 'editor',
+    `update_time`            datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'update time',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uniq_name` (`namespace`,`uuid`)
+) ENGINE=InnoDB COMMENT='workflow instance';
