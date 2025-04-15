@@ -21,17 +21,12 @@ import cn.sliew.carp.framework.common.dict.common.CarpYesOrNo;
 import cn.sliew.carp.module.alert.enums.PrometheusDeployType;
 import cn.sliew.carp.module.alert.model.config.prometheus.PrometheusConfig;
 import cn.sliew.carp.module.alert.repository.entity.CarpAlertPrometheus;
+import cn.sliew.carp.module.alert.service.dto.CarpAlertRuleDTO;
+import io.fabric8.kubernetes.client.utils.Serialization;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.nodes.NodeTuple;
-import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -40,23 +35,10 @@ import java.util.Base64;
 
 @Slf4j
 @Component
-public class LocalPrometheusClient implements PrometheusClient, InitializingBean {
+public class LocalPrometheusClient implements PrometheusClient {
 
     @Autowired
     private OkHttpClient client;
-    private Representer representer;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.FLOW);
-        options.setDefaultScalarStyle(DumperOptions.ScalarStyle.PLAIN);
-        this.representer = new Representer(options) {
-            protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
-                return propertyValue == null ? null : super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
-            }
-        };
-    }
 
     @Override
     public PrometheusDeployType getDeployType() {
@@ -64,9 +46,18 @@ public class LocalPrometheusClient implements PrometheusClient, InitializingBean
     }
 
     @Override
-    public boolean updatePrometheusConfig(CarpAlertPrometheus prometheus, PrometheusConfig config) {
-        Yaml yaml = new Yaml(representer);
-        String prometheusConfig = yaml.dump(config);
+    public PrometheusConfig.ScrapeConfig convertToScrapeConfig(CarpAlertPrometheus prometheus, CarpAlertRuleDTO alertRuleDTO) {
+        return null;
+    }
+
+    @Override
+    public <T> T convertToRule(CarpAlertPrometheus prometheus, CarpAlertRuleDTO alertRuleDTO) {
+        return null;
+    }
+
+    @Override
+    public boolean updatePrometheusConfig(CarpAlertPrometheus prometheus) {
+        String prometheusConfig = Serialization.asYaml(null);
         try (FileWriter fileWriter = new FileWriter(prometheus.getConfigFilePath());
              BufferedWriter writer = new BufferedWriter(fileWriter)) {
             writer.write(prometheusConfig);
