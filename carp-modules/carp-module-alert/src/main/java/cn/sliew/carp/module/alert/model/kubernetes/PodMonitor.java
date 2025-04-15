@@ -17,5 +17,14 @@
  */
 package cn.sliew.carp.module.alert.model.kubernetes;
 
-public class PodMonitor {
+import io.fabric8.kubernetes.client.CustomResource;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Kind;
+import io.fabric8.kubernetes.model.annotation.Version;
+
+@Kind("PodMonitor")
+@Version("v1")
+@Group("monitoring.coreos.com")
+public class PodMonitor extends CustomResource<PodMonitorSpec, PodMonitorStatus> {
+
 }

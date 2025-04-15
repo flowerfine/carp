@@ -15,28 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package cn.sliew.carp.module.alert.model.kubernetes;
 
-package cn.sliew.carp.module.kubernetes.service.entity;
-
-import io.fabric8.kubernetes.api.model.GroupVersionKind;
-import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.LabelSelector;
+import io.fabric8.kubernetes.api.model.Quantity;
 import lombok.Data;
 
-/**
- * @see GroupVersionKind
- */
+import java.util.List;
+
 @Data
-public class VersionGroupKind {
+public class ServiceMonitorStatus {
 
-    private String namespace;
-    private String apiVersion;
-    private String kind;
-    private String name;
-
-    public static VersionGroupKind gvkFor(Class<? extends HasMetadata> resourceClass) {
-        VersionGroupKind versionGroupKind = new VersionGroupKind();
-        versionGroupKind.setApiVersion(HasMetadata.getGroup(resourceClass) + "/" + HasMetadata.getVersion(resourceClass));
-        versionGroupKind.setKind(HasMetadata.getKind(resourceClass));
-        return versionGroupKind;
-    }
 }

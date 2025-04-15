@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source;
 
-import cn.sliew.carp.module.kubernetes.service.entity.VersionGroupKind;
+import cn.sliew.carp.module.kubernetes.resource.VersionGroupKind;
 import cn.sliew.milky.common.util.JacksonUtil;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResourceList;
@@ -39,7 +39,6 @@ import org.apache.pekko.stream.stage.TimerGraphStageLogicWithLogging;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.List;

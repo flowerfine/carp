@@ -18,7 +18,7 @@
 
 package cn.sliew.carp.module.kubernetes.watch.source;
 
-import cn.sliew.carp.module.kubernetes.service.entity.VersionGroupKind;
+import cn.sliew.carp.module.kubernetes.resource.VersionGroupKind;
 import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import org.apache.pekko.NotUsed;

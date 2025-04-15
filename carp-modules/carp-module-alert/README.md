@@ -83,6 +83,8 @@ prometheus 支持多种 service discoverty（sd）：
 
 在 `kubernetes_sd_config` 实现中，可以按照 `node`、`service`、`pod`、`endpoints`、`endpointslice`、`ingress` 等方式动态识别新的目标。在 kube-prometheus-stack 中提供了 `ServiceMonitor` 和 `PodMonitor` 可以根据 `service` 和 `pod` 进行自动发现。
 
+![service-and-podMonitor](https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/heads/main/Documentation/img/service-and-podMonitor.svg)
+
 ##### ServiceMonitor
 
 参考链接：

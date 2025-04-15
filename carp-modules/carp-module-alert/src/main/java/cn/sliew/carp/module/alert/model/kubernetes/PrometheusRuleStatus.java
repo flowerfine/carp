@@ -17,14 +17,9 @@
  */
 package cn.sliew.carp.module.alert.model.kubernetes;
 
-import io.fabric8.kubernetes.client.CustomResource;
-import io.fabric8.kubernetes.model.annotation.Group;
-import io.fabric8.kubernetes.model.annotation.Kind;
-import io.fabric8.kubernetes.model.annotation.Version;
+import lombok.Data;
 
-@Kind("PrometheusRule")
-@Version("v1")
-@Group("monitoring.coreos.com")
-public class PrometheusRule extends CustomResource<PrometheusRuleSpec, PrometheusRuleStatus> {
+@Data
+public class PrometheusRuleStatus {
 
 }

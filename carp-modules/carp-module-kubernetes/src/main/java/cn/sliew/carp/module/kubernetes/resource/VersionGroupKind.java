@@ -15,16 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.alert.model.kubernetes;
+package cn.sliew.carp.module.kubernetes.resource;
 
-import io.fabric8.kubernetes.client.CustomResource;
-import io.fabric8.kubernetes.model.annotation.Group;
-import io.fabric8.kubernetes.model.annotation.Kind;
-import io.fabric8.kubernetes.model.annotation.Version;
+import io.fabric8.kubernetes.api.model.GroupVersionKind;
+import io.fabric8.kubernetes.api.model.HasMetadata;
+import lombok.Data;
 
-@Kind("PrometheusRule")
-@Version("v1")
-@Group("monitoring.coreos.com")
-public class PrometheusRule extends CustomResource<PrometheusRuleSpec, PrometheusRuleStatus> {
+/**
+ * @see GroupVersionKind
+ */
+@Data
+public class VersionGroupKind {
 
+    private String namespace;
+    private String apiVersion;
+    private String kind;
+    private String name;
+
+    public static VersionGroupKind gvkFor(Class<? extends HasMetadata> resourceClass) {
+        VersionGroupKind versionGroupKind = new VersionGroupKind();
+        versionGroupKind.setApiVersion(HasMetadata.getGroup(resourceClass) + "/" + HasMetadata.getVersion(resourceClass));
+        versionGroupKind.setKind(HasMetadata.getKind(resourceClass));
+        return versionGroupKind;
+    }
 }

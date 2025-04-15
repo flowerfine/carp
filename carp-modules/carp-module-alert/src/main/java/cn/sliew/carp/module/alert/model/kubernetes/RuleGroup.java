@@ -17,14 +17,22 @@
  */
 package cn.sliew.carp.module.alert.model.kubernetes;
 
-import io.fabric8.kubernetes.client.CustomResource;
-import io.fabric8.kubernetes.model.annotation.Group;
-import io.fabric8.kubernetes.model.annotation.Kind;
-import io.fabric8.kubernetes.model.annotation.Version;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-@Kind("PrometheusRule")
-@Version("v1")
-@Group("monitoring.coreos.com")
-public class PrometheusRule extends CustomResource<PrometheusRuleSpec, PrometheusRuleStatus> {
+import java.util.List;
+import java.util.Map;
 
+@Data
+public class RuleGroup {
+
+    private String name;
+    private Map<String, String> labels;
+    private String interval;
+    @JsonProperty("query_offset")
+    private String queryOffset;
+    private Integer limit;
+    @JsonProperty("partial_response_strategy")
+    private String partialResponseStrategy;
+    private List<Rule> rules;
 }
