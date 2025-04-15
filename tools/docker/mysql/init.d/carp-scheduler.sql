@@ -51,7 +51,10 @@ VALUES (2, 1, '0', 'internal', '0', 'bean', 'demo-bean', 'cn.sliew.carp.module.s
         NULL, 'sys', 'sys');
 INSERT INTO `carp_schedule_job_config` (`id`, `job_group_id`, `type`, `engine_type`, `job_type`, `execute_type`, `name`,
                                         `handler`, `remark`, `creator`, `editor`)
-VALUES (3, 2, '1', 'orca', '1', 'native', 'demo-orca', 'sss', NULL, 'sys', 'sys');
+VALUES (3, 1, '0', 'internal', '1', 'native', 'demo-workflow', NULL, NULL, 'sys', 'sys');
+INSERT INTO `carp_schedule_job_config` (`id`, `job_group_id`, `type`, `engine_type`, `job_type`, `execute_type`, `name`,
+                                        `handler`, `remark`, `creator`, `editor`)
+VALUES (4, 2, '1', 'orca', '1', 'native', 'demo-orca', NULL, NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS `carp_schedule_job_instance`;
 CREATE TABLE `carp_schedule_job_instance`
@@ -87,7 +90,6 @@ INSERT INTO `carp_schedule_job_instance` (`id`, `job_config_id`, `name`, `cron`,
                                           `props`, `params`, `timeout`, `status`, `remark`, `creator`, `editor`)
 VALUES (3, 1, 'high', '0 0/5 * * * ?', 'GMT+8', '2024-01-01 00:00:00', '9999-01-01 00:00:00', NULL, NULL, NULL, '0',
         NULL, 'sys', 'sys');
-
 INSERT INTO `carp_schedule_job_instance` (`id`, `job_config_id`, `name`, `cron`, `timezone`, `start_time`, `end_time`,
                                           `props`, `params`, `timeout`, `status`, `remark`, `creator`, `editor`)
 VALUES (4, 2, 'high', '0/10 * * * * ?', 'GMT+8', '2024-01-01 00:00:00', '9999-01-01 00:00:00', NULL, NULL, NULL, '0',
@@ -100,3 +102,7 @@ INSERT INTO `carp_schedule_job_instance` (`id`, `job_config_id`, `name`, `cron`,
                                           `props`, `params`, `timeout`, `status`, `remark`, `creator`, `editor`)
 VALUES (6, 2, 'high', '0 0/5 * * * ?', 'GMT+8', '2024-01-01 00:00:00', '9999-01-01 00:00:00', NULL, NULL, NULL, '0',
         NULL, 'sys', 'sys');
+INSERT INTO `carp_schedule_job_instance` (`id`, `job_config_id`, `name`, `cron`, `timezone`, `start_time`, `end_time`,
+                                          `props`, `params`, `timeout`, `status`, `remark`, `creator`, `editor`)
+VALUES (7, 3, 'middle', '0 0/1 * * * ?', 'GMT+8', '2024-01-01 00:00:00', '9999-01-01 00:00:00',
+        '{"workflowDefinitionId":7}', NULL, NULL, '0', NULL, 'sys', 'sys');

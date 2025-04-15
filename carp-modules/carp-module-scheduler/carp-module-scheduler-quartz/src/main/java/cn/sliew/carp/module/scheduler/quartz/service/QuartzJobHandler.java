@@ -32,6 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.util.StringUtils;
 
+import java.util.Objects;
+
 @Slf4j
 public class QuartzJobHandler extends QuartzJobBean {
 
@@ -55,6 +57,9 @@ public class QuartzJobHandler extends QuartzJobBean {
         triggerParam.setJobType(scheduleJobConfigDTO.getJobType().getValue());
         triggerParam.setExecuteType(scheduleJobConfigDTO.getExecuteType().getValue());
         triggerParam.setJobHandler(scheduleJobConfigDTO.getHandler());
+        if (Objects.nonNull(scheduleJobInstanceDTO.getProps())) {
+            triggerParam.setProps(JacksonUtil.toMap(scheduleJobInstanceDTO.getProps()));
+        }
         if (StringUtils.hasText(scheduleJobInstanceDTO.getParams())) {
             triggerParam.setParams(JacksonUtil.toMap(JacksonUtil.toJsonNode(scheduleJobInstanceDTO.getParams())));
         }

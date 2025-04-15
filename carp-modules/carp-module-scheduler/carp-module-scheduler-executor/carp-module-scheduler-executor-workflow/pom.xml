@@ -22,29 +22,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-module-scheduler</artifactId>
+        <artifactId>carp-module-scheduler-executor</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-scheduler-manage</artifactId>
+    <artifactId>carp-module-scheduler-executor-workflow</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-web</artifactId>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-scheduler-executor-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-scheduler-executor-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-scheduler-executor-workflow</artifactId>
+            <artifactId>carp-module-workflow-api</artifactId>
         </dependency>
     </dependencies>
 
