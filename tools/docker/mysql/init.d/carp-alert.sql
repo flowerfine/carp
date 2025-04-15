@@ -120,7 +120,7 @@ create table carp_alert_rule
     `uuid`        varchar(64) not null,
     `is_enabled`  varchar(4),
     `level`       varchar(64) comment '级别',
-    `promql`      varchar(64),
+    `promql`      varchar(512),
     `wait_for`    varchar(8),
     `summary`     varchar(512),
     `description` text,
@@ -133,9 +133,37 @@ create table carp_alert_rule
     unique key uniq_uuid (`namespace`, `uuid`),
     key           idx_name (`namespace`, `name`)
 ) engine = innodb comment = 'alert rule';
+
 INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `is_enabled`, `level`, `promql`, `wait_for`,
                                `summary`, `description`, `remark`, `creator`, `editor`)
-VALUES (1, 'default', 'Minio Down', '84066a33-77c6-5e4e-43f5-61ab968ca5ef', '0', 'critical',
+VALUES (1, 'default', 'WatchDog', '98b450b8-2a6f-12ed-d9b4-a0458316f86e', '1', 'none', 'vector(1)', '1m',
+        'Alert heartbeat',
+        'This is an alert meant to ensure that the entire alerting pipeline is functional.\n            This alert is always firing, therefore it should always be firing in Alertmanager\n            and always fire against a receiver. There are integrations with various notification\n            mechanisms that send a notification when this alert is not firing. For example the\n            \"DeadMansSnitch\" integration in PagerDuty.',
+        'Watch Dog', 'sys', 'sys');
+INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `is_enabled`, `level`, `promql`, `wait_for`,
+                               `summary`, `description`, `remark`, `creator`, `editor`)
+VALUES (2, 'default', 'NodesOffline', 'f06c2876-6542-f4e4-a148-f6d697ef302a', '0', 'warn',
+        'avg_over_time(minio_cluster_nodes_offline_total{job=\"minio-job\"}[5m]) > 0', '10m',
+        'Node down in MinIO deployment', 'Node(s) in cluster {{ $labels.instance }} offline for more than 10 minutes',
+        'Minio Rule', 'sys', 'sys');
+INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `is_enabled`, `level`, `promql`, `wait_for`,
+                               `summary`, `description`, `remark`, `creator`, `editor`)
+VALUES (3, 'default', 'Minio Down', 'e3d5244e-c1ac-cf61-6fb4-91069fc6fc6d', '0', 'critical',
         'up{job=~\"minio-job\"} == 0', '1m', 'MinIO cluster is down',
         'All MinIO nodes are unreachable for more than 5 minutes. This is a critical issue affecting storage availability.',
-        NULL, 'sys', 'sys');
+        'Minio Rule', 'sys', 'sys');
+INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `is_enabled`, `level`, `promql`, `wait_for`,
+                               `summary`, `description`, `remark`, `creator`, `editor`)
+VALUES (4, 'default', 'Job Restart', 'd2493ea2-e1fb-ddb8-5f72-7c2400b525bf', '0', 'critical',
+        'delta(flink_jobmanager_job_numRestarts{deploymentId="0bcf6ab3-124a-fe45-28a2-618fde98a993"}[1m]) >= 1.0', '1m',
+        '1min 内重启次数 > 1', '{{ $value | printf \"%.2f\" }}', 'Flink Rule', 'sys', 'sys');
+INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `is_enabled`, `level`, `promql`, `wait_for`,
+                               `summary`, `description`, `remark`, `creator`, `editor`)
+VALUES (5, 'default', 'Job Lag', 'e6357866-45ce-2452-8f0e-8eaca36ee120', '0', 'critical',
+        'max(flink_taskmanager_job_task_operator_currentEmitEventTimeLag{deploymentId="373b231a-a030-26c1-8328-0db98c0abbd2"}/1000) >= 600.0',
+        '1m', '延迟大于 > 600s', '{{ $value | printf \"%.2f\" }}', 'Flink Rule', 'sys', 'sys');
+INSERT INTO `carp_alert_rule` (`id`, `namespace`, `name`, `uuid`, `is_enabled`, `level`, `promql`, `wait_for`,
+                               `summary`, `description`, `remark`, `creator`, `editor`)
+VALUES (6, 'default', 'Waiting Thread', '6e7cf69f-4704-df78-3c8c-3ef9ce292bda', '0', 'warn',
+        'jvm_threads_states_threads{application=\"data-service\", state=\"waiting\"} >  500.0', '1m',
+        'Waiting Thread 数量 > 500', '{{ $value | printf \"%.2f\" }}', 'SpringBoot Rule', 'sys', 'sys');

@@ -9,7 +9,7 @@ groups:
         labels:
           severity: none
           namespace: 'default'
-          ruleId: '84066a33-77c6-5e4e-43f5-61ab968ca5ef'
+          ruleId: '98b450b8-2a6f-12ed-d9b4-a0458316f86e'
           resourceType: none
           resourceId: none
         annotations:
