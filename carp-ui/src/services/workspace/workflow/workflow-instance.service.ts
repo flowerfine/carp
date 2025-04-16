@@ -26,28 +26,32 @@ export const WorkflowInstanceService = {
     });
   },
 
-  toX6Graph: async (id: number) => {
-    return request<ResponseBody<X6API.Graph>>(`${WorkflowInstanceService.url}/${id}/x6graph`, {
-      method: 'GET'
+  add: async (row: WorkspaceWorkflowAPI.ScheduleConfigAddParam) => {
+    return request<ResponseBody<any>>(`${WorkflowInstanceService.url}`, {
+      method: 'PUT',
+      data: row,
     });
   },
 
-  toPlantUML: async (id: number) => {
-    return request<ResponseBody<String>>(`${WorkflowInstanceService.url}/${id}/plantuml`, {
-      method: 'GET'
-    });
-  },
-
-  toMermaid: async (id: number) => {
-    return request<ResponseBody<String>>(`${WorkflowInstanceService.url}/${id}/mermaid`, {
-      method: 'GET'
-    });
-  },
-
-  run: async (row: WorkspaceWorkflowAPI.WorkflowDefinitionRunParam) => {
-    return request<ResponseBody<any>>(`${WorkflowInstanceService.url}/run`, {
+  update: async (row: WorkspaceWorkflowAPI.ScheduleConfigUpdateParam) => {
+    return request<ResponseBody<any>>(`${WorkflowInstanceService.url}`, {
       method: 'POST',
       data: row,
     });
   },
+
+  delete: async (row: WorkspaceWorkflowAPI.WorkfflowInstance) => {
+    return request<ResponseBody<any>>(`${WorkflowInstanceService.url}/` + row.id, {
+      method: 'DELETE',
+    });
+  },
+
+  deleteBatch: async (rows: WorkspaceWorkflowAPI.WorkfflowInstance[]) => {
+    const params = rows.map((row) => row.id);
+    return request<ResponseBody<any>>(`${WorkflowInstanceService.url}/batch`, {
+      method: 'DELETE',
+      data: params,
+    });
+  },
+
 };

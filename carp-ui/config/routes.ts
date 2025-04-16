@@ -235,8 +235,6 @@ export default [
           },
           {
             path: '/workspace/workflow/instance',
-            name: 'instance',
-            icon: 'profile',
             component: './Workspace/Workflow/Instance'
           },
         ]

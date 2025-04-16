@@ -49,6 +49,12 @@ public class WorkflowDefinitionController {
         return workflowDefinitionService.page(param);
     }
 
+    @GetMapping
+    @Operation(summary = "查询-所有", description = "查询-所有")
+    public List<CarpWorkflowDefinitionDTO> list(@Valid WorkflowDefinitionPageParam param) {
+        return workflowDefinitionService.list(param);
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "查询-详情", description = "查询-详情")
     public CarpWorkflowDefinitionDTO get(@PathVariable("id") Long id) {

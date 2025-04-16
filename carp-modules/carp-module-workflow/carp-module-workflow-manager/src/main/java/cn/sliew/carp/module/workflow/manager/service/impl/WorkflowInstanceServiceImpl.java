@@ -21,6 +21,7 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.crud.service.impl.AbstractCrudService;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
+import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowInstanceStatus;
 import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowInstance;
 import cn.sliew.carp.module.workflow.manager.repository.mapper.CarpWorkflowInstanceMapper;
 import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceService;
@@ -36,6 +37,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Objects;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -60,6 +62,11 @@ public class WorkflowInstanceServiceImpl
     }
 
     @Override
+    public List<CarpWorkflowInstanceDTO> list(WorkflowInstancePageParam workflowInstancePageParam) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public CarpWorkflowInstanceDTO get(Long id) {
         CarpWorkflowInstance entity = getById(id);
         checkState(entity != null, () -> "workflow instance not exists for id: " + id);
@@ -71,6 +78,7 @@ public class WorkflowInstanceServiceImpl
         CarpWorkflowInstance entity = new CarpWorkflowInstance();
         BeanUtils.copyProperties(param, entity);
         entity.setUuid(UUIDUtil.randomUUId());
+        entity.setStatus(CarpWorkflowInstanceStatus.NOT_STARTED.getValue());
         if (Objects.nonNull(param.getParams())) {
             entity.setParams(param.getParams().toString());
         }

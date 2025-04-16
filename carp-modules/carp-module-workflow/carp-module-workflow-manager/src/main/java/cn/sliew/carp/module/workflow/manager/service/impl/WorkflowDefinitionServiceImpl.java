@@ -36,6 +36,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Objects;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
@@ -57,6 +58,17 @@ public class WorkflowDefinitionServiceImpl
 
         Page<CarpWorkflowDefinition> carpWorkflowDefinitionPage = page(page, queryWrapper);
         return PageUtil.buildPageResult(carpWorkflowDefinitionPage, CarpWorkflowDefinitionConvert.INSTANCE::toDto);
+    }
+
+    @Override
+    public List<CarpWorkflowDefinitionDTO> list(WorkflowDefinitionPageParam param) {
+        LambdaQueryWrapper<CarpWorkflowDefinition> queryWrapper = Wrappers.lambdaQuery(CarpWorkflowDefinition.class)
+                .eq(CarpWorkflowDefinition::getNamespace, param.getNamespace())
+                .like(StringUtils.hasText(param.getName()), CarpWorkflowDefinition::getName, param.getName())
+                .eq(StringUtils.hasText(param.getUuid()), CarpWorkflowDefinition::getUuid, param.getUuid())
+                .eq(Objects.nonNull(param.getEngine()), CarpWorkflowDefinition::getEngine, param.getEngine());
+        List<CarpWorkflowDefinition> list = list(queryWrapper);
+        return CarpWorkflowDefinitionConvert.INSTANCE.toDto(list);
     }
 
     @Override

@@ -1,7 +1,6 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
 import {WorkspaceWorkflowAPI} from './typings';
-import {WorkspaceScheduleAPI} from "@/services/workspace/schedule/typings";
 
 export const WorkflowDefinitionService = {
   url: '/api/carp/workflow/definition',
@@ -18,6 +17,13 @@ export const WorkflowDefinitionService = {
         current: res.data?.current,
       };
       return result;
+    });
+  },
+
+  list: async (queryParam: WorkspaceWorkflowAPI.WorkflowDefinitionPageParam) => {
+    return request<ResponseBody<Array<WorkspaceWorkflowAPI.WorkflowDefinition>>>(`${WorkflowDefinitionService.url}`, {
+      method: 'GET',
+      params: queryParam,
     });
   },
 

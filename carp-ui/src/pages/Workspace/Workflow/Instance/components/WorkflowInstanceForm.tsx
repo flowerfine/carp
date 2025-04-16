@@ -2,6 +2,7 @@ import React from 'react';
 import {Form, message} from 'antd';
 import {
   ModalForm,
+  ProFormDateRangePicker,
   ProFormDependency,
   ProFormDigit,
   ProFormSelect,
@@ -11,23 +12,23 @@ import {
 import {useIntl} from '@umijs/max';
 import {ModalFormProps} from "@/typings";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
 import {DictService} from "@/services/admin/system/dict.service";
 import {DICT_TYPE} from "@/constants/dictType";
+import {WorkflowInstanceService} from '@/services/workspace/workflow/workflow-instance.service';
 
-export default (props: ModalFormProps<{ namespace: string, workflowDefinition?: WorkspaceWorkflowAPI.WorkflowDefinition }>) => {
+export default (props: ModalFormProps<{ workflowDefinition: WorkspaceWorkflowAPI.WorkflowDefinition, workflowInstance?: WorkspaceWorkflowAPI.WorkflowInstance }>) => {
   const intl = useIntl();
   const [form] = Form.useForm();
   const { visible, data, onCancel, onFinish } = props;
 
   return (
-    <ModalForm<WorkspaceWorkflowAPI.WorkflowDefinition>
+    <ModalForm<WorkspaceWorkflowAPI.WorkflowInstance>
       title={
-        data?.workflowDefinition?.id
+        data?.workflowInstance?.id
           ? intl.formatMessage({ id: 'app.common.operate.edit.label' }) +
-          intl.formatMessage({ id: 'pages.workspace.workflow.definition' })
+          intl.formatMessage({ id: 'pages.workspace.workflow.instance' })
           : intl.formatMessage({ id: 'app.common.operate.new.label' }) +
-          intl.formatMessage({ id: 'pages.workspace.workflow.definition' })
+          intl.formatMessage({ id: 'pages.workspace.workflow.instance' })
       }
       layout={"horizontal"}
       labelCol={{ span: 6 }}
@@ -44,17 +45,18 @@ export default (props: ModalFormProps<{ namespace: string, workflowDefinition?: 
       preserve={false}
       open={visible}
       initialValues={{
-        id: data?.workflowDefinition?.id,
-        namespace: data?.namespace,
-        name: data?.workflowDefinition?.name,
-        engine: data?.workflowDefinition?.engine.value,
-        body: data?.workflowDefinition?.body,
-        remark: data?.workflowDefinition?.remark,
+        id: data?.workflowInstance?.id,
+        namespace: data?.workflowDefinition.namespace,
+        name: data?.workflowDefinition.name,
+        engine: data?.workflowDefinition.engine.value,
+        workflowDefinitionId: data?.workflowDefinition.id,
+        params: data?.workflowInstance?.params,
+        remark: data?.workflowInstance?.remark,
       }}
       onFinish={async (values: Record<string, any>) => {
         const param = { ...values };
-        return data?.workflowDefinition?.id
-          ? WorkflowDefinitionService.update(param).then((response) => {
+        return data?.workflowInstance?.id
+          ? WorkflowInstanceService.update(param).then((response) => {
             if (response.success) {
               message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }));
               if (onFinish) {
@@ -62,7 +64,7 @@ export default (props: ModalFormProps<{ namespace: string, workflowDefinition?: 
               }
             }
           })
-          : WorkflowDefinitionService.add(param).then((response) => {
+          : WorkflowInstanceService.add(param).then((response) => {
             if (response.success) {
               message.success(intl.formatMessage({ id: 'app.common.operate.new.success' }));
               if (onFinish) {
@@ -74,38 +76,69 @@ export default (props: ModalFormProps<{ namespace: string, workflowDefinition?: 
     >
       <ProFormDigit name="id" hidden />
       <ProFormText
+        name="workflowDefinitionId"
+        hidden
+      />
+      <ProFormText
         name="namespace"
-        label={intl.formatMessage({ id: 'pages.workspace.workflow.definition.namespace' })}
+        label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.namespace' })}
         hidden
       />
       <ProFormText
         name="name"
         label={intl.formatMessage({ id: 'pages.workspace.workflow.definition.name' })}
         rules={[{ required: true }, { max: 32 }]}
+        disabled={true}
         allowClear={false}
       />
       <ProFormSelect
         name="engine"
         label={intl.formatMessage({ id: 'pages.workspace.workflow.definition.engine' })}
         rules={[{ required: true }]}
-        allowClear={false}
+        disabled={true}
         request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpWorkflowEngineType)}
       />
       <ProFormDependency name={['engine']}>
         {({ engine }) => {
           if (engine === 'temporal') {
             return (
-              <ProFormText
-                name={["body", "workflowMethod"]}
-                label={intl.formatMessage({ id: 'pages.workspace.workflow.definition.engine.temporal.workflowMethod' })}
-                tooltip={intl.formatMessage({ id: 'pages.workspace.workflow.definition.engine.temporal.workflowMethod.tooltip' })}
-                rules={[{ required: true }]}
-              />
+              <>
+                <ProFormText
+                  name={["params", "queue"]}
+                  label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.queue' })}
+                  rules={[{ required: true }]}
+                />
+                <ProFormText
+                  name={["params", "timezone"]}
+                  label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.timezone' })}
+                />
+                <ProFormText
+                  name={["params", "expression"]}
+                  label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.expression' })}
+                />
+                <ProFormDateRangePicker
+                  name={["params", "validTime"]}
+                  label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.validTime' })}
+                  rules={[{ required: true }]}
+                  fieldProps={{
+                    showTime: true,
+                    format: "YYYY-MM-DD HH:mm:ss",
+                    id: {
+                      start: "startTime",
+                      end: "endTime"
+                    }
+                  }}
+                />
+              </>
             )
           }
           return <></>
         }}
       </ProFormDependency>
+      <ProFormTextArea
+        name={["params", "param"]}
+        label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.params.param' })}
+      />
       <ProFormTextArea
         name="remark"
         label={intl.formatMessage({ id: 'app.common.data.remark' })}

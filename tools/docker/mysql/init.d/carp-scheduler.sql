@@ -142,7 +142,7 @@ CREATE TABLE `carp_workflow_instance`
     `workflow_definition_id` bigint      NOT NULL COMMENT 'workflow definition id',
     `uuid`                   varchar(64) NOT NULL COMMENT 'uuid',
     `params`                 text COMMENT 'params',
-    `status`                 varchar(4)  NOT NULL COMMENT '状态',
+    `status`                 varchar(16)  NOT NULL COMMENT '状态',
     `scheduler_instance_id`  bigint COMMENT '调度实例 ID',
     `remark`                 varchar(256) COMMENT 'remark',
     `creator`                varchar(32) COMMENT 'creator',
