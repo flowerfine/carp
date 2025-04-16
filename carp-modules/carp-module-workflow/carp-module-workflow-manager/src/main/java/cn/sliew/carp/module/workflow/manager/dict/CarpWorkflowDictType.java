@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.workflow.manager.dict;
 
 import cn.sliew.carp.framework.common.dict.DictDefinition;
+import cn.sliew.carp.module.workflow.engine.api.dict.CarpWorkflowEngineType;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;

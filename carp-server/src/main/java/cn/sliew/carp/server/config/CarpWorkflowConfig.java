@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.server.config;
 
-import cn.sliew.carp.module.workflow.internal.annotation.EnableInternalWorkflowRuntime;
+import cn.sliew.carp.module.workflow.engine.internal.core.annotation.EnableInternalWorkflowRuntime;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

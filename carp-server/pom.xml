@@ -74,11 +74,11 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-workflow-internal</artifactId>
+            <artifactId>carp-module-workflow-engine-internal-core</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-workflow-spinnaker</artifactId>
+            <artifactId>carp-module-workflow-engine-internal-spinnaker</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

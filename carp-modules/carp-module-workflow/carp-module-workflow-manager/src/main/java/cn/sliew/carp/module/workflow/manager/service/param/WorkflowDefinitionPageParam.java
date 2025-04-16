@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.manager.service.param;
 
 import cn.sliew.carp.framework.common.model.PageParam;
-import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowEngineType;
+import cn.sliew.carp.module.workflow.engine.api.dict.CarpWorkflowEngineType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
