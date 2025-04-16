@@ -126,11 +126,11 @@ CREATE TABLE `carp_workflow_definition`
 ) ENGINE=InnoDB COMMENT='workflow definition';
 
 INSERT INTO `carp_workflow_definition` (`id`, `namespace`, `name`, `uuid`, `engine`, `body`, `remark`, `creator`,
-                                       `editor`)
+                                        `editor`)
 VALUES (1, 'default', 'log', '90a5946e-a2c5-f6d1-7218-4d7b4b812d26', 'internal', '{"dagConfigId":7}', NULL, 'sys',
         'sys');
 INSERT INTO `carp_workflow_definition` (`id`, `namespace`, `name`, `uuid`, `engine`, `body`, `remark`, `creator`,
-                                       `editor`)
+                                        `editor`)
 VALUES (2, 'default', 'hello', 'e247443e-10f4-829f-a10c-d29fe4fa98db', 'temporal',
         '{"queue":"hello_queue","workflowMethod":"hello"}', NULL, 'sys', 'sys');
 
@@ -142,7 +142,7 @@ CREATE TABLE `carp_workflow_instance`
     `workflow_definition_id` bigint      NOT NULL COMMENT 'workflow definition id',
     `uuid`                   varchar(64) NOT NULL COMMENT 'uuid',
     `params`                 text COMMENT 'params',
-    `status`                 varchar(16)  NOT NULL COMMENT '状态',
+    `status`                 varchar(16) NOT NULL COMMENT '状态',
     `scheduler_instance_id`  bigint COMMENT '调度实例 ID',
     `remark`                 varchar(256) COMMENT 'remark',
     `creator`                varchar(32) COMMENT 'creator',
@@ -152,3 +152,9 @@ CREATE TABLE `carp_workflow_instance`
     PRIMARY KEY (`id`),
     UNIQUE KEY `uniq_name` (`namespace`,`uuid`)
 ) ENGINE=InnoDB COMMENT='workflow instance';
+
+INSERT INTO `carp_workflow_instance` (`id`, `namespace`, `workflow_definition_id`, `uuid`, `params`, `status`,
+                                      `scheduler_instance_id`, `remark`, `creator`, `editor`)
+VALUES (2, 'default', 2, '484202c6172d407a8106c3faba64d59b',
+        '{"queue":"test","timezone":"GMT_8","expression":"@every 1m","validTime":["2025-01-01 00:00:00","2300-01-01 00:00:00"],"param":"hello"}',
+        'not_started', NULL, NULL, 'sys', 'sys');
