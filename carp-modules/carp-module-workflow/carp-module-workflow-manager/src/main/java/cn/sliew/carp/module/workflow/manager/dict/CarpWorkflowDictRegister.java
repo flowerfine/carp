@@ -15,32 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.manager.service.param;
+package cn.sliew.carp.module.workflow.manager.dict;
 
-import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowEngineType;
-import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import cn.sliew.carp.framework.common.dict.CarpEnumDictRegistry;
+import org.apache.commons.lang3.EnumUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
-@Data
-public class WorkflowDefinitionAddParam {
+import java.util.List;
 
-    @NotBlank
-    private String namespace;
+@Component
+public class CarpWorkflowDictRegister implements InitializingBean {
 
-    @NotBlank
-    @Schema(description = "名称")
-    private String name;
-
-    @NotNull
-    @Schema(description = "Engine")
-    private CarpWorkflowEngineType engine;
-
-    @Schema(description = "body")
-    private JsonNode body;
-
-    @Schema(description = "remark")
-    private String remark;
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        List<CarpWorkflowDictType> enumList = EnumUtils.getEnumList(CarpWorkflowDictType.class);
+        for (CarpWorkflowDictType dictType : enumList) {
+            List values = EnumUtils.getEnumList(dictType.getInstanceClass());
+            CarpEnumDictRegistry.register(dictType, values);
+        }
+    }
 }

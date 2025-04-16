@@ -16,4 +16,6 @@ export const DICT_TYPE = {
   carpScheduleJobType: 'carp_schedule_job_type',
   carpScheduleExecuteType: 'carp_schedule_java_executor_type',
   carpScheduleStatus: 'carp_schedule_status',
+
+  carpWorkflowEngineType: 'carp_workflow_engine_type',
 };

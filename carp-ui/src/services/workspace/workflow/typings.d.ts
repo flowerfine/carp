@@ -5,6 +5,25 @@ import {Dict, QueryParam} from "@/typings";
 
 declare namespace WorkspaceWorkflowAPI {
 
+  type WorkflowDefinition = {
+    id: number;
+    namespace: string;
+    name: string;
+    uuid: string;
+    engine: Dict;
+    body?: Record<string, any>;
+    remark?: string;
+    createTime?: Date;
+    updateTime?: Date;
+  };
+
+  type WorkflowDefinitionPageParam = QueryParam & {
+    namespace: string;
+    name?: string;
+    uuid?: string;
+    engine?: string;
+  };
+
   type ServerlessWorkflowDefinition = {
     id: number;
     namespace: string;

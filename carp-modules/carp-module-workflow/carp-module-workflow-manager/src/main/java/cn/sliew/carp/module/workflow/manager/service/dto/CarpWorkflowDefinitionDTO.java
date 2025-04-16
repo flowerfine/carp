@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.manager.service.dto;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
-import cn.sliew.carp.module.workflow.manager.enums.CarpWorkflowEngineType;
+import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowEngineType;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

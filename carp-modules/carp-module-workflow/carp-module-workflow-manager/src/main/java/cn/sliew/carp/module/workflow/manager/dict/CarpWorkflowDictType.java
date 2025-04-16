@@ -15,45 +15,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.manager.enums;
+package cn.sliew.carp.module.workflow.manager.dict;
 
-import cn.sliew.carp.framework.common.dict.DictInstance;
+import cn.sliew.carp.framework.common.dict.DictDefinition;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpWorkflowEngineType implements DictInstance {
+public enum CarpWorkflowDictType implements DictDefinition {
 
-    INTERNAL("internal", "Internal"),
-    TEMPORAL("temporal", "Temporal"),
+    WORKFLOW_ENGINE_TYPE("carp_workflow_engine_type", "Workflow Engine Type", CarpWorkflowEngineType.class),
     ;
 
     @JsonCreator
-    public static CarpWorkflowEngineType of(String value) {
+    public static CarpWorkflowDictType of(String code) {
         return Arrays.stream(values())
-                .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowEngineType.class, value));
+                .filter(type -> type.getCode().equals(code))
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowDictType.class, code));
     }
 
     @EnumValue
-    private String value;
-    private String label;
+    private String code;
+    private String name;
+    private Class instanceClass;
 
-    CarpWorkflowEngineType(String value, String label) {
-        this.value = value;
-        this.label = label;
+    CarpWorkflowDictType(String code, String name, Class instanceClass) {
+        this.code = code;
+        this.name = name;
+        this.instanceClass = instanceClass;
     }
 
     @Override
-    public String getValue() {
-        return value;
+    public String getProvider() {
+        return "Carp";
     }
 
     @Override
-    public String getLabel() {
-        return label;
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @JsonIgnore
+    public Class getInstanceClass() {
+        return instanceClass;
     }
 }

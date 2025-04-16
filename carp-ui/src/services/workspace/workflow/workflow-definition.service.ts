@@ -1,6 +1,7 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
 import {WorkspaceWorkflowAPI} from './typings';
+import {WorkspaceScheduleAPI} from "@/services/workspace/schedule/typings";
 
 export const WorkflowDefinitionService = {
   url: '/api/carp/workflow/definition',
@@ -26,34 +27,31 @@ export const WorkflowDefinitionService = {
     });
   },
 
-  toX6Graph: async (id: number) => {
-    return request<ResponseBody<X6API.Graph>>(`${WorkflowDefinitionService.url}/${id}/x6graph`, {
-      method: 'GET'
+  add: async (row: WorkspaceWorkflowAPI.ScheduleConfigAddParam) => {
+    return request<ResponseBody<any>>(`${WorkflowDefinitionService.url}`, {
+      method: 'PUT',
+      data: row,
     });
   },
 
-  toPlantUML: async (id: number) => {
-    return request<ResponseBody<String>>(`${WorkflowDefinitionService.url}/${id}/plantuml`, {
-      method: 'GET'
-    });
-  },
-
-  toMermaid: async (id: number) => {
-    return request<ResponseBody<String>>(`${WorkflowDefinitionService.url}/${id}/mermaid`, {
-      method: 'GET'
-    });
-  },
-
-  getDnds: async () => {
-    return request<ResponseBody<Array<Record<string, any>>>>(`${WorkflowDefinitionService.url}/dag/dnd`, {
-      method: 'GET',
-    });
-  },
-
-  updateName: async (row: WorkspaceWorkflowAPI.WorkflowDefinitionUpdateNameParam) => {
-    return request<ResponseBody<any>>(`${WorkflowDefinitionService.url}/updateName`, {
+  update: async (row: WorkspaceWorkflowAPI.ScheduleConfigUpdateParam) => {
+    return request<ResponseBody<any>>(`${WorkflowDefinitionService.url}`, {
       method: 'POST',
       data: row,
+    });
+  },
+
+  delete: async (row: WorkspaceWorkflowAPI.WorkflowDefinition) => {
+    return request<ResponseBody<any>>(`${WorkflowDefinitionService.url}/` + row.id, {
+      method: 'DELETE',
+    });
+  },
+
+  deleteBatch: async (rows: WorkspaceWorkflowAPI.WorkflowDefinition[]) => {
+    const params = rows.map((row) => row.id);
+    return request<ResponseBody<any>>(`${WorkflowDefinitionService.url}/batch`, {
+      method: 'DELETE',
+      data: params,
     });
   },
 
