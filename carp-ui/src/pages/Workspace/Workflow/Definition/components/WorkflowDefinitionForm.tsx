@@ -88,6 +88,7 @@ export default (props: ModalFormProps<{ namespace: string, workflowDefinition?: 
         name="engine"
         label={intl.formatMessage({ id: 'pages.workspace.workflow.definition.engine' })}
         rules={[{ required: true }]}
+        disabled={data?.workflowDefinition?.id ? true : false}
         allowClear={false}
         request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpWorkflowEngineType)}
       />

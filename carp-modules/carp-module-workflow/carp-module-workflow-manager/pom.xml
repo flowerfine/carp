@@ -31,6 +31,10 @@
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-dag</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-crud</artifactId>
         </dependency>
     </dependencies>

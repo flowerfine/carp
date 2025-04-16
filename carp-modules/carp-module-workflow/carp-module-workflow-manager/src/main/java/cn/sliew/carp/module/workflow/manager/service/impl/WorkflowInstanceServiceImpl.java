@@ -55,7 +55,8 @@ public class WorkflowInstanceServiceImpl
                 .eq(CarpWorkflowInstance::getNamespace, param.getNamespace())
                 .eq(Objects.nonNull(param.getWorkflowDefinitionId()), CarpWorkflowInstance::getWorkflowDefinitionId, param.getWorkflowDefinitionId())
                 .eq(StringUtils.hasText(param.getUuid()), CarpWorkflowInstance::getUuid, param.getUuid())
-                .eq(StringUtils.hasText(param.getStatus()), CarpWorkflowInstance::getStatus, param.getStatus());
+                .eq(StringUtils.hasText(param.getStatus()), CarpWorkflowInstance::getStatus, param.getStatus())
+                .orderByDesc(CarpWorkflowInstance::getId);
 
         Page<CarpWorkflowInstance> carpWorkflowInstancePage = page(page, queryWrapper);
         return PageUtil.buildPageResult(carpWorkflowInstancePage, CarpWorkflowInstanceConvert.INSTANCE::toDto);

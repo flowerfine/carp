@@ -20,7 +20,11 @@ package cn.sliew.carp.module.workflow.manager.service.impl;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.crud.service.impl.AbstractCrudService;
+import cn.sliew.carp.framework.dag.service.DagConfigService;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
+import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
+import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowEngineType;
 import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowDefinition;
 import cn.sliew.carp.module.workflow.manager.repository.mapper.CarpWorkflowDefinitionMapper;
 import cn.sliew.carp.module.workflow.manager.service.WorkflowDefinitionService;
@@ -29,11 +33,15 @@ import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowDefinitionD
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionAddParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionPageParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionUpdateParam;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -47,6 +55,9 @@ public class WorkflowDefinitionServiceImpl
         CarpWorkflowDefinitionDTO, WorkflowDefinitionPageParam, WorkflowDefinitionAddParam, WorkflowDefinitionUpdateParam>
         implements WorkflowDefinitionService {
 
+    @Autowired
+    private DagConfigService dagConfigService;
+
     @Override
     public PageResult<CarpWorkflowDefinitionDTO> page(WorkflowDefinitionPageParam param) {
         Page<CarpWorkflowDefinition> page = PageUtil.buildPageParam(param);
@@ -54,7 +65,8 @@ public class WorkflowDefinitionServiceImpl
                 .eq(CarpWorkflowDefinition::getNamespace, param.getNamespace())
                 .like(StringUtils.hasText(param.getName()), CarpWorkflowDefinition::getName, param.getName())
                 .eq(StringUtils.hasText(param.getUuid()), CarpWorkflowDefinition::getUuid, param.getUuid())
-                .eq(Objects.nonNull(param.getEngine()), CarpWorkflowDefinition::getEngine, param.getEngine());
+                .eq(Objects.nonNull(param.getEngine()), CarpWorkflowDefinition::getEngine, param.getEngine())
+                .orderByDesc(CarpWorkflowDefinition::getId);
 
         Page<CarpWorkflowDefinition> carpWorkflowDefinitionPage = page(page, queryWrapper);
         return PageUtil.buildPageResult(carpWorkflowDefinitionPage, CarpWorkflowDefinitionConvert.INSTANCE::toDto);
@@ -66,7 +78,8 @@ public class WorkflowDefinitionServiceImpl
                 .eq(CarpWorkflowDefinition::getNamespace, param.getNamespace())
                 .like(StringUtils.hasText(param.getName()), CarpWorkflowDefinition::getName, param.getName())
                 .eq(StringUtils.hasText(param.getUuid()), CarpWorkflowDefinition::getUuid, param.getUuid())
-                .eq(Objects.nonNull(param.getEngine()), CarpWorkflowDefinition::getEngine, param.getEngine());
+                .eq(Objects.nonNull(param.getEngine()), CarpWorkflowDefinition::getEngine, param.getEngine())
+                .orderByDesc(CarpWorkflowDefinition::getId);
         List<CarpWorkflowDefinition> list = list(queryWrapper);
         return CarpWorkflowDefinitionConvert.INSTANCE.toDto(list);
     }
@@ -78,14 +91,32 @@ public class WorkflowDefinitionServiceImpl
         return CarpWorkflowDefinitionConvert.INSTANCE.toDto(entity);
     }
 
+    @Transactional(rollbackFor = {Exception.class}, transactionManager = DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
     @Override
     public boolean add(WorkflowDefinitionAddParam param) {
         CarpWorkflowDefinition entity = new CarpWorkflowDefinition();
         BeanUtils.copyProperties(param, entity);
         entity.setUuid(UUIDUtil.randomUUId());
+        if (param.getEngine() == CarpWorkflowEngineType.INTERNAL) {
+            ObjectNode body;
+            if (Objects.nonNull(param.getBody())) {
+                body = (ObjectNode) param.getBody();
+            } else {
+                body = JacksonUtil.createObjectNode();
+            }
+
+            DagConfigDTO dagConfigDTO = new DagConfigDTO();
+            dagConfigDTO.setNamespace(dagConfigDTO.getNamespace());
+            dagConfigDTO.setType("WorkFlow");
+            dagConfigDTO.setName(param.getName());
+            Long dagConfigId = dagConfigService.add(dagConfigDTO);
+            body.put("dagConfigId", dagConfigId);
+            param.setBody(body);
+        }
         if (Objects.nonNull(param.getBody())) {
             entity.setBody(param.getBody().toString());
         }
+
         return save(entity);
     }
 
