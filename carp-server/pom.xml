@@ -80,6 +80,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-spinnaker</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-workflow-manager</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

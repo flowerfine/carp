@@ -15,14 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.manager.service;
+package cn.sliew.carp.module.workflow.manager.service.convert;
 
-import cn.sliew.carp.framework.crud.service.CrudService;
+import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowInstance;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceUpdateParam;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
-public interface WorkflowInstanceManagerService
-        extends CrudService<CarpWorkflowInstanceDTO, WorkflowInstancePageParam, WorkflowInstanceAddParam, WorkflowInstanceUpdateParam> {
+@Mapper
+public interface CarpWorkflowInstanceConvert extends BaseConvert<CarpWorkflowInstance, CarpWorkflowInstanceDTO> {
+    CarpWorkflowInstanceConvert INSTANCE = Mappers.getMapper(CarpWorkflowInstanceConvert.class);
+
+    @Mapping(target = "params", qualifiedByName = "toJsonString")
+    @Override
+    CarpWorkflowInstance toDo(CarpWorkflowInstanceDTO carpWorkflowInstanceDTO);
+
+    @Mapping(target = "params", qualifiedByName = "toJsonNode")
+    @Override
+    CarpWorkflowInstanceDTO toDto(CarpWorkflowInstance carpWorkflowInstance);
 }

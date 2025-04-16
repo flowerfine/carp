@@ -15,18 +15,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.manager.service;
+package cn.sliew.carp.module.workflow.manager.service.param;
 
-import cn.sliew.carp.framework.crud.service.CrudService;
-import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowDefinitionDTO;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionAddParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionPageParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionUpdateParam;
+import cn.sliew.carp.module.workflow.manager.enums.CarpWorkflowEngineType;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-public interface WorkflowDefinitionManagerService
-        extends CrudService<CarpWorkflowDefinitionDTO,
-        WorkflowDefinitionPageParam,
-        WorkflowDefinitionAddParam,
-        WorkflowDefinitionUpdateParam> {
+@Data
+public class WorkflowDefinitionAddParam {
 
+    @NotBlank
+    private String namespace;
+
+    @NotBlank
+    @Schema(description = "名称")
+    private String name;
+
+    @NotNull
+    @Schema(description = "Engine")
+    private CarpWorkflowEngineType engine;
+
+    @Schema(description = "body")
+    private JsonNode body;
+
+    @Schema(description = "remark")
+    private String remark;
 }

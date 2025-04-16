@@ -15,18 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.manager.service;
+package cn.sliew.carp.module.workflow.manager.service.param;
 
-import cn.sliew.carp.framework.crud.service.CrudService;
-import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowDefinitionDTO;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionAddParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionPageParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionUpdateParam;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-public interface WorkflowDefinitionManagerService
-        extends CrudService<CarpWorkflowDefinitionDTO,
-        WorkflowDefinitionPageParam,
-        WorkflowDefinitionAddParam,
-        WorkflowDefinitionUpdateParam> {
+@Data
+public class WorkflowInstanceUpdateParam extends WorkflowInstanceAddParam {
 
+    @NotNull
+    private Long id;
 }

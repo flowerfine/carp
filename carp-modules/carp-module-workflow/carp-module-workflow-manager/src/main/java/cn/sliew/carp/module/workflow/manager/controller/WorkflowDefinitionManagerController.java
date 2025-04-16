@@ -15,16 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.datasource.controller;
+package cn.sliew.carp.module.workflow.manager.controller;
 
-import cn.sliew.carp.framework.common.dict.datasource.CarpDataSourceType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
-import cn.sliew.carp.module.datasource.service.CarpDsInfoService;
-import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
-import cn.sliew.carp.module.datasource.service.param.DsInfoListParam;
+import cn.sliew.carp.module.workflow.manager.service.WorkflowDefinitionManagerService;
+import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowDefinitionDTO;
+import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionAddParam;
+import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionPageParam;
+import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionUpdateParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,53 +36,46 @@ import java.util.List;
 @WebLog
 @RestController
 @ApiResponseWrapper
-@RequestMapping("/api/carp/datasource/info")
-@Tag(name = "数据源模块-数据源管理")
-public class CarpDsInfoController {
+@RequestMapping("/api/carp/workflow/manager/definition")
+@Tag(name = "Workflow模块-Definition管理")
+public class WorkflowDefinitionManagerController {
 
     @Autowired
-    private CarpDsInfoService carpDsInfoService;
+    private WorkflowDefinitionManagerService workflowDefinitionManagerService;
 
     @GetMapping("page")
     @Operation(summary = "查询-分页", description = "查询-分页")
-    public PageResult<DsInfoDTO> list(@Valid DsInfoListParam param) {
-        return carpDsInfoService.list(param);
-    }
-
-    @GetMapping("{type}")
-    @Operation(summary = "查询-所有", description = "查询-指定数据源类型下所有数据源")
-    public List<DsInfoDTO> listByType(@PathVariable("type") CarpDataSourceType type) {
-        return carpDsInfoService.listByType(type);
+    public PageResult<CarpWorkflowDefinitionDTO> page(@Valid WorkflowDefinitionPageParam param) {
+        return workflowDefinitionManagerService.page(param);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "查询-详情", description = "查询-详情")
-    public DsInfoDTO get(@PathVariable("id") Long id) {
-        return carpDsInfoService.selectOne(id, false);
+    public CarpWorkflowDefinitionDTO get(@PathVariable("id") Long id) {
+        return workflowDefinitionManagerService.get(id);
     }
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
-    public boolean add(@Valid @RequestBody DataSourceInfo dataSource) {
-        return carpDsInfoService.add(dataSource);
+    public boolean add(@Valid @RequestBody WorkflowDefinitionAddParam param) {
+        return workflowDefinitionManagerService.add(param);
     }
 
-    @PostMapping("{id}")
+    @PostMapping
     @Operation(summary = "更新", description = "更新")
-    public boolean update(@PathVariable("id") Long id, @Valid @RequestBody DataSourceInfo dataSource) {
-        return carpDsInfoService.update(id, dataSource);
+    public boolean update(@Valid @RequestBody WorkflowDefinitionUpdateParam param) {
+        return workflowDefinitionManagerService.update(param);
     }
 
     @DeleteMapping("{id}")
     @Operation(summary = "删除", description = "删除")
     public boolean delete(@PathVariable("id") Long id) {
-        return carpDsInfoService.deleteById(id);
+        return workflowDefinitionManagerService.delete(id);
     }
 
     @DeleteMapping("batch")
     @Operation(summary = "批量删除", description = "批量删除")
     public boolean deleteBatch(@RequestBody List<Long> ids) {
-        return carpDsInfoService.deleteBatch(ids);
+        return workflowDefinitionManagerService.deleteBatch(ids);
     }
-
 }

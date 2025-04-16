@@ -31,11 +31,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-mybatis</artifactId>
+            <artifactId>carp-framework-crud</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -28,6 +28,6 @@ public class WorkflowManagerOpenAPIConfig {
     public GroupedOpenApi carpWorkflowManagerModuleOpenApi() {
         return GroupedOpenApi.builder().group("Workflow模块")
                 .pathsToMatch("/api/carp/workflow/manager/**")
-                .packagesToScan("cn.sliew.carp.module.security").build();
+                .packagesToScan("cn.sliew.carp.module.workflow.manager.controller").build();
     }
 }
