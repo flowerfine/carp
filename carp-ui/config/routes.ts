@@ -219,6 +219,29 @@ export default [
         ]
       },
       {
+        path: '/workspace/workflow',
+        name: 'workflow',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/workflow',
+            redirect: '/workspace/workflow/definition',
+          },
+          {
+            path: '/workspace/workflow/definition',
+            name: 'definition',
+            icon: 'profile',
+            component: './Workspace/Workflow/Definition'
+          },
+          {
+            path: '/workspace/workflow/instance',
+            name: 'instance',
+            icon: 'profile',
+            component: './Workspace/Workflow/Instance'
+          },
+        ]
+      },
+      {
         path: '/workspace/serverless-workflow',
         name: 'serverless-workflow',
         icon: 'profile',

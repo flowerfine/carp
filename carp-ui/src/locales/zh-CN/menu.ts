@@ -44,6 +44,12 @@ export default {
   'menu.workspace.schedule.instance': '任务实例',
   'menu.workspace.schedule.instance.desc': '调度任务实例信息',
 
+  'menu.workspace.workflow': 'Workflow',
+  'menu.workspace.workflow.definition': '配置管理',
+  'menu.workspace.workflow.definition.desc': 'Workflow Definition 配置管理页面',
+  'menu.workspace.workflow.instance': '实例管理',
+  'menu.workspace.workflow.instance.desc': 'Workflow 实例管理页面',
+
   'menu.workspace.serverless-workflow': 'Serverless Workflow',
   'menu.workspace.serverless-workflow.config': '配置管理',
   'menu.workspace.serverless-workflow.config.desc': 'Serverless Workflow 配置管理页面',
