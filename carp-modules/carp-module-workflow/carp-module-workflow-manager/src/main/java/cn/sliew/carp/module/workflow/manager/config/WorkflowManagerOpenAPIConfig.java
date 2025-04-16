@@ -26,7 +26,7 @@ public class WorkflowManagerOpenAPIConfig {
 
     @Bean
     public GroupedOpenApi carpWorkflowManagerModuleOpenApi() {
-        return GroupedOpenApi.builder().group("Workflow模块")
+        return GroupedOpenApi.builder().group("Workflow Manager模块")
                 .pathsToMatch("/api/carp/workflow/manager/**")
                 .packagesToScan("cn.sliew.carp.module.workflow.manager.controller").build();
     }

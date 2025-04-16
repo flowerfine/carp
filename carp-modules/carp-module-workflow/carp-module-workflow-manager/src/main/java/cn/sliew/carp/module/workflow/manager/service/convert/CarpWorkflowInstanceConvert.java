@@ -18,13 +18,14 @@
 package cn.sliew.carp.module.workflow.manager.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
+import cn.sliew.carp.framework.common.convert.ConvertMethodHelper;
 import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowInstance;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = ConvertMethodHelper.class)
 public interface CarpWorkflowInstanceConvert extends BaseConvert<CarpWorkflowInstance, CarpWorkflowInstanceDTO> {
     CarpWorkflowInstanceConvert INSTANCE = Mappers.getMapper(CarpWorkflowInstanceConvert.class);
 
