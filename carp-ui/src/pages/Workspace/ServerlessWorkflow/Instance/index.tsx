@@ -4,19 +4,19 @@ import {FileSearchOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useIntl} from "@umijs/max";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowInstanceService} from "@/services/workspace/workflow/workflow-instance.service";
+import {ServerlessWorkflowInstanceService} from "@/services/workspace/workflow/serverless-workflow-instance.service";
 
 const WorkspaceServerlessWorkflowInstanceWeb: React.FC = () => {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<WorkspaceWorkflowAPI.WorkflowInstance[]>([]);
+  const [selectedRows, setSelectedRows] = useState<WorkspaceWorkflowAPI.ServerlessWorkflowInstance[]>([]);
 
-  const onDetailClick = (record: WorkspaceWorkflowAPI.WorkflowInstance) => {
+  const onDetailClick = (record: WorkspaceWorkflowAPI.ServerlessWorkflowInstance) => {
     history.push('/workspace/serverless-workflow/instance/detail', record);
   };
 
-  const columns: ProColumns<WorkspaceWorkflowAPI.WorkflowInstance>[] = [
+  const columns: ProColumns<WorkspaceWorkflowAPI.ServerlessWorkflowInstance>[] = [
     {
       title: intl.formatMessage({ id: 'pages.workspace.workflow.definition.namespace' }),
       dataIndex: 'namespace'
@@ -85,7 +85,7 @@ const WorkspaceServerlessWorkflowInstanceWeb: React.FC = () => {
 
   return (
     <PageContainer content={intl.formatMessage({ id: 'menu.workspace.serverless-workflow.instance.desc' })}>
-      <ProTable<WorkspaceWorkflowAPI.WorkflowInstance>
+      <ProTable<WorkspaceWorkflowAPI.ServerlessWorkflowInstance>
         search={{
           labelWidth: 'auto',
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
@@ -103,7 +103,7 @@ const WorkspaceServerlessWorkflowInstanceWeb: React.FC = () => {
           },
         }}
         request={(params, sorter, filter) => {
-          return WorkflowInstanceService.page({...params, namespace: 'default'});
+          return ServerlessWorkflowInstanceService.page({...params, namespace: 'default'});
         }}
       />
     </PageContainer>

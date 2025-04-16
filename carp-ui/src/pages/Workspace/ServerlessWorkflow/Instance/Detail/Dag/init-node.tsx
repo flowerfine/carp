@@ -4,9 +4,9 @@ import {Cell, useGraphInstance} from "@antv/xflow";
 import {ModalFormProps} from "@/typings";
 import {WorkflowSocketCreator} from "@/sockets/socket";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowInstanceService} from "@/services/workspace/workflow/workflow-instance.service";
+import {ServerlessWorkflowInstanceService} from "@/services/workspace/workflow/serverless-workflow-instance.service";
 
-const InitNode: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowInstance>> = ({data}) => {
+const InitNode: React.FC<ModalFormProps<WorkspaceWorkflowAPI.ServerlessWorkflowInstance>> = ({data}) => {
   const {initialState, setInitialState} = useModel('@@initialState');
   const {currentUser} = initialState;
   const graph = useGraphInstance();
@@ -65,7 +65,7 @@ const InitNode: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowInstance>> 
 
   const resetGraph = () => {
     if (graph) {
-      WorkflowInstanceService.toX6Graph(data?.id).then(response => {
+      ServerlessWorkflowInstanceService.toX6Graph(data?.id).then(response => {
         if (response.success && response.data) {
           graph.resetCells([])
           if (response.data.nodes) {

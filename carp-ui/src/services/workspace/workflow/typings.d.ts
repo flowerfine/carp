@@ -5,13 +5,13 @@ import {Dict, QueryParam} from "@/typings";
 
 declare namespace WorkspaceWorkflowAPI {
 
-  type WorkflowDefinition = {
+  type ServerlessWorkflowDefinition = {
     id: number;
     namespace: string;
     type: string;
     name: string;
     uuid: string;
-    graph?: WorkflowDefinitionGraph;
+    graph?: ServerlessWorkflowDefinitionGraph;
     meta?: Record<string, any>;
     attrs?: Record<string, any>;
     inputOptions?: Array<Record<string, any>>;
@@ -21,31 +21,31 @@ declare namespace WorkspaceWorkflowAPI {
     updateTime?: Date;
   };
 
-  type WorkflowDefinitionPageParam = QueryParam & {
+  type ServerlessWorkflowDefinitionPageParam = QueryParam & {
     namespace?: string;
     type?: string;
     name?: string;
     uuid?: string;
   };
 
-  type WorkflowDefinitionUpdateNameParam = {
+  type ServerlessWorkflowDefinitionUpdateNameParam = {
     id: number;
     name: string;
   };
 
-  type WorkflowDefinitionRunParam = {
+  type ServerlessWorkflowDefinitionRunParam = {
     id: number;
     globalVariable?: Record<string, any>;
   };
 
-  type WorkflowDefinitionGraph = {
-    preNode?: WorkflowDefinitionGraphNode;
-    postNode: WorkflowDefinitionGraphNode;
-    nodes: Array<WorkflowDefinitionGraphNode>;
-    edges: Array<WorkflowDefinitionGraphEdge>;
+  type ServerlessWorkflowDefinitionGraph = {
+    preNode?: ServerlessWorkflowDefinitionGraphNode;
+    postNode: ServerlessWorkflowDefinitionGraphNode;
+    nodes: Array<ServerlessWorkflowDefinitionGraphNode>;
+    edges: Array<ServerlessWorkflowDefinitionGraphEdge>;
   };
 
-  type WorkflowDefinitionGraphNode = {
+  type ServerlessWorkflowDefinitionGraphNode = {
     id: number;
     workflowDefinitionId: number;
     stepId: string;
@@ -62,7 +62,7 @@ declare namespace WorkspaceWorkflowAPI {
     updateTime?: Date;
   };
 
-  type WorkflowDefinitionGraphEdge = {
+  type ServerlessWorkflowDefinitionGraphEdge = {
     id: number;
     workflowDefinitionId: number;
     linkId: string;
@@ -77,10 +77,10 @@ declare namespace WorkspaceWorkflowAPI {
     updateTime?: Date;
   };
 
-  type WorkflowInstance = {
+  type ServerlessWorkflowInstance = {
     id: number;
     namespace: string;
-    definition: WorkflowDefinition;
+    definition: ServerlessWorkflowDefinition;
     uuid: string;
     body?: Record<string, any>;
     inputs?: Record<string, any>;
@@ -93,24 +93,24 @@ declare namespace WorkspaceWorkflowAPI {
     updateTime?: Date;
   };
 
-  type WorkflowInstancePageParam = QueryParam & {
+  type ServerlessWorkflowInstancePageParam = QueryParam & {
     namespace?: string;
     uuid?: string;
     status?: string;
   };
 
-  type WorkflowInstanceGraph = {
-    preTask?: WorkflowStepInstance;
-    postTask: WorkflowStepInstance;
-    tasks: Array<WorkflowStepInstance>;
-    edges: Array<WorkflowDefinitionGraphEdge>;
+  type ServerlessWorkflowInstanceGraph = {
+    preTask?: ServerlessWorkflowStepInstance;
+    postTask: ServerlessWorkflowStepInstance;
+    tasks: Array<ServerlessWorkflowStepInstance>;
+    edges: Array<ServerlessWorkflowDefinitionGraphEdge>;
   };
 
-  type WorkflowStepInstance = {
+  type ServerlessWorkflowStepInstance = {
     id: number;
     namespace: string;
-    workflowInstance: WorkflowInstance;
-    node: WorkflowDefinitionGraphNode;
+    workflowInstance: ServerlessWorkflowInstance;
+    node: ServerlessWorkflowDefinitionGraphNode;
     uuid: string;
     body?: Record<string, any>;
     inputs?: Record<string, any>;

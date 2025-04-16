@@ -5,8 +5,8 @@ import {WorkspaceWorkflowAPI} from './typings';
 export const ServerlessWorkflowInstanceService = {
   url: '/api/carp/serverless-workflow/instance',
 
-  page: async (queryParam: WorkspaceWorkflowAPI.WorkflowInstancePageParam) => {
-    return request<ResponseBody<PageResponse<WorkspaceWorkflowAPI.WorkfflowInstance>>>(`${ServerlessWorkflowInstanceService.url}/page`, {
+  page: async (queryParam: WorkspaceWorkflowAPI.ServerlessWorkflowInstancePageParam) => {
+    return request<ResponseBody<PageResponse<WorkspaceWorkflowAPI.ServerlessWorkflowInstance>>>(`${ServerlessWorkflowInstanceService.url}/page`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -21,7 +21,7 @@ export const ServerlessWorkflowInstanceService = {
   },
 
   get: async (id: number) => {
-    return request<ResponseBody<WorkspaceWorkflowAPI.WorkfflowInstance>>(`${ServerlessWorkflowInstanceService.url}/${id}`, {
+    return request<ResponseBody<WorkspaceWorkflowAPI.ServerlessWorkflowInstance>>(`${ServerlessWorkflowInstanceService.url}/${id}`, {
       method: 'GET'
     });
   },
@@ -44,7 +44,7 @@ export const ServerlessWorkflowInstanceService = {
     });
   },
 
-  run: async (row: WorkspaceWorkflowAPI.WorkflowDefinitionRunParam) => {
+  run: async (row: WorkspaceWorkflowAPI.ServerlessWorkflowDefinitionRunParam) => {
     return request<ResponseBody<any>>(`${ServerlessWorkflowInstanceService.url}/run`, {
       method: 'POST',
       data: row,

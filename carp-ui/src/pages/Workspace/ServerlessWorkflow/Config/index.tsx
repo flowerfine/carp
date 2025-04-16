@@ -4,25 +4,27 @@ import {FileSearchOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useIntl} from "@umijs/max";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
+import {
+  ServerlessWorkflowDefinitionService
+} from "@/services/workspace/workflow/serverless-workflow-definition.service";
 
-export type WorkflowDefinitionState = {
+export type ServerlessWorkflowDefinitionState = {
   visiable: boolean;
-  data?: WorkspaceWorkflowAPI.WorkflowDefinition | null;
+  data?: WorkspaceWorkflowAPI.ServerlessWorkflowDefinition | null;
 }
 
 const WorkspaceServerlessWorkflowConfigWeb: React.FC = () => {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<ProFormInstance>();
-  const [selectedRows, setSelectedRows] = useState<WorkspaceWorkflowAPI.WorkflowDefinition[]>([]);
-  const [workflowDefinitionFormData, setWorkflowDefinitionFormData] = useState<WorkflowDefinitionState>({ visiable: false, data: null });
+  const [selectedRows, setSelectedRows] = useState<WorkspaceWorkflowAPI.ServerlessWorkflowDefinition[]>([]);
+  const [workflowDefinitionFormData, setWorkflowDefinitionFormData] = useState<ServerlessWorkflowDefinitionState>({ visiable: false, data: null });
 
-  const onDetailClick = (record: WorkspaceWorkflowAPI.WorkflowDefinition) => {
+  const onDetailClick = (record: WorkspaceWorkflowAPI.ServerlessWorkflowDefinition) => {
     history.push('/workspace/serverless-workflow/config/dag', record);
   };
 
-  const columns: ProColumns<WorkspaceWorkflowAPI.WorkflowDefinition>[] = [
+  const columns: ProColumns<WorkspaceWorkflowAPI.ServerlessWorkflowDefinition>[] = [
     {
       title: intl.formatMessage({ id: 'pages.workspace.workflow.definition.namespace' }),
       dataIndex: 'namespace'
@@ -81,7 +83,7 @@ const WorkspaceServerlessWorkflowConfigWeb: React.FC = () => {
 
   return (
     <PageContainer content={intl.formatMessage({ id: 'menu.workspace.serverless-workflow.config.desc' })}>
-      <ProTable<WorkspaceWorkflowAPI.WorkflowDefinition>
+      <ProTable<WorkspaceWorkflowAPI.ServerlessWorkflowDefinition>
         search={{
           labelWidth: 'auto',
           span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
@@ -99,7 +101,7 @@ const WorkspaceServerlessWorkflowConfigWeb: React.FC = () => {
           },
         }}
         request={(params, sorter, filter) => {
-          return WorkflowDefinitionService.page({...params, namespace: 'default'});
+          return ServerlessWorkflowDefinitionService.page({...params, namespace: 'default'});
         }}
       />
     </PageContainer>

@@ -8,12 +8,13 @@ import Dnd from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/dnd";
 import {InitNode} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/init-node";
 import {SERVERLESS_WORKFLOW_EDGE} from "@/pages/Workspace/ServerlessWorkflow/Config/Dag/shape";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
-import {ModalFormProps} from "@/typings";
-import {WorkflowInstanceService} from "@/services/workspace/workflow/workflow-instance.service";
+import {ServerlessWorkflowInstanceService} from "@/services/workspace/workflow/serverless-workflow-instance.service";
+import {
+  ServerlessWorkflowDefinitionService
+} from "@/services/workspace/workflow/serverless-workflow-definition.service";
 
-const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = ({data}) => {
-  const workflowDefinition = useLocation().state as WorkspaceWorkflowAPI.WorkflowDefinition;
+const Page: React.FC = () => {
+  const workflowDefinition = useLocation().state as WorkspaceWorkflowAPI.ServerlessWorkflowDefinition;
 
   return (
     <XFlow>
@@ -21,15 +22,15 @@ const Page: React.FC<ModalFormProps<WorkspaceWorkflowAPI.WorkflowDefinition>> = 
         menubar={<X6Menubar
           name={workflowDefinition.name}
           onNameChange={(name) => {
-            WorkflowDefinitionService.updateName({id: workflowDefinition.id, name: name})
+            ServerlessWorkflowDefinitionService.updateName({id: workflowDefinition.id, name: name})
           }}
           onSave={(data, graph) => {
             console.log('X6Menubar onSave', data, graph);
           }}
           onExecute={(data, graph) => {
-            WorkflowInstanceService.run({id: workflowDefinition.id}).then(response => {
+            ServerlessWorkflowInstanceService.run({id: workflowDefinition.id}).then(response => {
               if (response.success && response.data) {
-                WorkflowInstanceService.get(response.data).then(dataResp => {
+                ServerlessWorkflowInstanceService.get(response.data).then(dataResp => {
                   if (dataResp.success && dataResp.data) {
                     history.push('/workspace/serverless-workflow/instance/detail', dataResp.data);
                   }

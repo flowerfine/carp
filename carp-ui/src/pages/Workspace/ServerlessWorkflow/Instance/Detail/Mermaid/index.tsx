@@ -1,8 +1,9 @@
 import React, {useEffect, useRef} from "react";
-import {useIntl, useLocation} from "@umijs/max";
+import {useIntl} from "@umijs/max";
 import mermaid, {MermaidConfig} from "mermaid";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
-import {WorkflowInstanceService} from "@/services/workspace/workflow/workflow-instance.service";
+import {ServerlessWorkflowInstanceService} from "@/services/workspace/workflow/serverless-workflow-instance.service";
+import {Props} from "@/typings";
 
 const mermaidConfig: MermaidConfig = {
   startOnLoad: true,
@@ -10,10 +11,9 @@ const mermaidConfig: MermaidConfig = {
   securityLevel: 'loose',
 }
 
-const WorkspaceServerlessWorkflowInstanceDetailMermaidWeb: React.FC = () => {
+const WorkspaceServerlessWorkflowInstanceDetailMermaidWeb: React.FC<Props<WorkspaceWorkflowAPI.ServerlessWorkflowInstance>> = ({data}) => {
   const intl = useIntl();
   const ref = useRef(null);
-  const workflowInstance = useLocation().state as WorkspaceWorkflowAPI.WorkflowInstance;
 
   useEffect(() => {
     if (ref.current) {
@@ -21,7 +21,7 @@ const WorkspaceServerlessWorkflowInstanceDetailMermaidWeb: React.FC = () => {
       mermaid.contentLoaded();
 
       try {
-        WorkflowInstanceService.toMermaid(workflowInstance.id).then(response => {
+        ServerlessWorkflowInstanceService.toMermaid(data.id).then(response => {
           if (response.success && response.data) {
             mermaid.parse(response.data);
             ref.current.innerHTML = response.data;

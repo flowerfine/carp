@@ -11,7 +11,7 @@ import WorkspaceServerlessWorkflowInstanceDetailMermaidWeb
 const WorkspaceServerlessWorkflowInstanceDetailWeb: React.FC = () => {
   const intl = useIntl();
   const urlParams = useLocation();
-  const workflowInstance = urlParams.state as WorkspaceWorkflowAPI.WorkflowInstance;
+  const workflowInstance = urlParams.state as WorkspaceWorkflowAPI.ServerlessWorkflowInstance;
   const [tabKey, setTabKey] = useState<string>('canvas');
 
   const items = [
@@ -31,13 +31,13 @@ const WorkspaceServerlessWorkflowInstanceDetailWeb: React.FC = () => {
 
   const renderChild = () => {
     if (tabKey === 'canvas') {
-      return <WorkspaceServerlessWorkflowInstanceDetailDagWeb/>
+      return <WorkspaceServerlessWorkflowInstanceDetailDagWeb data={workflowInstance} />
     } else if (tabKey === 'mermaid') {
-      return <WorkspaceServerlessWorkflowInstanceDetailMermaidWeb/>
+      return <WorkspaceServerlessWorkflowInstanceDetailMermaidWeb data={workflowInstance} />
     } else if (tabKey === 'input&output') {
       return <div>input&output tab</div>
     }
-    return <WorkspaceServerlessWorkflowInstanceDetailDagWeb/>
+    return <WorkspaceServerlessWorkflowInstanceDetailDagWeb data={workflowInstance} />
   }
 
   return (
@@ -66,8 +66,7 @@ const WorkspaceServerlessWorkflowInstanceDetailWeb: React.FC = () => {
             {intl.formatMessage({id: 'pages.workspace.workflow.instance.detail.buttton.refresh'})}
           </Button>,
           <Dropdown.Button menu={{
-            items: items, onClick: () => {
-            }
+            items: items, onClick: () => {}
           }}>
             {intl.formatMessage({id: 'pages.workspace.workflow.instance.detail.buttton.actions'})}
           </Dropdown.Button>
