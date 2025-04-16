@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, message, Modal, Select, Space, Table, Tooltip } from "antd";
+import { Button, message, Modal, Select, Space, Table, Tooltip, Typography } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { ActionType, PageContainer, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
 import { useIntl, useLocation } from "@umijs/max";
@@ -83,6 +83,45 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
     {
       title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.uuid' }),
       dataIndex: 'uuid'
+    },
+    {
+      title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.params' }),
+      dataIndex: 'params',
+      render: (dom, entity) => {
+        if (workflowDefinition.engine.value == 'temporal') {
+          return (
+            <>
+              <Typography.Text strong>
+                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.queue' })}
+              </Typography.Text>
+              {' : ' + entity.params?.queue}
+              <br />
+              <Typography.Text strong>
+                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.timezone' })}
+              </Typography.Text>
+              {' : ' + entity.params?.timezone}
+              <br />
+              <Typography.Text strong>
+                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.expression' })}
+              </Typography.Text>
+              {' : ' + entity.params?.expression}
+              <br />
+              <Typography.Text strong>
+                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.validTime' })}
+              </Typography.Text>
+              {' : ' + entity.params?.validTime[0] + ' ~ ' + entity.params?.validTime[1]}
+              <br />
+              <Typography.Text strong>
+                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.params.param' })}
+              </Typography.Text>
+              {' : ' + entity.params?.param}
+            </>
+          )
+        }
+        if (workflowDefinition.engine.value == 'internal') {
+          return JSON.stringify(entity.params)
+        }
+      }
     },
     {
       title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.status' }),

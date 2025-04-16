@@ -55,6 +55,7 @@ export default {
   'pages.workspace.workflow.instance.workflowDefinition': 'Workflow配置',
   'pages.workspace.workflow.instance.uuid': 'UUID',
   'pages.workspace.workflow.instance.status': '状态',
+  'pages.workspace.workflow.instance.params': '配置参数',
   'pages.workspace.workflow.instance.params.param': '自定义参数',
   'pages.workspace.workflow.instance.engine.temporal.queue': '队列',
   'pages.workspace.workflow.instance.engine.temporal.validTime': '生效时间',
