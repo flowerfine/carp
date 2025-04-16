@@ -23,7 +23,7 @@ import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
 import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
 
-public interface WorkflowDefinitionService {
+public interface ServerlessWorkflowDefinitionService {
 
     PageResult<WorkflowDefinition> page(DagConfigSimplePageParam param);
 

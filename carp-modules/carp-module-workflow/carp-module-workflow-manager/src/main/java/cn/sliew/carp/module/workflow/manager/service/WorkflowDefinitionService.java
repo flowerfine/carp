@@ -23,7 +23,7 @@ import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionAdd
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionPageParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionUpdateParam;
 
-public interface WorkflowDefinitionManagerService
+public interface WorkflowDefinitionService
         extends CrudService<CarpWorkflowDefinitionDTO,
         WorkflowDefinitionPageParam,
         WorkflowDefinitionAddParam,

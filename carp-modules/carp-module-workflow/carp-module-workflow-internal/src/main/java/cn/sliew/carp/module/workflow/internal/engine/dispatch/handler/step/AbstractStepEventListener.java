@@ -19,7 +19,7 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.step;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowStepInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.internal.manager.InternalWorkflowTaskInstanceManager;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
@@ -48,7 +48,7 @@ public abstract class AbstractStepEventListener<T extends InternalWorkflowStepIn
     @Autowired
     protected DagStepService dagStepService;
     @Autowired
-    protected WorkflowInstanceService workflowInstanceService;
+    protected ServerlessWorkflowInstanceService workflowInstanceService;
     @Autowired
     protected InternalWorkflowInstanceStateMachine instanceStateMachine;
     @Autowired

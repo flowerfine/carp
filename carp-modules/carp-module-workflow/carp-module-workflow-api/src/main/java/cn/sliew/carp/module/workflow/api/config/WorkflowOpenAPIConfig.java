@@ -26,8 +26,8 @@ public class WorkflowOpenAPIConfig {
 
     @Bean
     public GroupedOpenApi carpWorkflowModuleOpenApi() {
-        return GroupedOpenApi.builder().group("Workflow模块")
-                .pathsToMatch("/api/carp/workflow/**")
+        return GroupedOpenApi.builder().group("ServerlessWorkflow模块")
+                .pathsToMatch("/api/carp/serverless-workflow/**")
                 .packagesToScan("cn.sliew.carp.module.workflow").build();
     }
 }

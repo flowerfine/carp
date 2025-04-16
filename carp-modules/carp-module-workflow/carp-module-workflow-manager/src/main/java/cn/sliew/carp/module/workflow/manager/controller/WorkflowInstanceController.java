@@ -20,7 +20,7 @@ package cn.sliew.carp.module.workflow.manager.controller;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceManagerService;
+import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
@@ -36,46 +36,46 @@ import java.util.List;
 @WebLog
 @RestController
 @ApiResponseWrapper
-@RequestMapping("/api/carp/workflow/manager/instance")
+@RequestMapping("/api/carp/workflow/instance")
 @Tag(name = "Workflow模块-Instance管理")
-public class WorkflowInstanceManagerController {
+public class WorkflowInstanceController {
 
     @Autowired
-    private WorkflowInstanceManagerService workflowInstanceManagerService;
+    private WorkflowInstanceService workflowInstanceService;
 
     @GetMapping("page")
     @Operation(summary = "查询-分页", description = "查询-分页")
     public PageResult<CarpWorkflowInstanceDTO> page(@Valid WorkflowInstancePageParam param) {
-        return workflowInstanceManagerService.page(param);
+        return workflowInstanceService.page(param);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "查询-详情", description = "查询-详情")
     public CarpWorkflowInstanceDTO get(@PathVariable("id") Long id) {
-        return workflowInstanceManagerService.get(id);
+        return workflowInstanceService.get(id);
     }
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
     public boolean add(@Valid @RequestBody WorkflowInstanceAddParam param) {
-        return workflowInstanceManagerService.add(param);
+        return workflowInstanceService.add(param);
     }
 
     @PostMapping
     @Operation(summary = "更新", description = "更新")
     public boolean update(@Valid @RequestBody WorkflowInstanceUpdateParam param) {
-        return workflowInstanceManagerService.update(param);
+        return workflowInstanceService.update(param);
     }
 
     @DeleteMapping("{id}")
     @Operation(summary = "删除", description = "删除")
     public boolean delete(@PathVariable("id") Long id) {
-        return workflowInstanceManagerService.delete(id);
+        return workflowInstanceService.delete(id);
     }
 
     @DeleteMapping("batch")
     @Operation(summary = "批量删除", description = "批量删除")
     public boolean deleteBatch(@RequestBody List<Long> ids) {
-        return workflowInstanceManagerService.deleteBatch(ids);
+        return workflowInstanceService.deleteBatch(ids);
     }
 }

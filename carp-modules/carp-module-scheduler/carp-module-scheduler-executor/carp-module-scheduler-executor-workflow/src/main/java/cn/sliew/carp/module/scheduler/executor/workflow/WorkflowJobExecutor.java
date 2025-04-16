@@ -23,7 +23,7 @@ import cn.sliew.carp.module.scheduler.executor.api.dict.CarpScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.executor.api.executor.JobExecutor;
 import cn.sliew.carp.module.scheduler.executor.api.executor.entity.ScheduleResponse;
 import cn.sliew.carp.module.scheduler.executor.api.executor.entity.trigger.TriggerParam;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class WorkflowJobExecutor implements JobExecutor {
 
-    private final WorkflowInstanceService workflowInstanceService;
+    private final ServerlessWorkflowInstanceService workflowInstanceService;
 
     @Override
     public List<CarpScheduleEngineType> getEngines() {

@@ -27,7 +27,7 @@ import cn.sliew.carp.framework.dag.x6.dnd.X6EdgeDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.framework.dag.x6.dnd.X6NodeDTO;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
-import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.api.service.convert.X6EdgeConvert;
 import cn.sliew.carp.module.workflow.api.service.convert.X6NodeConvert;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class WorkflowDefinitionServiceImpl implements WorkflowDefinitionService {
+public class ServerlessWorkflowDefinitionServiceImpl implements ServerlessWorkflowDefinitionService {
 
     @Autowired
     private DagConfigComplexService dagConfigComplexService;

@@ -28,7 +28,7 @@ import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 
 import java.util.List;
 
-public interface WorkflowInstanceService {
+public interface ServerlessWorkflowInstanceService {
 
     PageResult<WorkflowInstance> page(DagInstanceSimplePageParam param);
 

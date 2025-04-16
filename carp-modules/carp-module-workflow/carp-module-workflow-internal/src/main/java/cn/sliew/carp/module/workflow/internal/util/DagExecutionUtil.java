@@ -19,7 +19,7 @@ package cn.sliew.carp.module.workflow.internal.util;
 
 import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.domain.ExecutionStatus;
 import cn.sliew.carp.module.workflow.domain.enums.CarpWorkflowStepInstanceState;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
@@ -91,7 +91,7 @@ public enum DagExecutionUtil {
     }
 
     public static List<WorkflowTaskInstance> getTasks(WorkflowStepInstance stepInstance) {
-        WorkflowInstanceService workflowInstanceService = SpringUtil.getBean(WorkflowInstanceService.class);
+        ServerlessWorkflowInstanceService workflowInstanceService = SpringUtil.getBean(ServerlessWorkflowInstanceService.class);
         return workflowInstanceService.listTasks(stepInstance.getId());
     }
 

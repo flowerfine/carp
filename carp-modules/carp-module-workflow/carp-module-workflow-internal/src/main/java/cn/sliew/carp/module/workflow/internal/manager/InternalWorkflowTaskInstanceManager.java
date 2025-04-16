@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.internal.manager;
 
 import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowTaskInstanceStateMachine;
@@ -27,7 +27,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class InternalWorkflowTaskInstanceManager implements WorkflowTaskInstanceManager {
 
-    private WorkflowInstanceService workflowInstanceService;
+    private ServerlessWorkflowInstanceService workflowInstanceService;
     private InternalWorkflowTaskInstanceStateMachine stateMachine;
 
     @Override

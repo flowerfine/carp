@@ -20,7 +20,7 @@ package cn.sliew.carp.module.workflow.manager.controller;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.workflow.manager.service.WorkflowDefinitionManagerService;
+import cn.sliew.carp.module.workflow.manager.service.WorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowDefinitionDTO;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionAddParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowDefinitionPageParam;
@@ -36,46 +36,46 @@ import java.util.List;
 @WebLog
 @RestController
 @ApiResponseWrapper
-@RequestMapping("/api/carp/workflow/manager/definition")
+@RequestMapping("/api/carp/workflow/definition")
 @Tag(name = "Workflow模块-Definition管理")
-public class WorkflowDefinitionManagerController {
+public class WorkflowDefinitionController {
 
     @Autowired
-    private WorkflowDefinitionManagerService workflowDefinitionManagerService;
+    private WorkflowDefinitionService workflowDefinitionService;
 
     @GetMapping("page")
     @Operation(summary = "查询-分页", description = "查询-分页")
     public PageResult<CarpWorkflowDefinitionDTO> page(@Valid WorkflowDefinitionPageParam param) {
-        return workflowDefinitionManagerService.page(param);
+        return workflowDefinitionService.page(param);
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "查询-详情", description = "查询-详情")
     public CarpWorkflowDefinitionDTO get(@PathVariable("id") Long id) {
-        return workflowDefinitionManagerService.get(id);
+        return workflowDefinitionService.get(id);
     }
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
     public boolean add(@Valid @RequestBody WorkflowDefinitionAddParam param) {
-        return workflowDefinitionManagerService.add(param);
+        return workflowDefinitionService.add(param);
     }
 
     @PostMapping
     @Operation(summary = "更新", description = "更新")
     public boolean update(@Valid @RequestBody WorkflowDefinitionUpdateParam param) {
-        return workflowDefinitionManagerService.update(param);
+        return workflowDefinitionService.update(param);
     }
 
     @DeleteMapping("{id}")
     @Operation(summary = "删除", description = "删除")
     public boolean delete(@PathVariable("id") Long id) {
-        return workflowDefinitionManagerService.delete(id);
+        return workflowDefinitionService.delete(id);
     }
 
     @DeleteMapping("batch")
     @Operation(summary = "批量删除", description = "批量删除")
     public boolean deleteBatch(@RequestBody List<Long> ids) {
-        return workflowDefinitionManagerService.deleteBatch(ids);
+        return workflowDefinitionService.deleteBatch(ids);
     }
 }

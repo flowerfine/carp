@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
 import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
 import cn.sliew.carp.module.workflow.spinnaker.dispatch.InternalWorkflowInstanceDispatcher;
 import cn.sliew.carp.module.workflow.spinnaker.queue.Messages;
@@ -35,7 +35,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class SpinnakerWorkflowInstanceManager implements WorkflowInstanceManager {
 
-    private WorkflowInstanceService workflowInstanceService;
+    private ServerlessWorkflowInstanceService workflowInstanceService;
     private PubsubChannelFactory pubsubChannelFactory;
 
     @Override

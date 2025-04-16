@@ -23,7 +23,7 @@ import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
 import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowRunParam;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowStopParam;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowInstance;
@@ -37,12 +37,12 @@ import org.springframework.web.bind.annotation.*;
 @AnonymousAccess
 @RestController
 @ApiResponseWrapper
-@RequestMapping("/api/carp/workflow/instance")
+@RequestMapping("/api/carp/serverless-workflow/instance")
 @Tag(name = "Workflow模块-Instance管理")
-public class WorkflowInstanceController {
+public class ServerlessWorkflowInstanceController {
 
     @Autowired
-    private WorkflowInstanceService workflowInstanceService;
+    private ServerlessWorkflowInstanceService workflowInstanceService;
 
     @GetMapping("page")
     @Operation(summary = "分页查询", description = "分页查询")

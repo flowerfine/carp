@@ -19,7 +19,7 @@ package cn.sliew.carp.module.workflow.internal.engine.dispatch.handler.workflow;
 
 import cn.sliew.carp.framework.dag.service.DagInstanceComplexService;
 import cn.sliew.carp.framework.log.realtime.service.StreamLogService;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.event.InternalWorkflowInstanceStatusEvent;
 import cn.sliew.carp.module.workflow.internal.statemachine.InternalWorkflowInstanceStateMachine;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public abstract class AbstractWorkflowEventListener<T extends InternalWorkflowIn
     @Autowired
     protected DagInstanceComplexService dagInstanceComplexService;
     @Autowired
-    protected WorkflowInstanceService workflowInstanceService;
+    protected ServerlessWorkflowInstanceService workflowInstanceService;
     @Autowired
     protected InternalWorkflowInstanceStateMachine stateMachine;
     @Autowired

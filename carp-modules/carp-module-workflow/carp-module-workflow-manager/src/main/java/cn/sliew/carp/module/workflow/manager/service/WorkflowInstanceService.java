@@ -23,6 +23,6 @@ import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddPa
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceUpdateParam;
 
-public interface WorkflowInstanceManagerService
+public interface WorkflowInstanceService
         extends CrudService<CarpWorkflowInstanceDTO, WorkflowInstancePageParam, WorkflowInstanceAddParam, WorkflowInstanceUpdateParam> {
 }

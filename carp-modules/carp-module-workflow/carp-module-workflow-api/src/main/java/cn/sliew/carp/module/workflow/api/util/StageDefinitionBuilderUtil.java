@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.api.util;
 
 import cn.hutool.extra.spring.SpringUtil;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowStepInstance;
 import cn.sliew.carp.module.workflow.domain.instance.WorkflowTaskInstance;
 import cn.sliew.carp.module.workflow.stage.model.graph.Iterators;
@@ -42,7 +42,7 @@ public enum StageDefinitionBuilderUtil {
                 iterator,
                 element -> processTaskNode(step, element, tasks, false));
 
-        WorkflowInstanceService workflowInstanceService = SpringUtil.getBean(WorkflowInstanceService.class);
+        ServerlessWorkflowInstanceService workflowInstanceService = SpringUtil.getBean(ServerlessWorkflowInstanceService.class);
         tasks.forEach(task -> workflowInstanceService.addTask(step, task));
     }
 

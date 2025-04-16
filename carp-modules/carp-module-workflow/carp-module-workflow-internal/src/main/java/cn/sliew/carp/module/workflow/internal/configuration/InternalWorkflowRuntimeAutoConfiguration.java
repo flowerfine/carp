@@ -24,7 +24,7 @@ import cn.sliew.carp.module.workflow.api.engine.dispatch.publisher.WorkflowTaskI
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowStepInstanceManager;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowTaskInstanceManager;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.publisher.InternalWorkflowInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.publisher.InternalWorkflowStepInstanceEventPublisher;
 import cn.sliew.carp.module.workflow.internal.engine.dispatch.publisher.InternalWorkflowTaskInstanceEventPublisher;
@@ -75,7 +75,7 @@ public class InternalWorkflowRuntimeAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(WorkflowInstanceManager.class)
     public InternalWorkflowInstanceManager internalWorkflowInstanceManager(
-            WorkflowInstanceService workflowInstanceService,
+            ServerlessWorkflowInstanceService workflowInstanceService,
             InternalWorkflowInstanceStateMachine stateMachine) {
         return new InternalWorkflowInstanceManager(workflowInstanceService, stateMachine);
     }
@@ -83,7 +83,7 @@ public class InternalWorkflowRuntimeAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(WorkflowStepInstanceManager.class)
     public InternalWorkflowStepInstanceManager internalWorkflowStepInstanceManager(
-            WorkflowInstanceService workflowInstanceService,
+            ServerlessWorkflowInstanceService workflowInstanceService,
             InternalWorkflowStepInstanceStateMachine stateMachine) {
         return new InternalWorkflowStepInstanceManager(workflowInstanceService, stateMachine);
     }
@@ -91,7 +91,7 @@ public class InternalWorkflowRuntimeAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(WorkflowTaskInstanceManager.class)
     public InternalWorkflowTaskInstanceManager internalWorkflowTaskInstanceManager(
-            WorkflowInstanceService workflowInstanceService,
+            ServerlessWorkflowInstanceService workflowInstanceService,
             InternalWorkflowTaskInstanceStateMachine stateMachine) {
         return new InternalWorkflowTaskInstanceManager(workflowInstanceService, stateMachine);
     }

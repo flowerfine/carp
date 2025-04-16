@@ -24,7 +24,7 @@ import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.api.service.WorkflowDagService;
-import cn.sliew.carp.module.workflow.api.service.WorkflowDefinitionService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.api.service.param.WorkflowUpdateNameParam;
 import cn.sliew.carp.module.workflow.domain.definition.WorkflowDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,12 +38,12 @@ import java.util.List;
 @WebLog
 @RestController
 @ApiResponseWrapper
-@RequestMapping("/api/carp/workflow/definition")
+@RequestMapping("/api/carp/serverless-workflow/definition")
 @Tag(name = "Workflow模块-Definition管理")
-public class WorkflowDefinitionController {
+public class ServerlessWorkflowDefinitionController {
 
     @Autowired
-    private WorkflowDefinitionService workflowDefinitionService;
+    private ServerlessWorkflowDefinitionService workflowDefinitionService;
     @Autowired
     private WorkflowDagService workflowDagService;
 

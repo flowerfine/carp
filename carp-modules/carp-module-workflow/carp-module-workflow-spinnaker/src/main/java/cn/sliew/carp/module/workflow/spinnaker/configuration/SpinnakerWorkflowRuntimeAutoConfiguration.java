@@ -19,7 +19,7 @@ package cn.sliew.carp.module.workflow.spinnaker.configuration;
 
 import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.module.workflow.api.manager.WorkflowInstanceManager;
-import cn.sliew.carp.module.workflow.api.service.WorkflowInstanceService;
+import cn.sliew.carp.module.workflow.api.service.ServerlessWorkflowInstanceService;
 import cn.sliew.carp.module.workflow.spinnaker.manager.SpinnakerWorkflowInstanceManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ public class SpinnakerWorkflowRuntimeAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(WorkflowInstanceManager.class)
     public SpinnakerWorkflowInstanceManager spinnakerWorkflowInstanceManager(
-            WorkflowInstanceService workflowInstanceService,
+            ServerlessWorkflowInstanceService workflowInstanceService,
             PubsubChannelFactory pubsubChannelFactory) {
         return new SpinnakerWorkflowInstanceManager(
                 workflowInstanceService, pubsubChannelFactory);

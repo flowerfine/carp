@@ -23,7 +23,7 @@ import cn.sliew.carp.framework.crud.service.impl.AbstractCrudService;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowInstance;
 import cn.sliew.carp.module.workflow.manager.repository.mapper.CarpWorkflowInstanceMapper;
-import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceManagerService;
+import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.manager.service.convert.CarpWorkflowInstanceConvert;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddParam;
@@ -41,10 +41,10 @@ import java.util.Objects;
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
 @Service
-public class WorkflowInstanceManagerServiceImpl
+public class WorkflowInstanceServiceImpl
         extends AbstractCrudService<CarpWorkflowInstanceMapper, CarpWorkflowInstance,
         CarpWorkflowInstanceDTO, WorkflowInstancePageParam, WorkflowInstanceAddParam, WorkflowInstanceUpdateParam>
-        implements WorkflowInstanceManagerService {
+        implements WorkflowInstanceService {
 
     @Override
     public PageResult<CarpWorkflowInstanceDTO> page(WorkflowInstancePageParam param) {
