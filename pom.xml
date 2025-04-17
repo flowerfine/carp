@@ -81,9 +81,6 @@
         <module>carp-server</module>
         <module>carp-support</module>
         <module>carp-ui</module>
-        <module>
-            carp-plugins/carp-plugin-workflow-engine/carp-plugin-workflow-engine-plugins/carp-plugin-workflow-engine-temporal
-        </module>
     </modules>
 
     <properties>

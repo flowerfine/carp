@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 @PluginComponent
 @RequiredArgsConstructor
-public class DefaultWorkflowClientFactory implements WorkflowClientFactory {
+public class DefaultWorkflowClientFactory {
 
     private final LoadingCache<String, WorkflowClient> workflowClientCache = CacheBuilder.newBuilder()
             .expireAfterAccess(Duration.ofMinutes(30L))
@@ -55,7 +55,6 @@ public class DefaultWorkflowClientFactory implements WorkflowClientFactory {
 
     private final TemporalProperties properties;
 
-    @Override
     public WorkflowClient getWorkflowClient(String namespace) {
         try {
             return workflowClientCache.get(namespace);
@@ -67,7 +66,6 @@ public class DefaultWorkflowClientFactory implements WorkflowClientFactory {
         }
     }
 
-    @Override
     public ScheduleClient getScheduleClient(String namespace) {
         try {
             return scheduleClientCache.get(namespace);

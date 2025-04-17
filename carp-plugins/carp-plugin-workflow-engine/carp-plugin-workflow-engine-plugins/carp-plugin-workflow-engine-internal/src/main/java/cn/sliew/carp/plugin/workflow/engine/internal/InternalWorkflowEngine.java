@@ -39,6 +39,7 @@ public class InternalWorkflowEngine implements WorkflowEngine {
 
     @Override
     public void start(WorkflowInfo workflowInfo) {
+        // todo 如果包含调度信息，则应该同步至调度，交由调度执行
         Long dagConfigId = workflowInfo.getBody().path("dagConfigId").asLong();
         Objects.requireNonNull(dagConfigId, "Not Found dagConfigId in body");
         JsonNode inputs = workflowInfo.getParams().path("inputs");

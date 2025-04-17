@@ -30,7 +30,7 @@
 
     <properties>
         <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
-        <plugin.class>cn.sliew.carp.plugin.workflow.engine.internal.InternalWorkflowEnginePlugin</plugin.class>
+        <plugin.class>cn.sliew.carp.plugin.workflow.engine.temporal.TemporalWorkflowEnginePlugin</plugin.class>
         <temporal.version>1.25.2</temporal.version>
     </properties>
 

@@ -20,9 +20,19 @@ package cn.sliew.carp.plugin.workflow.engine.temporal;
 import org.pf4j.Plugin;
 import org.pf4j.PluginWrapper;
 
+import java.util.Objects;
+
 public class TemporalWorkflowEnginePlugin extends Plugin {
 
-    public TemporalWorkflowEnginePlugin(PluginWrapper wrapper) {
+    private TemporalProperties properties;
+
+    public TemporalWorkflowEnginePlugin(PluginWrapper wrapper, TemporalProperties properties) {
         super(wrapper);
+        this.properties = properties;
+    }
+
+    @Override
+    public void start() {
+        Objects.requireNonNull(properties.getHost(), "Temporal Workflow Engine lack config: host");
     }
 }

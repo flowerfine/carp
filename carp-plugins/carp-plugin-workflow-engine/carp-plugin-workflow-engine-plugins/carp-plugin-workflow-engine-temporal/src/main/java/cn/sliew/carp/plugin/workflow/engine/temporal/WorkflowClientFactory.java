@@ -25,6 +25,4 @@ public interface WorkflowClientFactory {
     WorkflowClient getWorkflowClient(String namespace);
 
     ScheduleClient getScheduleClient(String namespace);
-
-
 }

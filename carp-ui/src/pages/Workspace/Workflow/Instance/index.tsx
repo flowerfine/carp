@@ -96,25 +96,42 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
               </Typography.Text>
               {' : ' + entity.params?.queue}
               <br/>
-              <Typography.Text strong>
-                {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.timezone'})}
-              </Typography.Text>
-              {' : ' + entity.params?.timezone}
-              <br/>
-              <Typography.Text strong>
-                {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.expression'})}
-              </Typography.Text>
-              {' : ' + entity.params?.expression}
-              <br/>
-              <Typography.Text strong>
-                {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.validTime'})}
-              </Typography.Text>
-              {' : ' + entity.params?.validTime[0] + ' ~ ' + entity.params?.validTime[1]}
-              <br/>
-              <Typography.Text strong>
-                {intl.formatMessage({id: 'pages.workspace.workflow.instance.params.param'})}
-              </Typography.Text>
-              {' : ' + entity.params?.param}
+              {entity.params?.timezone && (
+                <>
+                  <Typography.Text strong>
+                    {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.timezone'})}
+                  </Typography.Text>
+                  {' : ' + entity.params?.timezone}
+                  <br/>
+                </>
+              )}
+              {entity.params?.expression && (
+                <>
+                  <Typography.Text strong>
+                    {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.expression'})}
+                  </Typography.Text>
+                  {' : ' + entity.params?.expression}
+                  <br/>
+                </>
+              )}
+              {entity.params?.validTime && (
+                <>
+                  <Typography.Text strong>
+                    {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.validTime'})}
+                  </Typography.Text>
+                  {' : ' + entity.params?.validTime[0] + ' ~ ' + entity.params?.validTime[1]}
+                  <br/>
+                </>
+              )}
+              {entity.params?.param && (
+                <>
+                  <Typography.Text strong>
+                    {intl.formatMessage({id: 'pages.workspace.workflow.instance.params.param'})}
+                  </Typography.Text>
+                  {' : ' + entity.params?.param}
+                  <br/>
+                </>
+              )}
             </>
           )
         }
