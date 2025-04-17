@@ -21,5 +21,4 @@ import org.pf4j.Plugin;
 
 public class InternalWorkflowEnginePlugin extends Plugin {
 
-
 }

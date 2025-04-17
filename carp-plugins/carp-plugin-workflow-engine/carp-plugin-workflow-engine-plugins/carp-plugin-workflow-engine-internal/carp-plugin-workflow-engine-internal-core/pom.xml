@@ -28,6 +28,11 @@
     </parent>
     <artifactId>carp-plugin-workflow-engine-internal-core</artifactId>
 
+    <properties>
+        <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
+        <plugin.class>cn.sliew.carp.plugin.workflow.engine.internal.api.InternalWorkflowEnginePlugin</plugin.class>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>cn.sliew</groupId>
