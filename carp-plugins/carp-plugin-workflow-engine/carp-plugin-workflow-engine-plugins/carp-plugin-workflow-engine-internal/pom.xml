@@ -27,14 +27,18 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-workflow-engine-internal</artifactId>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>carp-plugin-workflow-engine-internal-domain</module>
-        <module>carp-plugin-workflow-engine-internal-stage</module>
-        <module>carp-plugin-workflow-engine-internal-api</module>
-        <module>carp-plugin-workflow-engine-internal-spinnaker</module>
-        <module>carp-plugin-workflow-engine-internal-core</module>
-    </modules>
+    <properties>
+        <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
+        <plugin.class>cn.sliew.carp.plugin.test.HelloPlugin</plugin.class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-workflow-engine-internal-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>
