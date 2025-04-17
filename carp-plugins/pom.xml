@@ -32,6 +32,7 @@
     <modules>
         <module>carp-plugin-jdbc</module>
         <module>carp-plugin-test</module>
+        <module>carp-plugin-workflow-engine</module>
     </modules>
 
 </project>

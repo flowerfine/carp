@@ -18,7 +18,7 @@
 package cn.sliew.carp.module.workflow.manager.repository.entity;
 
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
-import cn.sliew.carp.module.workflow.engine.api.dict.CarpWorkflowEngineType;
+import cn.sliew.carp.plugin.workflow.engine.api.dict.CarpWorkflowEngineType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

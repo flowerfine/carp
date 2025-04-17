@@ -24,7 +24,7 @@ import cn.sliew.carp.framework.dag.service.DagConfigService;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
-import cn.sliew.carp.module.workflow.engine.api.dict.CarpWorkflowEngineType;
+import cn.sliew.carp.plugin.workflow.engine.api.dict.CarpWorkflowEngineType;
 import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowDefinition;
 import cn.sliew.carp.module.workflow.manager.repository.mapper.CarpWorkflowDefinitionMapper;
 import cn.sliew.carp.module.workflow.manager.service.WorkflowDefinitionService;

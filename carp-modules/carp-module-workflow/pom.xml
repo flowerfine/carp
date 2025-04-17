@@ -31,7 +31,6 @@
 
     <modules>
         <module>carp-module-workflow-manager</module>
-        <module>carp-module-workflow-engine</module>
     </modules>
 
 </project>

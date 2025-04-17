@@ -1,0 +1,88 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package cn.sliew.carp.plugin.workflow.engine.internal.api.controller;
+
+import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
+import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
+import cn.sliew.carp.framework.dag.x6.dnd.X6GraphDTO;
+import cn.sliew.carp.framework.log.web.annotation.WebLog;
+import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
+import cn.sliew.carp.plugin.workflow.engine.internal.api.service.ServerlessWorkflowInstanceService;
+import cn.sliew.carp.plugin.workflow.engine.internal.api.service.param.WorkflowRunParam;
+import cn.sliew.carp.plugin.workflow.engine.internal.api.service.param.WorkflowStopParam;
+import cn.sliew.carp.plugin.workflow.engine.internal.domain.instance.WorkflowInstance;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@WebLog
+@AnonymousAccess
+@RestController
+@ApiResponseWrapper
+@RequestMapping("/api/carp/serverless-workflow/instance")
+@Tag(name = "Workflow模块-Instance管理")
+public class ServerlessWorkflowInstanceController {
+
+    @Autowired
+    private ServerlessWorkflowInstanceService workflowInstanceService;
+
+    @GetMapping("page")
+    @Operation(summary = "分页查询", description = "分页查询")
+    public PageResult<WorkflowInstance> page(@Valid DagInstanceSimplePageParam param) {
+        return workflowInstanceService.page(param);
+    }
+
+    @GetMapping("{id}")
+    @Operation(summary = "查询详情", description = "查询详情")
+    public WorkflowInstance get(@PathVariable("id") Long id) {
+        return workflowInstanceService.get(id);
+    }
+
+    @GetMapping("{id}/x6graph")
+    @Operation(summary = "查询详情-X6图", description = "查询详情-X6图")
+    public X6GraphDTO toX6Graph(@PathVariable("id") Long id) {
+        return workflowInstanceService.toX6Graph(id);
+    }
+
+    @GetMapping("{id}/plantuml")
+    @Operation(summary = "查询详情-PlantUML", description = "查询详情-PlantUML")
+    public String toPlantUML(@PathVariable("id") Long id) {
+        return workflowInstanceService.toPlantUML(id);
+    }
+
+    @GetMapping("{id}/mermaid")
+    @Operation(summary = "查询详情-Mermaid", description = "查询详情-Mermaid")
+    public String toMermaid(@PathVariable("id") Long id) {
+        return workflowInstanceService.toMermaid(id);
+    }
+
+    @PostMapping("run")
+    @Operation(summary = "启动", description = "启动")
+    public Long run(@Valid @RequestBody WorkflowRunParam param) {
+        return workflowInstanceService.run(param);
+    }
+
+    @PostMapping("stop")
+    @Operation(summary = "停止", description = "停止")
+    public void stop(@Valid @RequestBody WorkflowStopParam param) {
+        workflowInstanceService.stop(param);
+    }
+}

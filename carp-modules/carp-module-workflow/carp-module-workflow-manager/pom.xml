@@ -44,7 +44,7 @@
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-workflow-engine-api</artifactId>
+            <artifactId>carp-plugin-workflow-engine-api</artifactId>
         </dependency>
     </dependencies>
 </project>
