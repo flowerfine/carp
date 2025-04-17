@@ -71,6 +71,7 @@ export default {
   'app.common.operate.cut.success': '剪切成功',
 
   'app.common.operate.start.label': '启动',
+  'app.common.operate.start.success': '启动成功',
   'app.common.operate.stop.label': '停止',
   'app.common.operate.exec.label': '执行',
   'app.common.operate.deploy.label': 'Deploy',

@@ -24,6 +24,7 @@ import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
+import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceStartParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceUpdateParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -77,5 +78,11 @@ public class WorkflowInstanceController {
     @Operation(summary = "批量删除", description = "批量删除")
     public boolean deleteBatch(@RequestBody List<Long> ids) {
         return workflowInstanceService.deleteBatch(ids);
+    }
+
+    @PostMapping("start")
+    @Operation(summary = "启动", description = "启动")
+    public void start(@Valid @RequestBody WorkflowInstanceStartParam param) {
+        workflowInstanceService.start(param);
     }
 }

@@ -6,7 +6,7 @@ export const WorkflowInstanceService = {
   url: '/api/carp/workflow/instance',
 
   page: async (queryParam: WorkspaceWorkflowAPI.WorkflowInstancePageParam) => {
-    return request<ResponseBody<PageResponse<WorkspaceWorkflowAPI.WorkfflowInstance>>>(`${WorkflowInstanceService.url}/page`, {
+    return request<ResponseBody<PageResponse<WorkspaceWorkflowAPI.WorkflowInstance>>>(`${WorkflowInstanceService.url}/page`, {
       method: 'GET',
       params: queryParam,
     }).then((res) => {
@@ -21,7 +21,7 @@ export const WorkflowInstanceService = {
   },
 
   get: async (id: number) => {
-    return request<ResponseBody<WorkspaceWorkflowAPI.WorkfflowInstance>>(`${WorkflowInstanceService.url}/${id}`, {
+    return request<ResponseBody<WorkspaceWorkflowAPI.WorkflowInstance>>(`${WorkflowInstanceService.url}/${id}`, {
       method: 'GET'
     });
   },
@@ -40,17 +40,24 @@ export const WorkflowInstanceService = {
     });
   },
 
-  delete: async (row: WorkspaceWorkflowAPI.WorkfflowInstance) => {
+  delete: async (row: WorkspaceWorkflowAPI.WorkflowInstance) => {
     return request<ResponseBody<any>>(`${WorkflowInstanceService.url}/` + row.id, {
       method: 'DELETE',
     });
   },
 
-  deleteBatch: async (rows: WorkspaceWorkflowAPI.WorkfflowInstance[]) => {
+  deleteBatch: async (rows: WorkspaceWorkflowAPI.WorkflowInstance[]) => {
     const params = rows.map((row) => row.id);
     return request<ResponseBody<any>>(`${WorkflowInstanceService.url}/batch`, {
       method: 'DELETE',
       data: params,
+    });
+  },
+
+  start: async (param: WorkspaceWorkflowAPI.WorkflowInstanceStartParam) => {
+    return request<ResponseBody<any>>(`${WorkflowInstanceService.url}/start`, {
+      method: 'POST',
+      data: param,
     });
   },
 

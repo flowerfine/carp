@@ -21,24 +21,31 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.crud.service.impl.AbstractCrudService;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
+import cn.sliew.carp.module.workflow.engine.api.WorkflowEngine;
+import cn.sliew.carp.module.workflow.engine.api.param.WorkflowInfo;
 import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowInstanceStatus;
 import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowInstance;
 import cn.sliew.carp.module.workflow.manager.repository.mapper.CarpWorkflowInstanceMapper;
+import cn.sliew.carp.module.workflow.manager.service.WorkflowDefinitionService;
 import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.manager.service.convert.CarpWorkflowInstanceConvert;
+import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowDefinitionDTO;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
+import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceStartParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceUpdateParam;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static cn.sliew.milky.common.check.Ensures.checkState;
 
@@ -47,6 +54,11 @@ public class WorkflowInstanceServiceImpl
         extends AbstractCrudService<CarpWorkflowInstanceMapper, CarpWorkflowInstance,
         CarpWorkflowInstanceDTO, WorkflowInstancePageParam, WorkflowInstanceAddParam, WorkflowInstanceUpdateParam>
         implements WorkflowInstanceService {
+
+    @Autowired
+    private WorkflowDefinitionService workflowDefinitionService;
+    @Autowired(required = false)
+    private List<WorkflowEngine> workflowEngines;
 
     @Override
     public PageResult<CarpWorkflowInstanceDTO> page(WorkflowInstancePageParam param) {
@@ -95,4 +107,35 @@ public class WorkflowInstanceServiceImpl
         }
         return updateById(entity);
     }
+
+    @Override
+    public void start(WorkflowInstanceStartParam param) {
+        CarpWorkflowInstanceDTO workflowInstanceDTO = get(param.getId());
+        CarpWorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowInstanceDTO.getWorkflowDefinitionId());
+
+        WorkflowInfo workflowInfo = WorkflowInfo.builder()
+                .namespace(workflowDefinitionDTO.getNamespace())
+                .name(workflowDefinitionDTO.getName())
+                .uuid(workflowInstanceDTO.getUuid())
+                .body(workflowDefinitionDTO.getBody())
+                .params(workflowInstanceDTO.getParams())
+                .inputs(param.getInputs())
+                .variables(param.getVariables())
+                .build();
+        WorkflowEngine workflowEngine = getWorkflowEngine(workflowDefinitionDTO);
+        workflowEngine.start(workflowInfo);
+    }
+
+    private WorkflowEngine getWorkflowEngine(CarpWorkflowDefinitionDTO workflowDefinitionDTO) {
+        Optional<WorkflowEngine> optional = Optional.ofNullable(workflowEngines).map(engines ->
+                engines.stream()
+                        .filter(engine ->
+                                Objects.equals(engine.getEngineType(), workflowDefinitionDTO.getEngine()))
+                        .findFirst().orElse(null));
+        return optional.orElseThrow(() ->
+                new UnsupportedOperationException(
+                        "Unsupport workflow engine: " + workflowDefinitionDTO.getEngine().getLabel()));
+    }
+
+
 }

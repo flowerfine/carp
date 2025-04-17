@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, message, Modal, Select, Space, Table, Tooltip, Typography } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, PlayCircleOutlined} from "@ant-design/icons";
 import { ActionType, PageContainer, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
 import { useIntl, useLocation } from "@umijs/max";
 import { WorkspaceWorkflowAPI } from "@/services/workspace/workflow/typings";
 import { WorkflowDefinitionService } from "@/services/workspace/workflow/workflow-definition.service";
 import { WorkflowInstanceService } from "@/services/workspace/workflow/workflow-instance.service";
 import WorkflowInstanceForm from "./components/WorkflowInstanceForm";
+import WorkflowInstanceStartForm from "@/pages/Workspace/Workflow/Instance/components/WorkflowInstanceStartForm";
 
 export type WorkflowInstanceState = {
   visiable: boolean;
@@ -14,6 +15,11 @@ export type WorkflowInstanceState = {
     workflowDefinition: WorkspaceWorkflowAPI.WorkflowDefinition;
     workflowInstance?: WorkspaceWorkflowAPI.WorkflowInstance;
   };
+}
+
+export type WorkflowInstanceStartState = {
+  visiable: boolean;
+  data?: WorkspaceWorkflowAPI.WorkflowInstance;
 }
 
 const WorkspaceWorkflowInstanceWeb: React.FC = () => {
@@ -31,6 +37,7 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
     visiable: false,
     data: { workflowDefinition: workflowDefinition }
   });
+  const [workflowInstanceStartFormData, setWorkflowInstanceStartFormData] = useState<WorkflowInstanceStartState>({visiable: false});
 
   useEffect(() => {
     setNamesapce(workflowDefinition.namespace)
@@ -154,6 +161,16 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
       fixed: 'right',
       render: (_, record) => (
         <Space>
+          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.start.label' })}>
+            <Button
+              shape="default"
+              type="link"
+              icon={<PlayCircleOutlined />}
+              onClick={() => {
+                setWorkflowInstanceStartFormData({ visiable: true, data: record });
+              }}
+            />
+          </Tooltip>
           <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
             <Button
               shape="default"
@@ -270,6 +287,20 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
           }}
           onFinish={(values) => {
             setWorkflowInstanceFormData({ visiable: false, data: { workflowDefinition: workflowDefinition } });
+            actionRef.current?.reload();
+          }}
+        />
+      )}
+
+      {workflowInstanceStartFormData.visiable && (
+        <WorkflowInstanceStartForm
+          visible={workflowInstanceStartFormData.visiable}
+          data={workflowInstanceStartFormData.data}
+          onCancel={() => {
+            setWorkflowInstanceStartFormData({ visiable: false });
+          }}
+          onFinish={(values) => {
+            setWorkflowInstanceStartFormData({ visiable: false });
             actionRef.current?.reload();
           }}
         />

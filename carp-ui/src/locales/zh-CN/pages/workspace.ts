@@ -63,6 +63,8 @@ export default {
   'pages.workspace.workflow.instance.engine.temporal.endTime': '结束时间',
   'pages.workspace.workflow.instance.engine.temporal.expression': '表达式',
   'pages.workspace.workflow.instance.engine.temporal.timezone': '时区',
+  'pages.workspace.workflow.instance.start.inputs': '运行参数',
+  'pages.workspace.workflow.instance.start.variables': '变量',
 
   'pages.workspace.workflow.instance.startTime': '开始时间',
   'pages.workspace.workflow.instance.endTime': '结束时间',

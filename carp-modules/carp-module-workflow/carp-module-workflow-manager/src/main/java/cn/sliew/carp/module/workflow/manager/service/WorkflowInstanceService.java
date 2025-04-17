@@ -21,8 +21,11 @@ import cn.sliew.carp.framework.crud.service.CrudService;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
+import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceStartParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceUpdateParam;
 
 public interface WorkflowInstanceService
         extends CrudService<CarpWorkflowInstanceDTO, WorkflowInstancePageParam, WorkflowInstanceAddParam, WorkflowInstanceUpdateParam> {
+
+    void start(WorkflowInstanceStartParam param);
 }

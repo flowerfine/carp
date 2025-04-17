@@ -37,6 +37,10 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-crud</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-pf4j-spring</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>

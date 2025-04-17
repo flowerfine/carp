@@ -15,25 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.engine.api.param;
+package cn.sliew.carp.module.workflow.manager.service.param;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
 
 @Getter
 @Jacksonized
 @Builder(toBuilder = true)
-public class WorkflowInfo {
+public class WorkflowInstanceStartParam {
 
-    private String namespace;
-    private String name;
-    private String uuid;
-    private JsonNode body;
-    private JsonNode params;
-
+    @NotNull
+    private Long id;
     private JsonNode inputs;
     private JsonNode variables;
 }

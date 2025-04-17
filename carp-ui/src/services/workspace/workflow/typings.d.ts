@@ -46,6 +46,12 @@ declare namespace WorkspaceWorkflowAPI {
     status?: string;
   };
 
+  type WorkflowInstanceStartParam = {
+    id: number;
+    inputs: string;
+    variables: string;
+  };
+
   type ServerlessWorkflowDefinition = {
     id: number;
     namespace: string;
