@@ -144,5 +144,5 @@ carp.framework:
       welcome-namespace:
         config:
           value: carp-plugin-test-2-value
-    cn.sliew.carp-plugin-workflow-engine-internal-core:
+    cn.sliew.carp-plugin-workflow-engine-internal:
       enabled: true

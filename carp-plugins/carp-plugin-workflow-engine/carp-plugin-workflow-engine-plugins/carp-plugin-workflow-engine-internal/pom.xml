@@ -30,7 +30,7 @@
 
     <properties>
         <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
-        <plugin.class>cn.sliew.carp.plugin.test.HelloPlugin</plugin.class>
+        <plugin.class>cn.sliew.carp.plugin.workflow.engine.internal.api.InternalWorkflowEnginePlugin</plugin.class>
     </properties>
 
     <dependencies>

@@ -107,7 +107,7 @@
 
         <!-- Workflow Engine plugins -->
         <fileSet>
-            <directory>../carp-plugins/carp-plugin-workflow-engine/carp-plugin-workflow-engine-plugins/carp-plugin-workflow-engine-internal/carp-plugin-workflow-engine-internal-core/target</directory>
+            <directory>../carp-plugins/carp-plugin-workflow-engine/carp-plugin-workflow-engine-plugins/carp-plugin-workflow-engine-internal/target</directory>
             <includes>
                 <!-- !!! VERY IMPORTANT -->
                 <include>*-all.jar</include>
