@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, message, Modal, Select, Space, Table, Tooltip, Typography } from "antd";
+import React, {useEffect, useRef, useState} from "react";
+import {Button, message, Modal, Select, Space, Table, Tooltip, Typography} from "antd";
 import {DeleteOutlined, EditOutlined, PlayCircleOutlined} from "@ant-design/icons";
-import { ActionType, PageContainer, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
-import { useIntl, useLocation } from "@umijs/max";
-import { WorkspaceWorkflowAPI } from "@/services/workspace/workflow/typings";
-import { WorkflowDefinitionService } from "@/services/workspace/workflow/workflow-definition.service";
-import { WorkflowInstanceService } from "@/services/workspace/workflow/workflow-instance.service";
+import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
+import {history, useIntl, useLocation} from "@umijs/max";
+import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
+import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
+import {WorkflowInstanceService} from "@/services/workspace/workflow/workflow-instance.service";
 import WorkflowInstanceForm from "./components/WorkflowInstanceForm";
-import WorkflowInstanceStartForm from "@/pages/Workspace/Workflow/Instance/components/WorkflowInstanceStartForm";
 
 export type WorkflowInstanceState = {
   visiable: boolean;
@@ -15,11 +14,6 @@ export type WorkflowInstanceState = {
     workflowDefinition: WorkspaceWorkflowAPI.WorkflowDefinition;
     workflowInstance?: WorkspaceWorkflowAPI.WorkflowInstance;
   };
-}
-
-export type WorkflowInstanceStartState = {
-  visiable: boolean;
-  data?: WorkspaceWorkflowAPI.WorkflowInstance;
 }
 
 const WorkspaceWorkflowInstanceWeb: React.FC = () => {
@@ -35,13 +29,12 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
 
   const [workflowInstanceFormData, setWorkflowInstanceFormData] = useState<WorkflowInstanceState>({
     visiable: false,
-    data: { workflowDefinition: workflowDefinition }
+    data: {workflowDefinition: workflowDefinition}
   });
-  const [workflowInstanceStartFormData, setWorkflowInstanceStartFormData] = useState<WorkflowInstanceStartState>({visiable: false});
 
   useEffect(() => {
     setNamesapce(workflowDefinition.namespace)
-    WorkflowDefinitionService.list({ namespace: workflowDefinition.namespace }).then((result) => {
+    WorkflowDefinitionService.list({namespace: workflowDefinition.namespace}).then((result) => {
       if (result.data) {
         setWorkflowDefinitions(result.data)
       }
@@ -55,17 +48,17 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
 
   const columns: ProColumns<WorkspaceWorkflowAPI.WorkflowInstance>[] = [
     {
-      title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.namespace' }),
+      title: intl.formatMessage({id: 'pages.workspace.workflow.instance.namespace'}),
       dataIndex: 'namespace',
       fieldProps: {
         allowClear: false
       }
     },
     {
-      title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.workflowDefinition' }),
+      title: intl.formatMessage({id: 'pages.workspace.workflow.instance.workflowDefinition'}),
       dataIndex: 'workflowDefinitionId',
       hideInTable: true,
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return (
           <Select
             showSearch={true}
@@ -88,38 +81,38 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
       }
     },
     {
-      title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.uuid' }),
+      title: intl.formatMessage({id: 'pages.workspace.workflow.instance.uuid'}),
       dataIndex: 'uuid'
     },
     {
-      title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.params' }),
+      title: intl.formatMessage({id: 'pages.workspace.workflow.instance.params'}),
       dataIndex: 'params',
       render: (dom, entity) => {
         if (workflowDefinition.engine.value == 'temporal') {
           return (
             <>
               <Typography.Text strong>
-                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.queue' })}
+                {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.queue'})}
               </Typography.Text>
               {' : ' + entity.params?.queue}
-              <br />
+              <br/>
               <Typography.Text strong>
-                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.timezone' })}
+                {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.timezone'})}
               </Typography.Text>
               {' : ' + entity.params?.timezone}
-              <br />
+              <br/>
               <Typography.Text strong>
-                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.expression' })}
+                {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.expression'})}
               </Typography.Text>
               {' : ' + entity.params?.expression}
-              <br />
+              <br/>
               <Typography.Text strong>
-                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.engine.temporal.validTime' })}
+                {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.validTime'})}
               </Typography.Text>
               {' : ' + entity.params?.validTime[0] + ' ~ ' + entity.params?.validTime[1]}
-              <br />
+              <br/>
               <Typography.Text strong>
-                {intl.formatMessage({ id: 'pages.workspace.workflow.instance.params.param' })}
+                {intl.formatMessage({id: 'pages.workspace.workflow.instance.params.param'})}
               </Typography.Text>
               {' : ' + entity.params?.param}
             </>
@@ -131,29 +124,29 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
       }
     },
     {
-      title: intl.formatMessage({ id: 'pages.workspace.workflow.instance.status' }),
+      title: intl.formatMessage({id: 'pages.workspace.workflow.instance.status'}),
       dataIndex: 'status'
     },
     {
-      title: intl.formatMessage({ id: 'app.common.data.remark' }),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       valueType: 'textarea',
       hideInSearch: true
     },
     {
-      title: intl.formatMessage({ id: 'app.common.data.createTime' }),
+      title: intl.formatMessage({id: 'app.common.data.createTime'}),
       dataIndex: 'createTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.data.updateTime' }),
+      title: intl.formatMessage({id: 'app.common.data.updateTime'}),
       dataIndex: 'updateTime',
       hideInSearch: true,
       width: 180,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.operate.label' }),
+      title: intl.formatMessage({id: 'app.common.operate.label'}),
       dataIndex: 'actions',
       valueType: 'option',
       align: 'center',
@@ -161,43 +154,60 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
       fixed: 'right',
       render: (_, record) => (
         <Space>
-          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.start.label' })}>
+          <Tooltip title={intl.formatMessage({id: 'app.common.operate.start.label'})}>
             <Button
               shape="default"
               type="link"
-              icon={<PlayCircleOutlined />}
+              icon={<PlayCircleOutlined/>}
               onClick={() => {
-                setWorkflowInstanceStartFormData({ visiable: true, data: record });
+                Modal.confirm({
+                  title: intl.formatMessage({id: 'app.common.operate.start.label'})
+                    + intl.formatMessage({id: 'pages.workspace.workflow.instance'}),
+                  content: record.uuid,
+                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
+                  onOk() {
+                    WorkflowInstanceService.start(record).then((response) => {
+                      if (response.success) {
+                        message.success(intl.formatMessage({id: 'app.common.operate.start.success'}));
+                        actionRef.current?.reload();
+                      }
+                    });
+                  },
+                });
               }}
             />
           </Tooltip>
-          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.edit.label' })}>
+          <Tooltip title={intl.formatMessage({id: 'app.common.operate.edit.label'})}>
             <Button
               shape="default"
               type="link"
-              icon={<EditOutlined />}
+              icon={<EditOutlined/>}
               onClick={() => {
-                setWorkflowInstanceFormData({ visiable: true, data: { workflowDefinition: workflowDefinition, workflowInstance: record } });
+                setWorkflowInstanceFormData({
+                  visiable: true,
+                  data: {workflowDefinition: workflowDefinition, workflowInstance: record}
+                });
               }}
             />
           </Tooltip>
-          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.delete.label' })}>
+          <Tooltip title={intl.formatMessage({id: 'app.common.operate.delete.label'})}>
             <Button
               shape="default"
               type="link"
               danger
-              icon={<DeleteOutlined />}
+              icon={<DeleteOutlined/>}
               onClick={() => {
                 Modal.confirm({
-                  title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                  content: intl.formatMessage({ id: 'app.common.operate.delete.confirm.content' }),
-                  okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                  okButtonProps: { danger: true },
-                  cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                  title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                  content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                  okButtonProps: {danger: true},
+                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
                     WorkflowInstanceService.delete(record).then((response) => {
                       if (response.success) {
-                        message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
+                        message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();
                       }
                     });
@@ -212,18 +222,19 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
   ];
 
   return (
-    <PageContainer title={intl.formatMessage({ id: 'menu.workspace.workflow.instance' })}
-      content={intl.formatMessage({ id: 'menu.workspace.workflow.instance.desc' })}>
+    <PageContainer title={intl.formatMessage({id: 'menu.workspace.workflow.instance'})}
+                   content={intl.formatMessage({id: 'menu.workspace.workflow.instance.desc'})}
+                   onBack={() => history.back()}>
       <ProTable<WorkspaceWorkflowAPI.WorkflowInstance>
         search={{
           labelWidth: 'auto',
-          span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
+          span: {xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4},
         }}
         rowKey="id"
         actionRef={actionRef}
         formRef={formRef}
         columns={columns}
-        pagination={{ showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10 }}
+        pagination={{showQuickJumper: true, showSizeChanger: true, defaultPageSize: 10}}
         rowSelection={{
           selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT, Table.SELECTION_NONE],
           fixed: true,
@@ -243,10 +254,10 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
               key="new"
               type="primary"
               onClick={() => {
-                setWorkflowInstanceFormData({ visiable: true, data: { workflowDefinition: workflowDefinition } });
+                setWorkflowInstanceFormData({visiable: true, data: {workflowDefinition: workflowDefinition}});
               }}
             >
-              {intl.formatMessage({ id: 'app.common.operate.new.label' })}
+              {intl.formatMessage({id: 'app.common.operate.new.label'})}
             </Button>,
 
             <Button
@@ -256,15 +267,15 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
               disabled={selectedRows.length < 1}
               onClick={() => {
                 Modal.confirm({
-                  title: intl.formatMessage({ id: 'app.common.operate.delete.confirm.title' }),
-                  content: intl.formatMessage({ id: 'app.common.operate.delete.confirm.content' }),
-                  okText: intl.formatMessage({ id: 'app.common.operate.confirm.label' }),
-                  okButtonProps: { danger: true },
-                  cancelText: intl.formatMessage({ id: 'app.common.operate.cancel.label' }),
+                  title: intl.formatMessage({id: 'app.common.operate.delete.confirm.title'}),
+                  content: intl.formatMessage({id: 'app.common.operate.delete.confirm.content'}),
+                  okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
+                  okButtonProps: {danger: true},
+                  cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
                     WorkflowInstanceService.deleteBatch(selectedRows).then((response) => {
                       if (response.success) {
-                        message.success(intl.formatMessage({ id: 'app.common.operate.delete.success' }));
+                        message.success(intl.formatMessage({id: 'app.common.operate.delete.success'}));
                         actionRef.current?.reload();
                       }
                     });
@@ -272,7 +283,7 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
                 });
               }}
             >
-              {intl.formatMessage({ id: 'app.common.operate.delete.label' })}
+              {intl.formatMessage({id: 'app.common.operate.delete.label'})}
             </Button>
           ],
         }}
@@ -283,24 +294,10 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
           visible={workflowInstanceFormData.visiable}
           data={workflowInstanceFormData.data}
           onCancel={() => {
-            setWorkflowInstanceFormData({ visiable: false, data: { workflowDefinition: workflowDefinition } });
+            setWorkflowInstanceFormData({visiable: false, data: {workflowDefinition: workflowDefinition}});
           }}
           onFinish={(values) => {
-            setWorkflowInstanceFormData({ visiable: false, data: { workflowDefinition: workflowDefinition } });
-            actionRef.current?.reload();
-          }}
-        />
-      )}
-
-      {workflowInstanceStartFormData.visiable && (
-        <WorkflowInstanceStartForm
-          visible={workflowInstanceStartFormData.visiable}
-          data={workflowInstanceStartFormData.data}
-          onCancel={() => {
-            setWorkflowInstanceStartFormData({ visiable: false });
-          }}
-          onFinish={(values) => {
-            setWorkflowInstanceStartFormData({ visiable: false });
+            setWorkflowInstanceFormData({visiable: false, data: {workflowDefinition: workflowDefinition}});
             actionRef.current?.reload();
           }}
         />

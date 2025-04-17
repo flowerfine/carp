@@ -18,9 +18,14 @@
 package cn.sliew.carp.module.workflow.engine.internal.api.service.param;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
-@Data
+@Getter
+@Jacksonized
+@Builder(toBuilder = true)
 public class WorkflowRunParam {
 
     private Long id;

@@ -54,10 +54,10 @@ export const WorkflowInstanceService = {
     });
   },
 
-  start: async (param: WorkspaceWorkflowAPI.WorkflowInstanceStartParam) => {
+  start: async (param: WorkspaceWorkflowAPI.WorkflowInstance) => {
     return request<ResponseBody<any>>(`${WorkflowInstanceService.url}/start`, {
       method: 'POST',
-      data: param,
+      data: {id: param.id},
     });
   },
 

@@ -46,6 +46,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-engine-internal-stage</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-workflow-engine-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.serverlessworkflow</groupId>

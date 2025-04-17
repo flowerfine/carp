@@ -119,8 +119,6 @@ public class WorkflowInstanceServiceImpl
                 .uuid(workflowInstanceDTO.getUuid())
                 .body(workflowDefinitionDTO.getBody())
                 .params(workflowInstanceDTO.getParams())
-                .inputs(param.getInputs())
-                .variables(param.getVariables())
                 .build();
         WorkflowEngine workflowEngine = getWorkflowEngine(workflowDefinitionDTO);
         workflowEngine.start(workflowInfo);

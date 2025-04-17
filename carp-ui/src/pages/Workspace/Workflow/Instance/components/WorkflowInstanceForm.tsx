@@ -136,8 +136,12 @@ export default (props: ModalFormProps<{ workflowDefinition: WorkspaceWorkflowAPI
         }}
       </ProFormDependency>
       <ProFormTextArea
-        name={["params", "param"]}
-        label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.params.param' })}
+        name={["params", "inputs"]}
+        label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.params.inputs' })}
+      />
+      <ProFormTextArea
+        name={["params", "variables"]}
+        label={intl.formatMessage({ id: 'pages.workspace.workflow.instance.params.variables' })}
       />
       <ProFormTextArea
         name="remark"

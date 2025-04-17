@@ -66,8 +66,9 @@ public class WorkflowJobExecutor implements JobExecutor {
         }
         try {
             Long workflowDefinitionId = (Long) value;
-            WorkflowRunParam runParam = new WorkflowRunParam();
-            runParam.setId(workflowDefinitionId);
+            WorkflowRunParam runParam = WorkflowRunParam.builder()
+                    .id(workflowDefinitionId)
+                    .build();
             workflowInstanceService.run(runParam);
             return ScheduleResponse.SUCCESS;
         } catch (Exception e) {
