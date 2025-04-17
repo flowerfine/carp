@@ -26,18 +26,19 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-plugin-workflow-engine-internal</artifactId>
+    <artifactId>carp-plugin-workflow-engine-temporal</artifactId>
 
     <properties>
         <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
         <plugin.class>cn.sliew.carp.plugin.workflow.engine.internal.InternalWorkflowEnginePlugin</plugin.class>
+        <temporal.version>1.25.2</temporal.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-workflow-engine-internal-api</artifactId>
-            <scope>provided</scope>
+            <groupId>io.temporal</groupId>
+            <artifactId>temporal-spring-boot-starter</artifactId>
+            <version>${temporal.version}</version>
         </dependency>
     </dependencies>
 

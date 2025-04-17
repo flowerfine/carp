@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.plugin.workflow.engine.internal.api;
+package cn.sliew.carp.plugin.workflow.engine.temporal;
 
 import org.pf4j.Plugin;
 import org.pf4j.PluginWrapper;
 
-public class InternalWorkflowEnginePlugin extends Plugin {
+public class TemporalWorkflowEnginePlugin extends Plugin {
 
-    public InternalWorkflowEnginePlugin(PluginWrapper wrapper) {
+    public TemporalWorkflowEnginePlugin(PluginWrapper wrapper) {
         super(wrapper);
     }
 }

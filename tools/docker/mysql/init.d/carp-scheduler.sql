@@ -132,7 +132,7 @@ VALUES (1, 'default', 'log', '90a5946e-a2c5-f6d1-7218-4d7b4b812d26', 'internal',
 INSERT INTO `carp_workflow_definition` (`id`, `namespace`, `name`, `uuid`, `engine`, `body`, `remark`, `creator`,
                                         `editor`)
 VALUES (2, 'default', 'hello', 'e247443e-10f4-829f-a10c-d29fe4fa98db', 'temporal',
-        '{"queue":"hello_queue","workflowMethod":"hello"}', NULL, 'sys', 'sys');
+        '{"workflowMethod":"hello"}', NULL, 'sys', 'sys');
 
 DROP TABLE IF EXISTS `carp_workflow_instance`;
 CREATE TABLE `carp_workflow_instance`
@@ -160,5 +160,5 @@ VALUES (1, 'default', 1, 'edc12e7deb554545aebd4e644a40fd23', '{"inputs":"{}","va
 INSERT INTO `carp_workflow_instance` (`id`, `namespace`, `workflow_definition_id`, `uuid`, `params`, `status`,
                                       `scheduler_instance_id`, `remark`, `creator`, `editor`)
 VALUES (2, 'default', 2, '484202c6172d407a8106c3faba64d59b',
-        '{"queue":"test","timezone":"GMT_8","expression":"@every 1m","validTime":["2025-01-01 00:00:00","2300-01-01 00:00:00"],"inputs":"hello","variables":"{}"}',
+        '{"queue":"test","inputs":"hello","variables":"{}","cron":"@every 1m","schedule":{"timezone":"GMT_8","expression":"@every 1m","validTime":["2025-01-01 00:00:00","2300-01-01 00:00:00"]}}',
         'not_started', NULL, NULL, 'sys', 'sys');

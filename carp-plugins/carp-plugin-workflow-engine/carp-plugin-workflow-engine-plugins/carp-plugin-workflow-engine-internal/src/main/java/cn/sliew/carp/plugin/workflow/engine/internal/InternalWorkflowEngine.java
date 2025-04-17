@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.plugin.workflow.engine.internal.api;
+package cn.sliew.carp.plugin.workflow.engine.internal;
 
 import cn.sliew.carp.plugin.workflow.engine.api.WorkflowEngine;
 import cn.sliew.carp.plugin.workflow.engine.api.dict.CarpWorkflowEngineType;
