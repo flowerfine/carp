@@ -33,7 +33,7 @@ jobs:
     if: github.repository == 'flowerfine/carp'
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-latest, macos-latest ]
         jdk: [ 17 ]
     uses: ./.github/workflows/ci-maven.yml
     with:
