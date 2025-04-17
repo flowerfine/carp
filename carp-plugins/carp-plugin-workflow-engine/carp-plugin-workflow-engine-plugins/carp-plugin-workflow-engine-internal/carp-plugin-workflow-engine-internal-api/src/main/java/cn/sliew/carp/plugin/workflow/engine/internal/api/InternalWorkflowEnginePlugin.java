@@ -18,7 +18,11 @@
 package cn.sliew.carp.plugin.workflow.engine.internal.api;
 
 import org.pf4j.Plugin;
+import org.pf4j.PluginWrapper;
 
 public class InternalWorkflowEnginePlugin extends Plugin {
 
+    public InternalWorkflowEnginePlugin(PluginWrapper wrapper) {
+        super(wrapper);
+    }
 }
