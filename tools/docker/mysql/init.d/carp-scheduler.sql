@@ -155,6 +155,10 @@ CREATE TABLE `carp_workflow_instance`
 
 INSERT INTO `carp_workflow_instance` (`id`, `namespace`, `workflow_definition_id`, `uuid`, `params`, `status`,
                                       `scheduler_instance_id`, `remark`, `creator`, `editor`)
+VALUES (1, 'default', 1, 'edc12e7deb554545aebd4e644a40fd23', '{"inputs":"{}","variables":"{}"}', 'not_started', NULL,
+        NULL, 'sys', 'sys');
+INSERT INTO `carp_workflow_instance` (`id`, `namespace`, `workflow_definition_id`, `uuid`, `params`, `status`,
+                                      `scheduler_instance_id`, `remark`, `creator`, `editor`)
 VALUES (2, 'default', 2, '484202c6172d407a8106c3faba64d59b',
-        '{"queue":"test","timezone":"GMT_8","expression":"@every 1m","validTime":["2025-01-01 00:00:00","2300-01-01 00:00:00"],"param":"hello"}',
+        '{"queue":"test","timezone":"GMT_8","expression":"@every 1m","validTime":["2025-01-01 00:00:00","2300-01-01 00:00:00"],"inputs":"hello","variables":"{}"}',
         'not_started', NULL, NULL, 'sys', 'sys');
