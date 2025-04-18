@@ -85,10 +85,9 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-engine-internal-core</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>cn.sliew</groupId>
-            <artifactId>carp-framework-workflow-temporal</artifactId>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-workflow-engine-temporal</artifactId>
         </dependency>
     </dependencies>
 

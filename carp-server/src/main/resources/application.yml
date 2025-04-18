@@ -83,7 +83,7 @@ spring:
     connection:
       target: 172.16.202.119:30551
     workersAutoDiscovery:
-      packages: cn.sliew.carp.server.temporal
+      packages: cn.sliew.carp.module.workflow.engine.temporal.sample.hello
 
 management:
   endpoints.web.exposure.include: "*"

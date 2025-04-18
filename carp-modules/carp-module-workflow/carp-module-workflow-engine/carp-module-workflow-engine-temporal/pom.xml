@@ -22,16 +22,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-module-workflow</artifactId>
+        <artifactId>carp-module-workflow-engine</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-module-workflow-engine</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-workflow-engine-temporal</artifactId>
 
-    <modules>
-        <module>carp-module-workflow-engine-internal</module>
-        <module>carp-module-workflow-engine-temporal</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-workflow-temporal</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
