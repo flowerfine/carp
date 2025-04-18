@@ -24,13 +24,23 @@ declare namespace WorkspaceWorkflowAPI {
     engine?: string;
   };
 
+  type WorkflowDefinitionAddParam = {
+    namespace: string;
+    name: string;
+    engine: string;
+    body?: Record<string, any>;
+    remark?: string;
+  };
+
+  type WorkflowDefinitionUpdateParam = WorkflowDefinitionAddParam & {
+    id: number;
+  };
+
   type WorkflowInstance = {
     id: number;
     namespace: string;
-    workflowDefinition: WorkflowDefinition;
-    name: string;
+    workflowDefinitionId: number;
     uuid: string;
-    engine: Dict;
     params?: Record<string, any>;
     status?: string;
     schedulerInstanceId?: number;
@@ -39,17 +49,27 @@ declare namespace WorkspaceWorkflowAPI {
     updateTime?: Date;
   };
 
-  type WorkflowInstanceParam = QueryParam & {
+  type WorkflowInstancePageParam = QueryParam & {
     namespace: string;
     workflowDefinitionId?: number;
     uuid?: string;
     status?: string;
   };
 
+  type WorkflowInstanceAddParam = {
+    namespace: string;
+    workflowDefinitionId: number;
+    params?: Record<string, any>;
+    trigger?: Record<string, any>;
+    remark?: string;
+  };
+
+  type WorkflowInstanceUpdateParam = WorkflowInstanceAddParam & {
+    id: number;
+  };
+
   type WorkflowInstanceStartParam = {
     id: number;
-    inputs: string;
-    variables: string;
   };
 
   type ServerlessWorkflowDefinition = {

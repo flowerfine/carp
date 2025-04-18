@@ -46,6 +46,7 @@ export default {
   'pages.workspace.workflow.definition.engine': '引擎',
   'pages.workspace.workflow.definition.engine.temporal.workflowMethod': 'Workflow',
   'pages.workspace.workflow.definition.engine.temporal.workflowMethod.tooltip': 'Temporal @WorkflowMethod 注解',
+  'pages.workspace.workflow.definition.body': 'Body',
 
   'pages.workspace.workflow.definition.type': '类型',
 

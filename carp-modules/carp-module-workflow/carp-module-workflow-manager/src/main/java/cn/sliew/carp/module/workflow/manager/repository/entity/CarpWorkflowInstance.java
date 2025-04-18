@@ -43,6 +43,9 @@ public class CarpWorkflowInstance extends BaseAuditDO {
     @TableField("`status`")
     private String status;
 
+    @TableField("`trigger`")
+    private String trigger;
+
     @TableField("scheduler_instance_id")
     private Long schedulerInstanceId;
 

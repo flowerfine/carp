@@ -70,6 +70,21 @@ const WorkspaceWorkflowDefinitionWeb: React.FC = () => {
       }
     },
     {
+      title: intl.formatMessage({ id: 'pages.workspace.workflow.definition.body' }),
+      dataIndex: 'body',
+      render: (dom, record) => {
+        if (record.engine.value == 'temporal') {
+          return record.body?.workflowMethod
+        } else if (record.engine.value == 'internal') {
+          return (
+            <a onClick={() => {}}>Canvas</a>
+          )
+        } else {
+          return JSON.stringify(record.body)
+        }
+      }
+    },
+    {
       title: intl.formatMessage({ id: 'app.common.data.remark' }),
       dataIndex: 'remark',
       valueType: 'textarea',

@@ -22,9 +22,7 @@ import cn.sliew.carp.framework.workflow.temporal.TemporalUtil;
 import cn.sliew.carp.plugin.workflow.engine.api.WorkflowEngine;
 import cn.sliew.carp.plugin.workflow.engine.api.dict.CarpWorkflowEngineType;
 import cn.sliew.carp.plugin.workflow.engine.api.param.WorkflowInfo;
-import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.temporal.api.common.v1.WorkflowExecution;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
@@ -35,14 +33,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
 public class TemporalWorkflowEngine implements WorkflowEngine {
-
-    private final ObjectMapper objectMapper = JacksonUtil.getMapper().copy();
 
     private final TemporalProperties properties;
 
@@ -53,8 +48,6 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
 
     @Override
     public void start(WorkflowInfo workflowInfo) {
-        Map<String, Object> bodyMap = JacksonUtil.toMap(workflowInfo.getBody());
-        Map<String, Object> paramsMap = JacksonUtil.toMap(workflowInfo.getParams());
         String workflowMethod = Objects.requireNonNull(workflowInfo.getBody().path("workflowMethod").asText(),
                 "Workflow body lack workflowMethod");
         String queue = Objects.requireNonNull(workflowInfo.getParams().path("queue").asText(),

@@ -43,6 +43,9 @@ public class CarpWorkflowInstanceDTO extends BaseDTO {
     @Schema(description = "状态")
     private String status;
 
+    @Schema(description = "trigger")
+    private JsonNode trigger;
+
     @Schema(description = "调度实例 ID")
     private Long schedulerInstanceId;
 

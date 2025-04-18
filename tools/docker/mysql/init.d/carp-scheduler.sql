@@ -143,6 +143,7 @@ CREATE TABLE `carp_workflow_instance`
     `uuid`                   varchar(64) NOT NULL COMMENT 'uuid',
     `params`                 text COMMENT 'params',
     `status`                 varchar(16) NOT NULL COMMENT '状态',
+    `trigger`                text COMMENT 'Trigger',
     `scheduler_instance_id`  bigint COMMENT '调度实例 ID',
     `remark`                 varchar(256) COMMENT 'remark',
     `creator`                varchar(32) COMMENT 'creator',
@@ -154,11 +155,11 @@ CREATE TABLE `carp_workflow_instance`
 ) ENGINE=InnoDB COMMENT='workflow instance';
 
 INSERT INTO `carp_workflow_instance` (`id`, `namespace`, `workflow_definition_id`, `uuid`, `params`, `status`,
-                                      `scheduler_instance_id`, `remark`, `creator`, `editor`)
+                                      `trigger`, `scheduler_instance_id`, `remark`, `creator`, `editor`)
 VALUES (1, 'default', 1, 'edc12e7deb554545aebd4e644a40fd23', '{"inputs":"{}","variables":"{}"}', 'not_started', NULL,
-        NULL, 'sys', 'sys');
+        NULL, NULL, 'sys', 'sys');
 INSERT INTO `carp_workflow_instance` (`id`, `namespace`, `workflow_definition_id`, `uuid`, `params`, `status`,
-                                      `scheduler_instance_id`, `remark`, `creator`, `editor`)
+                                      `trigger`, `scheduler_instance_id`, `remark`, `creator`, `editor`)
 VALUES (2, 'default', 2, '484202c6172d407a8106c3faba64d59b',
         '{"queue":"test","inputs":"hello","variables":"{}","cron":"@every 1m","schedule":{"timezone":"GMT_8","expression":"@every 1m","validTime":["2025-01-01 00:00:00","2300-01-01 00:00:00"]}}',
-        'not_started', NULL, NULL, 'sys', 'sys');
+        'not_started', NULL, NULL, NULL, 'sys', 'sys');

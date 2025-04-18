@@ -23,17 +23,24 @@ import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowInsta
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = ConvertMethodHelper.class)
 public interface CarpWorkflowInstanceConvert extends BaseConvert<CarpWorkflowInstance, CarpWorkflowInstanceDTO> {
     CarpWorkflowInstanceConvert INSTANCE = Mappers.getMapper(CarpWorkflowInstanceConvert.class);
 
-    @Mapping(target = "params", qualifiedByName = "toJsonString")
+    @Mappings({
+            @Mapping(target = "params", qualifiedByName = "toJsonString"),
+            @Mapping(target = "trigger", qualifiedByName = "toJsonString"),
+    })
     @Override
     CarpWorkflowInstance toDo(CarpWorkflowInstanceDTO carpWorkflowInstanceDTO);
 
-    @Mapping(target = "params", qualifiedByName = "toJsonNode")
+    @Mappings({
+            @Mapping(target = "params", qualifiedByName = "toJsonNode"),
+            @Mapping(target = "trigger", qualifiedByName = "toJsonNode")
+    })
     @Override
     CarpWorkflowInstanceDTO toDto(CarpWorkflowInstance carpWorkflowInstance);
 }

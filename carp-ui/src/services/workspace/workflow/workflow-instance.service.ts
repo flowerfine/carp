@@ -26,14 +26,14 @@ export const WorkflowInstanceService = {
     });
   },
 
-  add: async (row: WorkspaceWorkflowAPI.ScheduleConfigAddParam) => {
+  add: async (row: WorkspaceWorkflowAPI.WorkflowInstanceAddParam) => {
     return request<ResponseBody<any>>(`${WorkflowInstanceService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
 
-  update: async (row: WorkspaceWorkflowAPI.ScheduleConfigUpdateParam) => {
+  update: async (row: WorkspaceWorkflowAPI.WorkflowInstanceUpdateParam) => {
     return request<ResponseBody<any>>(`${WorkflowInstanceService.url}`, {
       method: 'POST',
       data: row,

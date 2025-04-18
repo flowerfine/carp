@@ -33,14 +33,14 @@ export const WorkflowDefinitionService = {
     });
   },
 
-  add: async (row: WorkspaceWorkflowAPI.ScheduleConfigAddParam) => {
+  add: async (row: WorkspaceWorkflowAPI.WorkflowDefinitionAddParam) => {
     return request<ResponseBody<any>>(`${WorkflowDefinitionService.url}`, {
       method: 'PUT',
       data: row,
     });
   },
 
-  update: async (row: WorkspaceWorkflowAPI.ScheduleConfigUpdateParam) => {
+  update: async (row: WorkspaceWorkflowAPI.WorkflowDefinitionUpdateParam) => {
     return request<ResponseBody<any>>(`${WorkflowDefinitionService.url}`, {
       method: 'POST',
       data: row,

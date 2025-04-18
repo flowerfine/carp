@@ -36,6 +36,9 @@ public class WorkflowInstanceAddParam {
     @Schema(description = "状态")
     private String status;
 
+    @Schema(description = "trigger")
+    private JsonNode trigger;
+
     @Schema(description = "remark")
     private String remark;
 }
