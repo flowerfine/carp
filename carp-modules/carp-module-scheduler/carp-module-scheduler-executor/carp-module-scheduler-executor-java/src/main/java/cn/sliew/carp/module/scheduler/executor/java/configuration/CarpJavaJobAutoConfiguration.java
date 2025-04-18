@@ -19,7 +19,6 @@ package cn.sliew.carp.module.scheduler.executor.java.configuration;
 
 import cn.sliew.carp.module.scheduler.executor.api.executor.DefaultJobThreadRepository;
 import cn.sliew.carp.module.scheduler.executor.api.executor.InMemoryJobHandlerFactoryRegistry;
-import cn.sliew.carp.module.scheduler.executor.api.executor.JobExecutor;
 import cn.sliew.carp.module.scheduler.executor.api.executor.JobHandlerFactoryRegistry;
 import cn.sliew.carp.module.scheduler.executor.java.JavaJobExecutor;
 import cn.sliew.carp.module.scheduler.executor.java.annotation.CarpJob;
@@ -50,7 +49,7 @@ public class CarpJavaJobAutoConfiguration {
     }
 
     @Bean
-    public JobExecutor javaJobExecutor(JobHandlerFactoryRegistry javaJobHandlerFactoryRegistry) {
+    public JavaJobExecutor javaJobExecutor(JobHandlerFactoryRegistry javaJobHandlerFactoryRegistry) {
         return new JavaJobExecutor(javaJobHandlerFactoryRegistry, new DefaultJobThreadRepository());
     }
 

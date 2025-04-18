@@ -65,7 +65,7 @@ public class WorkflowJobExecutor implements JobExecutor {
             return ScheduleResponse.FAILED;
         }
         try {
-            Long workflowDefinitionId = (Long) value;
+            Long workflowDefinitionId = Long.parseLong(String.valueOf(value));
             WorkflowRunParam runParam = WorkflowRunParam.builder()
                     .id(workflowDefinitionId)
                     .build();

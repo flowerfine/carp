@@ -17,6 +17,9 @@
  */
 package cn.sliew.carp.module.scheduler.quartz.service;
 
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
+import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
+import cn.sliew.carp.module.scheduler.executor.api.dict.CarpScheduleExecuteType;
 import cn.sliew.carp.module.scheduler.executor.api.executor.JobExecutor;
 import cn.sliew.carp.module.scheduler.executor.api.executor.entity.ScheduleResponse;
 import cn.sliew.carp.module.scheduler.executor.api.executor.entity.trigger.TriggerParam;
@@ -30,15 +33,17 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
 public class QuartzJobHandler extends QuartzJobBean {
 
-    @Autowired
-    private JobExecutor jobExecutor;
+    @Autowired(required = false)
+    private List<JobExecutor> jobExecutors;
     @Autowired
     private ScheduleJobInstanceService scheduleJobInstanceService;
 
@@ -65,6 +70,18 @@ public class QuartzJobHandler extends QuartzJobBean {
         }
         triggerParam.setFireTime(context.getFireTime());
         triggerParam.setTriggerTime(context.getScheduledFireTime());
+        JobExecutor jobExecutor = findJobExecutor(scheduleJobConfigDTO.getEngineType(), scheduleJobConfigDTO.getJobType(), scheduleJobConfigDTO.getExecuteType());
         ScheduleResponse response = jobExecutor.execute(triggerParam);
+    }
+
+    private JobExecutor findJobExecutor(CarpScheduleEngineType engineType, CarpScheduleJobType jobType, CarpScheduleExecuteType executeType) {
+        if (CollectionUtils.isEmpty(jobExecutors)) {
+            throw new IllegalStateException("Empty JobExecutor");
+        }
+
+        return jobExecutors.stream().filter(jobExecutor -> jobExecutor.getEngines().contains(engineType))
+                .filter(jobExecutor -> Objects.equals(jobExecutor.getType(), jobType))
+                .filter(jobExecutor -> jobExecutor.getSupportExecuteTypes().contains(executeType))
+                .findFirst().orElseThrow();
     }
 }

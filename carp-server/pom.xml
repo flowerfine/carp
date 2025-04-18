@@ -76,7 +76,6 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-manager</artifactId>
         </dependency>
-
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-workflow-engine-internal-spinnaker</artifactId>
