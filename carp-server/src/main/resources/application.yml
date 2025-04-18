@@ -78,6 +78,12 @@ spring:
           clusterCheckinInterval: 10000
           useProperties: false
   devtools.remote.restart.enabled: false
+  temporal:
+    namespace: default
+    connection:
+      target: 172.16.202.119:30551
+    workersAutoDiscovery:
+      packages: cn.sliew.carp.server.temporal
 
 management:
   endpoints.web.exposure.include: "*"
