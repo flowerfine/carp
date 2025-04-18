@@ -95,6 +95,9 @@ public class WorkflowInstanceServiceImpl
         if (Objects.nonNull(param.getParams())) {
             entity.setParams(param.getParams().toString());
         }
+        if (Objects.nonNull(param.getTrigger())) {
+            entity.setTrigger(param.getTrigger().toString());
+        }
         return save(entity);
     }
 
@@ -104,6 +107,9 @@ public class WorkflowInstanceServiceImpl
         BeanUtils.copyProperties(param, entity);
         if (Objects.nonNull(param.getParams())) {
             entity.setParams(param.getParams().toString());
+        }
+        if (Objects.nonNull(param.getTrigger())) {
+            entity.setTrigger(param.getTrigger().toString());
         }
         return updateById(entity);
     }

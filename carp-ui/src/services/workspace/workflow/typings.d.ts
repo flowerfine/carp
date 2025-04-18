@@ -43,6 +43,7 @@ declare namespace WorkspaceWorkflowAPI {
     uuid: string;
     params?: Record<string, any>;
     status?: string;
+    trigger?: Record<string, any>;
     schedulerInstanceId?: number;
     remark?: string;
     createTime?: Date;

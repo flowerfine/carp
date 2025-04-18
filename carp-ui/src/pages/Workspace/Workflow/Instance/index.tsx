@@ -51,7 +51,8 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.workspace.workflow.instance.namespace'}),
       dataIndex: 'namespace',
       fieldProps: {
-        allowClear: false
+        allowClear: false,
+        disabled: true
       }
     },
     {
@@ -88,61 +89,99 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
       title: intl.formatMessage({id: 'pages.workspace.workflow.instance.params'}),
       dataIndex: 'params',
       render: (dom, entity) => {
-        if (workflowDefinition.engine.value == 'temporal') {
-          return (
-            <>
-              <Typography.Text strong>
-                {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.queue'})}
-              </Typography.Text>
-              {' : ' + entity.params?.queue}
-              <br/>
-              {entity.params?.timezone && (
-                <>
-                  <Typography.Text strong>
-                    {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.timezone'})}
-                  </Typography.Text>
-                  {' : ' + entity.params?.timezone}
-                  <br/>
-                </>
-              )}
-              {entity.params?.expression && (
-                <>
-                  <Typography.Text strong>
-                    {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.expression'})}
-                  </Typography.Text>
-                  {' : ' + entity.params?.expression}
-                  <br/>
-                </>
-              )}
-              {entity.params?.validTime && (
-                <>
-                  <Typography.Text strong>
-                    {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.validTime'})}
-                  </Typography.Text>
-                  {' : ' + entity.params?.validTime[0] + ' ~ ' + entity.params?.validTime[1]}
-                  <br/>
-                </>
-              )}
-              {entity.params?.param && (
-                <>
-                  <Typography.Text strong>
-                    {intl.formatMessage({id: 'pages.workspace.workflow.instance.params.param'})}
-                  </Typography.Text>
-                  {' : ' + entity.params?.param}
-                  <br/>
-                </>
-              )}
-            </>
-          )
-        }
-        if (workflowDefinition.engine.value == 'internal') {
-          return JSON.stringify(entity.params)
-        }
+        return (
+          <>
+            {workflowDefinition.engine.value == 'temporal' && (
+              <>
+                <Typography.Text strong>
+                  {intl.formatMessage({id: 'pages.workspace.workflow.instance.engine.temporal.queue'})}
+                </Typography.Text>
+                {' : ' + entity.params?.queue}
+                <br/>
+              </>
+            )}
+            {workflowDefinition.engine.value == 'internal' && (
+              <></>
+            )}
+            {entity.params?.inputs && (
+              <>
+                <Typography.Text strong>
+                  {intl.formatMessage({id: 'pages.workspace.workflow.instance.params.inputs'})}
+                </Typography.Text>
+                {' : ' + entity.params?.inputs}
+                <br/>
+              </>
+            )}
+            {entity.params?.variables && (
+              <>
+                <Typography.Text strong>
+                  {intl.formatMessage({id: 'pages.workspace.workflow.instance.params.variables'})}
+                </Typography.Text>
+                {' : ' + entity.params?.variables}
+                <br/>
+              </>
+            )}
+          </>
+        )
       }
     },
     {
       title: intl.formatMessage({id: 'pages.workspace.workflow.instance.status'}),
       dataIndex: 'status'
+    },
+    {
+      title: intl.formatMessage({id: 'pages.workspace.workflow.instance.trigger'}),
+      dataIndex: 'trigger',
+      render: (dom, entity) => {
+        return (
+          <>
+            {workflowDefinition.engine.value == 'temporal' && (
+              <>
+                {entity.trigger?.cron && (
+                  <>
+                    <Typography.Text strong>
+                      {intl.formatMessage({id: 'pages.workspace.workflow.instance.trigger.engine.temporal.cron'})}
+                    </Typography.Text>
+                    {' : ' + entity.trigger?.cron}
+                    <br/>
+                  </>
+                )}
+              </>
+            )}
+            {workflowDefinition.engine.value == 'internal' && (
+              <>
+                {entity.trigger?.schedule?.timezone && (
+                  <>
+                    <Typography.Text strong>
+                      {intl.formatMessage({id: 'pages.workspace.workflow.instance.trigger.engine.internal.schedule.timezone'})}
+                    </Typography.Text>
+                    {' : ' + entity.trigger?.schedule?.timezone}
+                    <br/>
+                  </>
+                )}
+                {entity.trigger?.schedule?.cron && (
+                  <>
+                    <Typography.Text strong>
+                      {intl.formatMessage({id: 'pages.workspace.workflow.instance.trigger.engine.internal.schedule.cron'})}
+                    </Typography.Text>
+                    {' : ' + entity.trigger?.schedule?.cron}
+                    <br/>
+                  </>
+                )}
+                {entity.trigger?.schedule?.validTime && (
+                  <>
+                    <Typography.Text strong>
+                      {intl.formatMessage({id: 'pages.workspace.workflow.instance.trigger.engine.internal.schedule.validTime'})}
+                    </Typography.Text>
+                    {' : ' + entity.trigger?.schedule?.validTime[0] + ' ~ ' + entity.trigger?.schedule?.validTime[1]}
+                    <br/>
+                  </>
+                )}
+              </>
+            )}
+          </>
+        )
+      }
     },
     {
       title: intl.formatMessage({id: 'app.common.data.remark'}),

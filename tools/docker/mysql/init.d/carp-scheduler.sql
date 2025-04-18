@@ -156,10 +156,11 @@ CREATE TABLE `carp_workflow_instance`
 
 INSERT INTO `carp_workflow_instance` (`id`, `namespace`, `workflow_definition_id`, `uuid`, `params`, `status`,
                                       `trigger`, `scheduler_instance_id`, `remark`, `creator`, `editor`)
-VALUES (1, 'default', 1, 'edc12e7deb554545aebd4e644a40fd23', '{"inputs":"{}","variables":"{}"}', 'not_started', NULL,
+VALUES (1, 'default', 1, 'edc12e7deb554545aebd4e644a40fd23', '{"inputs":"{}","variables":"{}"}', 'not_started',
+        '{"schedule":{"timezone":"GMT+8","cron":"0 0/1 * * * ?","validTime":["2025-01-01 00:00:00","2035-01-01 00:00:00"]}}',
         NULL, NULL, 'sys', 'sys');
 INSERT INTO `carp_workflow_instance` (`id`, `namespace`, `workflow_definition_id`, `uuid`, `params`, `status`,
                                       `trigger`, `scheduler_instance_id`, `remark`, `creator`, `editor`)
 VALUES (2, 'default', 2, '484202c6172d407a8106c3faba64d59b',
-        '{"queue":"test","inputs":"hello","variables":"{}","cron":"@every 1m","schedule":{"timezone":"GMT_8","expression":"@every 1m","validTime":["2025-01-01 00:00:00","2300-01-01 00:00:00"]}}',
-        'not_started', NULL, NULL, NULL, 'sys', 'sys');
+        '{"queue":"test","inputs":"hello","variables":"{}"}',
+        'not_started', '{"cron":"@every 1m"}', NULL, NULL, 'sys', 'sys');
