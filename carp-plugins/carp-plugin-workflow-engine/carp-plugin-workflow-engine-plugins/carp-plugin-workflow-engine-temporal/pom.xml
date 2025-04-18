@@ -31,14 +31,12 @@
     <properties>
         <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
         <plugin.class>cn.sliew.carp.plugin.workflow.engine.temporal.TemporalWorkflowEnginePlugin</plugin.class>
-        <temporal.version>1.25.2</temporal.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>io.temporal</groupId>
-            <artifactId>temporal-spring-boot-starter</artifactId>
-            <version>${temporal.version}</version>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-workflow-temporal</artifactId>
         </dependency>
     </dependencies>
 

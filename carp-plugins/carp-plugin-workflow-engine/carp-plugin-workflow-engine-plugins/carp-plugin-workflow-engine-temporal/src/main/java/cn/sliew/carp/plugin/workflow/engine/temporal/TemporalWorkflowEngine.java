@@ -18,6 +18,7 @@
 package cn.sliew.carp.plugin.workflow.engine.temporal;
 
 import cn.sliew.carp.framework.common.util.UUIDUtil;
+import cn.sliew.carp.framework.workflow.temporal.TemporalUtil;
 import cn.sliew.carp.plugin.workflow.engine.api.WorkflowEngine;
 import cn.sliew.carp.plugin.workflow.engine.api.dict.CarpWorkflowEngineType;
 import cn.sliew.carp.plugin.workflow.engine.api.param.WorkflowInfo;
@@ -38,7 +39,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class TemporalWorkflowEngine implements WorkflowEngine {
 
-    private final WorkflowClientFactory workflowClientFactory;
+    private final TemporalProperties properties;
 
     @Override
     public CarpWorkflowEngineType getEngineType() {
@@ -47,7 +48,6 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
 
     @Override
     public void start(WorkflowInfo workflowInfo) {
-        WorkflowClient workflowClient = workflowClientFactory.getWorkflowClient(workflowInfo.getNamespace());
         String workflowMethod = Objects.requireNonNull(workflowInfo.getBody().path("workflowMethod").asText(),
                 "Workflow body lack workflowMethod");
         String queue = Objects.requireNonNull(workflowInfo.getParams().path("queue").asText(),
@@ -83,7 +83,7 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
                 .setCronSchedule(cron)
                 .build();
 
-        WorkflowClient workflowClient = workflowClientFactory.getWorkflowClient(namespace);
+        WorkflowClient workflowClient = TemporalUtil.getWorkflowClient(properties.getHost(), namespace);
         WorkflowStub workflow = workflowClient.newUntypedWorkflowStub(workflowMethod, workflowOptions);
         WorkflowExecution execution = workflow.start(inputs);
         log.info("Temporal CronJob start, workflowId: {}, runId: {}",
@@ -117,7 +117,7 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
                         .setSpec(scheduleSpec)
                         .build();
         String schedulerId = UUIDUtil.randomUUId();
-        ScheduleClient scheduleClient = workflowClientFactory.getScheduleClient(namespace);
+        ScheduleClient scheduleClient = TemporalUtil.getScheduleClient(properties.getHost(), namespace);
         scheduleClient.createSchedule(schedulerId, schedule, ScheduleOptions.newBuilder().build());
         log.info("Temporal Schedule start, scheduleId: {}, workflowId: {}", schedulerId, uuid);
     }
@@ -132,7 +132,7 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
                 .setWorkflowTaskTimeout(Duration.ofHours(1L))
                 .setTaskQueue(queue)
                 .build();
-        WorkflowClient workflowClient = workflowClientFactory.getWorkflowClient(namespace);
+        WorkflowClient workflowClient = TemporalUtil.getWorkflowClient(properties.getHost(), namespace);
         WorkflowStub workflow = workflowClient.newUntypedWorkflowStub(workflowMethod, workflowOptions);
         WorkflowExecution execution = workflow.start(inputs);
         log.info("Temporal Workflow start, workflowId: {}, runId: {}",
