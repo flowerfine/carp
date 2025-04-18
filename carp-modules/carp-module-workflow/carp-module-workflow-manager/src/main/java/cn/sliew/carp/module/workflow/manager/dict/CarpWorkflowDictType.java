@@ -30,6 +30,7 @@ import java.util.Arrays;
 public enum CarpWorkflowDictType implements DictDefinition {
 
     WORKFLOW_ENGINE_TYPE("carp_workflow_engine_type", "Workflow Engine Type", CarpWorkflowEngineType.class),
+    WORKFLOW_INSTNACE_STATUS("carp_workflow_instance_status", "Workflow Instance Status", CarpWorkflowInstanceStatus.class),
     ;
 
     @JsonCreator

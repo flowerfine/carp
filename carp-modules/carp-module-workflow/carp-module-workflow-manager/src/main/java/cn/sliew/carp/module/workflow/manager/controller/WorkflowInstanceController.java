@@ -22,10 +22,7 @@ import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceStartParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceUpdateParam;
+import cn.sliew.carp.module.workflow.manager.service.param.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -84,5 +81,11 @@ public class WorkflowInstanceController {
     @Operation(summary = "启动", description = "启动")
     public void start(@Valid @RequestBody WorkflowInstanceStartParam param) {
         workflowInstanceService.start(param);
+    }
+
+    @PostMapping("stop")
+    @Operation(summary = "停止", description = "停止")
+    public void stop(@Valid @RequestBody WorkflowInstanceStopParam param) {
+        workflowInstanceService.stop(param);
     }
 }

@@ -107,6 +107,16 @@ public class InternalWorkflowEngine implements WorkflowEngine {
         return Map.of("scheduleJobInstanceId", jobInstanceId);
     }
 
+    @Override
+    public void stop(WorkflowInfo workflowInfo) {
+        JsonNode jsonNode = workflowInfo.getTrigger().path("status").path("scheduleJobInstanceId");
+        if (Objects.isNull(jsonNode) || jsonNode.isNull()) {
+            throw new IllegalStateException("Workflow instance trigger lack status");
+        }
+        Long scheduleJobInstanceId = jsonNode.asLong();
+        jobScheduler.unschedule(scheduleJobInstanceId);
+    }
+
     private Long findJobGroupId(String namespace) {
         ScheduleJobGroupPageParam pageParam = ScheduleJobGroupPageParam.builder()
                 .namespace(namespace)

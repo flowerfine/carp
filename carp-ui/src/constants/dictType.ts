@@ -18,4 +18,5 @@ export const DICT_TYPE = {
   carpScheduleStatus: 'carp_schedule_status',
 
   carpWorkflowEngineType: 'carp_workflow_engine_type',
+  carpWorkflowInstanceStatus: 'carp_workflow_instance_status',
 };

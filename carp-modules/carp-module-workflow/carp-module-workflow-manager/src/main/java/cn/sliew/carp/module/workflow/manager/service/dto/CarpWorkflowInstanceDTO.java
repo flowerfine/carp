@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.workflow.manager.service.dto;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowInstanceStatus;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class CarpWorkflowInstanceDTO extends BaseDTO {
     private JsonNode params;
 
     @Schema(description = "状态")
-    private String status;
+    private CarpWorkflowInstanceStatus status;
 
     @Schema(description = "trigger")
     private JsonNode trigger;

@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.workflow.manager.repository.entity;
 
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
+import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowInstanceStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class CarpWorkflowInstance extends BaseAuditDO {
     private String params;
 
     @TableField("`status`")
-    private String status;
+    private CarpWorkflowInstanceStatus status;
 
     @TableField("`trigger`")
     private String trigger;

@@ -28,4 +28,6 @@ public interface WorkflowEngine extends CarpExtensionPoint {
     CarpWorkflowEngineType getEngineType();
 
     Map<String, Object> start(WorkflowInfo workflowInfo);
+
+    void stop(WorkflowInfo workflowInfo);
 }

@@ -61,4 +61,11 @@ export const WorkflowInstanceService = {
     });
   },
 
+  stop: async (param: WorkspaceWorkflowAPI.WorkflowInstance) => {
+    return request<ResponseBody<any>>(`${WorkflowInstanceService.url}/stop`, {
+      method: 'POST',
+      data: {id: param.id},
+    });
+  },
+
 };

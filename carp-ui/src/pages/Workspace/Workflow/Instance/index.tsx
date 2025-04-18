@@ -1,8 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Button, message, Modal, Select, Space, Table, Tooltip, Typography} from "antd";
-import {DeleteOutlined, EditOutlined, PlayCircleOutlined} from "@ant-design/icons";
+import {Button, message, Modal, Select, Space, Table, Tag, Tooltip, Typography} from "antd";
+import {DeleteOutlined, EditOutlined, PauseCircleOutlined, PlayCircleOutlined} from "@ant-design/icons";
 import {ActionType, PageContainer, ProColumns, ProFormInstance, ProTable} from "@ant-design/pro-components";
 import {history, useIntl, useLocation} from "@umijs/max";
+import {DictService} from "@/services/admin/system/dict.service";
+import {DICT_TYPE} from "@/constants/dictType";
 import {WorkspaceWorkflowAPI} from "@/services/workspace/workflow/typings";
 import {WorkflowDefinitionService} from "@/services/workspace/workflow/workflow-definition.service";
 import {WorkflowInstanceService} from "@/services/workspace/workflow/workflow-instance.service";
@@ -127,7 +129,13 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
     },
     {
       title: intl.formatMessage({id: 'pages.workspace.workflow.instance.status'}),
-      dataIndex: 'status'
+      dataIndex: 'status',
+      render: (dom, entity) => {
+        return <Tag>{entity.status.label}</Tag>
+      },
+      request: (params, props) => {
+        return DictService.listInstanceByDefinition(DICT_TYPE.carpWorkflowInstanceStatus)
+      }
     },
     {
       title: intl.formatMessage({id: 'pages.workspace.workflow.instance.trigger'}),
@@ -210,25 +218,35 @@ const WorkspaceWorkflowInstanceWeb: React.FC = () => {
       fixed: 'right',
       render: (_, record) => (
         <Space>
-          <Tooltip title={intl.formatMessage({id: 'app.common.operate.start.label'})}>
+          <Tooltip title={record.status.value == 'running' ?
+            intl.formatMessage({id: 'app.common.operate.stop.label'})
+            : intl.formatMessage({id: 'app.common.operate.start.label'})}>
             <Button
               shape="default"
               type="link"
-              icon={<PlayCircleOutlined/>}
+              icon={record.status.value == 'running' ? <PauseCircleOutlined/> : <PlayCircleOutlined/>}
               onClick={() => {
                 Modal.confirm({
-                  title: intl.formatMessage({id: 'app.common.operate.start.label'})
-                    + intl.formatMessage({id: 'pages.workspace.workflow.instance'}),
+                  title: record.status.value == 'running' ?
+                    intl.formatMessage({id: 'app.common.operate.stop.label'}) + intl.formatMessage({id: 'pages.workspace.workflow.instance'})
+                    : intl.formatMessage({id: 'app.common.operate.start.label'}) + intl.formatMessage({id: 'pages.workspace.workflow.instance'}),
                   content: record.uuid,
                   okText: intl.formatMessage({id: 'app.common.operate.confirm.label'}),
                   cancelText: intl.formatMessage({id: 'app.common.operate.cancel.label'}),
                   onOk() {
-                    WorkflowInstanceService.start(record).then((response) => {
-                      if (response.success) {
-                        message.success(intl.formatMessage({id: 'app.common.operate.start.success'}));
-                        actionRef.current?.reload();
-                      }
-                    });
+                    record.status.value == 'running' ?
+                      WorkflowInstanceService.stop(record).then((response) => {
+                        if (response.success) {
+                          message.success(intl.formatMessage({id: 'app.common.operate.stop.success'}));
+                          actionRef.current?.reload();
+                        }
+                      })
+                      : WorkflowInstanceService.start(record).then((response) => {
+                        if (response.success) {
+                          message.success(intl.formatMessage({id: 'app.common.operate.start.success'}));
+                          actionRef.current?.reload();
+                        }
+                      });
                   },
                 });
               }}

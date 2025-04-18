@@ -29,10 +29,7 @@ import cn.sliew.carp.module.workflow.manager.service.WorkflowInstanceService;
 import cn.sliew.carp.module.workflow.manager.service.convert.CarpWorkflowInstanceConvert;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowDefinitionDTO;
 import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceStartParam;
-import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceUpdateParam;
+import cn.sliew.carp.module.workflow.manager.service.param.*;
 import cn.sliew.carp.plugin.workflow.engine.api.WorkflowEngine;
 import cn.sliew.carp.plugin.workflow.engine.api.param.WorkflowInfo;
 import cn.sliew.milky.common.util.JacksonUtil;
@@ -95,7 +92,7 @@ public class WorkflowInstanceServiceImpl
         CarpWorkflowInstance entity = new CarpWorkflowInstance();
         BeanUtils.copyProperties(param, entity);
         entity.setUuid(UUIDUtil.randomUUId());
-        entity.setStatus(CarpWorkflowInstanceStatus.NOT_STARTED.getValue());
+        entity.setStatus(CarpWorkflowInstanceStatus.NOT_STARTED);
         if (Objects.nonNull(param.getParams())) {
             entity.setParams(param.getParams().toString());
         }
@@ -121,7 +118,7 @@ public class WorkflowInstanceServiceImpl
     @Override
     public void start(WorkflowInstanceStartParam param) {
         CarpWorkflowInstanceDTO workflowInstanceDTO = get(param.getId());
-        checkState(Objects.equals(workflowInstanceDTO.getStatus(), "not_started"),
+        checkState(Objects.equals(workflowInstanceDTO.getStatus(), CarpWorkflowInstanceStatus.NOT_STARTED),
                 () -> "Only not started workflow instance can start");
         CarpWorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowInstanceDTO.getWorkflowDefinitionId());
 
@@ -137,7 +134,7 @@ public class WorkflowInstanceServiceImpl
         Map<String, Object> status = workflowEngine.start(workflowInfo);
         CarpWorkflowInstance entity = new CarpWorkflowInstance();
         entity.setId(param.getId());
-        entity.setStatus("running");
+        entity.setStatus(CarpWorkflowInstanceStatus.RUNNING);
         if (CollectionUtils.isEmpty(status) == false) {
             ObjectNode trigger;
             if (Objects.nonNull(workflowInstanceDTO.getTrigger())) {
@@ -148,6 +145,30 @@ public class WorkflowInstanceServiceImpl
             trigger.putPOJO("status", status);
             entity.setTrigger(trigger.toString());
         }
+        updateById(entity);
+    }
+
+    @Override
+    public void stop(WorkflowInstanceStopParam param) {
+        CarpWorkflowInstanceDTO workflowInstanceDTO = get(param.getId());
+        checkState(Objects.equals(workflowInstanceDTO.getStatus(), CarpWorkflowInstanceStatus.RUNNING),
+                () -> "Only running workflow instance can stop");
+        CarpWorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowInstanceDTO.getWorkflowDefinitionId());
+
+        WorkflowInfo workflowInfo = WorkflowInfo.builder()
+                .namespace(workflowDefinitionDTO.getNamespace())
+                .name(workflowDefinitionDTO.getName())
+                .uuid(workflowInstanceDTO.getUuid())
+                .body(workflowDefinitionDTO.getBody())
+                .params(workflowInstanceDTO.getParams())
+                .trigger(workflowInstanceDTO.getTrigger())
+                .build();
+        WorkflowEngine workflowEngine = getWorkflowEngine(workflowDefinitionDTO);
+        workflowEngine.stop(workflowInfo);
+
+        CarpWorkflowInstance entity = new CarpWorkflowInstance();
+        entity.setId(param.getId());
+        entity.setStatus(CarpWorkflowInstanceStatus.NOT_STARTED);
         updateById(entity);
     }
 

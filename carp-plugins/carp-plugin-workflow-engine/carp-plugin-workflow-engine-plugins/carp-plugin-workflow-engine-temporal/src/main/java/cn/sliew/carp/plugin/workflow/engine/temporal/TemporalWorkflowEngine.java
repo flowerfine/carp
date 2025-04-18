@@ -35,6 +35,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -63,12 +64,22 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
         return Map.of("workflowId", workflowId);
     }
 
+    @Override
+    public void stop(WorkflowInfo workflowInfo) {
+        JsonNode jsonNode = workflowInfo.getTrigger().path("status").path("workflowId");
+        if (Objects.isNull(jsonNode) || jsonNode.isNull()) {
+            throw new IllegalStateException("Workflow instance trigger lack workflowId");
+        }
+        String workflowId = jsonNode.asText();
+        stopCronJob(workflowInfo.getNamespace(), workflowId);
+    }
+
     private String startCronJob(String namespace,
-                              String uuid,
-                              String workflowMethod,
-                              String queue,
-                              String cron,
-                              JsonNode inputs) {
+                                String uuid,
+                                String workflowMethod,
+                                String queue,
+                                String cron,
+                                JsonNode inputs) {
         WorkflowOptions workflowOptions = WorkflowOptions.newBuilder()
                 .setWorkflowId(uuid)
                 .setWorkflowTaskTimeout(Duration.ofHours(1L))
@@ -82,6 +93,12 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
         log.info("Temporal CronJob start, workflowId: {}, runId: {}",
                 execution.getWorkflowId(), execution.getRunId());
         return execution.getWorkflowId();
+    }
+
+    private void stopCronJob(String namespace, String workflowId) {
+        WorkflowClient workflowClient = TemporalUtil.getWorkflowClient(properties.getHost(), namespace);
+        WorkflowStub workflow = workflowClient.newUntypedWorkflowStub(workflowId, Optional.empty(), Optional.empty());
+        workflow.terminate("kill by system");
     }
 
     @Deprecated

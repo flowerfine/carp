@@ -15,16 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.workflow.manager.service;
+package cn.sliew.carp.module.workflow.manager.service.param;
 
-import cn.sliew.carp.framework.crud.service.CrudService;
-import cn.sliew.carp.module.workflow.manager.service.dto.CarpWorkflowInstanceDTO;
-import cn.sliew.carp.module.workflow.manager.service.param.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
-public interface WorkflowInstanceService
-        extends CrudService<CarpWorkflowInstanceDTO, WorkflowInstancePageParam, WorkflowInstanceAddParam, WorkflowInstanceUpdateParam> {
+@Getter
+@Jacksonized
+@Builder(toBuilder = true)
+public class WorkflowInstanceStopParam {
 
-    void start(WorkflowInstanceStartParam param);
-
-    void stop(WorkflowInstanceStopParam param);
+    @NotNull
+    private Long id;
 }
