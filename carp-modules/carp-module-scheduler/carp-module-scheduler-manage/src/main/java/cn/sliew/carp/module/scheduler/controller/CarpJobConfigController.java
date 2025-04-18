@@ -64,7 +64,7 @@ public class CarpJobConfigController {
 
     @PutMapping
     @Operation(summary = "新增", description = "新增")
-    public Boolean add(@Valid @RequestBody ScheduleJobConfigAddParam param) {
+    public Long add(@Valid @RequestBody ScheduleJobConfigAddParam param) {
         return scheduleJobConfigService.add(param);
     }
 

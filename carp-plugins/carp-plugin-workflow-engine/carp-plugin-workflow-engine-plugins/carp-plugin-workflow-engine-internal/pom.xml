@@ -39,6 +39,12 @@
             <artifactId>carp-module-workflow-engine-internal-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-scheduler-manage</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

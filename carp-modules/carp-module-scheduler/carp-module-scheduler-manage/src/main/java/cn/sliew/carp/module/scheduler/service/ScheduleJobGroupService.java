@@ -36,7 +36,7 @@ public interface ScheduleJobGroupService extends IService<ScheduleJobGroup> {
 
     ScheduleJobGroupDTO get(Long id);
 
-    boolean add(ScheduleJobGroupAddParam param);
+    Long add(ScheduleJobGroupAddParam param);
 
     boolean update(ScheduleJobGroupUpdateParam param);
 

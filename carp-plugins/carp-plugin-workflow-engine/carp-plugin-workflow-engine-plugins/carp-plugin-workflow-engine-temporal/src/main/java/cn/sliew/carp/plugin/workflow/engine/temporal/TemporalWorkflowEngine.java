@@ -33,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -47,30 +48,22 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
     }
 
     @Override
-    public void start(WorkflowInfo workflowInfo) {
+    public Map<String, Object> start(WorkflowInfo workflowInfo) {
         String workflowMethod = Objects.requireNonNull(workflowInfo.getBody().path("workflowMethod").asText(),
                 "Workflow body lack workflowMethod");
         String queue = Objects.requireNonNull(workflowInfo.getParams().path("queue").asText(),
                 "Workflow params lack queue");
         JsonNode inputs = workflowInfo.getParams().path("inputs");
 
-//        JsonNode schedule = workflowInfo.getParams().path("schedule");
-//        if (Objects.nonNull(schedule) && !schedule.isNull()) {
-//            // todo parse schedule-spec
-//            startSchedule(workflowInfo.getNamespace(), workflowInfo.getUuid(), workflowMethod, queue, inputs);
-//            return;
-//        }
-
         JsonNode cron = workflowInfo.getParams().path("cron");
-        if (Objects.nonNull(cron) && !cron.isNull()) {
-            startCronJob(workflowInfo.getNamespace(), workflowInfo.getUuid(), workflowMethod, queue, cron.asText(), inputs);
-            return;
+        if (Objects.isNull(cron) || cron.isNull()) {
+            throw new IllegalArgumentException("Workflow trigger lack cron");
         }
-
-        startWorkflow(workflowInfo.getNamespace(), workflowInfo.getUuid(), workflowMethod, queue, inputs);
+        String workflowId = startCronJob(workflowInfo.getNamespace(), workflowInfo.getUuid(), workflowMethod, queue, cron.asText(), inputs);
+        return Map.of("workflowId", workflowId);
     }
 
-    private void startCronJob(String namespace,
+    private String startCronJob(String namespace,
                               String uuid,
                               String workflowMethod,
                               String queue,
@@ -88,8 +81,10 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
         WorkflowExecution execution = workflow.start(inputs);
         log.info("Temporal CronJob start, workflowId: {}, runId: {}",
                 execution.getWorkflowId(), execution.getRunId());
+        return execution.getWorkflowId();
     }
 
+    @Deprecated
     private void startSchedule(String namespace,
                                String uuid,
                                String workflowMethod,
@@ -122,6 +117,7 @@ public class TemporalWorkflowEngine implements WorkflowEngine {
         log.info("Temporal Schedule start, scheduleId: {}, workflowId: {}", schedulerId, uuid);
     }
 
+    @Deprecated
     private void startWorkflow(String namespace,
                                String uuid,
                                String workflowMethod,

@@ -57,10 +57,10 @@ public class WorkflowJobExecutor implements JobExecutor {
     @Override
     public ScheduleResponse execute(TriggerParam param) {
         if (MapUtils.isEmpty(param.getProps()) ||
-                !param.getProps().containsKey("workflowDefinitionId")) {
+                !param.getProps().containsKey("dagConfigId")) {
             return ScheduleResponse.FAILED;
         }
-        Object value = param.getProps().get("workflowDefinitionId");
+        Object value = param.getProps().get("dagConfigId");
         if (Objects.isNull(value)) {
             return ScheduleResponse.FAILED;
         }

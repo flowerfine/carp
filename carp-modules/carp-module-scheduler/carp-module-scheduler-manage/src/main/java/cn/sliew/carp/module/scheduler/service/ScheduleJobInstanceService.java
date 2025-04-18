@@ -38,7 +38,7 @@ public interface ScheduleJobInstanceService extends IService<ScheduleJobInstance
 
     ScheduleJobInstanceDTO get(Long id);
 
-    boolean add(ScheduleJobInstanceAddParam param);
+    Long add(ScheduleJobInstanceAddParam param);
 
     boolean update(ScheduleJobInstanceUpdateParam param);
 

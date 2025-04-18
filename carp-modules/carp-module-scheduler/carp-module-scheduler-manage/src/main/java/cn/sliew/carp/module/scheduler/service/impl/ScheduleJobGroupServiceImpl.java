@@ -70,10 +70,13 @@ public class ScheduleJobGroupServiceImpl extends ServiceImpl<ScheduleJobGroupMap
     }
 
     @Override
-    public boolean add(ScheduleJobGroupAddParam param) {
+    public Long add(ScheduleJobGroupAddParam param) {
         ScheduleJobGroup entity = new ScheduleJobGroup();
         BeanUtils.copyProperties(param, entity);
-        return save(entity);
+        if (save(entity)) {
+            return entity.getId();
+        }
+        throw new IllegalStateException("Add schedule job group failed");
     }
 
     @Override

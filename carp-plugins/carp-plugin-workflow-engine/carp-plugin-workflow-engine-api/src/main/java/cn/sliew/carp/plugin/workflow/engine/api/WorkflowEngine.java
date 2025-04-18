@@ -21,9 +21,11 @@ import cn.sliew.carp.framework.pf4j.api.internal.CarpExtensionPoint;
 import cn.sliew.carp.plugin.workflow.engine.api.dict.CarpWorkflowEngineType;
 import cn.sliew.carp.plugin.workflow.engine.api.param.WorkflowInfo;
 
+import java.util.Map;
+
 public interface WorkflowEngine extends CarpExtensionPoint {
 
     CarpWorkflowEngineType getEngineType();
 
-    void start(WorkflowInfo workflowInfo);
+    Map<String, Object> start(WorkflowInfo workflowInfo);
 }

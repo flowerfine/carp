@@ -21,11 +21,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Jacksonized
+@Builder(toBuilder = true)
 public class ScheduleJobInstanceUpdateParam {
 
     @NotNull

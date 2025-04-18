@@ -84,11 +84,14 @@ public class ScheduleJobConfigServiceImpl extends ServiceImpl<ScheduleJobConfigM
     }
 
     @Override
-    public boolean add(ScheduleJobConfigAddParam param) {
+    public Long add(ScheduleJobConfigAddParam param) {
         ScheduleJobConfig entity = new ScheduleJobConfig();
         BeanUtils.copyProperties(param, entity);
         entity.setType(CarpScheduleType.USER);
-        return save(entity);
+        if (save(entity)) {
+            return entity.getId();
+        }
+        throw new IllegalStateException("Add schedule job config failed");
     }
 
     @Override

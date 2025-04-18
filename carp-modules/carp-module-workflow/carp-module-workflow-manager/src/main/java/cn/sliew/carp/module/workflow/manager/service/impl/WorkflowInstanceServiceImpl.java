@@ -21,8 +21,6 @@ import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.crud.service.impl.AbstractCrudService;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
-import cn.sliew.carp.plugin.workflow.engine.api.WorkflowEngine;
-import cn.sliew.carp.plugin.workflow.engine.api.param.WorkflowInfo;
 import cn.sliew.carp.module.workflow.manager.dict.CarpWorkflowInstanceStatus;
 import cn.sliew.carp.module.workflow.manager.repository.entity.CarpWorkflowInstance;
 import cn.sliew.carp.module.workflow.manager.repository.mapper.CarpWorkflowInstanceMapper;
@@ -35,15 +33,21 @@ import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceAddPa
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstancePageParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceStartParam;
 import cn.sliew.carp.module.workflow.manager.service.param.WorkflowInstanceUpdateParam;
+import cn.sliew.carp.plugin.workflow.engine.api.WorkflowEngine;
+import cn.sliew.carp.plugin.workflow.engine.api.param.WorkflowInfo;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -117,6 +121,8 @@ public class WorkflowInstanceServiceImpl
     @Override
     public void start(WorkflowInstanceStartParam param) {
         CarpWorkflowInstanceDTO workflowInstanceDTO = get(param.getId());
+        checkState(Objects.equals(workflowInstanceDTO.getStatus(), "not_started"),
+                () -> "Only not started workflow instance can start");
         CarpWorkflowDefinitionDTO workflowDefinitionDTO = workflowDefinitionService.get(workflowInstanceDTO.getWorkflowDefinitionId());
 
         WorkflowInfo workflowInfo = WorkflowInfo.builder()
@@ -125,9 +131,24 @@ public class WorkflowInstanceServiceImpl
                 .uuid(workflowInstanceDTO.getUuid())
                 .body(workflowDefinitionDTO.getBody())
                 .params(workflowInstanceDTO.getParams())
+                .trigger(workflowInstanceDTO.getTrigger())
                 .build();
         WorkflowEngine workflowEngine = getWorkflowEngine(workflowDefinitionDTO);
-        workflowEngine.start(workflowInfo);
+        Map<String, Object> status = workflowEngine.start(workflowInfo);
+        CarpWorkflowInstance entity = new CarpWorkflowInstance();
+        entity.setId(param.getId());
+        entity.setStatus("running");
+        if (CollectionUtils.isEmpty(status) == false) {
+            ObjectNode trigger;
+            if (Objects.nonNull(workflowInstanceDTO.getTrigger())) {
+                trigger = (ObjectNode) workflowInstanceDTO.getTrigger();
+            } else {
+                trigger = JacksonUtil.createObjectNode();
+            }
+            trigger.putPOJO("status", status);
+            entity.setTrigger(trigger.toString());
+        }
+        updateById(entity);
     }
 
     private WorkflowEngine getWorkflowEngine(CarpWorkflowDefinitionDTO workflowDefinitionDTO) {

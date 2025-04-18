@@ -76,17 +76,26 @@ public class ScheduleJobInstanceServiceImpl extends ServiceImpl<ScheduleJobInsta
     }
 
     @Override
-    public boolean add(ScheduleJobInstanceAddParam param) {
+    public Long add(ScheduleJobInstanceAddParam param) {
         ScheduleJobInstance entity = new ScheduleJobInstance();
         BeanUtils.copyProperties(param, entity);
         entity.setStatus(CarpScheduleStatus.STOP);
-        return save(entity);
+        if (Objects.nonNull(param.getProps())) {
+            entity.setProps(param.getProps().toString());
+        }
+        if (save(entity)) {
+            return entity.getId();
+        }
+        throw new IllegalStateException("Add schedule job instance failed");
     }
 
     @Override
     public boolean update(ScheduleJobInstanceUpdateParam param) {
         ScheduleJobInstance entity = new ScheduleJobInstance();
         BeanUtils.copyProperties(param, entity);
+        if (Objects.nonNull(param.getProps())) {
+            entity.setProps(param.getProps().toString());
+        }
         return updateById(entity);
     }
 

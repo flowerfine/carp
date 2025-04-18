@@ -17,14 +17,18 @@
  */
 package cn.sliew.carp.module.scheduler.service.param;
 
-import cn.sliew.carp.framework.common.model.PageParam;
+import cn.sliew.carp.framework.common.model.BasePageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
-@Data
-public class ScheduleJobGroupPageParam extends PageParam {
+@Getter
+@Jacksonized
+@SuperBuilder
+public class ScheduleJobGroupPageParam extends BasePageParam {
 
-    @Schema(description = "命名空间。模糊搜索")
+    @Schema(description = "命名空间")
     private String namespace;
 
     @Schema(description = "分组名称。模糊搜索")

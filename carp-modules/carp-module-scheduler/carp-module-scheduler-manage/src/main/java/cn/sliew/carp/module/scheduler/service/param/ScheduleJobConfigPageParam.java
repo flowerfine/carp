@@ -20,13 +20,17 @@ package cn.sliew.carp.module.scheduler.service.param;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleEngineType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleJobType;
 import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleType;
-import cn.sliew.carp.framework.common.model.PageParam;
+import cn.sliew.carp.framework.common.model.BasePageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
-@Data
-public class ScheduleJobConfigPageParam extends PageParam {
+@Getter
+@Jacksonized
+@SuperBuilder
+public class ScheduleJobConfigPageParam extends BasePageParam {
 
     @NotNull
     @Schema(description = "任务分组 id")

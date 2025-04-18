@@ -32,4 +32,5 @@ public class WorkflowInfo {
     private String uuid;
     private JsonNode body;
     private JsonNode params;
+    private JsonNode trigger;
 }
