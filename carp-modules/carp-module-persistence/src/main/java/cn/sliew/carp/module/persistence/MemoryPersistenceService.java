@@ -33,9 +33,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class MemoryPersistenceService<R extends BaseDTO> extends AbstractPersistenceService<Long, R> {
 
     private final ConcurrentMap<Long, R> map = new ConcurrentHashMap();
-    private final BaseResourceVisitor resourceVisitor;
+    private final MemoryResourceVisitor resourceVisitor;
 
-    public MemoryPersistenceService(BaseResourceVisitor resourceVisitor) {
+    public MemoryPersistenceService(MemoryResourceVisitor resourceVisitor) {
         this.resourceVisitor = resourceVisitor;
     }
 

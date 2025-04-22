@@ -30,7 +30,7 @@ public final class NotSelector implements Selector {
         this.selector = checkNotNull(selector, "selector is null");
     }
 
-    public <C> C accept(SelectorVisitor<C, ?> visitor) {
+    public <S> S accept(SelectorVisitor<S> visitor) {
         return visitor.visit(this);
     }
 }

@@ -17,10 +17,11 @@
  */
 package cn.sliew.carp.module.persistence;
 
+import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import cn.sliew.carp.module.persistence.api.selectors.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
-public class MybatisResourceVisitor<R> implements SelectorVisitor<LambdaQueryWrapper<R>, LambdaQueryWrapper<Object>> {
+public class MybatisResourceVisitor<R extends BaseAuditDO> implements SelectorVisitor<LambdaQueryWrapper<R>> {
 
     private final LambdaQueryWrapper<R> queryWrapper;
 
@@ -29,14 +30,16 @@ public class MybatisResourceVisitor<R> implements SelectorVisitor<LambdaQueryWra
     }
 
     public void handleVisit(Selector selector) {
-        if (selector instanceof AllSelector) {
-            visit((AllSelector) selector);
-        } else if (selector instanceof NotSelector) {
-            visit((NotSelector) selector);
-        } else if (selector instanceof AndSelector) {
-            visit((AndSelector) selector);
-        } else if (selector instanceof OrSelector) {
-            visit((OrSelector) selector);
+        if (selector instanceof AllSelector allSelector) {
+            visit(allSelector);
+        } else if (selector instanceof NotSelector notSelector) {
+            visit(notSelector);
+        } else if (selector instanceof AndSelector andSelector) {
+            visit(andSelector);
+        } else if (selector instanceof OrSelector orSelector) {
+            visit(orSelector);
+        } else if (selector instanceof IdSelector idSelector) {
+            visit(idSelector);
         }
     }
 
@@ -64,6 +67,12 @@ public class MybatisResourceVisitor<R> implements SelectorVisitor<LambdaQueryWra
         queryWrapper.or(wrapper -> {
             selector.getSelectors().forEach(item -> handleVisit(item));
         });
+        return queryWrapper;
+    }
+
+    @Override
+    public LambdaQueryWrapper<R> visit(IdSelector selector) {
+        queryWrapper.eq(BaseAuditDO::getId, selector.getId());
         return queryWrapper;
     }
 }
