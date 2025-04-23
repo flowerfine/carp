@@ -17,10 +17,12 @@
  */
 package cn.sliew.carp.module.persistence;
 
-import cn.sliew.carp.framework.common.model.BaseDTO;
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.persistence.api.selectors.Selector;
+import cn.sliew.carp.module.persistence.util.IterableUtil;
 import com.google.common.collect.Iterables;
 
 import java.util.Optional;
@@ -30,7 +32,7 @@ import java.util.function.Predicate;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class MemoryPersistenceService<R extends BaseDTO> extends AbstractPersistenceService<Long, R> {
+public class MemoryPersistenceService<R extends BaseAuditDO> extends AbstractPersistenceService<Long, R> {
 
     private final ConcurrentMap<Long, R> map = new ConcurrentHashMap();
     private final MemoryResourceVisitor resourceVisitor;
@@ -48,7 +50,8 @@ public class MemoryPersistenceService<R extends BaseDTO> extends AbstractPersist
 
     @Override
     public PageResult<R> page(PageParam param, Selector selector) {
-        return null;
+        Iterable<R> iterable = select(selector);
+        return PageUtil.buildPageResult(param, IterableUtil.toList(iterable));
     }
 
     @Override

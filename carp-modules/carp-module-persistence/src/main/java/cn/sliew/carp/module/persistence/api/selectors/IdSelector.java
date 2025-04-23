@@ -7,7 +7,7 @@ public class IdSelector implements Selector {
 
     private final Long id;
 
-    IdSelector(Long id) {
+    public IdSelector(Long id) {
         this.id = id;
     }
 

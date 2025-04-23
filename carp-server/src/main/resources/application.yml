@@ -81,7 +81,7 @@ spring:
   temporal:
     namespace: default
     connection:
-      target: 172.16.202.119:30551
+      target:
     workersAutoDiscovery:
       packages: cn.sliew.carp.module.workflow.engine.temporal.sample.hello
 

@@ -19,10 +19,12 @@ package cn.sliew.carp.module.persistence;
 
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import cn.sliew.carp.module.persistence.api.selectors.*;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.function.Predicate;
 
+@Component
 public class MemoryResourceVisitor<R extends BaseAuditDO> implements SelectorVisitor<Predicate<R>> {
 
     @Override

@@ -33,6 +33,10 @@
             <groupId>cn.sliew</groupId>
             <artifactId>carp-framework-mybatis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
