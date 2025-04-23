@@ -17,32 +17,43 @@
  */
 package cn.sliew.carp.module.persistence;
 
+import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
 import cn.sliew.carp.module.persistence.api.selectors.*;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
-public class BaseResourceVisitor<R> implements SelectorVisitor<Predicate, Predicate<Object>> {
+public class MemoryResourceVisitor<R extends BaseAuditDO> implements SelectorVisitor<Predicate<R>> {
 
     @Override
-    public Predicate visit(AllSelector selector) {
+    public Predicate<R> visit(AllSelector selector) {
         return r -> true;
     }
 
     @Override
-    public Predicate visit(NotSelector selector) {
+    public Predicate<R> visit(NotSelector selector) {
         Predicate<R> predicate = selector.getSelector().accept(this);
         return predicate.negate();
     }
 
     @Override
-    public Predicate visit(AndSelector selector) {
-        return selector.getSelectors().stream().map((item) -> item.accept(this))
-                .reduce(Predicate::and).orElseThrow(() -> new IllegalStateException("AndSelector is empty"));
+    public Predicate<R> visit(AndSelector selector) {
+        return selector.getSelectors().stream()
+                .map((item) -> item.accept(this))
+                .reduce(Predicate::and)
+                .orElseThrow(() -> new IllegalStateException("AndSelector is empty"));
     }
 
     @Override
-    public Predicate visit(OrSelector selector) {
-        return selector.getSelectors().stream().map((item) -> item.accept(this))
-                .reduce(Predicate::or).orElseThrow(() -> new IllegalStateException("AndSelector is empty"));
+    public Predicate<R> visit(OrSelector selector) {
+        return selector.getSelectors().stream()
+                .map((item) -> item.accept(this))
+                .reduce(Predicate::or)
+                .orElseThrow(() -> new IllegalStateException("AndSelector is empty"));
+    }
+
+    @Override
+    public Predicate<R> visit(IdSelector selector) {
+        return (resource) -> Objects.equals(resource.getId(), selector.getId());
     }
 }

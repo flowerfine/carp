@@ -35,7 +35,7 @@ public final class OrSelector implements Selector {
         this.selectors = Arrays.asList(selectors);
     }
 
-    public <C> C accept(SelectorVisitor<C, ?> visitor) {
+    public <S> S accept(SelectorVisitor<S> visitor) {
         return visitor.visit(this);
     }
 }

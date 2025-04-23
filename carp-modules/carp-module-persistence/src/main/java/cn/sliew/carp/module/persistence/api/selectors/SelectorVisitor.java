@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.module.persistence.api.selectors;
 
-public interface SelectorVisitor<S, V> {
+public interface SelectorVisitor<S> {
     
     S visit(AllSelector selector);
 
@@ -26,4 +26,6 @@ public interface SelectorVisitor<S, V> {
     S visit(AndSelector selector);
 
     S visit(OrSelector selector);
+
+    S visit(IdSelector selector);
 }

@@ -20,6 +20,7 @@ package cn.sliew.carp.module.persistence;
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.entity.BaseAuditDO;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.persistence.api.selectors.Selector;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -45,11 +46,10 @@ public class MybatisPersistenceService<R extends BaseAuditDO> extends AbstractPe
 
     @Override
     public PageResult<R> page(PageParam param, Selector selector) {
+        Page<R> page = PageUtil.buildPageParam(param);
         LambdaQueryWrapper<R> queryWrapper = selector.accept(resourceVisitor);
-        Page<R> page = baseMapper.selectPage(new Page(param.getCurrent(), param.getPageSize()), queryWrapper);
-        PageResult pageResult = new PageResult(page.getCurrent(), page.getSize(), page.getTotal());
-        pageResult.setRecords(page.getRecords());
-        return pageResult;
+        Page<R> pageResult = baseMapper.selectPage(page, queryWrapper);
+        return PageUtil.buildPageResult(pageResult, list -> list);
     }
 
     @Override

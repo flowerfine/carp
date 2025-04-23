@@ -19,7 +19,7 @@ package cn.sliew.carp.module.persistence.api.selectors;
 
 public final class AllSelector implements Selector {
 
-    public <S> S accept(SelectorVisitor<S, ?> visitor) {
+    public <S> S accept(SelectorVisitor<S> visitor) {
         return visitor.visit(this);
     }
 }
