@@ -7,10 +7,10 @@ datasources:
     url: 'http://host.docker.internal:9090'
     is_default: true
     version: 1
-    editable: true
-  - name: Loki
-    type: loki
+    editable: false
+  - name: VictoriaMetrics
+    type: victoriametrics-metrics-datasource
     access: proxy
-    url: 'http://host.docker.internal:3100'
-    jsonData:
-      maxLines: 1000
+    url: 'http://host.docker.internal:8428'
+    version: 1
+    editable: false

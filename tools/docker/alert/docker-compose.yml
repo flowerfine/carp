@@ -24,11 +24,24 @@ services:
     command:
       - '--web.enable-lifecycle'
       - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.enable-remote-write-receiver'
     ports:
       - 9090:9090
     volumes:
       - ../prometheus/config.yml:/etc/prometheus/prometheus.yml
       - ../prometheus/rules:/etc/prometheus/rules
+    networks:
+      - alert
+
+  victoriametrics:
+    container_name: victoriametrics
+    image: victoriametrics/victoria-metrics:v1.115.0
+    environment:
+      - TZ=Asia/Shanghai
+    command:
+      - '--loggerTimezone=Asia/Shanghai'
+    ports:
+      - 8428:8428
     networks:
       - alert
 
@@ -57,11 +70,42 @@ services:
     volumes:
       - ../grafana/config.ini:/etc/grafana/grafana.ini
       - ../grafana/dashboards:/var/lib/grafana/dashboards
+      - ../grafana/plugins:/var/lib/grafana/plugins
       - ../grafana/provisioning:/etc/grafana/provisioning
     networks:
       - alert
 
-# warn: 网络配置的是 external，方便与 local docker-compose.yml 集成
+  karma:
+    container_name: karma
+    image: ghcr.io/prymitive/karma:v0.121
+    depends_on:
+      - alertmanager
+    environment:
+      - TZ=Asia/Shanghai
+      - ALERTMANAGER_URI=http://alertmanager:9093
+    ports:
+      - 8999:8080
+    networks:
+      - alert
+#
+#  nightingale:
+#    image: flashcatcloud/nightingale:8.0.0-beta.10
+#    container_name: nightingale
+#    environment:
+#      - TZ=Asia/Shanghai
+#      - GIN_MODE=release
+#      - WAIT_HOSTS=host.docker.internal:3306, host.docker.internal:6379
+#    command: sh -c "/app/n9e"
+#    depends_on:
+#      - victoriametrics
+#    volumes:
+#      - ../nightingale:/app/etc
+#    ports:
+#      - 17000:17000
+#      - 20090:20090
+#    networks:
+#      - alert
+
 networks:
   alert:
     driver: bridge

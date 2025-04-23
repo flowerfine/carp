@@ -1,8 +1,22 @@
 global:
   scrape_interval: 30s # 每 30s 采集一次数据
   evaluation_interval: 10s # 每 10s 检测一次告警
+  external_labels:
+    datacenter: docker # 多 prometheus 向 VictoriaMetrics 发送数据，增加标签区分来源
+
+remote_write:
+  - url: 'http://host.docker.internal:8428/api/v1/write'
 
 scrape_configs:
+  - job_name: 'prometheus'
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets:
+          - 'host.docker.internal:9090'
+        labels:
+          group: 'prometheus'
+
   - job_name: 'springboot'
     metrics_path: /carp/actuator/prometheus
     scheme: http
