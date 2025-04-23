@@ -65,29 +65,30 @@ services:
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_INSTALL_PLUGINS=victoriametrics-metrics-datasource
     ports:
       - 3000:3000
     volumes:
       - ../grafana/config.ini:/etc/grafana/grafana.ini
       - ../grafana/dashboards:/var/lib/grafana/dashboards
-      - ../grafana/plugins:/var/lib/grafana/plugins
       - ../grafana/provisioning:/etc/grafana/provisioning
     networks:
       - alert
 
-  karma:
-    container_name: karma
-    image: ghcr.io/prymitive/karma:v0.121
-    depends_on:
-      - alertmanager
-    environment:
-      - TZ=Asia/Shanghai
-      - ALERTMANAGER_URI=http://alertmanager:9093
-    ports:
-      - 8999:8080
-    networks:
-      - alert
-#
+# karma 是 alertmanager 告警可视化页面
+#  karma:
+#    container_name: karma
+#    image: ghcr.io/prymitive/karma:v0.121
+#    depends_on:
+#      - alertmanager
+#    environment:
+#      - TZ=Asia/Shanghai
+#      - ALERTMANAGER_URI=http://alertmanager:9093
+#    ports:
+#      - 8999:8080
+#    networks:
+#      - alert
+
 #  nightingale:
 #    image: flashcatcloud/nightingale:8.0.0-beta.10
 #    container_name: nightingale
@@ -97,6 +98,7 @@ services:
 #      - WAIT_HOSTS=host.docker.internal:3306, host.docker.internal:6379
 #    command: sh -c "/app/n9e"
 #    depends_on:
+#      - prometheus
 #      - victoriametrics
 #    volumes:
 #      - ../nightingale:/app/etc

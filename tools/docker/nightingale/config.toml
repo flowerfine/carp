@@ -140,8 +140,8 @@ ForceUseServerTS = true
 # QueuePopSize = 1000
 
 [[Pushgw.Writers]]
-# Url = "http://host.docker.internal:8428/api/v1/write"
-Url = "http://host.docker.internal:9090/api/v1/write"
+Url = "http://host.docker.internal:8428/api/v1/write"
+# Url = "http://host.docker.internal:9090/api/v1/write"
 # Basic auth username
 BasicAuthUser = ""
 # Basic auth password

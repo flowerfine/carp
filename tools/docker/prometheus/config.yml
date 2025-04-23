@@ -8,7 +8,7 @@ remote_write:
   - url: 'http://host.docker.internal:8428/api/v1/write'
 
 scrape_configs:
-  - job_name: 'prometheus'
+  - job_name: 'metrics'
     metrics_path: /metrics
     scheme: http
     static_configs:
@@ -16,6 +16,18 @@ scrape_configs:
           - 'host.docker.internal:9090'
         labels:
           group: 'prometheus'
+      - targets:
+          - 'host.docker.internal:9093'
+        labels:
+          group: 'alertmanager'
+      - targets:
+          - 'host.docker.internal:8428'
+        labels:
+          group: 'victoriametrics'
+      - targets:
+          - 'host.docker.internal:3000'
+        labels:
+          group: 'grafana'
 
   - job_name: 'springboot'
     metrics_path: /carp/actuator/prometheus

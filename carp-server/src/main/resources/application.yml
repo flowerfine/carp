@@ -80,8 +80,8 @@ spring:
   devtools.remote.restart.enabled: false
   temporal:
     namespace: default
-#    connection:
-#      target:
+    connection:
+      target: 172.16.202.119:30551
     workersAutoDiscovery:
       packages: cn.sliew.carp.module.workflow.engine.temporal.sample.hello
 
