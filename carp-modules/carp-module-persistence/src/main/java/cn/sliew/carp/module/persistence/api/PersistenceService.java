@@ -19,8 +19,10 @@ package cn.sliew.carp.module.persistence.api;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.persistence.api.selectors.Selector;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -36,6 +38,14 @@ public interface PersistenceService<ID, R> {
         return get(id).orElseThrow(() -> new IllegalStateException("resource not found"));
     }
 
+    default boolean supportVersion() {
+        return false;
+    }
+
+    default PageResult<R> getVersions(PageParam param, ID id) {
+        return PageUtil.buildPageResult(param, List.of(getOrThrow(id)));
+    }
+
     R add(R resource);
 
     R update(ID id, Function<R, R> updateFn);
@@ -43,4 +53,8 @@ public interface PersistenceService<ID, R> {
     Optional<R> delete(ID id);
 
     void addListener(PersistenceListener<R> listener);
+
+    void postStart();
+
+    void beforeStop();
 }

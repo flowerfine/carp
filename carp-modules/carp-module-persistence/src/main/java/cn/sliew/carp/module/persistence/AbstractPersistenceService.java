@@ -19,6 +19,7 @@ package cn.sliew.carp.module.persistence;
 
 import cn.sliew.carp.module.persistence.api.PersistenceListener;
 import cn.sliew.carp.module.persistence.api.PersistenceService;
+import cn.sliew.carp.module.persistence.api.selectors.AllSelector;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -34,6 +35,22 @@ public abstract class AbstractPersistenceService<ID, R> implements PersistenceSe
     @Override
     public void addListener(PersistenceListener<R> listener) {
         listeners.add(checkNotNull(listener, "listener is null"));
+    }
+
+    @Override
+    public void postStart() {
+        Iterable<R> resources = select(new AllSelector());
+        for (PersistenceListener<R> listener : listeners) {
+            listener.postStart(resources);
+        }
+    }
+
+    @Override
+    public void beforeStop() {
+        Iterable<R> resources = select(new AllSelector());
+        for (PersistenceListener<R> listener : listeners) {
+            listener.beforeStop(resources);
+        }
     }
 
     @Override

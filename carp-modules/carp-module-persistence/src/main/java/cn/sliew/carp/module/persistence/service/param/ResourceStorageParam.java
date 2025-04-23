@@ -15,19 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.persistence.demo.config;
+package cn.sliew.carp.module.persistence.service.param;
 
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.carp.framework.common.model.BasePageParam;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-@Configuration
-public class PersistenceOpenAPIConfig {
+@Getter
+@SuperBuilder(toBuilder = true)
+public class ResourceStorageParam extends BasePageParam {
 
-    @Bean
-    public GroupedOpenApi carpPersistenceModuleOpenApi() {
-        return GroupedOpenApi.builder().group("Persistence模块")
-                .pathsToMatch("/api/carp/persistence/**")
-                .packagesToScan("cn.sliew.carp.module.persistence.demo.controller").build();
-    }
+    @NotBlank
+    private String namespace;
 }

@@ -15,16 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.persistence.demo.config;
+package cn.sliew.carp.module.persistence.service.dto;
 
-import cn.sliew.carp.framework.mybatis.DataSourceConstants;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.context.annotation.Configuration;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import lombok.Data;
 
-//@Configuration
-//@MapperScan(sqlSessionFactoryRef = DataSourceConstants.SQL_SESSION_FACTORY,
-//        basePackages = {PersistenceMybatisConfig.MAPPER_MODULE_PERSISTENCE_PACKAGE})
-public class PersistenceMybatisConfig {
+@Data
+public class ResourceStorageDTO extends BaseDTO {
 
-    public static final String MAPPER_MODULE_PERSISTENCE_PACKAGE = "cn.sliew.carp.module.persistence.demo.repository.mapper";
+    private String namespace;
+
+    private JsonNode metadata;
+
+    private JsonNode spec;
+
+    private JsonNode status;
+
+    private String remark;
+
+    private Integer version;
 }
