@@ -21,9 +21,11 @@ import cn.sliew.carp.framework.common.model.BasePageParam;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
 @Getter
-@SuperBuilder(toBuilder = true)
+@Jacksonized
+@SuperBuilder
 public class ResourceStorageParam extends BasePageParam {
 
     @NotBlank
