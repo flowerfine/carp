@@ -98,7 +98,7 @@
         <maven.plugin.assembly.version>3.5.0</maven.plugin.assembly.version>
 
         <revision>0.0.33</revision>
-        <carp-parent.version>0.0.73</carp-parent.version>
+        <carp-parent.version>0.0.75</carp-parent.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
@@ -203,6 +203,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>carp-module-storage</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>carp-module-system</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -250,6 +255,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-plugin-jdbc-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-plugin-storage-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

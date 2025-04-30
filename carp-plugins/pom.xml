@@ -31,8 +31,10 @@
 
     <modules>
         <module>carp-plugin-jdbc</module>
+        <module>carp-plugin-storage</module>
         <module>carp-plugin-test</module>
         <module>carp-plugin-workflow-engine</module>
+        <module>carp-plugin-storage/carp-plugin-storage-providers/carp-plugin-storage-provider-s3</module>
     </modules>
 
 </project>

@@ -105,6 +105,18 @@
             <fileMode>0644</fileMode>
         </fileSet>
 
+        <!-- Storage plugins -->
+        <fileSet>
+            <directory>../carp-plugins/carp-plugin-storage/carp-plugin-storage-providers/carp-plugin-storage-provider-s3/target</directory>
+            <includes>
+                <!-- !!! VERY IMPORTANT -->
+                <include>*-all.jar</include>
+                <include>dependencies/*.jar</include>
+            </includes>
+            <outputDirectory>plugins</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
         <!-- Workflow Engine plugins -->
         <fileSet>
             <directory>../carp-plugins/carp-plugin-workflow-engine/carp-plugin-workflow-engine-plugins/carp-plugin-workflow-engine-internal/target</directory>

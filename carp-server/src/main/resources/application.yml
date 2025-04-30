@@ -126,6 +126,13 @@ carp.framework:
   socketio:
     host: 0.0.0.0
     port: 8999
+  storage:
+    type: s3
+    s3:
+      bucket: ${spring.application.name}
+      endPoint: ${MINIO_ENDPOINT:http://127.0.0.1:9000}
+      accessKey: ${MINIO_ACCESS_KEY:admin}
+      secretKey: ${MINIO_SECRET_KEY:password}
   queue.kekio:
     enabled: true
     object-mapper:
