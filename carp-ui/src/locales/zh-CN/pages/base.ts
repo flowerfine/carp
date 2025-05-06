@@ -90,16 +90,17 @@ export default {
 
   'app.common.message.system': '系统消息',
 
-
-  'app.common.operate.security.label': '权限',
-  'app.common.operate.security.webResources2user.label': 'Web资源管理',
-  'app.common.operate.security.roles2user.label': '角色管理',
   'app.common.operate.forbid.label': '注销',
   'app.common.operate.forbid.success': '注销成功',
   'app.common.operate.forbid.confirm.title': '确定注销?',
   'app.common.operate.forbid.confirm.content': '注销后用户不可登录，数据不会物理删除',
+
+  'app.common.operate.security.label': '权限',
+  'app.common.operate.security.webResources2user.label': 'Web资源管理',
+  'app.common.operate.security.roles2user.label': '角色管理',
   'app.common.operate.grant.label': '授权',
   'app.common.operate.grant.title': '{name}授权',
+
   'app.common.operate.new.roles': '分配角色',
   'app.common.operate.new.rolesUser': '角色分配用户',
   'app.common.operate.new.rolesWeb': '角色配置web资源',

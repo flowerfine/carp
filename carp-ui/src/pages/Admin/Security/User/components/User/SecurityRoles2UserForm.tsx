@@ -1,30 +1,111 @@
-import React from 'react';
-import {Form, message, Tag} from 'antd';
-import {
-  ModalForm,
-  ProFormDependency,
-  ProFormDigit,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea
-} from '@ant-design/pro-components';
-import {useIntl} from '@umijs/max';
-import {ModalFormProps} from "@/typings";
-import {AdminSecurityAPI} from '@/services/admin/security/typings';
-import {DictService} from '@/services/admin/system/dict.service';
-import {DICT_TYPE} from '@/constants/dictType';
-import {UserService} from '@/services/admin/security/user.service';
-import {TransferDataType} from "@/components/TableTransfer";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button, Flex, Form, message, Modal, Switch, TableColumnsType, Tag, TransferProps } from 'antd';
+import { useIntl } from '@umijs/max';
+import { ModalFormProps } from "@/typings";
+import { AdminSecurityAPI } from '@/services/admin/security/typings';
+import TableTransfer, { TableTransferProps, TransferDataType } from "@/components/TableTransfer";
+import { AuthorizationService } from '@/services/admin/security/authorization.service';
 
 export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
   const intl = useIntl();
-  const [form] = Form.useForm();
-  const {visible, data, onCancel, onFinish} = props;
+  const { visible, data, onCancel, onFinish } = props;
+  const [roleLists, setRoleLists] = useState<TransferDataType[]>([]);
+  
+  // 异步获取数据
+  const fetchData = useCallback(async () => {
+    try {
+      const unauthorized = await AuthorizationService.listUnauthorizedRolesByUserId({ userId: data?.id })
+        .then(response => {
+          return response.data?.records.map(role => {
+            const dataType: TransferDataType = {
+              id: role.id,
+              name: role.name,
+              type: role.type,
+              status: role.status,
+              remark: role.remark
+            }
+            return dataType;
+          })
+        });
+      const authorized = await AuthorizationService.listAuthorizedRolesByUserId({ userId: data?.id })
+        .then(response => {
+          return response.data?.records?.map(role => {
+            const dataType: TransferDataType = {
+              id: role.id,
+              name: role.name,
+              type: role.type,
+              status: role.status,
+              remark: role.remark
+            }
+            return dataType;
+          })
+        });
+      if (unauthorized && authorized) {
+        const mergedArray = mergeArrays(unauthorized, authorized);
+        setRoleLists(mergedArray);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      fetchData();
+    }
+  }, [data, fetchData]);
+
+  // 获取选中角色的 id 数组
+  const originTargetKeys = useMemo(() => {
+    return roleLists?.filter((item) => item.checkOut === 1).map((item) => item.id);
+  }, [roleLists]);
+
+  // 角色转移事件处理
+  const handleChange = useCallback(
+    async (targetKeys, direction, moveKeys) => {
+      const roleIds = moveKeys.map((item: string | number) => +item);
+      const params = {
+        userId: data?.id,
+        roleIds: roleIds,
+      };
+      if (direction === 'right') {
+        // 批量为角色绑定用户
+        await AuthorizationService.authorizeUser2Roles(params).then((res) => {
+          if (res?.success) {
+            message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
+          }
+        });
+      } else {
+        // 批量为角色解除用户绑定
+        await AuthorizationService.unauthorizeUser2Roles(params).then((res) => {
+          message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
+        });
+      }
+      fetchData();
+    },
+    [data, fetchData, intl],
+  );
+
+  // 过滤方法
+  const handleFilter = useCallback((inputValue, item) => {
+    return item?.name.indexOf(inputValue) !== -1;
+  }, []);
+
+  // 合并数组
+  function mergeArrays(unauthorized: TransferDataType[], authorized: TransferDataType[]): any {
+    unauthorized.forEach((obj, index: any) => {
+      obj.checkOut = 0;
+    });
+    authorized.forEach((obj, index: any) => {
+      obj.checkOut = 1;
+    });
+    return [...unauthorized, ...authorized];
+  }
 
   const tableColumns: TableColumnsType<TransferDataType> = [
     {
       dataIndex: 'name',
-      title: intl.formatMessage({id: 'pages.admin.security.role'}),
+      title: intl.formatMessage({ id: 'pages.admin.security.role' }),
       width: 300,
     },
     {
@@ -44,152 +125,43 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
       width: 200,
     },
     {
-      title: intl.formatMessage({id: 'app.common.data.remark'}),
+      title: intl.formatMessage({ id: 'app.common.data.remark' }),
       dataIndex: 'remark',
       width: 300,
     },
   ];
 
   return (
-    <ModalForm<AdminSecurityAPI.SecUser>
-      title={
-        data?.id
-          ? intl.formatMessage({id: 'app.common.operate.edit.label'}) +
-          intl.formatMessage({id: 'pages.admin.security.user'})
-          : intl.formatMessage({id: 'app.common.operate.new.label'}) +
-          intl.formatMessage({id: 'pages.admin.security.user'})
-      }
-      layout={"horizontal"}
-      labelCol={{span: 6}}
-      wrapperCol={{span: 16}}
-      labelAlign={'right'}
-      width={"500px"}
-      modalProps={{
-        destroyOnClose: true,
-        maskClosable: true,
-        onCancel: onCancel
-      }}
-      form={form}
-      scrollToFirstError={true}
-      preserve={false}
+
+    <Modal
       open={visible}
-      initialValues={{
-        id: data?.id,
-        type: data?.type?.value,
-        userName: data?.userName,
-        nickName: data?.nickName,
-        avatar: data?.avatar,
-        email: data?.email,
-        phone: data?.phone,
-        status: data?.status?.value,
-        order: data?.order,
-        remark: data?.remark,
-      }}
-      onFinish={async (values: Record<string, any>) => {
-        let user: AdminSecurityAPI.SecUser = {
-          id: values.id,
-          type: values.type,
-          userName: values.userName,
-          password: values.password,
-          nickName: values.nickName,
-          avatar: values.avatar,
-          email: values.email,
-          phone: values.phone,
-          status: values.status,
-          order: values.order,
-          remark: values.remark,
-        };
-        return data?.id
-          ? UserService.update(user).then((response) => {
-            if (response.success) {
-              message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}));
-              if (onFinish) {
-                onFinish(values);
-              }
-            }
-          })
-          : UserService.add(user).then((response) => {
-            if (response.success) {
-              message.success(intl.formatMessage({id: 'app.common.operate.new.success'}));
-              if (onFinish) {
-                onFinish(values);
-              }
-            }
-          })
-      }}
+      title={intl.formatMessage({ id: 'pages.admin.security.user.roles2user' })}
+      width={1100}
+      centered
+      destroyOnClose={true}
+      onCancel={onCancel}
+      cancelText={intl.formatMessage({ id: 'app.common.operate.close.label' })}
+      closeIcon={false}
+      footer={[
+        <Button type="primary" onClick={onCancel}>
+          {intl.formatMessage({ id: 'app.common.operate.close.label' })}
+        </Button>,
+      ]}
     >
-      <ProFormText name="id" hidden/>
-      <ProFormSelect
-        name="type"
-        label={intl.formatMessage({id: 'pages.admin.security.user.type'})}
-        rules={[{required: true}]}
-        disabled={data?.id ? true : false}
-        request={() => {
-          return DictService.listInstanceByDefinition(DICT_TYPE.carpSecUserType)
-        }}
-      />
-      <ProFormText
-        name="userName"
-        label={intl.formatMessage({id: 'pages.admin.security.user.userName'})}
-        disabled={data?.id ? true : false}
-        rules={[
-          {required: true},
-          {max: 30},
-          {min: 5},
-          {
-            pattern: /^[a-zA-Z0-9_]+$/,
-            message: intl.formatMessage({id: 'app.common.validate.characterWord'}),
-          }
-        ]}
-      />
-      <ProFormDependency name={["id"]}>
-        {({id}) => {
-          if (id) {
-            return (<></>)
-          }
-          return <ProFormText.Password
-            name="password"
-            label={intl.formatMessage({id: 'pages.admin.security.user.password'})}
-            rules={[{required: true}, {max: 50}]}
-          />;
-        }}
-      </ProFormDependency>
-      <ProFormText
-        name="nickName"
-        label={intl.formatMessage({id: 'pages.admin.security.user.nickName'})}
-        rules={[{required: true}, {max: 50}]}
-      />
-      <ProFormText
-        name="email"
-        label={intl.formatMessage({id: 'pages.admin.security.user.email'})}
-        rules={[
-          {max: 100},
-          {type: 'email'}
-        ]}
-      />
-      <ProFormText
-        name="phone"
-        label={intl.formatMessage({id: 'pages.admin.security.user.phone'})}
-        rules={[{max: 30}]}
-      />
-      <ProFormSelect
-        name="status"
-        label={intl.formatMessage({id: 'pages.admin.security.user.status'})}
-        rules={[{required: true}]}
-        request={() => {
-          return DictService.listInstanceByDefinition(DICT_TYPE.carpSecUserStatus)
-        }}
-      />
-      <ProFormDigit
-        name="order"
-        label={intl.formatMessage({id: 'pages.admin.security.user.order'})}
-        initialValue={0}
-        min={0}
-      />
-      <ProFormTextArea
-        name={"remark"}
-        label={intl.formatMessage({id: 'app.common.data.remark'})}
-      />
-    </ModalForm>
+      <Flex align="start" gap="middle" vertical>
+        <TableTransfer
+          dataSource={roleLists}
+          targetKeys={originTargetKeys}
+          titles={[intl.formatMessage({ id: 'pages.admin.security.authorization.user2Roles.unauthorized' }), intl.formatMessage({ id: 'pages.admin.security.authorization.user2Roles.authorized' })]}
+          showSearch
+          rowKey={(record: { id: any }) => record.id}
+          showSelectAll={false}
+          onChange={handleChange}
+          filterOption={handleFilter}
+          leftColumns={tableColumns}
+          rightColumns={tableColumns}
+        />
+      </Flex>
+    </Modal>
   );
 };

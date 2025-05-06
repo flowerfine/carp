@@ -146,6 +146,7 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
         name="status"
         label={intl.formatMessage({id: 'pages.admin.security.user.status'})}
         rules={[{required: true}]}
+        allowClear={false}
         request={() => {
           return DictService.listInstanceByDefinition(DICT_TYPE.carpSecUserStatus)
         }}

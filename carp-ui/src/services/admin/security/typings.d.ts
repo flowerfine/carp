@@ -76,12 +76,12 @@ declare namespace AdminSecurityAPI {
   };
 
   type SecRole = {
-    id?: number;
-    type?: Dict;
+    id: number;
+    type: Dict;
     code?: string;
-    name?: string;
+    name: string;
     order?: number;
-    status?: Dict;
+    status: Dict;
     remark?: string;
     createTime: Date;
     updateTime: Date;

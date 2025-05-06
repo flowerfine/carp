@@ -1,17 +1,18 @@
 import {PageResponse, ResponseBody} from '@/typings';
 import {request} from '@umijs/max';
+import {AdminSecurityAPI} from "@/services/admin/security/typings";
 
 export const AuthorizationService = {
   url: '/api/carp/security/authorization',
 
   listAuthorizedRolesByResourceWebId: async (param: any) => {
-    return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/resource-web/authorized-roles`, {
+    return request<ResponseBody<PageResponse<AdminSecurityAPI.SecRole>>>(`${AuthorizationService.url}/resource-web/authorized-roles`, {
       method: 'GET',
       params: param,
     });
   },
   listUnauthorizedRolesByResourceWebId: async (param: any) => {
-    return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/resource-web/unauthorized-roles`, {
+    return request<ResponseBody<PageResponse<AdminSecurityAPI.SecRole>>>(`${AuthorizationService.url}/resource-web/unauthorized-roles`, {
       method: 'GET',
       params: param,
     });
@@ -31,13 +32,13 @@ export const AuthorizationService = {
 
 
   listAuthorizedUsersByRoleId: async (param: any) => {
-    return request<ResponseBody<PageResponse<SecUser>>>(`${AuthorizationService.url}/role/authorized-users`, {
+    return request<ResponseBody<PageResponse<AdminSecurityAPI.SecUser>>>(`${AuthorizationService.url}/role/authorized-users`, {
       method: 'GET',
       params: param,
     });
   },
   listUnauthorizedUsersByRoleId: async (param: any) => {
-    return request<ResponseBody<PageResponse<SecUser>>>(`${AuthorizationService.url}/role/unauthorized-users`, {
+    return request<ResponseBody<PageResponse<AdminSecurityAPI.SecUser>>>(`${AuthorizationService.url}/role/unauthorized-users`, {
       method: 'GET',
       params: param,
     });
@@ -57,13 +58,13 @@ export const AuthorizationService = {
 
 
   listUnauthorizedRolesByUserId: async (param: any) => {
-    return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/user/unauthorized-roles`, {
+    return request<ResponseBody<PageResponse<AdminSecurityAPI.SecRole>>>(`${AuthorizationService.url}/user/unauthorized-roles`, {
       method: 'GET',
       params: param,
     });
   },
   listAuthorizedRolesByUserId: async (param: any) => {
-    return request<ResponseBody<PageResponse<SecRole>>>(`${AuthorizationService.url}/user/authorized-roles`, {
+    return request<ResponseBody<PageResponse<AdminSecurityAPI.SecRole>>>(`${AuthorizationService.url}/user/authorized-roles`, {
       method: 'GET',
       params: param,
     });
@@ -83,7 +84,7 @@ export const AuthorizationService = {
 
   //查询所有 资源-web 和指定角色绑定状态
   requestResourceWebs: async (param: any) => {
-    return request<ResponseBody<Array<SecResourceWeb>>>(`${AuthorizationService.url}/role/resource-webs`, {
+    return request<ResponseBody<Array<AdminSecurityAPI.SecResourceWeb>>>(`${AuthorizationService.url}/role/resource-webs`, {
       method: 'GET',
       params: param,
     });

@@ -93,7 +93,7 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
       fixed: 'right',
       render: (_, record) => (
         <Space>
-          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.security.webResources2user.label' })}>
+          <Tooltip title={intl.formatMessage({ id: 'pages.admin.security.user.roles2user' })}>
             <Button
               shape="default"
               type="link"
@@ -104,11 +104,11 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
               }}
             />
           </Tooltip>
-          <Tooltip title={intl.formatMessage({ id: 'app.common.operate.security.roles2user.label' })}>
+          <Tooltip title={intl.formatMessage({ id: 'pages.admin.security.user.resource.webs2user' })}>
             <Button
               shape="default"
               type="link"
-              icon={<EditOutlined />}
+              icon={<FormOutlined />}
               disabled={record.type?.value == '0' || record.status?.value == '2'}
               onClick={() => {
                 setRoles2UserFormData({ visiable: true, data: record });
@@ -240,6 +240,7 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
           }}
         />
       )}
+
       {userFormData.visiable ? (
         <SecurityUserForm
           visible={userFormData.visiable}

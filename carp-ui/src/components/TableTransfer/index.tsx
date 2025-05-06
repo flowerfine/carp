@@ -10,9 +10,10 @@ export interface TransferDataType {
   type: Dict;
   status: Dict;
   remark?: string;
+  checkOut?: number;
 }
 
-interface TableTransferProps extends TransferProps<TransferItem> {
+export interface TableTransferProps extends TransferProps<TransferItem> {
   dataSource: TransferDataType[];
   leftColumns: TableColumnsType<TransferDataType>;
   rightColumns: TableColumnsType<TransferDataType>;
