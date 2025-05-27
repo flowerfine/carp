@@ -1,22 +1,22 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Flex, Form, message, Modal, Switch, TableColumnsType, Tag, TransferProps } from 'antd';
-import { useIntl } from '@umijs/max';
-import { ModalFormProps } from "@/typings";
-import { AdminSecurityAPI } from '@/services/admin/security/typings';
-import TableTransfer, { TableTransferProps, TransferDataType } from "@/components/TableTransfer";
-import { AuthorizationService } from '@/services/admin/security/authorization.service';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {Button, Flex, message, Modal, TableColumnsType, Tag} from 'antd';
+import {useIntl} from '@umijs/max';
+import {ModalFormProps} from "@/typings";
+import {AdminSecurityAPI} from '@/services/admin/security/typings';
+import TableTransfer, {TransferDataType} from "@/components/TableTransfer";
+import {AuthorizationService} from '@/services/admin/security/authorization.service';
 
 export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
   const intl = useIntl();
-  const { visible, data, onCancel, onFinish } = props;
+  const {visible, data, onCancel, onFinish} = props;
   const [roleLists, setRoleLists] = useState<TransferDataType[]>([]);
-  
+
   // 异步获取数据
   const fetchData = useCallback(async () => {
     try {
-      const unauthorized = await AuthorizationService.listUnauthorizedRolesByUserId({ userId: data?.id })
+      const unauthorized = await AuthorizationService.listUnauthorizedRolesByUserId({userId: data?.id})
         .then(response => {
-          return response.data?.records.map(role => {
+          return response.data?.records?.map(role => {
             const dataType: TransferDataType = {
               id: role.id,
               name: role.name,
@@ -27,7 +27,7 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
             return dataType;
           })
         });
-      const authorized = await AuthorizationService.listAuthorizedRolesByUserId({ userId: data?.id })
+      const authorized = await AuthorizationService.listAuthorizedRolesByUserId({userId: data?.id})
         .then(response => {
           return response.data?.records?.map(role => {
             const dataType: TransferDataType = {
@@ -72,13 +72,13 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
         // 批量为角色绑定用户
         await AuthorizationService.authorizeUser2Roles(params).then((res) => {
           if (res?.success) {
-            message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
+            message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}), 2);
           }
         });
       } else {
         // 批量为角色解除用户绑定
         await AuthorizationService.unauthorizeUser2Roles(params).then((res) => {
-          message.success(intl.formatMessage({ id: 'app.common.operate.edit.success' }), 2);
+          message.success(intl.formatMessage({id: 'app.common.operate.edit.success'}), 2);
         });
       }
       fetchData();
@@ -105,11 +105,11 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
   const tableColumns: TableColumnsType<TransferDataType> = [
     {
       dataIndex: 'name',
-      title: intl.formatMessage({ id: 'pages.admin.security.role' }),
+      title: intl.formatMessage({id: 'pages.admin.security.role'}),
       width: 300,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.security.role.type' }),
+      title: intl.formatMessage({id: 'pages.admin.security.role.type'}),
       dataIndex: 'type',
       render: (dom, entity) => {
         return <Tag>{entity.type?.label}</Tag>;
@@ -117,7 +117,7 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
       width: 200,
     },
     {
-      title: intl.formatMessage({ id: 'pages.admin.security.role.status' }),
+      title: intl.formatMessage({id: 'pages.admin.security.role.status'}),
       dataIndex: 'status',
       render: (dom, entity) => {
         return <Tag>{entity.status?.label}</Tag>;
@@ -125,7 +125,7 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
       width: 200,
     },
     {
-      title: intl.formatMessage({ id: 'app.common.data.remark' }),
+      title: intl.formatMessage({id: 'app.common.data.remark'}),
       dataIndex: 'remark',
       width: 300,
     },
@@ -135,16 +135,16 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
 
     <Modal
       open={visible}
-      title={intl.formatMessage({ id: 'pages.admin.security.user.roles2user' })}
+      title={intl.formatMessage({id: 'pages.admin.security.user.roles2user'})}
       width={1100}
       centered
       destroyOnClose={true}
       onCancel={onCancel}
-      cancelText={intl.formatMessage({ id: 'app.common.operate.close.label' })}
+      cancelText={intl.formatMessage({id: 'app.common.operate.close.label'})}
       closeIcon={false}
       footer={[
         <Button type="primary" onClick={onCancel}>
-          {intl.formatMessage({ id: 'app.common.operate.close.label' })}
+          {intl.formatMessage({id: 'app.common.operate.close.label'})}
         </Button>,
       ]}
     >
@@ -152,7 +152,7 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecUser>) => {
         <TableTransfer
           dataSource={roleLists}
           targetKeys={originTargetKeys}
-          titles={[intl.formatMessage({ id: 'pages.admin.security.authorization.user2Roles.unauthorized' }), intl.formatMessage({ id: 'pages.admin.security.authorization.user2Roles.authorized' })]}
+          titles={[intl.formatMessage({id: 'pages.admin.security.authorization.user2Roles.unauthorized'}), intl.formatMessage({id: 'pages.admin.security.authorization.user2Roles.authorized'})]}
           showSearch
           rowKey={(record: { id: any }) => record.id}
           showSelectAll={false}

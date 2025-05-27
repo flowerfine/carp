@@ -33,7 +33,7 @@ public interface SecUserService extends IService<SecUser> {
 
     PageResult<SecUserDTO> page(SecUserListParam param);
 
-    List<SecUserDTO> listAll(SecUserListParam param);
+    List<SecUserDTO> list(SecUserListParam param);
 
     SecUserDTO get(Long id);
 

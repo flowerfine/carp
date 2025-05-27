@@ -30,6 +30,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.logging.slf4j.Slf4jImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -55,13 +56,15 @@ public class CarpDataSourceConfig {
 
     @Primary
     @Bean(DataSourceConstants.TRANSACTION_MANAGER_FACTORY)
-    public DataSourceTransactionManager carpTransactionManager() {
-        return new DataSourceTransactionManager(carpDataSource());
+    public DataSourceTransactionManager carpTransactionManager(
+            @Qualifier(DataSourceConstants.DATA_SOURCE_FACTORY) DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Primary
     @Bean(DataSourceConstants.SQL_SESSION_FACTORY)
-    public SqlSessionFactory carpSqlSessionFactory() throws Exception {
+    public SqlSessionFactory carpSqlSessionFactory(
+            @Qualifier(DataSourceConstants.DATA_SOURCE_FACTORY) DataSource dataSource) throws Exception {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
         GlobalConfig globalConfig = GlobalConfigUtils.defaults();
         globalConfig.setMetaObjectHandler(new CarpMybatisConfig.CarpMetaHandler());
@@ -76,7 +79,7 @@ public class CarpDataSourceConfig {
         configuration.setLogImpl(Slf4jImpl.class);
         factoryBean.setConfiguration(configuration);
         factoryBean.setGlobalConfig(globalConfig);
-        factoryBean.setDataSource(carpDataSource());
+        factoryBean.setDataSource(dataSource);
         factoryBean.setPlugins(mybatisPlusInterceptor);
         return factoryBean.getObject();
     }

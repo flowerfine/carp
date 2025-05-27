@@ -15,22 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.security.core.repository.mapper;
+package cn.sliew.carp.module.security.core.service.convert;
 
-import cn.sliew.carp.module.security.core.repository.entity.SecUser;
+import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.module.security.core.repository.entity.SecUserWithRoles;
-import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
+@Mapper
+public interface SecUserWithRolesConvert extends BaseConvert<SecUserWithRoles, SecUserDTO> {
+    SecUserWithRolesConvert INSTANCE = Mappers.getMapper(SecUserWithRolesConvert.class);
 
-@Repository
-public interface SecUserMapper extends BaseMapper<SecUser> {
-
-    Page<SecUserWithRoles> list(Page<SecUser> page, @Param("param") SecUserListParam param, @Param("childDeptIds") List<Long> childDeptIds);
-
-    List<SecUser> list(@Param("param") SecUserListParam param);
+    @Override
+    default SecUserDTO toDto(SecUserWithRoles secUserWithRoles) {
+        SecUserDTO dto = SecUserConvert.INSTANCE.toDto(secUserWithRoles);
+        if (!CollectionUtils.isEmpty(secUserWithRoles.getRoles())) {
+            dto.setRoles(SecRoleConvert.INSTANCE.toDto(secUserWithRoles.getRoles()));
+        }
+        return dto;
+    }
 }

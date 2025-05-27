@@ -55,6 +55,8 @@ public interface SecUserRoleMapper extends BaseMapper<SecUserRole> {
                                            @Param("status") CarpSecRoleStatus status,
                                            @Param("name") String name);
 
+    List<SecRole> selectRelatedRolesByUser(@Param("userId") Long userId);
+
     /**
      * 查询用户关联的角色
      */

@@ -23,11 +23,13 @@ import cn.sliew.carp.framework.common.dict.security.CarpSecUserType;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.module.security.core.repository.entity.SecUser;
+import cn.sliew.carp.module.security.core.repository.entity.SecUserWithRoles;
 import cn.sliew.carp.module.security.core.repository.mapper.SecUserMapper;
 import cn.sliew.carp.module.security.core.service.SecDeptService;
 import cn.sliew.carp.module.security.core.service.SecUserRoleService;
 import cn.sliew.carp.module.security.core.service.SecUserService;
 import cn.sliew.carp.module.security.core.service.convert.SecUserConvert;
+import cn.sliew.carp.module.security.core.service.convert.SecUserWithRolesConvert;
 import cn.sliew.carp.module.security.core.service.dto.SecDeptDTO;
 import cn.sliew.carp.module.security.core.service.dto.SecUserDTO;
 import cn.sliew.carp.module.security.core.service.param.SecDeptListParam;
@@ -62,9 +64,9 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
     public PageResult<SecUserDTO> page(SecUserListParam param) {
         Page<SecUser> page = new Page<>(param.getCurrent(), param.getPageSize());
         List<Long> childDeptIds = recurse(param.getDeptId());
-        Page<SecUser> secUserPage = baseMapper.list(page, param, childDeptIds);
+        Page<SecUserWithRoles> secUserPage = baseMapper.list(page, param, childDeptIds);
         PageResult<SecUserDTO> pageResult = new PageResult<>(secUserPage.getCurrent(), secUserPage.getSize(), secUserPage.getTotal());
-        pageResult.setRecords(SecUserConvert.INSTANCE.toDto(secUserPage.getRecords()));
+        pageResult.setRecords(SecUserWithRolesConvert.INSTANCE.toDto(secUserPage.getRecords()));
         return pageResult;
     }
 
@@ -83,7 +85,7 @@ public class SecUserServiceImpl extends ServiceImpl<SecUserMapper, SecUser> impl
     }
 
     @Override
-    public List<SecUserDTO> listAll(SecUserListParam param) {
+    public List<SecUserDTO> list(SecUserListParam param) {
 
         List<SecUser> entities = baseMapper.list(param);
         return SecUserConvert.INSTANCE.toDto(entities);

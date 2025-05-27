@@ -51,8 +51,8 @@ public class SecUserController {
 
     @GetMapping
     @Operation(summary = "查询所有", description = "查询所有")
-    public List<SecUserDTO> listAll(@Valid SecUserListParam param) {
-        return secUserService.listAll(param);
+    public List<SecUserDTO> list(@Valid SecUserListParam param) {
+        return secUserService.list(param);
     }
 
     @GetMapping("{id}")

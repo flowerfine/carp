@@ -39,13 +39,18 @@
         <result column="remark" property="remark"/>
     </resultMap>
 
+    <resultMap id="UserWithRoleMap" extends="BaseResultMap"
+               type="cn.sliew.carp.module.security.core.repository.entity.SecUserWithRoles">
+        <collection property="roles" column="id" select="cn.sliew.carp.module.security.core.repository.mapper.SecUserRoleMapper.selectRelatedRolesByUser(java.lang.Long, cn.sliew.carp.framework.common.dict.security.CarpSecRoleStatus, java.lang.String)" />
+    </resultMap>
+
     <sql id="Base_Column_List">
         id, creator, create_time, editor, update_time,
         `type`, user_name, nick_name, avatar, email, phone,
         `password`, salt, `order`, `status`, remark
     </sql>
 
-    <select id="list" resultMap="BaseResultMap">
+    <select id="list" resultMap="UserWithRoleMap">
         SELECT
             t1.*
         FROM

@@ -25,6 +25,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "用户信息", description = "用户信息")
@@ -64,4 +66,7 @@ public class SecUserDTO extends BaseDTO {
 
     @Schema(description = "备注")
     private String remark;
+
+    @Schema(description = "角色")
+    private List<SecRoleDTO> roles;
 }

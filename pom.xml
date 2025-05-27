@@ -98,11 +98,10 @@
         <maven.plugin.assembly.version>3.5.0</maven.plugin.assembly.version>
 
         <revision>0.0.33</revision>
-        <carp-parent.version>0.0.75</carp-parent.version>
+        <carp-parent.version>0.0.79</carp-parent.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
-
         <auto-service.version>1.1.1</auto-service.version>
         <pf4j.version>3.12.1</pf4j.version>
     </properties>
@@ -335,6 +334,11 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${maven.compiler.encoding}</encoding>
+                    <!-- 不加此参数，编译的方法会丢失方法名，反射无法通过 name 获取到参数名，只能拿到 arg0 这种 -->
+                    <!-- 导致所有依赖反射获取方法名的功能都无法使用，比如 mybatis 方法都需要指定 @Param -->
+                    <!-- @Controller 都需要指定 @PathVariable、@RequestParam，aop 需要添加 argNames = 'name' -->
+                    <!-- 如 say(String name) -> say(String arg0) -->
+                    <parameters>true</parameters>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>

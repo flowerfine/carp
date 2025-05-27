@@ -15,22 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.module.security.core.repository.mapper;
+package cn.sliew.carp.module.security.core.repository.entity;
 
-import cn.sliew.carp.module.security.core.repository.entity.SecUser;
-import cn.sliew.carp.module.security.core.repository.entity.SecUserWithRoles;
-import cn.sliew.carp.module.security.core.service.param.SecUserListParam;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.util.List;
 
-@Repository
-public interface SecUserMapper extends BaseMapper<SecUser> {
+@Data
+@TableName("carp_sec_user")
+public class SecUserWithRoles extends SecUser {
 
-    Page<SecUserWithRoles> list(Page<SecUser> page, @Param("param") SecUserListParam param, @Param("childDeptIds") List<Long> childDeptIds);
+    private static final long serialVersionUID = 2955806429097700570L;
 
-    List<SecUser> list(@Param("param") SecUserListParam param);
+    private List<SecRole> roles;
 }
