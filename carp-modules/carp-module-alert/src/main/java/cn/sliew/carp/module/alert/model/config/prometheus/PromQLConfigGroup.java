@@ -23,11 +23,11 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * delta(flink_jobmanager_job_numRestarts{deploymentId='{deploymentId}'}[1m]) >= 1.0
+ * delta(flink_jobmanager_job_numRestarts{deploymentId='{deploymentId}'}[1m]) &gt;= 1.0
  * and
- * delta(flink_jobmanager_job_numberOfCompletedCheckpoints{deploymentId='{deploymentId}'}[5m]) <= 1.0
+ * delta(flink_jobmanager_job_numberOfCompletedCheckpoints{deploymentId='{deploymentId}'}[5m]) &lt;= 1.0
  * and
- * max(flink_taskmanager_job_task_operator_currentEmitEventTimeLag{deploymentId='{deploymentId}'}/1000) >= 600.0
+ * max(flink_taskmanager_job_task_operator_currentEmitEventTimeLag{deploymentId='{deploymentId}'}/1000) &gt;= 600.0
  */
 @Data
 public class PromQLConfigGroup {
