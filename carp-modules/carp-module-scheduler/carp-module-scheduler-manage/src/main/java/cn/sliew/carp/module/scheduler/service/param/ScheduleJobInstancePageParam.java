@@ -21,22 +21,29 @@ import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleStatus;
 import cn.sliew.carp.framework.common.model.BasePageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-@Getter
+import java.io.Serial;
+
+@Data
 @Jacksonized
 @SuperBuilder
+@RequiredArgsConstructor
 public class ScheduleJobInstancePageParam extends BasePageParam {
+    @Serial
+    private static final long serialVersionUID = 7405602922568411730L;
 
     @NotNull
     @Schema(description = "任务配置id")
-    private Long jobConfigId;
+    private final Long jobConfigId;
 
     @Schema(description = "实例名称")
-    private String name;
+    private final String name;
 
     @Schema(description = "状态")
-    private CarpScheduleStatus status;
+    private final CarpScheduleStatus status;
 }

@@ -19,18 +19,25 @@ package cn.sliew.carp.module.scheduler.service.param;
 
 import cn.sliew.carp.framework.common.model.BasePageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-@Getter
+import java.io.Serial;
+
+@Data
 @Jacksonized
 @SuperBuilder
+@RequiredArgsConstructor
 public class ScheduleJobGroupPageParam extends BasePageParam {
 
+    @Serial
+    private static final long serialVersionUID = -846917575690293782L;
+
     @Schema(description = "命名空间")
-    private String namespace;
+    private final String namespace;
 
     @Schema(description = "分组名称。模糊搜索")
-    private String name;
+    private final String name;
 }

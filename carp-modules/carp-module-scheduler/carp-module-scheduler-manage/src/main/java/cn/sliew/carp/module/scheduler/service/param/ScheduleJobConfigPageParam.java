@@ -23,31 +23,37 @@ import cn.sliew.carp.framework.common.dict.schedule.CarpScheduleType;
 import cn.sliew.carp.framework.common.model.BasePageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-@Getter
+import java.io.Serial;
+
+@Data
 @Jacksonized
 @SuperBuilder
+@RequiredArgsConstructor
 public class ScheduleJobConfigPageParam extends BasePageParam {
+    @Serial
+    private static final long serialVersionUID = 686218891801656063L;
 
     @NotNull
     @Schema(description = "任务分组 id")
-    private Long jobGroupId;
+    private final Long jobGroupId;
 
     @Schema(description = "类型")
-    private CarpScheduleType type;
+    private final CarpScheduleType type;
 
     @Schema(description = "引擎类型")
-    private CarpScheduleEngineType engineType;
+    private final CarpScheduleEngineType engineType;
 
     @Schema(description = "任务类型")
-    private CarpScheduleJobType jobType;
+    private final CarpScheduleJobType jobType;
 
     @Schema(description = "任务名称")
-    private String name;
+    private final String name;
 
     @Schema(description = "任务处理器")
-    private String handler;
+    private final String handler;
 }

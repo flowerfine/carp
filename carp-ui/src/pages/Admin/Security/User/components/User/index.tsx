@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Button, Card, message, Modal, Skeleton, Space, Table, Tag, Tooltip } from "antd";
-import { DeleteOutlined, EditOutlined, FormOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { ActionType, ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
 import { useAccess, useIntl } from "@umijs/max";
 import { AdminSecurityAPI } from "@/services/admin/security/typings";
