@@ -1,6 +1,6 @@
 import React from 'react';
 import {Form, message} from 'antd';
-import {ModalForm, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
+import {ModalForm, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea} from '@ant-design/pro-components';
 import {useIntl} from '@umijs/max';
 import {ModalFormProps} from "@/typings";
 import {AdminSecurityAPI} from '@/services/admin/security/typings';
@@ -42,6 +42,7 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecRole>) => {
         name: data?.name,
         type: data?.type?.value,
         status: data?.status?.value,
+        order: data?.order,
         remark: data?.remark
       }}
       onFinish={async (values: Record<string, any>) => {
@@ -91,6 +92,12 @@ export default (props: ModalFormProps<AdminSecurityAPI.SecRole>) => {
         request={() => DictService.listInstanceByDefinition(DICT_TYPE.carpSecRoleStatus)}
         allowClear={false}
         rules={[{required: true}]}
+      />
+      <ProFormDigit
+        name={"order"}
+        label={intl.formatMessage({id: 'pages.admin.security.role.order'})}
+        rules={[{required: true}]}
+        min={0}
       />
       <ProFormTextArea
         name={"remark"}

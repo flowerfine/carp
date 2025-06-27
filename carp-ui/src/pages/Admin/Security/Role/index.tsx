@@ -57,6 +57,10 @@ const AdminSecurityRoleWeb: React.FC = () => {
       width: 200,
     },
     {
+      title: intl.formatMessage({ id: 'pages.admin.security.role.order' }),
+      dataIndex: 'order'
+    },
+    {
       title: intl.formatMessage({ id: 'app.common.data.remark' }),
       dataIndex: 'remark',
       valueType: 'textarea',

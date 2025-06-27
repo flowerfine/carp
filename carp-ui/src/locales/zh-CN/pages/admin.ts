@@ -26,6 +26,7 @@ export default {
   'pages.admin.security.role.name': '名称',
   'pages.admin.security.role.type': '类型',
   'pages.admin.security.role.status': '状态',
+  'pages.admin.security.role.order': '排序',
 
   'pages.admin.security.resource': '资源管理',
   'pages.admin.security.resource.web': 'Web资源',
