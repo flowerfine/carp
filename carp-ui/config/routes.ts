@@ -219,6 +219,23 @@ export default [
         ]
       },
       {
+        path: '/workspace/http-sync',
+        name: 'http-sync',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/http-sync',
+            redirect: '/workspace/http-sync/groups',
+          },
+          {
+            path: '/workspace/http-sync/groups',
+            name: 'group',
+            icon: 'profile',
+            component: './Workspace/HttpSync/Group'
+          }
+        ]
+      },
+      {
         path: '/workspace/workflow',
         name: 'workflow',
         icon: 'profile',

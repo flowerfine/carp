@@ -71,7 +71,8 @@ export default (props: ModalFormParentProps<AdminSecurityAPI.SecDept>) => {
           disabled
           request={((params, props) => {
             const webParam: AdminSecurityAPI.SecDeptParam = {
-                name: params.keyWords
+                name: params.keyWords,
+                pid: parent?.pid
             };
             return DeptService.listAll(webParam).then((response) => {
                 if (response.data) {

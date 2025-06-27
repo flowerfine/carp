@@ -17,19 +17,32 @@
  */
 package cn.sliew.carp.module.http.sync.job.enums;
 
+import cn.sliew.carp.framework.common.dict.DictInstance;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
 
 @Getter
-public enum JobGroup {
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+public enum JobGroup implements DictInstance {
 
     JST("jst", "聚水潭"),
     ;
 
-    private String group;
-    private String desc;
-
-    JobGroup(String group, String desc) {
-        this.group = group;
-        this.desc = desc;
+    @JsonCreator
+    public static JobGroup of(String value) {
+        return Arrays.stream(values())
+                .filter(instance -> instance.getValue().equals(value))
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(JobGroup.class, value));
     }
+
+    @EnumValue
+    private final String value;
+    private final String label;
 }

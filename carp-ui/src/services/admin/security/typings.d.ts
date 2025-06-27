@@ -47,7 +47,7 @@ declare namespace AdminSecurityAPI {
   type SecDeptParam = QueryParam & {
     code?: string;
     name?: string;
-    pid?: string;
+    pid?: number;
     status?: string;
   };
 

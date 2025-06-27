@@ -63,7 +63,7 @@ public abstract class AbstractJstJob extends AbstractJob {
     protected JobInfo getJobInfo(String param) {
         JstJobParam jstJobParam = JacksonUtil.parseJsonString(param, JstJobParam.class);
         return JobInfo.builder()
-                .group(getJstJob().getGroup().getGroup())
+                .group(getJstJob().getGroup().getValue())
                 .job(getJstJob().getApi().getApi())
                 .subJob(getJstJob().getType().getType())
                 .account(jstJobParam.getAppKey())

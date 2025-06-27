@@ -23,6 +23,7 @@ export const DeptService = {
   listAll: async (param: AdminSecurityAPI.SecDeptParam) => {
     return request<ResponseBody<AdminSecurityAPI.SecDept[]>>(`${DeptService.url}`, {
       method: 'GET',
+      params: param,
     });
   },
 
