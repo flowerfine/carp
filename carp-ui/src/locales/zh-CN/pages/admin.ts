@@ -15,6 +15,7 @@ export default {
   'pages.admin.security.user.email': '邮箱',
   'pages.admin.security.user.phone': '手机',
   'pages.admin.security.user.status': '状态',
+  'pages.admin.security.user.roles': '角色',
   'pages.admin.security.user.order': '排序号',
   'pages.admin.security.user.awaitGrant': '待授权',
   'pages.admin.security.user.granted': '已授权',

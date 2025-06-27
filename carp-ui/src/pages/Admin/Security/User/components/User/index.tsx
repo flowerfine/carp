@@ -16,7 +16,7 @@ export type SecurityUserState = {
 }
 
 const AdminSecurityUserRightWeb: React.FC = (props: {
-  dept: AdminSecurityAPI.SecDept | null
+  dept?: AdminSecurityAPI.SecDept;
 }) => {
   const intl = useIntl();
   const access = useAccess();
@@ -24,7 +24,7 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
   const formRef = useRef<ProFormInstance>();
   const [selectedRows, setSelectedRows] = useState<AdminSecurityAPI.SecUser[]>([]);
   const [userFormData, setUserFormData] = useState<SecurityUserState>({ visiable: false, data: null });
-  const [roles2UserFormData, setRoles2UserFormData] = useState<SecurityUserState>({visiable: false, data: null});
+  const [roles2UserFormData, setRoles2UserFormData] = useState<SecurityUserState>({ visiable: false, data: null });
   const { dept } = props;
 
   const columns: ProColumns<AdminSecurityAPI.SecUser>[] = [
@@ -67,55 +67,64 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
       }
     },
     {
+      title: intl.formatMessage({ id: 'pages.admin.security.user.roles' }),
+      dataIndex: 'roles',
+      ellipsis: true,
+      hideInSearch: true,
+      render: (text, record) => {
+        const { roles = [] } = record;
+        const val = roles.map(item => item.name).join();
+        return (
+          <Tooltip title={val} placement="topLeft">
+            <span>{val}</span>
+          </Tooltip>
+        );
+      }
+    },
+    {
+      title: intl.formatMessage({ id: 'pages.admin.security.user.order' }),
+      dataIndex: 'order',
+      hideInSearch: true
+    },
+    {
       title: intl.formatMessage({ id: 'app.common.data.remark' }),
       dataIndex: 'remark',
       valueType: 'textarea',
       hideInSearch: true
     },
     {
-      title: intl.formatMessage({ id: 'app.common.data.createTime' }),
-      dataIndex: 'createTime',
-      hideInSearch: true,
-      width: 180,
-    },
-    {
-      title: intl.formatMessage({ id: 'app.common.data.updateTime' }),
-      dataIndex: 'updateTime',
-      hideInSearch: true,
-      width: 180,
-    },
-    {
       title: intl.formatMessage({ id: 'app.common.operate.security.label' }),
       dataIndex: 'actions',
       valueType: 'option',
       align: 'center',
-      width: 120,
       fixed: 'right',
       render: (_, record) => (
-        <Space>
+        <div>
           <Tooltip title={intl.formatMessage({ id: 'pages.admin.security.user.roles2user' })}>
             <Button
               shape="default"
               type="link"
-              icon={<FormOutlined/>}
               disabled={record.type?.value == '0' || record.status?.value == '2'}
               onClick={() => {
                 setRoles2UserFormData({ visiable: true, data: record });
               }}
-            />
+            >
+              {intl.formatMessage({ id: 'pages.admin.security.user.roles2user' })}
+            </Button>
           </Tooltip>
           <Tooltip title={intl.formatMessage({ id: 'pages.admin.security.user.resource.webs2user' })}>
             <Button
               shape="default"
               type="link"
-              icon={<FormOutlined />}
               disabled={record.type?.value == '0' || record.status?.value == '2'}
               onClick={() => {
                 setRoles2UserFormData({ visiable: true, data: record });
               }}
-            />
+            >
+              {intl.formatMessage({ id: 'pages.admin.security.user.resource.webs2user' })}
+            </Button>
           </Tooltip>
-        </Space>
+        </div>
       ),
     },
     {
@@ -182,7 +191,7 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
             span: { xs: 24, sm: 12, md: 8, lg: 6, xl: 6, xxl: 4 },
           }}
           scroll={{ x: 1200 }}
-          headerTitle={<Tooltip title={dept?.name}>{dept?.name}</Tooltip>}
+          headerTitle={<Tooltip title={dept?.name}>{intl.formatMessage({ id: 'pages.admin.security.dept' }) + ': ' + dept?.name}</Tooltip>}
           rowKey="id"
           actionRef={actionRef}
           formRef={formRef}
@@ -260,6 +269,7 @@ const AdminSecurityUserRightWeb: React.FC = (props: {
           data={roles2UserFormData.data}
           onCancel={() => {
             setRoles2UserFormData({ visiable: false, data: null });
+            actionRef.current?.reload();
           }}
           onFinish={(values) => {
             setRoles2UserFormData({ visiable: false, data: null });

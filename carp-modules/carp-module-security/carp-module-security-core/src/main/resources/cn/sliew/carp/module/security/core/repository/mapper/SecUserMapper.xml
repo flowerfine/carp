@@ -41,7 +41,7 @@
 
     <resultMap id="UserWithRoleMap" extends="BaseResultMap"
                type="cn.sliew.carp.module.security.core.repository.entity.SecUserWithRoles">
-        <collection property="roles" column="id" select="cn.sliew.carp.module.security.core.repository.mapper.SecUserRoleMapper.selectRelatedRolesByUser(java.lang.Long, cn.sliew.carp.framework.common.dict.security.CarpSecRoleStatus, java.lang.String)" />
+        <collection property="roles" column="{userId=id}"  select="cn.sliew.carp.module.security.core.repository.mapper.SecUserRoleMapper.selectRelatedRolesByUser" />
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -87,7 +87,7 @@
                 )
             </if>
         </where>
-        ORDER BY t1.order, t1.id
+        ORDER BY t1.`order`, t1.id
     </select>
 
 </mapper>

@@ -24,7 +24,7 @@ const AdminSecurityUserWeb: React.FC = () => {
   const [selectedRows, setSelectedRows] = useState<AdminSecurityAPI.SecUser[]>([]);
   const [userFormData, setUserFormData] = useState<SecurityUserState>({ visiable: false, data: null });
 
-  const [dept, setDept] = useState<AdminSecurityAPI.SecDept>(null);
+  const [dept, setDept] = useState<AdminSecurityAPI.SecDept>();
 
   const treeOnSelect = (data: AdminSecurityAPI.SecDept) => {
     setDept(data);
