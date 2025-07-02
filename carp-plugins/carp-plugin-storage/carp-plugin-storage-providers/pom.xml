@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-storage-providers</artifactId>
+    <name>carp storage-providers plugin</name>
     <packaging>pom</packaging>
 
     <modules>

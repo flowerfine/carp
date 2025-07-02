@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-scheduler-quartz</artifactId>
+    <name>carp scheduler-quartz module</name>
 
     <dependencies>
         <dependency>

@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-security</artifactId>
+    <name>carp security module</name>
     <packaging>pom</packaging>
 
     <modules>

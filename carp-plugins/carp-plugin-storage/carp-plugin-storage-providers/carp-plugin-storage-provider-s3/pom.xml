@@ -10,6 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-storage-provider-s3</artifactId>
+    <name>carp storage-provider-s3 plugin</name>
 
     <properties>
         <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>

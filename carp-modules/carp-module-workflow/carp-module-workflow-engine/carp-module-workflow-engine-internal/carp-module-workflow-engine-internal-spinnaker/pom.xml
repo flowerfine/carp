@@ -27,7 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-workflow-engine-internal-spinnaker</artifactId>
-
+    <name>carp workflow-engine-internal-spinnaker module</name>
 
     <dependencies>
         <dependency>

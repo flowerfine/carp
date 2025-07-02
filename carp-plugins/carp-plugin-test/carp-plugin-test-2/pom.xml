@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-test-2</artifactId>
+    <name>carp test-2 plugin</name>
 
     <properties>
         <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>

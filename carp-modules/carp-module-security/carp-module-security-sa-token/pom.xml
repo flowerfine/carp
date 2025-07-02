@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-security-sa-token</artifactId>
+    <name>carp security-sa-token module</name>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>

@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-workflow-manager</artifactId>
+    <name>carp workflow-manager module</name>
 
     <dependencies>
         <dependency>

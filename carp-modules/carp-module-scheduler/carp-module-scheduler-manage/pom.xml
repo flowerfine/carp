@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-scheduler-manage</artifactId>
+    <name>carp scheduler-manage module</name>
 
     <dependencies>
         <dependency>

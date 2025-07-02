@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-http-remote-jst</artifactId>
+    <name>carp http-remote-jst module</name>
 
     <properties>
         <jst.version>0.0.1</jst.version>

@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-http-remote</artifactId>
+    <name>carp http-remote module</name>
     <packaging>pom</packaging>
 
     <modules>

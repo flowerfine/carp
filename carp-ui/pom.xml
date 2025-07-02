@@ -27,6 +27,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-ui</artifactId>
+    <name>carp-ui</name>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>

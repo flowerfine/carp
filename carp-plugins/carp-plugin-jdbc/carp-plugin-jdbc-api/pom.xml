@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-jdbc-api</artifactId>
+    <name>carp jdbc-api plugin</name>
 
     <dependencies>
         <dependency>

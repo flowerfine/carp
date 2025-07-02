@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-scheduler-executor-api</artifactId>
+    <name>carp scheduler-executor-api module</name>
 
     <dependencies>
         <dependency>
