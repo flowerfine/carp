@@ -129,6 +129,8 @@ const Login: React.FC = () => {
           form={form}
           initialValues={{
             autoLogin: true,
+            userName: 'sys_admin',
+            password: '123456'
           }}
           onFinish={async (values) => {
             await handleSubmit(values as AdminSecurityAPI.LoginInfo);
