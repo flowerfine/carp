@@ -43,10 +43,6 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-scheduler-executor-java</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-module-scheduler-executor-workflow</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
