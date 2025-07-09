@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-workflow-engine-temporal</artifactId>
+    <name>carp workflow-engine-temporal plugin</name>
 
     <properties>
         <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>

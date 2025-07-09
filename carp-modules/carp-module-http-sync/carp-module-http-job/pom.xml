@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-http-job</artifactId>
+    <name>carp http-job module</name>
 
     <dependencies>
         <dependency>

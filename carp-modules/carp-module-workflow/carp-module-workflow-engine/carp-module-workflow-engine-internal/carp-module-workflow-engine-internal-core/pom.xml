@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-workflow-engine-internal-core</artifactId>
+    <name>carp workflow-engine-internal-core module</name>
 
     <dependencies>
         <dependency>

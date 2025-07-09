@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-workflow-engine-temporal</artifactId>
+    <name>carp workflow-engine-temporal module</name>
 
     <dependencies>
         <dependency>

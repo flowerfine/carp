@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-security-spring</artifactId>
+    <name>carp security-spring module</name>
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>

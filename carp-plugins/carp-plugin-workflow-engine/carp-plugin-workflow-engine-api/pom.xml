@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-workflow-engine-api</artifactId>
+    <name>carp workflow-engine-api plugin</name>
 
     <dependencies>
         <dependency>

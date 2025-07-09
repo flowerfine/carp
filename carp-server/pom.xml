@@ -26,6 +26,7 @@
         <version>${revision}</version>
     </parent>
     <artifactId>carp-server</artifactId>
+    <name>carp server</name>
 
     <properties>
         <maven.deploy.skip>false</maven.deploy.skip>

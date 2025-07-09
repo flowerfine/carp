@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-plugin-test-api</artifactId>
+    <name>carp plugin-test-api module</name>
 
     <dependencies>
         <dependency>

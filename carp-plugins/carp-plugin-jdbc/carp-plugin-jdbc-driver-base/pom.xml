@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-plugin-jdbc-driver-base</artifactId>
+    <name>carp jdbc-driver-base plugin</name>
 
     <dependencies>
         <dependency>

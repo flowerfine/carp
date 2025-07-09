@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-storage</artifactId>
+    <name>carp storage module</name>
 
     <dependencies>
         <dependency>

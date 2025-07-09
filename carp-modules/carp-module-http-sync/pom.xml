@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-module-http-sync</artifactId>
+    <name>carp http-sync module</name>
     <packaging>pom</packaging>
 
     <modules>
