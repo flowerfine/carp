@@ -9,8 +9,6 @@
 * 数据落库
 * 异常事件
 
-
-
 随着企业的发展，对信息系统的需求也在不断提高，无论是种类还是数据量。如企业组织管理选择钉钉、企业微信、飞书，企业招聘采用Boss直聘，内部报销会采用钉钉、企业微信上的应用如易快报，OA管理使用北森，财务报表使用金蝶；若公司为电商公司则会考虑在快手、抖音、拼多多、淘宝等开店，还会开启直播。
 
 现代企业无法完全脱离信息系统实现运转，企业在使用这些信息系统的时候也会被绑定，如从企业微信上查看员工信息、考勤、审批报销流程，企业获取数据也需要依赖这些系统，企业内部进行数据流转、绩效考核、管理报表编制的时候，需从系统中直接查看数据或者导出数据。
@@ -53,6 +51,68 @@
 * [天眼查](https://open.tianyancha.com/)
 * [得物](https://open.dewu.com/)
 * [七鱼](https://qiyukf.com/docs/)
+
+### 接口列表
+
+* 快手
+  * [开放平台](https://open.kuaishou.com/platform/openApi?menu=5)
+  * [电商开放平台](https://open.kwaixiaodian.com/docs/dev?pageSign=a068e6b0409a9ee55f5b6f5760ff9d391614263559910)
+  * [本地生活开放平台](https://open.kwailocallife.com/)
+  * [磁力引擎开放平台](https://developers.e.kuaishou.com/welcome)
+* [淘宝](https://open.taobao.com/)
+  * 聚石塔
+  * 聚石塔自定义接口
+* 聚水潭
+  * [开放平台-旧](https://open.jushuitan.com/document.html)
+  * [开放平台-新](https://openweb.jushuitan.com/index)
+* [有赞](https://doc.youzanyun.com/home)
+  * 略过
+* [京东联盟](https://union.jd.com/openplatform)
+  * 查询推广位
+  * 商品类目查询接口
+  * 商品详情查询接口
+  * 供开订单行查询接口
+* [企业微信](https://developer.work.weixin.qq.com/)。
+  * [获取组织架构](https://developer.work.weixin.qq.com/document/path/90344)
+  * [获取部门成员](https://developer.work.weixin.qq.com/document/path/90336)、[获取部门成员详情](https://developer.work.weixin.qq.com/document/path/90337)
+* [北森](https://open.italent.cn/#/open-document?menu=develop-guide)。
+  * [组织架构](https://open.italent.cn/#/open-document?menu=document-center&id=c59e60ee-345a-4441-967c-631f8ace1adf)
+  * [员工信息](https://open.italent.cn/#/open-document?menu=document-center&id=e01aa14c-7dda-430f-be9d-0d9aafc25dca)
+  * [考勤信息](https://open.italent.cn/#/open-document?menu=document-center&id=72db4f93-0da4-41d5-9c53-79f176a007e0)
+* [易快报](https://docs.ekuaibao.com/)
+  * [获取企业名称](https://docs.ekuaibao.com/docs/open-api/corporation/corporation-info)
+  * [获取部门列表(包含停用部门)](https://docs.ekuaibao.com/docs/open-api/corporation/get-departments)
+  * [获取员工列表](https://docs.ekuaibao.com/docs/open-api/corporation/get-all-staffs)
+  * [获取费用类型列表(包含停用)](https://docs.ekuaibao.com/docs/open-api/feetype/get-feetypes-list)
+  * [获取企业当前生效的币种信息](https://docs.ekuaibao.com/docs/open-api/currency/get-currency)
+  * [获取单据列表](https://docs.ekuaibao.com/docs/open-api/flows/get-forms-details-byStaff)
+  * [获取单据附件](https://docs.ekuaibao.com/docs/open-api/flows/get-flows-attachment)
+  * [获取全局字段列表](https://docs.ekuaibao.com/docs/open-api/forms/get-customs-param)
+  * [获取付款账户列表](https://docs.ekuaibao.com/docs/open-api/pay/get-payerInfos)
+  * [获取收款账户](https://docs.ekuaibao.com/docs/open-api/pay/get-payeeInfos)
+  * [获取企业对账单](https://docs.ekuaibao.com/docs/open-api/flows/get-flow-by-checkingId)
+  * [获取自定义档案类别](https://docs.ekuaibao.com/docs/open-api/dimensions/get-dimensions)
+  * [获取自定义档案项(所有字段值)](https://docs.ekuaibao.com/docs/open-api/dimensions/get-dimension-items-withAll)
+  * [获取企业下档案关系列表](https://docs.ekuaibao.com/docs/open-api/recordLink/get-dimension-relation)
+  * [获取企业下档案项数据](https://docs.ekuaibao.com/docs/open-api/recordLink/query-all-relation-items)
+  * [获取发票主体信息](https://docs.ekuaibao.com/docs/open-api/invoice/get-entity-invoice)
+* 金蝶。金蝶星瀚
+  * 财务云-总帐-余额接口-总账余额取数
+  * 企业绩效云-合并报表-报表查询接口
+* [天眼查](https://open.tianyancha.com/)
+  * [企业基本信息](http://open.tianyancha.com/open/1116)
+  * [经营异常](http://open.tianyancha.com/open/848)
+  * [主要人员](http://open.tianyancha.com/open/820)
+  * [历史主要人员](http://open.tianyancha.com/open/1050)
+* [得物](https://open.dewu.com/)
+  * [增量拉取订单](https://open.dewu.com/#/api?apiId=1019)
+  * [增量获取售后单列表](https://open.dewu.com/#/api?apiId=1191)
+* [七鱼](https://qiyukf.com/docs/)
+  * 批量拉取通话记录数据接口。非公开接口，pdf 文档
+  * [呼叫总览数据](https://b.163.com/knowledge/public/WXjbs9n3GC/knowdetail?docId=bHo4OU89DM&pid=245201#b50656e6)
+  * [呼叫团队历史总览数据](https://b.163.com/knowledge/public/WXjbs9n3GC/knowdetail?docId=bHo4OU89DM&pid=245201#8e2840e8)
+  * [客服质量报表](https://b.163.com/knowledge/public/WXjbs9n3GC/knowdetail?docId=bHmL6MrHQu&pid=244179#4cfee83c)
+  * [历史数据总览](https://b.163.com/knowledge/public/WXjbs9n3GC/knowdetail?docId=bHmL6MrHQu&pid=244179#ada28f1b)
 
 ### 接口总结
 
