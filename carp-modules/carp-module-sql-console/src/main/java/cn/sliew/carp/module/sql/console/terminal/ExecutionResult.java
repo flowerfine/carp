@@ -29,10 +29,11 @@ import java.util.List;
  * result of execution a script.
  */
 public class ExecutionResult {
+
     static final SimpleDateFormat PATTEN = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-    List<String> logs = Lists.newArrayList();
-    List<StatementResult> results = Lists.newArrayList();
+    private List<String> logs = Lists.newArrayList();
+    private List<StatementResult> results = Lists.newArrayList();
 
     public synchronized void appendLog(String log) {
         String date = PATTEN.format(new Date());

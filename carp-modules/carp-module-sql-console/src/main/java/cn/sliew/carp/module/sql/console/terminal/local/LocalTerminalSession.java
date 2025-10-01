@@ -33,77 +33,77 @@ import java.util.stream.Collectors;
 
 public class LocalTerminalSession implements TerminalSession {
 
-  List<String> logs = Lists.newArrayList();
+    private List<String> logs = Lists.newArrayList();
 
-  List<String> catalogs;
-  SparkSession session;
-  String currentCatalog;
+    private List<String> catalogs;
+    private SparkSession session;
+    private String currentCatalog;
 
-  Map<String, String> sessionConfigs;
+    private Map<String, String> sessionConfigs;
 
-  LocalTerminalSession(
-      List<String> supportedCatalogs,
-      SparkSession session,
-      List<String> initLogs,
-      Map<String, String> sessionConfigs) {
-    this.session = session;
-    this.catalogs = supportedCatalogs;
-    this.logs.addAll(initLogs);
-    this.sessionConfigs = sessionConfigs;
-  }
-
-  @Override
-  public Map<String, String> configs() {
-    return this.sessionConfigs;
-  }
-
-  @Override
-  public ResultSet executeStatement(String catalog, String statement) {
-    if (currentCatalog == null || !currentCatalog.equalsIgnoreCase(catalog)) {
-      if (TerminalSession.canUseSparkSessionCatalog(sessionConfigs, catalog)) {
-        session.sql("use `spark_catalog`");
-        logs.add(
-            String.format(
-                "current catalog is %s, "
-                    + "since it's a hive type catalog and can use spark session catalog, "
-                    + "switch to spark_catalog before execution",
-                currentCatalog));
-      } else {
-        session.sql("use `" + catalog + "`");
-        logs.add("switch to new catalog via: use " + catalog);
-      }
-      currentCatalog = catalog;
+    LocalTerminalSession(
+            List<String> supportedCatalogs,
+            SparkSession session,
+            List<String> initLogs,
+            Map<String, String> sessionConfigs) {
+        this.session = session;
+        this.catalogs = supportedCatalogs;
+        this.logs.addAll(initLogs);
+        this.sessionConfigs = sessionConfigs;
     }
 
-    Dataset<Row> ds = session.sql(statement);
-    List<Object[]> rows =
-        ds.collectAsList().stream()
-            .map(r -> JavaConverters.seqAsJavaList(r.toSeq()).toArray(new Object[0]))
-            .collect(Collectors.toList());
-
-    return new SimpleResultSet(Arrays.asList(ds.columns()), rows);
-  }
-
-  @Override
-  public List<String> logs() {
-    List<String> logs = Lists.newArrayList(this.logs);
-    this.logs.clear();
-    return logs;
-  }
-
-  @Override
-  public boolean active() {
-    try {
-      return this.session.sql("select 1").collect() != null;
-    } catch (Throwable t) {
-      return false;
+    @Override
+    public Map<String, String> configs() {
+        return this.sessionConfigs;
     }
-  }
 
-  @Override
-  public void release() {
-    // do not call release in local mode.
-    // spark session.release will release spark context.
-    // spark session is a hash-map, release reference is enough.
-  }
+    @Override
+    public ResultSet executeStatement(String catalog, String statement) {
+        if (currentCatalog == null || !currentCatalog.equalsIgnoreCase(catalog)) {
+            if (TerminalSession.canUseSparkSessionCatalog(sessionConfigs, catalog)) {
+                session.sql("use `spark_catalog`");
+                logs.add(
+                        String.format(
+                                "current catalog is %s, "
+                                        + "since it's a hive type catalog and can use spark session catalog, "
+                                        + "switch to spark_catalog before execution",
+                                currentCatalog));
+            } else {
+                session.sql("use `" + catalog + "`");
+                logs.add("switch to new catalog via: use " + catalog);
+            }
+            currentCatalog = catalog;
+        }
+
+        Dataset<Row> ds = session.sql(statement);
+        List<Object[]> rows =
+                ds.collectAsList().stream()
+                        .map(r -> JavaConverters.seqAsJavaList(r.toSeq()).toArray(new Object[0]))
+                        .collect(Collectors.toList());
+
+        return new SimpleResultSet(Arrays.asList(ds.columns()), rows);
+    }
+
+    @Override
+    public List<String> logs() {
+        List<String> logs = Lists.newArrayList(this.logs);
+        this.logs.clear();
+        return logs;
+    }
+
+    @Override
+    public boolean active() {
+        try {
+            return this.session.sql("select 1").collect() != null;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    @Override
+    public void release() {
+        // do not call release in local mode.
+        // spark session.release will release spark context.
+        // spark session is a hash-map, release reference is enough.
+    }
 }

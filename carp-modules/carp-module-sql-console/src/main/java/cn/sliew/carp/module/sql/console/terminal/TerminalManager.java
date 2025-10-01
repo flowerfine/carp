@@ -18,7 +18,6 @@
 
 package cn.sliew.carp.module.sql.console.terminal;
 
-import cn.sliew.carp.module.sql.console.catalog.CatalogType;
 import cn.sliew.carp.module.sql.console.option.ConfigOptions;
 import cn.sliew.carp.module.sql.console.option.Configurations;
 import cn.sliew.carp.module.sql.console.service.model.LatestSessionInfo;
@@ -28,15 +27,6 @@ import cn.sliew.carp.module.sql.console.terminal.kyuubi.KyuubiTerminalSessionFac
 import cn.sliew.carp.module.sql.console.terminal.local.LocalSessionFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.amoro.Constants;
-import org.apache.amoro.TableFormat;
-import org.apache.amoro.api.CatalogMeta;
-import org.apache.amoro.properties.CatalogMetaProperties;
-import org.apache.amoro.server.catalog.CatalogManager;
-import org.apache.amoro.server.dashboard.utils.AmsUtil;
-import org.apache.amoro.table.TableMetaStore;
-import org.apache.amoro.utils.CatalogUtil;
-import org.apache.iceberg.CatalogProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -44,7 +34,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -60,7 +49,6 @@ public class TerminalManager {
 
     private final Configurations serviceConfig;
     private final AtomicLong threadPoolCount = new AtomicLong();
-    private final CatalogManager catalogManager;
     private final TerminalSessionFactory sessionFactory;
     private final int resultLimits;
     private final boolean stopOnError;
@@ -81,9 +69,8 @@ public class TerminalManager {
                     new LinkedBlockingQueue<>(),
                     r -> new Thread(null, r, "terminal-execute-" + threadPoolCount.incrementAndGet()));
 
-    public TerminalManager(Configurations conf, CatalogManager catalogManager) {
+    public TerminalManager(Configurations conf) {
         this.serviceConfig = conf;
-        this.catalogManager = catalogManager;
         this.resultLimits = conf.getInteger(AmoroManagementConf.TERMINAL_RESULT_LIMIT);
         this.stopOnError = conf.getBoolean(AmoroManagementConf.TERMINAL_STOP_ON_ERROR);
         this.sessionTimeout = (int) conf.get(AmoroManagementConf.TERMINAL_SESSION_TIMEOUT).toMinutes();
@@ -102,11 +89,7 @@ public class TerminalManager {
      * @return - sessionId, session refer to a sql execution context
      */
     public String executeScript(String terminalId, String catalog, String script) {
-        CatalogMeta catalogMeta = catalogManager.getCatalogMeta(catalog);
-        TableMetaStore metaStore = getCatalogTableMetaStore(catalogMeta);
-        String sessionId = getSessionId(terminalId, metaStore, catalog);
-        String connectorType = catalogConnectorType(catalogMeta);
-        applyClientProperties(catalogMeta);
+        String sessionId = getSessionId(terminalId, catalog);
         Configurations configuration = new Configurations();
         configuration.set(
                 AmoroManagementConf.TERMINAL_SENSITIVE_CONF_KEYS,
@@ -114,16 +97,6 @@ public class TerminalManager {
         configuration.setInteger(TerminalSessionFactory.SessionConfigOptions.FETCH_SIZE, resultLimits);
         configuration.set(
                 TerminalSessionFactory.SessionConfigOptions.CATALOGS, Lists.newArrayList(catalog));
-        configuration.set(
-                TerminalSessionFactory.SessionConfigOptions.catalogConnector(catalog), connectorType);
-        configuration.set(
-                TerminalSessionFactory.SessionConfigOptions.CATALOG_URL_BASE,
-                AmsUtil.getAMSThriftAddress(serviceConfig, Constants.THRIFT_TABLE_SERVICE_NAME));
-        for (String key : catalogMeta.getCatalogProperties().keySet()) {
-            String value = catalogMeta.getCatalogProperties().get(key);
-            configuration.set(
-                    TerminalSessionFactory.SessionConfigOptions.catalogProperty(catalog, key), value);
-        }
 
         synchronized (sessionMapLock) {
             sessionMap.compute(
@@ -131,13 +104,13 @@ public class TerminalManager {
                     (id, ctx) -> {
                         if (ctx == null) {
                             return new TerminalSessionContext(
-                                    id, metaStore, executionPool, sessionFactory, configuration);
+                                    id, executionPool, sessionFactory, configuration);
                         } else {
                             // need to re-create session context if configuration is changed
                             return ctx.sessionConfiguration().equals(configuration)
                                     ? ctx
                                     : new TerminalSessionContext(
-                                    id, metaStore, executionPool, sessionFactory, configuration);
+                                    id, executionPool, sessionFactory, configuration);
                         }
                     });
         }
@@ -256,82 +229,10 @@ public class TerminalManager {
 
     // ========================== private method =========================
 
-    private String catalogConnectorType(CatalogMeta catalogMeta) {
-        String catalogType = catalogMeta.getCatalogType();
-        Set<TableFormat> tableFormatSet = CatalogUtil.tableFormats(catalogMeta);
-        if (catalogType.equalsIgnoreCase(CatalogType.AMS.name())) {
-            if (tableFormatSet.size() > 1) {
-                return "unified";
-            } else if (tableFormatSet.contains(TableFormat.MIXED_ICEBERG)) {
-                return "mixed_iceberg";
-            } else if (tableFormatSet.contains(TableFormat.ICEBERG)) {
-                return "iceberg";
-            }
-        } else if (catalogType.equalsIgnoreCase(CatalogType.HIVE.name())
-                || catalogType.equalsIgnoreCase(CatalogType.HADOOP.name())) {
-            if (tableFormatSet.size() > 1) {
-                return "unified";
-            } else if (tableFormatSet.contains(TableFormat.MIXED_ICEBERG)) {
-                return "mixed_iceberg";
-            } else if (tableFormatSet.contains(TableFormat.MIXED_HIVE)) {
-                return "mixed_hive";
-            } else if (tableFormatSet.contains(TableFormat.ICEBERG)) {
-                return "iceberg";
-            } else if (tableFormatSet.contains(TableFormat.PAIMON)) {
-                return "paimon";
-            }
-        } else if (catalogType.equalsIgnoreCase(CatalogType.CUSTOM.name())) {
-            return "iceberg";
-        } else if (catalogType.equalsIgnoreCase(CatalogType.GLUE.name())) {
-            return "iceberg";
-        }
-        throw new IllegalStateException("unknown catalog type: " + catalogType);
-    }
-
-    private String getSessionId(String loginId, TableMetaStore auth, String catalog) {
-        String authName = auth.getHadoopUsername();
-        if (auth.isKerberosAuthMethod()) {
-            authName = auth.getKrbPrincipal();
-        }
-        String sessionId = loginId + "-" + auth.getAuthMethod() + "-" + authName + "-" + catalog;
+    private String getSessionId(String loginId, String catalog) {
+        String sessionId = loginId + "-" + catalog;
         sessionId = sessionId.replace("/", "_");
         return sessionId;
-    }
-
-    private TableMetaStore getCatalogTableMetaStore(CatalogMeta catalogMeta) {
-        TableMetaStore.Builder builder = TableMetaStore.builder();
-        if (catalogMeta.getStorageConfigs() != null) {
-            Map<String, String> storageConfigs = catalogMeta.getStorageConfigs();
-            if (CatalogMetaProperties.STORAGE_CONFIGS_VALUE_TYPE_HADOOP.equalsIgnoreCase(
-                    CatalogUtil.getCompatibleStorageType(storageConfigs))) {
-                builder
-                        .withBase64MetaStoreSite(
-                                catalogMeta
-                                        .getStorageConfigs()
-                                        .get(CatalogMetaProperties.STORAGE_CONFIGS_KEY_HIVE_SITE))
-                        .withBase64CoreSite(
-                                catalogMeta
-                                        .getStorageConfigs()
-                                        .get(CatalogMetaProperties.STORAGE_CONFIGS_KEY_CORE_SITE))
-                        .withBase64HdfsSite(
-                                catalogMeta
-                                        .getStorageConfigs()
-                                        .get(CatalogMetaProperties.STORAGE_CONFIGS_KEY_HDFS_SITE));
-            }
-        }
-        String authType = catalogMeta.getAuthConfigs().get(CatalogMetaProperties.AUTH_CONFIGS_KEY_TYPE);
-        if (CatalogMetaProperties.AUTH_CONFIGS_VALUE_TYPE_SIMPLE.equalsIgnoreCase(authType)) {
-            builder.withSimpleAuth(
-                    catalogMeta.getAuthConfigs().get(CatalogMetaProperties.AUTH_CONFIGS_KEY_HADOOP_USERNAME));
-        } else if (CatalogMetaProperties.AUTH_CONFIGS_VALUE_TYPE_KERBEROS.equalsIgnoreCase(authType)) {
-            builder.withBase64Auth(
-                    catalogMeta.getAuthConfigs().get(CatalogMetaProperties.AUTH_CONFIGS_KEY_TYPE),
-                    catalogMeta.getAuthConfigs().get(CatalogMetaProperties.AUTH_CONFIGS_KEY_HADOOP_USERNAME),
-                    catalogMeta.getAuthConfigs().get(CatalogMetaProperties.AUTH_CONFIGS_KEY_KEYTAB),
-                    catalogMeta.getAuthConfigs().get(CatalogMetaProperties.AUTH_CONFIGS_KEY_KRB5),
-                    catalogMeta.getAuthConfigs().get(CatalogMetaProperties.AUTH_CONFIGS_KEY_PRINCIPAL));
-        }
-        return builder.build();
     }
 
     private TerminalSessionFactory loadTerminalSessionFactory(Configurations conf) {
@@ -387,20 +288,6 @@ public class TerminalManager {
         return factory;
     }
 
-    private void applyClientProperties(CatalogMeta catalogMeta) {
-        Set<TableFormat> formats = CatalogUtil.tableFormats(catalogMeta);
-        String catalogType = catalogMeta.getCatalogType();
-        if (formats.contains(TableFormat.ICEBERG)) {
-            if (CatalogMetaProperties.CATALOG_TYPE_AMS.equalsIgnoreCase(catalogType)) {
-                catalogMeta.putToCatalogProperties(
-                        CatalogMetaProperties.KEY_WAREHOUSE, catalogMeta.getCatalogName());
-            } else if (!catalogMeta.getCatalogProperties().containsKey(CatalogProperties.CATALOG_IMPL)) {
-                catalogMeta.putToCatalogProperties("type", catalogType);
-            }
-        } else if (formats.contains(TableFormat.PAIMON) && "hive".equals(catalogType)) {
-            catalogMeta.putToCatalogProperties("metastore", catalogType);
-        }
-    }
 
     private class SessionCleanTask implements Runnable {
         private static final long MINUTE_IN_MILLIS = 60 * 1000;

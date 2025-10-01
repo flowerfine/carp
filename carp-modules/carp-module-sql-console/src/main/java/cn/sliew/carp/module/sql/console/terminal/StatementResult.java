@@ -19,12 +19,14 @@
 package cn.sliew.carp.module.sql.console.terminal;
 
 import com.google.common.collect.Lists;
+import lombok.Getter;
 
 import java.util.List;
 
 /**
  * result of single statement.
  */
+@Getter
 public class StatementResult {
     private final int lineNumber;
     private final String statement;
@@ -51,30 +53,6 @@ public class StatementResult {
         this.success = false;
     }
 
-    public String getStatement() {
-        return statement;
-    }
-
-    public int getLineNumber() {
-        return lineNumber;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public String getLogs() {
-        return logs;
-    }
-
-    public List<String> getColumns() {
-        return columns;
-    }
-
-    public List<Object[]> getDatas() {
-        return datas;
-    }
-
     public List<List<String>> getDataAsStringList() {
         List<List<String>> results = Lists.newArrayList();
         for (Object[] row : datas) {
@@ -89,9 +67,5 @@ public class StatementResult {
             results.add(rowStringList);
         }
         return results;
-    }
-
-    public boolean isEmpty() {
-        return empty;
     }
 }

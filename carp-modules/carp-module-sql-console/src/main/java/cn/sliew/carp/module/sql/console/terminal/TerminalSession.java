@@ -28,7 +28,7 @@ public interface TerminalSession {
     /**
      * ResultSet of single statement execute result.
      */
-    interface ResultSet {
+    interface ResultSet extends AutoCloseable {
         /**
          * @return - list of column name for result-set.
          */
@@ -57,6 +57,7 @@ public interface TerminalSession {
         /**
          * close current statement and ignore data not fetched.
          */
+        @Override
         void close();
     }
 
