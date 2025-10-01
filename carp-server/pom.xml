@@ -71,6 +71,10 @@
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-module-sql-console</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-module-plugin-core</artifactId>
         </dependency>
         <dependency>

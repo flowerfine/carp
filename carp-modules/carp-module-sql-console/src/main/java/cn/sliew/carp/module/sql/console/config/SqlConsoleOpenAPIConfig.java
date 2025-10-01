@@ -28,6 +28,6 @@ public class SqlConsoleOpenAPIConfig {
     public GroupedOpenApi carpSqlConsoleModuleOpenApi() {
         return GroupedOpenApi.builder().group("Sql控制台模块")
                 .pathsToMatch("/api/carp/sql-console/**")
-                .packagesToScan("cn.sliew.carp.module.sql.console").build();
+                .packagesToScan("cn.sliew.carp.module.sql.console.controller").build();
     }
 }

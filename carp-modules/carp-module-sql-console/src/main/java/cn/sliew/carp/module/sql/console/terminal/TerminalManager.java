@@ -18,7 +18,6 @@
 
 package cn.sliew.carp.module.sql.console.terminal;
 
-import cn.sliew.carp.module.sql.console.option.ConfigOptions;
 import cn.sliew.carp.module.sql.console.option.Configurations;
 import cn.sliew.carp.module.sql.console.service.model.LatestSessionInfo;
 import cn.sliew.carp.module.sql.console.service.model.LogInfo;
@@ -27,33 +26,29 @@ import cn.sliew.carp.module.sql.console.terminal.kyuubi.KyuubiTerminalSessionFac
 import cn.sliew.carp.module.sql.console.terminal.local.LocalSessionFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class TerminalManager {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TerminalManager.class);
-
     private static final int SESSION_TIMEOUT_CHECK_INTERVAL = 5 * 60 * 1000; // 5min
 
-    private final Configurations serviceConfig;
     private final AtomicLong threadPoolCount = new AtomicLong();
     private final TerminalSessionFactory sessionFactory;
-    private final int resultLimits;
-    private final boolean stopOnError;
+    private final int resultLimits = 1000;
+    private final boolean stopOnError = false;
 
-    private final int sessionTimeout;
+    private final int sessionTimeout = 30;
 
     private final Object sessionMapLock = new Object();
     private final Map<String, TerminalSessionContext> sessionMap = Maps.newHashMap();
@@ -69,12 +64,8 @@ public class TerminalManager {
                     new LinkedBlockingQueue<>(),
                     r -> new Thread(null, r, "terminal-execute-" + threadPoolCount.incrementAndGet()));
 
-    public TerminalManager(Configurations conf) {
-        this.serviceConfig = conf;
-        this.resultLimits = conf.getInteger(AmoroManagementConf.TERMINAL_RESULT_LIMIT);
-        this.stopOnError = conf.getBoolean(AmoroManagementConf.TERMINAL_STOP_ON_ERROR);
-        this.sessionTimeout = (int) conf.get(AmoroManagementConf.TERMINAL_SESSION_TIMEOUT).toMinutes();
-        this.sessionFactory = loadTerminalSessionFactory(conf);
+    public TerminalManager() {
+        this.sessionFactory = loadTerminalSessionFactory("local");
         gcThread = new Thread(new SessionCleanTask());
         gcThread.setName("terminal-session-gc");
         gcThread.start();
@@ -91,9 +82,6 @@ public class TerminalManager {
     public String executeScript(String terminalId, String catalog, String script) {
         String sessionId = getSessionId(terminalId, catalog);
         Configurations configuration = new Configurations();
-        configuration.set(
-                AmoroManagementConf.TERMINAL_SENSITIVE_CONF_KEYS,
-                serviceConfig.get(AmoroManagementConf.TERMINAL_SENSITIVE_CONF_KEYS));
         configuration.setInteger(TerminalSessionFactory.SessionConfigOptions.FETCH_SIZE, resultLimits);
         configuration.set(
                 TerminalSessionFactory.SessionConfigOptions.CATALOGS, Lists.newArrayList(catalog));
@@ -235,11 +223,7 @@ public class TerminalManager {
         return sessionId;
     }
 
-    private TerminalSessionFactory loadTerminalSessionFactory(Configurations conf) {
-        String backend = conf.get(AmoroManagementConf.TERMINAL_BACKEND);
-        if (backend == null) {
-            throw new IllegalArgumentException("lack terminal implement config.");
-        }
+    private TerminalSessionFactory loadTerminalSessionFactory(String backend) {
         String backendImplement;
         switch (backend.toLowerCase()) {
             case "local":
@@ -247,16 +231,6 @@ public class TerminalManager {
                 break;
             case "kyuubi":
                 backendImplement = KyuubiTerminalSessionFactory.class.getName();
-                break;
-            case "custom":
-                Optional<String> customFactoryClz =
-                        conf.getOptional(AmoroManagementConf.TERMINAL_SESSION_FACTORY);
-                if (!customFactoryClz.isPresent()) {
-                    throw new IllegalArgumentException(
-                            "terminal backend type is custom, but terminal session factory is not "
-                                    + "configured");
-                }
-                backendImplement = customFactoryClz.get();
                 break;
             default:
                 throw new IllegalArgumentException(
@@ -269,50 +243,36 @@ public class TerminalManager {
             throw new RuntimeException("failed to init session factory", e);
         }
 
-        String factoryPropertiesPrefix = AmoroManagementConf.TERMINAL_PREFIX + backend + ".";
         Configurations configuration = new Configurations();
-
-        for (String key : conf.keySet()) {
-            if (!key.startsWith(AmoroManagementConf.TERMINAL_PREFIX)) {
-                continue;
-            }
-            String value = conf.getValue(ConfigOptions.key(key).stringType().noDefaultValue());
-            key = key.substring(factoryPropertiesPrefix.length());
-            configuration.setString(key, value);
-        }
-        configuration.set(
-                AmoroManagementConf.TERMINAL_SENSITIVE_CONF_KEYS,
-                serviceConfig.get(AmoroManagementConf.TERMINAL_SENSITIVE_CONF_KEYS));
         configuration.set(TerminalSessionFactory.FETCH_SIZE, this.resultLimits);
         factory.initialize(configuration);
         return factory;
     }
-
 
     private class SessionCleanTask implements Runnable {
         private static final long MINUTE_IN_MILLIS = 60 * 1000;
 
         @Override
         public void run() {
-            LOG.info("Terminal Session Clean Task started");
-            LOG.info(
+            log.info("Terminal Session Clean Task started");
+            log.info(
                     "Terminal Session Clean Task, check interval: " + SESSION_TIMEOUT_CHECK_INTERVAL + " ms");
-            LOG.info("Terminal Session Timeout: {} minutes", sessionTimeout);
+            log.info("Terminal Session Timeout: {} minutes", sessionTimeout);
             while (running) {
                 try {
                     List<TerminalSessionContext> sessionToRelease = checkIdleSession();
                     sessionToRelease.forEach(this::releaseSession);
                     if (!sessionToRelease.isEmpty()) {
-                        LOG.info("Terminal Session release count: {}", sessionToRelease.size());
+                        log.info("Terminal Session release count: {}", sessionToRelease.size());
                     }
                 } catch (Throwable t) {
-                    LOG.error("error when check and release session", t);
+                    log.error("error when check and release session", t);
                 }
 
                 try {
                     TimeUnit.MILLISECONDS.sleep(SESSION_TIMEOUT_CHECK_INTERVAL);
                 } catch (InterruptedException e) {
-                    LOG.error("Interrupted when sleep", e);
+                    log.error("Interrupted when sleep", e);
                 }
             }
         }
@@ -340,7 +300,7 @@ public class TerminalManager {
             try {
                 sessionContext.release();
             } catch (Throwable t) {
-                LOG.error("error when release session: {}", sessionContext.getSessionId(), t);
+                log.error("error when release session: {}", sessionContext.getSessionId(), t);
             }
         }
     }
