@@ -18,6 +18,7 @@
 
 package cn.sliew.carp.module.sql.console.controller;
 
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.sql.console.catalog.SqlExample;
 import cn.sliew.carp.module.sql.console.service.model.LatestSessionInfo;
@@ -27,6 +28,7 @@ import cn.sliew.carp.module.sql.console.service.model.SqlResult;
 import cn.sliew.carp.module.sql.console.terminal.TerminalManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -35,12 +37,14 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@AnonymousAccess
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/sql-console/terminal")
 @Tag(name = "SQL控制台模块-Terminal管理")
 public class TerminalController {
 
+    @Autowired
     private TerminalManager terminalManager;
 
     @GetMapping("examples")
@@ -66,8 +70,7 @@ public class TerminalController {
     @Operation(summary = "SQL执行", description = "SQL执行")
     public SessionInfo executeScript(@CookieValue(value = "JSESSIONID", required = false) String terminalId,
                                      @PathVariable("catalog") String catalog,
-                                     @RequestBody Map<String, String> bodyParams) {
-        String sql = bodyParams.get("sql");
+                                     @RequestParam("sql") String sql) {
         if (terminalId == null) {
             terminalId = UUID.randomUUID().toString();
         }

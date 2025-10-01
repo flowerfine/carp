@@ -22,7 +22,6 @@ import cn.sliew.carp.module.sql.console.option.Configurations;
 import cn.sliew.carp.module.sql.console.service.model.LatestSessionInfo;
 import cn.sliew.carp.module.sql.console.service.model.LogInfo;
 import cn.sliew.carp.module.sql.console.service.model.SqlResult;
-import cn.sliew.carp.module.sql.console.terminal.kyuubi.KyuubiTerminalSessionFactory;
 import cn.sliew.carp.module.sql.console.terminal.local.LocalSessionFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -228,9 +227,6 @@ public class TerminalManager {
         switch (backend.toLowerCase()) {
             case "local":
                 backendImplement = LocalSessionFactory.class.getName();
-                break;
-            case "kyuubi":
-                backendImplement = KyuubiTerminalSessionFactory.class.getName();
                 break;
             default:
                 throw new IllegalArgumentException(
