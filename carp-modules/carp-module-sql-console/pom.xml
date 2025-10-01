@@ -22,27 +22,43 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp</artifactId>
+        <artifactId>carp-modules</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-modules</artifactId>
-    <name>carp modules</name>
-    <packaging>pom</packaging>
+    <artifactId>carp-module-sql-console</artifactId>
 
-    <modules>
-        <module>carp-module-alert</module>
-        <module>carp-module-dataservice</module>
-        <module>carp-module-datasource</module>
-        <module>carp-module-http-sync</module>
-        <module>carp-module-kubernetes</module>
-        <module>carp-module-persistence</module>
-        <module>carp-module-plugin</module>
-        <module>carp-module-scheduler</module>
-        <module>carp-module-security</module>
-        <module>carp-module-sql-console</module>
-        <module>carp-module-storage</module>
-        <module>carp-module-system</module>
-        <module>carp-module-workflow</module>
-    </modules>
+    <properties>
+        <spark.version>3.3.4</spark.version>
+        <kyuubi.version>1.6.0-incubating</kyuubi.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.sliew</groupId>
+            <artifactId>carp-framework-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.12</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.12</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kyuubi</groupId>
+            <artifactId>kyuubi-hive-jdbc-shaded</artifactId>
+            <version>${kyuubi.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
