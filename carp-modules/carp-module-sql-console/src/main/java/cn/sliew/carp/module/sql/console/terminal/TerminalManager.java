@@ -22,6 +22,7 @@ import cn.sliew.carp.module.sql.console.option.Configurations;
 import cn.sliew.carp.module.sql.console.service.model.LatestSessionInfo;
 import cn.sliew.carp.module.sql.console.service.model.LogInfo;
 import cn.sliew.carp.module.sql.console.service.model.SqlResult;
+import cn.sliew.carp.module.sql.console.terminal.flink.FlinkTerminalSessionFactory;
 import cn.sliew.carp.module.sql.console.terminal.jdbc.JdbcTerminalSessionFactory;
 import cn.sliew.carp.module.sql.console.terminal.local.LocalSessionFactory;
 import com.google.common.collect.Lists;
@@ -65,7 +66,7 @@ public class TerminalManager {
                     r -> new Thread(null, r, "terminal-execute-" + threadPoolCount.incrementAndGet()));
 
     public TerminalManager() {
-        this.sessionFactory = loadTerminalSessionFactory("jdbc");
+        this.sessionFactory = loadTerminalSessionFactory("flink");
         gcThread = new Thread(new SessionCleanTask());
         gcThread.setName("terminal-session-gc");
         gcThread.start();
@@ -231,6 +232,9 @@ public class TerminalManager {
                 break;
             case "jdbc":
                 backendImplement = JdbcTerminalSessionFactory.class.getName();
+                break;
+            case "flink":
+                backendImplement = FlinkTerminalSessionFactory.class.getName();
                 break;
             default:
                 throw new IllegalArgumentException(
