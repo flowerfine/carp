@@ -21,9 +21,8 @@ package cn.sliew.carp.module.sql.console.terminal;
 import cn.sliew.carp.module.sql.console.option.Configurations;
 import cn.sliew.carp.module.sql.console.utils.DesensitizationUtil;
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.Charsets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Arrays;
@@ -35,23 +34,22 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class TerminalSessionContext {
-    private static final Logger LOG = LoggerFactory.getLogger(TerminalSessionContext.class);
 
     private final String sessionId;
+    private final ThreadPoolExecutor threadPool;
+    private final TerminalSessionFactory factory;
+    private final Configurations sessionConfiguration;
+    private final List<String> sensitiveConfKeys;
+
+    private volatile TerminalSession session;
 
     private final AtomicReference<ExecutionStatus> status =
             new AtomicReference<>(ExecutionStatus.Created);
+
     private volatile ExecutionTask task = null;
-    private final TerminalSessionFactory factory;
-    private final Configurations sessionConfiguration;
-
-    private final List<String> sensitiveConfKeys;
-    private volatile TerminalSession session;
-
     private volatile long lastExecutionTime = System.currentTimeMillis();
-
-    final ThreadPoolExecutor threadPool;
 
     public TerminalSessionContext(
             String sessionId,
@@ -107,7 +105,7 @@ public class TerminalSessionContext {
                         + ", PoolSize: "
                         + threadPool.getPoolSize()
                         + "]";
-        LOG.info(poolInfo);
+        log.info(poolInfo);
         task.executionResult.appendLog(poolInfo);
     }
 
@@ -158,7 +156,7 @@ public class TerminalSessionContext {
             try {
                 session.release();
             } catch (Throwable e) {
-                LOG.error("error when release session.");
+                log.error("error when release session.");
             } finally {
                 session = null;
             }
@@ -215,7 +213,7 @@ public class TerminalSessionContext {
 
                 return execute(session);
             } catch (Throwable t) {
-                LOG.error("something error when execute script. ", t);
+                log.error("something error when execute script. ", t);
                 executionResult.appendLog("something error when execute script.");
                 executionResult.appendLog(getStackTraceAsString(t));
                 return ExecutionStatus.Failed;

@@ -62,7 +62,8 @@ public class LocalSessionFactory implements TerminalSessionFactory {
     @Override
     public TerminalSession create(Configurations configuration) {
         SparkSession context = lazyInitContext();
-        SparkSession session = context.cloneSession();
+        SparkSession session = context;
+//        SparkSession session = context.cloneSession();
         List<String> catalogs = configuration.get(SessionConfigOptions.CATALOGS);
         List<String> initializeLogs = Lists.newArrayList();
         initializeLogs.add("setup session, session factory: " + LocalSessionFactory.class.getName());

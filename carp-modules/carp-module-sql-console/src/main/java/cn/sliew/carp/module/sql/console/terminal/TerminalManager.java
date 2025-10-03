@@ -22,6 +22,7 @@ import cn.sliew.carp.module.sql.console.option.Configurations;
 import cn.sliew.carp.module.sql.console.service.model.LatestSessionInfo;
 import cn.sliew.carp.module.sql.console.service.model.LogInfo;
 import cn.sliew.carp.module.sql.console.service.model.SqlResult;
+import cn.sliew.carp.module.sql.console.terminal.jdbc.JdbcTerminalSessionFactory;
 import cn.sliew.carp.module.sql.console.terminal.local.LocalSessionFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -64,7 +65,7 @@ public class TerminalManager {
                     r -> new Thread(null, r, "terminal-execute-" + threadPoolCount.incrementAndGet()));
 
     public TerminalManager() {
-        this.sessionFactory = loadTerminalSessionFactory("local");
+        this.sessionFactory = loadTerminalSessionFactory("jdbc");
         gcThread = new Thread(new SessionCleanTask());
         gcThread.setName("terminal-session-gc");
         gcThread.start();
@@ -227,6 +228,9 @@ public class TerminalManager {
         switch (backend.toLowerCase()) {
             case "local":
                 backendImplement = LocalSessionFactory.class.getName();
+                break;
+            case "jdbc":
+                backendImplement = JdbcTerminalSessionFactory.class.getName();
                 break;
             default:
                 throw new IllegalArgumentException(
