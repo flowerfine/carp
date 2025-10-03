@@ -23,10 +23,7 @@ import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.datasource.service.CarpGravitinoMetalakeService;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoCatalogDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoMetalakeDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoSchemaDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoTableDTO;
+import cn.sliew.carp.module.datasource.service.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -55,21 +52,27 @@ public class CarpGravitinoMetalakeController {
         return carpGravitinoMetalakeService.page(param);
     }
 
+    @GetMapping("{metalake}/allCatalogs")
+    @Operation(summary = "查询 catalogs 所有信息", description = "查询 catalogs")
+    public List<GravitinoCatalogAllDTO> listAllCatalogs(@PathVariable("metalake") String metalake) {
+        return carpGravitinoMetalakeService.listAllCatalogs(metalake);
+    }
+
     @GetMapping("{metalake}/catalogs")
     @Operation(summary = "查询 catalogs", description = "查询 catalogs")
-    public List<GravitinoCatalogDTO> listCatalog(@PathVariable("metalake") String metalake) {
+    public List<GravitinoCatalogDTO> listCatalogs(@PathVariable("metalake") String metalake) {
         return carpGravitinoMetalakeService.listCatalogs(metalake);
     }
 
     @GetMapping("{metalake}/catalogs/{catalog}")
     @Operation(summary = "查询 schemas", description = "查询 schemas")
-    public List<GravitinoSchemaDTO> listSchema(@PathVariable("metalake") String metalake, @PathVariable("catalog") String catalog) {
-        return carpGravitinoMetalakeService.listSchema(metalake, catalog);
+    public List<GravitinoSchemaDTO> listSchemas(@PathVariable("metalake") String metalake, @PathVariable("catalog") String catalog) {
+        return carpGravitinoMetalakeService.listSchemas(metalake, catalog);
     }
 
     @GetMapping("{metalake}/catalogs/{catalog}/schemas/{schema}")
     @Operation(summary = "查询 tables", description = "查询 tables")
-    public List<String> listSchema(@PathVariable("metalake") String metalake, @PathVariable("catalog") String catalog, @PathVariable("schema") String schema) {
+    public List<String> listTables(@PathVariable("metalake") String metalake, @PathVariable("catalog") String catalog, @PathVariable("schema") String schema) {
         return carpGravitinoMetalakeService.listTables(metalake, catalog, schema);
     }
 

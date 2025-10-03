@@ -31,18 +31,22 @@ public interface GravitinoCatalogConvert extends BaseConvert<CatalogDTO, Graviti
     @Override
     default GravitinoCatalogDTO toDto(CatalogDTO entity) {
         GravitinoCatalogDTO dto = new GravitinoCatalogDTO();
-        dto.setName(entity.name());
-        dto.setType(entity.type().name());
-        dto.setProvider(entity.provider());
-        dto.setProperties(entity.properties());
-        dto.setRemark(entity.comment());
-        GravitinoAuditConvert.INSTANCE.copy(entity.auditInfo(), dto);
+        copy(entity, dto);
         return dto;
     }
 
     @Override
     default CatalogDTO toDo(GravitinoCatalogDTO dto) {
         throw new UnsupportedOperationException();
+    }
+
+    default void copy(CatalogDTO entity, GravitinoCatalogDTO dto) {
+        dto.setName(entity.name());
+        dto.setType(entity.type().name());
+        dto.setProvider(entity.provider());
+        dto.setProperties(entity.properties());
+        dto.setRemark(entity.comment());
+        GravitinoAuditConvert.INSTANCE.copy(entity.auditInfo(), dto);
     }
 
 }

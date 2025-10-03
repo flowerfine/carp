@@ -27,9 +27,11 @@ public interface CarpGravitinoMetalakeService {
 
     PageResult<GravitinoMetalakeDTO> page(PageParam param);
 
+    List<GravitinoCatalogAllDTO> listAllCatalogs(String metalakeName);
+
     List<GravitinoCatalogDTO> listCatalogs(String metalakeName);
 
-    List<GravitinoSchemaDTO> listSchema(String metalakeName, String catalogName);
+    List<GravitinoSchemaDTO> listSchemas(String metalakeName, String catalogName);
 
     List<String> listTables(String metalakeName, String catalogName, String schemaName);
 

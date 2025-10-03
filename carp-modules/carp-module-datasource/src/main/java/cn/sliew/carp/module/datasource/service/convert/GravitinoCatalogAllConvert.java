@@ -18,33 +18,26 @@
 package cn.sliew.carp.module.datasource.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoSchemaDTO;
-import org.apache.gravitino.Schema;
+import cn.sliew.carp.module.datasource.service.dto.GravitinoCatalogAllDTO;
+import org.apache.gravitino.dto.CatalogDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface GravitinoSchemaConvert extends BaseConvert<Schema, GravitinoSchemaDTO> {
-    GravitinoSchemaConvert INSTANCE = Mappers.getMapper(GravitinoSchemaConvert.class);
+public interface GravitinoCatalogAllConvert extends BaseConvert<CatalogDTO, GravitinoCatalogAllDTO> {
+    GravitinoCatalogAllConvert INSTANCE = Mappers.getMapper(GravitinoCatalogAllConvert.class);
 
     @Override
-    default GravitinoSchemaDTO toDto(Schema entity) {
-        GravitinoSchemaDTO dto = new GravitinoSchemaDTO();
-        copy(entity, dto);
+    default GravitinoCatalogAllDTO toDto(CatalogDTO entity) {
+        GravitinoCatalogAllDTO dto = new GravitinoCatalogAllDTO();
+        GravitinoCatalogConvert.INSTANCE.copy(entity, dto);
         return dto;
     }
 
     @Override
-    default Schema toDo(GravitinoSchemaDTO dto) {
+    default CatalogDTO toDo(GravitinoCatalogAllDTO dto) {
         throw new UnsupportedOperationException();
-    }
-
-    default void copy(Schema entity, GravitinoSchemaDTO dto) {
-        dto.setName(entity.name());
-        dto.setProperties(entity.properties());
-        dto.setRemark(entity.comment());
-        GravitinoAuditConvert.INSTANCE.copy(entity.auditInfo(), dto);
     }
 
 }

@@ -23,12 +23,10 @@ import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import cn.sliew.carp.module.datasource.modal.DataSourceInfo;
 import cn.sliew.carp.module.datasource.modal.jdbc.MySQLDataSourceProperties;
 import cn.sliew.carp.module.datasource.service.CarpGravitinoMetalakeService;
-import cn.sliew.carp.module.datasource.service.convert.GravitinoCatalogConvert;
-import cn.sliew.carp.module.datasource.service.convert.GravitinoMetalakeConvert;
-import cn.sliew.carp.module.datasource.service.convert.GravitinoSchemaConvert;
-import cn.sliew.carp.module.datasource.service.convert.GravitinoTableConvert;
+import cn.sliew.carp.module.datasource.service.convert.*;
 import cn.sliew.carp.module.datasource.service.dto.*;
 import cn.sliew.milky.common.util.JacksonUtil;
+import com.google.common.collect.Lists;
 import org.apache.gravitino.*;
 import org.apache.gravitino.client.GravitinoAdminClient;
 import org.apache.gravitino.client.GravitinoMetalake;
@@ -56,15 +54,50 @@ public class CarpGravitinoMetalakeServiceImpl implements CarpGravitinoMetalakeSe
     }
 
     @Override
+    public List<GravitinoCatalogAllDTO> listAllCatalogs(String metalakeName) {
+        GravitinoMetalake metalake = adminClient.loadMetalake(metalakeName);
+        Catalog[] catalogs = metalake.listCatalogsInfo();
+        // fixme 这里仅支持了 关系型
+        // fixme 其实不适合，应该还是做成一级一级向下查询的方式
+        List<CatalogDTO> catalogDTOList = Arrays.asList(catalogs).stream()
+                .filter(catalog -> catalog.type() == Catalog.Type.RELATIONAL)
+                .map(catalog -> (CatalogDTO) catalog)
+                .collect(Collectors.toList());
+        List<GravitinoCatalogAllDTO> dtoList = GravitinoCatalogAllConvert.INSTANCE.toDto(catalogDTOList);
+
+        for (GravitinoCatalogAllDTO allDTO : dtoList) {
+            Catalog catalog = metalake.loadCatalog(allDTO.getName());
+            SupportsSchemas schemas = catalog.asSchemas();
+            List<Schema> schemaDTOList = Arrays.stream(schemas.listSchemas()).map(schemas::loadSchema)
+                    .toList();
+            List<GravitinoSchemaAllDTO> schemaAllDTOS = GravitinoSchemaAllConvert.INSTANCE.toDto(schemaDTOList);
+            allDTO.setSchemas(schemaAllDTOS);
+            for (GravitinoSchemaAllDTO schemaAllDTO : schemaAllDTOS) {
+                TableCatalog tableCatalog = catalog.asTableCatalog();
+                Namespace namespace = Namespace.of(schemaAllDTO.getName());
+                NameIdentifier[] tables = tableCatalog.listTables(namespace);
+                List<GravitinoTableDTO> tableDTOS = Lists.newArrayListWithCapacity(tables.length);
+                for (NameIdentifier tableId : tables) {
+                    NameIdentifier nameIdentifier = NameIdentifier.of(namespace, tableId.name());
+                    Table table = tableCatalog.loadTable(nameIdentifier);
+                    tableDTOS.add(GravitinoTableConvert.INSTANCE.toDto(table));
+                }
+                schemaAllDTO.setTables(tableDTOS);
+            }
+        }
+        return dtoList;
+    }
+
+    @Override
     public List<GravitinoCatalogDTO> listCatalogs(String metalakeName) {
-        GravitinoMetalake gravitinoMetalake = adminClient.loadMetalake(metalakeName);
-        Catalog[] catalogs = gravitinoMetalake.listCatalogsInfo();
+        GravitinoMetalake metalake = adminClient.loadMetalake(metalakeName);
+        Catalog[] catalogs = metalake.listCatalogsInfo();
         List<CatalogDTO> catalogDTOList = Arrays.asList(catalogs).stream().map(catalog -> (CatalogDTO) catalog).collect(Collectors.toList());
         return GravitinoCatalogConvert.INSTANCE.toDto(catalogDTOList);
     }
 
     @Override
-    public List<GravitinoSchemaDTO> listSchema(String metalakeName, String catalogName) {
+    public List<GravitinoSchemaDTO> listSchemas(String metalakeName, String catalogName) {
         GravitinoMetalake metalake = adminClient.loadMetalake(metalakeName);
         Catalog catalog = metalake.loadCatalog(catalogName);
         SupportsSchemas schemas = catalog.asSchemas();
