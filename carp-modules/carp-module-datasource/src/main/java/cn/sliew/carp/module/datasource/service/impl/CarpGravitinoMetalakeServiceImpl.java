@@ -25,19 +25,17 @@ import cn.sliew.carp.module.datasource.modal.jdbc.MySQLDataSourceProperties;
 import cn.sliew.carp.module.datasource.service.CarpGravitinoMetalakeService;
 import cn.sliew.carp.module.datasource.service.convert.GravitinoCatalogConvert;
 import cn.sliew.carp.module.datasource.service.convert.GravitinoMetalakeConvert;
-import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoCatalogDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoMetalakeDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoSchemaDTO;
+import cn.sliew.carp.module.datasource.service.convert.GravitinoSchemaConvert;
+import cn.sliew.carp.module.datasource.service.convert.GravitinoTableConvert;
+import cn.sliew.carp.module.datasource.service.dto.*;
 import cn.sliew.milky.common.util.JacksonUtil;
-import org.apache.gravitino.Catalog;
-import org.apache.gravitino.Schema;
-import org.apache.gravitino.SupportsSchemas;
+import org.apache.gravitino.*;
 import org.apache.gravitino.client.GravitinoAdminClient;
 import org.apache.gravitino.client.GravitinoMetalake;
 import org.apache.gravitino.dto.CatalogDTO;
-import org.apache.gravitino.file.FilesetCatalog;
-import org.apache.gravitino.messaging.TopicCatalog;
+import org.apache.gravitino.dto.rel.TableDTO;
+import org.apache.gravitino.dto.util.DTOConverters;
+import org.apache.gravitino.rel.Table;
 import org.apache.gravitino.rel.TableCatalog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,24 +68,29 @@ public class CarpGravitinoMetalakeServiceImpl implements CarpGravitinoMetalakeSe
         GravitinoMetalake metalake = adminClient.loadMetalake(metalakeName);
         Catalog catalog = metalake.loadCatalog(catalogName);
         SupportsSchemas schemas = catalog.asSchemas();
-        String[] strings = schemas.listSchemas();
-        Schema schema = schemas.loadSchema("schema");
+        List<Schema> schemaDTOList = Arrays.stream(schemas.listSchemas()).map(schemas::loadSchema)
+                .toList();
+        return GravitinoSchemaConvert.INSTANCE.toDto(schemaDTOList);
+    }
 
+    @Override
+    public List<String> listTables(String metalakeName, String catalogName, String schemaName) {
+        GravitinoMetalake metalake = adminClient.loadMetalake(metalakeName);
+        Catalog catalog = metalake.loadCatalog(catalogName);
         TableCatalog tableCatalog = catalog.asTableCatalog();
-        TopicCatalog topicCatalog = catalog.asTopicCatalog();
-        FilesetCatalog filesetCatalog = catalog.asFilesetCatalog();
+        NameIdentifier[] nameIdentifiers = tableCatalog.listTables(Namespace.of(schemaName));
+        return Arrays.stream(nameIdentifiers).map(NameIdentifier::name).toList();
+    }
 
-        switch (catalog.type()) {
-            case RELATIONAL:
-                break;
-            case MESSAGING:
-                break;
-            case FILESET:
-                break;
-            default:
-                return Collections.emptyList();
-        }
-        return null;
+    @Override
+    public GravitinoTableDTO getTable(String metalakeName, String catalogName, String schemaName, String tableName) {
+        GravitinoMetalake metalake = adminClient.loadMetalake(metalakeName);
+        Catalog catalog = metalake.loadCatalog(catalogName);
+        TableCatalog tableCatalog = catalog.asTableCatalog();
+        Namespace namespace = Namespace.of(schemaName);
+        NameIdentifier nameIdentifier = NameIdentifier.of(namespace, tableName);
+        Table table = tableCatalog.loadTable(nameIdentifier);
+        return GravitinoTableConvert.INSTANCE.toDto(table);
     }
 
     @Override

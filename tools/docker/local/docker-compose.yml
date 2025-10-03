@@ -67,18 +67,18 @@ services:
       - carp
 
   gravitino:
-    image: apache/gravitino:0.9.0-incubating
+    image: apache/gravitino:0.9.1
     container_name: gravitino
     depends_on:
       mysql:
         condition: service_healthy
     ports:
       - 8090:8090
-#    volumes:
+    volumes:
 #      - ../gravitino/conf/gravitino.conf:/root/gravitino/conf/gravitino.conf
 #      - /path/to/mysql.jar:/root/gravitino/libs/mysql.jar
-#      - /Users/xinxuan/Documents/software/jdbc-driver/mysql-connector-j-8.2.0.jar:/root/gravitino/catalogs/jdbc-mysql/libs/mysql.jar
-#      - /Users/xinxuan/Documents/software/jdbc-driver/mysql-connector-j-8.2.0.jar:/root/gravitino/catalogs/jdbc-doris/libs/mysql.jar
+      - /Users/wangqi/Documents/software/mysql/mysql-connector-j-8.2.0.jar:/root/gravitino/catalogs/jdbc-mysql/libs/mysql.jar
+#      - /Users/wangqi/Documents/software/mysql/mysql-connector-j-8.2.0.jar:/root/gravitino/catalogs/jdbc-doris/libs/mysql.jar
     networks:
       - carp
 

@@ -19,10 +19,7 @@ package cn.sliew.carp.module.datasource.service;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.module.datasource.service.dto.DsInfoDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoCatalogDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoMetalakeDTO;
-import cn.sliew.carp.module.datasource.service.dto.GravitinoSchemaDTO;
+import cn.sliew.carp.module.datasource.service.dto.*;
 
 import java.util.List;
 
@@ -33,6 +30,10 @@ public interface CarpGravitinoMetalakeService {
     List<GravitinoCatalogDTO> listCatalogs(String metalakeName);
 
     List<GravitinoSchemaDTO> listSchema(String metalakeName, String catalogName);
+
+    List<String> listTables(String metalakeName, String catalogName, String schemaName);
+
+    GravitinoTableDTO getTable(String metalakeName, String catalogName, String schemaName, String tableName);
 
     void tryAddMetalake(String metalakeName);
 
