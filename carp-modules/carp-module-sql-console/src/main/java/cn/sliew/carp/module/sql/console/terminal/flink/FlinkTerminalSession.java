@@ -3,6 +3,7 @@ package cn.sliew.carp.module.sql.console.terminal.flink;
 import cn.sliew.carp.module.sql.console.terminal.JDBCResultSet;
 import cn.sliew.carp.module.sql.console.terminal.SimpleResultSet;
 import cn.sliew.carp.module.sql.console.terminal.TerminalSession;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.configuration.*;
 import org.apache.flink.table.gateway.api.SqlGatewayService;
 import org.apache.flink.table.gateway.api.session.SessionEnvironment;
@@ -16,7 +17,6 @@ import org.apache.flink.table.jdbc.FlinkDataSource;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+@Slf4j
 public class FlinkTerminalSession implements TerminalSession {
 
     private final String sessionId;
@@ -61,19 +62,20 @@ public class FlinkTerminalSession implements TerminalSession {
             this.flinkDataSource = new FlinkDataSource("jdbc:flink://localhost:8083", new Properties());
             this.connection = flinkDataSource.getConnection();
             try (Statement st = connection.createStatement()) {
-                st.execute("CREATE TABLE T(\n" +
-                        "  a INT,\n" +
-                        "  b VARCHAR(10)\n" +
-                        ") WITH (\n" +
-                        "  'connector' = 'filesystem',\n" +
-                        "  'path' = 'file:///tmp/T.csv',\n" +
-                        "  'format' = 'csv'\n" +
-                        ")");
-                st.execute("INSERT INTO T VALUES (1, 'Hi'), (2, 'Hello')");
+                st.execute("""
+                        CREATE TABLE T (
+                            word STRING
+                        ) WITH (
+                            'connector' = 'datagen',
+                            'fields.word.length' = '1'
+                        );
+                        """);
             } catch (SQLException e) {
+                log.error(e.getMessage(), e);
                 throw new RuntimeException(e);
             }
         } catch (SQLException e) {
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
@@ -86,13 +88,13 @@ public class FlinkTerminalSession implements TerminalSession {
     @Override
     public ResultSet executeStatement(String catalog, String statement) {
         try {
-            PreparedStatement ps = connection.prepareStatement(statement);
-            boolean executed = ps.execute();
+            Statement st = connection.createStatement();
+            boolean executed = st.execute(statement);
             if (executed) {
-                java.sql.ResultSet rs = ps.getResultSet();
-                return new JDBCResultSet(rs, ps);
+                java.sql.ResultSet rs = st.getResultSet();
+                return new JDBCResultSet(rs, st);
             } else {
-                int updateCount = ps.getUpdateCount();
+                int updateCount = st.getUpdateCount();
                 return new SimpleResultSet(Collections.emptyList(), Collections.emptyList());
             }
         } catch (SQLException e) {
