@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sliew.carp.module.cep.repository.mapper.CarpCepRuleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.sliew.carp.module.cep.repository.entity.CarpCepRule">
+        <result column="id" property="id" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="editor" property="editor" />
+        <result column="update_time" property="updateTime" />
+        <result column="namespace" property="namespace" />
+        <result column="name" property="name" />
+        <result column="uuid" property="uuid" />
+        <result column="type" property="type" />
+        <result column="nodes" property="nodes" />
+        <result column="edges" property="edges" />
+        <result column="skip_strategy" property="skipStrategy" />
+        <result column="window" property="window" />
+        <result column="function" property="function" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        creator,
+        create_time,
+        editor,
+        update_time,
+        namespace, `name`, uuid, `type`, nodes, edges, skip_strategy, `window`, `function`, remark
+    </sql>
+
+</mapper>

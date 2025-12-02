@@ -182,7 +182,13 @@ export default [
         routes: [
           {
             path: '/workspace/x6',
-            redirect: '/workspace/x6/chat',
+            redirect: '/workspace/x6/cep',
+          },
+          {
+            path: '/workspace/x6/cep',
+            name: 'cep',
+            icon: 'profile',
+            component: './Workspace/X6/cep',
           },
           {
             path: '/workspace/x6/chat',
