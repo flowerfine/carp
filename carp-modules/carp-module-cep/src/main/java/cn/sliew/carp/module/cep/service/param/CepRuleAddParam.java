@@ -32,11 +32,9 @@ public class CepRuleAddParam {
     @Schema(description = "名称")
     private String name;
 
-    @NotBlank
     @Schema(description = "nodes")
     private String nodes;
 
-    @NotBlank
     @Schema(description = "edges")
     private String edges;
 

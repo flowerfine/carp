@@ -51,7 +51,7 @@ public class CarpCepRuleServiceImpl
     public PageResult<CarpCepRuleDTO> page(CepRulePageParam param) {
         Page<CarpCepRule> page = PageUtil.buildPageParam(param);
         LambdaQueryWrapper<CarpCepRule> queryWrapper = Wrappers.lambdaQuery(CarpCepRule.class)
-                .eq(CarpCepRule::getNamespace, param.getNamespace())
+                .eq(StringUtils.isNotBlank(param.getNamespace()), CarpCepRule::getNamespace, param.getNamespace())
                 .like(StringUtils.isNotBlank(param.getName()), CarpCepRule::getName, param.getName())
                 .orderByDesc(CarpCepRule::getId);
         Page<CarpCepRule> carpAlertLogPage = page(page, queryWrapper);
@@ -71,6 +71,7 @@ public class CarpCepRuleServiceImpl
         BeanUtils.copyProperties(param, entity);
         entity.setUuid(UUIDUtil.randomUUId());
         entity.setType("user");
+        entity.setSkipStrategy("NO_SKIP");
         return save(entity);
     }
 

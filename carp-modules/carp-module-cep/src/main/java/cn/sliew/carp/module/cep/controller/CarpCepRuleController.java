@@ -18,6 +18,7 @@
 package cn.sliew.carp.module.cep.controller;
 
 import cn.sliew.carp.framework.common.model.PageResult;
+import cn.sliew.carp.framework.common.security.annotations.AnonymousAccess;
 import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.framework.web.response.ApiResponseWrapper;
 import cn.sliew.carp.module.cep.service.CarpCepRuleService;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @WebLog
+@AnonymousAccess
 @RestController
 @ApiResponseWrapper
 @RequestMapping("/api/carp/cep/rule")

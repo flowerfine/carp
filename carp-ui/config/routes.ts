@@ -176,6 +176,29 @@ export default [
         ]
       },
       {
+        path: '/workspace/flowgram',
+        name: 'flowgram',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/flowgram',
+            redirect: '/workspace/flowgram/demo-free-layout',
+          },
+          {
+            path: '/workspace/flowgram/demo-free-layout',
+            name: 'demo-free-layout',
+            icon: 'profile',
+            component: './Workspace/Flowgram/demo-free-layout',
+          },
+          {
+            path: '/workspace/flowgram/demo-my-free-layout',
+            name: 'demo-my-free-layout',
+            icon: 'profile',
+            component: './Workspace/Flowgram/demo-my-free-layout',
+          },
+        ]
+      },
+      {
         path: '/workspace/x6',
         name: 'x6',
         icon: 'profile',
@@ -289,6 +312,27 @@ export default [
                 component: './Workspace/Monitor/Alert/Rule'
               }
             ]
+          }
+        ]
+      },
+      {
+        path: '/workspace/cep',
+        name: 'cep',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/workspace/cep',
+            redirect: '/workspace/cep/rule',
+          },
+          {
+            path: '/workspace/cep/rule',
+            name: 'rule',
+            icon: 'profile',
+            component: './Workspace/Cep/Rule'
+          },
+          {
+            path: '/workspace/cep/rule/detail',
+            component: './Workspace/Cep/Rule/Detail'
           }
         ]
       }

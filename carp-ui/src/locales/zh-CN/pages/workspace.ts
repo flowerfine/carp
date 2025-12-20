@@ -98,4 +98,16 @@ export default {
   'pages.workspace.monitor.alert.rule.waitFor': '等待时间',
   'pages.workspace.monitor.alert.rule.summary': '告警标题',
   'pages.workspace.monitor.alert.rule.description': '告警详情',
+
+  'pages.workspace.workflow.cep': 'CEP',
+  'pages.workspace.workflow.cep.namespace': '命名空间',
+
+  'pages.workspace.workflow.cep.rule': '规则',
+  'pages.workspace.workflow.cep.rule.name': '名称',
+  'pages.workspace.workflow.cep.rule.uuid': 'UUID',
+  'pages.workspace.workflow.cep.rule.type': '类型',
+  'pages.workspace.workflow.cep.rule.window': '窗口',
+  'pages.workspace.workflow.cep.rule.function': '函数',
+  'pages.workspace.workflow.cep.rule.detail': '规则详情',
+  
 }

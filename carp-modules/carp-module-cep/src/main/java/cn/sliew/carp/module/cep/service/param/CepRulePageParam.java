@@ -19,13 +19,11 @@ package cn.sliew.carp.module.cep.service.param;
 
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class CepRulePageParam extends PageParam {
 
-    @NotBlank
     @Schema(description = "namespace")
     private String namespace;
 
