@@ -11,7 +11,7 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 
 import { FlowNodeRegistry } from '../../typings';
-import iconLoop from '../../assets/icon-loop.jpg';
+import iconLoop from '@/../public/nodes/flowgram/icon-loop.jpg';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 

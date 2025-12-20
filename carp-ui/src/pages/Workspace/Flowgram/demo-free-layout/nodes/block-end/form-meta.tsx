@@ -7,7 +7,8 @@ import { FormRenderProps, FormMeta } from '@flowgram.ai/free-layout-editor';
 import { Avatar } from '@douyinfe/semi-ui';
 
 import { FlowNodeJSON } from '../../typings';
-import iconEnd from '../../assets/icon-end.jpg';
+// import iconEnd from '/images/flowgram/icon-end.jpg';
+import iconEnd from '@/../public/nodes/flowgram/icon-end.jpg';
 
 export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
   <>

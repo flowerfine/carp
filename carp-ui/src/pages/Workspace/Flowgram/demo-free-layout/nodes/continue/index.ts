@@ -6,7 +6,7 @@
 import { nanoid } from 'nanoid';
 
 import { FlowNodeRegistry } from '../../typings';
-import iconContinue from '../../assets/icon-continue.jpg';
+import iconContinue from '@/../public/nodes/flowgram/icon-continue.jpg';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 

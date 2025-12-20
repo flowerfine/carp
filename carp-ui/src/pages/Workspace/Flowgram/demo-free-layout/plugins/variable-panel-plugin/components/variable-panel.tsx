@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Button, Collapsible, Tabs, Tooltip } from '@douyinfe/semi-ui';
 import { IconMinus } from '@douyinfe/semi-icons';
 
-import iconVariable from '../../../assets/icon-variable.png';
+import iconVariable from '@/../public/nodes/flowgram/icon-variable.png';
 import { GlobalVariableEditor } from './global-variable-editor';
 import { FullVariableList } from './full-variable-list';
 

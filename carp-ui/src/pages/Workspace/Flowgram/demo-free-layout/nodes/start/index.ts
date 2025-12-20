@@ -4,7 +4,7 @@
  */
 
 import { FlowNodeRegistry } from '../../typings';
-import iconStart from '../../assets/icon-start.jpg';
+import iconStart from '@/../public/nodes/flowgram/icon-start.jpg';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 

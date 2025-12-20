@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import iconCode from '../../assets/icon-script.png';
+import iconCode from '@/../public/nodes/flowgram/icon-script.png';
 import { formMeta } from './form-meta';
 
 let index = 0;

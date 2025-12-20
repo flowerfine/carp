@@ -12,9 +12,10 @@ import {
 import { Tooltip, Popover } from '@douyinfe/semi-ui';
 
 import { MousePadSelector } from './mouse-pad-selector';
+import { isMacOS } from '../group/components/tips/is-mac-os';
 
 export const CACHE_KEY = 'workflow_prefer_interactive_type';
-export const IS_MAC_OS = /(Macintosh|MacIntel|MacPPC|Mac68K|iPad)/.test(navigator.userAgent);
+export const IS_MAC_OS = isMacOS;
 
 export const getPreferInteractiveType = () => {
   const data = localStorage.getItem(CACHE_KEY) as string;

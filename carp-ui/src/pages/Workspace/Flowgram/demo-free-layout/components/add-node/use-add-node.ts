@@ -17,6 +17,7 @@ import {
   WorkflowNodeMeta,
   FlowNodeBaseType,
 } from '@flowgram.ai/free-layout-editor';
+
 // hook to get panel position from mouse event - 从鼠标事件获取面板位置的 hook
 const useGetPanelPosition = () => {
   const playground = usePlayground();

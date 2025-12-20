@@ -11,7 +11,7 @@ import { nanoid } from 'nanoid';
 
 import { FlowNodeRegistry } from '../../typings';
 import { WorkflowNodeType } from '../constants';
-import iconCondition from '../../assets/icon-condition.svg';
+import iconCondition from '@/../public/nodes/flowgram/icon-condition.svg';
 
 import { formMeta } from './form-meta';
 

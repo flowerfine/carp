@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import iconHTTP from '../../assets/icon-http.svg';
+import iconHTTP from '@/../public/nodes/flowgram/icon-http.svg';
 import { formMeta } from './form-meta';
 
 let index = 0;

@@ -6,7 +6,7 @@
 import { nanoid } from 'nanoid';
 
 import { FlowNodeRegistry } from '../../typings';
-import iconBreak from '../../assets/icon-break.jpg';
+import iconBreak from '@/../public/nodes/flowgram/icon-break.jpg';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 

@@ -11,7 +11,7 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 import { IJsonSchema, JsonSchemaUtils } from '@flowgram.ai/form-materials';
 
-import iconVariable from '../../assets/icon-variable.png';
+import iconVariable from '@/../public/nodes/flowgram/icon-variable.png';
 import { VariablePanelLayer } from './variable-panel-layer';
 
 const fetchMockVariableFromRemote = async () => {
