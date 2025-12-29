@@ -20,6 +20,7 @@ export interface ValidateResult {
 
 @injectable()
 export class ValidateService {
+  
   @inject(WorkflowLinesManager)
   protected readonly linesManager: WorkflowLinesManager;
 

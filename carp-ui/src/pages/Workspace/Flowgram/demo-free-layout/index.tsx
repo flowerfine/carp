@@ -21,6 +21,8 @@ unstableSetCreateRoot(createRoot);
 const Editor = () => {
   const editorProps = useEditorProps(initialData, nodeRegistries);
 
+  console.log(JSON.stringify(initialData, null, 2))
+
   return (
     <div className="doc-free-feature-overview" style={{ height: '80vh' }}>
       <FreeLayoutEditorProvider {...editorProps}>
