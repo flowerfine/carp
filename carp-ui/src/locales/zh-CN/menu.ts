@@ -59,6 +59,7 @@ export default {
   'menu.workspace.serverless-workflow.instance.detail.desc': 'Serverless Workflow 实例详情页面',
   'menu.workspace.flowgram': 'FlowGram',
   'menu.workspace.flowgram.demo-free-layout': 'FreeLayout Demo',
+  'menu.workspace.flowgram.demo-free-layout2': 'FreeLayout Demo2',
   'menu.workspace.flowgram.demo-my-free-layout': 'MyFreeLayout Demo',
   'menu.workspace.x6': 'X6',
   'menu.workspace.x6.cep': 'CEP',

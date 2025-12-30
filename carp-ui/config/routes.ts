@@ -191,6 +191,12 @@ export default [
             component: './Workspace/Flowgram/demo-free-layout',
           },
           {
+            path: '/workspace/flowgram/demo-free-layout2',
+            name: 'demo-free-layout2',
+            icon: 'profile',
+            component: './Workspace/Flowgram/demo-free-layout2',
+          },
+          {
             path: '/workspace/flowgram/demo-my-free-layout',
             name: 'demo-my-free-layout',
             icon: 'profile',
