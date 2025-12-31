@@ -202,6 +202,12 @@ export default [
             icon: 'profile',
             component: './Workspace/Flowgram/demo-my-free-layout',
           },
+          {
+            path: '/workspace/flowgram/condition',
+            name: 'condition',
+            icon: 'profile',
+            component: './Workspace/Flowgram/condition',
+          },
         ]
       },
       {

@@ -1,0 +1,53 @@
+.vui-relation-tree {
+  .vui-relation-group {
+    .relational {
+      width: 78px;
+      padding: 20px 0 0 16px;
+      // 表示一个组的竖线，图 ① 标记位置
+      border-right: 1px solid #d9d9d9;
+    }
+ 
+  	.conditions {
+      > div {
+        position: relative;
+				
+        // 实现每项中间位置显示的短横线，图 ②、③、④ 标记位置的横线
+        &::before {
+          content: "";
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          left: 0px;
+          width: 16px;
+          height: 14px;
+          border-bottom: 1px solid #d9d9d9;
+          background-color: #fff;
+        }
+				
+        // 第一项需要把竖线的前面一截盖住；图 ③ 标记位置上面“空白”区域
+        &:first-child {
+          &::before {
+            left: -1px;
+            width: 17px;
+          }
+        }
+
+        &.vui-relation-group:before {
+          top: 20px;
+        }
+				
+        // 最后一项需要把竖线的后面一截盖住；图 ④ 标记位置下面“空白”区域
+        &:last-child {
+          &::before {
+            top: inherit;
+            bottom: 0;
+            left: -1px;
+            width: 17px;
+            border-bottom: 0;
+            border-top: 1px solid #d9d9d9;
+          }
+        }
+      }
+    }
+  }
+}

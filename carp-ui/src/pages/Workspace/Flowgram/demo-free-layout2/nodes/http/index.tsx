@@ -36,8 +36,8 @@ export const HTTPNodeRegistry: FlowNodeRegistry = {
         body: {
           bodyType: 'JSON',
         },
-        headers: {},
-        params: {},
+        headersValues: {},
+        paramsValues: {},
         outputs: {
           type: 'object',
           properties: {
