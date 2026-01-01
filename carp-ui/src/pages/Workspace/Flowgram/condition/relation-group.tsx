@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Select } from '@douyinfe/semi-ui';
+import { Button, IconButton, Select, Tooltip } from '@douyinfe/semi-ui';
+import { IconPlusCircle } from '@douyinfe/semi-icons';
 import { RelationItem } from './relation-item';
-import './releation-tree.less';
+import styles from './releation-tree.less';
 
-const { Option } = Select;
 export const posSeparator = '_';
 export const defaultOpsValue = 'and';
 
@@ -39,14 +39,20 @@ export const RelationGroup = ({ data, pos, setElementTerm, onAddGroup, onAddTerm
 
 
     return (
-        <div className="vui-relation-group">
-            <div className="relational">
-                <Select className="relation-sign" value={relationValue} onChange={handleOpsChange}>
-                    <Option value="and">且</Option>
-                    <Option value="or">或</Option>
-                </Select>
+        <div className={styles.vuiRelationGroup}>
+            <div className={styles.relational}>
+                <Select
+                    className={styles.relationSign}
+                    value={relationValue}
+                    size="small"
+                    onChange={handleOpsChange}
+                    optionList={[
+                        { label: '且', value: 'and' },
+                        { label: '或', value: 'or' }
+                    ]}
+                />
             </div>
-            <div className="conditions">
+            <div className={styles.conditions}>
                 {children.map((record, i) => {
                     console.log('record', record)
                     const { children: list } = record;
@@ -75,9 +81,24 @@ export const RelationGroup = ({ data, pos, setElementTerm, onAddGroup, onAddTerm
                         />
                     );
                 })}
-                <div className="operators">
-                    <Button className="add-term" onClick={handleAddTermClick}>加条件</Button>
-                    <Button className="add-group" onClick={handleAddGroupClick}>加条件组</Button>
+                <div className={styles.operators}>
+                    <Tooltip content={"加条件"}>
+                        <IconButton
+                            theme="borderless"
+                            icon={<IconPlusCircle />}
+                            size="small"
+                            onClick={handleAddTermClick}
+                        />
+                    </Tooltip>
+
+                    <Tooltip content={"加条件组"}>
+                        <IconButton
+                            theme="borderless"
+                            icon={<IconPlusCircle color={"#fff"} />}
+                            size="small"
+                            onClick={handleAddGroupClick}
+                        />
+                    </Tooltip>
                 </div>
             </div>
         </div>

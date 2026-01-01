@@ -1,6 +1,6 @@
 import { Input, Select } from "@douyinfe/semi-ui";
 import { RelationTermProps } from "./types";
-import './releation-tree.less';
+import styles from './releation-tree.less';
 
 export const RelationTerm = ({ data, onChange, readonly }: RelationTermProps) => {
     const { key, op, value } = data;
@@ -23,8 +23,8 @@ export const RelationTerm = ({ data, onChange, readonly }: RelationTermProps) =>
 
     return (
         <>
-            <div className="term">
-                <span className="element">
+            <div className={styles.term}>
+                <span className={styles.element}>
                     <Select
                         value={key}
                         placeholder={"请选择条件项"}
@@ -38,7 +38,7 @@ export const RelationTerm = ({ data, onChange, readonly }: RelationTermProps) =>
                         ]}
                     />
                 </span>
-                <span className="comparison">
+                <span className={styles.comparison}>
                     <Select
                         value={op}
                         placeholder={"请选择关系符"}
@@ -54,12 +54,17 @@ export const RelationTerm = ({ data, onChange, readonly }: RelationTermProps) =>
                         ]}
                     />
                 </span>
-                <span className="value">
-                    <Input placeholder="请输入条件值" value={value} onChange={handleValueChange} />
+                <span className={styles.value}>
+                    <Input
+                        value={value}
+                        placeholder="请输入条件值"
+                        onChange={handleValueChange}
+                        style={{ width: 85, maxWidth: 85, minWidth: 85 }}
+                        size="small"
+                        disabled={readonly}
+                    />
                 </span>
             </div>
-
-
         </>
     )
 }
