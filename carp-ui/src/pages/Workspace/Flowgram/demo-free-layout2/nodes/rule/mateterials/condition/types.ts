@@ -1,5 +1,10 @@
 import { IFlowConstantValue, IFlowRefValue, IFlowValue, IJsonSchema } from "@flowgram.ai/form-materials";
 
+export interface ConditionProps {
+    value?: Record<string, IFlowValue | undefined>;
+    onChange: (value?: Record<string, IFlowValue | undefined>) => void;
+    readonly?: boolean;
+}
 
 export interface RelationTreeProps {
     value?: RelationGroupData;

@@ -3,7 +3,7 @@ import produce from 'immer';
 import { RelationGroup, getArrPos, defaultOpsValue } from './relation-group';
 import { RelationTerm } from './relation-term';
 import { RelationTreeProps } from './types';
-import styles from './releation-tree.less';
+import styles from './relation-tree.less';
 
 const defaultRelation = {
     ops: defaultOpsValue,

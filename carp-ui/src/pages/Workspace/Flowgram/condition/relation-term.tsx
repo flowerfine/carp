@@ -1,6 +1,6 @@
 import { Input, Select } from "@douyinfe/semi-ui";
 import { RelationTermProps } from "./types";
-import styles from './releation-tree.less';
+import styles from './relation-tree.less';
 
 export const RelationTerm = ({ data, onChange, readonly }: RelationTermProps) => {
     const { key, op, value } = data;

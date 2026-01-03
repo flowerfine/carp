@@ -10,7 +10,7 @@ import { Divider } from '@douyinfe/semi-ui';
 import { FormHeader, FormContent } from '../../form-components';
 import { RuleNodeJSON } from './types';
 import { defaultFormMeta } from '../default-form-meta';
-import { Rule } from './components/rule';
+import { Condition } from './components/condition';
 
 export const FormRender = ({ form }: FormRenderProps<RuleNodeJSON>) => {
 
@@ -18,7 +18,7 @@ export const FormRender = ({ form }: FormRenderProps<RuleNodeJSON>) => {
     <>
       <FormHeader />
       <FormContent>
-        <Rule />
+        <Condition form={form} />
         <Divider />
         <DisplayOutputs displayFromScope />
       </FormContent>

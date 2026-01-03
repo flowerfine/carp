@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, IconButton, Select, Tooltip } from '@douyinfe/semi-ui';
 import { IconPlusCircle } from '@douyinfe/semi-icons';
 import { RelationItem } from './relation-item';
-import styles from './releation-tree.less';
+import styles from './relation-tree.less';
 
 export const posSeparator = '_';
 export const defaultOpsValue = 'and';

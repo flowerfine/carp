@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import produce from 'immer';
 import { RelationGroup, getArrPos, defaultOpsValue } from './relation-group';
-
-import './releation-tree.less';
-import { RelationTreeProps } from './types';
 import { RelationTerm } from './relation-term';
+import { RelationTreeProps } from './types';
+import styles from './relation-tree.less';
 
 const defaultRelation = {
     ops: defaultOpsValue,
@@ -53,9 +52,9 @@ export const RelationTree = ({ value, onChange, readonly }: RelationTreeProps) =
     };
 
     return (
-        <div className="vui-relation-tree">
+        <div className={styles.vuiRelationTree}>
             <RelationGroup
-                pos=""
+                pos={""}
                 data={relations}
                 setElementTerm={setElementTerm}
                 onAddGroup={handleAddGroup}

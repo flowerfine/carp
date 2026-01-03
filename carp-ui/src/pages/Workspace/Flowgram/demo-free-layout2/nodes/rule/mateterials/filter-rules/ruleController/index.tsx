@@ -1,13 +1,13 @@
 import React from 'react';
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { InternalNamePath } from 'antd/lib/form/interface';
 import { getIntl, getLocale } from '@umijs/max';
 import classnames from 'classnames';
-
-import { IComponentProps, IFilterValue, ROW_PERMISSION_RELATION } from '../index';
-import './index.scss';
 import { IconButton } from '@douyinfe/semi-ui';
-import { IconDelete, IconMinusCircle, IconPlusCircle } from '@douyinfe/semi-icons';
+import { IconMinusCircle, IconPlusCircle } from '@douyinfe/semi-icons';
+
+import { IComponentProps, IFilterValue, ROW_PERMISSION_RELATION } from '../types';
+import './index.scss';
 
 interface IProps<T> {
     value: IFilterValue<T> | undefined; // 组件的值
@@ -47,8 +47,8 @@ export const RulesController = <T,>(props: IProps<T>) => {
     const intl = getIntl(getLocale())
 
     const ROW_PERMISSION_RELATION_TEXT = {
-        [ROW_PERMISSION_RELATION.AND]: intl.formatMessage({ id: 'components.filterRules.and' }),
-        [ROW_PERMISSION_RELATION.OR]: intl.formatMessage({ id: 'components.filterRules.or' }),
+        [ROW_PERMISSION_RELATION.AND]: '且',
+        [ROW_PERMISSION_RELATION.OR]: '或',
     };
 
     const isCondition = (item: IFilterValue<T>) =>
@@ -229,11 +229,6 @@ export const RulesController = <T,>(props: IProps<T>) => {
                                 size="small"
                                 onClick={() => onAddCondition({ key: item.key })}
                             />
-                            // <PlusCircleOutlined
-                            //     className="icon"
-                            //     onClick={() => onAddCondition({ key: item.key })}
-                            //     data-testid="icon-plus"
-                            // />
                         )}
                         <IconButton
                             theme="borderless"
@@ -241,11 +236,6 @@ export const RulesController = <T,>(props: IProps<T>) => {
                             size="small"
                             onClick={() => onDeleteCondition(item.key)}
                         />
-                        {/* <MinusCircleOutlined
-                            className="icon"
-                            onClick={() => onDeleteCondition(item.key)}
-                            data-testid="icon-minus"
-                        /> */}
                     </div>
                 )}
             </div>

@@ -33,13 +33,48 @@ export const RuleNodeRegistry: FlowNodeRegistry = {
         rulesValue: {
           ops: 'and',
           children: [
-            { type: 'term', key: 'Key1', op: '>', value: 0 },
             {
-              type: 'group',
+              key: {
+                type: 'constant',
+                content: 'Key1',
+                schema: { type: 'string' }
+              },
+              op: '>',
+              value: {
+                type: 'constant',
+                content: 0,
+                schema: { type: 'integer' }
+              }
+            },
+            {
               ops: 'or',
               children: [
-                { type: 'term', key: 'Key2', op: '<', value: 20 },
-                { type: 'term', key: 'Key3', op: '>', value: 10 },
+                {
+                  key: {
+                    type: 'constant',
+                    content: 'Key2',
+                    schema: { type: 'string' }
+                  },
+                  op: '<',
+                  value: {
+                    type: 'constant',
+                    content: 20,
+                    schema: { type: 'integer' }
+                  }
+                },
+                {
+                  key: {
+                    type: 'constant',
+                    content: 'Key3',
+                    schema: { type: 'string' }
+                  },
+                  op: '>',
+                  value: {
+                    type: 'constant',
+                    content: 10,
+                    schema: { type: 'integer' }
+                  }
+                },
               ],
             },
           ],

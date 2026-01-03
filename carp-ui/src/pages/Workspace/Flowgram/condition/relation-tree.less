@@ -54,9 +54,7 @@
           content: "";
           display: inline-block;
           position: absolute;
-          // top: 50%;
-          // transform: translateY(-100%);
-          // top: 0px;
+          top: 0px;
           left: 0px;
           width: 17px;
           height: 14px;
@@ -71,20 +69,12 @@
           top: 0px;
         }
 
-
         // 第一项需要把竖线的前面一截盖住；图 ③ 标记位置上面“空白”区域
         &:first-child {
           &::before {
             left: -1px;
             width: 17px;
-
-            // height: 100%;
-            // transform: translateY(-75%);
           }
-        }
-
-        &.vuiRelationGroup:before {
-          top: 20px;
         }
 
         // 最后一项需要把竖线的后面一截盖住；图 ④ 标记位置下面“空白”区域

@@ -1,5 +1,6 @@
-import { Button } from "@douyinfe/semi-ui";
-
+import { Button, IconButton } from "@douyinfe/semi-ui";
+import { IconDelete, IconMinusCircle, IconPlusCircle } from "@douyinfe/semi-icons";
+import styles from './relation-tree.less';
 
 export const RelationItem = ({ data, pos, setElementTerm, onDeleteTerm, onTermChange }) => {
 
@@ -23,13 +24,18 @@ export const RelationItem = ({ data, pos, setElementTerm, onDeleteTerm, onTermCh
 
     return (
         <>
-            <div className="vui-relation-item">
+            <div className={styles.vuiRelationItem}>
                 {setElementTerm(data, pos, handleTermChange)}
-                <Button onClick={handleDeleteTermClick} className="delete-term">
-                    删除
-                </Button>
-            </div>
 
+                <div className={styles.buttonGroup}>
+                    <IconButton
+                        theme="borderless"
+                        icon={<IconDelete />}
+                        size="small"
+                        onClick={handleDeleteTermClick}
+                    />
+                </div>
+            </div>
         </>
     );
 }

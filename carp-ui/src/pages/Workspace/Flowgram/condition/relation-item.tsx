@@ -1,6 +1,6 @@
 import { Button, IconButton } from "@douyinfe/semi-ui";
 import { IconDelete, IconMinusCircle, IconPlusCircle } from "@douyinfe/semi-icons";
-import styles from './releation-tree.less';
+import styles from './relation-tree.less';
 
 export const RelationItem = ({ data, pos, setElementTerm, onDeleteTerm, onTermChange }) => {
 

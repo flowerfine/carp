@@ -1,33 +1,12 @@
 import React from 'react';
 import { message } from 'antd';
-import { InternalNamePath } from 'antd/lib/form/interface';
 import { getIntl, getLocale } from '@umijs/max';
 import { cloneDeep } from 'lodash';
-import {nanoid} from 'nanoid';
+import { nanoid } from 'nanoid';
 
 import { RulesController } from './ruleController';
-
-export enum ROW_PERMISSION_RELATION {
-    AND = 1,
-    OR = 2,
-}
-
-export interface IComponentProps<T> {
-    rowKey: string; // 当前节点的唯一标识
-    disabled: boolean; // 编辑/查看状态
-    name: InternalNamePath; // 使用 Form.Item 时，中间的 NamePath
-    rowValues: T; // 自定义钻的数据
-    onChange: (key: string, values: T) => void; // 改变数据的方法
-}
-
-export interface IFilterValue<T> {
-    key: string;
-    level?: number; // 当前节点的层级，用于判断一些按钮的展示
-    type?: number; // 当前节点的条件关系，1 | 2
-    disabled?: boolean; // 当前节点禁用
-    rowValues?: T; // Form 节点的相关的信息(子节点无条件节点时才有)
-    children?: IFilterValue<T>[]; // 子节点的信息(子节点存在条件节点时才有)
-}
+import { IComponentProps, IFilterValue, ROW_PERMISSION_RELATION } from './types';
+import { IFlowValue, useObjectList } from '@flowgram.ai/form-materials';
 
 interface INormalProps<T> {
     value?: IFilterValue<T>; // 组件的值
@@ -62,6 +41,14 @@ const FilterRules = <T,>(props: IProps<T>) => {
         initValues,
         onChange,
     } = (!isDisabled(props) && props) as INormalProps<T>;
+
+    console.log('FilterRules props', props, disabled);
+
+    const { list, updateKey, updateValue, remove, add } = useObjectList<IFlowValue | undefined>({
+        value,
+        onChange,
+        sortIndexKey: 'extra.index',
+    });
 
     // 查找当前操作的节点
     const findRelationNode = (
