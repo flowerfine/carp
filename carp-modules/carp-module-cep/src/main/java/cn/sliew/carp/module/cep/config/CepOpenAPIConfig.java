@@ -27,7 +27,7 @@ public class CepOpenAPIConfig {
     @Bean
     public GroupedOpenApi carpCepModuleOpenApi() {
         return GroupedOpenApi.builder().group("CEP模块")
-                .pathsToMatch("/api/carp/cep/**")
+//                .pathsToMatch("/api/carp/cep/**")
                 .packagesToScan("cn.sliew.carp.module.cep.controller").build();
     }
 }

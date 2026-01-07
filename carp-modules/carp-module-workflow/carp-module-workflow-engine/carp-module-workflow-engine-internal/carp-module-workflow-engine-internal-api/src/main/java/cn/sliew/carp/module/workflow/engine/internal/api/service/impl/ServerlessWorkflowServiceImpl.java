@@ -153,7 +153,7 @@ public class ServerlessWorkflowServiceImpl implements ServerlessWorkflowService 
     public JsonNode execute(ServerlessWorkflowExecuteParam param) {
         String workflow = convertDagToWorkflow(param.getGraph());
         try (WorkflowApplication appl = WorkflowApplication.builder().build()) {
-            return appl.workflowDefinition(WorkflowReader.readWorkflowFromString(workflow, WorkflowFormat.JSON))
+            return (JsonNode) appl.workflowDefinition(WorkflowReader.readWorkflowFromString(workflow, WorkflowFormat.JSON))
                     .instance(param.getParam())
                     .start().get();
         } catch (IOException e) {

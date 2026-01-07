@@ -1,0 +1,67 @@
+/*
+ * Copyright 2020-Present The Serverless Workflow Specification Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package cn.sliew.carp.module.cep.workflow;
+
+import io.serverlessworkflow.api.WorkflowFormat;
+import io.serverlessworkflow.api.types.*;
+import io.serverlessworkflow.impl.WorkflowApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Map;
+
+public class BlockingExample {
+
+    private static final Logger logger = LoggerFactory.getLogger(BlockingExample.class);
+
+    public static void main(String[] args) throws IOException {
+//    Workflow workflow = WorkflowReader.readWorkflowFromClasspath("get.yaml");
+        Workflow workflow = new Workflow()
+                .withDocument(new Document()
+                        .withDsl("1.0.0-alpha5")
+                        .withNamespace("examples")
+                        .withName("call-http-shorthand-endpoint")
+                        .withVersion("0.1.0"))
+                .withDo(
+                        Arrays.asList(
+                                new TaskItem("getPet", new Task()
+                                        .withCallTask(new CallTask().withCallHTTP(new CallHTTP()
+                                                .withCall("http")
+                                                .withWith(new HTTPArguments()
+                                                        .withMethod("get")
+                                                        .withEndpoint(new Endpoint().withUriTemplate(new UriTemplate().withLiteralUriTemplate("https://petstore.swagger.io/v2/pet/{petId}")))
+                                                )
+                                        ))
+                                )
+                        )
+                );
+
+
+        System.out.println(WorkflowFormat.YAML.mapper().writeValueAsString(workflow));
+
+
+        try (WorkflowApplication appl = WorkflowApplication.builder().build()) {
+            logger.info(
+                    "Workflow output is {}",
+                    appl.workflowDefinition(workflow)
+                            .instance(Map.of("petId", 10))
+                            .start()
+                            .join());
+        }
+    }
+}

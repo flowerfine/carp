@@ -31,7 +31,7 @@ public class MySQLGenerator {
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"carp_workflow_definition", "carp_workflow_instance"};
+    private static final String[] TABLES = {"carp_cep_workflow"};
 
     public static void main(String[] args) {
         MybatisPlusHelper.generatorMySQL(URL, USERNAME, PASSWORD, AUTHOR, BASE_PACKAGE, MODULE, TABLES);

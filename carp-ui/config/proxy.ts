@@ -16,7 +16,7 @@ export default {
    */
   dev: {
     '/api/': {
-      target: 'http://localhost:8863/carp',
+      target: 'http://localhost:8863',
       changeOrigin: true,
     },
   }
