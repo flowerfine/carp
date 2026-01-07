@@ -1,0 +1,145 @@
+{
+    "nodes": [
+        {
+            "id": "start_0",
+            "type": "start",
+            "meta": {
+                "position": {
+                    "x": 180,
+                    "y": 601
+                }
+            },
+            "data": {
+                "title": "Start",
+                "outputs": {
+                    "type": "object",
+                    "properties": {
+                        "petId": {
+                            "type": "integer",
+                            "default": 20
+                        }
+                    },
+                    "required": [
+                        "petId"
+                    ]
+                }
+            }
+        },
+        {
+            "id": "end_0",
+            "type": "end",
+            "meta": {
+                "position": {
+                    "x": 1091,
+                    "y": 601
+                }
+            },
+            "data": {
+                "title": "End",
+                "inputsValues": {
+                    "body": {
+                        "type": "ref",
+                        "content": [
+                            "http_rDGIH",
+                            "body"
+                        ],
+                        "extra": {
+                            "index": 0
+                        }
+                    },
+                    "statusCode": {
+                        "type": "ref",
+                        "content": [
+                            "http_rDGIH",
+                            "statusCode"
+                        ],
+                        "extra": {
+                            "index": 1
+                        }
+                    },
+                    "headers": {
+                        "type": "ref",
+                        "content": [
+                            "http_rDGIH",
+                            "headers"
+                        ],
+                        "extra": {
+                            "index": 2
+                        }
+                    }
+                },
+                "inputs": {
+                    "type": "object",
+                    "properties": {
+                        "body": {
+                            "type": "string"
+                        },
+                        "statusCode": {
+                            "type": "integer"
+                        },
+                        "headers": {
+                            "type": "object",
+                            "required": [
+
+                            ],
+                            "properties": {
+
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "id": "http_rDGIH",
+            "type": "http",
+            "meta": {
+                "position": {
+                    "x": 632,
+                    "y": 423
+                }
+            },
+            "data": {
+                "title": "HTTP_1",
+                "outputs": {
+                    "type": "object",
+                    "properties": {
+                        "body": {
+                            "type": "string"
+                        },
+                        "headers": {
+                            "type": "object"
+                        },
+                        "statusCode": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "api": {
+                    "method": "GET",
+                    "url": {
+                        "type": "template",
+                        "content": "https://petstore.swagger.io/v2/pet/{{start_0.petId}}"
+                    }
+                },
+                "body": {
+                    "bodyType": "none"
+                },
+                "timeout": {
+                    "timeout": 10000,
+                    "retryTimes": 1
+                }
+            }
+        }
+    ],
+    "edges": [
+        {
+            "sourceNodeID": "start_0",
+            "targetNodeID": "http_rDGIH"
+        },
+        {
+            "sourceNodeID": "http_rDGIH",
+            "targetNodeID": "end_0"
+        }
+    ]
+}

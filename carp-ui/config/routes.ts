@@ -345,7 +345,17 @@ export default [
           {
             path: '/workspace/cep/rule/detail',
             component: './Workspace/Cep/Rule/Detail'
-          }
+          },
+          {
+            path: '/workspace/cep/workflow',
+            name: 'workflow',
+            icon: 'profile',
+            component: './Workspace/Cep/Workflow'
+          },
+          {
+            path: '/workspace/cep/workflow/detail',
+            component: './Workspace/Cep/Workflow/Detail'
+          },
         ]
       }
     ]

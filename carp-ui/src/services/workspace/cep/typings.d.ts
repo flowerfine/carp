@@ -39,4 +39,32 @@ declare namespace WorkspaceCepAPI {
   type CepRuleUpdateParam = CepRuleAddParam & {
     id: number;
   };
+
+  type CepWorkflow = {
+    id: number;
+    namespace: string;
+    name: string;
+    uuid: string;
+    type: string;
+    body?: any;
+    remark?: string;
+    createTime?: Date;
+    updateTime?: Date;
+  };
+
+  type CepWorkflowPageParam = QueryParam & {
+    namespace?: string;
+    name?: string;
+  };
+
+  type CepWorkflowAddParam = {
+    namespace: string;
+    name: string;
+    body?: any;
+    remark?: string;
+  };
+
+  type CepWorkflowUpdateParam = CepWorkflowAddParam & {
+    id: number;
+  };
 }

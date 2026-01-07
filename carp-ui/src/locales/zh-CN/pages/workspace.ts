@@ -109,5 +109,10 @@ export default {
   'pages.workspace.workflow.cep.rule.window': '窗口',
   'pages.workspace.workflow.cep.rule.function': '函数',
   'pages.workspace.workflow.cep.rule.detail': '规则详情',
+  'pages.workspace.workflow.cep.workflow': 'Workflow',
+  'pages.workspace.workflow.cep.workflow.name': '名称',
+  'pages.workspace.workflow.cep.workflow.uuid': 'UUID',
+  'pages.workspace.workflow.cep.workflow.type': '类型',
+  'pages.workspace.workflow.cep.workflow.detail': 'Workflow详情',
   
 }

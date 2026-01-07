@@ -88,6 +88,10 @@ export default {
   'menu.workspace.cep.rule.desc': 'Flink CEP 规则',
   'menu.workspace.cep.rule.detail': '规则详情',
   'menu.workspace.cep.rule.detail.desc': 'Flink CEP 规则详情',
+  'menu.workspace.cep.workflow': 'Workflow',
+  'menu.workspace.cep.workflow.desc': 'Workflow 列表',
+  'menu.workspace.cep.workflow.detail': 'Workflow 详情',
+  'menu.workspace.cep.workflow.detail.desc': 'Workflow 详情',
 
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
