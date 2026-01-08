@@ -32,7 +32,7 @@ public abstract class INodeExecutor {
 
     @Data
     public static class ExecutionResult {
-        private WorkflowOutputs outputs;
+        private WorkflowOutputs outputs = new WorkflowOutputs();
         private String branch;
     }
 }

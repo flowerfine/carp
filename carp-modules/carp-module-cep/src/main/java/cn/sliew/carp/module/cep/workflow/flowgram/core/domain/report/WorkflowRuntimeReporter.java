@@ -54,16 +54,16 @@ public class WorkflowRuntimeReporter extends IReporter {
 
     private Map<String, NodeReport> nodeReports() {
         Map<String, NodeReport> reports = new HashMap<>();
-        Map<String, StatusData> statusDataMap = getStatusCenter().exportNodeStatus();
+        Map<String, StatusData> statuses = getStatusCenter().exportNodeStatus();
         Map<String, List<Snapshot>> snapshotsMap = getSnapshotCenter().export();
-        for (Map.Entry<String, StatusData> entry : statusDataMap.entrySet()) {
+        for (Map.Entry<String, StatusData> entry : statuses.entrySet()) {
             String nodeId = entry.getKey();
-            StatusData statusData = entry.getValue();
-            List<Snapshot> snapshots = snapshotsMap.getOrDefault(nodeId, new ArrayList<>());
+            StatusData status = entry.getValue();
+            List<Snapshot> nodeSnapshots = snapshotsMap.getOrDefault(nodeId, new ArrayList<>());
             NodeReport nodeReport = new NodeReport();
-            BeanUtil.copyProperties(statusData, nodeReport);
+            BeanUtil.copyProperties(status, nodeReport);
             nodeReport.setId(nodeId);
-            nodeReport.setSnapshots(snapshots);
+            nodeReport.setSnapshots(nodeSnapshots);
             reports.put(nodeId, nodeReport);
         }
         return reports;

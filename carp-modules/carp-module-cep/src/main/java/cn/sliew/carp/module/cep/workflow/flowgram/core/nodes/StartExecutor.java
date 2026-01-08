@@ -17,8 +17,8 @@ public class StartExecutor extends INodeExecutor {
     public CompletableFuture<ExecutionResult> execute(ExecutionContext context) {
         CompletableFuture<ExecutionResult> future = new CompletableFuture<>();
         ExecutionResult result = new ExecutionResult();
-        if (Objects.nonNull(context.getRuntime().getIoCenter().getOutputs())) {
-            result.setOutputs(new WorkflowOutputs(context.getRuntime().getIoCenter().getOutputs()));
+        if (Objects.nonNull(context.getRuntime().getIoCenter().getInputs())) {
+            result.setOutputs(new WorkflowOutputs(context.getRuntime().getIoCenter().getInputs()));
         }
         future.complete(result);
         return future;

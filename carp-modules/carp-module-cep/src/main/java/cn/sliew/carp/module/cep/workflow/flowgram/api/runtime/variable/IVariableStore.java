@@ -18,7 +18,7 @@ public abstract class IVariableStore {
 
     public abstract void setValue(SetValueParam param);
 
-    public abstract Optional<IVariableParseResult> getValue(GetValueParam param);
+    public abstract Optional<IVariableParseResult> getValue(String nodeID, String variableKey, String[] variablePath);
 
     public abstract void init();
 
@@ -39,12 +39,4 @@ public abstract class IVariableStore {
         private String[] variablePath;
         private Object value;
     }
-
-    @Data
-    public static class GetValueParam extends VariableTypeInfo {
-        private String nodeID;
-        private String variableKey;
-        private String[] variablePath;
-    }
-
 }

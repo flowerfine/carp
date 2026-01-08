@@ -13,7 +13,6 @@ import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.executor.INodeExec
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.message.IMessageCenter;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.snapshot.ISnapshot;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.snapshot.SnapshotData;
-import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.state.IState;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.task.ITask;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.task.TaskParams;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.validation.IValidation;
@@ -96,10 +95,7 @@ public class WorkflowRuntimeEngine extends IEngine {
                     .setBranch(executionResult.getBranch())
             );
 
-            context.getState().setNodeOutputs(new IState.SetNodeOutputParam()
-                    .setNode(node)
-                    .setOutputs(executionResult.getOutputs())
-            );
+            context.getState().setNodeOutputs(node, executionResult.getOutputs());
             context.getState().addExecutedNode(node);
             context.getStatusCenter().nodeStatus(node.getId()).success();
             nextNodes = getNextNodes(context, node, executionResult.getBranch());
@@ -123,9 +119,8 @@ public class WorkflowRuntimeEngine extends IEngine {
         context.getStatusCenter().getWorkflow().process();
         try {
             executeNode(context, startNode);
-            WorkflowOutputs outputs = context.getIoCenter().getOutputs();
             context.getStatusCenter().getWorkflow().success();
-            future.complete(outputs);
+            future.complete(context.getIoCenter().getOutputs());
         } catch (Exception e) {
             context.getStatusCenter().getWorkflow().fail();
             future.completeExceptionally(e);
@@ -145,7 +140,6 @@ public class WorkflowRuntimeEngine extends IEngine {
         context.getStatusCenter().getWorkflow().fail();
         return false;
     }
-
 
 
     private boolean canExecuteNode(IContext context, INode node) {

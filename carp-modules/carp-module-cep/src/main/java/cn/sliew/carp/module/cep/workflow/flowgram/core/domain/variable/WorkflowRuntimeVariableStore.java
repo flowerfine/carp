@@ -1,16 +1,17 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.core.domain.variable;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.variable.IVariable;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.variable.IVariableParseResult;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.variable.IVariableStore;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.WorkflowVariableType;
+import cn.sliew.carp.module.cep.workflow.flowgram.util.WorkflowRuntimeType;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class WorkflowRuntimeVariableStore extends IVariableStore {
 
@@ -38,7 +39,11 @@ public class WorkflowRuntimeVariableStore extends IVariableStore {
         Map<String, Map<String, IVariable>> store = getStore();
         Map<String, IVariable> nodeStore = store.computeIfAbsent(param.getNodeID(), key -> new HashMap<>());
         if (!nodeStore.containsKey(param.getVariableKey())) {
-            IVariable variable = WorkflowRuntimeVariable.create(null);
+            SetVariableParam setVariableParam = new SetVariableParam()
+                    .setNodeID(param.getNodeID())
+                    .setKey(param.getVariableKey());
+            setVariableParam.setType(WorkflowVariableType.OBJECT);
+            IVariable variable = WorkflowRuntimeVariable.create(setVariableParam);
             nodeStore.put(param.getVariableKey(), variable);
         }
 
@@ -46,32 +51,61 @@ public class WorkflowRuntimeVariableStore extends IVariableStore {
         if (ArrayUtils.isEmpty(param.getVariablePath())) {
             variable.setValue(param.getValue());
         } else {
-            // fixme 实现错误，应该是至复制 variablePath 对应的字段，这里变成了忽略
-            BeanUtil.copyProperties(param.getValue(), variable.getValue(), param.getVariablePath());
+            try {
+                // 按照路径深层次访问，如 a.b.c.d.e
+                String variablePathStr = Arrays.stream(param.getVariablePath()).collect(Collectors.joining("."));
+                PropertyUtils.setNestedProperty(variable.getValue(), variablePathStr, param.getValue());
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     @Override
-    public Optional<IVariableParseResult> getValue(GetValueParam param) {
-        Map<String, IVariable> nodeStore = globalGet(param.getNodeID());
+    public Optional<IVariableParseResult> getValue(String nodeID, String variableKey, String[] variablePath) {
+        Map<String, IVariable> nodeStore = globalGet(nodeID);
         if (Objects.isNull(nodeStore)) {
             return Optional.empty();
         }
-        IVariable variable = nodeStore.get(param.getVariableKey());
+        IVariable variable = nodeStore.get(variableKey);
         if (Objects.isNull(variable)) {
             return Optional.empty();
         }
 
         IVariableParseResult parseResult = new IVariableParseResult();
-        if (ArrayUtils.isEmpty(param.getVariablePath())) {
+        if (ArrayUtils.isEmpty(variablePath)) {
             parseResult
                     .setValue(variable.getValue())
                     .setType(variable.getType())
                     .setItemsType(variable.getItemsType());
+            return Optional.of(parseResult);
         } else {
-            // fixme todo
+            try {
+                // 按照路径深层次访问，如 a.b.c.d.e
+                String variablePathStr = Arrays.stream(variablePath).collect(Collectors.joining("."));
+                Object nestedProperty = PropertyUtils.getNestedProperty(variable.getValue(), variablePathStr);
+                WorkflowVariableType type = WorkflowRuntimeType.getWorkflowType(nestedProperty);
+                if (Objects.isNull(type)) {
+                    return Optional.empty();
+                }
+
+                if (Objects.equals(type, WorkflowVariableType.ARRAY)) {
+                    WorkflowVariableType itemType = WorkflowRuntimeType.getItemType(nestedProperty);
+                    if (Objects.isNull(itemType)) {
+                        return Optional.empty();
+                    }
+
+                    parseResult.setType(type).setItemsType(itemType);
+                    parseResult.setValue(nestedProperty);
+                    return Optional.of(parseResult);
+                }
+                parseResult.setType(type);
+                parseResult.setValue(nestedProperty);
+                return Optional.of(parseResult);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return Optional.of(parseResult);
     }
 
     public Map<String, IVariable> globalGet(String nodeId) {

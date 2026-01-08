@@ -1,6 +1,7 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.core.domain.snapshot;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.snapshot.ISnapshot;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.snapshot.Snapshot;
@@ -17,7 +18,8 @@ public class WorkflowRuntimeSnapshot extends ISnapshot {
 
     @Override
     public void update(SnapshotData data) {
-        BeanUtil.copyProperties(data, getData());
+        CopyOptions copyOptions = CopyOptions.create(SnapshotData.class, true);
+        BeanUtil.copyProperties(data, getData(), copyOptions);
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class WorkflowRuntimeSnapshotCenter extends ISnapshotCenter {
 
-    private ArrayList<ISnapshot> snapshots;
+    private List<ISnapshot> snapshots;
 
     public WorkflowRuntimeSnapshotCenter() {
         setId(UUIDUtil.randomUUId());

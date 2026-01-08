@@ -41,6 +41,7 @@ public class HTTPNodeSchema extends AbstractWorkflowNodeSchema<HTTPNodeSchema.HT
 
     @Data
     public static class BodyData {
+        private String bodyType;
         // todo
     }
 
