@@ -12,7 +12,7 @@ public class WorkflowNodeSchema<DATA extends IWorkflowNodeData> implements IWork
 
     private String id;
     private NodeType type;
-    private WorkflowNodeMetaSchema meta;
+    private IWorkflowNodeMetaSchema meta;
     private DATA data;
     private List<IWorkflowNodeSchema> blocks;
     private List<IWorkflowEdgeSchema> edges;

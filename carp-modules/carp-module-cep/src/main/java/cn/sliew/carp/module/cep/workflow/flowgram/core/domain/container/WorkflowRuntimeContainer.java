@@ -5,6 +5,7 @@ import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.engine.EngineServi
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.engine.WorkflowRuntimeEngine;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.executor.WorkflowRuntimeExecutor;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.validation.WorkflowRuntimeValidation;
+import cn.sliew.carp.module.cep.workflow.flowgram.core.nodes.WorkflowRuntimeNodeExecutors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class WorkflowRuntimeContainer implements IContainer {
 
     private static WorkflowRuntimeContainer create() {
         WorkflowRuntimeValidation validation = new WorkflowRuntimeValidation();
-        WorkflowRuntimeExecutor executor = new WorkflowRuntimeExecutor(new ArrayList<>());
+        WorkflowRuntimeExecutor executor = new WorkflowRuntimeExecutor(WorkflowRuntimeNodeExecutors.NODE_EXECUTORS);
         WorkflowRuntimeEngine engine = new WorkflowRuntimeEngine(new EngineServices()
                 .setValidation(validation)
                 .setExecutor(executor)

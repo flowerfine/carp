@@ -1,9 +1,6 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.api.node;
 
-import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IWorkflowEdgeSchema;
-import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IWorkflowNodeData;
-import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IWorkflowNodeMetaSchema;
-import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IWorkflowNodeSchema;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.*;
 import lombok.Data;
 
 import java.util.List;
@@ -17,22 +14,7 @@ public abstract class AbstractWorkflowNodeSchema<DATA extends IWorkflowNodeData>
     private List<IWorkflowEdgeSchema> edges;
 
     @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public IWorkflowNodeMetaSchema getMeta() {
-        return meta;
-    }
-
-    @Override
     public List<IWorkflowNodeSchema> getBlocks() {
         return blocks;
-    }
-
-    @Override
-    public List<IWorkflowEdgeSchema> getEdges() {
-        return edges;
     }
 }

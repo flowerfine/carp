@@ -3,13 +3,13 @@ package cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.message;
 import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 import java.util.Arrays;
 
 @Getter
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+//@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum WorkflowMessageType implements DictInstance {
 
     LOG("log", "Log"),
@@ -26,6 +26,7 @@ public enum WorkflowMessageType implements DictInstance {
                 .findAny().orElseThrow(() -> new EnumConstantNotPresentException(WorkflowMessageType.class, value));
     }
 
+    @JsonValue
     @EnumValue
     private String value;
     private String label;

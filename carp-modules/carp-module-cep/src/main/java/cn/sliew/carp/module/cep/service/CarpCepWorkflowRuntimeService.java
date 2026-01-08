@@ -19,6 +19,8 @@ package cn.sliew.carp.module.cep.service;
 
 import cn.sliew.carp.module.cep.service.dto.runtime.*;
 import cn.sliew.carp.module.cep.service.param.runtime.*;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.reporter.IReport;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.validation.IValidation;
 
 public interface CarpCepWorkflowRuntimeService {
 
@@ -26,9 +28,9 @@ public interface CarpCepWorkflowRuntimeService {
 
     TaskResultDTO getResult(TaskResultParam param);
 
-    TaskReportDTO getReport(TaskReportParam param);
+    IReport getReport(TaskReportParam param);
 
-    TaskValidateDTO validate(TaskValidateParam param);
+    IValidation.ValidationResult validate(TaskValidateParam param);
 
     TaskRunDTO run(TaskRunParam param);
 

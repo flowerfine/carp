@@ -6,7 +6,6 @@ import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.document.IDocument
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.document.IEdge;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.document.INode;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IWorkflowSchema;
-import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.WorkflowSchema;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,7 @@ public class WorkflowRuntimeDocument extends IDocument {
 
     @Override
     public void init(IWorkflowSchema schema) {
-        FlattenData flattenData = FlatUtil.flatSchema((WorkflowSchema) schema);
+        FlattenData flattenData = FlatUtil.flatSchema(schema);
         this.store = DocumentStore.createStore(flattenData);
     }
 

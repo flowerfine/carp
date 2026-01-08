@@ -14,10 +14,7 @@ import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.snapshot.Snapshot;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.status.IStatusCenter;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.status.StatusData;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WorkflowRuntimeReporter extends IReporter {
 
@@ -45,13 +42,14 @@ public class WorkflowRuntimeReporter extends IReporter {
 
     @Override
     public IReport export() {
-        return new IReport()
+        IReport report = new IReport()
                 .setId(UUIDUtil.randomUUId())
-                .setInputs(ioCenter.getInputs())
-                .setOutputs(ioCenter.getOutputs())
                 .setWorkflowStatus(getStatusCenter().getWorkflow().export())
                 .setReports(nodeReports())
                 .setMessages(getMessageCenter().export());
+        report.setInputs(Objects.isNull(ioCenter.getInputs()) ? new WorkflowInputs() : new WorkflowInputs(ioCenter.getInputs()));
+        report.setOutputs(Objects.isNull(ioCenter.getOutputs()) ? new WorkflowOutputs() : new WorkflowOutputs(ioCenter.getOutputs()));
+        return report;
     }
 
     private Map<String, NodeReport> nodeReports() {

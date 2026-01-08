@@ -111,7 +111,7 @@ public class WorkflowRuntimeState extends IState {
             getVariableStore().setVariable((IVariableStore.SetVariableParam) new IVariableStore.SetVariableParam()
                     .setNodeID("global")
                     .setKey(key)
-                    .setValue(parseJSONContent(typeInfo.getDefault(), WorkflowVariableType.of(typeInfo.getType())))
+                    .setValue(parseJSONContent(typeInfo.getDefaultValue(), WorkflowVariableType.of(typeInfo.getType())))
                     .setType(WorkflowVariableType.of(typeInfo.getType()))
                     .setItemsType(WorkflowVariableType.of(typeInfo.getItems().getType()))
             );

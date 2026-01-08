@@ -22,6 +22,8 @@ import cn.sliew.carp.framework.log.web.annotation.WebLog;
 import cn.sliew.carp.module.cep.service.CarpCepWorkflowRuntimeService;
 import cn.sliew.carp.module.cep.service.dto.runtime.*;
 import cn.sliew.carp.module.cep.service.param.runtime.*;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.reporter.IReport;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.validation.IValidation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -56,13 +58,13 @@ public class CarpCepWorkflowRuntimeController {
 
     @GetMapping("/task/report")
     @Operation(summary = "查询-运行报告", description = "查询-运行报告")
-    public TaskReportDTO getReport(@Valid TaskReportParam param) {
+    public IReport getReport(@Valid TaskReportParam param) {
         return workflowRuntimeService.getReport(param);
     }
 
     @PostMapping("/task/validate")
     @Operation(summary = "任务-验证", description = "任务-验证")
-    public TaskValidateDTO validate(@Valid @RequestBody TaskValidateParam param) {
+    public IValidation.ValidationResult validate(@Valid @RequestBody TaskValidateParam param) {
         return workflowRuntimeService.validate(param);
     }
 

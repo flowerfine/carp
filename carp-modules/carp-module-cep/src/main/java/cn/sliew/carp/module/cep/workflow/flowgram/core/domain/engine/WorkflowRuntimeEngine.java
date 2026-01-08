@@ -25,10 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -49,13 +46,21 @@ public class WorkflowRuntimeEngine extends IEngine {
         context.init(params);
         boolean validate = validate(params, context);
         if (!validate) {
+            CompletableFuture<WorkflowOutputs> completableFuture = new CompletableFuture<>();
+            completableFuture.complete(null);
             return WorkflowRuntimeTask.create(new TaskParams()
-                    .setProcessing(new CompletableFuture<>())
+                    .setProcessing(completableFuture)
                     .setContext(context)
             );
         }
-
-        return null;
+        CompletableFuture<WorkflowOutputs> future = process(context);
+        future.thenAccept(outputs -> {
+            context.dispose();
+        });
+        return WorkflowRuntimeTask.create(new TaskParams()
+                .setProcessing(future)
+                .setContext(context)
+        );
     }
 
     @Override
@@ -82,7 +87,8 @@ public class WorkflowRuntimeEngine extends IEngine {
                     .setSnapshot(snapshot)
             );
             INodeExecutor.ExecutionResult executionResult = future.join();
-            if (context.getStatusCenter().getWorkflow().getTerminated()) {
+            if (Objects.nonNull(context.getStatusCenter().getWorkflow().getTerminated())
+                    && context.getStatusCenter().getWorkflow().getTerminated()) {
                 return;
             }
             snapshot.update(new SnapshotData()

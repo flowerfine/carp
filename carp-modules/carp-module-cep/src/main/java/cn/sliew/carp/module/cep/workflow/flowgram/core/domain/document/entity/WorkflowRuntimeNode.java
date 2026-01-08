@@ -17,7 +17,6 @@ public class WorkflowRuntimeNode extends INode {
     private List<IEdge> inputEdges;
     private List<IEdge> outputEdges;
 
-
     public WorkflowRuntimeNode(CreateNodeParams params) {
         setId(params.getId());
         setType(params.getType());

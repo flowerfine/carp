@@ -1,18 +1,22 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.api.schema;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import java.util.List;
 import java.util.Map;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, defaultImpl = DefaultJsonSchema.class)
 public interface IJsonSchema {
 
     String getType();
-    Object getDefault();
+    Object getDefaultValue();
     String getTitle();
     String getDescription();
-    Object[] getEnums();
+    List<Object> getEnums();
     Map<String, IJsonSchema> getProperties();
     IJsonSchema getAdditionalProperties();
     IJsonSchema getItems();
-    String[] getRequired();
+    List<String> getRequired();
     String getRef();
-    Object getExtra();
+    Map<String, Object> getExtra();
 }

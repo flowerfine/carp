@@ -6,6 +6,7 @@ import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.PositionSchema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,15 +21,17 @@ public abstract class INode<T> {
     private T data;
 
     private INode parent;
-    private List<INode> children;
+    private List<INode> children = new ArrayList<>();
 
-    private List<INode> prev;
-    private List<INode> next;
+    private List<INode> prev = new ArrayList<>();
+    private List<INode> next = new ArrayList<>();
 
     public abstract PortInfo getPorts();
+
     public abstract EdgeInfo getEdges();
 
     public abstract List<INode> getSuccessors();
+
     public abstract List<INode> getPredecessors();
 
     @Data

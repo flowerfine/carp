@@ -42,7 +42,7 @@ public enum FlatUtil {
         }
     }
 
-    public static FlattenData flatSchema(WorkflowSchema schema) {
+    public static FlattenData flatSchema(IWorkflowSchema schema) {
         List<IWorkflowNodeSchema> nodes = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(schema.getNodes())) {
             nodes = schema.getNodes();
@@ -53,7 +53,7 @@ public enum FlatUtil {
         }
 
         FlattenData data = new FlattenData()
-                .setFlattenSchema(new WorkflowSchema()
+                .setFlattenSchema(new DefaultWorkflowSchema()
                         .setNodes(new ArrayList<>())
                         .setEdges(new ArrayList<>())
                 )
@@ -65,7 +65,7 @@ public enum FlatUtil {
                 .setType(NodeType.ROOT)
                 .setBlocks(nodes)
                 .setEdges(edges)
-                .setMeta(new WorkflowNodeMetaSchema().setPosition(new PositionSchema().setX(0).setY(0)));
+                .setMeta(new DefaultWorkflowNodeMetaSchema().setPosition(new PositionSchema().setX(0).setY(0)));
         
         flatLayer(data, root);
 

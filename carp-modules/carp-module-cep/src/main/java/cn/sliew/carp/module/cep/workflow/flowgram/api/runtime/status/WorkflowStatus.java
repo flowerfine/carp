@@ -4,12 +4,13 @@ import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 import java.util.Arrays;
 
 @Getter
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+//@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum WorkflowStatus implements DictInstance {
 
     PENDING("pending", "Pending"),
@@ -26,6 +27,7 @@ public enum WorkflowStatus implements DictInstance {
                 .findAny().orElseThrow(() -> new EnumConstantNotPresentException(WorkflowStatus.class, value));
     }
 
+    @JsonValue
     @EnumValue
     private String value;
     private String label;

@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class WorkflowEdgeSchema implements IWorkflowEdgeSchema {
+public class DefaultWorkflowEdgeSchema implements IWorkflowEdgeSchema {
 
     private String sourceNodeID;
     private String targetNodeID;

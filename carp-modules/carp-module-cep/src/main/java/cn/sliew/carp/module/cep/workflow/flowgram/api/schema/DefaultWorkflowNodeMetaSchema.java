@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class WorkflowNodeMetaSchema implements IWorkflowNodeMetaSchema {
+public class DefaultWorkflowNodeMetaSchema implements IWorkflowNodeMetaSchema {
 
     private PositionSchema position;
     private PositionSchema canvasPosition;

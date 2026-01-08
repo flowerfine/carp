@@ -21,12 +21,21 @@ import cn.hutool.core.date.DateUtil;
 import cn.sliew.carp.module.cep.service.CarpCepWorkflowRuntimeService;
 import cn.sliew.carp.module.cep.service.dto.runtime.*;
 import cn.sliew.carp.module.cep.service.param.runtime.*;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.base.InvokeParams;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.base.WorkflowInputs;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.reporter.IReport;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.validation.IValidation;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.DefaultWorkflowSchema;
+import cn.sliew.carp.module.cep.workflow.flowgram.core.application.WorkflowApplication;
+import cn.sliew.milky.common.util.JacksonUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
 public class CarpCepWorkflowRuntimeServiceImpl implements CarpCepWorkflowRuntimeService {
+
+    private WorkflowApplication application = new WorkflowApplication();
 
     @Override
     public ServerInfo getInfo() {
@@ -43,22 +52,34 @@ public class CarpCepWorkflowRuntimeServiceImpl implements CarpCepWorkflowRuntime
     }
 
     @Override
-    public TaskReportDTO getReport(TaskReportParam param) {
-        return null;
+    public IReport getReport(TaskReportParam param) {
+        return application.report(param.getTaskID());
     }
 
     @Override
-    public TaskValidateDTO validate(TaskValidateParam param) {
-        return new TaskValidateDTO().setValid(true);
+    public IValidation.ValidationResult validate(TaskValidateParam param) {
+        WorkflowInputs inputs = new WorkflowInputs();
+        inputs.putAll(param.getInputs());
+        InvokeParams params = new InvokeParams();
+        params.setInputs(inputs);
+        params.setSchema(JacksonUtil.parseJsonString(param.getSchema(), DefaultWorkflowSchema.class));
+        return application.validate(params);
     }
 
     @Override
     public TaskRunDTO run(TaskRunParam param) {
-        return null;
+        WorkflowInputs inputs = new WorkflowInputs();
+        inputs.putAll(param.getInputs());
+        InvokeParams params = new InvokeParams();
+        params.setInputs(inputs);
+        params.setSchema(JacksonUtil.parseJsonString(param.getSchema(), DefaultWorkflowSchema.class));
+        String taskId = application.invoke(params);
+        return new TaskRunDTO().setTaskID(taskId);
     }
 
     @Override
     public TaskCancelDTO cancel(TaskCancelParam param) {
-        return null;
+        boolean cancel = application.cancel(param.getTaskID());
+        return new TaskCancelDTO().setSuccess(cancel);
     }
 }

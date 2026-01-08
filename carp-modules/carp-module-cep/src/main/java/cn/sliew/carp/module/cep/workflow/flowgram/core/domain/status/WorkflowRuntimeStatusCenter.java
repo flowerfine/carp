@@ -14,7 +14,6 @@ import java.util.Map;
 @Getter
 public class WorkflowRuntimeStatusCenter extends IStatusCenter {
 
-    private IStatus status;
     private Map<String, IStatus> nodeStatus;
     private Long startTime;
     private Long endTime;
@@ -26,7 +25,7 @@ public class WorkflowRuntimeStatusCenter extends IStatusCenter {
 
     @Override
     public void init() {
-        this.status = WorkflowRuntimeStatus.create();
+        setWorkflow(WorkflowRuntimeStatus.create());
         this.nodeStatus = new HashMap<>();
     }
 
@@ -37,7 +36,6 @@ public class WorkflowRuntimeStatusCenter extends IStatusCenter {
 
     @Override
     public String[] getStatusNodeIDs(WorkflowStatus status) {
-
         List<String> nodeIds = new ArrayList<>();
         for (Map.Entry<String, IStatus> entry : nodeStatus.entrySet()) {
             if (entry.getValue().getStatus() == status) {
