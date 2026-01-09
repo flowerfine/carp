@@ -25,7 +25,6 @@ public class WorkflowRuntimeNode extends INode {
         setDeclare(params.getVariable());
         setData(params.getData());
 
-        setChildren(new ArrayList<>());
         ports = new ArrayList<>();
         inputEdges = new ArrayList<>();
         outputEdges = new ArrayList<>();
@@ -73,7 +72,8 @@ public class WorkflowRuntimeNode extends INode {
         return NodeUtil.traverseNodes(this, node -> node.getPrev());
     }
 
+    @Override
     public boolean isBranch() {
-        return CollectionUtils.isNotEmpty(getPorts().getOutputs());
+        return CollectionUtils.size(getPorts().getOutputs()) > 1;
     }
 }

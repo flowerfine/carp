@@ -5,7 +5,7 @@ import java.util.Map;
 public interface IWorkflowNodeData {
 
     String getTitle();
-    Map<String, Object> getInputsValues();
+    Map<String, IValue> getInputsValues();
     IJsonSchema getInputs();
     IJsonSchema getOutputs();
 

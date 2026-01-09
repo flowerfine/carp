@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class DefaultFlowConstantValue implements IFlowConstantValue {
 
-    private String type;
+    private String type = "constant";
     private Object content;
 }

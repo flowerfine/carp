@@ -9,6 +9,6 @@ import java.util.List;
 @Accessors(chain = true)
 public class DefaultFlowRefValue implements IFlowRefValue {
 
-    private String type;
+    private String type = "ref";
     private List<String> content;
 }

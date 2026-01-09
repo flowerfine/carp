@@ -1,6 +1,5 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.core.domain.engine;
 
-import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.base.InvokeParams;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.base.WorkflowInputs;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.base.WorkflowOutputs;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.context.IContext;
@@ -16,6 +15,7 @@ import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.snapshot.SnapshotD
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.task.ITask;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.task.TaskParams;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.validation.IValidation;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IWorkflowSchema;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.container.WorkflowRuntimeContainer;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.context.WorkflowRuntimeContext;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.task.WorkflowRuntimeTask;
@@ -40,10 +40,10 @@ public class WorkflowRuntimeEngine extends IEngine {
     }
 
     @Override
-    public ITask invoke(InvokeParams params) {
+    public ITask invoke(IWorkflowSchema schema, WorkflowInputs inputs) {
         WorkflowRuntimeContext context = WorkflowRuntimeContext.create();
-        context.init(params);
-        boolean validate = validate(params, context);
+        context.init(schema, inputs);
+        boolean validate = validate(schema, inputs, context);
         if (!validate) {
             CompletableFuture<WorkflowOutputs> completableFuture = new CompletableFuture<>();
             completableFuture.complete(null);
@@ -114,7 +114,7 @@ public class WorkflowRuntimeEngine extends IEngine {
     }
 
     private CompletableFuture<WorkflowOutputs> process(IContext context) {
-        CompletableFuture future = new CompletableFuture();
+        CompletableFuture<WorkflowOutputs> future = new CompletableFuture<>();
         INode startNode = context.getDocument().getStart();
         context.getStatusCenter().getWorkflow().process();
         try {
@@ -128,8 +128,8 @@ public class WorkflowRuntimeEngine extends IEngine {
         return future;
     }
 
-    private boolean validate(InvokeParams params, IContext context) {
-        IValidation.ValidationResult validationResult = validation.invoke(params);
+    private boolean validate(IWorkflowSchema schema, WorkflowInputs inputs, IContext context) {
+        IValidation.ValidationResult validationResult = validation.invoke(schema, inputs);
         if (validationResult.isValid()) {
             return true;
         }

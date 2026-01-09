@@ -7,11 +7,14 @@ import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.executor.WorkflowR
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.validation.WorkflowRuntimeValidation;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.nodes.WorkflowRuntimeNodeExecutors;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class WorkflowRuntimeContainer implements IContainer {
+
+    public static final String VALIDATION = "IValidation";
+    public static final String EXECUTOR = "IExecutor";
+    public static final String ENGINE = "IEngine";
 
     private static final WorkflowRuntimeContainer INSTANCE = create();
 
@@ -34,9 +37,9 @@ public class WorkflowRuntimeContainer implements IContainer {
                 .setExecutor(executor)
         );
         Map<String, Object> map = new HashMap<>();
-        map.put("IValidation", validation);
-        map.put("IExecutor", executor);
-        map.put("IEngine", engine);
+        map.put(VALIDATION, validation);
+        map.put(EXECUTOR, executor);
+        map.put(ENGINE, engine);
         return new WorkflowRuntimeContainer(map);
     }
 

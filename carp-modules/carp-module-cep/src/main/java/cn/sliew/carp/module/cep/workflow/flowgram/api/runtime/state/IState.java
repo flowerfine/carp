@@ -20,9 +20,9 @@ public abstract class IState {
     public abstract void dispose();
     public abstract WorkflowInputs getNodeInputs(INode node);
     public abstract void setNodeOutputs(INode node, WorkflowOutputs outputs);
-    public abstract WorkflowInputs parseInputs(Map<String, Object> values, IJsonSchema declare);
+    public abstract WorkflowInputs parseInputs(Map<String, IValue> values, IJsonSchema declare);
     public abstract IVariableParseResult parseRef(IFlowRefValue ref);
-    public abstract IVariableParseResult parseTemplate(IFlowTemplateValue template);
+    public abstract IVariableParseResult<String> parseTemplate(IFlowTemplateValue template);
     public abstract IVariableParseResult parseFlowValue(IValue flowValue, WorkflowVariableType declareType);
     public abstract boolean isExecutedNode(INode node);
     public abstract void addExecutedNode(INode node);

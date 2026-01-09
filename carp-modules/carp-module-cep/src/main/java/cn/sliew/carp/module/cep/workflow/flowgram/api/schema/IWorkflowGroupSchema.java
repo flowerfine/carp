@@ -3,6 +3,8 @@ package cn.sliew.carp.module.cep.workflow.flowgram.api.schema;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.node.AbstractWorkflowNodeData;
 import lombok.Data;
 
+import java.util.List;
+
 public interface IWorkflowGroupSchema extends IWorkflowNodeSchema<IWorkflowGroupSchema.WorkflowGroupData> {
 
     @Override
@@ -13,6 +15,6 @@ public interface IWorkflowGroupSchema extends IWorkflowNodeSchema<IWorkflowGroup
 
         private String color;
         private String parentID;
-        private String[] blockIDs;
+        private List<String> blockIDs;
     }
 }

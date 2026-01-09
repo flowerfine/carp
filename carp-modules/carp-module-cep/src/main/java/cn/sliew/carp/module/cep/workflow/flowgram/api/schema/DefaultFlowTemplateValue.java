@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class DefaultFlowTemplateValue implements IFlowTemplateValue {
 
-    private String type;
+    private String type = "template";
     private String content;
 }

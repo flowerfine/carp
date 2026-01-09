@@ -45,14 +45,15 @@ public class WorkflowRuntimeState extends IState {
     @Override
     public WorkflowInputs getNodeInputs(INode node) {
         IJsonSchema inputs = node.getDeclare().getInputs();
-        Map<String, Object> inputsValues = node.getDeclare().getInputsValues();
+        Map<String, IValue> inputsValues = node.getDeclare().getInputsValues();
         return parseInputs(inputsValues, inputs);
     }
 
     @Override
     public void setNodeOutputs(INode node, WorkflowOutputs outputs) {
         IJsonSchema outputsDeclare = node.getDeclare().getOutputs();
-        if (!StringUtils.equals(outputsDeclare.getType(), WorkflowVariableType.OBJECT.getValue())
+        if (Objects.isNull(outputsDeclare)
+                || !StringUtils.equals(outputsDeclare.getType(), WorkflowVariableType.OBJECT.getValue())
                 || MapUtils.isEmpty(outputsDeclare.getProperties())) {
             return;
         }
@@ -82,21 +83,21 @@ public class WorkflowRuntimeState extends IState {
     }
 
     @Override
-    public WorkflowInputs parseInputs(Map<String, Object> values, IJsonSchema declare) {
+    public WorkflowInputs parseInputs(Map<String, IValue> values, IJsonSchema declare) {
         if (Objects.isNull(declare) || MapUtils.isEmpty(values)) {
             return new WorkflowInputs();
         }
 
         WorkflowInputs inputs = new WorkflowInputs();
-        for (Map.Entry<String, Object> entry : values.entrySet()) {
+        for (Map.Entry<String, IValue> entry : values.entrySet()) {
             String key = entry.getKey();
-            Object flowValue = entry.getValue();
+            IValue flowValue = entry.getValue();
             if (Objects.isNull(declare.getProperties()) || !declare.getProperties().containsKey(key)) {
                 continue;
             }
             IJsonSchema typeInfo = declare.getProperties().get(key);
             WorkflowVariableType declareType = WorkflowVariableType.of(typeInfo.getType());
-            IVariableParseResult result = parseFlowValue((IValue) flowValue, declareType);
+            IVariableParseResult result = parseFlowValue(flowValue, declareType);
             if (Objects.isNull(result)) {
                 continue;
             }
@@ -129,7 +130,7 @@ public class WorkflowRuntimeState extends IState {
     }
 
     @Override
-    public IVariableParseResult parseTemplate(IFlowTemplateValue template) {
+    public IVariableParseResult<String> parseTemplate(IFlowTemplateValue template) {
         if (Objects.isNull(template.getContent())) {
             throw new RuntimeException("IFlowTemplateValue lack content");
         }
@@ -146,7 +147,7 @@ public class WorkflowRuntimeState extends IState {
             String trimed = matchResult.group(1).trim();
             DefaultFlowRefValue refValue = new DefaultFlowRefValue()
                     .setType("ref")
-                    .setContent(Arrays.asList(trimed.split(".")));
+                    .setContent(Arrays.asList(StringUtils.split(trimed, ".")));
 
             IVariableParseResult refParseResult = parseRef(refValue);
             if (Objects.isNull(refParseResult)) {

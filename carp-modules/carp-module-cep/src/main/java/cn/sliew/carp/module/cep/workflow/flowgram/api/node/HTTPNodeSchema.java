@@ -3,6 +3,7 @@ package cn.sliew.carp.module.cep.workflow.flowgram.api.node;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IFlowConstantRefValue;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IFlowTemplateValue;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IJsonSchema;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IValue;
 import lombok.Data;
 
 import java.util.Map;
@@ -26,9 +27,9 @@ public class HTTPNodeSchema extends AbstractWorkflowNodeSchema<HTTPNodeSchema.HT
     public static class HTTPNodeData extends AbstractWorkflowNodeData {
         private ApiData api;
         private IJsonSchema headers;
-        private Map<String, IFlowConstantRefValue> headersValues;
+        private Map<String, IValue> headersValues;
         private IJsonSchema params;
-        private Map<String, IFlowConstantRefValue> paramsValues;
+        private Map<String, IValue> paramsValues;
         private BodyData body;
         private TimeoutData timeout;
     }
@@ -42,7 +43,13 @@ public class HTTPNodeSchema extends AbstractWorkflowNodeSchema<HTTPNodeSchema.HT
     @Data
     public static class BodyData {
         private String bodyType;
-        // todo
+        private IFlowTemplateValue json;
+        private IJsonSchema formData;
+        private Map<String, IValue> formDataValues;
+        private IFlowTemplateValue rawText;
+        private IFlowTemplateValue binary;
+        private IJsonSchema xWwwFormUrlencoded;
+        private Map<String, IValue> xWwwFormUrlencodedValues;
     }
 
     @Data

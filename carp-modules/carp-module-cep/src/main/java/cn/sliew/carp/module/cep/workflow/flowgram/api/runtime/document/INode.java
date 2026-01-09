@@ -2,6 +2,7 @@ package cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.document;
 
 import cn.sliew.carp.module.cep.workflow.flowgram.api.node.NodeType;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IJsonSchema;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IValue;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.PositionSchema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -34,6 +35,8 @@ public abstract class INode<T> {
 
     public abstract List<INode> getPredecessors();
 
+    public abstract boolean isBranch();
+
     @Data
     @Accessors(chain = true)
     public static class PortInfo {
@@ -51,7 +54,7 @@ public abstract class INode<T> {
     @Data
     @Accessors(chain = true)
     public static class NodeDeclare {
-        private Map<String, Object> inputsValues;
+        private Map<String, IValue> inputsValues;
         private IJsonSchema inputs;
         private IJsonSchema outputs;
     }

@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class DefaultFlowExpressionValue implements IFlowExpressionValue {
 
-    private String type;
+    private String type = "expression";
     private String content;
 }

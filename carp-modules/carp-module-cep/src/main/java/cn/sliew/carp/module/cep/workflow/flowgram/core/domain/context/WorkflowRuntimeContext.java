@@ -1,12 +1,13 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.core.domain.context;
 
 import cn.sliew.carp.framework.common.util.UUIDUtil;
-import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.base.InvokeParams;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.base.WorkflowInputs;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.cache.ICache;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.context.ContextData;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.context.IContext;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.state.IState;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.runtime.variable.IVariableStore;
+import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IWorkflowSchema;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.cache.WorkflowRuntimeCache;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.document.document.WorkflowRuntimeDocument;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.iocenter.WorkflowRuntimeIOCenter;
@@ -38,12 +39,12 @@ public class WorkflowRuntimeContext extends IContext {
     }
 
     @Override
-    public void init(InvokeParams params) {
+    public void init(IWorkflowSchema schema, WorkflowInputs inputs) {
         getCache().init();
-        getDocument().init(params.getSchema());
+        getDocument().init(schema);
         getVariableStore().init();
-        getState().init(params.getSchema());
-        getIoCenter().init(params.getInputs());
+        getState().init(schema);
+        getIoCenter().init(inputs);
         getSnapshotCenter().init();
         getStatusCenter().init();
         getMessageCenter().init();
@@ -79,8 +80,8 @@ public class WorkflowRuntimeContext extends IContext {
                 .setStatusCenter(getStatusCenter())
                 .setMessageCenter(getMessageCenter())
                 .setReporter(getReporter())
-                .setVariableStore(getVariableStore())
-                .setState(getState());
+                .setVariableStore(variableStore)
+                .setState(state);
         WorkflowRuntimeContext subContext = new WorkflowRuntimeContext(contextData);
         subContexts.add(subContext);
         subContext.getCache().init();

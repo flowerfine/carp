@@ -26,7 +26,7 @@ public class WorkflowApplication {
 
     public String invoke(InvokeParams params) {
         IEngine engine = (IEngine) container.get("IEngine");
-        ITask task = engine.invoke(params);
+        ITask task = engine.invoke(params.getSchema(), params.getInputs());
         tasks.put(task.getId(), task);
         log.info("> POST TaskRun - taskID: {}, inputs: {}", task.getId(), JacksonUtil.toJsonString(params.getInputs()));
         task.getProcessing().whenComplete((outputs, throwable) -> {
@@ -54,7 +54,7 @@ public class WorkflowApplication {
 
     public IValidation.ValidationResult validate(InvokeParams params) {
         IValidation validation = (IValidation) container.get("IValidation");
-        IValidation.ValidationResult validationResult = validation.invoke(params);
+        IValidation.ValidationResult validationResult = validation.invoke(params.getSchema(), params.getInputs());
         log.info("> POST TaskValidate - valid: {}", validationResult.isValid());
         return validationResult;
     }
