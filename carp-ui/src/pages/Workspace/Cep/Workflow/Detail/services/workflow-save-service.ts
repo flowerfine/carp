@@ -36,13 +36,7 @@ function createDefaultJSON(): WorkflowJSON {
           position: { x: 0, y: 0 },
         },
         data: {
-          outputs: [
-            {
-              type: 'string',
-              name: '',
-              required: true,
-            },
-          ],
+          title: "Start"
         },
       },
       {
@@ -50,6 +44,9 @@ function createDefaultJSON(): WorkflowJSON {
         type: 'end',
         meta: {
           position: { x: 1000, y: 0 },
+        },
+        data: {
+          title: "End"
         },
       },
     ],
