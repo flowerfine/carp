@@ -1,5 +1,6 @@
 package cn.sliew.carp.module.odps.service.impl;
 
+import cn.sliew.carp.framework.common.nio.FileUtil;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.module.odps.config.MybatisUtil;
 import cn.sliew.carp.module.odps.config.OdpsDataSourceConfig;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +43,21 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
 
     @Override
     public void export() {
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> doExport());
+        future.whenComplete(((unused, throwable) -> {
+            if (throwable != null) {
+                log.error(throwable.getMessage(), throwable);
+            }
+        }));
+    }
+
+    private void doExport() {
         try {
             String sql = loadSql();
+            if (StringUtils.isBlank(sql)) {
+                throw new RuntimeException("sql must not be null");
+            }
+            log.info("导出 sql: {}", sql);
             HashMap<String, Object> params = new HashMap<>();
             params.put("sql", sql);
             CompletableFuture<Void> callback = new CompletableFuture<>();
@@ -52,12 +67,15 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
             // Prevent Jackson's writeValue() method calls from closing the stream.
             csvMapper.getFactory().disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
 
-            Path path = Paths.get("/Users/mac/Downloads/" + UUIDUtil.randomUUId() + ".csv");
-            OutputStream outputStream = Files.newOutputStream(path, StandardOpenOption.APPEND);
+            Path file = FileUtil.createFile(Paths.get("/Users/mac/Downloads/"), UUIDUtil.randomUUId() + ".csv");
+            log.info("导出文件: {}", file.toUri());
+            OutputStream outputStream = Files.newOutputStream(file, StandardOpenOption.APPEND);
             ObjectWriter writer = null;
 
+            Long count = 0L;
             boolean initilized = false;
             for (Map data : cursor) {
+                count++;
                 if (!initilized) {
                     CsvSchema schema = buildCsvSchema(data);
                     writer = csvMapper.writer(schema);
@@ -67,6 +85,7 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
                 }
                 write(writer, outputStream, data);
             }
+            log.info("导出完成, 总数: {}", count);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
