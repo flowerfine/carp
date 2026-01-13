@@ -1,5 +1,6 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.api.node;
 
+import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IFlowRefValue;
 import lombok.Data;
 
 import java.util.Map;
@@ -22,7 +23,7 @@ public class LoopNodeSchema extends AbstractWorkflowNodeSchema<LoopNodeSchema.Lo
     @Data
     public static class LoopNodeData extends AbstractWorkflowNodeData {
 
-        private Object loopFor;
-        private Map<String, Object> loopOutputs;
+        private IFlowRefValue loopFor;
+        private Map<String, IFlowRefValue> loopOutputs;
     }
 }

@@ -61,7 +61,7 @@ public enum WorkflowRuntimeType {
             return WorkflowVariableType.NULL;
         }
 
-        if (value instanceof List ) {
+        if (value instanceof List) {
             List valueList = (List) value;
             if (CollectionUtils.isNotEmpty(valueList)) {
                 return getWorkflowType(valueList.get(0));
@@ -77,6 +77,24 @@ public enum WorkflowRuntimeType {
         }
 
         return WorkflowVariableType.NULL;
+    }
+
+    public static boolean isTypeEqual(WorkflowVariableType typeA, WorkflowVariableType typeB) {
+        if ((Objects.equals(typeA, WorkflowVariableType.NUMBER) && Objects.equals(typeB, WorkflowVariableType.INTEGER)) ||
+                        Objects.equals(typeA, WorkflowVariableType.INTEGER) && Objects.equals(typeB, WorkflowVariableType.NUMBER)) {
+            return true;
+        }
+        return Objects.equals(typeA, typeB);
+    }
+
+    public static WorkflowVariableType getArrayItemsType(List<WorkflowVariableType> types) {
+        WorkflowVariableType expectedType = types.get(0);
+        for (WorkflowVariableType type : types) {
+            if (Objects.equals(type, expectedType)) {
+                throw new RuntimeException("Array items type must be same, expect " + expectedType.getLabel() + ", but got " + type.getLabel());
+            }
+        }
+        return expectedType;
     }
 
 

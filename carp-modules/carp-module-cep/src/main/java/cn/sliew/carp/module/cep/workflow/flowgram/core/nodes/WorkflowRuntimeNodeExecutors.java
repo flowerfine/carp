@@ -15,6 +15,8 @@ public class WorkflowRuntimeNodeExecutors {
         NODE_EXECUTORS.add(HTTPNodeExecutorFactory.INSTANCE);
         NODE_EXECUTORS.add(CodeNodeExecutorFactory.INSTANCE);
 
+        NODE_EXECUTORS.add(ConditionNodeExecutorFactory.INSTANCE);
+        NODE_EXECUTORS.add(LoopNodeExecutorFactory.INSTANCE);
         NODE_EXECUTORS.add(ContinueNodeExecutorFactory.INSTANCE);
         NODE_EXECUTORS.add(BreakNodeExecutorFactory.INSTANCE);
         NODE_EXECUTORS.add(BlockStartNodeExecutorFactory.INSTANCE);

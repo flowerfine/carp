@@ -1,6 +1,5 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.api.node;
 
-import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IFlowConstantRefValue;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IFlowTemplateValue;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IJsonSchema;
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IValue;

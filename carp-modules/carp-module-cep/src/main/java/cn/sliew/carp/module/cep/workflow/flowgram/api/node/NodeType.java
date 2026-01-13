@@ -17,7 +17,7 @@ public enum NodeType implements DictInstance {
     END("end", "End"),
     LLM("llm", "LLM"),
     CODE("code", "Code"),
-    Condition("condition", "Condition"),
+    CONDITION("condition", "Condition"),
     LOOP("loop", "Loop"),
     BREAK("break", "Break"),
     CONTINUE("continue", "Continue"),

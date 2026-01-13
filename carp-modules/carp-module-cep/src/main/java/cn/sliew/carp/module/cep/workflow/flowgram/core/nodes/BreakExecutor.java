@@ -7,13 +7,15 @@ import java.util.concurrent.CompletableFuture;
 
 public class BreakExecutor extends INodeExecutor {
 
+    public static final String CACHE_KEY = "loop-break";
+
     public BreakExecutor() {
         setType(NodeType.BREAK);
     }
 
     @Override
     public CompletableFuture<ExecutionResult> execute(ExecutionContext context) {
-        context.getRuntime().getCache().set("loop-break", true);
+        context.getRuntime().getCache().set(CACHE_KEY, Boolean.TRUE);
         CompletableFuture<ExecutionResult> future = new CompletableFuture<>();
         ExecutionResult result = new ExecutionResult();
         future.complete(result);

@@ -387,13 +387,13 @@ export function useEditorProps(
          * https://flowgram.ai/guide/runtime/introduction.html
          */
         createRuntimePlugin({
-          // mode: 'browser', // browser mode is for demo only!
-          mode: 'server',
-          serverConfig: {
-            domain: 'localhost',
-            port: 8863,
-            protocol: 'http',
-          },
+          mode: 'browser', // browser mode is for demo only!
+          // mode: 'server',
+          // serverConfig: {
+          //   domain: 'localhost',
+          //   port: 8863,
+          //   protocol: 'http',
+          // },
         }),
 
         /**
