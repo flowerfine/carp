@@ -61,13 +61,14 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
             HashMap<String, Object> params = new HashMap<>();
             params.put("sql", sql);
             CompletableFuture<Void> callback = new CompletableFuture<>();
-            Cursor<Map> cursor = MybatisUtil.getCursor(sqlSessionFactory, "cn.sliew.carp.module.odps.repository.mapper.CarpOdpsExportMapper.export", params, callback);
+            Cursor<Map> cursor = MybatisUtil.getCursor(sqlSessionFactory,
+                "cn.sliew.carp.module.odps.repository.mapper.CarpOdpsExportMapper.export", params, callback);
 
             CsvMapper csvMapper = new CsvMapper();
             // Prevent Jackson's writeValue() method calls from closing the stream.
             csvMapper.getFactory().disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
 
-            Path file = FileUtil.createFile(Paths.get("/Users/mac/Downloads/"), UUIDUtil.randomUUId() + ".csv");
+            Path file = FileUtil.createFile(Paths.get("/Users/user/Downloads/"), UUIDUtil.randomUUId() + ".csv");
             log.info("导出文件: {}", file.toUri());
             OutputStream outputStream = Files.newOutputStream(file, StandardOpenOption.APPEND);
             ObjectWriter writer = null;
@@ -104,7 +105,7 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
     }
 
     private void writeCharset(OutputStream outputStream) throws IOException {
-        outputStream.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+        outputStream.write(new byte[] {(byte)0xEF, (byte)0xBB, (byte)0xBF});
     }
 
     private void writeHeader(ObjectWriter writer, OutputStream outputStream, CsvSchema csvSchema) throws IOException {
@@ -122,7 +123,7 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
         }
 
         try (InputStream inputStream = classPathResource.getInputStream();
-             ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             StreamUtils.copy(inputStream, outputStream);
             return new String(outputStream.toByteArray());
         } catch (IOException e) {
