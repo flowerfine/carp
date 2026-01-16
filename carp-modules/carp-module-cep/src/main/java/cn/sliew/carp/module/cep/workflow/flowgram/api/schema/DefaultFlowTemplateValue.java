@@ -7,4 +7,5 @@ public class DefaultFlowTemplateValue implements IFlowTemplateValue {
 
     private String type = "template";
     private String content;
+    private IJsonSchema schema;
 }

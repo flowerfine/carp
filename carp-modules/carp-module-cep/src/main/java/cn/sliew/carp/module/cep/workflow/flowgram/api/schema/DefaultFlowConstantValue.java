@@ -7,4 +7,5 @@ public class DefaultFlowConstantValue implements IFlowConstantValue {
 
     private String type = "constant";
     private Object content;
+    private IJsonSchema schema;
 }

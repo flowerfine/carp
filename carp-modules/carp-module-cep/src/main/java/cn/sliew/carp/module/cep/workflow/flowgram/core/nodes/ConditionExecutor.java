@@ -56,19 +56,19 @@ public class ConditionExecutor extends INodeExecutor {
         IVariableParseResult parsedLeft = context.getRuntime().getState().parseRef(item.getValue().getLeft());
         Object leftValue = null;
         WorkflowVariableType leftType = null;
-        if (Objects.isNull(parsedLeft)) {
+        if (Objects.nonNull(parsedLeft)) {
             leftValue = parsedLeft.getValue();
             leftType = parsedLeft.getType();
         }
 
         WorkflowVariableType expectedRightType = getRuleType(leftType, item.getValue().getOperator());
         IVariableParseResult parsedRight = null;
-        if (Objects.isNull(item.getValue().getRight())) {
+        if (Objects.nonNull(item.getValue().getRight())) {
             parsedRight = context.getRuntime().getState().parseFlowValue(item.getValue().getRight(), expectedRightType);
         }
         Object rightValue = null;
         WorkflowVariableType rightType = null;
-        if (Objects.isNull(parsedRight)) {
+        if (Objects.nonNull(parsedRight)) {
             rightValue = parsedRight.getValue();
             rightType = parsedRight.getType();
         }

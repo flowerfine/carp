@@ -16,6 +16,8 @@ import java.util.List;
         @JsonSubTypes.Type(value = HTTPNodeSchema.class, name = "http"),
         @JsonSubTypes.Type(value = BreakNodeSchema.class, name = "break"),
         @JsonSubTypes.Type(value = CodeNodeSchema.class, name = "code"),
+        @JsonSubTypes.Type(value = VariableNodeSchema.class, name = "variable"),
+        @JsonSubTypes.Type(value = ConditionNodeSchema.class, name = "condition"),
 })
 public interface IWorkflowNodeSchema<DATA extends IWorkflowNodeData> {
 

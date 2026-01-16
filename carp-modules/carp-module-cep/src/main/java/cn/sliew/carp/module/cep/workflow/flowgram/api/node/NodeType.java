@@ -18,6 +18,7 @@ public enum NodeType implements DictInstance {
     LLM("llm", "LLM"),
     CODE("code", "Code"),
     CONDITION("condition", "Condition"),
+    MULTI_CONDITION("multi-condition", "MultiCondition"),
     LOOP("loop", "Loop"),
     BREAK("break", "Break"),
     CONTINUE("continue", "Continue"),
@@ -26,6 +27,7 @@ public enum NodeType implements DictInstance {
     BLOCK_START("block-start", "BlockStart"),
     BLOCK_END("block-end", "BlockEnd"),
     HTTP("http", "HTTP"),
+    VARIABLE("variable", "Variable"),
     ;
 
     @JsonCreator

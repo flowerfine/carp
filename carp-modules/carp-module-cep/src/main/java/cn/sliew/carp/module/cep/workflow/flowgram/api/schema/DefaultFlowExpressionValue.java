@@ -7,4 +7,5 @@ public class DefaultFlowExpressionValue implements IFlowExpressionValue {
 
     private String type = "expression";
     private String content;
+    private IJsonSchema schema;
 }

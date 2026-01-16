@@ -18,4 +18,6 @@ public interface IValue {
     String getType();
 
     Object getContent();
+
+    IJsonSchema getSchema();
 }
