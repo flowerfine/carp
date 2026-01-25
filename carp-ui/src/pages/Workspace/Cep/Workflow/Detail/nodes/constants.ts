@@ -24,4 +24,5 @@ export enum WorkflowNodeType {
   Continue = 'continue',
   Break = 'break',
   Rule = 'rule',
+  Demo = 'demo',
 }

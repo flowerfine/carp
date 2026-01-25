@@ -25,6 +25,7 @@ import { BlockStartNodeRegistry } from './block-start';
 import { BlockEndNodeRegistry } from './block-end';
 import { MultiConditionNodeRegistry } from "./multi-condition";
 import { RuleNodeRegistry } from "./rule";
+import { DemoNodeRegistry } from './demo';
 export { WorkflowNodeType } from './constants';
 
 export const nodeRegistries: FlowNodeRegistry[] = [
@@ -44,4 +45,5 @@ export const nodeRegistries: FlowNodeRegistry[] = [
   GroupNodeRegistry,
   MultiConditionNodeRegistry,
   RuleNodeRegistry,
+  DemoNodeRegistry,
 ];

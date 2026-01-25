@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FormMeta, FormRenderProps } from '@flowgram.ai/free-layout-editor';
+import { FormMeta, FormRenderProps, I18n } from '@flowgram.ai/free-layout-editor';
 import { createInferInputsPlugin } from '@flowgram.ai/form-materials';
 
 import { FormHeader, FormContent } from '../../form-components';
@@ -12,11 +12,13 @@ import { Outputs } from './components/outputs';
 import { Inputs } from './components/inputs';
 import { Code } from './components/code';
 import { defaultFormMeta } from '../default-form-meta';
+import { InputNumberField, Section } from '../../../form';
 
 export const FormRender = ({ form }: FormRenderProps<CodeNodeJSON>) => (
   <>
     <FormHeader />
     <FormContent>
+     
       <Inputs />
       <Code />
       <Outputs />

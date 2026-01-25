@@ -4,10 +4,13 @@
  */
 
 import { Field } from '@flowgram.ai/free-layout-editor';
-import { TypeScriptCodeEditor } from '@flowgram.ai/form-materials';
+import { IJsonSchema, JsonSchemaEditor, TypeScriptCodeEditor } from '@flowgram.ai/form-materials';
 import { Divider } from '@douyinfe/semi-ui';
 
 import { useIsSidebar, useNodeRenderContext } from '../../../hooks';
+import { FormItem } from '../../../form-components';
+import { CodeEditor } from '../mateterials/code-editor';
+import { CodeValue, DEFAULT_CODE_VALUE } from '../mateterials/code-editor/types';
 
 export function Code() {
   const isSidebar = useIsSidebar();
@@ -20,15 +23,14 @@ export function Code() {
   return (
     <>
       <Divider />
-      <Field<string> name="script.content">
-        {({ field }) => (
-          <TypeScriptCodeEditor
-            value={field.value}
-            onChange={(value) => field.onChange(value)}
-            readonly={readonly}
-          />
-        )}
-      </Field>
+      <Field<CodeValue> name="script" defaultValue={DEFAULT_CODE_VALUE} >
+          {({ field, fieldState }) => (
+            <CodeEditor
+              codeValue={field.value}
+              onChange={(value) => field.onChange(value)}
+              readonly={readonly} />
+          )}
+        </Field>
     </>
   );
 }

@@ -4,6 +4,7 @@
  */
 
 import { forwardRef, useEffect, useRef } from 'react';
+import { PageContainer } from '@ant-design/pro-components';
 import { history, useIntl, useLocation } from '@umijs/max';
 import { EditorRenderer, FreeLayoutEditorProvider } from '@flowgram.ai/free-layout-editor';
 import { DockedPanelLayer } from '@flowgram.ai/panel-manager-plugin';
@@ -12,10 +13,10 @@ import '@flowgram.ai/free-layout-editor/index.css';
 import './styles/index.css';
 import { nodeRegistries } from './nodes';
 import { useEditorProps } from './hooks';
-import { WorkflowPageContainerModule } from './container/workflow-page-container-module';
+import { WorkflowPageContainerModule } from '../container/workflow-page-container-module';
 import { WorkflowLoader } from '../render/workflow-loader';
-import { PageContainer } from '@ant-design/pro-components';
 import { WorkspaceCepAPI } from '@/services/workspace/cep/typings';
+
 
 const Editor = () => {
   const intl = useIntl()
