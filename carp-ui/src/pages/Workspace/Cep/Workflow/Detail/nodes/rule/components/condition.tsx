@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { Field, FormRenderProps, I18n } from '@flowgram.ai/free-layout-editor';
-import { DisplayInputsValues, IFlowValue, InjectDynamicValueInput } from '@flowgram.ai/form-materials';
+import { Field, FormRenderProps } from '@flowgram.ai/free-layout-editor';
+import { DisplayInputsValues, IFlowValue } from '@flowgram.ai/form-materials';
 
 import { useIsSidebar, useNodeRenderContext } from '../../../hooks';
 import { FormItem } from '../../../form-components';
