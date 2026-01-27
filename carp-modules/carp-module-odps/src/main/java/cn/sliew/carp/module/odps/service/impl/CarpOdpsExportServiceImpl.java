@@ -1,5 +1,7 @@
 package cn.sliew.carp.module.odps.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.sliew.carp.framework.common.nio.FileUtil;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.module.odps.config.MybatisUtil;
@@ -27,10 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -68,7 +67,7 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
             // Prevent Jackson's writeValue() method calls from closing the stream.
             csvMapper.getFactory().disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
 
-            Path file = FileUtil.createFile(Paths.get("/Users/user/Downloads/"), UUIDUtil.randomUUId() + ".csv");
+            Path file = FileUtil.createFile(Paths.get("/Users/mac/Downloads/"), UUIDUtil.randomUUId() + ".csv");
             log.info("导出文件: {}", file.toUri());
             OutputStream outputStream = Files.newOutputStream(file, StandardOpenOption.APPEND);
             ObjectWriter writer = null;
@@ -94,14 +93,38 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
 
     private CsvSchema buildCsvSchema(Map<String, Object> data) {
         CsvSchema.Builder builder = CsvSchema.builder();
-        for (String key : data.keySet()) {
-            builder.addColumn(key);
+        //        for (String key : data.keySet()) {
+        //            builder.addColumn(key);
+        //        }
+
+        String[] headers = new String[] {"merge_id", "data_source_id", "是否登录", "首次到访时间", "banner首次点击时间",
+            "品牌专区首次浏览时间", "卖账号首次点击时间", "消息首次点击时间", "我的首次点击时间", "首次登录时间",
+            "第二底bar首次点击到商详时间", "金刚位首次点击时间悬浮栏首次点击时间", "商列浏览首次时间",
+            "商列搜筛首次时间", "商详页浏览首次时间", "无货立赔首次时间", "咨询首次时间", "还价首次时间",
+            "立即购买首次时间", "收藏首次时间", "点击立即支付时间", "支付完成时间", "交付开始时间", "交付结束时间",
+            "regist_time", "user_type", "金刚位首次点击时间", "悬浮栏首次点击时间"};
+        for (String header : headers) {
+            builder.addColumn(header);
         }
+
         return builder.build();
     }
 
     private void write(ObjectWriter writer, OutputStream outputStream, Map data) throws IOException {
-        writer.writeValue(outputStream, data);
+        Map newData = new HashMap();
+        data.forEach((key, value) -> {
+            if (Objects.nonNull(value) && value instanceof Date) {
+                String newValue = DateUtil.format((Date)value, DatePattern.NORM_DATETIME_PATTERN);
+                newData.put(key, newValue);
+            } else  if (Objects.nonNull(value) && value instanceof java.sql.Date) {
+                String newValue = DateUtil.format((java.sql.Date)value, DatePattern.NORM_DATETIME_PATTERN);
+                newData.put(key, newValue);
+            }
+            else {
+                newData.put(key, value);
+            }
+        });
+        writer.writeValue(outputStream, newData);
     }
 
     private void writeCharset(OutputStream outputStream) throws IOException {
