@@ -102,7 +102,8 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
             "第二底bar首次点击到商详时间", "金刚位首次点击时间悬浮栏首次点击时间", "商列浏览首次时间",
             "商列搜筛首次时间", "商详页浏览首次时间", "无货立赔首次时间", "咨询首次时间", "还价首次时间",
             "立即购买首次时间", "收藏首次时间", "点击立即支付时间", "支付完成时间", "交付开始时间", "交付结束时间",
-            "regist_time", "user_type", "金刚位首次点击时间", "悬浮栏首次点击时间"};
+            "regist_time", "user_type", "金刚位首次点击时间", "悬浮栏首次点击时间", "道具装备首次曝光", "flow_type",
+            "充值首次曝光", "充值首次点击", "道具首次点击"};
         for (String header : headers) {
             builder.addColumn(header);
         }
@@ -116,11 +117,10 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
             if (Objects.nonNull(value) && value instanceof Date) {
                 String newValue = DateUtil.format((Date)value, DatePattern.NORM_DATETIME_PATTERN);
                 newData.put(key, newValue);
-            } else  if (Objects.nonNull(value) && value instanceof java.sql.Date) {
+            } else if (Objects.nonNull(value) && value instanceof java.sql.Date) {
                 String newValue = DateUtil.format((java.sql.Date)value, DatePattern.NORM_DATETIME_PATTERN);
                 newData.put(key, newValue);
-            }
-            else {
+            } else {
                 newData.put(key, value);
             }
         });
