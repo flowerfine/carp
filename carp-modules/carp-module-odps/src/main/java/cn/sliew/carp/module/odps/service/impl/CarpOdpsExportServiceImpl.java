@@ -98,32 +98,16 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
         //        }
 
         String[] headers =
-            new String[] {"game_name",
-                "order_item_id",
-                "order_item_status",
-                "refund_status",
-                "order_time",
-                "complete_time",
-                "product_id",
-                "product_unique_no",
-                "delivery_room_id",
-                "group_id",
-                "message_id",
-                "message_timestamp",
-                "message_type",
-                "message_type_desc",
-                "sender_user_id",
-                "螃蟹链接",
-                "二次实名截图",
-                "换绑成功截图",
-                "商品主图链接",
-                "网易支付截图",
-                "uid截图",
-                "验号登录成功截图",
-                "微信实名截图",
-                "b站实名绑定截图",
-                "ocr换绑成功截图校验",
-                "图片消息图片链接"};
+            new String[] {
+                "日期", "游戏名称", "数据源", "用户类型", "dau", "搜索请求发起事件uv", "筛选请求发起事件uv", "搜筛事件uv",
+                "商列搜索页面uv", "商列搜索页面搜筛事件uv", "商列搜索页面商品点击uv",
+                "商详点击uv", "商详点击后24h内下单uv", "商详点击后24h内支付uv", "商详点击后48h内完结uv",
+                "商详点击后48h内完结单量", "商详咨询点击uv", "商详咨询点击后24h内下单uv", "商详咨询点击后24h内支付uv",
+                "商详咨询点击后48h内完结uv", "商详咨询点击后48h内完结单量", "商详还价点击uv",
+                "商详还价点击后24h内下单uv", "商详还价点击后24h内支付uv", "商详还价点击后48h内完结uv",
+                "商详还价点击后48h内完结单量", "商详收藏点击uv", "商详收藏点击后24h内下单uv",
+                "商详收藏点击后24h内支付uv", "商详收藏点击后48h内完结uv", "商详收藏点击后48h内完结单量"
+        };
         for (String header : headers) {
             builder.addColumn(header);
         }
