@@ -32,6 +32,8 @@ public abstract class INodeExecutor {
 
     @Data
     public static class ExecutionResult {
+        public static final ExecutionResult EMPTY = new ExecutionResult();
+
         private WorkflowOutputs outputs = new WorkflowOutputs();
         private String branch;
     }

@@ -7,5 +7,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class IVariableParseResult<T> extends VariableTypeInfo {
 
+    private String nodeId;
+    private String key;
     private T value;
 }

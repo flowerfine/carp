@@ -20,12 +20,14 @@ import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.container.Workflow
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.context.WorkflowRuntimeContext;
 import cn.sliew.carp.module.cep.workflow.flowgram.core.domain.task.WorkflowRuntimeTask;
 import cn.sliew.carp.module.cep.workflow.flowgram.util.NodeGroupUtil;
+import cn.sliew.milky.common.exception.Rethrower;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -85,7 +87,7 @@ public class WorkflowRuntimeEngine extends IEngine {
                     .setContainer(WorkflowRuntimeContainer.instance())
                     .setSnapshot(snapshot)
             );
-            INodeExecutor.ExecutionResult executionResult = future.join();
+            INodeExecutor.ExecutionResult executionResult = future.get(5, TimeUnit.MINUTES);
             if (Objects.nonNull(context.getStatusCenter().getWorkflow().getTerminated())
                     && context.getStatusCenter().getWorkflow().getTerminated()) {
                 return;
@@ -108,7 +110,7 @@ public class WorkflowRuntimeEngine extends IEngine {
             );
             context.getStatusCenter().nodeStatus(node.getId()).fail();
             log.error(e.getMessage(), e);
-            throw e;
+            Rethrower.throwAs(e);
         }
         executeNext(context, node, nextNodes);
     }

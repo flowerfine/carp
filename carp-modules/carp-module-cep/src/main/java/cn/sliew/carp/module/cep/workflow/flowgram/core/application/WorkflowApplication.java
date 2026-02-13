@@ -55,7 +55,7 @@ public class WorkflowApplication {
     public IValidation.ValidationResult validate(InvokeParams params) {
         IValidation validation = (IValidation) container.get("IValidation");
         IValidation.ValidationResult validationResult = validation.invoke(params.getSchema(), params.getInputs());
-        log.info("> POST TaskValidate - valid: {}", validationResult.isValid());
+        log.info("> POST TaskValidate - valid: {}, schema: {}", validationResult.isValid(), JacksonUtil.toJsonString(params.getSchema()));
         return validationResult;
     }
 }

@@ -1,6 +1,7 @@
 package cn.sliew.carp.module.cep.workflow.flowgram.api.node;
 
 import cn.sliew.carp.module.cep.workflow.flowgram.api.schema.IValue;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
 import java.util.List;
@@ -28,8 +29,8 @@ public class VariableNodeSchema extends AbstractWorkflowNodeSchema<VariableNodeS
 
     @Data
     public static class VariableData {
-        private VariableType type;
-        private Object left;
-        private IValue right;
+        private VariableType operator;
+        private JsonNode left;
+        private JsonNode right;
     }
 }

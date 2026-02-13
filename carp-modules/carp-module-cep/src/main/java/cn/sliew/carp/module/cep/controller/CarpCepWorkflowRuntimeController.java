@@ -65,6 +65,9 @@ public class CarpCepWorkflowRuntimeController {
     @PostMapping("/task/validate")
     @Operation(summary = "任务-验证", description = "任务-验证")
     public IValidation.ValidationResult validate(@Valid @RequestBody TaskValidateParam param) {
+        System.out.println();
+        System.out.println(param.getSchema());
+        System.out.println();
         return workflowRuntimeService.validate(param);
     }
 

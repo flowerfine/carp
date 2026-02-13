@@ -72,7 +72,9 @@ public class WorkflowRuntimeVariableStore extends IVariableStore {
             return Optional.empty();
         }
 
-        IVariableParseResult parseResult = new IVariableParseResult();
+        IVariableParseResult parseResult = new IVariableParseResult()
+            .setNodeId(nodeID)
+            .setKey(variableKey);
         if (ArrayUtils.isEmpty(variablePath)) {
             parseResult
                     .setValue(variable.getValue())
