@@ -92,6 +92,8 @@ export default {
   'menu.workspace.cep.workflow.desc': 'Workflow 列表',
   'menu.workspace.cep.workflow.detail': 'Workflow 详情',
   'menu.workspace.cep.workflow.detail.desc': 'Workflow 详情',
+  'menu.workspace.cep.function': 'Function',
+  'menu.workspace.cep.function.desc': '函数管理',
 
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',

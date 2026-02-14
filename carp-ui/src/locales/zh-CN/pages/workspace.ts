@@ -114,5 +114,9 @@ export default {
   'pages.workspace.workflow.cep.workflow.uuid': 'UUID',
   'pages.workspace.workflow.cep.workflow.type': '类型',
   'pages.workspace.workflow.cep.workflow.detail': 'Workflow详情',
+
+  'pages.workspace.workflow.cep.function.name': '名称',
+  'pages.workspace.workflow.cep.function.shortName': '简称',
+  'pages.workspace.workflow.cep.function.uuid': 'UUID',
   
 }

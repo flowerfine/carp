@@ -41,6 +41,7 @@ public class CarpDsCategoryServiceImpl extends ServiceImpl<DsCategoryMapper, DsC
     @Autowired
     private DsTypeMapper dsTypeMapper;
 
+    @Override
     public List<DsCategoryDTO> listAll() {
         LambdaQueryWrapper<DsCategory> queryWrapper = Wrappers.lambdaQuery(DsCategory.class)
                 .orderByAsc(DsCategory::getOrder);

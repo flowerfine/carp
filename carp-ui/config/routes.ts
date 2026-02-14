@@ -356,6 +356,12 @@ export default [
             path: '/workspace/cep/workflow/detail',
             component: './Workspace/Cep/Workflow/Detail'
           },
+          {
+            path: '/workspace/cep/function',
+            name: 'function',
+            icon: 'profile',
+            component: './Workspace/Cep/Function'
+          },
         ]
       }
     ]

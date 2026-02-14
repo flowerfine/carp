@@ -67,4 +67,25 @@ declare namespace WorkspaceCepAPI {
   type CepWorkflowUpdateParam = CepWorkflowAddParam & {
     id: number;
   };
+
+  type CepFunctionCategory = {
+    namespace: string;
+    name: string;
+    order?: number;
+    remark?: string;
+  };
+
+  type CepFunction = {
+    namespace: string;
+    name: string;
+    shortName: string;
+    uuid?: string;
+    remark?: string;
+  };
+
+  type CepFunctionPageParam = QueryParam & {
+    namespace: string;
+    categoryId: number;
+  };
+
 }
