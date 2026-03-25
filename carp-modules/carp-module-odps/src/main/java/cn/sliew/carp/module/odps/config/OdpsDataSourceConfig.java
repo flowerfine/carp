@@ -63,6 +63,8 @@ public class OdpsDataSourceConfig {
         configuration.setDefaultEnumTypeHandler(MybatisEnumTypeHandler.class);
         configuration.setMapUnderscoreToCamelCase(true);
         configuration.setLogImpl(Slf4jImpl.class);
+        // 确保 sql 返回的为 null 的列仍然能够提现在 map 中
+        configuration.setCallSettersOnNulls(true);
         factoryBean.setConfiguration(configuration);
         factoryBean.setGlobalConfig(globalConfig);
         factoryBean.setDataSource(dataSource);

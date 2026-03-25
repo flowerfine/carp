@@ -7,10 +7,12 @@ import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.module.odps.config.MybatisUtil;
 import cn.sliew.carp.module.odps.config.OdpsDataSourceConfig;
 import cn.sliew.carp.module.odps.service.CarpOdpsExportService;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cursor.Cursor;
@@ -60,12 +62,13 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
             HashMap<String, Object> params = new HashMap<>();
             params.put("sql", sql);
             CompletableFuture<Void> callback = new CompletableFuture<>();
-            Cursor<Map> cursor = MybatisUtil.getCursor(sqlSessionFactory,
+            Cursor<Map<String, Object>> cursor = MybatisUtil.getCursor(sqlSessionFactory,
                 "cn.sliew.carp.module.odps.repository.mapper.CarpOdpsExportMapper.export", params, callback);
 
             CsvMapper csvMapper = new CsvMapper();
             // Prevent Jackson's writeValue() method calls from closing the stream.
             csvMapper.getFactory().disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
+            csvMapper.registerModule(new JavaTimeModule());
 
             Path file = FileUtil.createFile(Paths.get("/Users/mac/Downloads/"), UUIDUtil.randomUUId() + ".csv");
             log.info("导出文件: {}", file.toUri());
@@ -74,7 +77,7 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
 
             Long count = 0L;
             boolean initilized = false;
-            for (Map data : cursor) {
+            for (Map<String, Object> data : cursor) {
                 count++;
                 if (!initilized) {
                     CsvSchema schema = buildCsvSchema(data);
@@ -92,31 +95,16 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
     }
 
     private CsvSchema buildCsvSchema(Map<String, Object> data) {
+        System.out.println("key: " + JacksonUtil.toJsonString(data.keySet()));
         CsvSchema.Builder builder = CsvSchema.builder();
-        //        for (String key : data.keySet()) {
-        //            builder.addColumn(key);
-        //        }
-
-        String[] headers =
-            new String[] {
-                "日期", "游戏名称", "数据源", "用户类型", "dau", "搜索请求发起事件uv", "筛选请求发起事件uv", "搜筛事件uv",
-                "商列搜索页面uv", "商列搜索页面搜筛事件uv", "商列搜索页面商品点击uv",
-                "商详点击uv", "商详点击后24h内下单uv", "商详点击后24h内支付uv", "商详点击后48h内完结uv",
-                "商详点击后48h内完结单量", "商详咨询点击uv", "商详咨询点击后24h内下单uv", "商详咨询点击后24h内支付uv",
-                "商详咨询点击后48h内完结uv", "商详咨询点击后48h内完结单量", "商详还价点击uv",
-                "商详还价点击后24h内下单uv", "商详还价点击后24h内支付uv", "商详还价点击后48h内完结uv",
-                "商详还价点击后48h内完结单量", "商详收藏点击uv", "商详收藏点击后24h内下单uv",
-                "商详收藏点击后24h内支付uv", "商详收藏点击后48h内完结uv", "商详收藏点击后48h内完结单量"
-        };
-        for (String header : headers) {
-            builder.addColumn(header);
+        for (String key : data.keySet()) {
+            builder.addColumn(key);
         }
-
         return builder.build();
     }
 
-    private void write(ObjectWriter writer, OutputStream outputStream, Map data) throws IOException {
-        Map newData = new HashMap();
+    private void write(ObjectWriter writer, OutputStream outputStream, Map<String, Object> data) throws IOException {
+        Map<String, Object> newData = new HashMap<>();
         data.forEach((key, value) -> {
             if (Objects.nonNull(value) && value instanceof Date) {
                 String newValue = DateUtil.format((Date)value, DatePattern.NORM_DATETIME_PATTERN);
@@ -124,7 +112,8 @@ public class CarpOdpsExportServiceImpl implements CarpOdpsExportService {
             } else if (Objects.nonNull(value) && value instanceof java.sql.Date) {
                 String newValue = DateUtil.format((java.sql.Date)value, DatePattern.NORM_DATETIME_PATTERN);
                 newData.put(key, newValue);
-            } else {
+            }
+            else {
                 newData.put(key, value);
             }
         });

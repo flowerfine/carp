@@ -31,7 +31,7 @@
         namespace, `name`, uuid, `type`, nodes, edges, skip_strategy, `window`, `function`, remark
     </sql>
 
-    <select id="export" resultType="map">
+    <select id="export" resultType="java.util.HashMap" fetchSize="1000">
         ${sql}
     </select>
 

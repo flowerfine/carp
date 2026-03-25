@@ -28,5 +28,5 @@ import java.util.Map;
 @Repository
 public interface CarpOdpsExportMapper extends BaseMapper<CarpOdpsExport> {
 
-    Cursor<Map> export(@Param("sql") String sql);
+    Cursor<Map<String, Object>> export(@Param("sql") String sql);
 }
