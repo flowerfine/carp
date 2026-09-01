@@ -1,12 +1,16 @@
-import {XFlow, XFlowGraph} from '@antv/xflow';
-import {Connect} from './connect';
-import {InitNode} from "./init-shade";
+import { XFlow, XFlowGraph } from '@antv/xflow';
+import { Connect } from './connect';
+import { ConnectTooltip } from './tooltip';
+import { NodeDrawer } from './node-drawer';
+import { EdgeDrawer } from './edge-drawer';
+import { InitNode } from "./init-shade";
 import styles from './index.less';
-import {PROCESS_CONNECTOR, PROCESS_EDGE} from "@/components/Flow/Node/ProcessNode";
-import {StencilPanel} from "@/components/Flow/StencilPanel";
+import { PROCESS_CONNECTOR, PROCESS_EDGE } from "@/components/Flow/Node/ProcessNode";
+import { StencilPanel } from "@/components/Flow/StencilPanel";
 import X6ControlMinimap from "@/components/X6/Control";
 import X6GridSnapline from "@/components/X6/Grid";
 import X6HistoryClipboard from "@/components/X6/History";
+
 
 const Page = () => {
   return (
@@ -16,7 +20,7 @@ const Page = () => {
           <div className={styles.left}>
             <div className={styles.leftTop}>算子组件库</div>
             {/*<Dnd/>*/}
-            <StencilPanel/>
+            <StencilPanel />
           </div>
           <div className={styles.center}>
             <div className={styles.graph}>
@@ -30,7 +34,7 @@ const Page = () => {
                   connectionPoint: 'anchor',
                   anchor: 'center',
                   connector: PROCESS_CONNECTOR,
-                  validateMagnet({magnet}) {
+                  validateMagnet({ magnet }) {
                     return magnet.getAttribute('port-group') !== 'top';
                   },
                 }}
@@ -40,11 +44,14 @@ const Page = () => {
                   zIndex: -1,
                 }}
               />
-              <InitNode/>
-              <Connect/>
-              <X6ControlMinimap/>
-              <X6GridSnapline/>
-              <X6HistoryClipboard/>
+              <InitNode />
+              <Connect />
+              <ConnectTooltip />
+              <NodeDrawer/>
+              <EdgeDrawer/>
+              <X6ControlMinimap />
+              <X6GridSnapline />
+              <X6HistoryClipboard />
             </div>
           </div>
         </div>

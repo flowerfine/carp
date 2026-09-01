@@ -15,7 +15,7 @@ type BasicNodeProps = {
   children?: React.ReactNode
 }
 
-const BasicNode: React.FC = ({node, onExecute, children}: BasicNodeProps) => {
+const BasicNode: React.FC<BasicNodeProps> = ({node, onExecute, children}: BasicNodeProps) => {
   const intl = getIntl(getLocale())
   const {styles, cx} = useStyles();
   const {label, meta} = node?.getData()
