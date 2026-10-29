@@ -1,12 +1,12 @@
-import React from 'react';
-import { Popover, Tree } from 'antd';
-import { DatabaseFilled, HolderOutlined } from '@ant-design/icons';
-import { useDnd } from '@antv/xflow';
-import SearchInput from './search';
+import React, {useEffect} from 'react';
+import {Popover, Tree} from 'antd';
+import {DatabaseFilled, HolderOutlined} from '@ant-design/icons';
+import {useDnd, useGraphInstance} from '@antv/xflow';
 import styles from './dnd.less';
-import {DAG_NODE} from "@/components/X6/Shape/DagNode/shape";
+import SearchInput from './search';
+import {CellStatus, PROCESS_NODE} from "@/components/Flow/Node/ProcessNode";
 
-const { DirectoryTree } = Tree;
+const {DirectoryTree} = Tree;
 
 type ComponentTreeItem = {
   category: string;
@@ -26,112 +26,164 @@ const componentTreeData = [
     category: '',
     docString: '',
     isLeaf: false,
-    key: '分组一',
-    title: '分组一',
+    key: '数据输入',
+    title: '数据输入',
     children: [
       {
-        category: '分组一',
-        docString: '读数据',
+        category: '数据输入',
+        docString: '数据输入组件',
         isLeaf: true,
-        key: '1',
-        title: '读数据',
+        key: 'INPUT',
+        title: '数据输入',
         ports: [
           {
-            id: '1-1',
-            group: 'bottom',
+            id: 'INPUT-bottom',
+            group: 'out',
           },
         ],
-      },
-      {
-        category: '分组一',
-        docString: '逻辑回归',
-        isLeaf: true,
-        key: '2',
-        title: '逻辑回归',
-        ports: [
-          {
-            id: '2-1',
-            group: 'top',
-          },
-          {
-            id: '2-2',
-            group: 'bottom',
-          },
-          {
-            id: '2-3',
-            group: 'bottom',
-          },
-        ],
-      },
+      }
     ],
   },
   {
     category: '',
     docString: '',
     isLeaf: false,
-    key: '分组二',
-    title: '分组二',
+    key: '数据输出',
+    title: '数据输出',
     children: [
       {
-        category: '分组二',
-        docString: '模型预测',
+        category: '数据输出',
+        docString: '数据输出组件',
         isLeaf: true,
-        key: '3',
-        title: '模型预测',
+        key: 'OUTPUT',
+        title: '数据输出',
         ports: [
           {
-            id: '3-1',
-            group: 'top',
+            id: 'OUTPUT-bottom',
+            group: 'in',
+          },
+        ],
+      }
+    ],
+  },
+  {
+    category: '',
+    docString: '',
+    isLeaf: false,
+    key: '数据处理',
+    title: '数据处理',
+    children: [
+      {
+        category: '数据处理',
+        docString: '数据过滤',
+        isLeaf: true,
+        key: 'FILTER',
+        title: '数据过滤',
+        ports: [
+          {
+            id: 'FILTER-top',
+            group: 'in',
           },
           {
-            id: '3-2',
-            group: 'bottom',
+            id: 'FILTER-bottom',
+            group: 'out',
           },
         ],
       },
       {
-        category: '分组二',
-        docString: '读取参数',
+        category: '数据处理',
+        docString: '数据连接',
         isLeaf: true,
-        key: '4',
-        title: '读取参数',
+        key: 'JOIN',
+        title: '数据连接',
         ports: [
           {
-            id: '4-1',
-            group: 'top',
+            id: 'JOIN-top',
+            group: 'in',
           },
           {
-            id: '4-2',
-            group: 'bottom',
+            id: 'JOIN-bottom',
+            group: 'out',
           },
         ],
       },
+      {
+        category: '数据处理',
+        docString: '数据合并',
+        isLeaf: true,
+        key: 'UNION',
+        title: '数据合并',
+        ports: [
+          {
+            id: 'UNION-top',
+            group: 'in',
+          },
+          {
+            id: 'UNION-bottom',
+            group: 'out',
+          },
+        ],
+      },
+      {
+        category: '数据处理',
+        docString: '数据聚合',
+        isLeaf: true,
+        key: 'AGG',
+        title: '数据聚合',
+        ports: [
+          {
+            id: 'AGG-top',
+            group: 'in',
+          },
+          {
+            id: 'AGG-bottom',
+            group: 'out',
+          },
+        ],
+      }
     ],
   },
 ];
 
 const Dnd = () => {
+  const graph = useGraphInstance();
+  const {startDrag} = useDnd();
+
+  useEffect(() => {
+    if (graph) {
+
+    }
+  }, [graph]);
+
   let id = 0;
-  const { startDrag } = useDnd();
+
 
   const handleMouseDown = (
     e: React.MouseEvent<Element, MouseEvent>,
     item: ComponentTreeItem,
   ) => {
     id += 1;
-    startDrag(
-      {
-        id: id.toString(),
-        shape: DAG_NODE,
-        data: {
-          id: id.toString(),
-          label: item.title,
-          status: 'default',
-        },
-        ports: item.ports,
+    const node = {
+      id: id.toString(),
+      shape: PROCESS_NODE,
+      data: {
+        type: item.key,
+        name: item.title + "_" + id,
+        status: CellStatus.DEFAULT,
       },
-      e,
-    );
+      ports: item.ports,
+      tools: [
+        {
+          name: "button-remove",
+          args: {
+            x: "100%",
+            y: 0,
+            offset: {x: -35, y: 0}
+          }
+        }
+      ],
+    }
+    startDrag(node, e);
   };
 
   const [searchComponents, setSearchComponents] = React.useState<ComponentTreeItem[]>(
@@ -152,7 +204,7 @@ const Dnd = () => {
   };
 
   const treeNodeRender = (treeNode: ComponentTreeItem) => {
-    const { isLeaf, docString, title } = treeNode;
+    const {isLeaf, docString, title} = treeNode;
     if (isLeaf) {
       return (
         <Popover
@@ -176,12 +228,12 @@ const Dnd = () => {
           >
             <div className={styles.nodeTitle}>
               <span className={styles.icon}>
-                <DatabaseFilled style={{ color: '#A1AABC' }} />
+                <DatabaseFilled style={{color: '#A1AABC'}}/>
               </span>
               <span>{title}</span>
             </div>
             <div className={styles.nodeDragHolder}>
-              <HolderOutlined />
+              <HolderOutlined/>
             </div>
           </div>
         </Popover>
@@ -214,4 +266,4 @@ const Dnd = () => {
   );
 };
 
-export { Dnd };
+export {Dnd};

@@ -1,6 +1,5 @@
 package cn.sliew.carp.module.odps.config;
 
-import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.config.CarpMybatisConfig;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
@@ -36,20 +35,20 @@ public class OdpsDataSourceConfig {
 
     @Bean(ODPS_DATA_SOURCE_FACTORY)
     @ConfigurationProperties(prefix = "spring.datasource.odps")
-    public DataSource carpDataSource() {
+    public DataSource odpsDataSource() {
         return DataSourceBuilder.create().type(HikariDataSource.class)
                 .build();
     }
 
     @Bean(TRANSACTION_MANAGER_FACTORY)
-    public DataSourceTransactionManager carpTransactionManager(
+    public DataSourceTransactionManager odpsTransactionManager(
             @Qualifier(ODPS_DATA_SOURCE_FACTORY) DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Primary
+//    @Primary
     @Bean(SQL_SESSION_FACTORY)
-    public SqlSessionFactory carpSqlSessionFactory(
+    public SqlSessionFactory odpsSqlSessionFactory(
             @Qualifier(ODPS_DATA_SOURCE_FACTORY) DataSource dataSource) throws Exception {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
         GlobalConfig globalConfig = GlobalConfigUtils.defaults();

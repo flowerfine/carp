@@ -35,7 +35,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
@@ -54,7 +53,6 @@ public class DataServiceDataSourceConfig {
     @Autowired
     private MybatisPlusInterceptor mybatisPlusInterceptor;
 
-    @Primary
     @Bean(DataServiceDataSourceConfig.DATA_SOURCE_FACTORY)
     @ConfigurationProperties(prefix = "spring.datasource.dataservice")
     public DataSource dataServiceDataSource() {
@@ -62,13 +60,11 @@ public class DataServiceDataSourceConfig {
                 .build();
     }
 
-    @Primary
     @Bean(DataServiceDataSourceConfig.TRANSACTION_MANAGER_FACTORY)
     public DataSourceTransactionManager dataServiceTransactionManager() {
         return new DataSourceTransactionManager(dataServiceDataSource());
     }
 
-    @Primary
     @Bean(DataServiceDataSourceConfig.SQL_SESSION_FACTORY)
     public SqlSessionFactory dataServiceSqlSessionFactory() throws Exception {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();

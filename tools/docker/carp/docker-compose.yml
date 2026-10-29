@@ -20,7 +20,7 @@ services:
 
   mysql:
     image: bitnamilegacy/mysql:8.0
-    container_name: mysql
+    container_name: carp_mysql
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ROOT_USER=root
@@ -43,7 +43,7 @@ services:
 
   redis:
     image: bitnamilegacy/redis:7.0.10
-    container_name: redis
+    container_name: carp_redis
     environment:
       - REDIS_PORT_NUMBER=6379
       - REDIS_PASSWORD=123456
@@ -54,7 +54,7 @@ services:
 
   minio:
     image: bitnamilegacy/minio:2025.4.8
-    container_name: minio
+    container_name: carp_minio
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=password
@@ -68,7 +68,7 @@ services:
 
   gravitino:
     image: apache/gravitino:1.1.0
-    container_name: gravitino
+    container_name: carp_gravitino
     depends_on:
       mysql:
         condition: service_healthy
