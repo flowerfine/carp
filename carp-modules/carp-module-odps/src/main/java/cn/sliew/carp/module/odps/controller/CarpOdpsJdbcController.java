@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Connection;
@@ -51,14 +52,42 @@ public class CarpOdpsJdbcController {
     @Qualifier(OdpsDataSourceConfig.SQL_SESSION_FACTORY)
     private SqlSessionFactory sqlSessionFactory;
 
-    @GetMapping("projects")
-    @Operation(summary = "查询-项目列表", description = "查询-项目列表")
-    public ResultSetVO listProjects() throws Exception {
+    @GetMapping("catalogs")
+    @Operation(summary = "查询-Catalog列表", description = "查询-Catalog列表，也是 project")
+    public ResultSetVO listCatalogs() throws Exception {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
             Connection connection = session.getConnection();
             DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet catalogs = metaData.getCatalogs();
-            return new ResultSetVO(catalogs, false);
+            ResultSet rs = metaData.getCatalogs();
+            return new ResultSetVO(rs, false);
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    @GetMapping("schemas")
+    @Operation(summary = "查询-Schema列表", description = "查询-Schema列表")
+    public ResultSetVO listSchemas(@RequestParam("catalog") String catalog) throws Exception {
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+            Connection connection = session.getConnection();
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet rs = metaData.getSchemas(catalog, null);
+            return new ResultSetVO(rs, false);
+        } catch (Exception e) {
+            Rethrower.throwAs(e);
+            return null;
+        }
+    }
+
+    @GetMapping("tables")
+    @Operation(summary = "查询-Table列表", description = "查询-Table列表")
+    public ResultSetVO listTables(@RequestParam("catalog") String catalog, @RequestParam("schema") String schema) throws Exception {
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+            Connection connection = session.getConnection();
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet rs = metaData.getTables(catalog, schema,null, new String[]{"TABLE", "VIEW"});
+            return new ResultSetVO(rs, false);
         } catch (Exception e) {
             Rethrower.throwAs(e);
             return null;
