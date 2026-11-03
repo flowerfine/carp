@@ -27,11 +27,8 @@ import com.aliyun.odps.models.Config;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +42,9 @@ import java.util.List;
 @Tag(name = "ODPS管理-Catalog管理")
 public class CarpOdpsCatalogController {
 
-    private static final String accessId = "my_access_id";
+    private static final String accessId = "my_access_key";
     private static final String accessKey = "my_access_key";
     private static final String endPoint = "service.cn-hangzhou.maxcompute.aliyun.com";
-//    private static final String endPoint = "http://service.odps.aliyun.com/api";
 
     public static Client getClient() throws Exception {
         Config config = new Config();
@@ -72,15 +68,22 @@ public class CarpOdpsCatalogController {
             System.out.println(JacksonUtil.toJsonString(response));
             pageToken = response.getNextPageToken();
             projects.addAll(response.getProjects());
-            if (CollectionUtils.isEmpty(response.getProjects())) {
+            if (StringUtils.isBlank(response.getNextPageToken())) {
                 break;
             }
         }
         return projects;
     }
 
+    @GetMapping("projects/{projectId}")
+    @Operation(summary = "查询-项目详情", description = "查询-项目详情")
+    public Project getProject(@PathVariable("projectId") String projectId) throws Exception {
+        Client client = getClient();
+        return client.getProject(projectId, null);
+    }
+
     @GetMapping("schemas")
-    @Operation(summary = "查询-Schema列表", description = "查询-Schema列表")
+    @Operation(summary = "查询-Schema列表", description = "查询-Schema列表，只有开启三级项目的才可以")
     public List<Schema> listSchemas(@RequestParam("projectId") String projectId) throws Exception {
         Client client = getClient();
 
@@ -93,7 +96,7 @@ public class CarpOdpsCatalogController {
             System.out.println(JacksonUtil.toJsonString(response));
             pageToken = response.getNextPageToken();
             schemas.addAll(response.getSchemas());
-            if (CollectionUtils.isEmpty(response.getSchemas())) {
+            if (StringUtils.isBlank(response.getNextPageToken())) {
                 break;
             }
         }
@@ -102,24 +105,15 @@ public class CarpOdpsCatalogController {
 
     @GetMapping("tables")
     @Operation(summary = "查询-Table列表", description = "查询-Table列表")
-    public List<Table> listTables(@RequestParam("projectId") String projectId, @RequestParam("schemaName") String schemaName) throws Exception {
+    public List<Table> listTables(@RequestParam(value = "projectId") String projectId,
+                                  @RequestParam(value = "schemaName", defaultValue = "default", required = false) String schemaName,
+                                  @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                  @RequestParam(value = "pageToken", required = false) String pageToken) throws Exception {
         Client client = getClient();
-
-        List<Table> tables = new ArrayList<>();
-
-        Integer pageSize = 10;
-        String pageToken = null;
         String view = null;
         String query = null;
-        while (true) {
-            ListTablesResponse response = client.listTables(projectId, schemaName, pageSize, pageToken, view, query);
-            System.out.println(JacksonUtil.toJsonString(response));
-            pageToken = response.getNextPageToken();
-            tables.addAll(response.getTables());
-            if (CollectionUtils.isEmpty(response.getTables())) {
-                break;
-            }
-        }
-        return tables;
+        ListTablesResponse response = client.listTables(projectId, schemaName, pageSize, pageToken, view, query);
+        System.out.println(JacksonUtil.toJsonString(response));
+        return response.getTables();
     }
 }
