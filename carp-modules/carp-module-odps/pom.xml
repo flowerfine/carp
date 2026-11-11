@@ -43,26 +43,31 @@
             <artifactId>odps-jdbc</artifactId>
             <version>3.10.16</version>
         </dependency>
-        <dependency>
-            <groupId>com.aliyun.odps</groupId>
-            <artifactId>odps-sdk-core</artifactId>
-            <version>0.61.2-public</version>
-        </dependency>
-        <dependency>
-            <groupId>com.aliyun.odps</groupId>
-            <artifactId>catalog-api</artifactId>
-            <version>0.4.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun.odps</groupId>-->
+<!--            <artifactId>odps-sdk-core</artifactId>-->
+<!--            <version>0.61.2-public</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun.odps</groupId>-->
+<!--            <artifactId>catalog-api</artifactId>-->
+<!--            <version>0.4.0</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-dataworks-public</artifactId>
-            <version>6.1.9</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>aliyun-java-sdk-dataworks-public</artifactId>-->
+<!--            <version>6.1.9</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>dataworks_public20240518</artifactId>
             <version>9.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dataworks_public20200518</artifactId>
+            <version>9.0.0</version>
         </dependency>
 
         <dependency>
