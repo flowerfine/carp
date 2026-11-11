@@ -29,8 +29,10 @@ import com.baomidou.mybatisplus.generator.config.builder.Mapper;
 import com.baomidou.mybatisplus.generator.config.builder.Service;
 import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.converts.PostgreSqlTypeConvert;
+import com.baomidou.mybatisplus.generator.config.converts.SqliteTypeConvert;
 import com.baomidou.mybatisplus.generator.config.querys.MySqlQuery;
 import com.baomidou.mybatisplus.generator.config.querys.PostgreSqlQuery;
+import com.baomidou.mybatisplus.generator.config.querys.SqliteQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.fill.Column;
@@ -48,6 +50,10 @@ public class MybatisPlusHelper {
 
     public static void generatorPostgreSQL(String jdbcUrl, String jdbcUserName, String jdbcPassword, String schema, String author, String basePackage, String moduleName, String[] tables) {
         doGenerator(postgresqlDataSourceConfig(jdbcUrl, jdbcUserName, jdbcPassword, schema), author, basePackage, moduleName, tables);
+    }
+
+    public static void generatorSQLite(String jdbcUrl, String jdbcUserName, String jdbcPassword, String schema, String author, String basePackage, String moduleName, String[] tables) {
+        doGenerator(sqliteDataSourceConfig(jdbcUrl, jdbcUserName, jdbcPassword, schema), author, basePackage, moduleName, tables);
     }
 
     public static void doGenerator(DataSourceConfig.Builder dataSourceConfigBuilder, String author, String basePackage, String moduleName, String[] tables) {
@@ -84,6 +90,18 @@ public class MybatisPlusHelper {
                 .dbQuery(new PostgreSqlQuery())
                 .typeConvert(new PostgreSqlTypeConvert())
                 .keyWordsHandler(new PostgreSqlKeyWordsHandler());
+    }
+
+    /**
+     * 数据源配置
+     *
+     * @return DataSourceConfig
+     */
+    private static DataSourceConfig.Builder sqliteDataSourceConfig(String jdbcUrl, String jdbcUserName, String password, String schema) {
+        return new DataSourceConfig.Builder(jdbcUrl, jdbcUserName, password)
+                .schema(schema)
+                .dbQuery(new SqliteQuery())
+                .typeConvert(new SqliteTypeConvert());
     }
 
     /**

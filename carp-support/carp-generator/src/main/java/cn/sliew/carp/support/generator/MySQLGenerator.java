@@ -22,16 +22,16 @@ import cn.sliew.carp.support.generator.helper.MybatisPlusHelper;
 public class MySQLGenerator {
 
     private final static String AUTHOR = "wangqi";
-    private final static String URL = "jdbc:mysql://172.30.97.150:3311/pxb7_product_01";
-    private final static String USERNAME = "pxb7_dev2";
-    private final static String PASSWORD = "pxb7_dev2#P8XbEsvj"; //NOSONAR
-    private static final String BASE_PACKAGE = "cn.sliew";
+    private final static String URL = "jdbc:mysql://localhost:3307/data_agent";
+    private final static String USERNAME = "root";
+    private final static String PASSWORD = "123456"; //NOSONAR
+    private static final String BASE_PACKAGE = "io.github.malonetalk";
     private static final String MODULE = "carp";
 
     /**
      * just add table names here and run the {@link #main(String[])} method.
      */
-    private static final String[] TABLES = {"product_edit_log"};
+    private static final String[] TABLES = {"semantic_profile", "semantic_tables"};
 
     public static void main(String[] args) {
         MybatisPlusHelper.generatorMySQL(URL, USERNAME, PASSWORD, AUTHOR, BASE_PACKAGE, MODULE, TABLES);
